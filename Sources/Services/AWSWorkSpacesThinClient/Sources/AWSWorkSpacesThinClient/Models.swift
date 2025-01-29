@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -106,8 +105,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -135,8 +133,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -166,8 +163,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -204,8 +200,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -241,8 +236,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -264,8 +258,7 @@ extension WorkSpacesThinClientClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -331,8 +324,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [WorkSpacesThinClientClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: WorkSpacesThinClientClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -429,6 +421,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The minutes past the hour for the maintenance window start (00-59).
         public var startTimeMinute: Swift.Int?
         /// An option to select the default or custom maintenance window.
+        /// This member is required.
         public var type: WorkSpacesThinClientClientTypes.MaintenanceWindowType?
 
         public init(
@@ -439,8 +432,7 @@ extension WorkSpacesThinClientClientTypes {
             startTimeHour: Swift.Int? = nil,
             startTimeMinute: Swift.Int? = nil,
             type: WorkSpacesThinClientClientTypes.MaintenanceWindowType? = nil
-        )
-        {
+        ) {
             self.applyTimeOf = applyTimeOf
             self.daysOfTheWeek = daysOfTheWeek
             self.endTimeHour = endTimeHour
@@ -515,7 +507,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The ID of the software set to apply.
     public var desiredSoftwareSetId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
     /// This member is required.
     public var desktopArn: Swift.String?
     /// The URL for the identity provider login (only for environments that use AppStream 2.0).
@@ -547,8 +539,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
         softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.desiredSoftwareSetId = desiredSoftwareSetId
         self.desktopArn = desktopArn
@@ -612,7 +603,7 @@ extension WorkSpacesThinClientClientTypes {
         public var createdAt: Foundation.Date?
         /// The ID of the software set to apply.
         public var desiredSoftwareSetId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public var desktopArn: Swift.String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public var desktopEndpoint: Swift.String?
@@ -648,8 +639,7 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.activationCode = activationCode
             self.arn = arn
             self.createdAt = createdAt
@@ -679,8 +669,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: WorkSpacesThinClientClientTypes.EnvironmentSummary? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -695,8 +684,7 @@ public struct DeleteDeviceInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.id = id
     }
@@ -717,8 +705,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.id = id
     }
@@ -771,8 +758,7 @@ public struct DeregisterDeviceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil,
         targetDeviceStatus: WorkSpacesThinClientClientTypes.TargetDeviceStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.id = id
         self.targetDeviceStatus = targetDeviceStatus
@@ -952,8 +938,7 @@ extension WorkSpacesThinClientClientTypes {
             status: WorkSpacesThinClientClientTypes.DeviceStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.currentSoftwareSetId = currentSoftwareSetId
@@ -1035,8 +1020,7 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             status: WorkSpacesThinClientClientTypes.DeviceStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.currentSoftwareSetId = currentSoftwareSetId
@@ -1105,7 +1089,7 @@ extension WorkSpacesThinClientClientTypes {
         public var createdAt: Foundation.Date?
         /// The ID of the software set to apply.
         public var desiredSoftwareSetId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public var desktopArn: Swift.String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public var desktopEndpoint: Swift.String?
@@ -1159,8 +1143,7 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.activationCode = activationCode
             self.arn = arn
             self.createdAt = createdAt
@@ -1197,8 +1180,7 @@ public struct GetDeviceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1209,8 +1191,7 @@ public struct GetDeviceOutput: Swift.Sendable {
 
     public init(
         device: WorkSpacesThinClientClientTypes.Device? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
@@ -1222,8 +1203,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1234,8 +1214,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: WorkSpacesThinClientClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -1247,8 +1226,7 @@ public struct GetSoftwareSetInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1265,8 +1243,7 @@ extension WorkSpacesThinClientClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -1332,8 +1309,7 @@ extension WorkSpacesThinClientClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.releasedAt = releasedAt
@@ -1357,8 +1333,7 @@ public struct GetSoftwareSetOutput: Swift.Sendable {
 
     public init(
         softwareSet: WorkSpacesThinClientClientTypes.SoftwareSet? = nil
-    )
-    {
+    ) {
         self.softwareSet = softwareSet
     }
 }
@@ -1372,8 +1347,7 @@ public struct ListDevicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1388,8 +1362,7 @@ public struct ListDevicesOutput: Swift.Sendable {
     public init(
         devices: [WorkSpacesThinClientClientTypes.DeviceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.nextToken = nextToken
     }
@@ -1404,8 +1377,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1420,8 +1392,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [WorkSpacesThinClientClientTypes.EnvironmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -1436,8 +1407,7 @@ public struct ListSoftwareSetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1467,8 +1437,7 @@ extension WorkSpacesThinClientClientTypes {
             supportedUntil: Foundation.Date? = nil,
             validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.releasedAt = releasedAt
@@ -1488,8 +1457,7 @@ public struct ListSoftwareSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         softwareSets: [WorkSpacesThinClientClientTypes.SoftwareSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.softwareSets = softwareSets
     }
@@ -1502,8 +1470,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1514,8 +1481,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1536,8 +1502,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1564,8 +1529,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1597,8 +1561,7 @@ public struct UpdateDeviceInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil
-    )
-    {
+    ) {
         self.desiredSoftwareSetId = desiredSoftwareSetId
         self.id = id
         self.name = name
@@ -1617,8 +1580,7 @@ public struct UpdateDeviceOutput: Swift.Sendable {
 
     public init(
         device: WorkSpacesThinClientClientTypes.DeviceSummary? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
@@ -1626,7 +1588,7 @@ public struct UpdateDeviceOutput: Swift.Sendable {
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// The ID of the software set to apply.
     public var desiredSoftwareSetId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+    /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
     public var desktopArn: Swift.String?
     /// The URL for the identity provider login (only for environments that use AppStream 2.0).
     public var desktopEndpoint: Swift.String?
@@ -1654,8 +1616,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         name: Swift.String? = nil,
         softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
         softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil
-    )
-    {
+    ) {
         self.desiredSoftwareSetId = desiredSoftwareSetId
         self.desktopArn = desktopArn
         self.desktopEndpoint = desktopEndpoint
@@ -1679,8 +1640,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: WorkSpacesThinClientClientTypes.EnvironmentSummary? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -1696,8 +1656,7 @@ public struct UpdateSoftwareSetInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus? = nil
-    )
-    {
+    ) {
         self.id = id
         self.validationStatus = validationStatus
     }
@@ -2619,7 +2578,7 @@ extension WorkSpacesThinClientClientTypes.MaintenanceWindow {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.MaintenanceWindow {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesThinClientClientTypes.MaintenanceWindow()
-        value.type = try reader["type"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.startTimeHour = try reader["startTimeHour"].readIfPresent()
         value.startTimeMinute = try reader["startTimeMinute"].readIfPresent()
         value.endTimeHour = try reader["endTimeHour"].readIfPresent()

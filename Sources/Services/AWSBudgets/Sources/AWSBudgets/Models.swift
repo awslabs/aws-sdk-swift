@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +96,7 @@ extension BudgetsClientTypes {
         public init(
             actionThresholdType: BudgetsClientTypes.ThresholdType? = nil,
             actionThresholdValue: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.actionThresholdType = actionThresholdType
             self.actionThresholdValue = actionThresholdValue
         }
@@ -185,8 +183,7 @@ extension BudgetsClientTypes {
             policyArn: Swift.String? = nil,
             roles: [Swift.String]? = nil,
             users: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.policyArn = policyArn
             self.roles = roles
@@ -209,8 +206,7 @@ extension BudgetsClientTypes {
         public init(
             policyId: Swift.String? = nil,
             targetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.policyId = policyId
             self.targetIds = targetIds
         }
@@ -264,8 +260,7 @@ extension BudgetsClientTypes {
             actionSubType: BudgetsClientTypes.ActionSubType? = nil,
             instanceIds: [Swift.String]? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionSubType = actionSubType
             self.instanceIds = instanceIds
             self.region = region
@@ -288,8 +283,7 @@ extension BudgetsClientTypes {
             iamActionDefinition: BudgetsClientTypes.IamActionDefinition? = nil,
             scpActionDefinition: BudgetsClientTypes.ScpActionDefinition? = nil,
             ssmActionDefinition: BudgetsClientTypes.SsmActionDefinition? = nil
-        )
-        {
+        ) {
             self.iamActionDefinition = iamActionDefinition
             self.scpActionDefinition = scpActionDefinition
             self.ssmActionDefinition = ssmActionDefinition
@@ -428,8 +422,7 @@ extension BudgetsClientTypes {
         public init(
             address: Swift.String? = nil,
             subscriptionType: BudgetsClientTypes.SubscriptionType? = nil
-        )
-        {
+        ) {
             self.address = address
             self.subscriptionType = subscriptionType
         }
@@ -487,8 +480,7 @@ extension BudgetsClientTypes {
             notificationType: BudgetsClientTypes.NotificationType? = nil,
             status: BudgetsClientTypes.ActionStatus? = nil,
             subscribers: [BudgetsClientTypes.Subscriber]? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.actionThreshold = actionThreshold
             self.actionType = actionType
@@ -517,8 +509,7 @@ extension BudgetsClientTypes {
         public init(
             action: BudgetsClientTypes.Action? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.message = message
         }
@@ -585,8 +576,7 @@ extension BudgetsClientTypes {
             eventType: BudgetsClientTypes.EventType? = nil,
             status: BudgetsClientTypes.ActionStatus? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actionHistoryDetails = actionHistoryDetails
             self.eventType = eventType
             self.status = status
@@ -645,8 +635,7 @@ extension BudgetsClientTypes {
         public init(
             budgetAdjustmentPeriod: Swift.Int? = nil,
             lookBackAvailablePeriods: Swift.Int? = nil
-        )
-        {
+        ) {
             self.budgetAdjustmentPeriod = budgetAdjustmentPeriod
             self.lookBackAvailablePeriods = lookBackAvailablePeriods
         }
@@ -669,8 +658,7 @@ extension BudgetsClientTypes {
             autoAdjustType: BudgetsClientTypes.AutoAdjustType? = nil,
             historicalOptions: BudgetsClientTypes.HistoricalOptions? = nil,
             lastAutoAdjustTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.autoAdjustType = autoAdjustType
             self.historicalOptions = historicalOptions
             self.lastAutoAdjustTime = lastAutoAdjustTime
@@ -697,8 +685,7 @@ public struct CreationLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -722,8 +709,7 @@ public struct DuplicateRecordException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -747,8 +733,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -772,8 +757,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -797,8 +781,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -822,8 +805,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -853,8 +835,7 @@ extension BudgetsClientTypes {
         public init(
             amount: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.unit = unit
         }
@@ -916,8 +897,7 @@ extension BudgetsClientTypes {
         public init(
             actualSpend: BudgetsClientTypes.Spend? = nil,
             forecastedSpend: BudgetsClientTypes.Spend? = nil
-        )
-        {
+        ) {
             self.actualSpend = actualSpend
             self.forecastedSpend = forecastedSpend
         }
@@ -963,8 +943,7 @@ extension BudgetsClientTypes {
             includeUpfront: Swift.Bool? = nil,
             useAmortized: Swift.Bool? = nil,
             useBlended: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeCredit = includeCredit
             self.includeDiscount = includeDiscount
             self.includeOtherSubscription = includeOtherSubscription
@@ -992,8 +971,7 @@ extension BudgetsClientTypes {
         public init(
             end: Foundation.Date? = nil,
             start: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -1088,8 +1066,7 @@ extension BudgetsClientTypes {
             plannedBudgetLimits: [Swift.String: BudgetsClientTypes.Spend]? = nil,
             timePeriod: BudgetsClientTypes.TimePeriod? = nil,
             timeUnit: BudgetsClientTypes.TimeUnit? = nil
-        )
-        {
+        ) {
             self.autoAdjustData = autoAdjustData
             self.budgetLimit = budgetLimit
             self.budgetName = budgetName
@@ -1199,8 +1176,7 @@ extension BudgetsClientTypes {
             notificationType: BudgetsClientTypes.NotificationType? = nil,
             threshold: Swift.Double = 0.0,
             thresholdType: BudgetsClientTypes.ThresholdType? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.notificationState = notificationState
             self.notificationType = notificationType
@@ -1224,8 +1200,7 @@ extension BudgetsClientTypes {
         public init(
             notification: BudgetsClientTypes.Notification? = nil,
             subscribers: [BudgetsClientTypes.Subscriber]? = nil
-        )
-        {
+        ) {
             self.notification = notification
             self.subscribers = subscribers
         }
@@ -1246,8 +1221,7 @@ extension BudgetsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1272,8 +1246,7 @@ public struct CreateBudgetInput: Swift.Sendable {
         budget: BudgetsClientTypes.Budget? = nil,
         notificationsWithSubscribers: [BudgetsClientTypes.NotificationWithSubscribers]? = nil,
         resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budget = budget
         self.notificationsWithSubscribers = notificationsWithSubscribers
@@ -1306,8 +1279,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1354,8 +1326,7 @@ public struct CreateBudgetActionInput: Swift.Sendable {
         notificationType: BudgetsClientTypes.NotificationType? = nil,
         resourceTags: [BudgetsClientTypes.ResourceTag]? = nil,
         subscribers: [BudgetsClientTypes.Subscriber]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionThreshold = actionThreshold
         self.actionType = actionType
@@ -1384,8 +1355,7 @@ public struct CreateBudgetActionOutput: Swift.Sendable {
         accountId: Swift.String? = nil,
         actionId: Swift.String? = nil,
         budgetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionId = actionId
         self.budgetName = budgetName
@@ -1412,8 +1382,7 @@ public struct CreateNotificationInput: Swift.Sendable {
         budgetName: Swift.String? = nil,
         notification: BudgetsClientTypes.Notification? = nil,
         subscribers: [BudgetsClientTypes.Subscriber]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.notification = notification
@@ -1447,8 +1416,7 @@ public struct CreateSubscriberInput: Swift.Sendable {
         budgetName: Swift.String? = nil,
         notification: BudgetsClientTypes.Notification? = nil,
         subscriber: BudgetsClientTypes.Subscriber? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.notification = notification
@@ -1474,8 +1442,7 @@ public struct DeleteBudgetInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         budgetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
     }
@@ -1506,8 +1473,7 @@ public struct ResourceLockedException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1527,8 +1493,7 @@ public struct DeleteBudgetActionInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         actionId: Swift.String? = nil,
         budgetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionId = actionId
         self.budgetName = budgetName
@@ -1550,8 +1515,7 @@ public struct DeleteBudgetActionOutput: Swift.Sendable {
         accountId: Swift.String? = nil,
         action: BudgetsClientTypes.Action? = nil,
         budgetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.action = action
         self.budgetName = budgetName
@@ -1574,8 +1538,7 @@ public struct DeleteNotificationInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         budgetName: Swift.String? = nil,
         notification: BudgetsClientTypes.Notification? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.notification = notification
@@ -1608,8 +1571,7 @@ public struct DeleteSubscriberInput: Swift.Sendable {
         budgetName: Swift.String? = nil,
         notification: BudgetsClientTypes.Notification? = nil,
         subscriber: BudgetsClientTypes.Subscriber? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.notification = notification
@@ -1635,8 +1597,7 @@ public struct DescribeBudgetInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         budgetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
     }
@@ -1649,8 +1610,7 @@ public struct DescribeBudgetOutput: Swift.Sendable {
 
     public init(
         budget: BudgetsClientTypes.Budget? = nil
-    )
-    {
+    ) {
         self.budget = budget
     }
 }
@@ -1670,8 +1630,7 @@ public struct DescribeBudgetActionInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         actionId: Swift.String? = nil,
         budgetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionId = actionId
         self.budgetName = budgetName
@@ -1693,8 +1652,7 @@ public struct DescribeBudgetActionOutput: Swift.Sendable {
         accountId: Swift.String? = nil,
         action: BudgetsClientTypes.Action? = nil,
         budgetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.action = action
         self.budgetName = budgetName
@@ -1720,8 +1678,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1750,8 +1707,7 @@ public struct DescribeBudgetActionHistoriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         timePeriod: BudgetsClientTypes.TimePeriod? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionId = actionId
         self.budgetName = budgetName
@@ -1771,8 +1727,7 @@ public struct DescribeBudgetActionHistoriesOutput: Swift.Sendable {
     public init(
         actionHistories: [BudgetsClientTypes.ActionHistory]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionHistories = actionHistories
         self.nextToken = nextToken
     }
@@ -1791,8 +1746,7 @@ public struct DescribeBudgetActionsForAccountInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1809,8 +1763,7 @@ public struct DescribeBudgetActionsForAccountOutput: Swift.Sendable {
     public init(
         actions: [BudgetsClientTypes.Action]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.nextToken = nextToken
     }
@@ -1833,8 +1786,7 @@ public struct DescribeBudgetActionsForBudgetInput: Swift.Sendable {
         budgetName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.maxResults = maxResults
@@ -1852,8 +1804,7 @@ public struct DescribeBudgetActionsForBudgetOutput: Swift.Sendable {
     public init(
         actions: [BudgetsClientTypes.Action]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.nextToken = nextToken
     }
@@ -1878,8 +1829,7 @@ public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1897,8 +1847,7 @@ public struct DescribeBudgetNotificationsForAccountInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1917,8 +1866,7 @@ extension BudgetsClientTypes {
         public init(
             budgetName: Swift.String? = nil,
             notifications: [BudgetsClientTypes.Notification]? = nil
-        )
-        {
+        ) {
             self.budgetName = budgetName
             self.notifications = notifications
         }
@@ -1934,8 +1882,7 @@ public struct DescribeBudgetNotificationsForAccountOutput: Swift.Sendable {
     public init(
         budgetNotificationsForAccount: [BudgetsClientTypes.BudgetNotificationsForAccount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgetNotificationsForAccount = budgetNotificationsForAccount
         self.nextToken = nextToken
     }
@@ -1961,8 +1908,7 @@ public struct DescribeBudgetPerformanceHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         timePeriod: BudgetsClientTypes.TimePeriod? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.maxResults = maxResults
@@ -1986,8 +1932,7 @@ extension BudgetsClientTypes {
             actualAmount: BudgetsClientTypes.Spend? = nil,
             budgetedAmount: BudgetsClientTypes.Spend? = nil,
             timePeriod: BudgetsClientTypes.TimePeriod? = nil
-        )
-        {
+        ) {
             self.actualAmount = actualAmount
             self.budgetedAmount = budgetedAmount
             self.timePeriod = timePeriod
@@ -2019,8 +1964,7 @@ extension BudgetsClientTypes {
             costFilters: [Swift.String: [Swift.String]]? = nil,
             costTypes: BudgetsClientTypes.CostTypes? = nil,
             timeUnit: BudgetsClientTypes.TimeUnit? = nil
-        )
-        {
+        ) {
             self.budgetName = budgetName
             self.budgetType = budgetType
             self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
@@ -2040,8 +1984,7 @@ public struct DescribeBudgetPerformanceHistoryOutput: Swift.Sendable {
     public init(
         budgetPerformanceHistory: BudgetsClientTypes.BudgetPerformanceHistory? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgetPerformanceHistory = budgetPerformanceHistory
         self.nextToken = nextToken
     }
@@ -2061,8 +2004,7 @@ public struct DescribeBudgetsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2079,8 +2021,7 @@ public struct DescribeBudgetsOutput: Swift.Sendable {
     public init(
         budgets: [BudgetsClientTypes.Budget]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgets = budgets
         self.nextToken = nextToken
     }
@@ -2104,8 +2045,7 @@ public struct DescribeNotificationsForBudgetInput: Swift.Sendable {
         budgetName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.maxResults = maxResults
@@ -2123,8 +2063,7 @@ public struct DescribeNotificationsForBudgetOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notifications: [BudgetsClientTypes.Notification]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notifications = notifications
     }
@@ -2152,8 +2091,7 @@ public struct DescribeSubscribersForNotificationInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         notification: BudgetsClientTypes.Notification? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.maxResults = maxResults
@@ -2172,8 +2110,7 @@ public struct DescribeSubscribersForNotificationOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscribers: [BudgetsClientTypes.Subscriber]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscribers = subscribers
     }
@@ -2233,8 +2170,7 @@ public struct ExecuteBudgetActionInput: Swift.Sendable {
         actionId: Swift.String? = nil,
         budgetName: Swift.String? = nil,
         executionType: BudgetsClientTypes.ExecutionType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionId = actionId
         self.budgetName = budgetName
@@ -2261,8 +2197,7 @@ public struct ExecuteBudgetActionOutput: Swift.Sendable {
         actionId: Swift.String? = nil,
         budgetName: Swift.String? = nil,
         executionType: BudgetsClientTypes.ExecutionType? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionId = actionId
         self.budgetName = budgetName
@@ -2277,8 +2212,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2289,8 +2223,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceTags = resourceTags
     }
 }
@@ -2306,8 +2239,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         resourceTags: [BudgetsClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.resourceTags = resourceTags
     }
@@ -2329,8 +2261,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         resourceTagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.resourceTagKeys = resourceTagKeys
     }
@@ -2353,8 +2284,7 @@ public struct UpdateBudgetInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         newBudget: BudgetsClientTypes.Budget? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.newBudget = newBudget
     }
@@ -2399,8 +2329,7 @@ public struct UpdateBudgetActionInput: Swift.Sendable {
         executionRoleArn: Swift.String? = nil,
         notificationType: BudgetsClientTypes.NotificationType? = nil,
         subscribers: [BudgetsClientTypes.Subscriber]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionId = actionId
         self.actionThreshold = actionThreshold
@@ -2432,8 +2361,7 @@ public struct UpdateBudgetActionOutput: Swift.Sendable {
         budgetName: Swift.String? = nil,
         newAction: BudgetsClientTypes.Action? = nil,
         oldAction: BudgetsClientTypes.Action? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.newAction = newAction
@@ -2461,8 +2389,7 @@ public struct UpdateNotificationInput: Swift.Sendable {
         budgetName: Swift.String? = nil,
         newNotification: BudgetsClientTypes.Notification? = nil,
         oldNotification: BudgetsClientTypes.Notification? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.newNotification = newNotification
@@ -2500,8 +2427,7 @@ public struct UpdateSubscriberInput: Swift.Sendable {
         newSubscriber: BudgetsClientTypes.Subscriber? = nil,
         notification: BudgetsClientTypes.Notification? = nil,
         oldSubscriber: BudgetsClientTypes.Subscriber? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.budgetName = budgetName
         self.newSubscriber = newSubscriber

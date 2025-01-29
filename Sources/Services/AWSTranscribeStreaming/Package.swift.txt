@@ -16,6 +16,10 @@ let package = Package(
             exact: "0.0.1"
         ),
         .package(
+            id: "aws-sdk-swift.AWSSDKChecksums",
+            exact: "0.0.1"
+        ),
+        .package(
             id: "aws-sdk-swift.AWSSDKEventStreamsAuth",
             exact: "0.0.1"
         ),
@@ -37,6 +41,10 @@ let package = Package(
                     package: "aws-sdk-swift.AWSClientRuntime"
                 ),
                 .product(
+                    name: "AWSSDKChecksums",
+                    package: "aws-sdk-swift.AWSSDKChecksums"
+                ),
+                .product(
                     name: "AWSSDKEventStreamsAuth",
                     package: "aws-sdk-swift.AWSSDKEventStreamsAuth"
                 ),
@@ -45,7 +53,7 @@ let package = Package(
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
                 .product(
-                    name: "SmithyHTTPAuthAPI",
+                    name: "ClientRuntime",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -53,7 +61,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "ClientRuntime",
+                    name: "SmithyEventStreams",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyEventStreamsAPI",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -61,7 +73,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyEventStreams",
+                    name: "SmithyHTTPAuthAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyIdentity",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -73,11 +89,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyEventStreamsAPI",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyIdentity",
+                    name: "SmithyRetries",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -85,11 +97,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyRetries",
+                    name: "SmithyTestUtil",
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyTestUtil",
+                    name: "SmithyTimestamps",
                     package: "smithy-swift"
                 ),
             ]

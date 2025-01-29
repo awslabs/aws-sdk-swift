@@ -41,8 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -75,8 +74,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -102,8 +100,7 @@ public struct EndpointTemporarilyUnavailableException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -130,8 +127,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -164,8 +160,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -194,8 +189,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -215,8 +209,7 @@ extension Route53RecoveryClusterClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -284,8 +277,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [Route53RecoveryClusterClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: Route53RecoveryClusterClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -299,8 +291,7 @@ public struct GetRoutingControlStateInput: Swift.Sendable {
 
     public init(
         routingControlArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
     }
 }
@@ -348,8 +339,7 @@ public struct GetRoutingControlStateOutput: Swift.Sendable {
         routingControlArn: Swift.String? = nil,
         routingControlName: Swift.String? = nil,
         routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
         self.routingControlName = routingControlName
         self.routingControlState = routingControlState
@@ -368,8 +358,7 @@ public struct ListRoutingControlsInput: Swift.Sendable {
         controlPanelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanelArn = controlPanelArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -400,8 +389,7 @@ extension Route53RecoveryClusterClientTypes {
             routingControlArn: Swift.String? = nil,
             routingControlName: Swift.String? = nil,
             routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil
-        )
-        {
+        ) {
             self.controlPanelArn = controlPanelArn
             self.controlPanelName = controlPanelName
             self.owner = owner
@@ -422,8 +410,7 @@ public struct ListRoutingControlsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         routingControls: [Route53RecoveryClusterClientTypes.RoutingControl]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.routingControls = routingControls
     }
@@ -462,8 +449,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limitCode = limitCode
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -486,8 +472,7 @@ public struct UpdateRoutingControlStateInput: Swift.Sendable {
         routingControlArn: Swift.String? = nil,
         routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil,
         safetyRulesToOverride: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
         self.routingControlState = routingControlState
         self.safetyRulesToOverride = safetyRulesToOverride
@@ -513,8 +498,7 @@ extension Route53RecoveryClusterClientTypes {
         public init(
             routingControlArn: Swift.String? = nil,
             routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil
-        )
-        {
+        ) {
             self.routingControlArn = routingControlArn
             self.routingControlState = routingControlState
         }
@@ -531,8 +515,7 @@ public struct UpdateRoutingControlStatesInput: Swift.Sendable {
     public init(
         safetyRulesToOverride: [Swift.String]? = nil,
         updateRoutingControlStateEntries: [Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry]? = nil
-    )
-    {
+    ) {
         self.safetyRulesToOverride = safetyRulesToOverride
         self.updateRoutingControlStateEntries = updateRoutingControlStateEntries
     }

@@ -44,8 +44,7 @@ extension SSMClientTypes {
         public init(
             accountId: Swift.String? = nil,
             sharedDocumentVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.sharedDocumentVersion = sharedDocumentVersion
         }
@@ -66,8 +65,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -110,8 +108,7 @@ extension SSMClientTypes {
             registrationLimit: Swift.Int? = nil,
             registrationsCount: Swift.Int? = nil,
             tags: [SSMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.activationId = activationId
             self.createdDate = createdDate
             self.defaultInstanceName = defaultInstanceName
@@ -144,8 +141,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -207,8 +203,7 @@ public struct TooManyUpdates: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -278,8 +273,7 @@ public struct AddTagsToResourceInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceType: SSMClientTypes.ResourceTypeForTagging? = nil,
         tags: [SSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
         self.tags = tags
@@ -301,8 +295,7 @@ extension SSMClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -321,8 +314,7 @@ extension SSMClientTypes {
         public init(
             alarms: [SSMClientTypes.Alarm]? = nil,
             ignorePollAlarmFailure: Swift.Bool = false
-        )
-        {
+        ) {
             self.alarms = alarms
             self.ignorePollAlarmFailure = ignorePollAlarmFailure
         }
@@ -372,8 +364,7 @@ extension SSMClientTypes {
         public init(
             name: Swift.String? = nil,
             state: SSMClientTypes.ExternalAlarmState? = nil
-        )
-        {
+        ) {
             self.name = name
             self.state = state
         }
@@ -398,8 +389,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -422,8 +412,7 @@ public struct OpsItemConflictException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -448,8 +437,7 @@ public struct OpsItemInvalidParameterException: ClientRuntime.ModeledError, AWSC
     public init(
         message: Swift.String? = nil,
         parameterNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.parameterNames = parameterNames
     }
@@ -479,8 +467,7 @@ public struct OpsItemLimitExceededException: ClientRuntime.ModeledError, AWSClie
         limitType: Swift.String? = nil,
         message: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.limit = limit
         self.properties.limitType = limitType
         self.properties.message = message
@@ -506,8 +493,7 @@ public struct OpsItemNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -534,8 +520,7 @@ public struct OpsItemRelatedItemAlreadyExistsException: ClientRuntime.ModeledErr
         message: Swift.String? = nil,
         opsItemId: Swift.String? = nil,
         resourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.opsItemId = opsItemId
         self.properties.resourceUri = resourceUri
@@ -561,8 +546,7 @@ public struct AssociateOpsItemRelatedItemInput: Swift.Sendable {
         opsItemId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         resourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationType = associationType
         self.opsItemId = opsItemId
         self.resourceType = resourceType
@@ -576,8 +560,7 @@ public struct AssociateOpsItemRelatedItemOutput: Swift.Sendable {
 
     public init(
         associationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
     }
 }
@@ -634,8 +617,7 @@ public struct InvalidInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -651,8 +633,7 @@ public struct CancelCommandInput: Swift.Sendable {
     public init(
         commandId: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.commandId = commandId
         self.instanceIds = instanceIds
     }
@@ -682,8 +663,7 @@ public struct DoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -695,8 +675,7 @@ public struct CancelMaintenanceWindowExecutionInput: Swift.Sendable {
 
     public init(
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowExecutionId = windowExecutionId
     }
 }
@@ -707,8 +686,7 @@ public struct CancelMaintenanceWindowExecutionOutput: Swift.Sendable {
 
     public init(
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowExecutionId = windowExecutionId
     }
 }
@@ -731,8 +709,7 @@ public struct InvalidParameters: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -751,8 +728,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -791,8 +767,7 @@ public struct CreateActivationInput: Swift.Sendable {
         registrationLimit: Swift.Int? = nil,
         registrationMetadata: [SSMClientTypes.RegistrationMetadataItem]? = nil,
         tags: [SSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.defaultInstanceName = defaultInstanceName
         self.description = description
         self.expirationDate = expirationDate
@@ -812,8 +787,7 @@ public struct CreateActivationOutput: Swift.Sendable {
     public init(
         activationCode: Swift.String? = nil,
         activationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationCode = activationCode
         self.activationId = activationId
     }
@@ -864,8 +838,7 @@ public struct InvalidDocument: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -888,8 +861,7 @@ public struct InvalidDocumentVersion: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -925,8 +897,7 @@ public struct InvalidSchedule: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -949,8 +920,7 @@ public struct InvalidTag: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -973,8 +943,7 @@ public struct InvalidTarget: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -997,8 +966,7 @@ public struct InvalidTargetMaps: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1021,8 +989,7 @@ public struct UnsupportedPlatformType: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1080,8 +1047,7 @@ extension SSMClientTypes {
             outputS3BucketName: Swift.String? = nil,
             outputS3KeyPrefix: Swift.String? = nil,
             outputS3Region: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3BucketName = outputS3BucketName
             self.outputS3KeyPrefix = outputS3KeyPrefix
             self.outputS3Region = outputS3Region
@@ -1098,8 +1064,7 @@ extension SSMClientTypes {
 
         public init(
             s3Location: SSMClientTypes.S3OutputLocation? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -1136,7 +1101,7 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
-    /// An array of search criteria that targets managed nodes using a key-value pair that you specify. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Supported formats include the following. For all Systems Manager capabilities:
+    /// An array of search criteria that targets managed nodes using a key-value pair that you specify. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Supported formats include the following. For all Systems Manager tools:
     ///
     /// * Key=tag-key,Values=tag-value-1,tag-value-2
     ///
@@ -1199,8 +1164,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -1246,8 +1210,7 @@ extension SSMClientTypes {
             targets: [SSMClientTypes.Target]? = nil,
             targetsMaxConcurrency: Swift.String? = nil,
             targetsMaxErrors: Swift.String? = nil
-        )
-        {
+        ) {
             self.accounts = accounts
             self.excludeAccounts = excludeAccounts
             self.executionRoleName = executionRoleName
@@ -1270,7 +1233,7 @@ public struct CreateAssociationInput: Swift.Sendable {
     public var applyOnlyAtCronInterval: Swift.Bool?
     /// Specify a descriptive name for the association.
     public var associationName: Swift.String?
-    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
     /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
     public var calendarNames: [Swift.String]?
@@ -1334,8 +1297,7 @@ public struct CreateAssociationInput: Swift.Sendable {
         targetLocations: [SSMClientTypes.TargetLocation]? = nil,
         targetMaps: [[Swift.String: [Swift.String]]]? = nil,
         targets: [SSMClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
         self.associationName = associationName
@@ -1380,8 +1342,7 @@ extension SSMClientTypes {
             associationStatusAggregatedCount: [Swift.String: Swift.Int]? = nil,
             detailedStatus: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationStatusAggregatedCount = associationStatusAggregatedCount
             self.detailedStatus = detailedStatus
             self.status = status
@@ -1442,8 +1403,7 @@ extension SSMClientTypes {
             date: Foundation.Date? = nil,
             message: Swift.String? = nil,
             name: SSMClientTypes.AssociationStatusName? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.date = date
             self.message = message
@@ -1466,7 +1426,7 @@ extension SSMClientTypes {
         public var associationName: Swift.String?
         /// The association version.
         public var associationVersion: Swift.String?
-        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
         public var calendarNames: [Swift.String]?
@@ -1504,7 +1464,7 @@ extension SSMClientTypes {
         public var scheduleOffset: Swift.Int?
         /// The association status.
         public var status: SSMClientTypes.AssociationStatus?
-        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
         public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
         /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association.
         public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -1545,8 +1505,7 @@ extension SSMClientTypes {
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targets: [SSMClientTypes.Target]? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
@@ -1591,8 +1550,7 @@ public struct CreateAssociationOutput: Swift.Sendable {
 
     public init(
         associationDescription: SSMClientTypes.AssociationDescription? = nil
-    )
-    {
+    ) {
         self.associationDescription = associationDescription
     }
 }
@@ -1607,7 +1565,7 @@ extension SSMClientTypes {
         public var applyOnlyAtCronInterval: Swift.Bool
         /// Specify a descriptive name for the association.
         public var associationName: Swift.String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
         public var calendarNames: [Swift.String]?
@@ -1638,7 +1596,7 @@ extension SSMClientTypes {
         public var scheduleExpression: Swift.String?
         /// Number of days to wait after the scheduled day to run an association.
         public var scheduleOffset: Swift.Int?
-        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
         public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
         /// Use this action to create an association in multiple Regions and multiple accounts.
         public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -1668,8 +1626,7 @@ extension SSMClientTypes {
             targetLocations: [SSMClientTypes.TargetLocation]? = nil,
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targets: [SSMClientTypes.Target]? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
@@ -1706,8 +1663,7 @@ public struct CreateAssociationBatchInput: Swift.Sendable {
 
     public init(
         entries: [SSMClientTypes.CreateAssociationBatchRequestEntry]? = nil
-    )
-    {
+    ) {
         self.entries = entries
     }
 }
@@ -1759,8 +1715,7 @@ extension SSMClientTypes {
             entry: SSMClientTypes.CreateAssociationBatchRequestEntry? = nil,
             fault: SSMClientTypes.Fault? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.entry = entry
             self.fault = fault
             self.message = message
@@ -1777,8 +1732,7 @@ public struct CreateAssociationBatchOutput: Swift.Sendable {
     public init(
         failed: [SSMClientTypes.FailedCreateAssociation]? = nil,
         successful: [SSMClientTypes.AssociationDescription]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -1802,8 +1756,7 @@ public struct DocumentAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1826,8 +1779,7 @@ public struct DocumentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1851,8 +1803,7 @@ public struct InvalidDocumentContent: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1875,8 +1826,7 @@ public struct InvalidDocumentSchemaVersion: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1899,8 +1849,7 @@ public struct MaxDocumentSizeExceeded: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1958,8 +1907,7 @@ extension SSMClientTypes {
             key: SSMClientTypes.AttachmentsSourceKey? = nil,
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.name = name
             self.values = values
@@ -2086,8 +2034,7 @@ extension SSMClientTypes {
             requireType: Swift.String? = nil,
             version: Swift.String? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.requireType = requireType
             self.version = version
@@ -2156,8 +2103,7 @@ public struct CreateDocumentInput: Swift.Sendable {
         tags: [SSMClientTypes.Tag]? = nil,
         targetType: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.content = content
         self.displayName = displayName
@@ -2180,8 +2126,7 @@ extension SSMClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2263,8 +2208,7 @@ extension SSMClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             type: SSMClientTypes.DocumentParameterType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
@@ -2355,8 +2299,7 @@ extension SSMClientTypes {
             reviewedTime: Foundation.Date? = nil,
             reviewer: Swift.String? = nil,
             status: SSMClientTypes.ReviewStatus? = nil
-        )
-        {
+        ) {
             self.reviewedTime = reviewedTime
             self.reviewer = reviewer
             self.status = status
@@ -2499,8 +2442,7 @@ extension SSMClientTypes {
             tags: [SSMClientTypes.Tag]? = nil,
             targetType: Swift.String? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvedVersion = approvedVersion
             self.attachmentsInformation = attachmentsInformation
             self.author = author
@@ -2541,8 +2483,7 @@ public struct CreateDocumentOutput: Swift.Sendable {
 
     public init(
         documentDescription: SSMClientTypes.DocumentDescription? = nil
-    )
-    {
+    ) {
         self.documentDescription = documentDescription
     }
 }
@@ -2565,8 +2506,7 @@ public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2589,8 +2529,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2648,8 +2587,7 @@ public struct CreateMaintenanceWindowInput: Swift.Sendable {
         scheduleTimezone: Swift.String? = nil,
         startDate: Swift.String? = nil,
         tags: [SSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.allowUnassociatedTargets = allowUnassociatedTargets
         self.clientToken = clientToken
         self.cutoff = cutoff
@@ -2676,8 +2614,7 @@ public struct CreateMaintenanceWindowOutput: Swift.Sendable {
 
     public init(
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
     }
 }
@@ -2700,8 +2637,7 @@ public struct OpsItemAccessDeniedException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2726,8 +2662,7 @@ public struct OpsItemAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         opsItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.opsItemId = opsItemId
     }
@@ -2742,8 +2677,7 @@ extension SSMClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -2790,8 +2724,7 @@ extension SSMClientTypes {
         public init(
             type: SSMClientTypes.OpsItemDataType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -2808,8 +2741,7 @@ extension SSMClientTypes {
 
         public init(
             opsItemId: Swift.String? = nil
-        )
-        {
+        ) {
             self.opsItemId = opsItemId
         }
     }
@@ -2875,8 +2807,7 @@ public struct CreateOpsItemInput: Swift.Sendable {
         source: Swift.String? = nil,
         tags: [SSMClientTypes.Tag]? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actualEndTime = actualEndTime
         self.actualStartTime = actualStartTime
@@ -2905,8 +2836,7 @@ public struct CreateOpsItemOutput: Swift.Sendable {
     public init(
         opsItemArn: Swift.String? = nil,
         opsItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.opsItemArn = opsItemArn
         self.opsItemId = opsItemId
     }
@@ -2930,8 +2860,7 @@ public struct OpsMetadataAlreadyExistsException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2954,8 +2883,7 @@ public struct OpsMetadataInvalidArgumentException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2978,8 +2906,7 @@ public struct OpsMetadataLimitExceededException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3002,8 +2929,7 @@ public struct OpsMetadataTooManyUpdatesException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3017,8 +2943,7 @@ extension SSMClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -3041,8 +2966,7 @@ public struct CreateOpsMetadataInput: Swift.Sendable {
         metadata: [Swift.String: SSMClientTypes.MetadataValue]? = nil,
         resourceId: Swift.String? = nil,
         tags: [SSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.resourceId = resourceId
         self.tags = tags
@@ -3055,8 +2979,7 @@ public struct CreateOpsMetadataOutput: Swift.Sendable {
 
     public init(
         opsMetadataArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.opsMetadataArn = opsMetadataArn
     }
 }
@@ -3196,8 +3119,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.PatchFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -3214,8 +3136,7 @@ extension SSMClientTypes {
 
         public init(
             patchFilters: [SSMClientTypes.PatchFilter]? = nil
-        )
-        {
+        ) {
             self.patchFilters = patchFilters
         }
     }
@@ -3243,8 +3164,7 @@ extension SSMClientTypes {
             complianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
             enableNonSecurity: Swift.Bool? = false,
             patchFilterGroup: SSMClientTypes.PatchFilterGroup? = nil
-        )
-        {
+        ) {
             self.approveAfterDays = approveAfterDays
             self.approveUntilDate = approveUntilDate
             self.complianceLevel = complianceLevel
@@ -3264,8 +3184,7 @@ extension SSMClientTypes {
 
         public init(
             patchRules: [SSMClientTypes.PatchRule]? = nil
-        )
-        {
+        ) {
             self.patchRules = patchRules
         }
     }
@@ -3392,8 +3311,7 @@ extension SSMClientTypes {
             configuration: Swift.String? = nil,
             name: Swift.String? = nil,
             products: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.name = name
             self.products = products
@@ -3456,8 +3374,7 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
         rejectedPatchesAction: SSMClientTypes.PatchAction? = nil,
         sources: [SSMClientTypes.PatchSource]? = nil,
         tags: [SSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.approvalRules = approvalRules
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -3480,8 +3397,7 @@ public struct CreatePatchBaselineOutput: Swift.Sendable {
 
     public init(
         baselineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
     }
 }
@@ -3504,8 +3420,7 @@ public struct ResourceDataSyncAlreadyExistsException: ClientRuntime.ModeledError
 
     public init(
         syncName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.syncName = syncName
     }
 }
@@ -3528,8 +3443,7 @@ public struct ResourceDataSyncCountExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3552,8 +3466,7 @@ public struct ResourceDataSyncInvalidConfigurationException: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3567,8 +3480,7 @@ extension SSMClientTypes {
 
         public init(
             destinationDataSharingType: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationDataSharingType = destinationDataSharingType
         }
     }
@@ -3627,8 +3539,7 @@ extension SSMClientTypes {
             `prefix`: Swift.String? = nil,
             region: Swift.String? = nil,
             syncFormat: SSMClientTypes.ResourceDataSyncS3Format? = nil
-        )
-        {
+        ) {
             self.awskmsKeyARN = awskmsKeyARN
             self.bucketName = bucketName
             self.destinationDataSharing = destinationDataSharing
@@ -3648,8 +3559,7 @@ extension SSMClientTypes {
 
         public init(
             organizationalUnitId: Swift.String? = nil
-        )
-        {
+        ) {
             self.organizationalUnitId = organizationalUnitId
         }
     }
@@ -3668,8 +3578,7 @@ extension SSMClientTypes {
         public init(
             organizationSourceType: Swift.String? = nil,
             organizationalUnits: [SSMClientTypes.ResourceDataSyncOrganizationalUnit]? = nil
-        )
-        {
+        ) {
             self.organizationSourceType = organizationSourceType
             self.organizationalUnits = organizationalUnits
         }
@@ -3699,8 +3608,7 @@ extension SSMClientTypes {
             includeFutureRegions: Swift.Bool = false,
             sourceRegions: [Swift.String]? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsOrganizationsSource = awsOrganizationsSource
             self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
@@ -3726,8 +3634,7 @@ public struct CreateResourceDataSyncInput: Swift.Sendable {
         syncName: Swift.String? = nil,
         syncSource: SSMClientTypes.ResourceDataSyncSource? = nil,
         syncType: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3Destination = s3Destination
         self.syncName = syncName
         self.syncSource = syncSource
@@ -3758,8 +3665,7 @@ public struct InvalidActivation: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3782,8 +3688,7 @@ public struct InvalidActivationId: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3795,8 +3700,7 @@ public struct DeleteActivationInput: Swift.Sendable {
 
     public init(
         activationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationId = activationId
     }
 }
@@ -3824,8 +3728,7 @@ public struct AssociationDoesNotExist: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3842,8 +3745,7 @@ public struct DeleteAssociationInput: Swift.Sendable {
         associationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.instanceId = instanceId
         self.name = name
@@ -3886,8 +3788,7 @@ public struct InvalidDocumentOperation: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3908,8 +3809,7 @@ public struct DeleteDocumentInput: Swift.Sendable {
         force: Swift.Bool? = false,
         name: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentVersion = documentVersion
         self.force = force
         self.name = name
@@ -3940,8 +3840,7 @@ public struct InvalidDeleteInventoryParametersException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3964,8 +3863,7 @@ public struct InvalidInventoryRequestException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3988,8 +3886,7 @@ public struct InvalidOptionException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4012,8 +3909,7 @@ public struct InvalidTypeNameException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4063,8 +3959,7 @@ public struct DeleteInventoryInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         schemaDeleteOption: SSMClientTypes.InventorySchemaDeleteOption? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dryRun = dryRun
         self.schemaDeleteOption = schemaDeleteOption
@@ -4087,8 +3982,7 @@ extension SSMClientTypes {
             count: Swift.Int = 0,
             remainingCount: Swift.Int = 0,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.remainingCount = remainingCount
             self.version = version
@@ -4111,8 +4005,7 @@ extension SSMClientTypes {
             remainingCount: Swift.Int = 0,
             summaryItems: [SSMClientTypes.InventoryDeletionSummaryItem]? = nil,
             totalCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.remainingCount = remainingCount
             self.summaryItems = summaryItems
             self.totalCount = totalCount
@@ -4132,8 +4025,7 @@ public struct DeleteInventoryOutput: Swift.Sendable {
         deletionId: Swift.String? = nil,
         deletionSummary: SSMClientTypes.InventoryDeletionSummary? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionId = deletionId
         self.deletionSummary = deletionSummary
         self.typeName = typeName
@@ -4147,8 +4039,7 @@ public struct DeleteMaintenanceWindowInput: Swift.Sendable {
 
     public init(
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
     }
 }
@@ -4159,8 +4050,7 @@ public struct DeleteMaintenanceWindowOutput: Swift.Sendable {
 
     public init(
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
     }
 }
@@ -4172,8 +4062,7 @@ public struct DeleteOpsItemInput: Swift.Sendable {
 
     public init(
         opsItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.opsItemId = opsItemId
     }
 }
@@ -4201,8 +4090,7 @@ public struct OpsMetadataNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4214,8 +4102,7 @@ public struct DeleteOpsMetadataInput: Swift.Sendable {
 
     public init(
         opsMetadataArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.opsMetadataArn = opsMetadataArn
     }
 }
@@ -4243,8 +4130,7 @@ public struct ParameterNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4256,8 +4142,7 @@ public struct DeleteParameterInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4274,8 +4159,7 @@ public struct DeleteParametersInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -4289,8 +4173,7 @@ public struct DeleteParametersOutput: Swift.Sendable {
     public init(
         deletedParameters: [Swift.String]? = nil,
         invalidParameters: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deletedParameters = deletedParameters
         self.invalidParameters = invalidParameters
     }
@@ -4314,8 +4197,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4327,8 +4209,7 @@ public struct DeletePatchBaselineInput: Swift.Sendable {
 
     public init(
         baselineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
     }
 }
@@ -4339,8 +4220,7 @@ public struct DeletePatchBaselineOutput: Swift.Sendable {
 
     public init(
         baselineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
     }
 }
@@ -4367,8 +4247,7 @@ public struct ResourceDataSyncNotFoundException: ClientRuntime.ModeledError, AWS
         message: Swift.String? = nil,
         syncName: Swift.String? = nil,
         syncType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.syncName = syncName
         self.properties.syncType = syncType
@@ -4385,8 +4264,7 @@ public struct DeleteResourceDataSyncInput: Swift.Sendable {
     public init(
         syncName: Swift.String? = nil,
         syncType: Swift.String? = nil
-    )
-    {
+    ) {
         self.syncName = syncName
         self.syncType = syncType
     }
@@ -4415,8 +4293,7 @@ public struct MalformedResourcePolicyDocumentException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4439,8 +4316,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4463,8 +4339,7 @@ public struct ResourcePolicyConflictException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4489,8 +4364,7 @@ public struct ResourcePolicyInvalidParameterException: ClientRuntime.ModeledErro
     public init(
         message: Swift.String? = nil,
         parameterNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.parameterNames = parameterNames
     }
@@ -4514,8 +4388,7 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4535,8 +4408,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
         policyHash: Swift.String? = nil,
         policyId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyHash = policyHash
         self.policyId = policyId
         self.resourceArn = resourceArn
@@ -4555,8 +4427,7 @@ public struct DeregisterManagedInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -4577,8 +4448,7 @@ public struct DeregisterPatchBaselineForPatchGroupInput: Swift.Sendable {
     public init(
         baselineId: Swift.String? = nil,
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
         self.patchGroup = patchGroup
     }
@@ -4593,8 +4463,7 @@ public struct DeregisterPatchBaselineForPatchGroupOutput: Swift.Sendable {
     public init(
         baselineId: Swift.String? = nil,
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
         self.patchGroup = patchGroup
     }
@@ -4618,8 +4487,7 @@ public struct TargetInUseException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4638,8 +4506,7 @@ public struct DeregisterTargetFromMaintenanceWindowInput: Swift.Sendable {
         safe: Swift.Bool? = false,
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.safe = safe
         self.windowId = windowId
         self.windowTargetId = windowTargetId
@@ -4655,8 +4522,7 @@ public struct DeregisterTargetFromMaintenanceWindowOutput: Swift.Sendable {
     public init(
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
         self.windowTargetId = windowTargetId
     }
@@ -4673,8 +4539,7 @@ public struct DeregisterTaskFromMaintenanceWindowInput: Swift.Sendable {
     public init(
         windowId: Swift.String? = nil,
         windowTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
         self.windowTaskId = windowTaskId
     }
@@ -4689,8 +4554,7 @@ public struct DeregisterTaskFromMaintenanceWindowOutput: Swift.Sendable {
     public init(
         windowId: Swift.String? = nil,
         windowTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
         self.windowTaskId = windowTaskId
     }
@@ -4714,8 +4578,7 @@ public struct InvalidFilter: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4738,8 +4601,7 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4788,8 +4650,7 @@ extension SSMClientTypes {
         public init(
             filterKey: SSMClientTypes.DescribeActivationsFilterKeys? = nil,
             filterValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.filterKey = filterKey
             self.filterValues = filterValues
         }
@@ -4808,8 +4669,7 @@ public struct DescribeActivationsInput: Swift.Sendable {
         filters: [SSMClientTypes.DescribeActivationsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4825,8 +4685,7 @@ public struct DescribeActivationsOutput: Swift.Sendable {
     public init(
         activationList: [SSMClientTypes.Activation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationList = activationList
         self.nextToken = nextToken
     }
@@ -4850,8 +4709,7 @@ public struct InvalidAssociationVersion: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4871,8 +4729,7 @@ public struct DescribeAssociationInput: Swift.Sendable {
         associationVersion: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.associationVersion = associationVersion
         self.instanceId = instanceId
@@ -4886,8 +4743,7 @@ public struct DescribeAssociationOutput: Swift.Sendable {
 
     public init(
         associationDescription: SSMClientTypes.AssociationDescription? = nil
-    )
-    {
+    ) {
         self.associationDescription = associationDescription
     }
 }
@@ -4974,8 +4830,7 @@ extension SSMClientTypes {
             key: SSMClientTypes.AssociationExecutionFilterKey? = nil,
             type: SSMClientTypes.AssociationFilterOperatorType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.value = value
@@ -4999,8 +4854,7 @@ public struct DescribeAssociationExecutionsInput: Swift.Sendable {
         filters: [SSMClientTypes.AssociationExecutionFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.filters = filters
         self.maxResults = maxResults
@@ -5044,8 +4898,7 @@ extension SSMClientTypes {
             resourceCountByStatus: Swift.String? = nil,
             status: Swift.String? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.associationVersion = associationVersion
@@ -5069,8 +4922,7 @@ public struct DescribeAssociationExecutionsOutput: Swift.Sendable {
     public init(
         associationExecutions: [SSMClientTypes.AssociationExecution]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationExecutions = associationExecutions
         self.nextToken = nextToken
     }
@@ -5094,8 +4946,7 @@ public struct AssociationExecutionDoesNotExist: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5146,8 +4997,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.AssociationExecutionTargetsFilterKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5174,8 +5024,7 @@ public struct DescribeAssociationExecutionTargetsInput: Swift.Sendable {
         filters: [SSMClientTypes.AssociationExecutionTargetsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.executionId = executionId
         self.filters = filters
@@ -5196,8 +5045,7 @@ extension SSMClientTypes {
         public init(
             outputSourceId: Swift.String? = nil,
             outputSourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputSourceId = outputSourceId
             self.outputSourceType = outputSourceType
         }
@@ -5237,8 +5085,7 @@ extension SSMClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.associationVersion = associationVersion
             self.detailedStatus = detailedStatus
@@ -5261,8 +5108,7 @@ public struct DescribeAssociationExecutionTargetsOutput: Swift.Sendable {
     public init(
         associationExecutionTargets: [SSMClientTypes.AssociationExecutionTarget]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationExecutionTargets = associationExecutionTargets
         self.nextToken = nextToken
     }
@@ -5299,8 +5145,7 @@ public struct InvalidFilterValue: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5378,8 +5223,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.AutomationExecutionFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -5398,8 +5242,7 @@ public struct DescribeAutomationExecutionsInput: Swift.Sendable {
         filters: [SSMClientTypes.AutomationExecutionFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5582,8 +5425,7 @@ extension SSMClientTypes {
         public init(
             parameterValues: [Swift.String]? = nil,
             truncated: Swift.Bool = false
-        )
-        {
+        ) {
             self.parameterValues = parameterValues
             self.truncated = truncated
         }
@@ -5624,8 +5466,7 @@ extension SSMClientTypes {
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targetParameterName: Swift.String? = nil,
             targets: [SSMClientTypes.Target]? = nil
-        )
-        {
+        ) {
             self.documentName = documentName
             self.documentVersion = documentVersion
             self.maxConcurrency = maxConcurrency
@@ -5738,8 +5579,7 @@ extension SSMClientTypes {
             targetParameterName: Swift.String? = nil,
             targets: [SSMClientTypes.Target]? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
@@ -5784,8 +5624,7 @@ public struct DescribeAutomationExecutionsOutput: Swift.Sendable {
     public init(
         automationExecutionMetadataList: [SSMClientTypes.AutomationExecutionMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.automationExecutionMetadataList = automationExecutionMetadataList
         self.nextToken = nextToken
     }
@@ -5809,8 +5648,7 @@ public struct AutomationExecutionNotFoundException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5879,8 +5717,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.StepExecutionFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -5906,8 +5743,7 @@ public struct DescribeAutomationStepExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reverseOrder: Swift.Bool? = false
-    )
-    {
+    ) {
         self.automationExecutionId = automationExecutionId
         self.filters = filters
         self.maxResults = maxResults
@@ -5931,8 +5767,7 @@ extension SSMClientTypes {
             details: [Swift.String: [Swift.String]]? = nil,
             failureStage: Swift.String? = nil,
             failureType: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.failureStage = failureStage
             self.failureType = failureType
@@ -5961,8 +5796,7 @@ extension SSMClientTypes {
             iteratorValue: Swift.String? = nil,
             stepExecutionId: Swift.String? = nil,
             stepName: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.iteration = iteration
             self.iteratorValue = iteratorValue
@@ -6050,8 +5884,7 @@ extension SSMClientTypes {
             timeoutSeconds: Swift.Int? = 0,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
             validNextSteps: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.executionEndTime = executionEndTime
             self.executionStartTime = executionStartTime
@@ -6089,8 +5922,7 @@ public struct DescribeAutomationStepExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stepExecutions: [SSMClientTypes.StepExecution]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stepExecutions = stepExecutions
     }
@@ -6116,8 +5948,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -6173,8 +6004,7 @@ public struct DescribeAvailablePatchesInput: Swift.Sendable {
         filters: [SSMClientTypes.PatchOrchestratorFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6256,8 +6086,7 @@ extension SSMClientTypes {
             title: Swift.String? = nil,
             vendor: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.advisoryIds = advisoryIds
             self.arch = arch
             self.bugzillaIds = bugzillaIds
@@ -6294,8 +6123,7 @@ public struct DescribeAvailablePatchesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         patches: [SSMClientTypes.Patch]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.patches = patches
     }
@@ -6314,8 +6142,7 @@ public struct DescribeDocumentInput: Swift.Sendable {
         documentVersion: Swift.String? = nil,
         name: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentVersion = documentVersion
         self.name = name
         self.versionName = versionName
@@ -6328,8 +6155,7 @@ public struct DescribeDocumentOutput: Swift.Sendable {
 
     public init(
         document: SSMClientTypes.DocumentDescription? = nil
-    )
-    {
+    ) {
         self.document = document
     }
 }
@@ -6352,8 +6178,7 @@ public struct InvalidPermissionType: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6401,8 +6226,7 @@ public struct DescribeDocumentPermissionInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         permissionType: SSMClientTypes.DocumentPermissionType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -6422,8 +6246,7 @@ public struct DescribeDocumentPermissionOutput: Swift.Sendable {
         accountIds: [Swift.String]? = nil,
         accountSharingInfoList: [SSMClientTypes.AccountSharingInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.accountSharingInfoList = accountSharingInfoList
         self.nextToken = nextToken
@@ -6443,8 +6266,7 @@ public struct DescribeEffectiveInstanceAssociationsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6469,8 +6291,7 @@ extension SSMClientTypes {
             associationVersion: Swift.String? = nil,
             content: Swift.String? = nil,
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.associationVersion = associationVersion
             self.content = content
@@ -6488,8 +6309,7 @@ public struct DescribeEffectiveInstanceAssociationsOutput: Swift.Sendable {
     public init(
         associations: [SSMClientTypes.InstanceAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.nextToken = nextToken
     }
@@ -6513,8 +6333,7 @@ public struct UnsupportedOperatingSystem: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6532,8 +6351,7 @@ public struct DescribeEffectivePatchesForPatchBaselineInput: Swift.Sendable {
         baselineId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6590,8 +6408,7 @@ extension SSMClientTypes {
             approvalDate: Foundation.Date? = nil,
             complianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
             deploymentStatus: SSMClientTypes.PatchDeploymentStatus? = nil
-        )
-        {
+        ) {
             self.approvalDate = approvalDate
             self.complianceLevel = complianceLevel
             self.deploymentStatus = deploymentStatus
@@ -6611,8 +6428,7 @@ extension SSMClientTypes {
         public init(
             patch: SSMClientTypes.Patch? = nil,
             patchStatus: SSMClientTypes.PatchStatus? = nil
-        )
-        {
+        ) {
             self.patch = patch
             self.patchStatus = patchStatus
         }
@@ -6628,8 +6444,7 @@ public struct DescribeEffectivePatchesForPatchBaselineOutput: Swift.Sendable {
     public init(
         effectivePatches: [SSMClientTypes.EffectivePatch]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.effectivePatches = effectivePatches
         self.nextToken = nextToken
     }
@@ -6648,8 +6463,7 @@ public struct DescribeInstanceAssociationsStatusInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6665,8 +6479,7 @@ extension SSMClientTypes {
 
         public init(
             outputUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputUrl = outputUrl
         }
     }
@@ -6681,8 +6494,7 @@ extension SSMClientTypes {
 
         public init(
             s3OutputUrl: SSMClientTypes.S3OutputUrl? = nil
-        )
-        {
+        ) {
             self.s3OutputUrl = s3OutputUrl
         }
     }
@@ -6730,8 +6542,7 @@ extension SSMClientTypes {
             name: Swift.String? = nil,
             outputUrl: SSMClientTypes.InstanceAssociationOutputUrl? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -6757,8 +6568,7 @@ public struct DescribeInstanceAssociationsStatusOutput: Swift.Sendable {
     public init(
         instanceAssociationStatusInfos: [SSMClientTypes.InstanceAssociationStatusInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceAssociationStatusInfos = instanceAssociationStatusInfos
         self.nextToken = nextToken
     }
@@ -6782,8 +6592,7 @@ public struct InvalidInstanceInformationFilterValue: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6814,8 +6623,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -6883,8 +6691,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.InstanceInformationFilterKey? = nil,
             valueSet: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.valueSet = valueSet
         }
@@ -6906,8 +6713,7 @@ public struct DescribeInstanceInformationInput: Swift.Sendable {
         instanceInformationFilterList: [SSMClientTypes.InstanceInformationFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.instanceInformationFilterList = instanceInformationFilterList
         self.maxResults = maxResults
@@ -6927,8 +6733,7 @@ extension SSMClientTypes {
         public init(
             detailedStatus: Swift.String? = nil,
             instanceAssociationStatusAggregatedCount: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.detailedStatus = detailedStatus
             self.instanceAssociationStatusAggregatedCount = instanceAssociationStatusAggregatedCount
         }
@@ -7097,8 +6902,7 @@ extension SSMClientTypes {
             resourceType: SSMClientTypes.ResourceType? = nil,
             sourceId: Swift.String? = nil,
             sourceType: SSMClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.activationId = activationId
             self.agentVersion = agentVersion
             self.associationOverview = associationOverview
@@ -7138,8 +6942,7 @@ public struct DescribeInstanceInformationOutput: Swift.Sendable {
     public init(
         instanceInformationList: [SSMClientTypes.InstanceInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceInformationList = instanceInformationList
         self.nextToken = nextToken
     }
@@ -7169,8 +6972,7 @@ public struct DescribeInstancePatchesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -7255,8 +7057,7 @@ extension SSMClientTypes {
             severity: Swift.String? = nil,
             state: SSMClientTypes.PatchComplianceDataState? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.cveIds = cveIds
             self.installedTime = installedTime
@@ -7291,8 +7092,7 @@ public struct DescribeInstancePatchesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         patches: [SSMClientTypes.PatchComplianceData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.patches = patches
     }
@@ -7311,8 +7111,7 @@ public struct DescribeInstancePatchStatesInput: Swift.Sendable {
         instanceIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceIds = instanceIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7437,7 +7236,7 @@ extension SSMClientTypes {
         public var securityNonCompliantCount: Swift.Int?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public var snapshotId: Swift.String?
-        /// The number of patches beyond the supported limit of NotApplicableCount that aren't reported by name to Inventory. Inventory is a capability of Amazon Web Services Systems Manager.
+        /// The number of patches beyond the supported limit of NotApplicableCount that aren't reported by name to Inventory. Inventory is a tool in Amazon Web Services Systems Manager.
         public var unreportedNotApplicableCount: Swift.Int?
 
         public init(
@@ -7463,8 +7262,7 @@ extension SSMClientTypes {
             securityNonCompliantCount: Swift.Int? = 0,
             snapshotId: Swift.String? = nil,
             unreportedNotApplicableCount: Swift.Int? = 0
-        )
-        {
+        ) {
             self.baselineId = baselineId
             self.criticalNonCompliantCount = criticalNonCompliantCount
             self.failedCount = failedCount
@@ -7505,8 +7303,7 @@ public struct DescribeInstancePatchStatesOutput: Swift.Sendable {
     public init(
         instancePatchStates: [SSMClientTypes.InstancePatchState]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instancePatchStates = instancePatchStates
         self.nextToken = nextToken
     }
@@ -7587,8 +7384,7 @@ extension SSMClientTypes {
             key: Swift.String? = nil,
             type: SSMClientTypes.InstancePatchStateOperatorType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.values = values
@@ -7618,8 +7414,7 @@ public struct DescribeInstancePatchStatesForPatchGroupInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7636,8 +7431,7 @@ public struct DescribeInstancePatchStatesForPatchGroupOutput: Swift.Sendable {
     public init(
         instancePatchStates: [SSMClientTypes.InstancePatchState]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instancePatchStates = instancePatchStates
         self.nextToken = nextToken
     }
@@ -7661,8 +7455,7 @@ public struct InvalidInstancePropertyFilterValue: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7722,8 +7515,7 @@ extension SSMClientTypes {
             key: Swift.String? = nil,
             `operator`: SSMClientTypes.InstancePropertyFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.`operator` = `operator`
             self.values = values
@@ -7795,8 +7587,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.InstancePropertyFilterKey? = nil,
             valueSet: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.valueSet = valueSet
         }
@@ -7818,8 +7609,7 @@ public struct DescribeInstancePropertiesInput: Swift.Sendable {
         instancePropertyFilterList: [SSMClientTypes.InstancePropertyFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filtersWithOperator = filtersWithOperator
         self.instancePropertyFilterList = instancePropertyFilterList
         self.maxResults = maxResults
@@ -7911,8 +7701,7 @@ extension SSMClientTypes {
             resourceType: Swift.String? = nil,
             sourceId: Swift.String? = nil,
             sourceType: SSMClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.activationId = activationId
             self.agentVersion = agentVersion
             self.architecture = architecture
@@ -7957,8 +7746,7 @@ public struct DescribeInstancePropertiesOutput: Swift.Sendable {
     public init(
         instanceProperties: [SSMClientTypes.InstanceProperty]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProperties = instanceProperties
         self.nextToken = nextToken
     }
@@ -7982,8 +7770,7 @@ public struct InvalidDeletionIdException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8000,8 +7787,7 @@ public struct DescribeInventoryDeletionsInput: Swift.Sendable {
         deletionId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionId = deletionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8064,8 +7850,7 @@ extension SSMClientTypes {
             lastStatusMessage: Swift.String? = nil,
             lastStatusUpdateTime: Foundation.Date? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deletionId = deletionId
             self.deletionStartTime = deletionStartTime
             self.deletionSummary = deletionSummary
@@ -8086,8 +7871,7 @@ public struct DescribeInventoryDeletionsOutput: Swift.Sendable {
     public init(
         inventoryDeletions: [SSMClientTypes.InventoryDeletionStatusItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inventoryDeletions = inventoryDeletions
         self.nextToken = nextToken
     }
@@ -8117,8 +7901,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -8145,8 +7928,7 @@ public struct DescribeMaintenanceWindowExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8225,8 +8007,7 @@ extension SSMClientTypes {
             statusDetails: Swift.String? = nil,
             windowExecutionId: Swift.String? = nil,
             windowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
             self.status = status
@@ -8246,8 +8027,7 @@ public struct DescribeMaintenanceWindowExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         windowExecutions: [SSMClientTypes.MaintenanceWindowExecution]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.windowExecutions = windowExecutions
     }
@@ -8273,8 +8053,7 @@ public struct DescribeMaintenanceWindowExecutionTaskInvocationsInput: Swift.Send
         nextToken: Swift.String? = nil,
         taskId: Swift.String? = nil,
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8360,8 +8139,7 @@ extension SSMClientTypes {
             taskType: SSMClientTypes.MaintenanceWindowTaskType? = nil,
             windowExecutionId: Swift.String? = nil,
             windowTargetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.executionId = executionId
             self.invocationId = invocationId
@@ -8392,8 +8170,7 @@ public struct DescribeMaintenanceWindowExecutionTaskInvocationsOutput: Swift.Sen
     public init(
         nextToken: Swift.String? = nil,
         windowExecutionTaskInvocationIdentities: [SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.windowExecutionTaskInvocationIdentities = windowExecutionTaskInvocationIdentities
     }
@@ -8415,8 +8192,7 @@ public struct DescribeMaintenanceWindowExecutionTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8460,8 +8236,7 @@ extension SSMClientTypes {
             taskType: SSMClientTypes.MaintenanceWindowTaskType? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
             windowExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.endTime = endTime
             self.startTime = startTime
@@ -8485,8 +8260,7 @@ public struct DescribeMaintenanceWindowExecutionTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         windowExecutionTaskIdentities: [SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.windowExecutionTaskIdentities = windowExecutionTaskIdentities
     }
@@ -8504,8 +8278,7 @@ public struct DescribeMaintenanceWindowsInput: Swift.Sendable {
         filters: [SSMClientTypes.MaintenanceWindowFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8554,8 +8327,7 @@ extension SSMClientTypes {
             scheduleTimezone: Swift.String? = nil,
             startDate: Swift.String? = nil,
             windowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cutoff = cutoff
             self.description = description
             self.duration = duration
@@ -8586,8 +8358,7 @@ public struct DescribeMaintenanceWindowsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         windowIdentities: [SSMClientTypes.MaintenanceWindowIdentity]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.windowIdentities = windowIdentities
     }
@@ -8643,8 +8414,7 @@ public struct DescribeMaintenanceWindowScheduleInput: Swift.Sendable {
         resourceType: SSMClientTypes.MaintenanceWindowResourceType? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8669,8 +8439,7 @@ extension SSMClientTypes {
             executionTime: Swift.String? = nil,
             name: Swift.String? = nil,
             windowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionTime = executionTime
             self.name = name
             self.windowId = windowId
@@ -8687,8 +8456,7 @@ public struct DescribeMaintenanceWindowScheduleOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduledWindowExecutions: [SSMClientTypes.ScheduledWindowExecution]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduledWindowExecutions = scheduledWindowExecutions
     }
@@ -8711,8 +8479,7 @@ public struct DescribeMaintenanceWindowsForTargetInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceType: SSMClientTypes.MaintenanceWindowResourceType? = nil,
         targets: [SSMClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceType = resourceType
@@ -8732,8 +8499,7 @@ extension SSMClientTypes {
         public init(
             name: Swift.String? = nil,
             windowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.windowId = windowId
         }
@@ -8749,8 +8515,7 @@ public struct DescribeMaintenanceWindowsForTargetOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         windowIdentities: [SSMClientTypes.MaintenanceWindowIdentityForTarget]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.windowIdentities = windowIdentities
     }
@@ -8772,8 +8537,7 @@ public struct DescribeMaintenanceWindowTargetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8808,8 +8572,7 @@ extension SSMClientTypes {
             targets: [SSMClientTypes.Target]? = nil,
             windowId: Swift.String? = nil,
             windowTargetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.ownerInformation = ownerInformation
@@ -8835,8 +8598,7 @@ public struct DescribeMaintenanceWindowTargetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targets: [SSMClientTypes.MaintenanceWindowTarget]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targets = targets
     }
@@ -8858,8 +8620,7 @@ public struct DescribeMaintenanceWindowTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8913,8 +8674,7 @@ extension SSMClientTypes {
             s3BucketName: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil,
             s3Region: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
             self.s3Region = s3Region
@@ -8931,8 +8691,7 @@ extension SSMClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -8995,8 +8754,7 @@ extension SSMClientTypes {
             type: SSMClientTypes.MaintenanceWindowTaskType? = nil,
             windowId: Swift.String? = nil,
             windowTaskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.cutoffBehavior = cutoffBehavior
             self.description = description
@@ -9030,8 +8788,7 @@ public struct DescribeMaintenanceWindowTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [SSMClientTypes.MaintenanceWindowTask]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -9197,8 +8954,7 @@ extension SSMClientTypes {
             key: SSMClientTypes.OpsItemFilterKey? = nil,
             `operator`: SSMClientTypes.OpsItemFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.`operator` = `operator`
             self.values = values
@@ -9249,8 +9005,7 @@ public struct DescribeOpsItemsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         opsItemFilters: [SSMClientTypes.OpsItemFilter]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.opsItemFilters = opsItemFilters
@@ -9400,8 +9155,7 @@ extension SSMClientTypes {
             source: Swift.String? = nil,
             status: SSMClientTypes.OpsItemStatus? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualEndTime = actualEndTime
             self.actualStartTime = actualStartTime
             self.category = category
@@ -9432,8 +9186,7 @@ public struct DescribeOpsItemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         opsItemSummaries: [SSMClientTypes.OpsItemSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.opsItemSummaries = opsItemSummaries
     }
@@ -9458,8 +9211,7 @@ public struct InvalidFilterOption: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9510,8 +9262,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.ParametersFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -9534,8 +9285,7 @@ extension SSMClientTypes {
             key: Swift.String? = nil,
             option: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.option = option
             self.values = values
@@ -9561,8 +9311,7 @@ public struct DescribeParametersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parameterFilters: [SSMClientTypes.ParameterStringFilter]? = nil,
         shared: Swift.Bool? = false
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9579,15 +9328,14 @@ extension SSMClientTypes {
         public var policyStatus: Swift.String?
         /// The JSON text of the policy.
         public var policyText: Swift.String?
-        /// The type of policy. Parameter Store, a capability of Amazon Web Services Systems Manager, supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
+        /// The type of policy. Parameter Store, a tool in Amazon Web Services Systems Manager, supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
         public var policyType: Swift.String?
 
         public init(
             policyStatus: Swift.String? = nil,
             policyText: Swift.String? = nil,
             policyType: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyStatus = policyStatus
             self.policyText = policyText
             self.policyType = policyType
@@ -9701,8 +9449,7 @@ extension SSMClientTypes {
             tier: SSMClientTypes.ParameterTier? = nil,
             type: SSMClientTypes.ParameterType? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.allowedPattern = allowedPattern
             self.arn = arn
             self.dataType = dataType
@@ -9728,8 +9475,7 @@ public struct DescribeParametersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameters: [SSMClientTypes.ParameterMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameters = parameters
     }
@@ -9753,8 +9499,7 @@ public struct DescribePatchBaselinesInput: Swift.Sendable {
         filters: [SSMClientTypes.PatchOrchestratorFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9782,8 +9527,7 @@ extension SSMClientTypes {
             baselineName: Swift.String? = nil,
             defaultBaseline: Swift.Bool = false,
             operatingSystem: SSMClientTypes.OperatingSystem? = nil
-        )
-        {
+        ) {
             self.baselineDescription = baselineDescription
             self.baselineId = baselineId
             self.baselineName = baselineName
@@ -9802,8 +9546,7 @@ public struct DescribePatchBaselinesOutput: Swift.Sendable {
     public init(
         baselineIdentities: [SSMClientTypes.PatchBaselineIdentity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineIdentities = baselineIdentities
         self.nextToken = nextToken
     }
@@ -9825,8 +9568,7 @@ public struct DescribePatchGroupsInput: Swift.Sendable {
         filters: [SSMClientTypes.PatchOrchestratorFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9845,8 +9587,7 @@ extension SSMClientTypes {
         public init(
             baselineIdentity: SSMClientTypes.PatchBaselineIdentity? = nil,
             patchGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.baselineIdentity = baselineIdentity
             self.patchGroup = patchGroup
         }
@@ -9866,8 +9607,7 @@ public struct DescribePatchGroupsOutput: Swift.Sendable {
     public init(
         mappings: [SSMClientTypes.PatchGroupPatchBaselineMapping]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mappings = mappings
         self.nextToken = nextToken
     }
@@ -9880,8 +9620,7 @@ public struct DescribePatchGroupStateInput: Swift.Sendable {
 
     public init(
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchGroup = patchGroup
     }
 }
@@ -9909,7 +9648,7 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
     public var instancesWithOtherNonCompliantPatches: Swift.Int?
     /// The number of managed nodes where patches that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
     public var instancesWithSecurityNonCompliantPatches: Swift.Int?
-    /// The number of managed nodes with NotApplicable patches beyond the supported limit, which aren't reported by name to Inventory. Inventory is a capability of Amazon Web Services Systems Manager.
+    /// The number of managed nodes with NotApplicable patches beyond the supported limit, which aren't reported by name to Inventory. Inventory is a tool in Amazon Web Services Systems Manager.
     public var instancesWithUnreportedNotApplicablePatches: Swift.Int?
 
     public init(
@@ -9925,8 +9664,7 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
         instancesWithOtherNonCompliantPatches: Swift.Int? = 0,
         instancesWithSecurityNonCompliantPatches: Swift.Int? = 0,
         instancesWithUnreportedNotApplicablePatches: Swift.Int? = 0
-    )
-    {
+    ) {
         self.instances = instances
         self.instancesWithCriticalNonCompliantPatches = instancesWithCriticalNonCompliantPatches
         self.instancesWithFailedPatches = instancesWithFailedPatches
@@ -10032,8 +9770,7 @@ public struct DescribePatchPropertiesInput: Swift.Sendable {
         operatingSystem: SSMClientTypes.OperatingSystem? = nil,
         patchSet: SSMClientTypes.PatchSet? = nil,
         property: SSMClientTypes.PatchProperty? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.operatingSystem = operatingSystem
@@ -10051,8 +9788,7 @@ public struct DescribePatchPropertiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         properties: [[Swift.String: Swift.String]]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.properties = properties
     }
@@ -10140,8 +9876,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.SessionFilterKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -10193,8 +9928,7 @@ public struct DescribeSessionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         state: SSMClientTypes.SessionState? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -10214,8 +9948,7 @@ extension SSMClientTypes {
         public init(
             cloudWatchOutputUrl: Swift.String? = nil,
             s3OutputUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchOutputUrl = cloudWatchOutputUrl
             self.s3OutputUrl = s3OutputUrl
         }
@@ -10302,8 +10035,7 @@ extension SSMClientTypes {
             startDate: Foundation.Date? = nil,
             status: SSMClientTypes.SessionStatus? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.documentName = documentName
             self.endDate = endDate
@@ -10328,8 +10060,7 @@ public struct DescribeSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [SSMClientTypes.Session]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -10353,8 +10084,7 @@ public struct OpsItemRelatedItemAssociationNotFoundException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10370,8 +10100,7 @@ public struct DisassociateOpsItemRelatedItemInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         opsItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.opsItemId = opsItemId
     }
@@ -10389,8 +10118,7 @@ public struct GetAutomationExecutionInput: Swift.Sendable {
 
     public init(
         automationExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.automationExecutionId = automationExecutionId
     }
 }
@@ -10416,8 +10144,7 @@ extension SSMClientTypes {
             successSteps: Swift.Int = 0,
             timedOutSteps: Swift.Int = 0,
             totalSteps: Swift.Int = 0
-        )
-        {
+        ) {
             self.cancelledSteps = cancelledSteps
             self.failedSteps = failedSteps
             self.successSteps = successSteps
@@ -10538,8 +10265,7 @@ extension SSMClientTypes {
             targets: [SSMClientTypes.Target]? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
             variables: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
@@ -10585,8 +10311,7 @@ public struct GetAutomationExecutionOutput: Swift.Sendable {
 
     public init(
         automationExecution: SSMClientTypes.AutomationExecution? = nil
-    )
-    {
+    ) {
         self.automationExecution = automationExecution
     }
 }
@@ -10609,8 +10334,7 @@ public struct InvalidDocumentType: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10633,8 +10357,7 @@ public struct UnsupportedCalendarException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10649,8 +10372,7 @@ public struct GetCalendarStateInput: Swift.Sendable {
     public init(
         atTime: Swift.String? = nil,
         calendarNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.atTime = atTime
         self.calendarNames = calendarNames
     }
@@ -10697,8 +10419,7 @@ public struct GetCalendarStateOutput: Swift.Sendable {
         atTime: Swift.String? = nil,
         nextTransitionTime: Swift.String? = nil,
         state: SSMClientTypes.CalendarState? = nil
-    )
-    {
+    ) {
         self.atTime = atTime
         self.nextTransitionTime = nextTransitionTime
         self.state = state
@@ -10745,8 +10466,7 @@ public struct GetCommandInvocationInput: Swift.Sendable {
         commandId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         pluginName: Swift.String? = nil
-    )
-    {
+    ) {
         self.commandId = commandId
         self.instanceId = instanceId
         self.pluginName = pluginName
@@ -10765,8 +10485,7 @@ extension SSMClientTypes {
         public init(
             cloudWatchLogGroupName: Swift.String? = nil,
             cloudWatchOutputEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.cloudWatchOutputEnabled = cloudWatchOutputEnabled
         }
@@ -10894,8 +10613,7 @@ public struct GetCommandInvocationOutput: Swift.Sendable {
         standardOutputUrl: Swift.String? = nil,
         status: SSMClientTypes.CommandInvocationStatus? = nil,
         statusDetails: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchOutputConfig = cloudWatchOutputConfig
         self.commandId = commandId
         self.comment = comment
@@ -10923,8 +10641,7 @@ public struct GetConnectionStatusInput: Swift.Sendable {
 
     public init(
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.target = target
     }
 }
@@ -10967,8 +10684,7 @@ public struct GetConnectionStatusOutput: Swift.Sendable {
     public init(
         status: SSMClientTypes.ConnectionStatus? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.target = target
     }
@@ -10980,8 +10696,7 @@ public struct GetDefaultPatchBaselineInput: Swift.Sendable {
 
     public init(
         operatingSystem: SSMClientTypes.OperatingSystem? = nil
-    )
-    {
+    ) {
         self.operatingSystem = operatingSystem
     }
 }
@@ -10995,8 +10710,7 @@ public struct GetDefaultPatchBaselineOutput: Swift.Sendable {
     public init(
         baselineId: Swift.String? = nil,
         operatingSystem: SSMClientTypes.OperatingSystem? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
         self.operatingSystem = operatingSystem
     }
@@ -11020,8 +10734,7 @@ public struct UnsupportedFeatureRequiredException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11059,8 +10772,7 @@ extension SSMClientTypes {
             rejectedPatches: [Swift.String]? = nil,
             rejectedPatchesAction: SSMClientTypes.PatchAction? = nil,
             sources: [SSMClientTypes.PatchSource]? = nil
-        )
-        {
+        ) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -11088,8 +10800,7 @@ public struct GetDeployablePatchSnapshotForInstanceInput: Swift.Sendable {
         baselineOverride: SSMClientTypes.BaselineOverride? = nil,
         instanceId: Swift.String? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineOverride = baselineOverride
         self.instanceId = instanceId
         self.snapshotId = snapshotId
@@ -11111,8 +10822,7 @@ public struct GetDeployablePatchSnapshotForInstanceOutput: Swift.Sendable {
         product: Swift.String? = nil,
         snapshotDownloadUrl: Swift.String? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.product = product
         self.snapshotDownloadUrl = snapshotDownloadUrl
@@ -11136,8 +10846,7 @@ public struct GetDocumentInput: Swift.Sendable {
         documentVersion: Swift.String? = nil,
         name: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentFormat = documentFormat
         self.documentVersion = documentVersion
         self.name = name
@@ -11192,8 +10901,7 @@ extension SSMClientTypes {
             name: Swift.String? = nil,
             size: Swift.Int = 0,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.hash = hash
             self.hashType = hashType
             self.name = name
@@ -11245,8 +10953,7 @@ public struct GetDocumentOutput: Swift.Sendable {
         status: SSMClientTypes.DocumentStatus? = nil,
         statusInformation: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentsContent = attachmentsContent
         self.content = content
         self.createdDate = createdDate
@@ -11270,8 +10977,7 @@ public struct GetExecutionPreviewInput: Swift.Sendable {
 
     public init(
         executionPreviewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionPreviewId = executionPreviewId
     }
 }
@@ -11320,8 +11026,7 @@ extension SSMClientTypes {
         public init(
             count: Swift.Int = 0,
             targetType: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.targetType = targetType
         }
@@ -11352,8 +11057,7 @@ extension SSMClientTypes {
             stepPreviews: [Swift.String: Swift.Int]? = nil,
             targetPreviews: [SSMClientTypes.TargetPreview]? = nil,
             totalAccounts: Swift.Int = 0
-        )
-        {
+        ) {
             self.regions = regions
             self.stepPreviews = stepPreviews
             self.targetPreviews = targetPreviews
@@ -11425,8 +11129,7 @@ public struct GetExecutionPreviewOutput: Swift.Sendable {
         executionPreviewId: Swift.String? = nil,
         status: SSMClientTypes.ExecutionPreviewStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.endedAt = endedAt
         self.executionPreview = executionPreview
         self.executionPreviewId = executionPreviewId
@@ -11453,8 +11156,7 @@ public struct InvalidAggregatorException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11477,8 +11179,7 @@ public struct InvalidInventoryGroupException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11501,8 +11202,7 @@ public struct InvalidResultAttributeException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11565,8 +11265,7 @@ extension SSMClientTypes {
             key: Swift.String? = nil,
             type: SSMClientTypes.InventoryQueryOperatorType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.values = values
@@ -11588,8 +11287,7 @@ extension SSMClientTypes {
         public init(
             filters: [SSMClientTypes.InventoryFilter]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.name = name
         }
@@ -11606,8 +11304,7 @@ extension SSMClientTypes {
 
         public init(
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.typeName = typeName
         }
     }
@@ -11637,8 +11334,7 @@ extension SSMClientTypes {
             contentHash: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.captureTime = captureTime
             self.content = content
             self.contentHash = contentHash
@@ -11660,8 +11356,7 @@ extension SSMClientTypes {
         public init(
             data: [Swift.String: SSMClientTypes.InventoryResultItem]? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.id = id
         }
@@ -11677,8 +11372,7 @@ public struct GetInventoryOutput: Swift.Sendable {
     public init(
         entities: [SSMClientTypes.InventoryResultEntity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -11702,8 +11396,7 @@ public struct GetInventorySchemaInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         subType: Swift.Bool? = false,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregator = aggregator
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11755,8 +11448,7 @@ extension SSMClientTypes {
         public init(
             dataType: SSMClientTypes.InventoryAttributeDataType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.name = name
         }
@@ -11783,8 +11475,7 @@ extension SSMClientTypes {
             displayName: Swift.String? = nil,
             typeName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.displayName = displayName
             self.typeName = typeName
@@ -11802,8 +11493,7 @@ public struct GetInventorySchemaOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [SSMClientTypes.InventoryItemSchema]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -11816,8 +11506,7 @@ public struct GetMaintenanceWindowInput: Swift.Sendable {
 
     public init(
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
     }
 }
@@ -11870,8 +11559,7 @@ public struct GetMaintenanceWindowOutput: Swift.Sendable {
         scheduleTimezone: Swift.String? = nil,
         startDate: Swift.String? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowUnassociatedTargets = allowUnassociatedTargets
         self.createdDate = createdDate
         self.cutoff = cutoff
@@ -11902,8 +11590,7 @@ public struct GetMaintenanceWindowExecutionInput: Swift.Sendable {
 
     public init(
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowExecutionId = windowExecutionId
     }
 }
@@ -11929,8 +11616,7 @@ public struct GetMaintenanceWindowExecutionOutput: Swift.Sendable {
         statusDetails: Swift.String? = nil,
         taskIds: [Swift.String]? = nil,
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.startTime = startTime
         self.status = status
@@ -11951,8 +11637,7 @@ public struct GetMaintenanceWindowExecutionTaskInput: Swift.Sendable {
     public init(
         taskId: Swift.String? = nil,
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
         self.windowExecutionId = windowExecutionId
     }
@@ -12010,8 +11695,7 @@ public struct GetMaintenanceWindowExecutionTaskOutput: Swift.Sendable {
         triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
         type: SSMClientTypes.MaintenanceWindowTaskType? = nil,
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.endTime = endTime
         self.maxConcurrency = maxConcurrency
@@ -12050,8 +11734,7 @@ public struct GetMaintenanceWindowExecutionTaskInvocationInput: Swift.Sendable {
         invocationId: Swift.String? = nil,
         taskId: Swift.String? = nil,
         windowExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.invocationId = invocationId
         self.taskId = taskId
         self.windowExecutionId = windowExecutionId
@@ -12097,8 +11780,7 @@ public struct GetMaintenanceWindowExecutionTaskInvocationOutput: Swift.Sendable 
         taskType: SSMClientTypes.MaintenanceWindowTaskType? = nil,
         windowExecutionId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.executionId = executionId
         self.invocationId = invocationId
@@ -12130,8 +11812,7 @@ public struct GetMaintenanceWindowTaskInput: Swift.Sendable {
     public init(
         windowId: Swift.String? = nil,
         windowTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowId = windowId
         self.windowTaskId = windowTaskId
     }
@@ -12149,8 +11830,7 @@ extension SSMClientTypes {
         public init(
             documentVersion: Swift.String? = nil,
             parameters: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.documentVersion = documentVersion
             self.parameters = parameters
         }
@@ -12172,8 +11852,7 @@ extension SSMClientTypes {
             clientContext: Swift.String? = nil,
             payload: Foundation.Data? = nil,
             qualifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientContext = clientContext
             self.payload = payload
             self.qualifier = qualifier
@@ -12275,8 +11954,7 @@ extension SSMClientTypes {
             notificationArn: Swift.String? = nil,
             notificationEvents: [SSMClientTypes.NotificationEvent]? = nil,
             notificationType: SSMClientTypes.NotificationType? = nil
-        )
-        {
+        ) {
             self.notificationArn = notificationArn
             self.notificationEvents = notificationEvents
             self.notificationType = notificationType
@@ -12327,8 +12005,7 @@ extension SSMClientTypes {
             parameters: [Swift.String: [Swift.String]]? = nil,
             serviceRoleArn: Swift.String? = nil,
             timeoutSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.comment = comment
             self.documentHash = documentHash
@@ -12361,8 +12038,7 @@ extension SSMClientTypes {
         public init(
             input: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
             self.name = name
         }
@@ -12392,8 +12068,7 @@ extension SSMClientTypes {
             lambda: SSMClientTypes.MaintenanceWindowLambdaParameters? = nil,
             runCommand: SSMClientTypes.MaintenanceWindowRunCommandParameters? = nil,
             stepFunctions: SSMClientTypes.MaintenanceWindowStepFunctionsParameters? = nil
-        )
-        {
+        ) {
             self.automation = automation
             self.lambda = lambda
             self.runCommand = runCommand
@@ -12453,8 +12128,7 @@ public struct GetMaintenanceWindowTaskOutput: Swift.Sendable {
         taskType: SSMClientTypes.MaintenanceWindowTaskType? = nil,
         windowId: Swift.String? = nil,
         windowTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.cutoffBehavior = cutoffBehavior
         self.description = description
@@ -12489,8 +12163,7 @@ public struct GetOpsItemInput: Swift.Sendable {
     public init(
         opsItemArn: Swift.String? = nil,
         opsItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.opsItemArn = opsItemArn
         self.opsItemId = opsItemId
     }
@@ -12574,8 +12247,7 @@ extension SSMClientTypes {
             status: SSMClientTypes.OpsItemStatus? = nil,
             title: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualEndTime = actualEndTime
             self.actualStartTime = actualStartTime
             self.category = category
@@ -12608,8 +12280,7 @@ public struct GetOpsItemOutput: Swift.Sendable {
 
     public init(
         opsItem: SSMClientTypes.OpsItem? = nil
-    )
-    {
+    ) {
         self.opsItem = opsItem
     }
 }
@@ -12627,8 +12298,7 @@ public struct GetOpsMetadataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         opsMetadataArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.opsMetadataArn = opsMetadataArn
@@ -12647,8 +12317,7 @@ public struct GetOpsMetadataOutput: Swift.Sendable {
         metadata: [Swift.String: SSMClientTypes.MetadataValue]? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -12713,8 +12382,7 @@ extension SSMClientTypes {
             key: Swift.String? = nil,
             type: SSMClientTypes.OpsFilterOperatorType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.values = values
@@ -12732,8 +12400,7 @@ extension SSMClientTypes {
 
         public init(
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.typeName = typeName
         }
     }
@@ -12751,8 +12418,7 @@ extension SSMClientTypes {
         public init(
             captureTime: Swift.String? = nil,
             content: [[Swift.String: Swift.String]]? = nil
-        )
-        {
+        ) {
             self.captureTime = captureTime
             self.content = content
         }
@@ -12771,8 +12437,7 @@ extension SSMClientTypes {
         public init(
             data: [Swift.String: SSMClientTypes.OpsEntityItem]? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.id = id
         }
@@ -12788,8 +12453,7 @@ public struct GetOpsSummaryOutput: Swift.Sendable {
     public init(
         entities: [SSMClientTypes.OpsEntity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -12813,8 +12477,7 @@ public struct InvalidKeyId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12837,8 +12500,7 @@ public struct ParameterVersionNotFound: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12853,8 +12515,7 @@ public struct GetParameterInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         withDecryption: Swift.Bool? = false
-    )
-    {
+    ) {
         self.name = name
         self.withDecryption = withDecryption
     }
@@ -12893,8 +12554,7 @@ extension SSMClientTypes {
             type: SSMClientTypes.ParameterType? = nil,
             value: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.arn = arn
             self.dataType = dataType
             self.lastModifiedDate = lastModifiedDate
@@ -12919,8 +12579,7 @@ public struct GetParameterOutput: Swift.Sendable {
 
     public init(
         parameter: SSMClientTypes.Parameter? = nil
-    )
-    {
+    ) {
         self.parameter = parameter
     }
 }
@@ -12941,8 +12600,7 @@ public struct GetParameterHistoryInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         withDecryption: Swift.Bool? = false
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -12995,8 +12653,7 @@ extension SSMClientTypes {
             type: SSMClientTypes.ParameterType? = nil,
             value: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.allowedPattern = allowedPattern
             self.dataType = dataType
             self.description = description
@@ -13028,8 +12685,7 @@ public struct GetParameterHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameters: [SSMClientTypes.ParameterHistory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameters = parameters
     }
@@ -13045,8 +12701,7 @@ public struct GetParametersInput: Swift.Sendable {
     public init(
         names: [Swift.String]? = nil,
         withDecryption: Swift.Bool? = false
-    )
-    {
+    ) {
         self.names = names
         self.withDecryption = withDecryption
     }
@@ -13061,8 +12716,7 @@ public struct GetParametersOutput: Swift.Sendable {
     public init(
         invalidParameters: [Swift.String]? = nil,
         parameters: [SSMClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.invalidParameters = invalidParameters
         self.parameters = parameters
     }
@@ -13090,8 +12744,7 @@ public struct GetParametersByPathInput: Swift.Sendable {
         path: Swift.String? = nil,
         recursive: Swift.Bool? = false,
         withDecryption: Swift.Bool? = false
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterFilters = parameterFilters
@@ -13110,8 +12763,7 @@ public struct GetParametersByPathOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameters: [SSMClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameters = parameters
     }
@@ -13124,8 +12776,7 @@ public struct GetPatchBaselineInput: Swift.Sendable {
 
     public init(
         baselineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
     }
 }
@@ -13178,8 +12829,7 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
         rejectedPatches: [Swift.String]? = nil,
         rejectedPatchesAction: SSMClientTypes.PatchAction? = nil,
         sources: [SSMClientTypes.PatchSource]? = nil
-    )
-    {
+    ) {
         self.approvalRules = approvalRules
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -13208,8 +12858,7 @@ public struct GetPatchBaselineForPatchGroupInput: Swift.Sendable {
     public init(
         operatingSystem: SSMClientTypes.OperatingSystem? = nil,
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.operatingSystem = operatingSystem
         self.patchGroup = patchGroup
     }
@@ -13227,8 +12876,7 @@ public struct GetPatchBaselineForPatchGroupOutput: Swift.Sendable {
         baselineId: Swift.String? = nil,
         operatingSystem: SSMClientTypes.OperatingSystem? = nil,
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
         self.operatingSystem = operatingSystem
         self.patchGroup = patchGroup
@@ -13248,8 +12896,7 @@ public struct GetResourcePoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -13271,8 +12918,7 @@ extension SSMClientTypes {
             policy: Swift.String? = nil,
             policyHash: Swift.String? = nil,
             policyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
             self.policyHash = policyHash
             self.policyId = policyId
@@ -13289,8 +12935,7 @@ public struct GetResourcePoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policies: [SSMClientTypes.GetResourcePoliciesResponseEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policies = policies
     }
@@ -13314,8 +12959,7 @@ public struct ServiceSettingNotFound: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13348,8 +12992,7 @@ public struct GetServiceSettingInput: Swift.Sendable {
 
     public init(
         settingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.settingId = settingId
     }
 }
@@ -13384,8 +13027,7 @@ extension SSMClientTypes {
             settingId: Swift.String? = nil,
             settingValue: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.lastModifiedDate = lastModifiedDate
             self.lastModifiedUser = lastModifiedUser
@@ -13403,8 +13045,7 @@ public struct GetServiceSettingOutput: Swift.Sendable {
 
     public init(
         serviceSetting: SSMClientTypes.ServiceSetting? = nil
-    )
-    {
+    ) {
         self.serviceSetting = serviceSetting
     }
 }
@@ -13427,8 +13068,7 @@ public struct ParameterVersionLabelLimitExceeded: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13447,8 +13087,7 @@ public struct LabelParameterVersionInput: Swift.Sendable {
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
         parameterVersion: Swift.Int? = 0
-    )
-    {
+    ) {
         self.labels = labels
         self.name = name
         self.parameterVersion = parameterVersion
@@ -13464,8 +13103,7 @@ public struct LabelParameterVersionOutput: Swift.Sendable {
     public init(
         invalidLabels: [Swift.String]? = nil,
         parameterVersion: Swift.Int = 0
-    )
-    {
+    ) {
         self.invalidLabels = invalidLabels
         self.parameterVersion = parameterVersion
     }
@@ -13532,8 +13170,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.AssociationFilterKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -13552,8 +13189,7 @@ public struct ListAssociationsInput: Swift.Sendable {
         associationFilterList: [SSMClientTypes.AssociationFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationFilterList = associationFilterList
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -13605,8 +13241,7 @@ extension SSMClientTypes {
             scheduleOffset: Swift.Int? = nil,
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targets: [SSMClientTypes.Target]? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -13633,8 +13268,7 @@ public struct ListAssociationsOutput: Swift.Sendable {
     public init(
         associations: [SSMClientTypes.Association]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.nextToken = nextToken
     }
@@ -13653,8 +13287,7 @@ public struct ListAssociationVersionsInput: Swift.Sendable {
         associationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -13697,7 +13330,7 @@ extension SSMClientTypes {
         public var scheduleExpression: Swift.String?
         /// Number of days to wait after the scheduled day to run an association.
         public var scheduleOffset: Swift.Int?
-        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
         public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
         /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you wanted to run the association when this association version was created.
         public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -13727,8 +13360,7 @@ extension SSMClientTypes {
             targetLocations: [SSMClientTypes.TargetLocation]? = nil,
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targets: [SSMClientTypes.Target]? = nil
-        )
-        {
+        ) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -13767,8 +13399,7 @@ public struct ListAssociationVersionsOutput: Swift.Sendable {
     public init(
         associationVersions: [SSMClientTypes.AssociationVersionInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationVersions = associationVersions
         self.nextToken = nextToken
     }
@@ -13896,8 +13527,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.CommandFilterKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -13925,8 +13555,7 @@ public struct ListCommandInvocationsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commandId = commandId
         self.details = details
         self.filters = filters
@@ -14037,8 +13666,7 @@ extension SSMClientTypes {
             standardOutputUrl: Swift.String? = nil,
             status: SSMClientTypes.CommandPluginStatus? = nil,
             statusDetails: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.output = output
             self.outputS3BucketName = outputS3BucketName
@@ -14079,7 +13707,7 @@ extension SSMClientTypes {
         public var notificationConfig: SSMClientTypes.NotificationConfig?
         /// The time and date the request was sent to this managed node.
         public var requestedDateTime: Foundation.Date?
-        /// The Identity and Access Management (IAM) service role that Run Command, a capability of Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes on a per managed node basis.
+        /// The Identity and Access Management (IAM) service role that Run Command, a tool in Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes on a per managed node basis.
         public var serviceRole: Swift.String?
         /// The URL to the plugin's StdErr file in Amazon Simple Storage Service (Amazon S3), if the S3 bucket was defined for the parent command. For an invocation, StandardErrorUrl is populated if there is just one plugin defined for the command, and the S3 bucket was defined for the command.
         public var standardErrorUrl: Swift.String?
@@ -14129,8 +13757,7 @@ extension SSMClientTypes {
             status: SSMClientTypes.CommandInvocationStatus? = nil,
             statusDetails: Swift.String? = nil,
             traceOutput: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
             self.commandPlugins = commandPlugins
@@ -14160,8 +13787,7 @@ public struct ListCommandInvocationsOutput: Swift.Sendable {
     public init(
         commandInvocations: [SSMClientTypes.CommandInvocation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commandInvocations = commandInvocations
         self.nextToken = nextToken
     }
@@ -14185,8 +13811,7 @@ public struct ListCommandsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commandId = commandId
         self.filters = filters
         self.instanceId = instanceId
@@ -14281,7 +13906,7 @@ extension SSMClientTypes {
         public var parameters: [Swift.String: [Swift.String]]?
         /// The date and time the command was requested.
         public var requestedDateTime: Foundation.Date?
-        /// The Identity and Access Management (IAM) service role that Run Command, a capability of Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes.
+        /// The Identity and Access Management (IAM) service role that Run Command, a tool in Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes.
         public var serviceRole: Swift.String?
         /// The status of the command.
         public var status: SSMClientTypes.CommandStatus?
@@ -14343,8 +13968,7 @@ extension SSMClientTypes {
             targets: [SSMClientTypes.Target]? = nil,
             timeoutSeconds: Swift.Int? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil
-        )
-        {
+        ) {
             self.alarmConfiguration = alarmConfiguration
             self.cloudWatchOutputConfig = cloudWatchOutputConfig
             self.commandId = commandId
@@ -14389,8 +14013,7 @@ public struct ListCommandsOutput: Swift.Sendable {
     public init(
         commands: [SSMClientTypes.Command]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commands = commands
         self.nextToken = nextToken
     }
@@ -14449,8 +14072,7 @@ extension SSMClientTypes {
             key: Swift.String? = nil,
             type: SSMClientTypes.ComplianceQueryOperatorType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.values = values
@@ -14476,8 +14098,7 @@ public struct ListComplianceItemsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14502,8 +14123,7 @@ extension SSMClientTypes {
             executionId: Swift.String? = nil,
             executionTime: Foundation.Date? = nil,
             executionType: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionId = executionId
             self.executionTime = executionTime
             self.executionType = executionType
@@ -14614,8 +14234,7 @@ extension SSMClientTypes {
             severity: SSMClientTypes.ComplianceSeverity? = nil,
             status: SSMClientTypes.ComplianceStatus? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.details = details
             self.executionSummary = executionSummary
@@ -14638,8 +14257,7 @@ public struct ListComplianceItemsOutput: Swift.Sendable {
     public init(
         complianceItems: [SSMClientTypes.ComplianceItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceItems = complianceItems
         self.nextToken = nextToken
     }
@@ -14657,8 +14275,7 @@ public struct ListComplianceSummariesInput: Swift.Sendable {
         filters: [SSMClientTypes.ComplianceStringFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14689,8 +14306,7 @@ extension SSMClientTypes {
             lowCount: Swift.Int = 0,
             mediumCount: Swift.Int = 0,
             unspecifiedCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.criticalCount = criticalCount
             self.highCount = highCount
             self.informationalCount = informationalCount
@@ -14713,8 +14329,7 @@ extension SSMClientTypes {
         public init(
             compliantCount: Swift.Int = 0,
             severitySummary: SSMClientTypes.SeveritySummary? = nil
-        )
-        {
+        ) {
             self.compliantCount = compliantCount
             self.severitySummary = severitySummary
         }
@@ -14733,8 +14348,7 @@ extension SSMClientTypes {
         public init(
             nonCompliantCount: Swift.Int = 0,
             severitySummary: SSMClientTypes.SeveritySummary? = nil
-        )
-        {
+        ) {
             self.nonCompliantCount = nonCompliantCount
             self.severitySummary = severitySummary
         }
@@ -14756,8 +14370,7 @@ extension SSMClientTypes {
             complianceType: Swift.String? = nil,
             compliantSummary: SSMClientTypes.CompliantSummary? = nil,
             nonCompliantSummary: SSMClientTypes.NonCompliantSummary? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.compliantSummary = compliantSummary
             self.nonCompliantSummary = nonCompliantSummary
@@ -14774,8 +14387,7 @@ public struct ListComplianceSummariesOutput: Swift.Sendable {
     public init(
         complianceSummaryItems: [SSMClientTypes.ComplianceSummaryItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceSummaryItems = complianceSummaryItems
         self.nextToken = nextToken
     }
@@ -14827,8 +14439,7 @@ public struct ListDocumentMetadataHistoryInput: Swift.Sendable {
         metadata: SSMClientTypes.DocumentMetadataEnum? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentVersion = documentVersion
         self.maxResults = maxResults
         self.metadata = metadata
@@ -14875,8 +14486,7 @@ extension SSMClientTypes {
         public init(
             content: Swift.String? = nil,
             type: SSMClientTypes.DocumentReviewCommentType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.type = type
         }
@@ -14904,8 +14514,7 @@ extension SSMClientTypes {
             reviewStatus: SSMClientTypes.ReviewStatus? = nil,
             reviewer: Swift.String? = nil,
             updatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.createTime = createTime
             self.reviewStatus = reviewStatus
@@ -14924,8 +14533,7 @@ extension SSMClientTypes {
 
         public init(
             reviewerResponse: [SSMClientTypes.DocumentReviewerResponseSource]? = nil
-        )
-        {
+        ) {
             self.reviewerResponse = reviewerResponse
         }
     }
@@ -14949,8 +14557,7 @@ public struct ListDocumentMetadataHistoryOutput: Swift.Sendable {
         metadata: SSMClientTypes.DocumentMetadataResponseInfo? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.author = author
         self.documentVersion = documentVersion
         self.metadata = metadata
@@ -15008,8 +14615,7 @@ extension SSMClientTypes {
         public init(
             key: SSMClientTypes.DocumentFilterKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -15067,8 +14673,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -15090,8 +14695,7 @@ public struct ListDocumentsInput: Swift.Sendable {
         filters: [SSMClientTypes.DocumentKeyValuesFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentFilterList = documentFilterList
         self.filters = filters
         self.maxResults = maxResults
@@ -15150,8 +14754,7 @@ extension SSMClientTypes {
             tags: [SSMClientTypes.Tag]? = nil,
             targetType: Swift.String? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.author = author
             self.createdDate = createdDate
             self.displayName = displayName
@@ -15180,8 +14783,7 @@ public struct ListDocumentsOutput: Swift.Sendable {
     public init(
         documentIdentifiers: [SSMClientTypes.DocumentIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentIdentifiers = documentIdentifiers
         self.nextToken = nextToken
     }
@@ -15200,8 +14802,7 @@ public struct ListDocumentVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -15244,8 +14845,7 @@ extension SSMClientTypes {
             status: SSMClientTypes.DocumentStatus? = nil,
             statusInformation: Swift.String? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.displayName = displayName
             self.documentFormat = documentFormat
@@ -15269,8 +14869,7 @@ public struct ListDocumentVersionsOutput: Swift.Sendable {
     public init(
         documentVersions: [SSMClientTypes.DocumentVersionInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentVersions = documentVersions
         self.nextToken = nextToken
     }
@@ -15296,8 +14895,7 @@ public struct ListInventoryEntriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -15327,8 +14925,7 @@ public struct ListInventoryEntriesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         schemaVersion: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.captureTime = captureTime
         self.entries = entries
         self.instanceId = instanceId
@@ -15356,8 +14953,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -15479,8 +15075,7 @@ extension SSMClientTypes {
             key: SSMClientTypes.NodeFilterKey? = nil,
             type: SSMClientTypes.NodeFilterOperatorType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.values = values
@@ -15503,8 +15098,7 @@ public struct ListNodesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         syncName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15580,8 +15174,7 @@ extension SSMClientTypes {
             platformType: SSMClientTypes.PlatformType? = nil,
             platformVersion: Swift.String? = nil,
             resourceType: SSMClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.agentType = agentType
             self.agentVersion = agentVersion
             self.computerName = computerName
@@ -15626,8 +15219,7 @@ extension SSMClientTypes {
             accountId: Swift.String? = nil,
             organizationalUnitId: Swift.String? = nil,
             organizationalUnitPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.organizationalUnitId = organizationalUnitId
             self.organizationalUnitPath = organizationalUnitPath
@@ -15656,8 +15248,7 @@ extension SSMClientTypes {
             nodeType: SSMClientTypes.NodeType? = nil,
             owner: SSMClientTypes.NodeOwnerInfo? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.captureTime = captureTime
             self.id = id
             self.nodeType = nodeType
@@ -15676,8 +15267,7 @@ public struct ListNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodes: [SSMClientTypes.Node]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodes = nodes
     }
@@ -15785,8 +15375,7 @@ public struct ListNodesSummaryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summary: [[Swift.String: Swift.String]]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summary = summary
     }
@@ -15862,8 +15451,7 @@ extension SSMClientTypes {
             key: SSMClientTypes.OpsItemEventFilterKey? = nil,
             `operator`: SSMClientTypes.OpsItemEventFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.`operator` = `operator`
             self.values = values
@@ -15883,8 +15471,7 @@ public struct ListOpsItemEventsInput: Swift.Sendable {
         filters: [SSMClientTypes.OpsItemEventFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15900,8 +15487,7 @@ extension SSMClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -15934,8 +15520,7 @@ extension SSMClientTypes {
             eventId: Swift.String? = nil,
             opsItemId: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.detail = detail
@@ -15956,8 +15541,7 @@ public struct ListOpsItemEventsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [SSMClientTypes.OpsItemEventSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -16039,8 +15623,7 @@ extension SSMClientTypes {
             key: SSMClientTypes.OpsItemRelatedItemsFilterKey? = nil,
             `operator`: SSMClientTypes.OpsItemRelatedItemsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.`operator` = `operator`
             self.values = values
@@ -16063,8 +15646,7 @@ public struct ListOpsItemRelatedItemsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         opsItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16105,8 +15687,7 @@ extension SSMClientTypes {
             opsItemId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             resourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.associationType = associationType
             self.createdBy = createdBy
@@ -16129,8 +15710,7 @@ public struct ListOpsItemRelatedItemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [SSMClientTypes.OpsItemRelatedItemSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -16150,8 +15730,7 @@ extension SSMClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -16170,8 +15749,7 @@ public struct ListOpsMetadataInput: Swift.Sendable {
         filters: [SSMClientTypes.OpsMetadataFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16199,8 +15777,7 @@ extension SSMClientTypes {
             lastModifiedUser: Swift.String? = nil,
             opsMetadataArn: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
             self.lastModifiedUser = lastModifiedUser
@@ -16219,8 +15796,7 @@ public struct ListOpsMetadataOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         opsMetadataList: [SSMClientTypes.OpsMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.opsMetadataList = opsMetadataList
     }
@@ -16238,8 +15814,7 @@ public struct ListResourceComplianceSummariesInput: Swift.Sendable {
         filters: [SSMClientTypes.ComplianceStringFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16276,8 +15851,7 @@ extension SSMClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             status: SSMClientTypes.ComplianceStatus? = nil
-        )
-        {
+        ) {
             self.complianceType = complianceType
             self.compliantSummary = compliantSummary
             self.executionSummary = executionSummary
@@ -16299,8 +15873,7 @@ public struct ListResourceComplianceSummariesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceComplianceSummaryItems: [SSMClientTypes.ResourceComplianceSummaryItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceComplianceSummaryItems = resourceComplianceSummaryItems
     }
@@ -16318,8 +15891,7 @@ public struct ListResourceDataSyncInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         syncType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.syncType = syncType
@@ -16382,8 +15954,7 @@ extension SSMClientTypes {
             sourceRegions: [Swift.String]? = nil,
             sourceType: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsOrganizationsSource = awsOrganizationsSource
             self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
@@ -16430,8 +16001,7 @@ extension SSMClientTypes {
             syncName: Swift.String? = nil,
             syncSource: SSMClientTypes.ResourceDataSyncSourceWithState? = nil,
             syncType: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastStatus = lastStatus
             self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
             self.lastSyncStatusMessage = lastSyncStatusMessage
@@ -16455,8 +16025,7 @@ public struct ListResourceDataSyncOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceDataSyncItems: [SSMClientTypes.ResourceDataSyncItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceDataSyncItems = resourceDataSyncItems
     }
@@ -16473,8 +16042,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         resourceType: SSMClientTypes.ResourceTypeForTagging? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
     }
@@ -16486,8 +16054,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [SSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -16510,8 +16077,7 @@ public struct DocumentPermissionLimit: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16536,8 +16102,7 @@ public struct ModifyDocumentPermissionInput: Swift.Sendable {
         name: Swift.String? = nil,
         permissionType: SSMClientTypes.DocumentPermissionType? = nil,
         sharedDocumentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIdsToAdd = accountIdsToAdd
         self.accountIdsToRemove = accountIdsToRemove
         self.name = name
@@ -16569,8 +16134,7 @@ public struct ComplianceTypeCountLimitExceededException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16595,8 +16159,7 @@ public struct InvalidItemContentException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.typeName = typeName
     }
@@ -16622,8 +16185,7 @@ public struct ItemSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.typeName = typeName
     }
@@ -16647,8 +16209,7 @@ public struct TotalSizeLimitExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16676,8 +16237,7 @@ extension SSMClientTypes {
             severity: SSMClientTypes.ComplianceSeverity? = nil,
             status: SSMClientTypes.ComplianceStatus? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.id = id
             self.severity = severity
@@ -16745,8 +16305,7 @@ public struct PutComplianceItemsInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         uploadType: SSMClientTypes.ComplianceUploadType? = nil
-    )
-    {
+    ) {
         self.complianceType = complianceType
         self.executionSummary = executionSummary
         self.itemContentHash = itemContentHash
@@ -16780,8 +16339,7 @@ public struct CustomSchemaCountLimitExceededException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16804,8 +16362,7 @@ public struct InvalidInventoryItemContextException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16830,8 +16387,7 @@ public struct ItemContentMismatchException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.typeName = typeName
     }
@@ -16855,8 +16411,7 @@ public struct SubTypeCountLimitExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16881,8 +16436,7 @@ public struct UnsupportedInventoryItemContextException: ClientRuntime.ModeledErr
     public init(
         message: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.typeName = typeName
     }
@@ -16906,8 +16460,7 @@ public struct UnsupportedInventorySchemaVersionException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16939,8 +16492,7 @@ extension SSMClientTypes {
             context: [Swift.String: Swift.String]? = nil,
             schemaVersion: Swift.String? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.captureTime = captureTime
             self.content = content
             self.contentHash = contentHash
@@ -16962,8 +16514,7 @@ public struct PutInventoryInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         items: [SSMClientTypes.InventoryItem]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.items = items
     }
@@ -16975,8 +16526,7 @@ public struct PutInventoryOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -17000,8 +16550,7 @@ public struct HierarchyLevelLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17025,8 +16574,7 @@ public struct HierarchyTypeMismatchException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17049,8 +16597,7 @@ public struct IncompatiblePolicyException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17074,8 +16621,7 @@ public struct InvalidAllowedPatternException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17098,8 +16644,7 @@ public struct InvalidPolicyAttributeException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17122,8 +16667,7 @@ public struct InvalidPolicyTypeException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17146,8 +16690,7 @@ public struct ParameterAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17170,8 +16713,7 @@ public struct ParameterLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17194,8 +16736,7 @@ public struct ParameterMaxVersionLimitExceeded: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17219,8 +16760,7 @@ public struct ParameterPatternMismatchException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17243,8 +16783,7 @@ public struct PoliciesLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17267,8 +16806,7 @@ public struct UnsupportedParameterType: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17313,7 +16851,7 @@ public struct PutParameterInput: Swift.Sendable {
     public var name: Swift.String?
     /// Overwrite an existing parameter. The default value is false.
     public var overwrite: Swift.Bool?
-    /// One or more policies to apply to a parameter. This operation takes a JSON array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter doesn't affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it hasn't been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see [Assigning parameter policies](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html).
+    /// One or more policies to apply to a parameter. This operation takes a JSON array. Parameter Store, a tool in Amazon Web Services Systems Manager supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter doesn't affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it hasn't been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see [Assigning parameter policies](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html).
     public var policies: Swift.String?
     /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key-value pairs:
     ///
@@ -17346,7 +16884,7 @@ public struct PutParameterInput: Swift.Sendable {
     public var tier: SSMClientTypes.ParameterTier?
     /// The type of parameter that you want to add to the system. SecureString isn't currently supported for CloudFormation templates. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type. Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
     public var type: SSMClientTypes.ParameterType?
-    /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB. Parameters can't be referenced or nested in the values of other parameters. You can't include {{}} or {{ssm:parameter-name}} in a parameter value.
+    /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB. Parameters can't be referenced or nested in the values of other parameters. You can't include values wrapped in double brackets {{}} or {{ssm:parameter-name}} in a parameter value.
     /// This member is required.
     public var value: Swift.String?
 
@@ -17362,8 +16900,7 @@ public struct PutParameterInput: Swift.Sendable {
         tier: SSMClientTypes.ParameterTier? = nil,
         type: SSMClientTypes.ParameterType? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedPattern = allowedPattern
         self.dataType = dataType
         self.description = description
@@ -17392,8 +16929,7 @@ public struct PutParameterOutput: Swift.Sendable {
     public init(
         tier: SSMClientTypes.ParameterTier? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.tier = tier
         self.version = version
     }
@@ -17421,8 +16957,7 @@ public struct ResourcePolicyLimitExceededException: ClientRuntime.ModeledError, 
         limit: Swift.Int = 0,
         limitType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limit = limit
         self.properties.limitType = limitType
         self.properties.message = message
@@ -17446,8 +16981,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         policyHash: Swift.String? = nil,
         policyId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.policyHash = policyHash
         self.policyId = policyId
@@ -17464,8 +16998,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init(
         policyHash: Swift.String? = nil,
         policyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyHash = policyHash
         self.policyId = policyId
     }
@@ -17478,8 +17011,7 @@ public struct RegisterDefaultPatchBaselineInput: Swift.Sendable {
 
     public init(
         baselineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
     }
 }
@@ -17490,8 +17022,7 @@ public struct RegisterDefaultPatchBaselineOutput: Swift.Sendable {
 
     public init(
         baselineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
     }
 }
@@ -17507,8 +17038,7 @@ public struct RegisterPatchBaselineForPatchGroupInput: Swift.Sendable {
     public init(
         baselineId: Swift.String? = nil,
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
         self.patchGroup = patchGroup
     }
@@ -17523,8 +17053,7 @@ public struct RegisterPatchBaselineForPatchGroupOutput: Swift.Sendable {
     public init(
         baselineId: Swift.String? = nil,
         patchGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineId = baselineId
         self.patchGroup = patchGroup
     }
@@ -17557,8 +17086,7 @@ public struct RegisterTargetWithMaintenanceWindowInput: Swift.Sendable {
         resourceType: SSMClientTypes.MaintenanceWindowResourceType? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -17580,8 +17108,7 @@ public struct RegisterTargetWithMaintenanceWindowOutput: Swift.Sendable {
 
     public init(
         windowTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowTargetId = windowTargetId
     }
 }
@@ -17604,8 +17131,7 @@ public struct FeatureNotAvailableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17675,8 +17201,7 @@ public struct RegisterTaskWithMaintenanceWindowInput: Swift.Sendable {
         taskParameters: [Swift.String: SSMClientTypes.MaintenanceWindowTaskParameterValueExpression]? = nil,
         taskType: SSMClientTypes.MaintenanceWindowTaskType? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.clientToken = clientToken
         self.cutoffBehavior = cutoffBehavior
@@ -17707,8 +17232,7 @@ public struct RegisterTaskWithMaintenanceWindowOutput: Swift.Sendable {
 
     public init(
         windowTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.windowTaskId = windowTaskId
     }
 }
@@ -17728,8 +17252,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceType: SSMClientTypes.ResourceTypeForTagging? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
         self.tagKeys = tagKeys
@@ -17769,8 +17292,7 @@ public struct ResetServiceSettingInput: Swift.Sendable {
 
     public init(
         settingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.settingId = settingId
     }
 }
@@ -17782,8 +17304,7 @@ public struct ResetServiceSettingOutput: Swift.Sendable {
 
     public init(
         serviceSetting: SSMClientTypes.ServiceSetting? = nil
-    )
-    {
+    ) {
         self.serviceSetting = serviceSetting
     }
 }
@@ -17795,8 +17316,7 @@ public struct ResumeSessionInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -17813,8 +17333,7 @@ public struct ResumeSessionOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         streamUrl: Swift.String? = nil,
         tokenValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
         self.streamUrl = streamUrl
         self.tokenValue = tokenValue
@@ -17839,8 +17358,7 @@ public struct AutomationStepNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17863,8 +17381,7 @@ public struct InvalidAutomationSignalException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17921,8 +17438,7 @@ public struct SendAutomationSignalInput: Swift.Sendable {
         automationExecutionId: Swift.String? = nil,
         payload: [Swift.String: [Swift.String]]? = nil,
         signalType: SSMClientTypes.SignalType? = nil
-    )
-    {
+    ) {
         self.automationExecutionId = automationExecutionId
         self.payload = payload
         self.signalType = signalType
@@ -17952,8 +17468,7 @@ public struct InvalidNotificationConfig: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17989,8 +17504,7 @@ public struct InvalidRole: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17998,7 +17512,7 @@ public struct InvalidRole: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 public struct SendCommandInput: Swift.Sendable {
     /// The CloudWatch alarm you want to apply to your command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-    /// Enables Amazon Web Services Systems Manager to send Run Command output to Amazon CloudWatch Logs. Run Command is a capability of Amazon Web Services Systems Manager.
+    /// Enables Amazon Web Services Systems Manager to send Run Command output to Amazon CloudWatch Logs. Run Command is a tool in Amazon Web Services Systems Manager.
     public var cloudWatchOutputConfig: SSMClientTypes.CloudWatchOutputConfig?
     /// User-specified information about the command, such as a brief description of what the command should do.
     public var comment: Swift.String?
@@ -18053,8 +17567,7 @@ public struct SendCommandInput: Swift.Sendable {
         serviceRoleArn: Swift.String? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         timeoutSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.cloudWatchOutputConfig = cloudWatchOutputConfig
         self.comment = comment
@@ -18087,8 +17600,7 @@ public struct SendCommandOutput: Swift.Sendable {
 
     public init(
         command: SSMClientTypes.Command? = nil
-    )
-    {
+    ) {
         self.command = command
     }
 }
@@ -18111,8 +17623,7 @@ public struct InvalidAssociation: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18124,8 +17635,7 @@ public struct StartAssociationsOnceInput: Swift.Sendable {
 
     public init(
         associationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.associationIds = associationIds
     }
 }
@@ -18153,8 +17663,7 @@ public struct AutomationDefinitionNotFoundException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18177,8 +17686,7 @@ public struct AutomationDefinitionVersionNotFoundException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18201,8 +17709,7 @@ public struct AutomationExecutionLimitExceededException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18225,8 +17732,7 @@ public struct InvalidAutomationExecutionParametersException: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18256,7 +17762,7 @@ public struct StartAutomationExecutionInput: Swift.Sendable {
     /// * Key=OS,Value=Windows
     ///
     ///
-    /// To add tags to an existing automation, use the [AddTagsToResource] operation.
+    /// The Array Members maximum value is reported as 1000. This number includes capacity reserved for internal operations. When calling the StartAutomationExecution action, you can specify a maximum of 5 tags. You can, however, use the [AddTagsToResource] action to add up to a total of 50 tags to an existing automation configuration.
     public var tags: [SSMClientTypes.Tag]?
     /// A location is a combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the automation. Use this operation to start an automation in multiple Amazon Web Services Regions and multiple Amazon Web Services accounts. For more information, see [Running automations in multiple Amazon Web Services Regions and accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html) in the Amazon Web Services Systems Manager User Guide.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -18284,8 +17790,7 @@ public struct StartAutomationExecutionInput: Swift.Sendable {
         targetMaps: [[Swift.String: [Swift.String]]]? = nil,
         targetParameterName: Swift.String? = nil,
         targets: [SSMClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.clientToken = clientToken
         self.documentName = documentName
@@ -18309,8 +17814,7 @@ public struct StartAutomationExecutionOutput: Swift.Sendable {
 
     public init(
         automationExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.automationExecutionId = automationExecutionId
     }
 }
@@ -18333,8 +17837,7 @@ public struct AutomationDefinitionNotApprovedException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18367,6 +17870,9 @@ public struct StartChangeRequestExecutionInput: Swift.Sendable {
     /// * Key=Environment,Value=Production
     ///
     /// * Key=Region,Value=us-east-2
+    ///
+    ///
+    /// The Array Members maximum value is reported as 1000. This number includes capacity reserved for internal operations. When calling the StartChangeRequestExecution action, you can specify a maximum of 5 tags. You can, however, use the [AddTagsToResource] action to add up to a total of 50 tags to an existing change request configuration.
     public var tags: [SSMClientTypes.Tag]?
 
     public init(
@@ -18381,8 +17887,7 @@ public struct StartChangeRequestExecutionInput: Swift.Sendable {
         scheduledEndTime: Foundation.Date? = nil,
         scheduledTime: Foundation.Date? = nil,
         tags: [SSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoApprove = autoApprove
         self.changeDetails = changeDetails
         self.changeRequestName = changeRequestName
@@ -18403,8 +17908,7 @@ public struct StartChangeRequestExecutionOutput: Swift.Sendable {
 
     public init(
         automationExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.automationExecutionId = automationExecutionId
     }
 }
@@ -18430,8 +17934,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reasonCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reasonCode = reasonCode
     }
@@ -18461,8 +17964,7 @@ extension SSMClientTypes {
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targetParameterName: Swift.String? = nil,
             targets: [SSMClientTypes.Target]? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.targetLocations = targetLocations
             self.targetLocationsURL = targetLocationsURL
@@ -18496,8 +17998,7 @@ public struct StartExecutionPreviewInput: Swift.Sendable {
         documentName: Swift.String? = nil,
         documentVersion: Swift.String? = nil,
         executionInputs: SSMClientTypes.ExecutionInputs? = nil
-    )
-    {
+    ) {
         self.documentName = documentName
         self.documentVersion = documentVersion
         self.executionInputs = executionInputs
@@ -18510,8 +18011,7 @@ public struct StartExecutionPreviewOutput: Swift.Sendable {
 
     public init(
         executionPreviewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionPreviewId = executionPreviewId
     }
 }
@@ -18534,8 +18034,7 @@ public struct TargetNotConnected: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18543,7 +18042,7 @@ public struct TargetNotConnected: ClientRuntime.ModeledError, AWSClientRuntime.A
 public struct StartSessionInput: Swift.Sendable {
     /// The name of the SSM document you want to use to define the type of session, input parameters, or preferences for the session. For example, SSM-SessionManagerRunShell. You can call the [GetDocument] API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default. For more information, see [Start a session](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html) in the Amazon Web Services Systems Manager User Guide.
     public var documentName: Swift.String?
-    /// The values you want to specify for the parameters defined in the Session document.
+    /// The values you want to specify for the parameters defined in the Session document. For more information about these parameters, see [Create a Session Manager preferences document](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-create-preferences-cli.html) in the Amazon Web Services Systems Manager User Guide.
     public var parameters: [Swift.String: [Swift.String]]?
     /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session.
     public var reason: Swift.String?
@@ -18556,8 +18055,7 @@ public struct StartSessionInput: Swift.Sendable {
         parameters: [Swift.String: [Swift.String]]? = nil,
         reason: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentName = documentName
         self.parameters = parameters
         self.reason = reason
@@ -18577,8 +18075,7 @@ public struct StartSessionOutput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         streamUrl: Swift.String? = nil,
         tokenValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
         self.streamUrl = streamUrl
         self.tokenValue = tokenValue
@@ -18603,8 +18100,7 @@ public struct InvalidAutomationStatusUpdateException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18648,8 +18144,7 @@ public struct StopAutomationExecutionInput: Swift.Sendable {
     public init(
         automationExecutionId: Swift.String? = nil,
         type: SSMClientTypes.StopType? = nil
-    )
-    {
+    ) {
         self.automationExecutionId = automationExecutionId
         self.type = type
     }
@@ -18667,8 +18162,7 @@ public struct TerminateSessionInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -18679,8 +18173,7 @@ public struct TerminateSessionOutput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -18700,8 +18193,7 @@ public struct UnlabelParameterVersionInput: Swift.Sendable {
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
         parameterVersion: Swift.Int? = 0
-    )
-    {
+    ) {
         self.labels = labels
         self.name = name
         self.parameterVersion = parameterVersion
@@ -18717,8 +18209,7 @@ public struct UnlabelParameterVersionOutput: Swift.Sendable {
     public init(
         invalidLabels: [Swift.String]? = nil,
         removedLabels: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.invalidLabels = invalidLabels
         self.removedLabels = removedLabels
     }
@@ -18742,8 +18233,7 @@ public struct AssociationVersionLimitExceeded: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18766,8 +18256,7 @@ public struct InvalidUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18784,7 +18273,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var associationName: Swift.String?
     /// This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify $LATEST, or omit this parameter.
     public var associationVersion: Swift.String?
-    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
     /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
     public var calendarNames: [Swift.String]?
@@ -18806,13 +18295,13 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var name: Swift.String?
     /// An S3 bucket where you want to store the results of this request.
     public var outputLocation: SSMClientTypes.InstanceAssociationOutputLocation?
-    /// The parameters you want to update for the association. If you create a parameter using Parameter Store, a capability of Amazon Web Services Systems Manager, you can reference the parameter using {{ssm:parameter-name}}.
+    /// The parameters you want to update for the association. If you create a parameter using Parameter Store, a tool in Amazon Web Services Systems Manager, you can reference the parameter using {{ssm:parameter-name}}.
     public var parameters: [Swift.String: [Swift.String]]?
     /// The cron expression used to schedule the association that you want to update.
     public var scheduleExpression: Swift.String?
     /// Number of days to wait after the scheduled day to run an association. For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify an offset of 3 to run the association each Sunday after the second Thursday of the month. For more information about cron schedules for associations, see [Reference: Cron and rate expressions for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html) in the Amazon Web Services Systems Manager User Guide. To use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the system not to run an association immediately after you create it.
     public var scheduleOffset: Swift.Int?
-    /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+    /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
     /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -18843,8 +18332,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
         targetLocations: [SSMClientTypes.TargetLocation]? = nil,
         targetMaps: [[Swift.String: [Swift.String]]]? = nil,
         targets: [SSMClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
         self.associationId = associationId
@@ -18880,8 +18368,7 @@ public struct UpdateAssociationOutput: Swift.Sendable {
 
     public init(
         associationDescription: SSMClientTypes.AssociationDescription? = nil
-    )
-    {
+    ) {
         self.associationDescription = associationDescription
     }
 }
@@ -18914,8 +18401,7 @@ public struct UpdateAssociationStatusInput: Swift.Sendable {
         associationStatus: SSMClientTypes.AssociationStatus? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationStatus = associationStatus
         self.instanceId = instanceId
         self.name = name
@@ -18928,8 +18414,7 @@ public struct UpdateAssociationStatusOutput: Swift.Sendable {
 
     public init(
         associationDescription: SSMClientTypes.AssociationDescription? = nil
-    )
-    {
+    ) {
         self.associationDescription = associationDescription
     }
 }
@@ -18952,8 +18437,7 @@ public struct DocumentVersionLimitExceeded: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18976,8 +18460,7 @@ public struct DuplicateDocumentContent: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19000,8 +18483,7 @@ public struct DuplicateDocumentVersionName: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19035,8 +18517,7 @@ public struct UpdateDocumentInput: Swift.Sendable {
         name: Swift.String? = nil,
         targetType: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.content = content
         self.displayName = displayName
@@ -19054,8 +18535,7 @@ public struct UpdateDocumentOutput: Swift.Sendable {
 
     public init(
         documentDescription: SSMClientTypes.DocumentDescription? = nil
-    )
-    {
+    ) {
         self.documentDescription = documentDescription
     }
 }
@@ -19071,8 +18551,7 @@ public struct UpdateDocumentDefaultVersionInput: Swift.Sendable {
     public init(
         documentVersion: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentVersion = documentVersion
         self.name = name
     }
@@ -19093,8 +18572,7 @@ extension SSMClientTypes {
             defaultVersion: Swift.String? = nil,
             defaultVersionName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultVersion = defaultVersion
             self.defaultVersionName = defaultVersionName
             self.name = name
@@ -19108,8 +18586,7 @@ public struct UpdateDocumentDefaultVersionOutput: Swift.Sendable {
 
     public init(
         description: SSMClientTypes.DocumentDefaultVersionDescription? = nil
-    )
-    {
+    ) {
         self.description = description
     }
 }
@@ -19162,8 +18639,7 @@ extension SSMClientTypes {
         public init(
             action: SSMClientTypes.DocumentReviewAction? = nil,
             comment: [SSMClientTypes.DocumentReviewCommentSource]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.comment = comment
         }
@@ -19184,8 +18660,7 @@ public struct UpdateDocumentMetadataInput: Swift.Sendable {
         documentReviews: SSMClientTypes.DocumentReviews? = nil,
         documentVersion: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentReviews = documentReviews
         self.documentVersion = documentVersion
         self.name = name
@@ -19240,8 +18715,7 @@ public struct UpdateMaintenanceWindowInput: Swift.Sendable {
         scheduleTimezone: Swift.String? = nil,
         startDate: Swift.String? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowUnassociatedTargets = allowUnassociatedTargets
         self.cutoff = cutoff
         self.description = description
@@ -19302,8 +18776,7 @@ public struct UpdateMaintenanceWindowOutput: Swift.Sendable {
         scheduleTimezone: Swift.String? = nil,
         startDate: Swift.String? = nil,
         windowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowUnassociatedTargets = allowUnassociatedTargets
         self.cutoff = cutoff
         self.description = description
@@ -19350,8 +18823,7 @@ public struct UpdateMaintenanceWindowTargetInput: Swift.Sendable {
         targets: [SSMClientTypes.Target]? = nil,
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.ownerInformation = ownerInformation
@@ -19388,8 +18860,7 @@ public struct UpdateMaintenanceWindowTargetOutput: Swift.Sendable {
         targets: [SSMClientTypes.Target]? = nil,
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.ownerInformation = ownerInformation
@@ -19468,8 +18939,7 @@ public struct UpdateMaintenanceWindowTaskInput: Swift.Sendable {
         taskParameters: [Swift.String: SSMClientTypes.MaintenanceWindowTaskParameterValueExpression]? = nil,
         windowId: Swift.String? = nil,
         windowTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.cutoffBehavior = cutoffBehavior
         self.description = description
@@ -19542,8 +19012,7 @@ public struct UpdateMaintenanceWindowTaskOutput: Swift.Sendable {
         taskParameters: [Swift.String: SSMClientTypes.MaintenanceWindowTaskParameterValueExpression]? = nil,
         windowId: Swift.String? = nil,
         windowTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmConfiguration = alarmConfiguration
         self.cutoffBehavior = cutoffBehavior
         self.description = description
@@ -19578,8 +19047,7 @@ public struct UpdateManagedInstanceRoleInput: Swift.Sendable {
     public init(
         iamRole: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.iamRole = iamRole
         self.instanceId = instanceId
     }
@@ -19642,8 +19110,7 @@ public struct UpdateOpsItemInput: Swift.Sendable {
         severity: Swift.String? = nil,
         status: SSMClientTypes.OpsItemStatus? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.actualEndTime = actualEndTime
         self.actualStartTime = actualStartTime
         self.category = category
@@ -19686,8 +19153,7 @@ public struct OpsMetadataKeyLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19705,8 +19171,7 @@ public struct UpdateOpsMetadataInput: Swift.Sendable {
         keysToDelete: [Swift.String]? = nil,
         metadataToUpdate: [Swift.String: SSMClientTypes.MetadataValue]? = nil,
         opsMetadataArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.keysToDelete = keysToDelete
         self.metadataToUpdate = metadataToUpdate
         self.opsMetadataArn = opsMetadataArn
@@ -19719,8 +19184,7 @@ public struct UpdateOpsMetadataOutput: Swift.Sendable {
 
     public init(
         opsMetadataArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.opsMetadataArn = opsMetadataArn
     }
 }
@@ -19765,8 +19229,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
         rejectedPatchesAction: SSMClientTypes.PatchAction? = nil,
         replace: Swift.Bool? = false,
         sources: [SSMClientTypes.PatchSource]? = nil
-    )
-    {
+    ) {
         self.approvalRules = approvalRules
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -19827,8 +19290,7 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
         rejectedPatches: [Swift.String]? = nil,
         rejectedPatchesAction: SSMClientTypes.PatchAction? = nil,
         sources: [SSMClientTypes.PatchSource]? = nil
-    )
-    {
+    ) {
         self.approvalRules = approvalRules
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
@@ -19864,8 +19326,7 @@ public struct ResourceDataSyncConflictException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19885,8 +19346,7 @@ public struct UpdateResourceDataSyncInput: Swift.Sendable {
         syncName: Swift.String? = nil,
         syncSource: SSMClientTypes.ResourceDataSyncSource? = nil,
         syncType: Swift.String? = nil
-    )
-    {
+    ) {
         self.syncName = syncName
         self.syncSource = syncSource
         self.syncType = syncType
@@ -19951,8 +19411,7 @@ public struct UpdateServiceSettingInput: Swift.Sendable {
     public init(
         settingId: Swift.String? = nil,
         settingValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.settingId = settingId
         self.settingValue = settingValue
     }
@@ -19979,8 +19438,7 @@ extension SSMClientTypes {
             aggregators: [SSMClientTypes.InventoryAggregator]? = nil,
             expression: Swift.String? = nil,
             groups: [SSMClientTypes.InventoryGroup]? = nil
-        )
-        {
+        ) {
             self.aggregators = aggregators
             self.expression = expression
             self.groups = groups
@@ -20009,8 +19467,7 @@ extension SSMClientTypes {
             aggregators: [SSMClientTypes.NodeAggregator]? = nil,
             attributeName: SSMClientTypes.NodeAttributeName? = nil,
             typeName: SSMClientTypes.NodeTypeName? = nil
-        )
-        {
+        ) {
             self.aggregatorType = aggregatorType
             self.aggregators = aggregators
             self.attributeName = attributeName
@@ -20043,8 +19500,7 @@ extension SSMClientTypes {
             filters: [SSMClientTypes.OpsFilter]? = nil,
             typeName: Swift.String? = nil,
             values: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.aggregatorType = aggregatorType
             self.aggregators = aggregators
             self.attributeName = attributeName
@@ -20073,8 +19529,7 @@ public struct GetInventoryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resultAttributes: [SSMClientTypes.ResultAttribute]? = nil
-    )
-    {
+    ) {
         self.aggregators = aggregators
         self.filters = filters
         self.maxResults = maxResults
@@ -20104,8 +19559,7 @@ public struct GetOpsSummaryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resultAttributes: [SSMClientTypes.OpsResultAttribute]? = nil,
         syncName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregators = aggregators
         self.filters = filters
         self.maxResults = maxResults
@@ -20134,8 +19588,7 @@ public struct ListNodesSummaryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         syncName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregators = aggregators
         self.filters = filters
         self.maxResults = maxResults

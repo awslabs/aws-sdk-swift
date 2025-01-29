@@ -51,8 +51,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -66,8 +65,7 @@ extension GlueClientTypes {
 
         public init(
             notifyDelayAfter: Swift.Int? = nil
-        )
-        {
+        ) {
             self.notifyDelayAfter = notifyDelayAfter
         }
     }
@@ -87,7 +85,7 @@ extension GlueClientTypes {
         public var notificationProperty: GlueClientTypes.NotificationProperty?
         /// The name of the SecurityConfiguration structure to be used with this action.
         public var securityConfiguration: Swift.String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
 
         public init(
@@ -97,8 +95,7 @@ extension GlueClientTypes {
             notificationProperty: GlueClientTypes.NotificationProperty? = nil,
             securityConfiguration: Swift.String? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arguments = arguments
             self.crawlerName = crawlerName
             self.jobName = jobName
@@ -220,8 +217,7 @@ extension GlueClientTypes {
         public init(
             aggFunc: GlueClientTypes.AggFunction? = nil,
             column: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.aggFunc = aggFunc
             self.column = column
         }
@@ -250,8 +246,7 @@ extension GlueClientTypes {
             groups: [[Swift.String]]? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggs = aggs
             self.groups = groups
             self.inputs = inputs
@@ -273,8 +268,7 @@ extension GlueClientTypes {
         public init(
             description: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.value = value
         }
@@ -300,8 +294,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -318,8 +311,7 @@ extension GlueClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -341,8 +333,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             label: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.label = label
             self.value = value
@@ -434,8 +425,7 @@ extension GlueClientTypes {
             tableSchema: [GlueClientTypes.Option]? = nil,
             tempDir: Swift.String? = nil,
             upsert: Swift.Bool = false
-        )
-        {
+        ) {
             self.accessType = accessType
             self.action = action
             self.advancedOptions = advancedOptions
@@ -478,8 +468,7 @@ extension GlueClientTypes {
         public init(
             data: GlueClientTypes.AmazonRedshiftNodeData? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.name = name
         }
@@ -501,8 +490,7 @@ extension GlueClientTypes {
             data: GlueClientTypes.AmazonRedshiftNodeData? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.inputs = inputs
             self.name = name
@@ -525,8 +513,7 @@ extension GlueClientTypes {
             failureReason: Swift.String? = nil,
             profileId: Swift.String? = nil,
             statisticId: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.profileId = profileId
             self.statisticId = statisticId
@@ -575,8 +562,7 @@ extension GlueClientTypes {
         public init(
             lastModifiedOn: Foundation.Date? = nil,
             value: GlueClientTypes.InclusionAnnotationValue? = nil
-        )
-        {
+        ) {
             self.lastModifiedOn = lastModifiedOn
             self.value = value
         }
@@ -601,8 +587,7 @@ extension GlueClientTypes {
             profileId: Swift.String? = nil,
             statisticId: Swift.String? = nil,
             statisticRecordedOn: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.inclusionAnnotation = inclusionAnnotation
             self.profileId = profileId
             self.statisticId = statisticId
@@ -624,8 +609,7 @@ extension GlueClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -641,8 +625,7 @@ extension GlueClientTypes {
 
         public init(
             columns: [GlueClientTypes.GlueStudioSchemaColumn]? = nil
-        )
-        {
+        ) {
             self.columns = columns
         }
     }
@@ -680,8 +663,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.connectionTable = connectionTable
             self.connectionType = connectionType
@@ -708,8 +690,7 @@ extension GlueClientTypes {
             additionalAuditContext: Swift.String? = nil,
             allColumnsRequested: Swift.Bool? = nil,
             requestedColumns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalAuditContext = additionalAuditContext
             self.allColumnsRequested = allColumnsRequested
             self.requestedColumns = requestedColumns
@@ -815,8 +796,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             propertyTypes: [GlueClientTypes.PropertyType]? = [],
             `required`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.dataOperationScopes = dataOperationScopes
             self.defaultValue = defaultValue
@@ -850,8 +830,7 @@ extension GlueClientTypes {
             customAuthenticationProperties: [Swift.String: GlueClientTypes.Property]? = nil,
             oAuth2Properties: [Swift.String: GlueClientTypes.Property]? = nil,
             secretArn: GlueClientTypes.Property? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.basicAuthenticationProperties = basicAuthenticationProperties
             self.customAuthenticationProperties = customAuthenticationProperties
@@ -908,8 +887,7 @@ extension GlueClientTypes {
         public init(
             awsManagedClientApplicationReference: Swift.String? = nil,
             userManagedClientApplicationClientId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsManagedClientApplicationReference = awsManagedClientApplicationReference
             self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
         }
@@ -966,8 +944,7 @@ extension GlueClientTypes {
             oAuth2GrantType: GlueClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuth2ClientApplication = oAuth2ClientApplication
             self.oAuth2GrantType = oAuth2GrantType
             self.tokenUrl = tokenUrl
@@ -991,8 +968,7 @@ extension GlueClientTypes {
             authenticationType: GlueClientTypes.AuthenticationType? = nil,
             oAuth2Properties: GlueClientTypes.OAuth2Properties? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
@@ -1012,8 +988,7 @@ extension GlueClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -1037,8 +1012,7 @@ extension GlueClientTypes {
         public init(
             authorizationCode: Swift.String? = nil,
             redirectUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationCode = authorizationCode
             self.redirectUri = redirectUri
         }
@@ -1068,8 +1042,7 @@ extension GlueClientTypes {
             jwtToken: Swift.String? = nil,
             refreshToken: Swift.String? = nil,
             userManagedClientApplicationClientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.jwtToken = jwtToken
             self.refreshToken = refreshToken
@@ -1107,8 +1080,7 @@ extension GlueClientTypes {
             oAuth2GrantType: GlueClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.authorizationCodeProperties = authorizationCodeProperties
             self.oAuth2ClientApplication = oAuth2ClientApplication
             self.oAuth2Credentials = oAuth2Credentials
@@ -1143,8 +1115,7 @@ extension GlueClientTypes {
             kmsKeyArn: Swift.String? = nil,
             oAuth2Properties: GlueClientTypes.OAuth2PropertiesInput? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.basicAuthenticationCredentials = basicAuthenticationCredentials
             self.customAuthenticationCredentials = customAuthenticationCredentials
@@ -1182,8 +1153,7 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         fromFederationSource: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fromFederationSource = fromFederationSource
         self.properties.message = message
     }
@@ -1208,8 +1178,7 @@ public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1233,8 +1202,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1261,8 +1229,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         fromFederationSource: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fromFederationSource = fromFederationSource
         self.properties.message = message
     }
@@ -1287,8 +1254,7 @@ public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1312,8 +1278,7 @@ public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1337,8 +1302,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.name = name
             self.parameters = parameters
@@ -1362,8 +1326,7 @@ extension GlueClientTypes {
             registryName: Swift.String? = nil,
             schemaArn: Swift.String? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.registryName = registryName
             self.schemaArn = schemaArn
             self.schemaName = schemaName
@@ -1386,8 +1349,7 @@ extension GlueClientTypes {
             schemaId: GlueClientTypes.SchemaId? = nil,
             schemaVersionId: Swift.String? = nil,
             schemaVersionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.schemaId = schemaId
             self.schemaVersionId = schemaVersionId
             self.schemaVersionNumber = schemaVersionNumber
@@ -1410,8 +1372,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             serializationLibrary: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.parameters = parameters
             self.serializationLibrary = serializationLibrary
@@ -1434,8 +1395,7 @@ extension GlueClientTypes {
             skewedColumnNames: [Swift.String]? = nil,
             skewedColumnValueLocationMaps: [Swift.String: Swift.String]? = nil,
             skewedColumnValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.skewedColumnNames = skewedColumnNames
             self.skewedColumnValueLocationMaps = skewedColumnValueLocationMaps
             self.skewedColumnValues = skewedColumnValues
@@ -1457,8 +1417,7 @@ extension GlueClientTypes {
         public init(
             column: Swift.String? = nil,
             sortOrder: Swift.Int = 0
-        )
-        {
+        ) {
             self.column = column
             self.sortOrder = sortOrder
         }
@@ -1513,8 +1472,7 @@ extension GlueClientTypes {
             skewedInfo: GlueClientTypes.SkewedInfo? = nil,
             sortColumns: [GlueClientTypes.Order]? = nil,
             storedAsSubDirectories: Swift.Bool = false
-        )
-        {
+        ) {
             self.additionalLocations = additionalLocations
             self.bucketColumns = bucketColumns
             self.columns = columns
@@ -1554,8 +1512,7 @@ extension GlueClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             storageDescriptor: GlueClientTypes.StorageDescriptor? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
             self.parameters = parameters
@@ -1583,8 +1540,7 @@ public struct BatchCreatePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionInputList: [GlueClientTypes.PartitionInput]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionInputList = partitionInputList
@@ -1604,8 +1560,7 @@ extension GlueClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -1624,8 +1579,7 @@ extension GlueClientTypes {
         public init(
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             partitionValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.partitionValues = partitionValues
         }
@@ -1638,8 +1592,7 @@ public struct BatchCreatePartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.PartitionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1654,8 +1607,7 @@ public struct BatchDeleteConnectionInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         connectionNameList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionNameList = connectionNameList
     }
@@ -1670,8 +1622,7 @@ public struct BatchDeleteConnectionOutput: Swift.Sendable {
     public init(
         errors: [Swift.String: GlueClientTypes.ErrorDetail]? = nil,
         succeeded: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.succeeded = succeeded
     }
@@ -1687,8 +1638,7 @@ extension GlueClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -1712,8 +1662,7 @@ public struct BatchDeletePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionsToDelete: [GlueClientTypes.PartitionValueList]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionsToDelete = partitionsToDelete
@@ -1727,8 +1676,7 @@ public struct BatchDeletePartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.PartitionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1752,8 +1700,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1775,8 +1722,7 @@ public struct BatchDeleteTableInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tablesToDelete: [Swift.String]? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tablesToDelete = tablesToDelete
@@ -1796,8 +1742,7 @@ extension GlueClientTypes {
         public init(
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.tableName = tableName
         }
@@ -1810,8 +1755,7 @@ public struct BatchDeleteTableOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.TableError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1834,8 +1778,7 @@ public struct BatchDeleteTableVersionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         versionIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -1858,8 +1801,7 @@ extension GlueClientTypes {
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             tableName: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.tableName = tableName
             self.versionId = versionId
@@ -1873,8 +1815,7 @@ public struct BatchDeleteTableVersionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.TableVersionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1892,8 +1833,7 @@ public struct BatchGetBlueprintsInput: Swift.Sendable {
         includeBlueprint: Swift.Bool? = nil,
         includeParameterSpec: Swift.Bool? = nil,
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.includeBlueprint = includeBlueprint
         self.includeParameterSpec = includeParameterSpec
         self.names = names
@@ -1921,8 +1861,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             parameterSpec: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintLocation = blueprintLocation
             self.blueprintServiceLocation = blueprintServiceLocation
             self.description = description
@@ -2011,8 +1950,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameterSpec: Swift.String? = nil,
             status: GlueClientTypes.BlueprintStatus? = nil
-        )
-        {
+        ) {
             self.blueprintLocation = blueprintLocation
             self.blueprintServiceLocation = blueprintServiceLocation
             self.createdOn = createdOn
@@ -2036,8 +1974,7 @@ public struct BatchGetBlueprintsOutput: Swift.Sendable {
     public init(
         blueprints: [GlueClientTypes.Blueprint]? = nil,
         missingBlueprints: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.missingBlueprints = missingBlueprints
     }
@@ -2050,8 +1987,7 @@ public struct BatchGetCrawlersInput: Swift.Sendable {
 
     public init(
         crawlerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.crawlerNames = crawlerNames
     }
 }
@@ -2068,8 +2004,7 @@ extension GlueClientTypes {
         public init(
             accountId: Swift.String? = nil,
             useLakeFormationCredentials: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.useLakeFormationCredentials = useLakeFormationCredentials
         }
@@ -2132,8 +2067,7 @@ extension GlueClientTypes {
             messagePrefix: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             status: GlueClientTypes.LastCrawlStatus? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.logGroup = logGroup
             self.logStream = logStream
@@ -2186,8 +2120,7 @@ extension GlueClientTypes {
 
         public init(
             crawlerLineageSettings: GlueClientTypes.CrawlerLineageSettings? = nil
-        )
-        {
+        ) {
             self.crawlerLineageSettings = crawlerLineageSettings
         }
     }
@@ -2234,8 +2167,7 @@ extension GlueClientTypes {
 
         public init(
             recrawlBehavior: GlueClientTypes.RecrawlBehavior? = nil
-        )
-        {
+        ) {
             self.recrawlBehavior = recrawlBehavior
         }
     }
@@ -2285,8 +2217,7 @@ extension GlueClientTypes {
         public init(
             scheduleExpression: Swift.String? = nil,
             state: GlueClientTypes.ScheduleState? = nil
-        )
-        {
+        ) {
             self.scheduleExpression = scheduleExpression
             self.state = state
         }
@@ -2366,8 +2297,7 @@ extension GlueClientTypes {
         public init(
             deleteBehavior: GlueClientTypes.DeleteBehavior? = nil,
             updateBehavior: GlueClientTypes.UpdateBehavior? = nil
-        )
-        {
+        ) {
             self.deleteBehavior = deleteBehavior
             self.updateBehavior = updateBehavior
         }
@@ -2429,8 +2359,7 @@ extension GlueClientTypes {
             dlqEventQueueArn: Swift.String? = nil,
             eventQueueArn: Swift.String? = nil,
             tables: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.databaseName = databaseName
             self.dlqEventQueueArn = dlqEventQueueArn
@@ -2458,8 +2387,7 @@ extension GlueClientTypes {
             createNativeDeltaTable: Swift.Bool? = nil,
             deltaTables: [Swift.String]? = nil,
             writeManifest: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.createNativeDeltaTable = createNativeDeltaTable
             self.deltaTables = deltaTables
@@ -2483,8 +2411,7 @@ extension GlueClientTypes {
             path: Swift.String? = nil,
             scanAll: Swift.Bool? = nil,
             scanRate: Swift.Double? = nil
-        )
-        {
+        ) {
             self.path = path
             self.scanAll = scanAll
             self.scanRate = scanRate
@@ -2510,8 +2437,7 @@ extension GlueClientTypes {
             exclusions: [Swift.String]? = nil,
             maximumTraversalDepth: Swift.Int? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.exclusions = exclusions
             self.maximumTraversalDepth = maximumTraversalDepth
@@ -2538,8 +2464,7 @@ extension GlueClientTypes {
             exclusions: [Swift.String]? = nil,
             maximumTraversalDepth: Swift.Int? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.exclusions = exclusions
             self.maximumTraversalDepth = maximumTraversalDepth
@@ -2595,8 +2520,7 @@ extension GlueClientTypes {
             enableAdditionalMetadata: [GlueClientTypes.JdbcMetadataEntry]? = nil,
             exclusions: [Swift.String]? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.enableAdditionalMetadata = enableAdditionalMetadata
             self.exclusions = exclusions
@@ -2620,8 +2544,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             path: Swift.String? = nil,
             scanAll: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.path = path
             self.scanAll = scanAll
@@ -2653,8 +2576,7 @@ extension GlueClientTypes {
             exclusions: [Swift.String]? = nil,
             path: Swift.String? = nil,
             sampleSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.dlqEventQueueArn = dlqEventQueueArn
             self.eventQueueArn = eventQueueArn
@@ -2695,8 +2617,7 @@ extension GlueClientTypes {
             jdbcTargets: [GlueClientTypes.JdbcTarget]? = nil,
             mongoDBTargets: [GlueClientTypes.MongoDBTarget]? = nil,
             s3Targets: [GlueClientTypes.S3Target]? = nil
-        )
-        {
+        ) {
             self.catalogTargets = catalogTargets
             self.deltaTargets = deltaTargets
             self.dynamoDBTargets = dynamoDBTargets
@@ -2775,8 +2696,7 @@ extension GlueClientTypes {
             tablePrefix: Swift.String? = nil,
             targets: GlueClientTypes.CrawlerTargets? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -2810,8 +2730,7 @@ public struct BatchGetCrawlersOutput: Swift.Sendable {
     public init(
         crawlers: [GlueClientTypes.Crawler]? = nil,
         crawlersNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.crawlers = crawlers
         self.crawlersNotFound = crawlersNotFound
     }
@@ -2824,8 +2743,7 @@ public struct BatchGetCustomEntityTypesInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -2847,8 +2765,7 @@ extension GlueClientTypes {
             contextWords: [Swift.String]? = nil,
             name: Swift.String? = nil,
             regexString: Swift.String? = nil
-        )
-        {
+        ) {
             self.contextWords = contextWords
             self.name = name
             self.regexString = regexString
@@ -2865,8 +2782,7 @@ public struct BatchGetCustomEntityTypesOutput: Swift.Sendable {
     public init(
         customEntityTypes: [GlueClientTypes.CustomEntityType]? = nil,
         customEntityTypesNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.customEntityTypes = customEntityTypes
         self.customEntityTypesNotFound = customEntityTypesNotFound
     }
@@ -2879,8 +2795,7 @@ public struct BatchGetDataQualityResultInput: Swift.Sendable {
 
     public init(
         resultIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resultIds = resultIds
     }
 }
@@ -2903,8 +2818,7 @@ extension GlueClientTypes {
             evaluatedMetrics: [Swift.String: Swift.Double]? = nil,
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluationMessage = evaluationMessage
@@ -2945,8 +2859,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.catalogId = catalogId
             self.connectionName = connectionName
@@ -2966,8 +2879,7 @@ extension GlueClientTypes {
 
         public init(
             glueTable: GlueClientTypes.GlueTable? = nil
-        )
-        {
+        ) {
             self.glueTable = glueTable
         }
     }
@@ -2991,8 +2903,7 @@ extension GlueClientTypes {
             expectedValue: Swift.Double? = nil,
             lowerLimit: Swift.Double? = nil,
             upperLimit: Swift.Double? = nil
-        )
-        {
+        ) {
             self.actualValue = actualValue
             self.expectedValue = expectedValue
             self.lowerLimit = lowerLimit
@@ -3019,8 +2930,7 @@ extension GlueClientTypes {
             metricValues: GlueClientTypes.DataQualityMetricValues? = nil,
             newRules: [Swift.String]? = nil,
             statisticId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.metricValues = metricValues
             self.newRules = newRules
@@ -3041,8 +2951,7 @@ extension GlueClientTypes {
         public init(
             description: Swift.String? = nil,
             metricBasedObservation: GlueClientTypes.MetricBasedObservation? = nil
-        )
-        {
+        ) {
             self.description = description
             self.metricBasedObservation = metricBasedObservation
         }
@@ -3110,8 +3019,7 @@ extension GlueClientTypes {
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil,
             result: GlueClientTypes.DataQualityRuleResultStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluatedRule = evaluatedRule
@@ -3175,8 +3083,7 @@ extension GlueClientTypes {
             rulesetName: Swift.String? = nil,
             score: Swift.Double? = nil,
             startedOn: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
@@ -3205,8 +3112,7 @@ public struct BatchGetDataQualityResultOutput: Swift.Sendable {
     public init(
         results: [GlueClientTypes.DataQualityResult]? = nil,
         resultsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.results = results
         self.resultsNotFound = resultsNotFound
     }
@@ -3219,8 +3125,7 @@ public struct BatchGetDevEndpointsInput: Swift.Sendable {
 
     public init(
         devEndpointNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.devEndpointNames = devEndpointNames
     }
 }
@@ -3364,8 +3269,7 @@ extension GlueClientTypes {
             workerType: GlueClientTypes.WorkerType? = nil,
             yarnEndpointAddress: Swift.String? = nil,
             zeppelinRemoteSparkInterpreterPort: Swift.Int = 0
-        )
-        {
+        ) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -3404,8 +3308,7 @@ public struct BatchGetDevEndpointsOutput: Swift.Sendable {
     public init(
         devEndpoints: [GlueClientTypes.DevEndpoint]? = nil,
         devEndpointsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.devEndpoints = devEndpoints
         self.devEndpointsNotFound = devEndpointsNotFound
     }
@@ -3418,8 +3321,7 @@ public struct BatchGetJobsInput: Swift.Sendable {
 
     public init(
         jobNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobNames = jobNames
     }
 }
@@ -3448,8 +3350,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.database = database
             self.name = name
@@ -3483,8 +3384,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalHudiOptions = additionalHudiOptions
             self.database = database
             self.name = name
@@ -3506,8 +3406,7 @@ extension GlueClientTypes {
         public init(
             pollingTime: Swift.Int? = nil,
             recordPollingLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.pollingTime = pollingTime
             self.recordPollingLimit = recordPollingLimit
         }
@@ -3577,8 +3476,7 @@ extension GlueClientTypes {
             startingTimestamp: Foundation.Date? = nil,
             subscribePattern: Swift.String? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.addRecordTimestamp = addRecordTimestamp
             self.assign = assign
             self.bootstrapServers = bootstrapServers
@@ -3632,8 +3530,7 @@ extension GlueClientTypes {
             streamingOptions: GlueClientTypes.KafkaStreamingSourceOptions? = nil,
             table: Swift.String? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.database = database
             self.detectSchema = detectSchema
@@ -3749,8 +3646,7 @@ extension GlueClientTypes {
             startingTimestamp: Foundation.Date? = nil,
             streamArn: Swift.String? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
             self.addRecordTimestamp = addRecordTimestamp
             self.avoidEmptyBatches = avoidEmptyBatches
@@ -3806,8 +3702,7 @@ extension GlueClientTypes {
             streamingOptions: GlueClientTypes.KinesisStreamingSourceOptions? = nil,
             table: Swift.String? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.database = database
             self.detectSchema = detectSchema
@@ -3837,8 +3732,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -3871,8 +3765,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             partitionKeys: [[Swift.String]]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -3917,8 +3810,7 @@ extension GlueClientTypes {
             data: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.connectionType = connectionType
             self.data = data
             self.name = name
@@ -3962,8 +3854,7 @@ extension GlueClientTypes {
             data: [Swift.String: Swift.String]? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionType = connectionType
             self.data = data
             self.inputs = inputs
@@ -3997,8 +3888,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.className = className
             self.code = code
             self.inputs = inputs
@@ -4075,8 +3965,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             redshiftTmpDir: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.connectionType = connectionType
             self.database = database
@@ -4109,8 +3998,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             streamingOptions: GlueClientTypes.KafkaStreamingSourceOptions? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.detectSchema = detectSchema
             self.name = name
@@ -4142,8 +4030,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             streamingOptions: GlueClientTypes.KinesisStreamingSourceOptions? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.detectSchema = detectSchema
             self.name = name
@@ -4170,8 +4057,7 @@ extension GlueClientTypes {
             columns: [[Swift.String]]? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.inputs = inputs
             self.name = name
@@ -4197,8 +4083,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             paths: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.paths = paths
@@ -4221,8 +4106,7 @@ extension GlueClientTypes {
             isEmpty: Swift.Bool? = nil,
             isNegOne: Swift.Bool? = nil,
             isNullString: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isEmpty = isEmpty
             self.isNegOne = isNegOne
             self.isNullString = isNullString
@@ -4244,8 +4128,7 @@ extension GlueClientTypes {
         public init(
             id: Swift.String? = nil,
             label: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.label = label
         }
@@ -4266,8 +4149,7 @@ extension GlueClientTypes {
         public init(
             datatype: GlueClientTypes.Datatype? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.datatype = datatype
             self.value = value
         }
@@ -4294,8 +4176,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             nullCheckBoxList: GlueClientTypes.NullCheckBoxList? = nil,
             nullTextList: [GlueClientTypes.NullValueField]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.nullCheckBoxList = nullCheckBoxList
@@ -4377,8 +4258,7 @@ extension GlueClientTypes {
             validationMessage: Swift.String? = nil,
             validationRule: Swift.String? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.isOptional = isOptional
             self.listType = listType
             self.name = name
@@ -4425,8 +4305,7 @@ extension GlueClientTypes {
             path: Swift.String? = nil,
             transformName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.functionName = functionName
             self.inputs = inputs
             self.name = name
@@ -4457,8 +4336,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -4513,8 +4391,7 @@ extension GlueClientTypes {
             evaluationContext: Swift.String? = nil,
             resultsPublishingEnabled: Swift.Bool? = nil,
             resultsS3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.evaluationContext = evaluationContext
             self.resultsPublishingEnabled = resultsPublishingEnabled
@@ -4561,8 +4438,7 @@ extension GlueClientTypes {
 
         public init(
             stopJobOnFailureTiming: GlueClientTypes.DQStopJobOnFailureTiming? = nil
-        )
-        {
+        ) {
             self.stopJobOnFailureTiming = stopJobOnFailureTiming
         }
     }
@@ -4595,8 +4471,7 @@ extension GlueClientTypes {
             publishingOptions: GlueClientTypes.DQResultsPublishingOptions? = nil,
             ruleset: Swift.String? = nil,
             stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.output = output
@@ -4637,8 +4512,7 @@ extension GlueClientTypes {
             publishingOptions: GlueClientTypes.DQResultsPublishingOptions? = nil,
             ruleset: Swift.String? = nil,
             stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions? = nil
-        )
-        {
+        ) {
             self.additionalDataSources = additionalDataSources
             self.additionalOptions = additionalOptions
             self.inputs = inputs
@@ -4671,8 +4545,7 @@ extension GlueClientTypes {
             imputedPath: Swift.String? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.filledPath = filledPath
             self.imputedPath = imputedPath
             self.inputs = inputs
@@ -4768,8 +4641,7 @@ extension GlueClientTypes {
         public init(
             type: GlueClientTypes.FilterValueType? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -4793,8 +4665,7 @@ extension GlueClientTypes {
             negated: Swift.Bool? = nil,
             operation: GlueClientTypes.FilterOperation? = nil,
             values: [GlueClientTypes.FilterValue]? = nil
-        )
-        {
+        ) {
             self.negated = negated
             self.operation = operation
             self.values = values
@@ -4853,8 +4724,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             logicalOperator: GlueClientTypes.FilterLogicalOperator? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.inputs = inputs
             self.logicalOperator = logicalOperator
@@ -4875,8 +4745,7 @@ extension GlueClientTypes {
         public init(
             boundedFiles: Swift.Int? = nil,
             boundedSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.boundedFiles = boundedFiles
             self.boundedSize = boundedSize
         }
@@ -4907,8 +4776,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             partitionPredicate: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.name = name
@@ -4959,8 +4827,7 @@ extension GlueClientTypes {
         public init(
             enableUpdateCatalog: Swift.Bool? = nil,
             updateBehavior: GlueClientTypes.UpdateCatalogBehavior? = nil
-        )
-        {
+        ) {
             self.enableUpdateCatalog = enableUpdateCatalog
             self.updateBehavior = updateBehavior
         }
@@ -4995,8 +4862,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5230,8 +5096,7 @@ extension GlueClientTypes {
             numPartitions: Swift.Int? = nil,
             partitionColumn: Swift.String? = nil,
             upperBound: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataTypeMapping = dataTypeMapping
             self.filterPredicate = filterPredicate
             self.jobBookmarkKeys = jobBookmarkKeys
@@ -5278,8 +5143,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             query: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionTable = connectionTable
@@ -5328,8 +5192,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionTable = connectionTable
@@ -5356,8 +5219,7 @@ extension GlueClientTypes {
         public init(
             from: Swift.String? = nil,
             keys: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.from = from
             self.keys = keys
         }
@@ -5427,8 +5289,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             joinType: GlueClientTypes.JoinType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.inputs = inputs
             self.joinType = joinType
@@ -5459,8 +5320,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             primaryKeys: [[Swift.String]]? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.primaryKeys = primaryKeys
@@ -5487,8 +5347,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5518,8 +5377,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5546,8 +5404,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5577,8 +5434,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5605,8 +5461,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5636,8 +5491,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5715,8 +5569,7 @@ extension GlueClientTypes {
             piiType: GlueClientTypes.PiiType? = nil,
             sampleFraction: Swift.Double? = nil,
             thresholdFraction: Swift.Double? = nil
-        )
-        {
+        ) {
             self.entityTypesToDetect = entityTypesToDetect
             self.inputs = inputs
             self.maskValue = maskValue
@@ -5747,8 +5600,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5778,8 +5630,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5802,8 +5653,7 @@ extension GlueClientTypes {
         public init(
             recipeArn: Swift.String? = nil,
             recipeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.recipeArn = recipeArn
             self.recipeVersion = recipeVersion
         }
@@ -5823,8 +5673,7 @@ extension GlueClientTypes {
         public init(
             operation: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.operation = operation
             self.parameters = parameters
         }
@@ -5848,8 +5697,7 @@ extension GlueClientTypes {
             condition: Swift.String? = nil,
             targetColumn: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.targetColumn = targetColumn
             self.value = value
@@ -5870,8 +5718,7 @@ extension GlueClientTypes {
         public init(
             action: GlueClientTypes.RecipeAction? = nil,
             conditionExpressions: [GlueClientTypes.ConditionExpression]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.conditionExpressions = conditionExpressions
         }
@@ -5898,8 +5745,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             recipeReference: GlueClientTypes.RecipeReference? = nil,
             recipeSteps: [GlueClientTypes.RecipeStep]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.recipeReference = recipeReference
@@ -5932,8 +5778,7 @@ extension GlueClientTypes {
             redshiftTmpDir: Swift.String? = nil,
             table: Swift.String? = nil,
             tmpDirIAMRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.redshiftTmpDir = redshiftTmpDir
@@ -5958,8 +5803,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             tableLocation: Swift.String? = nil,
             upsertKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.tableLocation = tableLocation
             self.upsertKeys = upsertKeys
@@ -5998,8 +5842,7 @@ extension GlueClientTypes {
             table: Swift.String? = nil,
             tmpDirIAMRole: Swift.String? = nil,
             upsertRedshiftOptions: GlueClientTypes.UpsertRedshiftTargetOptions? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -6029,8 +5872,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -6060,8 +5902,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             sourcePath: [Swift.String]? = nil,
             targetPath: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.sourcePath = sourcePath
@@ -6094,8 +5935,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.database = database
             self.name = name
@@ -6129,8 +5969,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalHudiOptions = additionalHudiOptions
             self.database = database
             self.name = name
@@ -6164,8 +6003,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             partitionPredicate: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.name = name
@@ -6203,8 +6041,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -6233,8 +6070,7 @@ extension GlueClientTypes {
             boundedSize: Swift.Int? = nil,
             enableSamplePath: Swift.Bool? = nil,
             samplePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.boundedFiles = boundedFiles
             self.boundedSize = boundedSize
             self.enableSamplePath = enableSamplePath
@@ -6412,8 +6248,7 @@ extension GlueClientTypes {
             skipFirst: Swift.Bool? = nil,
             withHeader: Swift.Bool? = nil,
             writeHeader: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
             self.escaper = escaper
@@ -6468,8 +6303,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.inputs = inputs
@@ -6572,8 +6406,7 @@ extension GlueClientTypes {
             enableUpdateCatalog: Swift.Bool? = nil,
             table: Swift.String? = nil,
             updateBehavior: GlueClientTypes.UpdateCatalogBehavior? = nil
-        )
-        {
+        ) {
             self.database = database
             self.enableUpdateCatalog = enableUpdateCatalog
             self.table = table
@@ -6617,8 +6450,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compression = compression
             self.format = format
@@ -6654,8 +6486,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.additionalOptions = additionalOptions
             self.name = name
@@ -6696,8 +6527,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.compression = compression
             self.format = format
             self.inputs = inputs
@@ -6774,8 +6604,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.compression = compression
             self.inputs = inputs
             self.name = name
@@ -6818,8 +6647,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.inputs = inputs
@@ -6902,8 +6730,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compression = compression
             self.format = format
@@ -6939,8 +6766,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalHudiOptions = additionalHudiOptions
             self.additionalOptions = additionalOptions
             self.name = name
@@ -6997,8 +6823,7 @@ extension GlueClientTypes {
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil,
             recurse: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
             self.exclusions = exclusions
@@ -7057,8 +6882,7 @@ extension GlueClientTypes {
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil,
             recurse: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
             self.exclusions = exclusions
@@ -7092,8 +6916,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             paths: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.paths = paths
@@ -7119,8 +6942,7 @@ extension GlueClientTypes {
             index: Swift.Int = 0,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.index = index
             self.inputs = inputs
             self.name = name
@@ -7197,8 +7019,7 @@ extension GlueClientTypes {
             tableSchema: [GlueClientTypes.Option]? = nil,
             tempDir: Swift.String? = nil,
             upsert: Swift.Bool = false
-        )
-        {
+        ) {
             self.action = action
             self.additionalOptions = additionalOptions
             self.autoPushdown = autoPushdown
@@ -7241,8 +7062,7 @@ extension GlueClientTypes {
             data: GlueClientTypes.SnowflakeNodeData? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.data = data
             self.name = name
             self.outputSchemas = outputSchemas
@@ -7267,8 +7087,7 @@ extension GlueClientTypes {
             data: GlueClientTypes.SnowflakeNodeData? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.inputs = inputs
             self.name = name
@@ -7304,8 +7123,7 @@ extension GlueClientTypes {
             connectorName: Swift.String? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionType = connectionType
@@ -7348,8 +7166,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionType = connectionType
@@ -7375,8 +7192,7 @@ extension GlueClientTypes {
         public init(
             alias: Swift.String? = nil,
             from: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.from = from
         }
@@ -7408,8 +7224,7 @@ extension GlueClientTypes {
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             sqlAliases: [GlueClientTypes.SqlAlias]? = nil,
             sqlQuery: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.outputSchemas = outputSchemas
@@ -7443,8 +7258,7 @@ extension GlueClientTypes {
             path: Swift.String? = nil,
             prob: Swift.Double? = nil,
             topk: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.path = path
@@ -7472,8 +7286,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             paths: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.paths = paths
@@ -7528,8 +7341,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             unionType: GlueClientTypes.UnionType? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.unionType = unionType
@@ -7555,8 +7367,7 @@ extension GlueClientTypes {
             pythonVersion: Swift.String? = nil,
             runtime: Swift.String? = nil,
             scriptLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.pythonVersion = pythonVersion
             self.runtime = runtime
@@ -7574,8 +7385,7 @@ extension GlueClientTypes {
 
         public init(
             connections: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connections = connections
         }
     }
@@ -7619,8 +7429,7 @@ extension GlueClientTypes {
 
         public init(
             maxConcurrentRuns: Swift.Int = 0
-        )
-        {
+        ) {
             self.maxConcurrentRuns = maxConcurrentRuns
         }
     }
@@ -7752,8 +7561,7 @@ extension GlueClientTypes {
             owner: Swift.String? = nil,
             provider: GlueClientTypes.SourceControlProvider? = nil,
             repository: Swift.String? = nil
-        )
-        {
+        ) {
             self.authStrategy = authStrategy
             self.authToken = authToken
             self.branch = branch
@@ -7841,8 +7649,7 @@ public struct FederationSourceException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         federationSourceErrorCode: GlueClientTypes.FederationSourceErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.federationSourceErrorCode = federationSourceErrorCode
         self.properties.message = message
     }
@@ -7867,8 +7674,7 @@ public struct FederationSourceRetryableException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7892,8 +7698,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7916,8 +7721,7 @@ public struct BatchGetPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionsToGet: [GlueClientTypes.PartitionValueList]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionsToGet = partitionsToGet
@@ -7958,8 +7762,7 @@ extension GlueClientTypes {
             storageDescriptor: GlueClientTypes.StorageDescriptor? = nil,
             tableName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.creationTime = creationTime
             self.databaseName = databaseName
@@ -7982,8 +7785,7 @@ public struct BatchGetPartitionOutput: Swift.Sendable {
     public init(
         partitions: [GlueClientTypes.Partition]? = nil,
         unprocessedKeys: [GlueClientTypes.PartitionValueList]? = nil
-    )
-    {
+    ) {
         self.partitions = partitions
         self.unprocessedKeys = unprocessedKeys
     }
@@ -8008,8 +7810,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8064,8 +7865,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil,
             type: GlueClientTypes.TableOptimizerType? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -8081,8 +7881,7 @@ public struct BatchGetTableOptimizerInput: Swift.Sendable {
 
     public init(
         entries: [GlueClientTypes.BatchGetTableOptimizerEntry]? = nil
-    )
-    {
+    ) {
         self.entries = entries
     }
 }
@@ -8108,8 +7907,7 @@ extension GlueClientTypes {
             error: GlueClientTypes.ErrorDetail? = nil,
             tableName: Swift.String? = nil,
             type: GlueClientTypes.TableOptimizerType? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.error = error
@@ -8131,8 +7929,7 @@ extension GlueClientTypes {
         public init(
             location: Swift.String? = nil,
             orphanFileRetentionPeriodInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.location = location
             self.orphanFileRetentionPeriodInDays = orphanFileRetentionPeriodInDays
         }
@@ -8148,8 +7945,7 @@ extension GlueClientTypes {
 
         public init(
             icebergConfiguration: GlueClientTypes.IcebergOrphanFileDeletionConfiguration? = nil
-        )
-        {
+        ) {
             self.icebergConfiguration = icebergConfiguration
         }
     }
@@ -8170,8 +7966,7 @@ extension GlueClientTypes {
             cleanExpiredFiles: Swift.Bool? = nil,
             numberOfSnapshotsToRetain: Swift.Int? = nil,
             snapshotRetentionPeriodInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cleanExpiredFiles = cleanExpiredFiles
             self.numberOfSnapshotsToRetain = numberOfSnapshotsToRetain
             self.snapshotRetentionPeriodInDays = snapshotRetentionPeriodInDays
@@ -8188,8 +7983,7 @@ extension GlueClientTypes {
 
         public init(
             icebergConfiguration: GlueClientTypes.IcebergRetentionConfiguration? = nil
-        )
-        {
+        ) {
             self.icebergConfiguration = icebergConfiguration
         }
     }
@@ -8226,8 +8020,7 @@ extension GlueClientTypes {
             retentionConfiguration: GlueClientTypes.RetentionConfiguration? = nil,
             roleArn: Swift.String? = nil,
             vpcConfiguration: GlueClientTypes.TableOptimizerVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
             self.retentionConfiguration = retentionConfiguration
@@ -8255,8 +8048,7 @@ extension GlueClientTypes {
             numberOfBytesCompacted: Swift.Int = 0,
             numberOfDpus: Swift.Int = 0,
             numberOfFilesCompacted: Swift.Int = 0
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
             self.numberOfDpus = numberOfDpus
@@ -8274,8 +8066,7 @@ extension GlueClientTypes {
 
         public init(
             icebergMetrics: GlueClientTypes.IcebergCompactionMetrics? = nil
-        )
-        {
+        ) {
             self.icebergMetrics = icebergMetrics
         }
     }
@@ -8334,8 +8125,7 @@ extension GlueClientTypes {
             numberOfBytesCompacted: Swift.String? = nil,
             numberOfDpus: Swift.String? = nil,
             numberOfFilesCompacted: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
             self.numberOfDpus = numberOfDpus
@@ -8359,8 +8149,7 @@ extension GlueClientTypes {
             jobDurationInHour: Swift.Double = 0.0,
             numberOfDpus: Swift.Int = 0,
             numberOfOrphanFilesDeleted: Swift.Int = 0
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDpus = numberOfDpus
             self.numberOfOrphanFilesDeleted = numberOfOrphanFilesDeleted
@@ -8377,8 +8166,7 @@ extension GlueClientTypes {
 
         public init(
             icebergMetrics: GlueClientTypes.IcebergOrphanFileDeletionMetrics? = nil
-        )
-        {
+        ) {
             self.icebergMetrics = icebergMetrics
         }
     }
@@ -8405,8 +8193,7 @@ extension GlueClientTypes {
             numberOfDpus: Swift.Int = 0,
             numberOfManifestFilesDeleted: Swift.Int = 0,
             numberOfManifestListsDeleted: Swift.Int = 0
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
             self.numberOfDpus = numberOfDpus
@@ -8425,8 +8212,7 @@ extension GlueClientTypes {
 
         public init(
             icebergMetrics: GlueClientTypes.IcebergRetentionMetrics? = nil
-        )
-        {
+        ) {
             self.icebergMetrics = icebergMetrics
         }
     }
@@ -8463,8 +8249,7 @@ extension GlueClientTypes {
             orphanFileDeletionMetrics: GlueClientTypes.OrphanFileDeletionMetrics? = nil,
             retentionMetrics: GlueClientTypes.RetentionMetrics? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.compactionMetrics = compactionMetrics
             self.endTimestamp = endTimestamp
             self.error = error
@@ -8498,8 +8283,7 @@ extension GlueClientTypes {
             configuration: GlueClientTypes.TableOptimizerConfiguration? = nil,
             lastRun: GlueClientTypes.TableOptimizerRun? = nil,
             type: GlueClientTypes.TableOptimizerType? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.lastRun = lastRun
             self.type = type
@@ -8525,8 +8309,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil,
             tableOptimizer: GlueClientTypes.TableOptimizer? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -8544,8 +8327,7 @@ public struct BatchGetTableOptimizerOutput: Swift.Sendable {
     public init(
         failures: [GlueClientTypes.BatchGetTableOptimizerError]? = nil,
         tableOptimizers: [GlueClientTypes.BatchTableOptimizer]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.tableOptimizers = tableOptimizers
     }
@@ -8558,8 +8340,7 @@ public struct BatchGetTriggersInput: Swift.Sendable {
 
     public init(
         triggerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.triggerNames = triggerNames
     }
 }
@@ -8577,8 +8358,7 @@ extension GlueClientTypes {
         public init(
             batchSize: Swift.Int? = nil,
             batchWindow: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.batchWindow = batchWindow
         }
@@ -8726,8 +8506,7 @@ extension GlueClientTypes {
             jobName: Swift.String? = nil,
             logicalOperator: GlueClientTypes.LogicalOperator? = nil,
             state: GlueClientTypes.JobRunState? = nil
-        )
-        {
+        ) {
             self.crawlState = crawlState
             self.crawlerName = crawlerName
             self.jobName = jobName
@@ -8778,8 +8557,7 @@ extension GlueClientTypes {
         public init(
             conditions: [GlueClientTypes.Condition]? = nil,
             logical: GlueClientTypes.Logical? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
             self.logical = logical
         }
@@ -8904,8 +8682,7 @@ extension GlueClientTypes {
             state: GlueClientTypes.TriggerState? = nil,
             type: GlueClientTypes.TriggerType? = nil,
             workflowName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.description = description
             self.eventBatchingCondition = eventBatchingCondition
@@ -8929,8 +8706,7 @@ public struct BatchGetTriggersOutput: Swift.Sendable {
     public init(
         triggers: [GlueClientTypes.Trigger]? = nil,
         triggersNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.triggers = triggers
         self.triggersNotFound = triggersNotFound
     }
@@ -8946,8 +8722,7 @@ public struct BatchGetWorkflowsInput: Swift.Sendable {
     public init(
         includeGraph: Swift.Bool? = nil,
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.names = names
     }
@@ -8965,8 +8740,7 @@ extension GlueClientTypes {
         public init(
             blueprintName: Swift.String? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintName = blueprintName
             self.runId = runId
         }
@@ -8985,8 +8759,7 @@ extension GlueClientTypes {
         public init(
             destinationId: Swift.String? = nil,
             sourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationId = destinationId
             self.sourceId = sourceId
         }
@@ -9017,8 +8790,7 @@ extension GlueClientTypes {
             logStream: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             state: GlueClientTypes.CrawlState? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
             self.logGroup = logGroup
@@ -9038,8 +8810,7 @@ extension GlueClientTypes {
 
         public init(
             crawls: [GlueClientTypes.Crawl]? = nil
-        )
-        {
+        ) {
             self.crawls = crawls
         }
     }
@@ -9057,8 +8828,7 @@ extension GlueClientTypes {
         public init(
             jobName: Swift.String? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.runId = runId
         }
@@ -9135,7 +8905,7 @@ extension GlueClientTypes {
         public var startedOn: Foundation.Date?
         /// This field holds details that pertain to the state of a job run. The field is nullable. For example, when a job run is in a WAITING state as a result of job run queuing, the field has the reason why the job run is in that state.
         public var stateDetail: Swift.String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
         public var triggerName: Swift.String?
@@ -9184,8 +8954,7 @@ extension GlueClientTypes {
             timeout: Swift.Int? = nil,
             triggerName: Swift.String? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
@@ -9228,8 +8997,7 @@ extension GlueClientTypes {
 
         public init(
             jobRuns: [GlueClientTypes.JobRun]? = nil
-        )
-        {
+        ) {
             self.jobRuns = jobRuns
         }
     }
@@ -9244,8 +9012,7 @@ extension GlueClientTypes {
 
         public init(
             trigger: GlueClientTypes.Trigger? = nil
-        )
-        {
+        ) {
             self.trigger = trigger
         }
     }
@@ -9307,8 +9074,7 @@ extension GlueClientTypes {
             triggerDetails: GlueClientTypes.TriggerNodeDetails? = nil,
             type: GlueClientTypes.NodeType? = nil,
             uniqueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.crawlerDetails = crawlerDetails
             self.jobDetails = jobDetails
             self.name = name
@@ -9331,8 +9097,7 @@ extension GlueClientTypes {
         public init(
             edges: [GlueClientTypes.Edge]? = nil,
             nodes: [GlueClientTypes.Node]? = nil
-        )
-        {
+        ) {
             self.edges = edges
             self.nodes = nodes
         }
@@ -9351,8 +9116,7 @@ extension GlueClientTypes {
         public init(
             batchSize: Swift.Int? = nil,
             batchWindow: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.batchWindow = batchWindow
         }
@@ -9389,8 +9153,7 @@ extension GlueClientTypes {
             timeoutActions: Swift.Int = 0,
             totalActions: Swift.Int = 0,
             waitingActions: Swift.Int = 0
-        )
-        {
+        ) {
             self.erroredActions = erroredActions
             self.failedActions = failedActions
             self.runningActions = runningActions
@@ -9480,8 +9243,7 @@ extension GlueClientTypes {
             status: GlueClientTypes.WorkflowRunStatus? = nil,
             workflowRunId: Swift.String? = nil,
             workflowRunProperties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
             self.graph = graph
@@ -9530,8 +9292,7 @@ extension GlueClientTypes {
             lastRun: GlueClientTypes.WorkflowRun? = nil,
             maxConcurrentRuns: Swift.Int? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintDetails = blueprintDetails
             self.createdOn = createdOn
             self.defaultRunProperties = defaultRunProperties
@@ -9554,8 +9315,7 @@ public struct BatchGetWorkflowsOutput: Swift.Sendable {
     public init(
         missingWorkflows: [Swift.String]? = nil,
         workflows: [GlueClientTypes.Workflow]? = nil
-    )
-    {
+    ) {
         self.missingWorkflows = missingWorkflows
         self.workflows = workflows
     }
@@ -9576,8 +9336,7 @@ extension GlueClientTypes {
             inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue? = nil,
             profileId: Swift.String? = nil,
             statisticId: Swift.String? = nil
-        )
-        {
+        ) {
             self.inclusionAnnotation = inclusionAnnotation
             self.profileId = profileId
             self.statisticId = statisticId
@@ -9595,8 +9354,7 @@ public struct BatchPutDataQualityStatisticAnnotationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         inclusionAnnotations: [GlueClientTypes.DatapointInclusionAnnotation]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.inclusionAnnotations = inclusionAnnotations
     }
@@ -9608,8 +9366,7 @@ public struct BatchPutDataQualityStatisticAnnotationOutput: Swift.Sendable {
 
     public init(
         failedInclusionAnnotations: [GlueClientTypes.AnnotationError]? = nil
-    )
-    {
+    ) {
         self.failedInclusionAnnotations = failedInclusionAnnotations
     }
 }
@@ -9625,8 +9382,7 @@ public struct BatchStopJobRunInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         jobRunIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.jobRunIds = jobRunIds
     }
@@ -9647,8 +9403,7 @@ extension GlueClientTypes {
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -9668,8 +9423,7 @@ extension GlueClientTypes {
         public init(
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobRunId = jobRunId
         }
@@ -9685,8 +9439,7 @@ public struct BatchStopJobRunOutput: Swift.Sendable {
     public init(
         errors: [GlueClientTypes.BatchStopJobRunError]? = nil,
         successfulSubmissions: [GlueClientTypes.BatchStopJobRunSuccessfulSubmission]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.successfulSubmissions = successfulSubmissions
     }
@@ -9706,8 +9459,7 @@ extension GlueClientTypes {
         public init(
             partitionInput: GlueClientTypes.PartitionInput? = nil,
             partitionValueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.partitionInput = partitionInput
             self.partitionValueList = partitionValueList
         }
@@ -9732,8 +9484,7 @@ public struct BatchUpdatePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         entries: [GlueClientTypes.BatchUpdatePartitionRequestEntry]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.entries = entries
@@ -9753,8 +9504,7 @@ extension GlueClientTypes {
         public init(
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             partitionValueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.partitionValueList = partitionValueList
         }
@@ -9767,8 +9517,7 @@ public struct BatchUpdatePartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.BatchUpdatePartitionFailureEntry]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -9780,8 +9529,7 @@ public struct CancelDataQualityRuleRecommendationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -9798,8 +9546,7 @@ public struct CancelDataQualityRulesetEvaluationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -9820,8 +9567,7 @@ public struct CancelMLTaskRunInput: Swift.Sendable {
     public init(
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
         self.transformId = transformId
     }
@@ -9883,8 +9629,7 @@ public struct CancelMLTaskRunOutput: Swift.Sendable {
         status: GlueClientTypes.TaskStatusType? = nil,
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.taskRunId = taskRunId
         self.transformId = transformId
@@ -9910,8 +9655,7 @@ public struct IllegalSessionStateException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9930,8 +9674,7 @@ public struct CancelStatementInput: Swift.Sendable {
         id: Swift.Int? = 0,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -9986,8 +9729,7 @@ public struct CheckSchemaVersionValidityInput: Swift.Sendable {
     public init(
         dataFormat: GlueClientTypes.DataFormat? = nil,
         schemaDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataFormat = dataFormat
         self.schemaDefinition = schemaDefinition
     }
@@ -10002,8 +9744,7 @@ public struct CheckSchemaVersionValidityOutput: Swift.Sendable {
     public init(
         error: Swift.String? = nil,
         valid: Swift.Bool = false
-    )
-    {
+    ) {
         self.error = error
         self.valid = valid
     }
@@ -10026,8 +9767,7 @@ public struct CreateBlueprintInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.blueprintLocation = blueprintLocation
         self.description = description
         self.name = name
@@ -10041,8 +9781,7 @@ public struct CreateBlueprintOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -10066,8 +9805,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10094,8 +9832,7 @@ public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledErro
     public init(
         associatedGlueResource: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.associatedGlueResource = associatedGlueResource
         self.properties.message = message
     }
@@ -10119,8 +9856,7 @@ extension GlueClientTypes {
             dataLakeAccess: Swift.Bool = false,
             dataTransferRole: Swift.String? = nil,
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogType = catalogType
             self.dataLakeAccess = dataLakeAccess
             self.dataTransferRole = dataTransferRole
@@ -10141,8 +9877,7 @@ extension GlueClientTypes {
         public init(
             customProperties: [Swift.String: Swift.String]? = nil,
             dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties? = nil
-        )
-        {
+        ) {
             self.customProperties = customProperties
             self.dataLakeAccessProperties = dataLakeAccessProperties
         }
@@ -10208,8 +9943,7 @@ extension GlueClientTypes {
 
         public init(
             dataLakePrincipalIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
         }
     }
@@ -10227,8 +9961,7 @@ extension GlueClientTypes {
         public init(
             permissions: [GlueClientTypes.Permission]? = nil,
             principal: GlueClientTypes.DataLakePrincipal? = nil
-        )
-        {
+        ) {
             self.permissions = permissions
             self.principal = principal
         }
@@ -10247,8 +9980,7 @@ extension GlueClientTypes {
         public init(
             connectionName: Swift.String? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.identifier = identifier
         }
@@ -10265,8 +9997,7 @@ extension GlueClientTypes {
 
         public init(
             catalogArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogArn = catalogArn
         }
     }
@@ -10299,8 +10030,7 @@ extension GlueClientTypes {
             federatedCatalog: GlueClientTypes.FederatedCatalog? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil
-        )
-        {
+        ) {
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
@@ -10326,8 +10056,7 @@ public struct CreateCatalogInput: Swift.Sendable {
         catalogInput: GlueClientTypes.CatalogInput? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogInput = catalogInput
         self.name = name
         self.tags = tags
@@ -10440,8 +10169,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             quoteSymbol: Swift.String? = nil,
             serde: GlueClientTypes.CsvSerdeOption? = nil
-        )
-        {
+        ) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.customDatatypeConfigured = customDatatypeConfigured
@@ -10477,8 +10205,7 @@ extension GlueClientTypes {
             customPatterns: Swift.String? = nil,
             grokPattern: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.customPatterns = customPatterns
             self.grokPattern = grokPattern
@@ -10501,8 +10228,7 @@ extension GlueClientTypes {
         public init(
             jsonPath: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.jsonPath = jsonPath
             self.name = name
         }
@@ -10526,8 +10252,7 @@ extension GlueClientTypes {
             classification: Swift.String? = nil,
             name: Swift.String? = nil,
             rowTag: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.name = name
             self.rowTag = rowTag
@@ -10550,8 +10275,7 @@ public struct CreateClassifierInput: Swift.Sendable {
         grokClassifier: GlueClientTypes.CreateGrokClassifierRequest? = nil,
         jsonClassifier: GlueClientTypes.CreateJsonClassifierRequest? = nil,
         xmlClassifier: GlueClientTypes.CreateXMLClassifierRequest? = nil
-    )
-    {
+    ) {
         self.csvClassifier = csvClassifier
         self.grokClassifier = grokClassifier
         self.jsonClassifier = jsonClassifier
@@ -10583,8 +10307,7 @@ public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10622,8 +10345,7 @@ public struct CreateColumnStatisticsTaskSettingsInput: Swift.Sendable {
         securityConfiguration: Swift.String? = nil,
         tableName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogID = catalogID
         self.columnNameList = columnNameList
         self.databaseName = databaseName
@@ -10936,8 +10658,7 @@ extension GlueClientTypes {
             availabilityZone: Swift.String? = nil,
             securityGroupIdList: [Swift.String]? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.securityGroupIdList = securityGroupIdList
             self.subnetId = subnetId
@@ -11122,8 +10843,7 @@ extension GlueClientTypes {
             sparkProperties: [Swift.String: Swift.String]? = nil,
             validateCredentials: Swift.Bool = false,
             validateForComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil
-        )
-        {
+        ) {
             self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
@@ -11153,8 +10873,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         connectionInput: GlueClientTypes.ConnectionInput? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionInput = connectionInput
         self.tags = tags
@@ -11199,8 +10918,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
 
     public init(
         createConnectionStatus: GlueClientTypes.ConnectionStatus? = nil
-    )
-    {
+    ) {
         self.createConnectionStatus = createConnectionStatus
     }
 }
@@ -11256,8 +10974,7 @@ public struct CreateCrawlerInput: Swift.Sendable {
         tablePrefix: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: GlueClientTypes.CrawlerTargets? = nil
-    )
-    {
+    ) {
         self.classifiers = classifiers
         self.configuration = configuration
         self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -11300,8 +11017,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11323,8 +11039,7 @@ public struct CreateCustomEntityTypeInput: Swift.Sendable {
         name: Swift.String? = nil,
         regexString: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.contextWords = contextWords
         self.name = name
         self.regexString = regexString
@@ -11338,8 +11053,7 @@ public struct CreateCustomEntityTypeOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -11356,8 +11070,7 @@ extension GlueClientTypes {
         public init(
             connectionName: Swift.String? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.identifier = identifier
         }
@@ -11379,8 +11092,7 @@ extension GlueClientTypes {
             catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.region = region
@@ -11416,8 +11128,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             targetDatabase: GlueClientTypes.DatabaseIdentifier? = nil
-        )
-        {
+        ) {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
             self.federatedDatabase = federatedDatabase
@@ -11442,8 +11153,7 @@ public struct CreateDatabaseInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseInput: GlueClientTypes.DatabaseInput? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseInput = databaseInput
         self.tags = tags
@@ -11472,8 +11182,7 @@ extension GlueClientTypes {
             catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -11507,8 +11216,7 @@ public struct CreateDataQualityRulesetInput: Swift.Sendable {
         ruleset: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.description = description
@@ -11525,8 +11233,7 @@ public struct CreateDataQualityRulesetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -11550,8 +11257,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11615,8 +11321,7 @@ public struct CreateDevEndpointInput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.arguments = arguments
         self.endpointName = endpointName
         self.extraJarsS3Path = extraJarsS3Path
@@ -11700,8 +11405,7 @@ public struct CreateDevEndpointOutput: Swift.Sendable {
         workerType: GlueClientTypes.WorkerType? = nil,
         yarnEndpointAddress: Swift.String? = nil,
         zeppelinRemoteSparkInterpreterPort: Swift.Int = 0
-    )
-    {
+    ) {
         self.arguments = arguments
         self.availabilityZone = availabilityZone
         self.createdTimestamp = createdTimestamp
@@ -11743,8 +11447,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11768,8 +11471,7 @@ public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11793,8 +11495,7 @@ public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11818,8 +11519,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11843,8 +11543,7 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11868,8 +11567,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11886,8 +11584,7 @@ extension GlueClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -11924,8 +11621,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         tags: [GlueClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.dataFilter = dataFilter
         self.description = description
@@ -11949,8 +11645,7 @@ extension GlueClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -12060,8 +11755,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         status: GlueClientTypes.IntegrationStatus? = nil,
         tags: [GlueClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.dataFilter = dataFilter
@@ -12086,8 +11780,7 @@ extension GlueClientTypes {
 
         public init(
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
         }
     }
@@ -12111,8 +11804,7 @@ extension GlueClientTypes {
             eventBusArn: Swift.String? = nil,
             kmsArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.eventBusArn = eventBusArn
             self.kmsArn = kmsArn
@@ -12134,8 +11826,7 @@ public struct CreateIntegrationResourcePropertyInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
@@ -12155,8 +11846,7 @@ public struct CreateIntegrationResourcePropertyOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
@@ -12181,8 +11871,7 @@ extension GlueClientTypes {
             filterPredicate: Swift.String? = nil,
             primaryKey: [Swift.String]? = nil,
             recordUpdateField: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.filterPredicate = filterPredicate
             self.primaryKey = primaryKey
@@ -12203,8 +11892,7 @@ extension GlueClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             functionSpec: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.functionSpec = functionSpec
         }
@@ -12258,8 +11946,7 @@ extension GlueClientTypes {
             partitionSpec: [GlueClientTypes.IntegrationPartition]? = nil,
             targetTableName: Swift.String? = nil,
             unnestSpec: GlueClientTypes.UnnestSpec? = nil
-        )
-        {
+        ) {
             self.partitionSpec = partitionSpec
             self.targetTableName = targetTableName
             self.unnestSpec = unnestSpec
@@ -12284,8 +11971,7 @@ public struct CreateIntegrationTablePropertiesInput: Swift.Sendable {
         sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
         tableName: Swift.String? = nil,
         targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceTableConfig = sourceTableConfig
         self.tableName = tableName
@@ -12304,8 +11990,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -12328,8 +12013,7 @@ extension GlueClientTypes {
             enforceProvidedLabels: Swift.Bool? = nil,
             precisionRecallTradeoff: Swift.Double? = nil,
             primaryKeyColumnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accuracyCostTradeoff = accuracyCostTradeoff
             self.enforceProvidedLabels = enforceProvidedLabels
             self.precisionRecallTradeoff = precisionRecallTradeoff
@@ -12377,8 +12061,7 @@ extension GlueClientTypes {
         public init(
             findMatchesParameters: GlueClientTypes.FindMatchesParameters? = nil,
             transformType: GlueClientTypes.TransformType? = nil
-        )
-        {
+        ) {
             self.findMatchesParameters = findMatchesParameters
             self.transformType = transformType
         }
@@ -12431,8 +12114,7 @@ extension GlueClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             mlUserDataEncryptionMode: GlueClientTypes.MLUserDataEncryptionModeString? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.mlUserDataEncryptionMode = mlUserDataEncryptionMode
         }
@@ -12451,8 +12133,7 @@ extension GlueClientTypes {
         public init(
             mlUserDataEncryption: GlueClientTypes.MLUserDataEncryption? = nil,
             taskRunSecurityConfigurationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.mlUserDataEncryption = mlUserDataEncryption
             self.taskRunSecurityConfigurationName = taskRunSecurityConfigurationName
         }
@@ -12537,8 +12218,7 @@ public struct CreateMLTransformInput: Swift.Sendable {
         timeout: Swift.Int? = nil,
         transformEncryption: GlueClientTypes.TransformEncryption? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.glueVersion = glueVersion
         self.inputRecordTables = inputRecordTables
@@ -12561,8 +12241,7 @@ public struct CreateMLTransformOutput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -12585,8 +12264,7 @@ public struct CreatePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionInput: GlueClientTypes.PartitionInput? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionInput = partitionInput
@@ -12613,8 +12291,7 @@ extension GlueClientTypes {
         public init(
             indexName: Swift.String? = nil,
             keys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.keys = keys
         }
@@ -12639,8 +12316,7 @@ public struct CreatePartitionIndexInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionIndex: GlueClientTypes.PartitionIndex? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionIndex = partitionIndex
@@ -12666,8 +12342,7 @@ public struct CreateRegistryInput: Swift.Sendable {
         description: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryName = registryName
         self.tags = tags
@@ -12689,8 +12364,7 @@ public struct CreateRegistryOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryArn = registryArn
         self.registryName = registryName
@@ -12757,8 +12431,7 @@ extension GlueClientTypes {
         public init(
             registryArn: Swift.String? = nil,
             registryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.registryArn = registryArn
             self.registryName = registryName
         }
@@ -12807,8 +12480,7 @@ public struct CreateSchemaInput: Swift.Sendable {
         schemaDefinition: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.dataFormat = dataFormat
         self.description = description
@@ -12931,8 +12603,7 @@ public struct CreateSchemaOutput: Swift.Sendable {
         schemaVersionId: Swift.String? = nil,
         schemaVersionStatus: GlueClientTypes.SchemaVersionStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.dataFormat = dataFormat
         self.description = description
@@ -12967,8 +12638,7 @@ extension GlueClientTypes {
             source: Swift.String? = nil,
             target: Swift.String? = nil,
             targetParameter: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.target = target
             self.targetParameter = targetParameter
@@ -12993,8 +12663,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             param: Swift.Bool = false,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.param = param
             self.value = value
@@ -13023,8 +12692,7 @@ extension GlueClientTypes {
             id: Swift.String? = nil,
             lineNumber: Swift.Int = 0,
             nodeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.args = args
             self.id = id
             self.lineNumber = lineNumber
@@ -13074,8 +12742,7 @@ public struct CreateScriptInput: Swift.Sendable {
         dagEdges: [GlueClientTypes.CodeGenEdge]? = nil,
         dagNodes: [GlueClientTypes.CodeGenNode]? = nil,
         language: GlueClientTypes.Language? = nil
-    )
-    {
+    ) {
         self.dagEdges = dagEdges
         self.dagNodes = dagNodes
         self.language = language
@@ -13091,8 +12758,7 @@ public struct CreateScriptOutput: Swift.Sendable {
     public init(
         pythonScript: Swift.String? = nil,
         scalaCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.pythonScript = pythonScript
         self.scalaCode = scalaCode
     }
@@ -13139,8 +12805,7 @@ extension GlueClientTypes {
         public init(
             cloudWatchEncryptionMode: GlueClientTypes.CloudWatchEncryptionMode? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchEncryptionMode = cloudWatchEncryptionMode
             self.kmsKeyArn = kmsKeyArn
         }
@@ -13188,8 +12853,7 @@ extension GlueClientTypes {
         public init(
             dataQualityEncryptionMode: GlueClientTypes.DataQualityEncryptionMode? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataQualityEncryptionMode = dataQualityEncryptionMode
             self.kmsKeyArn = kmsKeyArn
         }
@@ -13237,8 +12901,7 @@ extension GlueClientTypes {
         public init(
             jobBookmarksEncryptionMode: GlueClientTypes.JobBookmarksEncryptionMode? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobBookmarksEncryptionMode = jobBookmarksEncryptionMode
             self.kmsKeyArn = kmsKeyArn
         }
@@ -13289,8 +12952,7 @@ extension GlueClientTypes {
         public init(
             kmsKeyArn: Swift.String? = nil,
             s3EncryptionMode: GlueClientTypes.S3EncryptionMode? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.s3EncryptionMode = s3EncryptionMode
         }
@@ -13315,8 +12977,7 @@ extension GlueClientTypes {
             dataQualityEncryption: GlueClientTypes.DataQualityEncryption? = nil,
             jobBookmarksEncryption: GlueClientTypes.JobBookmarksEncryption? = nil,
             s3Encryption: [GlueClientTypes.S3Encryption]? = nil
-        )
-        {
+        ) {
             self.cloudWatchEncryption = cloudWatchEncryption
             self.dataQualityEncryption = dataQualityEncryption
             self.jobBookmarksEncryption = jobBookmarksEncryption
@@ -13336,8 +12997,7 @@ public struct CreateSecurityConfigurationInput: Swift.Sendable {
     public init(
         encryptionConfiguration: GlueClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.name = name
     }
@@ -13352,8 +13012,7 @@ public struct CreateSecurityConfigurationOutput: Swift.Sendable {
     public init(
         createdTimestamp: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.name = name
     }
@@ -13371,8 +13030,7 @@ extension GlueClientTypes {
         public init(
             name: Swift.String? = nil,
             pythonVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.pythonVersion = pythonVersion
         }
@@ -13410,7 +13068,7 @@ public struct CreateSessionInput: Swift.Sendable {
     public var securityConfiguration: Swift.String?
     /// The map of key value pairs (tags) belonging to the session.
     public var tags: [Swift.String: Swift.String]?
-    /// The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the documentation for other job types.
+    /// The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes). Consult the documentation for other job types.
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.
     ///
@@ -13441,8 +13099,7 @@ public struct CreateSessionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timeout: Swift.Int? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.command = command
         self.connections = connections
         self.defaultArguments = defaultArguments
@@ -13568,8 +13225,7 @@ extension GlueClientTypes {
             securityConfiguration: Swift.String? = nil,
             status: GlueClientTypes.SessionStatus? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.command = command
             self.completedOn = completedOn
             self.connections = connections
@@ -13600,8 +13256,7 @@ public struct CreateSessionOutput: Swift.Sendable {
 
     public init(
         session: GlueClientTypes.Session? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -13645,8 +13300,7 @@ extension GlueClientTypes {
         public init(
             metadataOperation: GlueClientTypes.MetadataOperation? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadataOperation = metadataOperation
             self.version = version
         }
@@ -13662,8 +13316,7 @@ extension GlueClientTypes {
 
         public init(
             icebergInput: GlueClientTypes.IcebergInput? = nil
-        )
-        {
+        ) {
             self.icebergInput = icebergInput
         }
     }
@@ -13687,8 +13340,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             name: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
@@ -13750,8 +13402,7 @@ extension GlueClientTypes {
             validationConnection: Swift.String? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.validationConnection = validationConnection
@@ -13779,8 +13430,7 @@ extension GlueClientTypes {
             isProtected: Swift.Bool? = nil,
             representations: [GlueClientTypes.ViewRepresentationInput]? = nil,
             subObjects: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definer = definer
             self.isProtected = isProtected
             self.representations = representations
@@ -13838,8 +13488,7 @@ extension GlueClientTypes {
             viewDefinition: GlueClientTypes.ViewDefinitionInput? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -13881,8 +13530,7 @@ public struct CreateTableInput: Swift.Sendable {
         partitionIndexes: [GlueClientTypes.PartitionIndex]? = nil,
         tableInput: GlueClientTypes.TableInput? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.openTableFormatInput = openTableFormatInput
@@ -13920,8 +13568,7 @@ public struct CreateTableOptimizerInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -13971,8 +13618,7 @@ public struct CreateTriggerInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: GlueClientTypes.TriggerType? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.description = description
         self.eventBatchingCondition = eventBatchingCondition
@@ -13992,8 +13638,7 @@ public struct CreateTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14017,8 +13662,7 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -14041,8 +13685,7 @@ extension GlueClientTypes {
             defaultValue: Swift.String? = nil,
             maxValue: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
             self.maxValue = maxValue
@@ -14063,8 +13706,7 @@ extension GlueClientTypes {
         public init(
             jobConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]? = nil,
             sessionConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]? = nil
-        )
-        {
+        ) {
             self.jobConfiguration = jobConfiguration
             self.sessionConfiguration = sessionConfiguration
         }
@@ -14088,8 +13730,7 @@ public struct CreateUsageProfileInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.description = description
         self.name = name
@@ -14103,8 +13744,7 @@ public struct CreateUsageProfileOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14185,8 +13825,7 @@ extension GlueClientTypes {
         public init(
             resourceType: GlueClientTypes.ResourceType? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
             self.uri = uri
         }
@@ -14214,8 +13853,7 @@ extension GlueClientTypes {
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
-        )
-        {
+        ) {
             self.className = className
             self.functionName = functionName
             self.ownerName = ownerName
@@ -14239,8 +13877,7 @@ public struct CreateUserDefinedFunctionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         functionInput: GlueClientTypes.UserDefinedFunctionInput? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionInput = functionInput
@@ -14271,8 +13908,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         maxConcurrentRuns: Swift.Int? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.defaultRunProperties = defaultRunProperties
         self.description = description
         self.maxConcurrentRuns = maxConcurrentRuns
@@ -14287,8 +13923,7 @@ public struct CreateWorkflowOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14300,8 +13935,7 @@ public struct DeleteBlueprintInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14312,8 +13946,7 @@ public struct DeleteBlueprintOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14325,8 +13958,7 @@ public struct DeleteCatalogInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -14343,8 +13975,7 @@ public struct DeleteClassifierInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14376,8 +14007,7 @@ public struct DeleteColumnStatisticsForPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnName = columnName
         self.databaseName = databaseName
@@ -14409,8 +14039,7 @@ public struct DeleteColumnStatisticsForTableInput: Swift.Sendable {
         columnName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnName = columnName
         self.databaseName = databaseName
@@ -14434,8 +14063,7 @@ public struct DeleteColumnStatisticsTaskSettingsInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -14456,8 +14084,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         connectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionName = connectionName
     }
@@ -14487,8 +14114,7 @@ public struct CrawlerRunningException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -14512,8 +14138,7 @@ public struct SchedulerTransitioningException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -14525,8 +14150,7 @@ public struct DeleteCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14543,8 +14167,7 @@ public struct DeleteCustomEntityTypeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14555,8 +14178,7 @@ public struct DeleteCustomEntityTypeOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14571,8 +14193,7 @@ public struct DeleteDatabaseInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.name = name
     }
@@ -14590,8 +14211,7 @@ public struct DeleteDataQualityRulesetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14608,8 +14228,7 @@ public struct DeleteDevEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -14638,8 +14257,7 @@ public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -14663,8 +14281,7 @@ public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -14676,8 +14293,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
 
     public init(
         integrationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationIdentifier = integrationIdentifier
     }
 }
@@ -14741,8 +14357,7 @@ public struct DeleteIntegrationOutput: Swift.Sendable {
         status: GlueClientTypes.IntegrationStatus? = nil,
         tags: [GlueClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.dataFilter = dataFilter
@@ -14769,8 +14384,7 @@ public struct DeleteIntegrationTablePropertiesInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tableName = tableName
     }
@@ -14788,8 +14402,7 @@ public struct DeleteJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -14800,8 +14413,7 @@ public struct DeleteJobOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -14813,8 +14425,7 @@ public struct DeleteMLTransformInput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -14825,8 +14436,7 @@ public struct DeleteMLTransformOutput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -14849,8 +14459,7 @@ public struct DeletePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionValues = partitionValues
@@ -14881,8 +14490,7 @@ public struct DeletePartitionIndexInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.indexName = indexName
@@ -14902,8 +14510,7 @@ public struct DeleteRegistryInput: Swift.Sendable {
 
     public init(
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
     }
 }
@@ -14949,8 +14556,7 @@ public struct DeleteRegistryOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         status: GlueClientTypes.RegistryStatus? = nil
-    )
-    {
+    ) {
         self.registryArn = registryArn
         self.registryName = registryName
         self.status = status
@@ -14976,8 +14582,7 @@ public struct ConditionCheckFailureException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -14991,8 +14596,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public init(
         policyHashCondition: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyHashCondition = policyHashCondition
         self.resourceArn = resourceArn
     }
@@ -15010,8 +14614,7 @@ public struct DeleteSchemaInput: Swift.Sendable {
 
     public init(
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
     }
 }
@@ -15028,8 +14631,7 @@ public struct DeleteSchemaOutput: Swift.Sendable {
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         status: GlueClientTypes.SchemaStatus? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
         self.schemaName = schemaName
         self.status = status
@@ -15051,8 +14653,7 @@ public struct DeleteSchemaVersionsInput: Swift.Sendable {
     public init(
         schemaId: GlueClientTypes.SchemaId? = nil,
         versions: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
         self.versions = versions
     }
@@ -15070,8 +14671,7 @@ extension GlueClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -15090,8 +14690,7 @@ extension GlueClientTypes {
         public init(
             errorDetails: GlueClientTypes.ErrorDetails? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errorDetails = errorDetails
             self.versionNumber = versionNumber
         }
@@ -15104,8 +14703,7 @@ public struct DeleteSchemaVersionsOutput: Swift.Sendable {
 
     public init(
         schemaVersionErrors: [GlueClientTypes.SchemaVersionErrorItem]? = nil
-    )
-    {
+    ) {
         self.schemaVersionErrors = schemaVersionErrors
     }
 }
@@ -15117,8 +14715,7 @@ public struct DeleteSecurityConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15138,8 +14735,7 @@ public struct DeleteSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         requestOrigin: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
     }
@@ -15151,8 +14747,7 @@ public struct DeleteSessionOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -15174,8 +14769,7 @@ public struct DeleteTableInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         name: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.name = name
@@ -15207,8 +14801,7 @@ public struct DeleteTableOptimizerInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -15239,8 +14832,7 @@ public struct DeleteTableVersionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -15260,8 +14852,7 @@ public struct DeleteTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15272,8 +14863,7 @@ public struct DeleteTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15285,8 +14875,7 @@ public struct DeleteUsageProfileInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15310,8 +14899,7 @@ public struct DeleteUserDefinedFunctionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionName = functionName
@@ -15330,8 +14918,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15342,8 +14929,7 @@ public struct DeleteWorkflowOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15355,8 +14941,7 @@ public struct DescribeConnectionTypeInput: Swift.Sendable {
 
     public init(
         connectionType: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionType = connectionType
     }
 }
@@ -15379,8 +14964,7 @@ extension GlueClientTypes {
             supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]? = nil,
             supportedComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil,
             supportedDataOperations: [GlueClientTypes.DataOperation]? = nil
-        )
-        {
+        ) {
             self.supportedAuthenticationTypes = supportedAuthenticationTypes
             self.supportedComputeEnvironments = supportedComputeEnvironments
             self.supportedDataOperations = supportedDataOperations
@@ -15429,8 +15013,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             physicalConnectionPropertiesRequired: Swift.Bool? = nil,
             supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]? = nil
-        )
-        {
+        ) {
             self.computeEnvironment = computeEnvironment
             self.connectionOptionNameOverrides = connectionOptionNameOverrides
             self.connectionOptions = connectionOptions
@@ -15480,8 +15063,7 @@ public struct DescribeConnectionTypeOutput: Swift.Sendable {
         physicalConnectionRequirements: [Swift.String: GlueClientTypes.Property]? = nil,
         pythonConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
         sparkConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil
-    )
-    {
+    ) {
         self.athenaConnectionProperties = athenaConnectionProperties
         self.authenticationConfiguration = authenticationConfiguration
         self.capabilities = capabilities
@@ -15516,8 +15098,7 @@ public struct DescribeEntityInput: Swift.Sendable {
         dataStoreApiVersion: Swift.String? = nil,
         entityName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionName = connectionName
         self.dataStoreApiVersion = dataStoreApiVersion
@@ -15707,8 +15288,7 @@ extension GlueClientTypes {
             parentField: Swift.String? = nil,
             supportedFilterOperators: [GlueClientTypes.FieldFilterOperator]? = nil,
             supportedValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.customProperties = customProperties
             self.description = description
             self.fieldName = fieldName
@@ -15740,8 +15320,7 @@ public struct DescribeEntityOutput: Swift.Sendable {
     public init(
         fields: [GlueClientTypes.Field]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fields = fields
         self.nextToken = nextToken
     }
@@ -15766,8 +15345,7 @@ public struct TargetResourceNotFound: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -15787,8 +15365,7 @@ public struct DescribeInboundIntegrationsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationArn = integrationArn
         self.marker = marker
         self.maxRecords = maxRecords
@@ -15839,8 +15416,7 @@ extension GlueClientTypes {
             sourceArn: Swift.String? = nil,
             status: GlueClientTypes.IntegrationStatus? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.errors = errors
             self.integrationArn = integrationArn
@@ -15860,8 +15436,7 @@ public struct DescribeInboundIntegrationsOutput: Swift.Sendable {
     public init(
         inboundIntegrations: [GlueClientTypes.InboundIntegration]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.inboundIntegrations = inboundIntegrations
         self.marker = marker
     }
@@ -15879,8 +15454,7 @@ extension GlueClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -15902,8 +15476,7 @@ public struct DescribeIntegrationsInput: Swift.Sendable {
         integrationIdentifier: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.integrationIdentifier = integrationIdentifier
         self.marker = marker
@@ -15973,8 +15546,7 @@ extension GlueClientTypes {
             status: GlueClientTypes.IntegrationStatus? = nil,
             tags: [GlueClientTypes.Tag]? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.createTime = createTime
             self.dataFilter = dataFilter
@@ -16000,8 +15572,7 @@ public struct DescribeIntegrationsOutput: Swift.Sendable {
     public init(
         integrations: [GlueClientTypes.Integration]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrations = integrations
         self.marker = marker
     }
@@ -16020,8 +15591,7 @@ public struct GetBlueprintInput: Swift.Sendable {
         includeBlueprint: Swift.Bool? = nil,
         includeParameterSpec: Swift.Bool? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeBlueprint = includeBlueprint
         self.includeParameterSpec = includeParameterSpec
         self.name = name
@@ -16034,8 +15604,7 @@ public struct GetBlueprintOutput: Swift.Sendable {
 
     public init(
         blueprint: GlueClientTypes.Blueprint? = nil
-    )
-    {
+    ) {
         self.blueprint = blueprint
     }
 }
@@ -16051,8 +15620,7 @@ public struct GetBlueprintRunInput: Swift.Sendable {
     public init(
         blueprintName: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.runId = runId
     }
@@ -16137,8 +15705,7 @@ extension GlueClientTypes {
             startedOn: Foundation.Date? = nil,
             state: GlueClientTypes.BlueprintRunState? = nil,
             workflowName: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintName = blueprintName
             self.completedOn = completedOn
             self.errorMessage = errorMessage
@@ -16159,8 +15726,7 @@ public struct GetBlueprintRunOutput: Swift.Sendable {
 
     public init(
         blueprintRun: GlueClientTypes.BlueprintRun? = nil
-    )
-    {
+    ) {
         self.blueprintRun = blueprintRun
     }
 }
@@ -16178,8 +15744,7 @@ public struct GetBlueprintRunsInput: Swift.Sendable {
         blueprintName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16195,8 +15760,7 @@ public struct GetBlueprintRunsOutput: Swift.Sendable {
     public init(
         blueprintRuns: [GlueClientTypes.BlueprintRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintRuns = blueprintRuns
         self.nextToken = nextToken
     }
@@ -16209,8 +15773,7 @@ public struct GetCatalogInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -16245,8 +15808,7 @@ extension GlueClientTypes {
             managedWorkgroupStatus: Swift.String? = nil,
             redshiftDatabaseName: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogType = catalogType
             self.dataLakeAccess = dataLakeAccess
             self.dataTransferRole = dataTransferRole
@@ -16271,8 +15833,7 @@ extension GlueClientTypes {
         public init(
             customProperties: [Swift.String: Swift.String]? = nil,
             dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput? = nil
-        )
-        {
+        ) {
             self.customProperties = customProperties
             self.dataLakeAccessProperties = dataLakeAccessProperties
         }
@@ -16322,8 +15883,7 @@ extension GlueClientTypes {
             resourceArn: Swift.String? = nil,
             targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
@@ -16346,8 +15906,7 @@ public struct GetCatalogOutput: Swift.Sendable {
 
     public init(
         catalog: GlueClientTypes.Catalog? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
     }
 }
@@ -16358,8 +15917,7 @@ public struct GetCatalogImportStatusInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -16379,8 +15937,7 @@ extension GlueClientTypes {
             importCompleted: Swift.Bool = false,
             importTime: Foundation.Date? = nil,
             importedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.importCompleted = importCompleted
             self.importTime = importTime
             self.importedBy = importedBy
@@ -16394,8 +15951,7 @@ public struct GetCatalogImportStatusOutput: Swift.Sendable {
 
     public init(
         importStatus: GlueClientTypes.CatalogImportStatus? = nil
-    )
-    {
+    ) {
         self.importStatus = importStatus
     }
 }
@@ -16418,8 +15974,7 @@ public struct GetCatalogsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parentCatalogId: Swift.String? = nil,
         recursive: Swift.Bool? = false
-    )
-    {
+    ) {
         self.includeRoot = includeRoot
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16438,8 +15993,7 @@ public struct GetCatalogsOutput: Swift.Sendable {
     public init(
         catalogList: [GlueClientTypes.Catalog]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogList = catalogList
         self.nextToken = nextToken
     }
@@ -16452,8 +16006,7 @@ public struct GetClassifierInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -16504,8 +16057,7 @@ extension GlueClientTypes {
             quoteSymbol: Swift.String? = nil,
             serde: GlueClientTypes.CsvSerdeOption? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.creationTime = creationTime
@@ -16553,8 +16105,7 @@ extension GlueClientTypes {
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.classification = classification
             self.creationTime = creationTime
             self.customPatterns = customPatterns
@@ -16589,8 +16140,7 @@ extension GlueClientTypes {
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.jsonPath = jsonPath
             self.lastUpdated = lastUpdated
@@ -16626,8 +16176,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             rowTag: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.classification = classification
             self.creationTime = creationTime
             self.lastUpdated = lastUpdated
@@ -16656,8 +16205,7 @@ extension GlueClientTypes {
             grokClassifier: GlueClientTypes.GrokClassifier? = nil,
             jsonClassifier: GlueClientTypes.JsonClassifier? = nil,
             xmlClassifier: GlueClientTypes.XMLClassifier? = nil
-        )
-        {
+        ) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
@@ -16672,8 +16220,7 @@ public struct GetClassifierOutput: Swift.Sendable {
 
     public init(
         classifier: GlueClientTypes.Classifier? = nil
-    )
-    {
+    ) {
         self.classifier = classifier
     }
 }
@@ -16687,8 +16234,7 @@ public struct GetClassifiersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -16703,8 +16249,7 @@ public struct GetClassifiersOutput: Swift.Sendable {
     public init(
         classifiers: [GlueClientTypes.Classifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.classifiers = classifiers
         self.nextToken = nextToken
     }
@@ -16732,8 +16277,7 @@ public struct GetColumnStatisticsForPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnNames = columnNames
         self.databaseName = databaseName
@@ -16760,8 +16304,7 @@ extension GlueClientTypes {
             averageLength: Swift.Double = 0.0,
             maximumLength: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.averageLength = averageLength
             self.maximumLength = maximumLength
             self.numberOfNulls = numberOfNulls
@@ -16787,8 +16330,7 @@ extension GlueClientTypes {
             numberOfFalses: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0,
             numberOfTrues: Swift.Int = 0
-        )
-        {
+        ) {
             self.numberOfFalses = numberOfFalses
             self.numberOfNulls = numberOfNulls
             self.numberOfTrues = numberOfTrues
@@ -16816,8 +16358,7 @@ extension GlueClientTypes {
             minimumValue: Foundation.Date? = nil,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -16840,8 +16381,7 @@ extension GlueClientTypes {
         public init(
             scale: Swift.Int = 0,
             unscaledValue: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.scale = scale
             self.unscaledValue = unscaledValue
         }
@@ -16868,8 +16408,7 @@ extension GlueClientTypes {
             minimumValue: GlueClientTypes.DecimalNumber? = nil,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -16898,8 +16437,7 @@ extension GlueClientTypes {
             minimumValue: Swift.Double = 0.0,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -16928,8 +16466,7 @@ extension GlueClientTypes {
             minimumValue: Swift.Int = 0,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -16960,8 +16497,7 @@ extension GlueClientTypes {
             maximumLength: Swift.Int = 0,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.averageLength = averageLength
             self.maximumLength = maximumLength
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -17045,8 +16581,7 @@ extension GlueClientTypes {
             longColumnStatisticsData: GlueClientTypes.LongColumnStatisticsData? = nil,
             stringColumnStatisticsData: GlueClientTypes.StringColumnStatisticsData? = nil,
             type: GlueClientTypes.ColumnStatisticsType? = nil
-        )
-        {
+        ) {
             self.binaryColumnStatisticsData = binaryColumnStatisticsData
             self.booleanColumnStatisticsData = booleanColumnStatisticsData
             self.dateColumnStatisticsData = dateColumnStatisticsData
@@ -17081,8 +16616,7 @@ extension GlueClientTypes {
             columnName: Swift.String? = nil,
             columnType: Swift.String? = nil,
             statisticsData: GlueClientTypes.ColumnStatisticsData? = nil
-        )
-        {
+        ) {
             self.analyzedTime = analyzedTime
             self.columnName = columnName
             self.columnType = columnType
@@ -17103,8 +16637,7 @@ extension GlueClientTypes {
         public init(
             columnName: Swift.String? = nil,
             error: GlueClientTypes.ErrorDetail? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.error = error
         }
@@ -17120,8 +16653,7 @@ public struct GetColumnStatisticsForPartitionOutput: Swift.Sendable {
     public init(
         columnStatisticsList: [GlueClientTypes.ColumnStatistics]? = nil,
         errors: [GlueClientTypes.ColumnError]? = nil
-    )
-    {
+    ) {
         self.columnStatisticsList = columnStatisticsList
         self.errors = errors
     }
@@ -17145,8 +16677,7 @@ public struct GetColumnStatisticsForTableInput: Swift.Sendable {
         columnNames: [Swift.String]? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnNames = columnNames
         self.databaseName = databaseName
@@ -17163,8 +16694,7 @@ public struct GetColumnStatisticsForTableOutput: Swift.Sendable {
     public init(
         columnStatisticsList: [GlueClientTypes.ColumnStatistics]? = nil,
         errors: [GlueClientTypes.ColumnError]? = nil
-    )
-    {
+    ) {
         self.columnStatisticsList = columnStatisticsList
         self.errors = errors
     }
@@ -17177,8 +16707,7 @@ public struct GetColumnStatisticsTaskRunInput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
     }
 }
@@ -17313,8 +16842,7 @@ extension GlueClientTypes {
             status: GlueClientTypes.ColumnStatisticsState? = nil,
             tableName: Swift.String? = nil,
             workerType: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
             self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
@@ -17344,8 +16872,7 @@ public struct GetColumnStatisticsTaskRunOutput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskRun: GlueClientTypes.ColumnStatisticsTaskRun? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRun = columnStatisticsTaskRun
     }
 }
@@ -17367,8 +16894,7 @@ public struct GetColumnStatisticsTaskRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17385,8 +16911,7 @@ public struct GetColumnStatisticsTaskRunsOutput: Swift.Sendable {
     public init(
         columnStatisticsTaskRuns: [GlueClientTypes.ColumnStatisticsTaskRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRuns = columnStatisticsTaskRuns
         self.nextToken = nextToken
     }
@@ -17403,8 +16928,7 @@ public struct GetColumnStatisticsTaskSettingsInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -17457,8 +16981,7 @@ extension GlueClientTypes {
             errorMessage: Swift.String? = nil,
             executionTimestamp: Foundation.Date? = nil,
             status: GlueClientTypes.ExecutionStatus? = nil
-        )
-        {
+        ) {
             self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
             self.errorMessage = errorMessage
             self.executionTimestamp = executionTimestamp
@@ -17564,8 +17087,7 @@ extension GlueClientTypes {
             securityConfiguration: Swift.String? = nil,
             settingSource: GlueClientTypes.SettingSource? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
             self.databaseName = databaseName
@@ -17587,8 +17109,7 @@ public struct GetColumnStatisticsTaskSettingsOutput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskSettings: GlueClientTypes.ColumnStatisticsTaskSettings? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskSettings = columnStatisticsTaskSettings
     }
 }
@@ -17609,8 +17130,7 @@ public struct GetConnectionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         hidePassword: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyOverrideForComputeEnvironment = applyOverrideForComputeEnvironment
         self.catalogId = catalogId
         self.hidePassword = hidePassword
@@ -17772,8 +17292,7 @@ extension GlueClientTypes {
             sparkProperties: [Swift.String: Swift.String]? = nil,
             status: GlueClientTypes.ConnectionStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.compatibleComputeEnvironments = compatibleComputeEnvironments
@@ -17802,8 +17321,7 @@ public struct GetConnectionOutput: Swift.Sendable {
 
     public init(
         connection: GlueClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -17823,8 +17341,7 @@ extension GlueClientTypes {
             connectionSchemaVersion: Swift.Int? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             matchCriteria: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionSchemaVersion = connectionSchemaVersion
             self.connectionType = connectionType
             self.matchCriteria = matchCriteria
@@ -17850,8 +17367,7 @@ public struct GetConnectionsInput: Swift.Sendable {
         hidePassword: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.filter = filter
         self.hidePassword = hidePassword
@@ -17869,8 +17385,7 @@ public struct GetConnectionsOutput: Swift.Sendable {
     public init(
         connectionList: [GlueClientTypes.Connection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionList = connectionList
         self.nextToken = nextToken
     }
@@ -17883,8 +17398,7 @@ public struct GetCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -17895,8 +17409,7 @@ public struct GetCrawlerOutput: Swift.Sendable {
 
     public init(
         crawler: GlueClientTypes.Crawler? = nil
-    )
-    {
+    ) {
         self.crawler = crawler
     }
 }
@@ -17913,8 +17426,7 @@ public struct GetCrawlerMetricsInput: Swift.Sendable {
         crawlerNameList: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerNameList = crawlerNameList
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17951,8 +17463,7 @@ extension GlueClientTypes {
             tablesDeleted: Swift.Int = 0,
             tablesUpdated: Swift.Int = 0,
             timeLeftSeconds: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.crawlerName = crawlerName
             self.lastRuntimeSeconds = lastRuntimeSeconds
             self.medianRuntimeSeconds = medianRuntimeSeconds
@@ -17974,8 +17485,7 @@ public struct GetCrawlerMetricsOutput: Swift.Sendable {
     public init(
         crawlerMetricsList: [GlueClientTypes.CrawlerMetrics]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerMetricsList = crawlerMetricsList
         self.nextToken = nextToken
     }
@@ -17990,8 +17500,7 @@ public struct GetCrawlersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -18006,8 +17515,7 @@ public struct GetCrawlersOutput: Swift.Sendable {
     public init(
         crawlers: [GlueClientTypes.Crawler]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlers = crawlers
         self.nextToken = nextToken
     }
@@ -18020,8 +17528,7 @@ public struct GetCustomEntityTypeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -18038,8 +17545,7 @@ public struct GetCustomEntityTypeOutput: Swift.Sendable {
         contextWords: [Swift.String]? = nil,
         name: Swift.String? = nil,
         regexString: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextWords = contextWords
         self.name = name
         self.regexString = regexString
@@ -18056,8 +17562,7 @@ public struct GetDatabaseInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.name = name
     }
@@ -18097,8 +17602,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             targetDatabase: GlueClientTypes.DatabaseIdentifier? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.createTime = createTime
@@ -18118,8 +17622,7 @@ public struct GetDatabaseOutput: Swift.Sendable {
 
     public init(
         database: GlueClientTypes.Database? = nil
-    )
-    {
+    ) {
         self.database = database
     }
 }
@@ -18206,8 +17709,7 @@ public struct GetDatabasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceShareType: GlueClientTypes.ResourceShareType? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.catalogId = catalogId
         self.maxResults = maxResults
@@ -18226,8 +17728,7 @@ public struct GetDatabasesOutput: Swift.Sendable {
     public init(
         databaseList: [GlueClientTypes.Database]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseList = databaseList
         self.nextToken = nextToken
     }
@@ -18239,8 +17740,7 @@ public struct GetDataCatalogEncryptionSettingsInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -18258,8 +17758,7 @@ extension GlueClientTypes {
         public init(
             awsKmsKeyId: Swift.String? = nil,
             returnConnectionPasswordEncrypted: Swift.Bool = false
-        )
-        {
+        ) {
             self.awsKmsKeyId = awsKmsKeyId
             self.returnConnectionPasswordEncrypted = returnConnectionPasswordEncrypted
         }
@@ -18314,8 +17813,7 @@ extension GlueClientTypes {
             catalogEncryptionMode: GlueClientTypes.CatalogEncryptionMode? = nil,
             catalogEncryptionServiceRole: Swift.String? = nil,
             sseAwsKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogEncryptionMode = catalogEncryptionMode
             self.catalogEncryptionServiceRole = catalogEncryptionServiceRole
             self.sseAwsKmsKeyId = sseAwsKmsKeyId
@@ -18335,8 +17833,7 @@ extension GlueClientTypes {
         public init(
             connectionPasswordEncryption: GlueClientTypes.ConnectionPasswordEncryption? = nil,
             encryptionAtRest: GlueClientTypes.EncryptionAtRest? = nil
-        )
-        {
+        ) {
             self.connectionPasswordEncryption = connectionPasswordEncryption
             self.encryptionAtRest = encryptionAtRest
         }
@@ -18349,8 +17846,7 @@ public struct GetDataCatalogEncryptionSettingsOutput: Swift.Sendable {
 
     public init(
         dataCatalogEncryptionSettings: GlueClientTypes.DataCatalogEncryptionSettings? = nil
-    )
-    {
+    ) {
         self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
     }
 }
@@ -18361,8 +17857,7 @@ public struct GetDataflowGraphInput: Swift.Sendable {
 
     public init(
         pythonScript: Swift.String? = nil
-    )
-    {
+    ) {
         self.pythonScript = pythonScript
     }
 }
@@ -18376,8 +17871,7 @@ public struct GetDataflowGraphOutput: Swift.Sendable {
     public init(
         dagEdges: [GlueClientTypes.CodeGenEdge]? = nil,
         dagNodes: [GlueClientTypes.CodeGenNode]? = nil
-    )
-    {
+    ) {
         self.dagEdges = dagEdges
         self.dagNodes = dagNodes
     }
@@ -18393,8 +17887,7 @@ public struct GetDataQualityModelInput: Swift.Sendable {
     public init(
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
         self.statisticId = statisticId
     }
@@ -18447,8 +17940,7 @@ public struct GetDataQualityModelOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         startedOn: Foundation.Date? = nil,
         status: GlueClientTypes.DataQualityModelStatus? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.failureReason = failureReason
         self.startedOn = startedOn
@@ -18467,8 +17959,7 @@ public struct GetDataQualityModelResultInput: Swift.Sendable {
     public init(
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
         self.statisticId = statisticId
     }
@@ -18498,8 +17989,7 @@ extension GlueClientTypes {
             lowerBound: Swift.Double? = nil,
             predictedValue: Swift.Double? = nil,
             upperBound: Swift.Double? = nil
-        )
-        {
+        ) {
             self.actualValue = actualValue
             self.date = date
             self.inclusionAnnotation = inclusionAnnotation
@@ -18519,8 +18009,7 @@ public struct GetDataQualityModelResultOutput: Swift.Sendable {
     public init(
         completedOn: Foundation.Date? = nil,
         model: [GlueClientTypes.StatisticModelResult]? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.model = model
     }
@@ -18533,8 +18022,7 @@ public struct GetDataQualityResultInput: Swift.Sendable {
 
     public init(
         resultId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resultId = resultId
     }
 }
@@ -18584,8 +18072,7 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         rulesetName: Swift.String? = nil,
         score: Swift.Double? = nil,
         startedOn: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.analyzerResults = analyzerResults
         self.completedOn = completedOn
         self.dataSource = dataSource
@@ -18610,8 +18097,7 @@ public struct GetDataQualityRuleRecommendationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -18661,8 +18147,7 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
         startedOn: Foundation.Date? = nil,
         status: GlueClientTypes.TaskStatusType? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.createdRulesetName = createdRulesetName
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -18687,8 +18172,7 @@ public struct GetDataQualityRulesetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -18720,8 +18204,7 @@ public struct GetDataQualityRulesetOutput: Swift.Sendable {
         recommendationRunId: Swift.String? = nil,
         ruleset: Swift.String? = nil,
         targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-    )
-    {
+    ) {
         self.createdOn = createdOn
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.description = description
@@ -18740,8 +18223,7 @@ public struct GetDataQualityRulesetEvaluationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -18790,8 +18272,7 @@ extension GlueClientTypes {
             cloudWatchMetricsEnabled: Swift.Bool? = nil,
             compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
             resultsS3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
             self.resultsS3Prefix = resultsS3Prefix
@@ -18847,8 +18328,7 @@ public struct GetDataQualityRulesetEvaluationRunOutput: Swift.Sendable {
         startedOn: Foundation.Date? = nil,
         status: GlueClientTypes.TaskStatusType? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.additionalDataSources = additionalDataSources
         self.additionalRunOptions = additionalRunOptions
         self.completedOn = completedOn
@@ -18874,8 +18354,7 @@ public struct GetDevEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -18886,8 +18365,7 @@ public struct GetDevEndpointOutput: Swift.Sendable {
 
     public init(
         devEndpoint: GlueClientTypes.DevEndpoint? = nil
-    )
-    {
+    ) {
         self.devEndpoint = devEndpoint
     }
 }
@@ -18901,8 +18379,7 @@ public struct GetDevEndpointsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -18917,8 +18394,7 @@ public struct GetDevEndpointsOutput: Swift.Sendable {
     public init(
         devEndpoints: [GlueClientTypes.DevEndpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devEndpoints = devEndpoints
         self.nextToken = nextToken
     }
@@ -18959,8 +18435,7 @@ public struct GetEntityRecordsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         orderBy: Swift.String? = nil,
         selectedFields: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionName = connectionName
         self.connectionOptions = connectionOptions
@@ -18983,8 +18458,7 @@ public struct GetEntityRecordsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         records: [Smithy.Document]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.records = records
     }
@@ -19002,8 +18476,7 @@ public struct GetIntegrationResourcePropertyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -19020,8 +18493,7 @@ public struct GetIntegrationResourcePropertyOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
@@ -19039,8 +18511,7 @@ public struct GetIntegrationTablePropertiesInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tableName = tableName
     }
@@ -19061,8 +18532,7 @@ public struct GetIntegrationTablePropertiesOutput: Swift.Sendable {
         sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
         tableName: Swift.String? = nil,
         targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceTableConfig = sourceTableConfig
         self.tableName = tableName
@@ -19077,8 +18547,7 @@ public struct GetJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -19093,8 +18562,7 @@ public struct GetJobBookmarkInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.runId = runId
     }
@@ -19127,8 +18595,7 @@ extension GlueClientTypes {
             run: Swift.Int = 0,
             runId: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.attempt = attempt
             self.jobBookmark = jobBookmark
             self.jobName = jobName
@@ -19146,8 +18613,7 @@ public struct GetJobBookmarkOutput: Swift.Sendable {
 
     public init(
         jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry? = nil
-    )
-    {
+    ) {
         self.jobBookmarkEntry = jobBookmarkEntry
     }
 }
@@ -19166,8 +18632,7 @@ public struct GetJobRunInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         predecessorsIncluded: Swift.Bool? = false,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.predecessorsIncluded = predecessorsIncluded
         self.runId = runId
@@ -19180,8 +18645,7 @@ public struct GetJobRunOutput: Swift.Sendable {
 
     public init(
         jobRun: GlueClientTypes.JobRun? = nil
-    )
-    {
+    ) {
         self.jobRun = jobRun
     }
 }
@@ -19199,8 +18663,7 @@ public struct GetJobRunsInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -19216,8 +18679,7 @@ public struct GetJobRunsOutput: Swift.Sendable {
     public init(
         jobRuns: [GlueClientTypes.JobRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRuns = jobRuns
         self.nextToken = nextToken
     }
@@ -19232,8 +18694,7 @@ public struct GetJobsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -19254,8 +18715,7 @@ extension GlueClientTypes {
             dynamoDB: [GlueClientTypes.CodeGenNodeArg]? = nil,
             jdbc: [GlueClientTypes.CodeGenNodeArg]? = nil,
             s3: [GlueClientTypes.CodeGenNodeArg]? = nil
-        )
-        {
+        ) {
             self.dynamoDB = dynamoDB
             self.jdbc = jdbc
             self.s3 = s3
@@ -19277,8 +18737,7 @@ extension GlueClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.tableName = tableName
         }
@@ -19298,8 +18757,7 @@ public struct GetMappingInput: Swift.Sendable {
         location: GlueClientTypes.Location? = nil,
         sinks: [GlueClientTypes.CatalogEntry]? = nil,
         source: GlueClientTypes.CatalogEntry? = nil
-    )
-    {
+    ) {
         self.location = location
         self.sinks = sinks
         self.source = source
@@ -19330,8 +18788,7 @@ extension GlueClientTypes {
             targetPath: Swift.String? = nil,
             targetTable: Swift.String? = nil,
             targetType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePath = sourcePath
             self.sourceTable = sourceTable
             self.sourceType = sourceType
@@ -19349,8 +18806,7 @@ public struct GetMappingOutput: Swift.Sendable {
 
     public init(
         mapping: [GlueClientTypes.MappingEntry]? = nil
-    )
-    {
+    ) {
         self.mapping = mapping
     }
 }
@@ -19366,8 +18822,7 @@ public struct GetMLTaskRunInput: Swift.Sendable {
     public init(
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
         self.transformId = transformId
     }
@@ -19382,8 +18837,7 @@ extension GlueClientTypes {
 
         public init(
             outputS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3Path = outputS3Path
         }
     }
@@ -19404,8 +18858,7 @@ extension GlueClientTypes {
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -19425,8 +18878,7 @@ extension GlueClientTypes {
         public init(
             inputS3Path: Swift.String? = nil,
             replace: Swift.Bool = false
-        )
-        {
+        ) {
             self.inputS3Path = inputS3Path
             self.replace = replace
         }
@@ -19442,8 +18894,7 @@ extension GlueClientTypes {
 
         public init(
             outputS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3Path = outputS3Path
         }
     }
@@ -19508,8 +18959,7 @@ extension GlueClientTypes {
             importLabelsTaskRunProperties: GlueClientTypes.ImportLabelsTaskRunProperties? = nil,
             labelingSetGenerationTaskRunProperties: GlueClientTypes.LabelingSetGenerationTaskRunProperties? = nil,
             taskType: GlueClientTypes.TaskType? = nil
-        )
-        {
+        ) {
             self.exportLabelsTaskRunProperties = exportLabelsTaskRunProperties
             self.findMatchesTaskRunProperties = findMatchesTaskRunProperties
             self.importLabelsTaskRunProperties = importLabelsTaskRunProperties
@@ -19552,8 +19002,7 @@ public struct GetMLTaskRunOutput: Swift.Sendable {
         status: GlueClientTypes.TaskStatusType? = nil,
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.errorString = errorString
         self.executionTime = executionTime
@@ -19585,8 +19034,7 @@ extension GlueClientTypes {
             startedBefore: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil,
             taskRunType: GlueClientTypes.TaskType? = nil
-        )
-        {
+        ) {
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
             self.status = status
@@ -19670,8 +19118,7 @@ extension GlueClientTypes {
         public init(
             column: GlueClientTypes.TaskRunSortColumnType? = nil,
             sortDirection: GlueClientTypes.SortDirectionType? = nil
-        )
-        {
+        ) {
             self.column = column
             self.sortDirection = sortDirection
         }
@@ -19697,8 +19144,7 @@ public struct GetMLTaskRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: GlueClientTypes.TaskRunSortCriteria? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -19743,8 +19189,7 @@ extension GlueClientTypes {
             status: GlueClientTypes.TaskStatusType? = nil,
             taskRunId: Swift.String? = nil,
             transformId: Swift.String? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.errorString = errorString
             self.executionTime = executionTime
@@ -19768,8 +19213,7 @@ public struct GetMLTaskRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskRuns: [GlueClientTypes.TaskRun]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskRuns = taskRuns
     }
@@ -19782,8 +19226,7 @@ public struct GetMLTransformInput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -19800,8 +19243,7 @@ extension GlueClientTypes {
         public init(
             columnName: Swift.String? = nil,
             importance: Swift.Double? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.importance = importance
         }
@@ -19826,8 +19268,7 @@ extension GlueClientTypes {
             numFalsePositives: Swift.Int? = nil,
             numTrueNegatives: Swift.Int? = nil,
             numTruePositives: Swift.Int? = nil
-        )
-        {
+        ) {
             self.numFalseNegatives = numFalseNegatives
             self.numFalsePositives = numFalsePositives
             self.numTrueNegatives = numTrueNegatives
@@ -19860,8 +19301,7 @@ extension GlueClientTypes {
             f1: Swift.Double? = nil,
             precision: Swift.Double? = nil,
             recall: Swift.Double? = nil
-        )
-        {
+        ) {
             self.areaUnderPRCurve = areaUnderPRCurve
             self.columnImportances = columnImportances
             self.confusionMatrix = confusionMatrix
@@ -19885,8 +19325,7 @@ extension GlueClientTypes {
         public init(
             findMatchesMetrics: GlueClientTypes.FindMatchesMetrics? = nil,
             transformType: GlueClientTypes.TransformType? = nil
-        )
-        {
+        ) {
             self.findMatchesMetrics = findMatchesMetrics
             self.transformType = transformType
         }
@@ -19905,8 +19344,7 @@ extension GlueClientTypes {
         public init(
             dataType: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.name = name
         }
@@ -20011,8 +19449,7 @@ public struct GetMLTransformOutput: Swift.Sendable {
         transformEncryption: GlueClientTypes.TransformEncryption? = nil,
         transformId: Swift.String? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.createdOn = createdOn
         self.description = description
         self.evaluationMetrics = evaluationMetrics
@@ -20068,8 +19505,7 @@ extension GlueClientTypes {
             schema: [GlueClientTypes.SchemaColumn]? = nil,
             status: GlueClientTypes.TransformStatusType? = nil,
             transformType: GlueClientTypes.TransformType? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.glueVersion = glueVersion
@@ -20135,8 +19571,7 @@ extension GlueClientTypes {
         public init(
             column: GlueClientTypes.TransformSortColumnType? = nil,
             sortDirection: GlueClientTypes.SortDirectionType? = nil
-        )
-        {
+        ) {
             self.column = column
             self.sortDirection = sortDirection
         }
@@ -20158,8 +19593,7 @@ public struct GetMLTransformsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: GlueClientTypes.TransformSortCriteria? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -20262,8 +19696,7 @@ extension GlueClientTypes {
             transformEncryption: GlueClientTypes.TransformEncryption? = nil,
             transformId: Swift.String? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
@@ -20297,8 +19730,7 @@ public struct GetMLTransformsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transforms: [GlueClientTypes.MLTransform]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transforms = transforms
     }
@@ -20322,8 +19754,7 @@ public struct GetPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionValues = partitionValues
@@ -20337,8 +19768,7 @@ public struct GetPartitionOutput: Swift.Sendable {
 
     public init(
         partition: GlueClientTypes.Partition? = nil
-    )
-    {
+    ) {
         self.partition = partition
     }
 }
@@ -20360,8 +19790,7 @@ public struct GetPartitionIndexesInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.nextToken = nextToken
@@ -20429,8 +19858,7 @@ extension GlueClientTypes {
         public init(
             code: GlueClientTypes.BackfillErrorCode? = nil,
             partitions: [GlueClientTypes.PartitionValueList]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.partitions = partitions
         }
@@ -20486,8 +19914,7 @@ extension GlueClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -20523,8 +19950,7 @@ extension GlueClientTypes {
             indexName: Swift.String? = nil,
             indexStatus: GlueClientTypes.PartitionIndexStatus? = nil,
             keys: [GlueClientTypes.KeySchemaElement]? = nil
-        )
-        {
+        ) {
             self.backfillErrors = backfillErrors
             self.indexName = indexName
             self.indexStatus = indexStatus
@@ -20542,8 +19968,7 @@ public struct GetPartitionIndexesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partitionIndexDescriptorList: [GlueClientTypes.PartitionIndexDescriptor]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partitionIndexDescriptorList = partitionIndexDescriptorList
     }
@@ -20563,8 +19988,7 @@ extension GlueClientTypes {
         public init(
             segmentNumber: Swift.Int = 0,
             totalSegments: Swift.Int? = nil
-        )
-        {
+        ) {
             self.segmentNumber = segmentNumber
             self.totalSegments = totalSegments
         }
@@ -20627,8 +20051,7 @@ public struct GetPartitionsInput: Swift.Sendable {
         segment: GlueClientTypes.Segment? = nil,
         tableName: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.excludeColumnSchema = excludeColumnSchema
@@ -20651,8 +20074,7 @@ public struct GetPartitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partitions: [GlueClientTypes.Partition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partitions = partitions
     }
@@ -20683,8 +20105,7 @@ public struct GetPlanInput: Swift.Sendable {
         mapping: [GlueClientTypes.MappingEntry]? = nil,
         sinks: [GlueClientTypes.CatalogEntry]? = nil,
         source: GlueClientTypes.CatalogEntry? = nil
-    )
-    {
+    ) {
         self.additionalPlanOptionsMap = additionalPlanOptionsMap
         self.language = language
         self.location = location
@@ -20703,8 +20124,7 @@ public struct GetPlanOutput: Swift.Sendable {
     public init(
         pythonScript: Swift.String? = nil,
         scalaCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.pythonScript = pythonScript
         self.scalaCode = scalaCode
     }
@@ -20717,8 +20137,7 @@ public struct GetRegistryInput: Swift.Sendable {
 
     public init(
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
     }
 }
@@ -20744,8 +20163,7 @@ public struct GetRegistryOutput: Swift.Sendable {
         registryName: Swift.String? = nil,
         status: GlueClientTypes.RegistryStatus? = nil,
         updatedTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.description = description
         self.registryArn = registryArn
@@ -20764,8 +20182,7 @@ public struct GetResourcePoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -20789,8 +20206,7 @@ extension GlueClientTypes {
             policyHash: Swift.String? = nil,
             policyInJson: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.policyHash = policyHash
             self.policyInJson = policyInJson
@@ -20808,8 +20224,7 @@ public struct GetResourcePoliciesOutput: Swift.Sendable {
     public init(
         getResourcePoliciesResponseList: [GlueClientTypes.GluePolicy]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.getResourcePoliciesResponseList = getResourcePoliciesResponseList
         self.nextToken = nextToken
     }
@@ -20821,8 +20236,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -20842,8 +20256,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
         policyHash: Swift.String? = nil,
         policyInJson: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.policyHash = policyHash
         self.policyInJson = policyInJson
@@ -20862,8 +20275,7 @@ public struct GetSchemaInput: Swift.Sendable {
 
     public init(
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
     }
 }
@@ -20910,8 +20322,7 @@ public struct GetSchemaOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaStatus: GlueClientTypes.SchemaStatus? = nil,
         updatedTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.createdTime = createdTime
         self.dataFormat = dataFormat
@@ -20943,8 +20354,7 @@ public struct GetSchemaByDefinitionInput: Swift.Sendable {
     public init(
         schemaDefinition: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaDefinition = schemaDefinition
         self.schemaId = schemaId
     }
@@ -20968,8 +20378,7 @@ public struct GetSchemaByDefinitionOutput: Swift.Sendable {
         schemaArn: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.dataFormat = dataFormat
         self.schemaArn = schemaArn
@@ -20990,8 +20399,7 @@ extension GlueClientTypes {
         public init(
             latestVersion: Swift.Bool = false,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.latestVersion = latestVersion
             self.versionNumber = versionNumber
         }
@@ -21014,8 +20422,7 @@ public struct GetSchemaVersionInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
         self.schemaVersionId = schemaVersionId
         self.schemaVersionNumber = schemaVersionNumber
@@ -21046,8 +20453,7 @@ public struct GetSchemaVersionOutput: Swift.Sendable {
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.dataFormat = dataFormat
         self.schemaArn = schemaArn
@@ -21107,8 +20513,7 @@ public struct GetSchemaVersionsDiffInput: Swift.Sendable {
         schemaDiffType: GlueClientTypes.SchemaDiffType? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil,
         secondSchemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.firstSchemaVersionNumber = firstSchemaVersionNumber
         self.schemaDiffType = schemaDiffType
         self.schemaId = schemaId
@@ -21122,8 +20527,7 @@ public struct GetSchemaVersionsDiffOutput: Swift.Sendable {
 
     public init(
         diff: Swift.String? = nil
-    )
-    {
+    ) {
         self.diff = diff
     }
 }
@@ -21135,8 +20539,7 @@ public struct GetSecurityConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -21156,8 +20559,7 @@ extension GlueClientTypes {
             createdTimeStamp: Foundation.Date? = nil,
             encryptionConfiguration: GlueClientTypes.EncryptionConfiguration? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimeStamp = createdTimeStamp
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
@@ -21171,8 +20573,7 @@ public struct GetSecurityConfigurationOutput: Swift.Sendable {
 
     public init(
         securityConfiguration: GlueClientTypes.SecurityConfiguration? = nil
-    )
-    {
+    ) {
         self.securityConfiguration = securityConfiguration
     }
 }
@@ -21186,8 +20587,7 @@ public struct GetSecurityConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -21202,8 +20602,7 @@ public struct GetSecurityConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityConfigurations: [GlueClientTypes.SecurityConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityConfigurations = securityConfigurations
     }
@@ -21219,8 +20618,7 @@ public struct GetSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         requestOrigin: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
     }
@@ -21232,8 +20630,7 @@ public struct GetSessionOutput: Swift.Sendable {
 
     public init(
         session: GlueClientTypes.Session? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -21252,8 +20649,7 @@ public struct GetStatementInput: Swift.Sendable {
         id: Swift.Int? = 0,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -21269,8 +20665,7 @@ extension GlueClientTypes {
 
         public init(
             textPlain: Swift.String? = nil
-        )
-        {
+        ) {
             self.textPlain = textPlain
         }
     }
@@ -21341,8 +20736,7 @@ extension GlueClientTypes {
             executionCount: Swift.Int = 0,
             status: GlueClientTypes.StatementState? = nil,
             traceback: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.data = data
             self.errorName = errorName
             self.errorValue = errorValue
@@ -21380,8 +20774,7 @@ extension GlueClientTypes {
             progress: Swift.Double = 0.0,
             startedOn: Swift.Int = 0,
             state: GlueClientTypes.StatementState? = nil
-        )
-        {
+        ) {
             self.code = code
             self.completedOn = completedOn
             self.id = id
@@ -21399,8 +20792,7 @@ public struct GetStatementOutput: Swift.Sendable {
 
     public init(
         statement: GlueClientTypes.Statement? = nil
-    )
-    {
+    ) {
         self.statement = statement
     }
 }
@@ -21428,8 +20820,7 @@ public struct GetTableInput: Swift.Sendable {
         name: Swift.String? = nil,
         queryAsOfTime: Foundation.Date? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.includeStatusDetails = includeStatusDetails
@@ -21454,8 +20845,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             databaseIdentifier: Swift.String? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.databaseIdentifier = databaseIdentifier
             self.identifier = identifier
@@ -21554,8 +20944,7 @@ extension GlueClientTypes {
             state: GlueClientTypes.ResourceState? = nil,
             updateTime: Foundation.Date? = nil,
             viewValidationText: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.error = error
@@ -21592,8 +20981,7 @@ extension GlueClientTypes {
             validationConnection: Swift.String? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.isStale = isStale
@@ -21622,8 +21010,7 @@ extension GlueClientTypes {
             isProtected: Swift.Bool? = nil,
             representations: [GlueClientTypes.ViewRepresentation]? = nil,
             subObjects: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definer = definer
             self.isProtected = isProtected
             self.representations = representations
@@ -21651,8 +21038,7 @@ public struct GetTableOptimizerInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -21675,8 +21061,7 @@ public struct GetTableOptimizerOutput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         tableOptimizer: GlueClientTypes.TableOptimizer? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -21748,8 +21133,7 @@ public struct GetTablesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryAsOfTime: Foundation.Date? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -21779,8 +21163,7 @@ public struct GetTableVersionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -21808,8 +21191,7 @@ public struct GetTableVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -21825,8 +21207,7 @@ public struct GetTagsInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -21837,8 +21218,7 @@ public struct GetTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -21850,8 +21230,7 @@ public struct GetTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -21862,8 +21241,7 @@ public struct GetTriggerOutput: Swift.Sendable {
 
     public init(
         trigger: GlueClientTypes.Trigger? = nil
-    )
-    {
+    ) {
         self.trigger = trigger
     }
 }
@@ -21880,8 +21258,7 @@ public struct GetTriggersInput: Swift.Sendable {
         dependentJobName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dependentJobName = dependentJobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -21897,8 +21274,7 @@ public struct GetTriggersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         triggers: [GlueClientTypes.Trigger]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.triggers = triggers
     }
@@ -21923,8 +21299,7 @@ public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21950,8 +21325,7 @@ extension GlueClientTypes {
             queryAuthorizationId: Swift.String? = nil,
             queryId: Swift.String? = nil,
             queryStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.additionalContext = additionalContext
             self.clusterId = clusterId
             self.queryAuthorizationId = queryAuthorizationId
@@ -22028,8 +21402,7 @@ public struct GetUnfilteredPartitionMetadataInput: Swift.Sendable {
         region: Swift.String? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -22053,8 +21426,7 @@ public struct GetUnfilteredPartitionMetadataOutput: Swift.Sendable {
         authorizedColumns: [Swift.String]? = nil,
         isRegisteredWithLakeFormation: Swift.Bool = false,
         partition: GlueClientTypes.Partition? = nil
-    )
-    {
+    ) {
         self.authorizedColumns = authorizedColumns
         self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
         self.partition = partition
@@ -22122,8 +21494,7 @@ public struct GetUnfilteredPartitionsMetadataInput: Swift.Sendable {
         segment: GlueClientTypes.Segment? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -22153,8 +21524,7 @@ extension GlueClientTypes {
             authorizedColumns: [Swift.String]? = nil,
             isRegisteredWithLakeFormation: Swift.Bool = false,
             partition: GlueClientTypes.Partition? = nil
-        )
-        {
+        ) {
             self.authorizedColumns = authorizedColumns
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.partition = partition
@@ -22171,8 +21541,7 @@ public struct GetUnfilteredPartitionsMetadataOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         unfilteredPartitions: [GlueClientTypes.UnfilteredPartition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.unfilteredPartitions = unfilteredPartitions
     }
@@ -22190,8 +21559,7 @@ extension GlueClientTypes {
         public init(
             dialect: GlueClientTypes.ViewDialect? = nil,
             dialectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
         }
@@ -22249,8 +21617,7 @@ public struct GetUnfilteredTableMetadataInput: Swift.Sendable {
         rootResourceArn: Swift.String? = nil,
         supportedDialect: GlueClientTypes.SupportedDialect? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -22277,8 +21644,7 @@ extension GlueClientTypes {
         public init(
             columnName: Swift.String? = nil,
             rowFilterExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.rowFilterExpression = rowFilterExpression
         }
@@ -22292,8 +21658,7 @@ public struct GetUsageProfileInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22316,8 +21681,7 @@ public struct GetUsageProfileOutput: Swift.Sendable {
         description: Swift.String? = nil,
         lastModifiedOn: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.createdOn = createdOn
         self.description = description
@@ -22340,8 +21704,7 @@ public struct GetUserDefinedFunctionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionName = functionName
@@ -22378,8 +21741,7 @@ extension GlueClientTypes {
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.className = className
             self.createTime = createTime
@@ -22398,8 +21760,7 @@ public struct GetUserDefinedFunctionOutput: Swift.Sendable {
 
     public init(
         userDefinedFunction: GlueClientTypes.UserDefinedFunction? = nil
-    )
-    {
+    ) {
         self.userDefinedFunction = userDefinedFunction
     }
 }
@@ -22423,8 +21784,7 @@ public struct GetUserDefinedFunctionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pattern: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -22442,8 +21802,7 @@ public struct GetUserDefinedFunctionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userDefinedFunctions: [GlueClientTypes.UserDefinedFunction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userDefinedFunctions = userDefinedFunctions
     }
@@ -22459,8 +21818,7 @@ public struct GetWorkflowInput: Swift.Sendable {
     public init(
         includeGraph: Swift.Bool? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.name = name
     }
@@ -22472,8 +21830,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
 
     public init(
         workflow: GlueClientTypes.Workflow? = nil
-    )
-    {
+    ) {
         self.workflow = workflow
     }
 }
@@ -22492,8 +21849,7 @@ public struct GetWorkflowRunInput: Swift.Sendable {
         includeGraph: Swift.Bool? = nil,
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.name = name
         self.runId = runId
@@ -22506,8 +21862,7 @@ public struct GetWorkflowRunOutput: Swift.Sendable {
 
     public init(
         run: GlueClientTypes.WorkflowRun? = nil
-    )
-    {
+    ) {
         self.run = run
     }
 }
@@ -22523,8 +21878,7 @@ public struct GetWorkflowRunPropertiesInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
     }
@@ -22536,8 +21890,7 @@ public struct GetWorkflowRunPropertiesOutput: Swift.Sendable {
 
     public init(
         runProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.runProperties = runProperties
     }
 }
@@ -22558,8 +21911,7 @@ public struct GetWorkflowRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.maxResults = maxResults
         self.name = name
@@ -22576,8 +21928,7 @@ public struct GetWorkflowRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runs: [GlueClientTypes.WorkflowRun]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runs = runs
     }
@@ -22589,8 +21940,7 @@ public struct ImportCatalogToGlueInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -22612,8 +21962,7 @@ public struct ListBlueprintsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -22629,8 +21978,7 @@ public struct ListBlueprintsOutput: Swift.Sendable {
     public init(
         blueprints: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.nextToken = nextToken
     }
@@ -22645,8 +21993,7 @@ public struct ListColumnStatisticsTaskRunsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -22661,8 +22008,7 @@ public struct ListColumnStatisticsTaskRunsOutput: Swift.Sendable {
     public init(
         columnStatisticsTaskRunIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRunIds = columnStatisticsTaskRunIds
         self.nextToken = nextToken
     }
@@ -22677,8 +22023,7 @@ public struct ListConnectionTypesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -22699,8 +22044,7 @@ extension GlueClientTypes {
             capabilities: GlueClientTypes.Capabilities? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.connectionType = connectionType
             self.description = description
@@ -22717,8 +22061,7 @@ public struct ListConnectionTypesOutput: Swift.Sendable {
     public init(
         connectionTypes: [GlueClientTypes.ConnectionTypeBrief]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionTypes = connectionTypes
         self.nextToken = nextToken
     }
@@ -22736,8 +22079,7 @@ public struct ListCrawlersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -22753,8 +22095,7 @@ public struct ListCrawlersOutput: Swift.Sendable {
     public init(
         crawlerNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerNames = crawlerNames
         self.nextToken = nextToken
     }
@@ -22874,8 +22215,7 @@ extension GlueClientTypes {
             fieldName: GlueClientTypes.FieldName? = nil,
             fieldValue: Swift.String? = nil,
             filterOperator: GlueClientTypes.FilterOperator? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.fieldValue = fieldValue
             self.filterOperator = filterOperator
@@ -22899,8 +22239,7 @@ public struct ListCrawlsInput: Swift.Sendable {
         filters: [GlueClientTypes.CrawlsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
         self.filters = filters
         self.maxResults = maxResults
@@ -22979,8 +22318,7 @@ extension GlueClientTypes {
             startTime: Foundation.Date? = nil,
             state: GlueClientTypes.CrawlerHistoryState? = nil,
             summary: Swift.String? = nil
-        )
-        {
+        ) {
             self.crawlId = crawlId
             self.dpuHour = dpuHour
             self.endTime = endTime
@@ -23004,8 +22342,7 @@ public struct ListCrawlsOutput: Swift.Sendable {
     public init(
         crawls: [GlueClientTypes.CrawlerHistory]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawls = crawls
         self.nextToken = nextToken
     }
@@ -23023,8 +22360,7 @@ public struct ListCustomEntityTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -23040,8 +22376,7 @@ public struct ListCustomEntityTypesOutput: Swift.Sendable {
     public init(
         customEntityTypes: [GlueClientTypes.CustomEntityType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEntityTypes = customEntityTypes
         self.nextToken = nextToken
     }
@@ -23068,8 +22403,7 @@ extension GlueClientTypes {
             jobRunId: Swift.String? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -23091,8 +22425,7 @@ public struct ListDataQualityResultsInput: Swift.Sendable {
         filter: GlueClientTypes.DataQualityResultFilterCriteria? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -23120,8 +22453,7 @@ extension GlueClientTypes {
             jobRunId: Swift.String? = nil,
             resultId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -23141,8 +22473,7 @@ public struct ListDataQualityResultsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [GlueClientTypes.DataQualityResultDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -23164,8 +22495,7 @@ extension GlueClientTypes {
             dataSource: GlueClientTypes.DataSource? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
@@ -23185,8 +22515,7 @@ public struct ListDataQualityRuleRecommendationRunsInput: Swift.Sendable {
         filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -23211,8 +22540,7 @@ extension GlueClientTypes {
             runId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.runId = runId
             self.startedOn = startedOn
@@ -23230,8 +22558,7 @@ public struct ListDataQualityRuleRecommendationRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runs: [GlueClientTypes.DataQualityRuleRecommendationRunDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runs = runs
     }
@@ -23253,8 +22580,7 @@ extension GlueClientTypes {
             dataSource: GlueClientTypes.DataSource? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
@@ -23274,8 +22600,7 @@ public struct ListDataQualityRulesetEvaluationRunsInput: Swift.Sendable {
         filter: GlueClientTypes.DataQualityRulesetEvaluationRunFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -23300,8 +22625,7 @@ extension GlueClientTypes {
             runId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.runId = runId
             self.startedOn = startedOn
@@ -23319,8 +22643,7 @@ public struct ListDataQualityRulesetEvaluationRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runs: [GlueClientTypes.DataQualityRulesetEvaluationRunDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runs = runs
     }
@@ -23353,8 +22676,7 @@ extension GlueClientTypes {
             lastModifiedBefore: Foundation.Date? = nil,
             name: Swift.String? = nil,
             targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.description = description
@@ -23381,8 +22703,7 @@ public struct ListDataQualityRulesetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -23417,8 +22738,7 @@ extension GlueClientTypes {
             recommendationRunId: Swift.String? = nil,
             ruleCount: Swift.Int? = nil,
             targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-        )
-        {
+        ) {
             self.createdOn = createdOn
             self.description = description
             self.lastModifiedOn = lastModifiedOn
@@ -23439,8 +22759,7 @@ public struct ListDataQualityRulesetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rulesets: [GlueClientTypes.DataQualityRulesetListDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rulesets = rulesets
     }
@@ -23458,8 +22777,7 @@ extension GlueClientTypes {
         public init(
             recordedAfter: Foundation.Date? = nil,
             recordedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.recordedAfter = recordedAfter
             self.recordedBefore = recordedBefore
         }
@@ -23484,8 +22802,7 @@ public struct ListDataQualityStatisticAnnotationsInput: Swift.Sendable {
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil,
         timestampFilter: GlueClientTypes.TimestampFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
@@ -23503,8 +22820,7 @@ public struct ListDataQualityStatisticAnnotationsOutput: Swift.Sendable {
     public init(
         annotations: [GlueClientTypes.StatisticAnnotation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.annotations = annotations
         self.nextToken = nextToken
     }
@@ -23528,8 +22844,7 @@ public struct ListDataQualityStatisticsInput: Swift.Sendable {
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil,
         timestampFilter: GlueClientTypes.TimestampFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
@@ -23582,8 +22897,7 @@ extension GlueClientTypes {
         public init(
             jobRunId: Swift.String? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobRunId = jobRunId
             self.runId = runId
         }
@@ -23629,8 +22943,7 @@ extension GlueClientTypes {
             statisticId: Swift.String? = nil,
             statisticName: Swift.String? = nil,
             statisticProperties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.columnsReferenced = columnsReferenced
             self.doubleValue = doubleValue
             self.evaluationLevel = evaluationLevel
@@ -23660,8 +22973,7 @@ public struct ListDataQualityStatisticsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         statistics: [GlueClientTypes.StatisticSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.statistics = statistics
     }
@@ -23679,8 +22991,7 @@ public struct ListDevEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -23696,8 +23007,7 @@ public struct ListDevEndpointsOutput: Swift.Sendable {
     public init(
         devEndpointNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devEndpointNames = devEndpointNames
         self.nextToken = nextToken
     }
@@ -23721,8 +23031,7 @@ public struct ListEntitiesInput: Swift.Sendable {
         dataStoreApiVersion: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         parentEntityName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionName = connectionName
         self.dataStoreApiVersion = dataStoreApiVersion
@@ -23755,8 +23064,7 @@ extension GlueClientTypes {
             entityName: Swift.String? = nil,
             isParentEntity: Swift.Bool? = nil,
             label: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.customProperties = customProperties
             self.description = description
@@ -23776,8 +23084,7 @@ public struct ListEntitiesOutput: Swift.Sendable {
     public init(
         entities: [GlueClientTypes.Entity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -23795,8 +23102,7 @@ public struct ListJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -23812,8 +23118,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobNames = jobNames
         self.nextToken = nextToken
     }
@@ -23837,8 +23142,7 @@ public struct ListMLTransformsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: GlueClientTypes.TransformSortCriteria? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -23857,8 +23161,7 @@ public struct ListMLTransformsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transformIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transformIds = transformIds
     }
@@ -23873,8 +23176,7 @@ public struct ListRegistriesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -23904,8 +23206,7 @@ extension GlueClientTypes {
             registryName: Swift.String? = nil,
             status: GlueClientTypes.RegistryStatus? = nil,
             updatedTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.description = description
             self.registryArn = registryArn
@@ -23925,8 +23226,7 @@ public struct ListRegistriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registries: [GlueClientTypes.RegistryListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registries = registries
     }
@@ -23944,8 +23244,7 @@ public struct ListSchemasInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.registryId = registryId
@@ -23979,8 +23278,7 @@ extension GlueClientTypes {
             schemaName: Swift.String? = nil,
             schemaStatus: GlueClientTypes.SchemaStatus? = nil,
             updatedTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.description = description
             self.registryName = registryName
@@ -24001,8 +23299,7 @@ public struct ListSchemasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [GlueClientTypes.SchemaListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -24025,8 +23322,7 @@ public struct ListSchemaVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.schemaId = schemaId
@@ -24054,8 +23350,7 @@ extension GlueClientTypes {
             schemaVersionId: Swift.String? = nil,
             status: GlueClientTypes.SchemaVersionStatus? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.schemaArn = schemaArn
             self.schemaVersionId = schemaVersionId
@@ -24074,8 +23369,7 @@ public struct ListSchemaVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [GlueClientTypes.SchemaVersionListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -24096,8 +23390,7 @@ public struct ListSessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestOrigin: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.requestOrigin = requestOrigin
@@ -24117,8 +23410,7 @@ public struct ListSessionsOutput: Swift.Sendable {
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         sessions: [GlueClientTypes.Session]? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.nextToken = nextToken
         self.sessions = sessions
@@ -24138,8 +23430,7 @@ public struct ListStatementsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -24155,8 +23446,7 @@ public struct ListStatementsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         statements: [GlueClientTypes.Statement]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.statements = statements
     }
@@ -24187,8 +23477,7 @@ public struct ListTableOptimizerRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -24216,8 +23505,7 @@ public struct ListTableOptimizerRunsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil,
         tableOptimizerRuns: [GlueClientTypes.TableOptimizerRun]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.nextToken = nextToken
@@ -24241,8 +23529,7 @@ public struct ListTriggersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.dependentJobName = dependentJobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24259,8 +23546,7 @@ public struct ListTriggersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         triggerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.triggerNames = triggerNames
     }
@@ -24275,8 +23561,7 @@ public struct ListUsageProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -24300,8 +23585,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdOn = createdOn
             self.description = description
             self.lastModifiedOn = lastModifiedOn
@@ -24319,8 +23603,7 @@ public struct ListUsageProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profiles: [GlueClientTypes.UsageProfileDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profiles = profiles
     }
@@ -24335,8 +23618,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -24351,8 +23633,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflows: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflows = workflows
     }
@@ -24374,8 +23655,7 @@ public struct ModifyIntegrationInput: Swift.Sendable {
         description: Swift.String? = nil,
         integrationIdentifier: Swift.String? = nil,
         integrationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataFilter = dataFilter
         self.description = description
         self.integrationIdentifier = integrationIdentifier
@@ -24442,8 +23722,7 @@ public struct ModifyIntegrationOutput: Swift.Sendable {
         status: GlueClientTypes.IntegrationStatus? = nil,
         tags: [GlueClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.dataFilter = dataFilter
@@ -24469,8 +23748,7 @@ public struct PutDataCatalogEncryptionSettingsInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         dataCatalogEncryptionSettings: GlueClientTypes.DataCatalogEncryptionSettings? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
     }
@@ -24492,8 +23770,7 @@ public struct PutDataQualityProfileAnnotationInput: Swift.Sendable {
     public init(
         inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.inclusionAnnotation = inclusionAnnotation
         self.profileId = profileId
     }
@@ -24592,8 +23869,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         policyHashCondition: Swift.String? = nil,
         policyInJson: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableHybrid = enableHybrid
         self.policyExistsCondition = policyExistsCondition
         self.policyHashCondition = policyHashCondition
@@ -24608,8 +23884,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policyHash: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyHash = policyHash
     }
 }
@@ -24626,8 +23901,7 @@ extension GlueClientTypes {
         public init(
             metadataKey: Swift.String? = nil,
             metadataValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadataKey = metadataKey
             self.metadataValue = metadataValue
         }
@@ -24650,8 +23924,7 @@ public struct PutSchemaVersionMetadataInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.metadataKeyValue = metadataKeyValue
         self.schemaId = schemaId
         self.schemaVersionId = schemaVersionId
@@ -24686,8 +23959,7 @@ public struct PutSchemaVersionMetadataOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.latestVersion = latestVersion
         self.metadataKey = metadataKey
         self.metadataValue = metadataValue
@@ -24714,8 +23986,7 @@ public struct PutWorkflowRunPropertiesInput: Swift.Sendable {
         name: Swift.String? = nil,
         runId: Swift.String? = nil,
         runProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
         self.runProperties = runProperties
@@ -24748,8 +24019,7 @@ public struct QuerySchemaVersionMetadataInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.metadataList = metadataList
         self.nextToken = nextToken
@@ -24771,8 +24041,7 @@ extension GlueClientTypes {
         public init(
             createdTime: Swift.String? = nil,
             metadataValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
         }
@@ -24794,8 +24063,7 @@ extension GlueClientTypes {
             createdTime: Swift.String? = nil,
             metadataValue: Swift.String? = nil,
             otherMetadataValueList: [GlueClientTypes.OtherMetadataValueListItem]? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
             self.otherMetadataValueList = otherMetadataValueList
@@ -24815,8 +24083,7 @@ public struct QuerySchemaVersionMetadataOutput: Swift.Sendable {
         metadataInfoMap: [Swift.String: GlueClientTypes.MetadataInfo]? = nil,
         nextToken: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataInfoMap = metadataInfoMap
         self.nextToken = nextToken
         self.schemaVersionId = schemaVersionId
@@ -24838,8 +24105,7 @@ public struct RegisterSchemaVersionInput: Swift.Sendable {
     public init(
         schemaDefinition: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaDefinition = schemaDefinition
         self.schemaId = schemaId
     }
@@ -24857,8 +24123,7 @@ public struct RegisterSchemaVersionOutput: Swift.Sendable {
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.schemaVersionId = schemaVersionId
         self.status = status
         self.versionNumber = versionNumber
@@ -24881,8 +24146,7 @@ public struct RemoveSchemaVersionMetadataInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.metadataKeyValue = metadataKeyValue
         self.schemaId = schemaId
         self.schemaVersionId = schemaVersionId
@@ -24917,8 +24181,7 @@ public struct RemoveSchemaVersionMetadataOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.latestVersion = latestVersion
         self.metadataKey = metadataKey
         self.metadataValue = metadataValue
@@ -24940,8 +24203,7 @@ public struct ResetJobBookmarkInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.runId = runId
     }
@@ -24953,8 +24215,7 @@ public struct ResetJobBookmarkOutput: Swift.Sendable {
 
     public init(
         jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry? = nil
-    )
-    {
+    ) {
         self.jobBookmarkEntry = jobBookmarkEntry
     }
 }
@@ -24978,8 +24239,7 @@ public struct ConcurrentRunsExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25003,8 +24263,7 @@ public struct IllegalWorkflowStateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25024,8 +24283,7 @@ public struct ResumeWorkflowRunInput: Swift.Sendable {
         name: Swift.String? = nil,
         nodeIds: [Swift.String]? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.nodeIds = nodeIds
         self.runId = runId
@@ -25041,8 +24299,7 @@ public struct ResumeWorkflowRunOutput: Swift.Sendable {
     public init(
         nodeIds: [Swift.String]? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeIds = nodeIds
         self.runId = runId
     }
@@ -25062,8 +24319,7 @@ public struct RunStatementInput: Swift.Sendable {
         code: Swift.String? = nil,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.code = code
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -25076,8 +24332,7 @@ public struct RunStatementOutput: Swift.Sendable {
 
     public init(
         id: Swift.Int = 0
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -25135,8 +24390,7 @@ extension GlueClientTypes {
             comparator: GlueClientTypes.Comparator? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.value = value
@@ -25185,8 +24439,7 @@ extension GlueClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             sort: GlueClientTypes.Sort? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.sort = sort
         }
@@ -25224,8 +24477,7 @@ public struct SearchTablesInput: Swift.Sendable {
         resourceShareType: GlueClientTypes.ResourceShareType? = nil,
         searchText: Swift.String? = nil,
         sortCriteria: [GlueClientTypes.SortCriterion]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.filters = filters
         self.includeStatusDetails = includeStatusDetails
@@ -25256,8 +24508,7 @@ public struct IllegalBlueprintStateException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25276,8 +24527,7 @@ public struct StartBlueprintRunInput: Swift.Sendable {
         blueprintName: Swift.String? = nil,
         parameters: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.parameters = parameters
         self.roleArn = roleArn
@@ -25290,8 +24540,7 @@ public struct StartBlueprintRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -25323,8 +24572,7 @@ public struct StartColumnStatisticsTaskRunInput: Swift.Sendable {
         sampleSize: Swift.Double? = 0.0,
         securityConfiguration: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogID = catalogID
         self.columnNameList = columnNameList
         self.databaseName = databaseName
@@ -25341,8 +24589,7 @@ public struct StartColumnStatisticsTaskRunOutput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
     }
 }
@@ -25358,8 +24605,7 @@ public struct StartColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -25377,8 +24623,7 @@ public struct StartCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -25407,8 +24652,7 @@ public struct NoScheduleException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25432,8 +24676,7 @@ public struct SchedulerRunningException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25445,8 +24688,7 @@ public struct StartCrawlerScheduleInput: Swift.Sendable {
 
     public init(
         crawlerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
     }
 }
@@ -25482,8 +24724,7 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
         numberOfWorkers: Swift.Int? = nil,
         role: Swift.String? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.createdRulesetName = createdRulesetName
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -25500,8 +24741,7 @@ public struct StartDataQualityRuleRecommendationRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -25536,8 +24776,7 @@ public struct StartDataQualityRulesetEvaluationRunInput: Swift.Sendable {
         role: Swift.String? = nil,
         rulesetNames: [Swift.String]? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.additionalDataSources = additionalDataSources
         self.additionalRunOptions = additionalRunOptions
         self.clientToken = clientToken
@@ -25555,8 +24794,7 @@ public struct StartDataQualityRulesetEvaluationRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -25572,8 +24810,7 @@ public struct StartExportLabelsTaskRunInput: Swift.Sendable {
     public init(
         outputS3Path: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.outputS3Path = outputS3Path
         self.transformId = transformId
     }
@@ -25585,8 +24822,7 @@ public struct StartExportLabelsTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -25605,8 +24841,7 @@ public struct StartImportLabelsTaskRunInput: Swift.Sendable {
         inputS3Path: Swift.String? = nil,
         replaceAllLabels: Swift.Bool? = false,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.inputS3Path = inputS3Path
         self.replaceAllLabels = replaceAllLabels
         self.transformId = transformId
@@ -25619,8 +24854,7 @@ public struct StartImportLabelsTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -25652,7 +24886,7 @@ public struct StartJobRunInput: Swift.Sendable {
     public var numberOfWorkers: Swift.Int?
     /// The name of the SecurityConfiguration structure to be used with this job run.
     public var securityConfiguration: Swift.String?
-    /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day.
+    /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
@@ -25682,8 +24916,7 @@ public struct StartJobRunInput: Swift.Sendable {
         securityConfiguration: Swift.String? = nil,
         timeout: Swift.Int? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.allocatedCapacity = allocatedCapacity
         self.arguments = arguments
         self.executionClass = executionClass
@@ -25705,8 +24938,7 @@ public struct StartJobRunOutput: Swift.Sendable {
 
     public init(
         jobRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRunId = jobRunId
     }
 }
@@ -25730,8 +24962,7 @@ public struct MLTransformNotReadyException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25743,8 +24974,7 @@ public struct StartMLEvaluationTaskRunInput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -25755,8 +24985,7 @@ public struct StartMLEvaluationTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -25772,8 +25001,7 @@ public struct StartMLLabelingSetGenerationTaskRunInput: Swift.Sendable {
     public init(
         outputS3Path: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.outputS3Path = outputS3Path
         self.transformId = transformId
     }
@@ -25785,8 +25013,7 @@ public struct StartMLLabelingSetGenerationTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -25798,8 +25025,7 @@ public struct StartTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -25810,8 +25036,7 @@ public struct StartTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -25826,8 +25051,7 @@ public struct StartWorkflowRunInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         runProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runProperties = runProperties
     }
@@ -25839,8 +25063,7 @@ public struct StartWorkflowRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -25864,8 +25087,7 @@ public struct ColumnStatisticsTaskNotRunningException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25889,8 +25111,7 @@ public struct ColumnStatisticsTaskStoppingException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25906,8 +25127,7 @@ public struct StopColumnStatisticsTaskRunInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -25929,8 +25149,7 @@ public struct StopColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -25960,8 +25179,7 @@ public struct CrawlerNotRunningException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25985,8 +25203,7 @@ public struct CrawlerStoppingException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -25998,8 +25215,7 @@ public struct StopCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -26028,8 +25244,7 @@ public struct SchedulerNotRunningException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -26041,8 +25256,7 @@ public struct StopCrawlerScheduleInput: Swift.Sendable {
 
     public init(
         crawlerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
     }
 }
@@ -26062,8 +25276,7 @@ public struct StopSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         requestOrigin: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
     }
@@ -26075,8 +25288,7 @@ public struct StopSessionOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -26088,8 +25300,7 @@ public struct StopTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -26100,8 +25311,7 @@ public struct StopTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -26117,8 +25327,7 @@ public struct StopWorkflowRunInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
     }
@@ -26140,8 +25349,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagsToAdd: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagsToAdd = tagsToAdd
     }
@@ -26178,8 +25386,7 @@ extension GlueClientTypes {
             authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil
-        )
-        {
+        ) {
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
@@ -26199,8 +25406,7 @@ public struct TestConnectionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         testConnectionInput: GlueClientTypes.TestConnectionInput? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionName = connectionName
         self.testConnectionInput = testConnectionInput
@@ -26223,8 +25429,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagsToRemove = tagsToRemove
     }
@@ -26249,8 +25454,7 @@ public struct UpdateBlueprintInput: Swift.Sendable {
         blueprintLocation: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintLocation = blueprintLocation
         self.description = description
         self.name = name
@@ -26263,8 +25467,7 @@ public struct UpdateBlueprintOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -26280,8 +25483,7 @@ public struct UpdateCatalogInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         catalogInput: GlueClientTypes.CatalogInput? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.catalogInput = catalogInput
     }
@@ -26311,8 +25513,7 @@ public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -26354,8 +25555,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             quoteSymbol: Swift.String? = nil,
             serde: GlueClientTypes.CsvSerdeOption? = nil
-        )
-        {
+        ) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.customDatatypeConfigured = customDatatypeConfigured
@@ -26389,8 +25589,7 @@ extension GlueClientTypes {
             customPatterns: Swift.String? = nil,
             grokPattern: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.customPatterns = customPatterns
             self.grokPattern = grokPattern
@@ -26412,8 +25611,7 @@ extension GlueClientTypes {
         public init(
             jsonPath: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.jsonPath = jsonPath
             self.name = name
         }
@@ -26436,8 +25634,7 @@ extension GlueClientTypes {
             classification: Swift.String? = nil,
             name: Swift.String? = nil,
             rowTag: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.name = name
             self.rowTag = rowTag
@@ -26460,8 +25657,7 @@ public struct UpdateClassifierInput: Swift.Sendable {
         grokClassifier: GlueClientTypes.UpdateGrokClassifierRequest? = nil,
         jsonClassifier: GlueClientTypes.UpdateJsonClassifierRequest? = nil,
         xmlClassifier: GlueClientTypes.UpdateXMLClassifierRequest? = nil
-    )
-    {
+    ) {
         self.csvClassifier = csvClassifier
         self.grokClassifier = grokClassifier
         self.jsonClassifier = jsonClassifier
@@ -26496,8 +25692,7 @@ public struct UpdateColumnStatisticsForPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnStatisticsList = columnStatisticsList
         self.databaseName = databaseName
@@ -26518,8 +25713,7 @@ extension GlueClientTypes {
         public init(
             columnStatistics: GlueClientTypes.ColumnStatistics? = nil,
             error: GlueClientTypes.ErrorDetail? = nil
-        )
-        {
+        ) {
             self.columnStatistics = columnStatistics
             self.error = error
         }
@@ -26532,8 +25726,7 @@ public struct UpdateColumnStatisticsForPartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.ColumnStatisticsError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -26556,8 +25749,7 @@ public struct UpdateColumnStatisticsForTableInput: Swift.Sendable {
         columnStatisticsList: [GlueClientTypes.ColumnStatistics]? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnStatisticsList = columnStatisticsList
         self.databaseName = databaseName
@@ -26571,8 +25763,7 @@ public struct UpdateColumnStatisticsForTableOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.ColumnStatisticsError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -26606,8 +25797,7 @@ public struct UpdateColumnStatisticsTaskSettingsInput: Swift.Sendable {
         schedule: Swift.String? = nil,
         securityConfiguration: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogID = catalogID
         self.columnNameList = columnNameList
         self.databaseName = databaseName
@@ -26638,8 +25828,7 @@ public struct UpdateConnectionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         connectionInput: GlueClientTypes.ConnectionInput? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionInput = connectionInput
         self.name = name
@@ -26697,8 +25886,7 @@ public struct UpdateCrawlerInput: Swift.Sendable {
         schemaChangePolicy: GlueClientTypes.SchemaChangePolicy? = nil,
         tablePrefix: Swift.String? = nil,
         targets: GlueClientTypes.CrawlerTargets? = nil
-    )
-    {
+    ) {
         self.classifiers = classifiers
         self.configuration = configuration
         self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -26731,8 +25919,7 @@ public struct UpdateCrawlerScheduleInput: Swift.Sendable {
     public init(
         crawlerName: Swift.String? = nil,
         schedule: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
         self.schedule = schedule
     }
@@ -26757,8 +25944,7 @@ public struct UpdateDatabaseInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseInput: GlueClientTypes.DatabaseInput? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseInput = databaseInput
         self.name = name
@@ -26783,8 +25969,7 @@ public struct UpdateDataQualityRulesetInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         ruleset: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.ruleset = ruleset
@@ -26803,8 +25988,7 @@ public struct UpdateDataQualityRulesetOutput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         ruleset: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.ruleset = ruleset
@@ -26823,8 +26007,7 @@ extension GlueClientTypes {
         public init(
             extraJarsS3Path: Swift.String? = nil,
             extraPythonLibsS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
         }
@@ -26864,8 +26047,7 @@ public struct UpdateDevEndpointInput: Swift.Sendable {
         endpointName: Swift.String? = nil,
         publicKey: Swift.String? = nil,
         updateEtlLibraries: Swift.Bool? = false
-    )
-    {
+    ) {
         self.addArguments = addArguments
         self.addPublicKeys = addPublicKeys
         self.customLibraries = customLibraries
@@ -26895,8 +26077,7 @@ public struct UpdateIntegrationResourcePropertyInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
@@ -26915,8 +26096,7 @@ public struct UpdateIntegrationResourcePropertyOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
         targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceProcessingProperties = sourceProcessingProperties
         self.targetProcessingProperties = targetProcessingProperties
@@ -26940,8 +26120,7 @@ public struct UpdateIntegrationTablePropertiesInput: Swift.Sendable {
         sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
         tableName: Swift.String? = nil,
         targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sourceTableConfig = sourceTableConfig
         self.tableName = tableName
@@ -26960,8 +26139,7 @@ public struct UpdateJobOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -26996,8 +26174,7 @@ public struct UpdateJobFromSourceControlInput: Swift.Sendable {
         provider: GlueClientTypes.SourceControlProvider? = nil,
         repositoryName: Swift.String? = nil,
         repositoryOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.authStrategy = authStrategy
         self.authToken = authToken
         self.branchName = branchName
@@ -27016,8 +26193,7 @@ public struct UpdateJobFromSourceControlOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -27065,8 +26241,7 @@ public struct UpdateMLTransformInput: Swift.Sendable {
         timeout: Swift.Int? = nil,
         transformId: Swift.String? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.glueVersion = glueVersion
         self.maxCapacity = maxCapacity
@@ -27087,8 +26262,7 @@ public struct UpdateMLTransformOutput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -27115,8 +26289,7 @@ public struct UpdatePartitionInput: Swift.Sendable {
         partitionInput: GlueClientTypes.PartitionInput? = nil,
         partitionValueList: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionInput = partitionInput
@@ -27141,8 +26314,7 @@ public struct UpdateRegistryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryId = registryId
     }
@@ -27157,8 +26329,7 @@ public struct UpdateRegistryOutput: Swift.Sendable {
     public init(
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryArn = registryArn
         self.registryName = registryName
     }
@@ -27184,8 +26355,7 @@ public struct UpdateSchemaInput: Swift.Sendable {
         description: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.description = description
         self.schemaId = schemaId
@@ -27205,8 +26375,7 @@ public struct UpdateSchemaOutput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
         self.schemaArn = schemaArn
         self.schemaName = schemaName
@@ -27243,8 +26412,7 @@ public struct UpdateSourceControlFromJobInput: Swift.Sendable {
         provider: GlueClientTypes.SourceControlProvider? = nil,
         repositoryName: Swift.String? = nil,
         repositoryOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.authStrategy = authStrategy
         self.authToken = authToken
         self.branchName = branchName
@@ -27263,8 +26431,7 @@ public struct UpdateSourceControlFromJobOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -27333,8 +26500,7 @@ public struct UpdateTableInput: Swift.Sendable {
         transactionId: Swift.String? = nil,
         versionId: Swift.String? = nil,
         viewUpdateAction: GlueClientTypes.ViewUpdateAction? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.force = force
@@ -27374,8 +26540,7 @@ public struct UpdateTableOptimizerInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -27413,8 +26578,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             predicate: GlueClientTypes.Predicate? = nil,
             schedule: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.description = description
             self.eventBatchingCondition = eventBatchingCondition
@@ -27436,8 +26600,7 @@ public struct UpdateTriggerInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         triggerUpdate: GlueClientTypes.TriggerUpdate? = nil
-    )
-    {
+    ) {
         self.name = name
         self.triggerUpdate = triggerUpdate
     }
@@ -27449,8 +26612,7 @@ public struct UpdateTriggerOutput: Swift.Sendable {
 
     public init(
         trigger: GlueClientTypes.Trigger? = nil
-    )
-    {
+    ) {
         self.trigger = trigger
     }
 }
@@ -27469,8 +26631,7 @@ public struct UpdateUsageProfileInput: Swift.Sendable {
         configuration: GlueClientTypes.ProfileConfiguration? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.description = description
         self.name = name
@@ -27483,8 +26644,7 @@ public struct UpdateUsageProfileOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -27507,8 +26667,7 @@ public struct UpdateUserDefinedFunctionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         functionInput: GlueClientTypes.UserDefinedFunctionInput? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionInput = functionInput
@@ -27537,8 +26696,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
         description: Swift.String? = nil,
         maxConcurrentRuns: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultRunProperties = defaultRunProperties
         self.description = description
         self.maxConcurrentRuns = maxConcurrentRuns
@@ -27552,8 +26710,7 @@ public struct UpdateWorkflowOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -27582,8 +26739,7 @@ extension GlueClientTypes {
             fromType: Swift.String? = nil,
             toKey: Swift.String? = nil,
             toType: Swift.String? = nil
-        )
-        {
+        ) {
             self.children = children
             self.dropped = dropped
             self.fromPath = fromPath
@@ -27612,8 +26768,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             mapping: [GlueClientTypes.Mapping]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.mapping = mapping
             self.name = name
@@ -27633,8 +26788,7 @@ extension GlueClientTypes {
         public init(
             requestedChange: GlueClientTypes.Table? = nil,
             viewValidations: [GlueClientTypes.ViewValidation]? = nil
-        )
-        {
+        ) {
             self.requestedChange = requestedChange
             self.viewValidations = viewValidations
         }
@@ -27720,8 +26874,7 @@ extension GlueClientTypes {
             viewDefinition: GlueClientTypes.ViewDefinition? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.createTime = createTime
             self.createdBy = createdBy
@@ -27780,8 +26933,7 @@ extension GlueClientTypes {
             state: GlueClientTypes.ResourceState? = nil,
             updateTime: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.details = details
             self.error = error
@@ -28013,8 +27165,7 @@ extension GlueClientTypes {
             spigot: GlueClientTypes.Spigot? = nil,
             splitFields: GlueClientTypes.SplitFields? = nil,
             union: GlueClientTypes.Union? = nil
-        )
-        {
+        ) {
             self.aggregate = aggregate
             self.amazonRedshiftSource = amazonRedshiftSource
             self.amazonRedshiftTarget = amazonRedshiftTarget
@@ -28102,8 +27253,7 @@ extension GlueClientTypes {
         public init(
             table: GlueClientTypes.Table? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.table = table
             self.versionId = versionId
         }
@@ -28116,8 +27266,7 @@ public struct GetTableOutput: Swift.Sendable {
 
     public init(
         table: GlueClientTypes.Table? = nil
-    )
-    {
+    ) {
         self.table = table
     }
 }
@@ -28155,8 +27304,7 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         rowFilter: Swift.String? = nil,
         table: GlueClientTypes.Table? = nil
-    )
-    {
+    ) {
         self.authorizedColumns = authorizedColumns
         self.cellFilters = cellFilters
         self.isMultiDialectView = isMultiDialectView
@@ -28179,8 +27327,7 @@ public struct GetTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableList: [GlueClientTypes.Table]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableList = tableList
     }
@@ -28192,8 +27339,7 @@ public struct GetTableVersionOutput: Swift.Sendable {
 
     public init(
         tableVersion: GlueClientTypes.TableVersion? = nil
-    )
-    {
+    ) {
         self.tableVersion = tableVersion
     }
 }
@@ -28207,8 +27353,7 @@ public struct SearchTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableList: [GlueClientTypes.Table]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableList = tableList
     }
@@ -28282,7 +27427,7 @@ extension GlueClientTypes {
         public var securityConfiguration: Swift.String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
-        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
@@ -28327,8 +27472,7 @@ extension GlueClientTypes {
             sourceControlDetails: GlueClientTypes.SourceControlDetails? = nil,
             timeout: Swift.Int? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -28425,7 +27569,7 @@ extension GlueClientTypes {
         public var securityConfiguration: Swift.String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
-        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
@@ -28466,8 +27610,7 @@ extension GlueClientTypes {
             sourceControlDetails: GlueClientTypes.SourceControlDetails? = nil,
             timeout: Swift.Int? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -28564,7 +27707,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
     /// The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html) in the developer guide.
     public var tags: [Swift.String: Swift.String]?
-    /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+    /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
@@ -28607,8 +27750,7 @@ public struct CreateJobInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timeout: Swift.Int? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.allocatedCapacity = allocatedCapacity
         self.codeGenConfigurationNodes = codeGenConfigurationNodes
         self.command = command
@@ -28651,8 +27793,7 @@ public struct GetTableVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableVersions: [GlueClientTypes.TableVersion]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableVersions = tableVersions
     }
@@ -28664,8 +27805,7 @@ public struct GetJobOutput: Swift.Sendable {
 
     public init(
         job: GlueClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -28681,8 +27821,7 @@ public struct UpdateJobInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         jobUpdate: GlueClientTypes.JobUpdate? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.jobUpdate = jobUpdate
     }
@@ -28697,8 +27836,7 @@ public struct BatchGetJobsOutput: Swift.Sendable {
     public init(
         jobs: [GlueClientTypes.Job]? = nil,
         jobsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.jobsNotFound = jobsNotFound
     }
@@ -28713,8 +27851,7 @@ public struct GetJobsOutput: Swift.Sendable {
     public init(
         jobs: [GlueClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }

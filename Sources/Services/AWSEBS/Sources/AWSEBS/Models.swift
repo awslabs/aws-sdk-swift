@@ -79,8 +79,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         reason: EBSClientTypes.AccessDeniedExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -98,8 +97,7 @@ extension EBSClientTypes {
         public init(
             blockIndex: Swift.Int? = nil,
             blockToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockIndex = blockIndex
             self.blockToken = blockToken
         }
@@ -121,8 +119,7 @@ extension EBSClientTypes {
             blockIndex: Swift.Int? = nil,
             firstBlockToken: Swift.String? = nil,
             secondBlockToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockIndex = blockIndex
             self.firstBlockToken = firstBlockToken
             self.secondBlockToken = secondBlockToken
@@ -206,8 +203,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -265,8 +261,7 @@ public struct RequestThrottledException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         reason: EBSClientTypes.RequestThrottledExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -328,8 +323,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         reason: EBSClientTypes.ResourceNotFoundExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -382,8 +376,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         reason: EBSClientTypes.ServiceQuotaExceededExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -478,8 +471,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: EBSClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -505,8 +497,7 @@ public struct CompleteSnapshotInput: Swift.Sendable {
         checksumAggregationMethod: EBSClientTypes.ChecksumAggregationMethod? = nil,
         checksumAlgorithm: EBSClientTypes.ChecksumAlgorithm? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changedBlocksCount = changedBlocksCount
         self.checksum = checksum
         self.checksumAggregationMethod = checksumAggregationMethod
@@ -553,8 +544,7 @@ public struct CompleteSnapshotOutput: Swift.Sendable {
 
     public init(
         status: EBSClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -577,8 +567,7 @@ public struct ConcurrentLimitExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -601,8 +590,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -622,8 +610,7 @@ public struct GetSnapshotBlockInput: Swift.Sendable {
         blockIndex: Swift.Int? = nil,
         blockToken: Swift.String? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockIndex = blockIndex
         self.blockToken = blockToken
         self.snapshotId = snapshotId
@@ -645,8 +632,7 @@ public struct GetSnapshotBlockOutput: Swift.Sendable {
         checksum: Swift.String? = nil,
         checksumAlgorithm: EBSClientTypes.ChecksumAlgorithm? = nil,
         dataLength: Swift.Int? = nil
-    )
-    {
+    ) {
         self.blockData = blockData
         self.checksum = checksum
         self.checksumAlgorithm = checksumAlgorithm
@@ -678,8 +664,7 @@ public struct ListChangedBlocksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         secondSnapshotId: Swift.String? = nil,
         startingBlockIndex: Swift.Int? = nil
-    )
-    {
+    ) {
         self.firstSnapshotId = firstSnapshotId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -706,8 +691,7 @@ public struct ListChangedBlocksOutput: Swift.Sendable {
         expiryTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         volumeSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.blockSize = blockSize
         self.changedBlocks = changedBlocks
         self.expiryTime = expiryTime
@@ -737,8 +721,7 @@ public struct ListSnapshotBlocksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         snapshotId: Swift.String? = nil,
         startingBlockIndex: Swift.Int? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.snapshotId = snapshotId
@@ -764,8 +747,7 @@ public struct ListSnapshotBlocksOutput: Swift.Sendable {
         expiryTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         volumeSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.blockSize = blockSize
         self.blocks = blocks
         self.expiryTime = expiryTime
@@ -809,8 +791,7 @@ public struct PutSnapshotBlockInput: Swift.Sendable {
         dataLength: Swift.Int? = nil,
         progress: Swift.Int? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockData = blockData
         self.blockIndex = blockIndex
         self.checksum = checksum
@@ -835,8 +816,7 @@ public struct PutSnapshotBlockOutput: Swift.Sendable {
     public init(
         checksum: Swift.String? = nil,
         checksumAlgorithm: EBSClientTypes.ChecksumAlgorithm? = nil
-    )
-    {
+    ) {
         self.checksum = checksum
         self.checksumAlgorithm = checksumAlgorithm
     }
@@ -854,8 +834,7 @@ extension EBSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -897,8 +876,7 @@ public struct StartSnapshotInput: Swift.Sendable {
         tags: [EBSClientTypes.Tag]? = nil,
         timeout: Swift.Int? = nil,
         volumeSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.encrypted = encrypted
@@ -983,8 +961,7 @@ public struct StartSnapshotOutput: Swift.Sendable {
         status: EBSClientTypes.Status? = nil,
         tags: [EBSClientTypes.Tag]? = nil,
         volumeSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.blockSize = blockSize
         self.description = description
         self.kmsKeyArn = kmsKeyArn

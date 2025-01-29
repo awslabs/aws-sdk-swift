@@ -193,8 +193,7 @@ public struct AccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -212,8 +211,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -232,8 +230,7 @@ extension CloudFrontClientTypes {
         public init(
             keyGroupId: Swift.String? = nil,
             keyPairIds: CloudFrontClientTypes.KeyPairIds? = nil
-        )
-        {
+        ) {
             self.keyGroupId = keyGroupId
             self.keyPairIds = keyPairIds
         }
@@ -257,8 +254,7 @@ extension CloudFrontClientTypes {
             enabled: Swift.Bool? = nil,
             items: [CloudFrontClientTypes.KGKeyPairIds]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity
@@ -278,8 +274,7 @@ extension CloudFrontClientTypes {
         public init(
             awsAccountNumber: Swift.String? = nil,
             keyPairIds: CloudFrontClientTypes.KeyPairIds? = nil
-        )
-        {
+        ) {
             self.awsAccountNumber = awsAccountNumber
             self.keyPairIds = keyPairIds
         }
@@ -303,8 +298,7 @@ extension CloudFrontClientTypes {
             enabled: Swift.Bool? = nil,
             items: [CloudFrontClientTypes.Signer]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity
@@ -325,8 +319,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -383,8 +376,7 @@ extension CloudFrontClientTypes {
         public init(
             cname: Swift.String? = nil,
             icpRecordalStatus: CloudFrontClientTypes.ICPRecordalStatus? = nil
-        )
-        {
+        ) {
             self.cname = cname
             self.icpRecordalStatus = icpRecordalStatus
         }
@@ -456,8 +448,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.Method]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -497,8 +488,7 @@ extension CloudFrontClientTypes {
             cachedMethods: CloudFrontClientTypes.CachedMethods? = nil,
             items: [CloudFrontClientTypes.Method]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cachedMethods = cachedMethods
             self.items = items
             self.quantity = quantity
@@ -540,8 +530,7 @@ extension CloudFrontClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.anycastIps = anycastIps
             self.arn = arn
             self.id = id
@@ -583,8 +572,7 @@ extension CloudFrontClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.ipCount = ipCount
@@ -623,8 +611,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -653,8 +640,7 @@ public struct IllegalUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -677,8 +663,7 @@ public struct InvalidArgument: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -701,8 +686,7 @@ public struct NoSuchDistribution: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -725,8 +709,7 @@ public struct TooManyDistributionCNAMEs: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -742,8 +725,7 @@ public struct AssociateAliasInput: Swift.Sendable {
     public init(
         alias: Swift.String? = nil,
         targetDistributionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.targetDistributionId = targetDistributionId
     }
@@ -767,8 +749,7 @@ public struct BatchTooLarge: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -818,8 +799,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -839,8 +819,7 @@ extension CloudFrontClientTypes {
         public init(
             forward: CloudFrontClientTypes.ItemSelection? = nil,
             whitelistedNames: CloudFrontClientTypes.CookieNames? = nil
-        )
-        {
+        ) {
             self.forward = forward
             self.whitelistedNames = whitelistedNames
         }
@@ -860,8 +839,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -881,8 +859,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -909,8 +886,7 @@ extension CloudFrontClientTypes {
             headers: CloudFrontClientTypes.Headers? = nil,
             queryString: Swift.Bool? = nil,
             queryStringCacheKeys: CloudFrontClientTypes.QueryStringCacheKeys? = nil
-        )
-        {
+        ) {
             self.cookies = cookies
             self.headers = headers
             self.queryString = queryString
@@ -968,8 +944,7 @@ extension CloudFrontClientTypes {
         public init(
             eventType: CloudFrontClientTypes.EventType? = nil,
             functionARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.functionARN = functionARN
         }
@@ -989,8 +964,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.FunctionAssociation]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -1007,8 +981,7 @@ extension CloudFrontClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1039,8 +1012,7 @@ extension CloudFrontClientTypes {
             eventType: CloudFrontClientTypes.EventType? = nil,
             includeBody: Swift.Bool? = nil,
             lambdaFunctionARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.includeBody = includeBody
             self.lambdaFunctionARN = lambdaFunctionARN
@@ -1061,8 +1033,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.LambdaFunctionAssociation]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -1086,8 +1057,7 @@ extension CloudFrontClientTypes {
             enabled: Swift.Bool? = nil,
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity
@@ -1112,8 +1082,7 @@ extension CloudFrontClientTypes {
             enabled: Swift.Bool? = nil,
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.items = items
             self.quantity = quantity
@@ -1244,8 +1213,7 @@ extension CloudFrontClientTypes {
             trustedKeyGroups: CloudFrontClientTypes.TrustedKeyGroups? = nil,
             trustedSigners: CloudFrontClientTypes.TrustedSigners? = nil,
             viewerProtocolPolicy: CloudFrontClientTypes.ViewerProtocolPolicy? = nil
-        )
-        {
+        ) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -1283,8 +1251,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.CacheBehavior]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -1347,8 +1314,7 @@ extension CloudFrontClientTypes {
         public init(
             cookieBehavior: CloudFrontClientTypes.CachePolicyCookieBehavior? = nil,
             cookies: CloudFrontClientTypes.CookieNames? = nil
-        )
-        {
+        ) {
             self.cookieBehavior = cookieBehavior
             self.cookies = cookies
         }
@@ -1401,8 +1367,7 @@ extension CloudFrontClientTypes {
         public init(
             headerBehavior: CloudFrontClientTypes.CachePolicyHeaderBehavior? = nil,
             headers: CloudFrontClientTypes.Headers? = nil
-        )
-        {
+        ) {
             self.headerBehavior = headerBehavior
             self.headers = headers
         }
@@ -1457,8 +1422,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -1486,8 +1450,7 @@ extension CloudFrontClientTypes {
         public init(
             queryStringBehavior: CloudFrontClientTypes.CachePolicyQueryStringBehavior? = nil,
             queryStrings: CloudFrontClientTypes.QueryStringNames? = nil
-        )
-        {
+        ) {
             self.queryStringBehavior = queryStringBehavior
             self.queryStrings = queryStrings
         }
@@ -1537,8 +1500,7 @@ extension CloudFrontClientTypes {
             enableAcceptEncodingGzip: Swift.Bool? = nil,
             headersConfig: CloudFrontClientTypes.CachePolicyHeadersConfig? = nil,
             queryStringsConfig: CloudFrontClientTypes.CachePolicyQueryStringsConfig? = nil
-        )
-        {
+        ) {
             self.cookiesConfig = cookiesConfig
             self.enableAcceptEncodingBrotli = enableAcceptEncodingBrotli
             self.enableAcceptEncodingGzip = enableAcceptEncodingGzip
@@ -1581,8 +1543,7 @@ extension CloudFrontClientTypes {
             minTTL: Swift.Int? = nil,
             name: Swift.String? = nil,
             parametersInCacheKeyAndForwardedToOrigin: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.defaultTTL = defaultTTL
             self.maxTTL = maxTTL
@@ -1618,8 +1579,7 @@ extension CloudFrontClientTypes {
             cachePolicyConfig: CloudFrontClientTypes.CachePolicyConfig? = nil,
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.cachePolicyConfig = cachePolicyConfig
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -1645,8 +1605,7 @@ public struct CachePolicyAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1669,8 +1628,7 @@ public struct CachePolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1718,8 +1676,7 @@ extension CloudFrontClientTypes {
         public init(
             cachePolicy: CloudFrontClientTypes.CachePolicy? = nil,
             type: CloudFrontClientTypes.CachePolicyType? = nil
-        )
-        {
+        ) {
             self.cachePolicy = cachePolicy
             self.type = type
         }
@@ -1746,8 +1703,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -1774,8 +1730,7 @@ public struct CannotChangeImmutablePublicKeyFields: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1798,8 +1753,7 @@ public struct CannotDeleteEntityWhileInUse: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1822,8 +1776,7 @@ public struct CannotUpdateEntityWhileInUse: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1878,8 +1831,7 @@ public struct CNAMEAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1902,8 +1854,7 @@ public struct DistributionAlreadyExists: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1926,8 +1877,7 @@ public struct IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: Cli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1950,8 +1900,7 @@ public struct InconsistentQuantities: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1974,8 +1923,7 @@ public struct InvalidDefaultRootObject: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1998,8 +1946,7 @@ public struct InvalidErrorCode: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2022,8 +1969,7 @@ public struct InvalidForwardCookies: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2046,8 +1992,7 @@ public struct InvalidFunctionAssociation: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2070,8 +2015,7 @@ public struct InvalidGeoRestrictionParameter: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2094,8 +2038,7 @@ public struct InvalidHeadersForS3Origin: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2118,8 +2061,7 @@ public struct InvalidIfMatchVersion: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2142,8 +2084,7 @@ public struct InvalidLambdaFunctionAssociation: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2166,8 +2107,7 @@ public struct InvalidLocationCode: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2190,8 +2130,7 @@ public struct InvalidMinimumProtocolVersion: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2214,8 +2153,7 @@ public struct InvalidOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2238,8 +2176,7 @@ public struct InvalidOriginAccessControl: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2262,8 +2199,7 @@ public struct InvalidOriginAccessIdentity: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2286,8 +2222,7 @@ public struct InvalidOriginKeepaliveTimeout: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2310,8 +2245,7 @@ public struct InvalidOriginReadTimeout: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2334,8 +2268,7 @@ public struct InvalidProtocolSettings: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2358,8 +2291,7 @@ public struct InvalidQueryStringParameters: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2382,8 +2314,7 @@ public struct InvalidRelativePath: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2406,8 +2337,7 @@ public struct InvalidRequiredProtocol: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2430,8 +2360,7 @@ public struct InvalidResponseCode: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2454,8 +2383,7 @@ public struct InvalidTTLOrder: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2478,8 +2406,7 @@ public struct InvalidViewerCertificate: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2502,8 +2429,7 @@ public struct InvalidWebACLId: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2526,8 +2452,7 @@ public struct MissingBody: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2550,8 +2475,7 @@ public struct NoSuchCachePolicy: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2574,8 +2498,7 @@ public struct NoSuchFieldLevelEncryptionConfig: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2598,8 +2521,7 @@ public struct NoSuchOrigin: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2622,8 +2544,7 @@ public struct NoSuchOriginRequestPolicy: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2646,8 +2567,7 @@ public struct NoSuchRealtimeLogConfig: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2670,8 +2590,7 @@ public struct NoSuchResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2694,8 +2613,7 @@ public struct PreconditionFailed: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2718,8 +2636,7 @@ public struct RealtimeLogConfigOwnerMismatch: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2742,8 +2659,7 @@ public struct TooManyCacheBehaviors: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2766,8 +2682,7 @@ public struct TooManyCertificates: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2790,8 +2705,7 @@ public struct TooManyCookieNamesInWhiteList: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2814,8 +2728,7 @@ public struct TooManyDistributions: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2838,8 +2751,7 @@ public struct TooManyDistributionsAssociatedToCachePolicy: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2862,8 +2774,7 @@ public struct TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: Client
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2886,8 +2797,7 @@ public struct TooManyDistributionsAssociatedToKeyGroup: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2910,8 +2820,7 @@ public struct TooManyDistributionsAssociatedToOriginAccessControl: ClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2934,8 +2843,7 @@ public struct TooManyDistributionsAssociatedToOriginRequestPolicy: ClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2958,8 +2866,7 @@ public struct TooManyDistributionsAssociatedToResponseHeadersPolicy: ClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2982,8 +2889,7 @@ public struct TooManyDistributionsWithFunctionAssociations: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3006,8 +2912,7 @@ public struct TooManyDistributionsWithLambdaAssociations: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3030,8 +2935,7 @@ public struct TooManyDistributionsWithSingleFunctionARN: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3054,8 +2958,7 @@ public struct TooManyFunctionAssociations: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3078,8 +2981,7 @@ public struct TooManyHeadersInForwardedValues: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3102,8 +3004,7 @@ public struct TooManyKeyGroupsAssociatedToDistribution: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3126,8 +3027,7 @@ public struct TooManyLambdaFunctionAssociations: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3150,8 +3050,7 @@ public struct TooManyOriginCustomHeaders: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3174,8 +3073,7 @@ public struct TooManyOriginGroupsPerDistribution: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3198,8 +3096,7 @@ public struct TooManyOrigins: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3222,8 +3119,7 @@ public struct TooManyQueryStringParameters: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3246,8 +3142,7 @@ public struct TooManyTrustedSigners: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3270,8 +3165,7 @@ public struct TrustedKeyGroupDoesNotExist: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3294,8 +3188,7 @@ public struct TrustedSignerDoesNotExist: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3320,8 +3213,7 @@ public struct CopyDistributionInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         primaryDistributionId: Swift.String? = nil,
         staging: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.callerReference = callerReference
         self.enabled = enabled
         self.ifMatch = ifMatch
@@ -3372,8 +3264,7 @@ extension CloudFrontClientTypes {
             errorCode: Swift.Int? = nil,
             responseCode: Swift.String? = nil,
             responsePagePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCachingMinTTL = errorCachingMinTTL
             self.errorCode = errorCode
             self.responseCode = responseCode
@@ -3402,8 +3293,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.CustomErrorResponse]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -3497,8 +3387,7 @@ extension CloudFrontClientTypes {
             trustedKeyGroups: CloudFrontClientTypes.TrustedKeyGroups? = nil,
             trustedSigners: CloudFrontClientTypes.TrustedSigners? = nil,
             viewerProtocolPolicy: CloudFrontClientTypes.ViewerProtocolPolicy? = nil
-        )
-        {
+        ) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -3575,8 +3464,7 @@ extension CloudFrontClientTypes {
             enabled: Swift.Bool? = false,
             includeCookies: Swift.Bool? = false,
             `prefix`: Swift.String? = ""
-        )
-        {
+        ) {
             self.bucket = bucket
             self.enabled = enabled
             self.includeCookies = includeCookies
@@ -3599,8 +3487,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.Int]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -3617,8 +3504,7 @@ extension CloudFrontClientTypes {
 
         public init(
             statusCodes: CloudFrontClientTypes.StatusCodes? = nil
-        )
-        {
+        ) {
             self.statusCodes = statusCodes
         }
     }
@@ -3634,8 +3520,7 @@ extension CloudFrontClientTypes {
 
         public init(
             originId: Swift.String? = nil
-        )
-        {
+        ) {
             self.originId = originId
         }
     }
@@ -3655,8 +3540,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.OriginGroupMember]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -3713,8 +3597,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             members: CloudFrontClientTypes.OriginGroupMembers? = nil,
             selectionCriteria: CloudFrontClientTypes.OriginGroupSelectionCriteria? = nil
-        )
-        {
+        ) {
             self.failoverCriteria = failoverCriteria
             self.id = id
             self.members = members
@@ -3736,8 +3619,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.OriginGroup]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -3758,8 +3640,7 @@ extension CloudFrontClientTypes {
         public init(
             headerName: Swift.String? = nil,
             headerValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.headerName = headerName
             self.headerValue = headerValue
         }
@@ -3784,8 +3665,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.OriginCustomHeader]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -3873,8 +3753,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.SslProtocol]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -3914,8 +3793,7 @@ extension CloudFrontClientTypes {
             originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
             originReadTimeout: Swift.Int? = nil,
             originSslProtocols: CloudFrontClientTypes.OriginSslProtocols? = nil
-        )
-        {
+        ) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
             self.originKeepaliveTimeout = originKeepaliveTimeout
@@ -3939,8 +3817,7 @@ extension CloudFrontClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             originShieldRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.originShieldRegion = originShieldRegion
         }
@@ -3957,8 +3834,7 @@ extension CloudFrontClientTypes {
 
         public init(
             originAccessIdentity: Swift.String? = nil
-        )
-        {
+        ) {
             self.originAccessIdentity = originAccessIdentity
         }
     }
@@ -3980,8 +3856,7 @@ extension CloudFrontClientTypes {
             originKeepaliveTimeout: Swift.Int? = nil,
             originReadTimeout: Swift.Int? = nil,
             vpcOriginId: Swift.String? = nil
-        )
-        {
+        ) {
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originReadTimeout = originReadTimeout
             self.vpcOriginId = vpcOriginId
@@ -4050,8 +3925,7 @@ extension CloudFrontClientTypes {
             originShield: CloudFrontClientTypes.OriginShield? = nil,
             s3OriginConfig: CloudFrontClientTypes.S3OriginConfig? = nil,
             vpcOriginConfig: CloudFrontClientTypes.VpcOriginConfig? = nil
-        )
-        {
+        ) {
             self.connectionAttempts = connectionAttempts
             self.connectionTimeout = connectionTimeout
             self.customHeaders = customHeaders
@@ -4081,8 +3955,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.Origin]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -4176,8 +4049,7 @@ extension CloudFrontClientTypes {
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil,
             restrictionType: CloudFrontClientTypes.GeoRestrictionType? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
             self.restrictionType = restrictionType
@@ -4195,8 +4067,7 @@ extension CloudFrontClientTypes {
 
         public init(
             geoRestriction: CloudFrontClientTypes.GeoRestriction? = nil
-        )
-        {
+        ) {
             self.geoRestriction = geoRestriction
         }
     }
@@ -4364,8 +4235,7 @@ extension CloudFrontClientTypes {
             iamCertificateId: Swift.String? = nil,
             minimumProtocolVersion: CloudFrontClientTypes.MinimumProtocolVersion? = nil,
             sslSupportMethod: CloudFrontClientTypes.SSLSupportMethod? = nil
-        )
-        {
+        ) {
             self.acmCertificateArn = acmCertificateArn
             self.certificate = certificate
             self.certificateSource = certificateSource
@@ -4462,8 +4332,7 @@ extension CloudFrontClientTypes {
             staging: Swift.Bool? = nil,
             viewerCertificate: CloudFrontClientTypes.ViewerCertificate? = nil,
             webACLId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aliases = aliases
             self.anycastIpListId = anycastIpListId
             self.cacheBehaviors = cacheBehaviors
@@ -4536,8 +4405,7 @@ extension CloudFrontClientTypes {
             inProgressInvalidationBatches: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeTrustedKeyGroups = activeTrustedKeyGroups
             self.activeTrustedSigners = activeTrustedSigners
             self.aliasICPRecordals = aliasICPRecordals
@@ -4564,8 +4432,7 @@ public struct CopyDistributionOutput: Swift.Sendable {
         distribution: CloudFrontClientTypes.Distribution? = nil,
         eTag: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.distribution = distribution
         self.eTag = eTag
         self.location = location
@@ -4590,8 +4457,7 @@ public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4614,8 +4480,7 @@ public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4638,8 +4503,7 @@ public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4662,8 +4526,7 @@ public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4681,8 +4544,7 @@ extension CloudFrontClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4698,8 +4560,7 @@ extension CloudFrontClientTypes {
 
         public init(
             items: [CloudFrontClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -4719,8 +4580,7 @@ public struct CreateAnycastIpListInput: Swift.Sendable {
         ipCount: Swift.Int? = nil,
         name: Swift.String? = nil,
         tags: CloudFrontClientTypes.Tags? = nil
-    )
-    {
+    ) {
         self.ipCount = ipCount
         self.name = name
         self.tags = tags
@@ -4736,8 +4596,7 @@ public struct CreateAnycastIpListOutput: Swift.Sendable {
     public init(
         anycastIpList: CloudFrontClientTypes.AnycastIpList? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.anycastIpList = anycastIpList
         self.eTag = eTag
     }
@@ -4761,8 +4620,7 @@ public struct TooManyCachePolicies: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4785,8 +4643,7 @@ public struct TooManyCookiesInCachePolicy: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4809,8 +4666,7 @@ public struct TooManyHeadersInCachePolicy: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4833,8 +4689,7 @@ public struct TooManyQueryStringsInCachePolicy: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4846,8 +4701,7 @@ public struct CreateCachePolicyInput: Swift.Sendable {
 
     public init(
         cachePolicyConfig: CloudFrontClientTypes.CachePolicyConfig? = nil
-    )
-    {
+    ) {
         self.cachePolicyConfig = cachePolicyConfig
     }
 }
@@ -4864,8 +4718,7 @@ public struct CreateCachePolicyOutput: Swift.Sendable {
         cachePolicy: CloudFrontClientTypes.CachePolicy? = nil,
         eTag: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.cachePolicy = cachePolicy
         self.eTag = eTag
         self.location = location
@@ -4890,8 +4743,7 @@ public struct CloudFrontOriginAccessIdentityAlreadyExists: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4914,8 +4766,7 @@ public struct TooManyCloudFrontOriginAccessIdentities: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4934,8 +4785,7 @@ extension CloudFrontClientTypes {
         public init(
             callerReference: Swift.String? = nil,
             comment: Swift.String? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.comment = comment
         }
@@ -4950,8 +4800,7 @@ public struct CreateCloudFrontOriginAccessIdentityInput: Swift.Sendable {
 
     public init(
         cloudFrontOriginAccessIdentityConfig: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig? = nil
-    )
-    {
+    ) {
         self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
     }
 }
@@ -4973,8 +4822,7 @@ extension CloudFrontClientTypes {
             cloudFrontOriginAccessIdentityConfig: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig? = nil,
             id: Swift.String? = nil,
             s3CanonicalUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.id = id
             self.s3CanonicalUserId = s3CanonicalUserId
@@ -4995,8 +4843,7 @@ public struct CreateCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
         cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity? = nil,
         eTag: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         self.eTag = eTag
         self.location = location
@@ -5021,8 +4868,7 @@ public struct ContinuousDeploymentPolicyAlreadyExists: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5045,8 +4891,7 @@ public struct StagingDistributionInUse: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5069,8 +4914,7 @@ public struct TooManyContinuousDeploymentPolicies: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5088,8 +4932,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -5110,8 +4953,7 @@ extension CloudFrontClientTypes {
         public init(
             header: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.header = header
             self.value = value
         }
@@ -5132,8 +4974,7 @@ extension CloudFrontClientTypes {
         public init(
             idleTTL: Swift.Int? = nil,
             maximumTTL: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTTL = idleTTL
             self.maximumTTL = maximumTTL
         }
@@ -5153,8 +4994,7 @@ extension CloudFrontClientTypes {
         public init(
             sessionStickinessConfig: CloudFrontClientTypes.SessionStickinessConfig? = nil,
             weight: Swift.Float? = nil
-        )
-        {
+        ) {
             self.sessionStickinessConfig = sessionStickinessConfig
             self.weight = weight
         }
@@ -5206,8 +5046,7 @@ extension CloudFrontClientTypes {
             singleHeaderConfig: CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig? = nil,
             singleWeightConfig: CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig? = nil,
             type: CloudFrontClientTypes.ContinuousDeploymentPolicyType? = nil
-        )
-        {
+        ) {
             self.singleHeaderConfig = singleHeaderConfig
             self.singleWeightConfig = singleWeightConfig
             self.type = type
@@ -5232,8 +5071,7 @@ extension CloudFrontClientTypes {
             enabled: Swift.Bool? = nil,
             stagingDistributionDnsNames: CloudFrontClientTypes.StagingDistributionDnsNames? = nil,
             trafficConfig: CloudFrontClientTypes.TrafficConfig? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.stagingDistributionDnsNames = stagingDistributionDnsNames
             self.trafficConfig = trafficConfig
@@ -5248,8 +5086,7 @@ public struct CreateContinuousDeploymentPolicyInput: Swift.Sendable {
 
     public init(
         continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil
-    )
-    {
+    ) {
         self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
     }
 }
@@ -5272,8 +5109,7 @@ extension CloudFrontClientTypes {
             continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil,
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -5293,8 +5129,7 @@ public struct CreateContinuousDeploymentPolicyOutput: Swift.Sendable {
         continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
         eTag: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuousDeploymentPolicy = continuousDeploymentPolicy
         self.eTag = eTag
         self.location = location
@@ -5319,8 +5154,7 @@ public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5343,8 +5177,7 @@ public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5367,8 +5200,7 @@ public struct IllegalOriginAccessConfiguration: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5391,8 +5223,7 @@ public struct InvalidDomainNameForOriginAccessControl: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5415,8 +5246,7 @@ public struct NoSuchContinuousDeploymentPolicy: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5429,8 +5259,7 @@ public struct CreateDistributionInput: Swift.Sendable {
 
     public init(
         distributionConfig: CloudFrontClientTypes.DistributionConfig? = nil
-    )
-    {
+    ) {
         self.distributionConfig = distributionConfig
     }
 }
@@ -5448,8 +5277,7 @@ public struct CreateDistributionOutput: Swift.Sendable {
         distribution: CloudFrontClientTypes.Distribution? = nil,
         eTag: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.distribution = distribution
         self.eTag = eTag
         self.location = location
@@ -5470,8 +5298,7 @@ extension CloudFrontClientTypes {
         public init(
             distributionConfig: CloudFrontClientTypes.DistributionConfig? = nil,
             tags: CloudFrontClientTypes.Tags? = nil
-        )
-        {
+        ) {
             self.distributionConfig = distributionConfig
             self.tags = tags
         }
@@ -5486,8 +5313,7 @@ public struct CreateDistributionWithTagsInput: Swift.Sendable {
 
     public init(
         distributionConfigWithTags: CloudFrontClientTypes.DistributionConfigWithTags? = nil
-    )
-    {
+    ) {
         self.distributionConfigWithTags = distributionConfigWithTags
     }
 }
@@ -5505,8 +5331,7 @@ public struct CreateDistributionWithTagsOutput: Swift.Sendable {
         distribution: CloudFrontClientTypes.Distribution? = nil,
         eTag: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.distribution = distribution
         self.eTag = eTag
         self.location = location
@@ -5531,8 +5356,7 @@ public struct FieldLevelEncryptionConfigAlreadyExists: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5555,8 +5379,7 @@ public struct NoSuchFieldLevelEncryptionProfile: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5579,8 +5402,7 @@ public struct QueryArgProfileEmpty: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5603,8 +5425,7 @@ public struct TooManyFieldLevelEncryptionConfigs: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5627,8 +5448,7 @@ public struct TooManyFieldLevelEncryptionContentTypeProfiles: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5651,8 +5471,7 @@ public struct TooManyFieldLevelEncryptionQueryArgProfiles: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5700,8 +5519,7 @@ extension CloudFrontClientTypes {
             contentType: Swift.String? = nil,
             format: CloudFrontClientTypes.Format? = nil,
             profileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.format = format
             self.profileId = profileId
@@ -5722,8 +5540,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.ContentTypeProfile]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -5743,8 +5560,7 @@ extension CloudFrontClientTypes {
         public init(
             contentTypeProfiles: CloudFrontClientTypes.ContentTypeProfiles? = nil,
             forwardWhenContentTypeIsUnknown: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.contentTypeProfiles = contentTypeProfiles
             self.forwardWhenContentTypeIsUnknown = forwardWhenContentTypeIsUnknown
         }
@@ -5765,8 +5581,7 @@ extension CloudFrontClientTypes {
         public init(
             profileId: Swift.String? = nil,
             queryArg: Swift.String? = nil
-        )
-        {
+        ) {
             self.profileId = profileId
             self.queryArg = queryArg
         }
@@ -5786,8 +5601,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.QueryArgProfile]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -5807,8 +5621,7 @@ extension CloudFrontClientTypes {
         public init(
             forwardWhenQueryArgProfileIsUnknown: Swift.Bool? = nil,
             queryArgProfiles: CloudFrontClientTypes.QueryArgProfiles? = nil
-        )
-        {
+        ) {
             self.forwardWhenQueryArgProfileIsUnknown = forwardWhenQueryArgProfileIsUnknown
             self.queryArgProfiles = queryArgProfiles
         }
@@ -5834,8 +5647,7 @@ extension CloudFrontClientTypes {
             comment: Swift.String? = nil,
             contentTypeProfileConfig: CloudFrontClientTypes.ContentTypeProfileConfig? = nil,
             queryArgProfileConfig: CloudFrontClientTypes.QueryArgProfileConfig? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.comment = comment
             self.contentTypeProfileConfig = contentTypeProfileConfig
@@ -5851,8 +5663,7 @@ public struct CreateFieldLevelEncryptionConfigInput: Swift.Sendable {
 
     public init(
         fieldLevelEncryptionConfig: CloudFrontClientTypes.FieldLevelEncryptionConfig? = nil
-    )
-    {
+    ) {
         self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
     }
 }
@@ -5875,8 +5686,7 @@ extension CloudFrontClientTypes {
             fieldLevelEncryptionConfig: CloudFrontClientTypes.FieldLevelEncryptionConfig? = nil,
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -5896,8 +5706,7 @@ public struct CreateFieldLevelEncryptionConfigOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryption = fieldLevelEncryption
         self.location = location
@@ -5922,8 +5731,7 @@ public struct FieldLevelEncryptionProfileAlreadyExists: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5946,8 +5754,7 @@ public struct FieldLevelEncryptionProfileSizeExceeded: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5970,8 +5777,7 @@ public struct NoSuchPublicKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5994,8 +5800,7 @@ public struct TooManyFieldLevelEncryptionEncryptionEntities: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6018,8 +5823,7 @@ public struct TooManyFieldLevelEncryptionFieldPatterns: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6042,8 +5846,7 @@ public struct TooManyFieldLevelEncryptionProfiles: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6061,8 +5864,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -6087,8 +5889,7 @@ extension CloudFrontClientTypes {
             fieldPatterns: CloudFrontClientTypes.FieldPatterns? = nil,
             providerId: Swift.String? = nil,
             publicKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldPatterns = fieldPatterns
             self.providerId = providerId
             self.publicKeyId = publicKeyId
@@ -6109,8 +5910,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.EncryptionEntity]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -6138,8 +5938,7 @@ extension CloudFrontClientTypes {
             comment: Swift.String? = nil,
             encryptionEntities: CloudFrontClientTypes.EncryptionEntities? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.comment = comment
             self.encryptionEntities = encryptionEntities
@@ -6155,8 +5954,7 @@ public struct CreateFieldLevelEncryptionProfileInput: Swift.Sendable {
 
     public init(
         fieldLevelEncryptionProfileConfig: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig? = nil
-    )
-    {
+    ) {
         self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
     }
 }
@@ -6179,8 +5977,7 @@ extension CloudFrontClientTypes {
             fieldLevelEncryptionProfileConfig: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig? = nil,
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -6200,8 +5997,7 @@ public struct CreateFieldLevelEncryptionProfileOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
         self.location = location
@@ -6226,8 +6022,7 @@ public struct FunctionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6250,8 +6045,7 @@ public struct FunctionSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6274,8 +6068,7 @@ public struct TooManyFunctions: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6290,8 +6083,7 @@ extension CloudFrontClientTypes {
 
         public init(
             keyValueStoreARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyValueStoreARN = keyValueStoreARN
         }
     }
@@ -6310,8 +6102,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.KeyValueStoreAssociation]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -6364,8 +6155,7 @@ extension CloudFrontClientTypes {
             comment: Swift.String? = nil,
             keyValueStoreAssociations: CloudFrontClientTypes.KeyValueStoreAssociations? = nil,
             runtime: CloudFrontClientTypes.FunctionRuntime? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.keyValueStoreAssociations = keyValueStoreAssociations
             self.runtime = runtime
@@ -6388,8 +6178,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         functionCode: Foundation.Data? = nil,
         functionConfig: CloudFrontClientTypes.FunctionConfig? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionCode = functionCode
         self.functionConfig = functionConfig
         self.name = name
@@ -6450,8 +6239,7 @@ extension CloudFrontClientTypes {
             functionARN: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             stage: CloudFrontClientTypes.FunctionStage? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.functionARN = functionARN
             self.lastModifiedTime = lastModifiedTime
@@ -6481,8 +6269,7 @@ extension CloudFrontClientTypes {
             functionMetadata: CloudFrontClientTypes.FunctionMetadata? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.functionConfig = functionConfig
             self.functionMetadata = functionMetadata
             self.name = name
@@ -6503,8 +6290,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         functionSummary: CloudFrontClientTypes.FunctionSummary? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.functionSummary = functionSummary
         self.location = location
@@ -6529,8 +6315,7 @@ public struct TooManyInvalidationsInProgress: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6548,8 +6333,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -6570,8 +6354,7 @@ extension CloudFrontClientTypes {
         public init(
             callerReference: Swift.String? = nil,
             paths: CloudFrontClientTypes.Paths? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.paths = paths
         }
@@ -6590,8 +6373,7 @@ public struct CreateInvalidationInput: Swift.Sendable {
     public init(
         distributionId: Swift.String? = nil,
         invalidationBatch: CloudFrontClientTypes.InvalidationBatch? = nil
-    )
-    {
+    ) {
         self.distributionId = distributionId
         self.invalidationBatch = invalidationBatch
     }
@@ -6619,8 +6401,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             invalidationBatch: CloudFrontClientTypes.InvalidationBatch? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.id = id
             self.invalidationBatch = invalidationBatch
@@ -6639,8 +6420,7 @@ public struct CreateInvalidationOutput: Swift.Sendable {
     public init(
         invalidation: CloudFrontClientTypes.Invalidation? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.invalidation = invalidation
         self.location = location
     }
@@ -6664,8 +6444,7 @@ public struct KeyGroupAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6688,8 +6467,7 @@ public struct TooManyKeyGroups: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6712,8 +6490,7 @@ public struct TooManyPublicKeysInKeyGroup: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6735,8 +6512,7 @@ extension CloudFrontClientTypes {
             comment: Swift.String? = nil,
             items: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.items = items
             self.name = name
@@ -6751,8 +6527,7 @@ public struct CreateKeyGroupInput: Swift.Sendable {
 
     public init(
         keyGroupConfig: CloudFrontClientTypes.KeyGroupConfig? = nil
-    )
-    {
+    ) {
         self.keyGroupConfig = keyGroupConfig
     }
 }
@@ -6775,8 +6550,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             keyGroupConfig: CloudFrontClientTypes.KeyGroupConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.id = id
             self.keyGroupConfig = keyGroupConfig
             self.lastModifiedTime = lastModifiedTime
@@ -6796,8 +6570,7 @@ public struct CreateKeyGroupOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         keyGroup: CloudFrontClientTypes.KeyGroup? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.keyGroup = keyGroup
         self.location = location
@@ -6822,8 +6595,7 @@ public struct EntitySizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6868,8 +6640,7 @@ extension CloudFrontClientTypes {
         public init(
             sourceARN: Swift.String? = nil,
             sourceType: CloudFrontClientTypes.ImportSourceType? = nil
-        )
-        {
+        ) {
             self.sourceARN = sourceARN
             self.sourceType = sourceType
         }
@@ -6889,8 +6660,7 @@ public struct CreateKeyValueStoreInput: Swift.Sendable {
         comment: Swift.String? = nil,
         importSource: CloudFrontClientTypes.ImportSource? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.importSource = importSource
         self.name = name
@@ -6926,8 +6696,7 @@ extension CloudFrontClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.comment = comment
             self.id = id
@@ -6950,8 +6719,7 @@ public struct CreateKeyValueStoreOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         keyValueStore: CloudFrontClientTypes.KeyValueStore? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.keyValueStore = keyValueStore
         self.location = location
@@ -6976,8 +6744,7 @@ public struct MonitoringSubscriptionAlreadyExists: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7021,8 +6788,7 @@ extension CloudFrontClientTypes {
 
         public init(
             realtimeMetricsSubscriptionStatus: CloudFrontClientTypes.RealtimeMetricsSubscriptionStatus? = nil
-        )
-        {
+        ) {
             self.realtimeMetricsSubscriptionStatus = realtimeMetricsSubscriptionStatus
         }
     }
@@ -7037,8 +6803,7 @@ extension CloudFrontClientTypes {
 
         public init(
             realtimeMetricsSubscriptionConfig: CloudFrontClientTypes.RealtimeMetricsSubscriptionConfig? = nil
-        )
-        {
+        ) {
             self.realtimeMetricsSubscriptionConfig = realtimeMetricsSubscriptionConfig
         }
     }
@@ -7055,8 +6820,7 @@ public struct CreateMonitoringSubscriptionInput: Swift.Sendable {
     public init(
         distributionId: Swift.String? = nil,
         monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription? = nil
-    )
-    {
+    ) {
         self.distributionId = distributionId
         self.monitoringSubscription = monitoringSubscription
     }
@@ -7068,8 +6832,7 @@ public struct CreateMonitoringSubscriptionOutput: Swift.Sendable {
 
     public init(
         monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription? = nil
-    )
-    {
+    ) {
         self.monitoringSubscription = monitoringSubscription
     }
 }
@@ -7092,8 +6855,7 @@ public struct OriginAccessControlAlreadyExists: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7116,8 +6878,7 @@ public struct TooManyOriginAccessControls: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7246,8 +7007,7 @@ extension CloudFrontClientTypes {
             originAccessControlOriginType: CloudFrontClientTypes.OriginAccessControlOriginTypes? = nil,
             signingBehavior: CloudFrontClientTypes.OriginAccessControlSigningBehaviors? = nil,
             signingProtocol: CloudFrontClientTypes.OriginAccessControlSigningProtocols? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.originAccessControlOriginType = originAccessControlOriginType
@@ -7264,8 +7024,7 @@ public struct CreateOriginAccessControlInput: Swift.Sendable {
 
     public init(
         originAccessControlConfig: CloudFrontClientTypes.OriginAccessControlConfig? = nil
-    )
-    {
+    ) {
         self.originAccessControlConfig = originAccessControlConfig
     }
 }
@@ -7283,8 +7042,7 @@ extension CloudFrontClientTypes {
         public init(
             id: Swift.String? = nil,
             originAccessControlConfig: CloudFrontClientTypes.OriginAccessControlConfig? = nil
-        )
-        {
+        ) {
             self.id = id
             self.originAccessControlConfig = originAccessControlConfig
         }
@@ -7303,8 +7061,7 @@ public struct CreateOriginAccessControlOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         location: Swift.String? = nil,
         originAccessControl: CloudFrontClientTypes.OriginAccessControl? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.location = location
         self.originAccessControl = originAccessControl
@@ -7329,8 +7086,7 @@ public struct OriginRequestPolicyAlreadyExists: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7353,8 +7109,7 @@ public struct TooManyCookiesInOriginRequestPolicy: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7377,8 +7132,7 @@ public struct TooManyHeadersInOriginRequestPolicy: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7401,8 +7155,7 @@ public struct TooManyOriginRequestPolicies: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7425,8 +7178,7 @@ public struct TooManyQueryStringsInOriginRequestPolicy: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7487,8 +7239,7 @@ extension CloudFrontClientTypes {
         public init(
             cookieBehavior: CloudFrontClientTypes.OriginRequestPolicyCookieBehavior? = nil,
             cookies: CloudFrontClientTypes.CookieNames? = nil
-        )
-        {
+        ) {
             self.cookieBehavior = cookieBehavior
             self.cookies = cookies
         }
@@ -7556,8 +7307,7 @@ extension CloudFrontClientTypes {
         public init(
             headerBehavior: CloudFrontClientTypes.OriginRequestPolicyHeaderBehavior? = nil,
             headers: CloudFrontClientTypes.Headers? = nil
-        )
-        {
+        ) {
             self.headerBehavior = headerBehavior
             self.headers = headers
         }
@@ -7620,8 +7370,7 @@ extension CloudFrontClientTypes {
         public init(
             queryStringBehavior: CloudFrontClientTypes.OriginRequestPolicyQueryStringBehavior? = nil,
             queryStrings: CloudFrontClientTypes.QueryStringNames? = nil
-        )
-        {
+        ) {
             self.queryStringBehavior = queryStringBehavior
             self.queryStrings = queryStrings
         }
@@ -7662,8 +7411,7 @@ extension CloudFrontClientTypes {
             headersConfig: CloudFrontClientTypes.OriginRequestPolicyHeadersConfig? = nil,
             name: Swift.String? = nil,
             queryStringsConfig: CloudFrontClientTypes.OriginRequestPolicyQueryStringsConfig? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.cookiesConfig = cookiesConfig
             self.headersConfig = headersConfig
@@ -7680,8 +7428,7 @@ public struct CreateOriginRequestPolicyInput: Swift.Sendable {
 
     public init(
         originRequestPolicyConfig: CloudFrontClientTypes.OriginRequestPolicyConfig? = nil
-    )
-    {
+    ) {
         self.originRequestPolicyConfig = originRequestPolicyConfig
     }
 }
@@ -7713,8 +7460,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             originRequestPolicyConfig: CloudFrontClientTypes.OriginRequestPolicyConfig? = nil
-        )
-        {
+        ) {
             self.id = id
             self.lastModifiedTime = lastModifiedTime
             self.originRequestPolicyConfig = originRequestPolicyConfig
@@ -7734,8 +7480,7 @@ public struct CreateOriginRequestPolicyOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         location: Swift.String? = nil,
         originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.location = location
         self.originRequestPolicy = originRequestPolicy
@@ -7760,8 +7505,7 @@ public struct PublicKeyAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7784,8 +7528,7 @@ public struct TooManyPublicKeys: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7811,8 +7554,7 @@ extension CloudFrontClientTypes {
             comment: Swift.String? = nil,
             encodedKey: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.callerReference = callerReference
             self.comment = comment
             self.encodedKey = encodedKey
@@ -7828,8 +7570,7 @@ public struct CreatePublicKeyInput: Swift.Sendable {
 
     public init(
         publicKeyConfig: CloudFrontClientTypes.PublicKeyConfig? = nil
-    )
-    {
+    ) {
         self.publicKeyConfig = publicKeyConfig
     }
 }
@@ -7852,8 +7593,7 @@ extension CloudFrontClientTypes {
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             publicKeyConfig: CloudFrontClientTypes.PublicKeyConfig? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.id = id
             self.publicKeyConfig = publicKeyConfig
@@ -7873,8 +7613,7 @@ public struct CreatePublicKeyOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         location: Swift.String? = nil,
         publicKey: CloudFrontClientTypes.PublicKey? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.location = location
         self.publicKey = publicKey
@@ -7899,8 +7638,7 @@ public struct RealtimeLogConfigAlreadyExists: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7923,8 +7661,7 @@ public struct TooManyRealtimeLogConfigs: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7943,8 +7680,7 @@ extension CloudFrontClientTypes {
         public init(
             roleARN: Swift.String? = nil,
             streamARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleARN = roleARN
             self.streamARN = streamARN
         }
@@ -7964,8 +7700,7 @@ extension CloudFrontClientTypes {
         public init(
             kinesisStreamConfig: CloudFrontClientTypes.KinesisStreamConfig? = nil,
             streamType: Swift.String? = nil
-        )
-        {
+        ) {
             self.kinesisStreamConfig = kinesisStreamConfig
             self.streamType = streamType
         }
@@ -7991,8 +7726,7 @@ public struct CreateRealtimeLogConfigInput: Swift.Sendable {
         fields: [Swift.String]? = nil,
         name: Swift.String? = nil,
         samplingRate: Swift.Int? = nil
-    )
-    {
+    ) {
         self.endPoints = endPoints
         self.fields = fields
         self.name = name
@@ -8026,8 +7760,7 @@ extension CloudFrontClientTypes {
             fields: [Swift.String]? = nil,
             name: Swift.String? = nil,
             samplingRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.endPoints = endPoints
             self.fields = fields
@@ -8043,8 +7776,7 @@ public struct CreateRealtimeLogConfigOutput: Swift.Sendable {
 
     public init(
         realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig? = nil
-    )
-    {
+    ) {
         self.realtimeLogConfig = realtimeLogConfig
     }
 }
@@ -8067,8 +7799,7 @@ public struct ResponseHeadersPolicyAlreadyExists: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8091,8 +7822,7 @@ public struct TooLongCSPInResponseHeadersPolicy: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8115,8 +7845,7 @@ public struct TooManyCustomHeadersInResponseHeadersPolicy: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8139,8 +7868,7 @@ public struct TooManyRemoveHeadersInResponseHeadersPolicy: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8163,8 +7891,7 @@ public struct TooManyResponseHeadersPolicies: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8183,8 +7910,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -8224,8 +7950,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.ResponseHeadersPolicyAccessControlAllowMethodsValues]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -8246,8 +7971,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -8267,8 +7991,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [Swift.String]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -8307,8 +8030,7 @@ extension CloudFrontClientTypes {
             accessControlExposeHeaders: CloudFrontClientTypes.ResponseHeadersPolicyAccessControlExposeHeaders? = nil,
             accessControlMaxAgeSec: Swift.Int? = nil,
             originOverride: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accessControlAllowCredentials = accessControlAllowCredentials
             self.accessControlAllowHeaders = accessControlAllowHeaders
             self.accessControlAllowMethods = accessControlAllowMethods
@@ -8338,8 +8060,7 @@ extension CloudFrontClientTypes {
             header: Swift.String? = nil,
             `override`: Swift.Bool? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.header = header
             self.`override` = `override`
             self.value = value
@@ -8360,8 +8081,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -8378,8 +8098,7 @@ extension CloudFrontClientTypes {
 
         public init(
             header: Swift.String? = nil
-        )
-        {
+        ) {
             self.header = header
         }
     }
@@ -8398,8 +8117,7 @@ extension CloudFrontClientTypes {
         public init(
             items: [CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader]? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.quantity = quantity
         }
@@ -8420,8 +8138,7 @@ extension CloudFrontClientTypes {
         public init(
             contentSecurityPolicy: Swift.String? = nil,
             `override`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.contentSecurityPolicy = contentSecurityPolicy
             self.`override` = `override`
         }
@@ -8438,8 +8155,7 @@ extension CloudFrontClientTypes {
 
         public init(
             `override`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.`override` = `override`
         }
     }
@@ -8488,8 +8204,7 @@ extension CloudFrontClientTypes {
         public init(
             frameOption: CloudFrontClientTypes.FrameOptionsList? = nil,
             `override`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.frameOption = frameOption
             self.`override` = `override`
         }
@@ -8576,8 +8291,7 @@ extension CloudFrontClientTypes {
         public init(
             `override`: Swift.Bool? = nil,
             referrerPolicy: CloudFrontClientTypes.ReferrerPolicyList? = nil
-        )
-        {
+        ) {
             self.`override` = `override`
             self.referrerPolicy = referrerPolicy
         }
@@ -8604,8 +8318,7 @@ extension CloudFrontClientTypes {
             includeSubdomains: Swift.Bool? = nil,
             `override`: Swift.Bool? = nil,
             preload: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accessControlMaxAgeSec = accessControlMaxAgeSec
             self.includeSubdomains = includeSubdomains
             self.`override` = `override`
@@ -8634,8 +8347,7 @@ extension CloudFrontClientTypes {
             `override`: Swift.Bool? = nil,
             protection: Swift.Bool? = nil,
             reportUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.modeBlock = modeBlock
             self.`override` = `override`
             self.protection = protection
@@ -8668,8 +8380,7 @@ extension CloudFrontClientTypes {
             referrerPolicy: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy? = nil,
             strictTransportSecurity: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity? = nil,
             xssProtection: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection? = nil
-        )
-        {
+        ) {
             self.contentSecurityPolicy = contentSecurityPolicy
             self.contentTypeOptions = contentTypeOptions
             self.frameOptions = frameOptions
@@ -8693,8 +8404,7 @@ extension CloudFrontClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             samplingRate: Swift.Double? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.samplingRate = samplingRate
         }
@@ -8729,8 +8439,7 @@ extension CloudFrontClientTypes {
             removeHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig? = nil,
             securityHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig? = nil,
             serverTimingHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.corsConfig = corsConfig
             self.customHeadersConfig = customHeadersConfig
@@ -8749,8 +8458,7 @@ public struct CreateResponseHeadersPolicyInput: Swift.Sendable {
 
     public init(
         responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig? = nil
-    )
-    {
+    ) {
         self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
     }
 }
@@ -8773,8 +8481,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig? = nil
-        )
-        {
+        ) {
             self.id = id
             self.lastModifiedTime = lastModifiedTime
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
@@ -8794,8 +8501,7 @@ public struct CreateResponseHeadersPolicyOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         location: Swift.String? = nil,
         responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.location = location
         self.responseHeadersPolicy = responseHeadersPolicy
@@ -8820,8 +8526,7 @@ public struct StreamingDistributionAlreadyExists: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8844,8 +8549,7 @@ public struct TooManyStreamingDistributionCNAMEs: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8868,8 +8572,7 @@ public struct TooManyStreamingDistributions: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8892,8 +8595,7 @@ extension CloudFrontClientTypes {
             bucket: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.enabled = enabled
             self.`prefix` = `prefix`
@@ -8915,8 +8617,7 @@ extension CloudFrontClientTypes {
         public init(
             domainName: Swift.String? = nil,
             originAccessIdentity: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.originAccessIdentity = originAccessIdentity
         }
@@ -8958,8 +8659,7 @@ extension CloudFrontClientTypes {
             priceClass: CloudFrontClientTypes.PriceClass? = nil,
             s3Origin: CloudFrontClientTypes.S3Origin? = nil,
             trustedSigners: CloudFrontClientTypes.TrustedSigners? = nil
-        )
-        {
+        ) {
             self.aliases = aliases
             self.callerReference = callerReference
             self.comment = comment
@@ -8980,8 +8680,7 @@ public struct CreateStreamingDistributionInput: Swift.Sendable {
 
     public init(
         streamingDistributionConfig: CloudFrontClientTypes.StreamingDistributionConfig? = nil
-    )
-    {
+    ) {
         self.streamingDistributionConfig = streamingDistributionConfig
     }
 }
@@ -9019,8 +8718,7 @@ extension CloudFrontClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             status: Swift.String? = nil,
             streamingDistributionConfig: CloudFrontClientTypes.StreamingDistributionConfig? = nil
-        )
-        {
+        ) {
             self.activeTrustedSigners = activeTrustedSigners
             self.arn = arn
             self.domainName = domainName
@@ -9045,8 +8743,7 @@ public struct CreateStreamingDistributionOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         location: Swift.String? = nil,
         streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.location = location
         self.streamingDistribution = streamingDistribution
@@ -9067,8 +8764,7 @@ extension CloudFrontClientTypes {
         public init(
             streamingDistributionConfig: CloudFrontClientTypes.StreamingDistributionConfig? = nil,
             tags: CloudFrontClientTypes.Tags? = nil
-        )
-        {
+        ) {
             self.streamingDistributionConfig = streamingDistributionConfig
             self.tags = tags
         }
@@ -9083,8 +8779,7 @@ public struct CreateStreamingDistributionWithTagsInput: Swift.Sendable {
 
     public init(
         streamingDistributionConfigWithTags: CloudFrontClientTypes.StreamingDistributionConfigWithTags? = nil
-    )
-    {
+    ) {
         self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
     }
 }
@@ -9102,8 +8797,7 @@ public struct CreateStreamingDistributionWithTagsOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         location: Swift.String? = nil,
         streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.location = location
         self.streamingDistribution = streamingDistribution
@@ -9139,8 +8833,7 @@ extension CloudFrontClientTypes {
             name: Swift.String? = nil,
             originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
             originSslProtocols: CloudFrontClientTypes.OriginSslProtocols? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.httpPort = httpPort
             self.httpsPort = httpsPort
@@ -9161,8 +8854,7 @@ public struct CreateVpcOriginInput: Swift.Sendable {
     public init(
         tags: CloudFrontClientTypes.Tags? = nil,
         vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
     }
@@ -9198,8 +8890,7 @@ extension CloudFrontClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             status: Swift.String? = nil,
             vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -9222,8 +8913,7 @@ public struct CreateVpcOriginOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         location: Swift.String? = nil,
         vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.location = location
         self.vpcOrigin = vpcOrigin
@@ -9248,8 +8938,7 @@ public struct IllegalDelete: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9265,8 +8954,7 @@ public struct DeleteAnycastIpListInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9282,8 +8970,7 @@ public struct DeleteCachePolicyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9307,8 +8994,7 @@ public struct CloudFrontOriginAccessIdentityInUse: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9331,8 +9017,7 @@ public struct NoSuchCloudFrontOriginAccessIdentity: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9348,8 +9033,7 @@ public struct DeleteCloudFrontOriginAccessIdentityInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9365,8 +9049,7 @@ public struct DeleteContinuousDeploymentPolicyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9390,8 +9073,7 @@ public struct DistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9426,8 +9108,7 @@ public struct DeleteDistributionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9451,8 +9132,7 @@ public struct FieldLevelEncryptionConfigInUse: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9467,8 +9147,7 @@ public struct DeleteFieldLevelEncryptionConfigInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9492,8 +9171,7 @@ public struct FieldLevelEncryptionProfileInUse: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9508,8 +9186,7 @@ public struct DeleteFieldLevelEncryptionProfileInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9533,8 +9210,7 @@ public struct FunctionInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9557,8 +9233,7 @@ public struct NoSuchFunctionExists: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9574,8 +9249,7 @@ public struct DeleteFunctionInput: Swift.Sendable {
     public init(
         ifMatch: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.ifMatch = ifMatch
         self.name = name
     }
@@ -9599,8 +9273,7 @@ public struct NoSuchResource: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9623,8 +9296,7 @@ public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9639,8 +9311,7 @@ public struct DeleteKeyGroupInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9657,8 +9328,7 @@ public struct DeleteKeyValueStoreInput: Swift.Sendable {
     public init(
         ifMatch: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.ifMatch = ifMatch
         self.name = name
     }
@@ -9682,8 +9352,7 @@ public struct NoSuchMonitoringSubscription: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9695,8 +9364,7 @@ public struct DeleteMonitoringSubscriptionInput: Swift.Sendable {
 
     public init(
         distributionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionId = distributionId
     }
 }
@@ -9724,8 +9392,7 @@ public struct NoSuchOriginAccessControl: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9748,8 +9415,7 @@ public struct OriginAccessControlInUse: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9764,8 +9430,7 @@ public struct DeleteOriginAccessControlInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9789,8 +9454,7 @@ public struct OriginRequestPolicyInUse: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9805,8 +9469,7 @@ public struct DeleteOriginRequestPolicyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9830,8 +9493,7 @@ public struct PublicKeyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9846,8 +9508,7 @@ public struct DeletePublicKeyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9871,8 +9532,7 @@ public struct RealtimeLogConfigInUse: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9886,8 +9546,7 @@ public struct DeleteRealtimeLogConfigInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -9911,8 +9570,7 @@ public struct ResponseHeadersPolicyInUse: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9927,8 +9585,7 @@ public struct DeleteResponseHeadersPolicyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -9952,8 +9609,7 @@ public struct NoSuchStreamingDistribution: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9976,8 +9632,7 @@ public struct StreamingDistributionNotDisabled: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9993,8 +9648,7 @@ public struct DeleteStreamingDistributionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -10011,8 +9665,7 @@ public struct DeleteVpcOriginInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
     }
@@ -10027,8 +9680,7 @@ public struct DeleteVpcOriginOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.vpcOrigin = vpcOrigin
     }
@@ -10044,8 +9696,7 @@ public struct DescribeFunctionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         stage: CloudFrontClientTypes.FunctionStage? = nil
-    )
-    {
+    ) {
         self.name = name
         self.stage = stage
     }
@@ -10060,8 +9711,7 @@ public struct DescribeFunctionOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         functionSummary: CloudFrontClientTypes.FunctionSummary? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.functionSummary = functionSummary
     }
@@ -10074,8 +9724,7 @@ public struct DescribeKeyValueStoreInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -10089,8 +9738,7 @@ public struct DescribeKeyValueStoreOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         keyValueStore: CloudFrontClientTypes.KeyValueStore? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.keyValueStore = keyValueStore
     }
@@ -10103,8 +9751,7 @@ public struct GetAnycastIpListInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10118,8 +9765,7 @@ public struct GetAnycastIpListOutput: Swift.Sendable {
     public init(
         anycastIpList: CloudFrontClientTypes.AnycastIpList? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.anycastIpList = anycastIpList
         self.eTag = eTag
     }
@@ -10132,8 +9778,7 @@ public struct GetCachePolicyInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10147,8 +9792,7 @@ public struct GetCachePolicyOutput: Swift.Sendable {
     public init(
         cachePolicy: CloudFrontClientTypes.CachePolicy? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.cachePolicy = cachePolicy
         self.eTag = eTag
     }
@@ -10161,8 +9805,7 @@ public struct GetCachePolicyConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10176,8 +9819,7 @@ public struct GetCachePolicyConfigOutput: Swift.Sendable {
     public init(
         cachePolicyConfig: CloudFrontClientTypes.CachePolicyConfig? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.cachePolicyConfig = cachePolicyConfig
         self.eTag = eTag
     }
@@ -10191,8 +9833,7 @@ public struct GetCloudFrontOriginAccessIdentityInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10207,8 +9848,7 @@ public struct GetCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
     public init(
         cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         self.eTag = eTag
     }
@@ -10222,8 +9862,7 @@ public struct GetCloudFrontOriginAccessIdentityConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10238,8 +9877,7 @@ public struct GetCloudFrontOriginAccessIdentityConfigOutput: Swift.Sendable {
     public init(
         cloudFrontOriginAccessIdentityConfig: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         self.eTag = eTag
     }
@@ -10252,8 +9890,7 @@ public struct GetContinuousDeploymentPolicyInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10267,8 +9904,7 @@ public struct GetContinuousDeploymentPolicyOutput: Swift.Sendable {
     public init(
         continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuousDeploymentPolicy = continuousDeploymentPolicy
         self.eTag = eTag
     }
@@ -10281,8 +9917,7 @@ public struct GetContinuousDeploymentPolicyConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10296,8 +9931,7 @@ public struct GetContinuousDeploymentPolicyConfigOutput: Swift.Sendable {
     public init(
         continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
         self.eTag = eTag
     }
@@ -10311,8 +9945,7 @@ public struct GetDistributionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10327,8 +9960,7 @@ public struct GetDistributionOutput: Swift.Sendable {
     public init(
         distribution: CloudFrontClientTypes.Distribution? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.distribution = distribution
         self.eTag = eTag
     }
@@ -10342,8 +9974,7 @@ public struct GetDistributionConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10358,8 +9989,7 @@ public struct GetDistributionConfigOutput: Swift.Sendable {
     public init(
         distributionConfig: CloudFrontClientTypes.DistributionConfig? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionConfig = distributionConfig
         self.eTag = eTag
     }
@@ -10372,8 +10002,7 @@ public struct GetFieldLevelEncryptionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10387,8 +10016,7 @@ public struct GetFieldLevelEncryptionOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryption = fieldLevelEncryption
     }
@@ -10401,8 +10029,7 @@ public struct GetFieldLevelEncryptionConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10416,8 +10043,7 @@ public struct GetFieldLevelEncryptionConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         fieldLevelEncryptionConfig: CloudFrontClientTypes.FieldLevelEncryptionConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
     }
@@ -10430,8 +10056,7 @@ public struct GetFieldLevelEncryptionProfileInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10445,8 +10070,7 @@ public struct GetFieldLevelEncryptionProfileOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
     }
@@ -10459,8 +10083,7 @@ public struct GetFieldLevelEncryptionProfileConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10474,8 +10097,7 @@ public struct GetFieldLevelEncryptionProfileConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         fieldLevelEncryptionProfileConfig: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
     }
@@ -10491,8 +10113,7 @@ public struct GetFunctionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         stage: CloudFrontClientTypes.FunctionStage? = nil
-    )
-    {
+    ) {
         self.name = name
         self.stage = stage
     }
@@ -10510,8 +10131,7 @@ public struct GetFunctionOutput: Swift.Sendable {
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil,
         functionCode: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.eTag = eTag
         self.functionCode = functionCode
@@ -10541,8 +10161,7 @@ public struct NoSuchInvalidation: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10559,8 +10178,7 @@ public struct GetInvalidationInput: Swift.Sendable {
     public init(
         distributionId: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionId = distributionId
         self.id = id
     }
@@ -10573,8 +10191,7 @@ public struct GetInvalidationOutput: Swift.Sendable {
 
     public init(
         invalidation: CloudFrontClientTypes.Invalidation? = nil
-    )
-    {
+    ) {
         self.invalidation = invalidation
     }
 }
@@ -10586,8 +10203,7 @@ public struct GetKeyGroupInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10601,8 +10217,7 @@ public struct GetKeyGroupOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         keyGroup: CloudFrontClientTypes.KeyGroup? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.keyGroup = keyGroup
     }
@@ -10615,8 +10230,7 @@ public struct GetKeyGroupConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10630,8 +10244,7 @@ public struct GetKeyGroupConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         keyGroupConfig: CloudFrontClientTypes.KeyGroupConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.keyGroupConfig = keyGroupConfig
     }
@@ -10644,8 +10257,7 @@ public struct GetMonitoringSubscriptionInput: Swift.Sendable {
 
     public init(
         distributionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionId = distributionId
     }
 }
@@ -10656,8 +10268,7 @@ public struct GetMonitoringSubscriptionOutput: Swift.Sendable {
 
     public init(
         monitoringSubscription: CloudFrontClientTypes.MonitoringSubscription? = nil
-    )
-    {
+    ) {
         self.monitoringSubscription = monitoringSubscription
     }
 }
@@ -10669,8 +10280,7 @@ public struct GetOriginAccessControlInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10684,8 +10294,7 @@ public struct GetOriginAccessControlOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         originAccessControl: CloudFrontClientTypes.OriginAccessControl? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.originAccessControl = originAccessControl
     }
@@ -10698,8 +10307,7 @@ public struct GetOriginAccessControlConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10713,8 +10321,7 @@ public struct GetOriginAccessControlConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         originAccessControlConfig: CloudFrontClientTypes.OriginAccessControlConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.originAccessControlConfig = originAccessControlConfig
     }
@@ -10727,8 +10334,7 @@ public struct GetOriginRequestPolicyInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10742,8 +10348,7 @@ public struct GetOriginRequestPolicyOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.originRequestPolicy = originRequestPolicy
     }
@@ -10756,8 +10361,7 @@ public struct GetOriginRequestPolicyConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10771,8 +10375,7 @@ public struct GetOriginRequestPolicyConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         originRequestPolicyConfig: CloudFrontClientTypes.OriginRequestPolicyConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.originRequestPolicyConfig = originRequestPolicyConfig
     }
@@ -10785,8 +10388,7 @@ public struct GetPublicKeyInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10800,8 +10402,7 @@ public struct GetPublicKeyOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         publicKey: CloudFrontClientTypes.PublicKey? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.publicKey = publicKey
     }
@@ -10814,8 +10415,7 @@ public struct GetPublicKeyConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10829,8 +10429,7 @@ public struct GetPublicKeyConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         publicKeyConfig: CloudFrontClientTypes.PublicKeyConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.publicKeyConfig = publicKeyConfig
     }
@@ -10845,8 +10444,7 @@ public struct GetRealtimeLogConfigInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -10858,8 +10456,7 @@ public struct GetRealtimeLogConfigOutput: Swift.Sendable {
 
     public init(
         realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig? = nil
-    )
-    {
+    ) {
         self.realtimeLogConfig = realtimeLogConfig
     }
 }
@@ -10871,8 +10468,7 @@ public struct GetResponseHeadersPolicyInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10886,8 +10482,7 @@ public struct GetResponseHeadersPolicyOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.responseHeadersPolicy = responseHeadersPolicy
     }
@@ -10900,8 +10495,7 @@ public struct GetResponseHeadersPolicyConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10915,8 +10509,7 @@ public struct GetResponseHeadersPolicyConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
     }
@@ -10930,8 +10523,7 @@ public struct GetStreamingDistributionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10946,8 +10538,7 @@ public struct GetStreamingDistributionOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.streamingDistribution = streamingDistribution
     }
@@ -10961,8 +10552,7 @@ public struct GetStreamingDistributionConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -10977,8 +10567,7 @@ public struct GetStreamingDistributionConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         streamingDistributionConfig: CloudFrontClientTypes.StreamingDistributionConfig? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.streamingDistributionConfig = streamingDistributionConfig
     }
@@ -10991,8 +10580,7 @@ public struct GetVpcOriginInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -11006,8 +10594,7 @@ public struct GetVpcOriginOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.vpcOrigin = vpcOrigin
     }
@@ -11022,8 +10609,7 @@ public struct ListAnycastIpListsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -11035,8 +10621,7 @@ public struct ListAnycastIpListsOutput: Swift.Sendable {
 
     public init(
         anycastIpLists: CloudFrontClientTypes.AnycastIpListCollection? = nil
-    )
-    {
+    ) {
         self.anycastIpLists = anycastIpLists
     }
 }
@@ -11057,8 +10642,7 @@ public struct ListCachePoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         type: CloudFrontClientTypes.CachePolicyType? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.type = type
@@ -11071,8 +10655,7 @@ public struct ListCachePoliciesOutput: Swift.Sendable {
 
     public init(
         cachePolicyList: CloudFrontClientTypes.CachePolicyList? = nil
-    )
-    {
+    ) {
         self.cachePolicyList = cachePolicyList
     }
 }
@@ -11087,8 +10670,7 @@ public struct ListCloudFrontOriginAccessIdentitiesInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -11112,8 +10694,7 @@ extension CloudFrontClientTypes {
             comment: Swift.String? = nil,
             id: Swift.String? = nil,
             s3CanonicalUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.id = id
             self.s3CanonicalUserId = s3CanonicalUserId
@@ -11149,8 +10730,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -11168,8 +10748,7 @@ public struct ListCloudFrontOriginAccessIdentitiesOutput: Swift.Sendable {
 
     public init(
         cloudFrontOriginAccessIdentityList: CloudFrontClientTypes.CloudFrontOriginAccessIdentityList? = nil
-    )
-    {
+    ) {
         self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
     }
 }
@@ -11191,8 +10770,7 @@ public struct ListConflictingAliasesInput: Swift.Sendable {
         distributionId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.distributionId = distributionId
         self.marker = marker
@@ -11215,8 +10793,7 @@ extension CloudFrontClientTypes {
             accountId: Swift.String? = nil,
             alias: Swift.String? = nil,
             distributionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.alias = alias
             self.distributionId = distributionId
@@ -11242,8 +10819,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -11258,8 +10834,7 @@ public struct ListConflictingAliasesOutput: Swift.Sendable {
 
     public init(
         conflictingAliasesList: CloudFrontClientTypes.ConflictingAliasesList? = nil
-    )
-    {
+    ) {
         self.conflictingAliasesList = conflictingAliasesList
     }
 }
@@ -11273,8 +10848,7 @@ public struct ListContinuousDeploymentPoliciesInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -11290,8 +10864,7 @@ extension CloudFrontClientTypes {
 
         public init(
             continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil
-        )
-        {
+        ) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
         }
     }
@@ -11317,8 +10890,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -11333,8 +10905,7 @@ public struct ListContinuousDeploymentPoliciesOutput: Swift.Sendable {
 
     public init(
         continuousDeploymentPolicyList: CloudFrontClientTypes.ContinuousDeploymentPolicyList? = nil
-    )
-    {
+    ) {
         self.continuousDeploymentPolicyList = continuousDeploymentPolicyList
     }
 }
@@ -11349,8 +10920,7 @@ public struct ListDistributionsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -11447,8 +11017,7 @@ extension CloudFrontClientTypes {
             status: Swift.String? = nil,
             viewerCertificate: CloudFrontClientTypes.ViewerCertificate? = nil,
             webACLId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aliasICPRecordals = aliasICPRecordals
             self.aliases = aliases
             self.anycastIpListId = anycastIpListId
@@ -11503,8 +11072,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -11522,8 +11090,7 @@ public struct ListDistributionsOutput: Swift.Sendable {
 
     public init(
         distributionList: CloudFrontClientTypes.DistributionList? = nil
-    )
-    {
+    ) {
         self.distributionList = distributionList
     }
 }
@@ -11541,8 +11108,7 @@ public struct ListDistributionsByAnycastIpListIdInput: Swift.Sendable {
         anycastIpListId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.anycastIpListId = anycastIpListId
         self.marker = marker
         self.maxItems = maxItems
@@ -11555,8 +11121,7 @@ public struct ListDistributionsByAnycastIpListIdOutput: Swift.Sendable {
 
     public init(
         distributionList: CloudFrontClientTypes.DistributionList? = nil
-    )
-    {
+    ) {
         self.distributionList = distributionList
     }
 }
@@ -11574,8 +11139,7 @@ public struct ListDistributionsByCachePolicyIdInput: Swift.Sendable {
         cachePolicyId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cachePolicyId = cachePolicyId
         self.marker = marker
         self.maxItems = maxItems
@@ -11610,8 +11174,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -11628,8 +11191,7 @@ public struct ListDistributionsByCachePolicyIdOutput: Swift.Sendable {
 
     public init(
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
-    )
-    {
+    ) {
         self.distributionIdList = distributionIdList
     }
 }
@@ -11647,8 +11209,7 @@ public struct ListDistributionsByKeyGroupInput: Swift.Sendable {
         keyGroupId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.keyGroupId = keyGroupId
         self.marker = marker
         self.maxItems = maxItems
@@ -11661,8 +11222,7 @@ public struct ListDistributionsByKeyGroupOutput: Swift.Sendable {
 
     public init(
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
-    )
-    {
+    ) {
         self.distributionIdList = distributionIdList
     }
 }
@@ -11680,8 +11240,7 @@ public struct ListDistributionsByOriginRequestPolicyIdInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         originRequestPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.originRequestPolicyId = originRequestPolicyId
@@ -11694,8 +11253,7 @@ public struct ListDistributionsByOriginRequestPolicyIdOutput: Swift.Sendable {
 
     public init(
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
-    )
-    {
+    ) {
         self.distributionIdList = distributionIdList
     }
 }
@@ -11715,8 +11273,7 @@ public struct ListDistributionsByRealtimeLogConfigInput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         realtimeLogConfigArn: Swift.String? = nil,
         realtimeLogConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.realtimeLogConfigArn = realtimeLogConfigArn
@@ -11730,8 +11287,7 @@ public struct ListDistributionsByRealtimeLogConfigOutput: Swift.Sendable {
 
     public init(
         distributionList: CloudFrontClientTypes.DistributionList? = nil
-    )
-    {
+    ) {
         self.distributionList = distributionList
     }
 }
@@ -11749,8 +11305,7 @@ public struct ListDistributionsByResponseHeadersPolicyIdInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         responseHeadersPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.responseHeadersPolicyId = responseHeadersPolicyId
@@ -11763,8 +11318,7 @@ public struct ListDistributionsByResponseHeadersPolicyIdOutput: Swift.Sendable {
 
     public init(
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
-    )
-    {
+    ) {
         self.distributionIdList = distributionIdList
     }
 }
@@ -11782,8 +11336,7 @@ public struct ListDistributionsByVpcOriginIdInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         vpcOriginId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.vpcOriginId = vpcOriginId
@@ -11796,8 +11349,7 @@ public struct ListDistributionsByVpcOriginIdOutput: Swift.Sendable {
 
     public init(
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
-    )
-    {
+    ) {
         self.distributionIdList = distributionIdList
     }
 }
@@ -11816,8 +11368,7 @@ public struct ListDistributionsByWebACLIdInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         webACLId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.webACLId = webACLId
@@ -11831,8 +11382,7 @@ public struct ListDistributionsByWebACLIdOutput: Swift.Sendable {
 
     public init(
         distributionList: CloudFrontClientTypes.DistributionList? = nil
-    )
-    {
+    ) {
         self.distributionList = distributionList
     }
 }
@@ -11846,8 +11396,7 @@ public struct ListFieldLevelEncryptionConfigsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -11876,8 +11425,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             queryArgProfileConfig: CloudFrontClientTypes.QueryArgProfileConfig? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.contentTypeProfileConfig = contentTypeProfileConfig
             self.id = id
@@ -11907,8 +11455,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -11923,8 +11470,7 @@ public struct ListFieldLevelEncryptionConfigsOutput: Swift.Sendable {
 
     public init(
         fieldLevelEncryptionList: CloudFrontClientTypes.FieldLevelEncryptionList? = nil
-    )
-    {
+    ) {
         self.fieldLevelEncryptionList = fieldLevelEncryptionList
     }
 }
@@ -11938,8 +11484,7 @@ public struct ListFieldLevelEncryptionProfilesInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -11970,8 +11515,7 @@ extension CloudFrontClientTypes {
             id: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.encryptionEntities = encryptionEntities
             self.id = id
@@ -12001,8 +11545,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -12017,8 +11560,7 @@ public struct ListFieldLevelEncryptionProfilesOutput: Swift.Sendable {
 
     public init(
         fieldLevelEncryptionProfileList: CloudFrontClientTypes.FieldLevelEncryptionProfileList? = nil
-    )
-    {
+    ) {
         self.fieldLevelEncryptionProfileList = fieldLevelEncryptionProfileList
     }
 }
@@ -12035,8 +11577,7 @@ public struct ListFunctionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         stage: CloudFrontClientTypes.FunctionStage? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.stage = stage
@@ -12063,8 +11604,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -12079,8 +11619,7 @@ public struct ListFunctionsOutput: Swift.Sendable {
 
     public init(
         functionList: CloudFrontClientTypes.FunctionList? = nil
-    )
-    {
+    ) {
         self.functionList = functionList
     }
 }
@@ -12099,8 +11638,7 @@ public struct ListInvalidationsInput: Swift.Sendable {
         distributionId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.distributionId = distributionId
         self.marker = marker
         self.maxItems = maxItems
@@ -12125,8 +11663,7 @@ extension CloudFrontClientTypes {
             createTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.id = id
             self.status = status
@@ -12162,8 +11699,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -12181,8 +11717,7 @@ public struct ListInvalidationsOutput: Swift.Sendable {
 
     public init(
         invalidationList: CloudFrontClientTypes.InvalidationList? = nil
-    )
-    {
+    ) {
         self.invalidationList = invalidationList
     }
 }
@@ -12196,8 +11731,7 @@ public struct ListKeyGroupsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -12213,8 +11747,7 @@ extension CloudFrontClientTypes {
 
         public init(
             keyGroup: CloudFrontClientTypes.KeyGroup? = nil
-        )
-        {
+        ) {
             self.keyGroup = keyGroup
         }
     }
@@ -12240,8 +11773,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -12256,8 +11788,7 @@ public struct ListKeyGroupsOutput: Swift.Sendable {
 
     public init(
         keyGroupList: CloudFrontClientTypes.KeyGroupList? = nil
-    )
-    {
+    ) {
         self.keyGroupList = keyGroupList
     }
 }
@@ -12274,8 +11805,7 @@ public struct ListKeyValueStoresInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.status = status
@@ -12302,8 +11832,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -12318,8 +11847,7 @@ public struct ListKeyValueStoresOutput: Swift.Sendable {
 
     public init(
         keyValueStoreList: CloudFrontClientTypes.KeyValueStoreList? = nil
-    )
-    {
+    ) {
         self.keyValueStoreList = keyValueStoreList
     }
 }
@@ -12333,8 +11861,7 @@ public struct ListOriginAccessControlsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -12376,8 +11903,7 @@ extension CloudFrontClientTypes {
             originAccessControlOriginType: CloudFrontClientTypes.OriginAccessControlOriginTypes? = nil,
             signingBehavior: CloudFrontClientTypes.OriginAccessControlSigningBehaviors? = nil,
             signingProtocol: CloudFrontClientTypes.OriginAccessControlSigningProtocols? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.name = name
@@ -12416,8 +11942,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -12434,8 +11959,7 @@ public struct ListOriginAccessControlsOutput: Swift.Sendable {
 
     public init(
         originAccessControlList: CloudFrontClientTypes.OriginAccessControlList? = nil
-    )
-    {
+    ) {
         self.originAccessControlList = originAccessControlList
     }
 }
@@ -12485,8 +12009,7 @@ public struct ListOriginRequestPoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         type: CloudFrontClientTypes.OriginRequestPolicyType? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.type = type
@@ -12507,8 +12030,7 @@ extension CloudFrontClientTypes {
         public init(
             originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy? = nil,
             type: CloudFrontClientTypes.OriginRequestPolicyType? = nil
-        )
-        {
+        ) {
             self.originRequestPolicy = originRequestPolicy
             self.type = type
         }
@@ -12535,8 +12057,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -12551,8 +12072,7 @@ public struct ListOriginRequestPoliciesOutput: Swift.Sendable {
 
     public init(
         originRequestPolicyList: CloudFrontClientTypes.OriginRequestPolicyList? = nil
-    )
-    {
+    ) {
         self.originRequestPolicyList = originRequestPolicyList
     }
 }
@@ -12566,8 +12086,7 @@ public struct ListPublicKeysInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -12598,8 +12117,7 @@ extension CloudFrontClientTypes {
             encodedKey: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.createdTime = createdTime
             self.encodedKey = encodedKey
@@ -12629,8 +12147,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -12645,8 +12162,7 @@ public struct ListPublicKeysOutput: Swift.Sendable {
 
     public init(
         publicKeyList: CloudFrontClientTypes.PublicKeyList? = nil
-    )
-    {
+    ) {
         self.publicKeyList = publicKeyList
     }
 }
@@ -12660,8 +12176,7 @@ public struct ListRealtimeLogConfigsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -12691,8 +12206,7 @@ extension CloudFrontClientTypes {
             marker: Swift.String? = nil,
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -12708,8 +12222,7 @@ public struct ListRealtimeLogConfigsOutput: Swift.Sendable {
 
     public init(
         realtimeLogConfigs: CloudFrontClientTypes.RealtimeLogConfigs? = nil
-    )
-    {
+    ) {
         self.realtimeLogConfigs = realtimeLogConfigs
     }
 }
@@ -12759,8 +12272,7 @@ public struct ListResponseHeadersPoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         type: CloudFrontClientTypes.ResponseHeadersPolicyType? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.type = type
@@ -12781,8 +12293,7 @@ extension CloudFrontClientTypes {
         public init(
             responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy? = nil,
             type: CloudFrontClientTypes.ResponseHeadersPolicyType? = nil
-        )
-        {
+        ) {
             self.responseHeadersPolicy = responseHeadersPolicy
             self.type = type
         }
@@ -12809,8 +12320,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.items = items
             self.maxItems = maxItems
             self.nextMarker = nextMarker
@@ -12825,8 +12335,7 @@ public struct ListResponseHeadersPoliciesOutput: Swift.Sendable {
 
     public init(
         responseHeadersPolicyList: CloudFrontClientTypes.ResponseHeadersPolicyList? = nil
-    )
-    {
+    ) {
         self.responseHeadersPolicyList = responseHeadersPolicyList
     }
 }
@@ -12841,8 +12350,7 @@ public struct ListStreamingDistributionsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -12898,8 +12406,7 @@ extension CloudFrontClientTypes {
             s3Origin: CloudFrontClientTypes.S3Origin? = nil,
             status: Swift.String? = nil,
             trustedSigners: CloudFrontClientTypes.TrustedSigners? = nil
-        )
-        {
+        ) {
             self.aliases = aliases
             self.arn = arn
             self.comment = comment
@@ -12943,8 +12450,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -12962,8 +12468,7 @@ public struct ListStreamingDistributionsOutput: Swift.Sendable {
 
     public init(
         streamingDistributionList: CloudFrontClientTypes.StreamingDistributionList? = nil
-    )
-    {
+    ) {
         self.streamingDistributionList = streamingDistributionList
     }
 }
@@ -12976,8 +12481,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resource: Swift.String? = nil
-    )
-    {
+    ) {
         self.resource = resource
     }
 }
@@ -12990,8 +12494,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: CloudFrontClientTypes.Tags? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -13005,8 +12508,7 @@ public struct ListVpcOriginsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -13046,8 +12548,7 @@ extension CloudFrontClientTypes {
             name: Swift.String? = nil,
             originEndpointArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -13087,8 +12588,7 @@ extension CloudFrontClientTypes {
             maxItems: Swift.Int? = nil,
             nextMarker: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isTruncated = isTruncated
             self.items = items
             self.marker = marker
@@ -13105,8 +12605,7 @@ public struct ListVpcOriginsOutput: Swift.Sendable {
 
     public init(
         vpcOriginList: CloudFrontClientTypes.VpcOriginList? = nil
-    )
-    {
+    ) {
         self.vpcOriginList = vpcOriginList
     }
 }
@@ -13122,8 +12621,7 @@ public struct PublishFunctionInput: Swift.Sendable {
     public init(
         ifMatch: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.ifMatch = ifMatch
         self.name = name
     }
@@ -13135,8 +12633,7 @@ public struct PublishFunctionOutput: Swift.Sendable {
 
     public init(
         functionSummary: CloudFrontClientTypes.FunctionSummary? = nil
-    )
-    {
+    ) {
         self.functionSummary = functionSummary
     }
 }
@@ -13153,8 +12650,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resource: Swift.String? = nil,
         tags: CloudFrontClientTypes.Tags? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.tags = tags
     }
@@ -13178,8 +12674,7 @@ public struct TestFunctionFailed: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13202,8 +12697,7 @@ public struct TestFunctionInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         name: Swift.String? = nil,
         stage: CloudFrontClientTypes.FunctionStage? = nil
-    )
-    {
+    ) {
         self.eventObject = eventObject
         self.ifMatch = ifMatch
         self.name = name
@@ -13237,8 +12731,7 @@ extension CloudFrontClientTypes {
             functionExecutionLogs: [Swift.String]? = nil,
             functionOutput: Swift.String? = nil,
             functionSummary: CloudFrontClientTypes.FunctionSummary? = nil
-        )
-        {
+        ) {
             self.computeUtilization = computeUtilization
             self.functionErrorMessage = functionErrorMessage
             self.functionExecutionLogs = functionExecutionLogs
@@ -13259,8 +12752,7 @@ public struct TestFunctionOutput: Swift.Sendable {
 
     public init(
         testResult: CloudFrontClientTypes.TestResult? = nil
-    )
-    {
+    ) {
         self.testResult = testResult
     }
 }
@@ -13274,8 +12766,7 @@ extension CloudFrontClientTypes {
 
         public init(
             items: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -13293,8 +12784,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resource: Swift.String? = nil,
         tagKeys: CloudFrontClientTypes.TagKeys? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.tagKeys = tagKeys
     }
@@ -13314,8 +12804,7 @@ public struct UpdateCachePolicyInput: Swift.Sendable {
         cachePolicyConfig: CloudFrontClientTypes.CachePolicyConfig? = nil,
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.cachePolicyConfig = cachePolicyConfig
         self.id = id
         self.ifMatch = ifMatch
@@ -13331,8 +12820,7 @@ public struct UpdateCachePolicyOutput: Swift.Sendable {
     public init(
         cachePolicy: CloudFrontClientTypes.CachePolicy? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.cachePolicy = cachePolicy
         self.eTag = eTag
     }
@@ -13353,8 +12841,7 @@ public struct UpdateCloudFrontOriginAccessIdentityInput: Swift.Sendable {
         cloudFrontOriginAccessIdentityConfig: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig? = nil,
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         self.id = id
         self.ifMatch = ifMatch
@@ -13371,8 +12858,7 @@ public struct UpdateCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
     public init(
         cloudFrontOriginAccessIdentity: CloudFrontClientTypes.CloudFrontOriginAccessIdentity? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         self.eTag = eTag
     }
@@ -13392,8 +12878,7 @@ public struct UpdateContinuousDeploymentPolicyInput: Swift.Sendable {
         continuousDeploymentPolicyConfig: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig? = nil,
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
         self.id = id
         self.ifMatch = ifMatch
@@ -13409,8 +12894,7 @@ public struct UpdateContinuousDeploymentPolicyOutput: Swift.Sendable {
     public init(
         continuousDeploymentPolicy: CloudFrontClientTypes.ContinuousDeploymentPolicy? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuousDeploymentPolicy = continuousDeploymentPolicy
         self.eTag = eTag
     }
@@ -13431,8 +12915,7 @@ public struct UpdateDistributionInput: Swift.Sendable {
         distributionConfig: CloudFrontClientTypes.DistributionConfig? = nil,
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionConfig = distributionConfig
         self.id = id
         self.ifMatch = ifMatch
@@ -13449,8 +12932,7 @@ public struct UpdateDistributionOutput: Swift.Sendable {
     public init(
         distribution: CloudFrontClientTypes.Distribution? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.distribution = distribution
         self.eTag = eTag
     }
@@ -13469,8 +12951,7 @@ public struct UpdateDistributionWithStagingConfigInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         stagingDistributionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.stagingDistributionId = stagingDistributionId
@@ -13486,8 +12967,7 @@ public struct UpdateDistributionWithStagingConfigOutput: Swift.Sendable {
     public init(
         distribution: CloudFrontClientTypes.Distribution? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.distribution = distribution
         self.eTag = eTag
     }
@@ -13507,8 +12987,7 @@ public struct UpdateFieldLevelEncryptionConfigInput: Swift.Sendable {
         fieldLevelEncryptionConfig: CloudFrontClientTypes.FieldLevelEncryptionConfig? = nil,
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
         self.id = id
         self.ifMatch = ifMatch
@@ -13524,8 +13003,7 @@ public struct UpdateFieldLevelEncryptionConfigOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         fieldLevelEncryption: CloudFrontClientTypes.FieldLevelEncryption? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryption = fieldLevelEncryption
     }
@@ -13545,8 +13023,7 @@ public struct UpdateFieldLevelEncryptionProfileInput: Swift.Sendable {
         fieldLevelEncryptionProfileConfig: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig? = nil,
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
         self.id = id
         self.ifMatch = ifMatch
@@ -13562,8 +13039,7 @@ public struct UpdateFieldLevelEncryptionProfileOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         fieldLevelEncryptionProfile: CloudFrontClientTypes.FieldLevelEncryptionProfile? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
     }
@@ -13588,8 +13064,7 @@ public struct UpdateFunctionInput: Swift.Sendable {
         functionConfig: CloudFrontClientTypes.FunctionConfig? = nil,
         ifMatch: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionCode = functionCode
         self.functionConfig = functionConfig
         self.ifMatch = ifMatch
@@ -13611,8 +13086,7 @@ public struct UpdateFunctionOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         functionSummary: CloudFrontClientTypes.FunctionSummary? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.functionSummary = functionSummary
     }
@@ -13632,8 +13106,7 @@ public struct UpdateKeyGroupInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         keyGroupConfig: CloudFrontClientTypes.KeyGroupConfig? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.keyGroupConfig = keyGroupConfig
@@ -13649,8 +13122,7 @@ public struct UpdateKeyGroupOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         keyGroup: CloudFrontClientTypes.KeyGroup? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.keyGroup = keyGroup
     }
@@ -13671,8 +13143,7 @@ public struct UpdateKeyValueStoreInput: Swift.Sendable {
         comment: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.ifMatch = ifMatch
         self.name = name
@@ -13688,8 +13159,7 @@ public struct UpdateKeyValueStoreOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         keyValueStore: CloudFrontClientTypes.KeyValueStore? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.keyValueStore = keyValueStore
     }
@@ -13709,8 +13179,7 @@ public struct UpdateOriginAccessControlInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         originAccessControlConfig: CloudFrontClientTypes.OriginAccessControlConfig? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.originAccessControlConfig = originAccessControlConfig
@@ -13726,8 +13195,7 @@ public struct UpdateOriginAccessControlOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         originAccessControl: CloudFrontClientTypes.OriginAccessControl? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.originAccessControl = originAccessControl
     }
@@ -13747,8 +13215,7 @@ public struct UpdateOriginRequestPolicyInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         originRequestPolicyConfig: CloudFrontClientTypes.OriginRequestPolicyConfig? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.originRequestPolicyConfig = originRequestPolicyConfig
@@ -13764,8 +13231,7 @@ public struct UpdateOriginRequestPolicyOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         originRequestPolicy: CloudFrontClientTypes.OriginRequestPolicy? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.originRequestPolicy = originRequestPolicy
     }
@@ -13785,8 +13251,7 @@ public struct UpdatePublicKeyInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         publicKeyConfig: CloudFrontClientTypes.PublicKeyConfig? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.publicKeyConfig = publicKeyConfig
@@ -13802,8 +13267,7 @@ public struct UpdatePublicKeyOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         publicKey: CloudFrontClientTypes.PublicKey? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.publicKey = publicKey
     }
@@ -13827,8 +13291,7 @@ public struct UpdateRealtimeLogConfigInput: Swift.Sendable {
         fields: [Swift.String]? = nil,
         name: Swift.String? = nil,
         samplingRate: Swift.Int? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.endPoints = endPoints
         self.fields = fields
@@ -13843,8 +13306,7 @@ public struct UpdateRealtimeLogConfigOutput: Swift.Sendable {
 
     public init(
         realtimeLogConfig: CloudFrontClientTypes.RealtimeLogConfig? = nil
-    )
-    {
+    ) {
         self.realtimeLogConfig = realtimeLogConfig
     }
 }
@@ -13863,8 +13325,7 @@ public struct UpdateResponseHeadersPolicyInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
@@ -13880,8 +13341,7 @@ public struct UpdateResponseHeadersPolicyOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         responseHeadersPolicy: CloudFrontClientTypes.ResponseHeadersPolicy? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.responseHeadersPolicy = responseHeadersPolicy
     }
@@ -13902,8 +13362,7 @@ public struct UpdateStreamingDistributionInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         streamingDistributionConfig: CloudFrontClientTypes.StreamingDistributionConfig? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.streamingDistributionConfig = streamingDistributionConfig
@@ -13920,8 +13379,7 @@ public struct UpdateStreamingDistributionOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         streamingDistribution: CloudFrontClientTypes.StreamingDistribution? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.streamingDistribution = streamingDistribution
     }
@@ -13942,8 +13400,7 @@ public struct UpdateVpcOriginInput: Swift.Sendable {
         id: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
         vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ifMatch = ifMatch
         self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
@@ -13959,8 +13416,7 @@ public struct UpdateVpcOriginOutput: Swift.Sendable {
     public init(
         eTag: Swift.String? = nil,
         vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.vpcOrigin = vpcOrigin
     }

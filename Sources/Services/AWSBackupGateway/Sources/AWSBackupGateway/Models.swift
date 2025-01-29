@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -76,8 +75,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -94,8 +92,7 @@ public struct AssociateGatewayToServerInput: Swift.Sendable {
     public init(
         gatewayArn: Swift.String? = nil,
         serverArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
         self.serverArn = serverArn
     }
@@ -107,8 +104,7 @@ public struct AssociateGatewayToServerOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -134,8 +130,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -148,8 +143,7 @@ public struct GetBandwidthRateLimitScheduleInput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -183,8 +177,7 @@ extension BackupGatewayClientTypes {
             endMinuteOfHour: Swift.Int? = nil,
             startHourOfDay: Swift.Int? = nil,
             startMinuteOfHour: Swift.Int? = nil
-        )
-        {
+        ) {
             self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
             self.daysOfWeek = daysOfWeek
             self.endHourOfDay = endHourOfDay
@@ -204,8 +197,7 @@ public struct GetBandwidthRateLimitScheduleOutput: Swift.Sendable {
     public init(
         bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
         self.gatewayArn = gatewayArn
     }
@@ -222,8 +214,7 @@ public struct PutBandwidthRateLimitScheduleInput: Swift.Sendable {
     public init(
         bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
         self.gatewayArn = gatewayArn
     }
@@ -235,8 +226,7 @@ public struct PutBandwidthRateLimitScheduleOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -281,8 +271,7 @@ extension BackupGatewayClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -307,8 +296,7 @@ public struct CreateGatewayInput: Swift.Sendable {
         gatewayDisplayName: Swift.String? = nil,
         gatewayType: BackupGatewayClientTypes.GatewayType? = nil,
         tags: [BackupGatewayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.activationKey = activationKey
         self.gatewayDisplayName = gatewayDisplayName
         self.gatewayType = gatewayType
@@ -322,8 +310,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -335,8 +322,7 @@ public struct DeleteGatewayInput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -347,8 +333,7 @@ public struct DeleteGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -360,8 +345,7 @@ public struct DisassociateGatewayFromServerInput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -372,8 +356,7 @@ public struct DisassociateGatewayFromServerOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -385,8 +368,7 @@ public struct GetGatewayInput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -411,8 +393,7 @@ extension BackupGatewayClientTypes {
             dayOfWeek: Swift.Int? = nil,
             hourOfDay: Swift.Int? = nil,
             minuteOfHour: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.hourOfDay = hourOfDay
@@ -451,8 +432,7 @@ extension BackupGatewayClientTypes {
             maintenanceStartTime: BackupGatewayClientTypes.MaintenanceStartTime? = nil,
             nextUpdateAvailabilityTime: Foundation.Date? = nil,
             vpcEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
             self.gatewayType = gatewayType
@@ -471,8 +451,7 @@ public struct GetGatewayOutput: Swift.Sendable {
 
     public init(
         gateway: BackupGatewayClientTypes.GatewayDetails? = nil
-    )
-    {
+    ) {
         self.gateway = gateway
     }
 }
@@ -486,8 +465,7 @@ public struct ListGatewaysInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -514,8 +492,7 @@ extension BackupGatewayClientTypes {
             gatewayType: BackupGatewayClientTypes.GatewayType? = nil,
             hypervisorId: Swift.String? = nil,
             lastSeenTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
             self.gatewayType = gatewayType
@@ -534,8 +511,7 @@ public struct ListGatewaysOutput: Swift.Sendable {
     public init(
         gateways: [BackupGatewayClientTypes.Gateway]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gateways = gateways
         self.nextToken = nextToken
     }
@@ -562,8 +538,7 @@ public struct PutMaintenanceStartTimeInput: Swift.Sendable {
         gatewayArn: Swift.String? = nil,
         hourOfDay: Swift.Int? = nil,
         minuteOfHour: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dayOfMonth = dayOfMonth
         self.dayOfWeek = dayOfWeek
         self.gatewayArn = gatewayArn
@@ -578,8 +553,7 @@ public struct PutMaintenanceStartTimeOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -601,8 +575,7 @@ public struct TestHypervisorConfigurationInput: Swift.Sendable {
         host: Swift.String? = nil,
         password: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
         self.host = host
         self.password = password
@@ -630,8 +603,7 @@ public struct UpdateGatewayInformationInput: Swift.Sendable {
     public init(
         gatewayArn: Swift.String? = nil,
         gatewayDisplayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
         self.gatewayDisplayName = gatewayDisplayName
     }
@@ -643,8 +615,7 @@ public struct UpdateGatewayInformationOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -656,8 +627,7 @@ public struct UpdateGatewaySoftwareNowInput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -668,8 +638,7 @@ public struct UpdateGatewaySoftwareNowOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -681,8 +650,7 @@ public struct DeleteHypervisorInput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -693,8 +661,7 @@ public struct DeleteHypervisorOutput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -706,8 +673,7 @@ public struct GetHypervisorInput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -818,8 +784,7 @@ extension BackupGatewayClientTypes {
             logGroupArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: BackupGatewayClientTypes.HypervisorState? = nil
-        )
-        {
+        ) {
             self.host = host
             self.hypervisorArn = hypervisorArn
             self.kmsKeyArn = kmsKeyArn
@@ -839,8 +804,7 @@ public struct GetHypervisorOutput: Swift.Sendable {
 
     public init(
         hypervisor: BackupGatewayClientTypes.HypervisorDetails? = nil
-    )
-    {
+    ) {
         self.hypervisor = hypervisor
     }
 }
@@ -852,8 +816,7 @@ public struct GetHypervisorPropertyMappingsInput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -880,8 +843,7 @@ extension BackupGatewayClientTypes {
             awsTagValue: Swift.String? = nil,
             vmwareCategory: Swift.String? = nil,
             vmwareTagName: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsTagKey = awsTagKey
             self.awsTagValue = awsTagValue
             self.vmwareCategory = vmwareCategory
@@ -902,8 +864,7 @@ public struct GetHypervisorPropertyMappingsOutput: Swift.Sendable {
         hypervisorArn: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
         vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
         self.iamRoleArn = iamRoleArn
         self.vmwareToAwsTagMappings = vmwareToAwsTagMappings
@@ -925,8 +886,7 @@ public struct PutHypervisorPropertyMappingsInput: Swift.Sendable {
         hypervisorArn: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
         vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
         self.iamRoleArn = iamRoleArn
         self.vmwareToAwsTagMappings = vmwareToAwsTagMappings
@@ -939,8 +899,7 @@ public struct PutHypervisorPropertyMappingsOutput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -968,8 +927,7 @@ public struct ImportHypervisorConfigurationInput: Swift.Sendable {
         password: Swift.String? = nil,
         tags: [BackupGatewayClientTypes.Tag]? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.host = host
         self.kmsKeyArn = kmsKeyArn
         self.name = name
@@ -990,8 +948,7 @@ public struct ImportHypervisorConfigurationOutput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -1005,8 +962,7 @@ public struct ListHypervisorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1033,8 +989,7 @@ extension BackupGatewayClientTypes {
             kmsKeyArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: BackupGatewayClientTypes.HypervisorState? = nil
-        )
-        {
+        ) {
             self.host = host
             self.hypervisorArn = hypervisorArn
             self.kmsKeyArn = kmsKeyArn
@@ -1053,8 +1008,7 @@ public struct ListHypervisorsOutput: Swift.Sendable {
     public init(
         hypervisors: [BackupGatewayClientTypes.Hypervisor]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisors = hypervisors
         self.nextToken = nextToken
     }
@@ -1067,8 +1021,7 @@ public struct StartVirtualMachinesMetadataSyncInput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -1079,8 +1032,7 @@ public struct StartVirtualMachinesMetadataSyncOutput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -1107,8 +1059,7 @@ public struct UpdateHypervisorInput: Swift.Sendable {
         name: Swift.String? = nil,
         password: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.host = host
         self.hypervisorArn = hypervisorArn
         self.logGroupArn = logGroupArn
@@ -1129,8 +1080,7 @@ public struct UpdateHypervisorOutput: Swift.Sendable {
 
     public init(
         hypervisorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
     }
 }
@@ -1156,8 +1106,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1170,8 +1119,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1185,8 +1133,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [BackupGatewayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1203,8 +1150,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [BackupGatewayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -1216,8 +1162,7 @@ public struct TagResourceOutput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1244,8 +1189,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1262,8 +1206,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -1275,8 +1218,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1302,8 +1244,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1316,8 +1257,7 @@ public struct GetVirtualMachineInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1337,8 +1277,7 @@ extension BackupGatewayClientTypes {
             vmwareCategory: Swift.String? = nil,
             vmwareTagDescription: Swift.String? = nil,
             vmwareTagName: Swift.String? = nil
-        )
-        {
+        ) {
             self.vmwareCategory = vmwareCategory
             self.vmwareTagDescription = vmwareTagDescription
             self.vmwareTagName = vmwareTagName
@@ -1373,8 +1312,7 @@ extension BackupGatewayClientTypes {
             path: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             vmwareTags: [BackupGatewayClientTypes.VmwareTag]? = nil
-        )
-        {
+        ) {
             self.hostName = hostName
             self.hypervisorId = hypervisorId
             self.lastBackupDate = lastBackupDate
@@ -1392,8 +1330,7 @@ public struct GetVirtualMachineOutput: Swift.Sendable {
 
     public init(
         virtualMachine: BackupGatewayClientTypes.VirtualMachineDetails? = nil
-    )
-    {
+    ) {
         self.virtualMachine = virtualMachine
     }
 }
@@ -1410,8 +1347,7 @@ public struct ListVirtualMachinesInput: Swift.Sendable {
         hypervisorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hypervisorArn = hypervisorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1442,8 +1378,7 @@ extension BackupGatewayClientTypes {
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostName = hostName
             self.hypervisorId = hypervisorId
             self.lastBackupDate = lastBackupDate
@@ -1463,8 +1398,7 @@ public struct ListVirtualMachinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         virtualMachines: [BackupGatewayClientTypes.VirtualMachine]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.virtualMachines = virtualMachines
     }

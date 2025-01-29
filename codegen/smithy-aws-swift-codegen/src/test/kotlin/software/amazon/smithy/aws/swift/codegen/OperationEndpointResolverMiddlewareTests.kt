@@ -21,10 +21,11 @@ class OperationEndpointResolverMiddlewareTests {
         val writer = SwiftWriter("smithy.example")
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
         val operation = context.ctx.model.operationShapes.toList().first { it.id.name == "GetThing" }
-        val middleware = OperationEndpointResolverMiddleware(context.ctx, AWSClientRuntimeTypes.Core.EndpointResolverMiddleware)
+        val middleware = OperationEndpointResolverMiddleware(context.ctx, AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware)
         middleware.render(context.ctx, writer, operation, "operationStack")
         var contents = writer.toString()
         val expected = """
+let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Json Protocol", config.ignoreConfiguredEndpointURLs)
 // OperationContextParam - JMESPath expression: "bar.objects[].content"
 let bar = input.bar
 let objects = bar?.objects
@@ -50,8 +51,10 @@ let projection2: [Swift.String]? = objects2?.compactMap { original in
     let id = original.id
     return id
 }
-let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: config.endpoint, flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
-builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetThingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
+let endpointParamsBlock = { [config] (context: Smithy.Context) in
+    EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: configuredEndpoint, flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
+}
+builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetThingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
 """
         contents.shouldContainOnlyOnce(expected)
     }

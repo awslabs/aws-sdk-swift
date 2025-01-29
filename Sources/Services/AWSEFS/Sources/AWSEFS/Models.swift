@@ -106,8 +106,7 @@ public struct AccessPointAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
         accessPointId: Swift.String? = nil,
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.accessPointId = accessPointId
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -172,8 +171,7 @@ extension EFSClientTypes {
             gid: Swift.Int? = nil,
             secondaryGids: [Swift.Int]? = nil,
             uid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gid = gid
             self.secondaryGids = secondaryGids
             self.uid = uid
@@ -199,8 +197,7 @@ extension EFSClientTypes {
             ownerGid: Swift.Int? = nil,
             ownerUid: Swift.Int? = nil,
             permissions: Swift.String? = nil
-        )
-        {
+        ) {
             self.ownerGid = ownerGid
             self.ownerUid = ownerUid
             self.permissions = permissions
@@ -220,8 +217,7 @@ extension EFSClientTypes {
         public init(
             creationInfo: EFSClientTypes.CreationInfo? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationInfo = creationInfo
             self.path = path
         }
@@ -242,8 +238,7 @@ extension EFSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -286,8 +281,7 @@ extension EFSClientTypes {
             posixUser: EFSClientTypes.PosixUser? = nil,
             rootDirectory: EFSClientTypes.RootDirectory? = nil,
             tags: [EFSClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accessPointArn = accessPointArn
             self.accessPointId = accessPointId
             self.clientToken = clientToken
@@ -325,8 +319,7 @@ public struct AccessPointLimitExceeded: ClientRuntime.ModeledError, AWSClientRun
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -355,8 +348,7 @@ public struct AccessPointNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -384,8 +376,7 @@ public struct AvailabilityZonesMismatch: ClientRuntime.ModeledError, AWSClientRu
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -444,8 +435,7 @@ extension EFSClientTypes {
 
         public init(
             status: EFSClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -474,8 +464,7 @@ public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -503,8 +492,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -533,8 +521,7 @@ public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -563,8 +550,7 @@ public struct IncorrectFileSystemLifeCycleState: ClientRuntime.ModeledError, AWS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -593,8 +579,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -622,8 +607,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -649,8 +633,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
         posixUser: EFSClientTypes.PosixUser? = nil,
         rootDirectory: EFSClientTypes.RootDirectory? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.fileSystemId = fileSystemId
         self.posixUser = posixUser
@@ -693,8 +676,7 @@ public struct CreateAccessPointOutput: Swift.Sendable {
         posixUser: EFSClientTypes.PosixUser? = nil,
         rootDirectory: EFSClientTypes.RootDirectory? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.accessPointId = accessPointId
         self.clientToken = clientToken
@@ -734,8 +716,7 @@ public struct FileSystemAlreadyExists: ClientRuntime.ModeledError, AWSClientRunt
         errorCode: Swift.String? = nil,
         fileSystemId: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.fileSystemId = fileSystemId
         self.properties.message = message
@@ -765,8 +746,7 @@ public struct FileSystemLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -795,8 +775,7 @@ public struct InsufficientThroughputCapacity: ClientRuntime.ModeledError, AWSCli
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -825,8 +804,7 @@ public struct ThroughputLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -855,8 +833,7 @@ public struct UnsupportedAvailabilityZone: ClientRuntime.ModeledError, AWSClient
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -965,8 +942,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
         provisionedThroughputInMibps: Swift.Double? = nil,
         tags: [EFSClientTypes.Tag]? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.availabilityZoneName = availabilityZoneName
         self.backup = backup
         self.creationToken = creationToken
@@ -1029,8 +1005,7 @@ extension EFSClientTypes {
 
         public init(
             replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection? = nil
-        )
-        {
+        ) {
             self.replicationOverwriteProtection = replicationOverwriteProtection
         }
     }
@@ -1058,8 +1033,7 @@ extension EFSClientTypes {
             valueInArchive: Swift.Int? = nil,
             valueInIA: Swift.Int? = nil,
             valueInStandard: Swift.Int? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
             self.valueInArchive = valueInArchive
@@ -1136,8 +1110,7 @@ public struct CreateFileSystemOutput: Swift.Sendable {
         sizeInBytes: EFSClientTypes.FileSystemSize? = nil,
         tags: [EFSClientTypes.Tag]? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.availabilityZoneName = availabilityZoneName
         self.creationTime = creationTime
@@ -1182,8 +1155,7 @@ public struct IpAddressInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1212,8 +1184,7 @@ public struct MountTargetConflict: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1242,8 +1213,7 @@ public struct NetworkInterfaceLimitExceeded: ClientRuntime.ModeledError, AWSClie
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1272,8 +1242,7 @@ public struct NoFreeAddressesInSubnet: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1302,8 +1271,7 @@ public struct SecurityGroupLimitExceeded: ClientRuntime.ModeledError, AWSClientR
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1332,8 +1300,7 @@ public struct SecurityGroupNotFound: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1362,8 +1329,7 @@ public struct SubnetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1387,8 +1353,7 @@ public struct CreateMountTargetInput: Swift.Sendable {
         ipAddress: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil,
         subnetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.ipAddress = ipAddress
         self.securityGroups = securityGroups
@@ -1434,8 +1399,7 @@ public struct CreateMountTargetOutput: Swift.Sendable {
         ownerId: Swift.String? = nil,
         subnetId: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.availabilityZoneName = availabilityZoneName
         self.fileSystemId = fileSystemId
@@ -1471,8 +1435,7 @@ public struct ReplicationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1501,8 +1464,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1543,8 +1505,7 @@ extension EFSClientTypes {
             kmsKeyId: Swift.String? = nil,
             region: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
             self.kmsKeyId = kmsKeyId
@@ -1565,8 +1526,7 @@ public struct CreateReplicationConfigurationInput: Swift.Sendable {
     public init(
         destinations: [EFSClientTypes.DestinationToCreate]? = nil,
         sourceFileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.sourceFileSystemId = sourceFileSystemId
     }
@@ -1643,8 +1603,7 @@ extension EFSClientTypes {
             roleArn: Swift.String? = nil,
             status: EFSClientTypes.ReplicationStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.lastReplicatedTimestamp = lastReplicatedTimestamp
             self.ownerId = ownerId
@@ -1687,8 +1646,7 @@ public struct CreateReplicationConfigurationOutput: Swift.Sendable {
         sourceFileSystemId: Swift.String? = nil,
         sourceFileSystemOwnerId: Swift.String? = nil,
         sourceFileSystemRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.destinations = destinations
         self.originalSourceFileSystemArn = originalSourceFileSystemArn
@@ -1711,8 +1669,7 @@ public struct CreateTagsInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.tags = tags
     }
@@ -1725,8 +1682,7 @@ public struct DeleteAccessPointInput: Swift.Sendable {
 
     public init(
         accessPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointId = accessPointId
     }
 }
@@ -1754,8 +1710,7 @@ public struct FileSystemInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1769,8 +1724,7 @@ public struct DeleteFileSystemInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -1782,8 +1736,7 @@ public struct DeleteFileSystemPolicyInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -1811,8 +1764,7 @@ public struct DependencyTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1841,8 +1793,7 @@ public struct MountTargetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1856,8 +1807,7 @@ public struct DeleteMountTargetInput: Swift.Sendable {
 
     public init(
         mountTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mountTargetId = mountTargetId
     }
 }
@@ -1901,8 +1851,7 @@ public struct DeleteReplicationConfigurationInput: Swift.Sendable {
     public init(
         deletionMode: EFSClientTypes.DeletionMode? = nil,
         sourceFileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionMode = deletionMode
         self.sourceFileSystemId = sourceFileSystemId
     }
@@ -1920,8 +1869,7 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.tagKeys = tagKeys
     }
@@ -1942,8 +1890,7 @@ public struct DescribeAccessPointsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointId = accessPointId
         self.fileSystemId = fileSystemId
         self.maxResults = maxResults
@@ -1960,8 +1907,7 @@ public struct DescribeAccessPointsOutput: Swift.Sendable {
     public init(
         accessPoints: [EFSClientTypes.AccessPointDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPoints = accessPoints
         self.nextToken = nextToken
     }
@@ -1976,8 +1922,7 @@ public struct DescribeAccountPreferencesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2055,8 +2000,7 @@ extension EFSClientTypes {
         public init(
             resourceIdType: EFSClientTypes.ResourceIdType? = nil,
             resources: [EFSClientTypes.Resource]? = nil
-        )
-        {
+        ) {
             self.resourceIdType = resourceIdType
             self.resources = resources
         }
@@ -2072,8 +2016,7 @@ public struct DescribeAccountPreferencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceIdPreference: EFSClientTypes.ResourceIdPreference? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceIdPreference = resourceIdPreference
     }
@@ -2101,8 +2044,7 @@ public struct PolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -2115,8 +2057,7 @@ public struct DescribeBackupPolicyInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -2127,8 +2068,7 @@ public struct DescribeBackupPolicyOutput: Swift.Sendable {
 
     public init(
         backupPolicy: EFSClientTypes.BackupPolicy? = nil
-    )
-    {
+    ) {
         self.backupPolicy = backupPolicy
     }
 }
@@ -2140,8 +2080,7 @@ public struct DescribeFileSystemPolicyInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -2155,8 +2094,7 @@ public struct DescribeFileSystemPolicyOutput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.policy = policy
     }
@@ -2178,8 +2116,7 @@ public struct DescribeFileSystemsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.creationToken = creationToken
         self.fileSystemId = fileSystemId
         self.marker = marker
@@ -2256,8 +2193,7 @@ extension EFSClientTypes {
             sizeInBytes: EFSClientTypes.FileSystemSize? = nil,
             tags: [EFSClientTypes.Tag]? = nil,
             throughputMode: EFSClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
             self.creationTime = creationTime
@@ -2292,8 +2228,7 @@ public struct DescribeFileSystemsOutput: Swift.Sendable {
         fileSystems: [EFSClientTypes.FileSystemDescription]? = nil,
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystems = fileSystems
         self.marker = marker
         self.nextMarker = nextMarker
@@ -2307,8 +2242,7 @@ public struct DescribeLifecycleConfigurationInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -2454,8 +2388,7 @@ extension EFSClientTypes {
             transitionToArchive: EFSClientTypes.TransitionToArchiveRules? = nil,
             transitionToIA: EFSClientTypes.TransitionToIARules? = nil,
             transitionToPrimaryStorageClass: EFSClientTypes.TransitionToPrimaryStorageClassRules? = nil
-        )
-        {
+        ) {
             self.transitionToArchive = transitionToArchive
             self.transitionToIA = transitionToIA
             self.transitionToPrimaryStorageClass = transitionToPrimaryStorageClass
@@ -2469,8 +2402,7 @@ public struct DescribeLifecycleConfigurationOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicies = lifecyclePolicies
     }
 }
@@ -2494,8 +2426,7 @@ public struct DescribeMountTargetsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         mountTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointId = accessPointId
         self.fileSystemId = fileSystemId
         self.marker = marker
@@ -2544,8 +2475,7 @@ extension EFSClientTypes {
             ownerId: Swift.String? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
@@ -2573,8 +2503,7 @@ public struct DescribeMountTargetsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         mountTargets: [EFSClientTypes.MountTargetDescription]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.mountTargets = mountTargets
         self.nextMarker = nextMarker
@@ -2604,8 +2533,7 @@ public struct IncorrectMountTargetState: ClientRuntime.ModeledError, AWSClientRu
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -2619,8 +2547,7 @@ public struct DescribeMountTargetSecurityGroupsInput: Swift.Sendable {
 
     public init(
         mountTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mountTargetId = mountTargetId
     }
 }
@@ -2632,8 +2559,7 @@ public struct DescribeMountTargetSecurityGroupsOutput: Swift.Sendable {
 
     public init(
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.securityGroups = securityGroups
     }
 }
@@ -2650,8 +2576,7 @@ public struct DescribeReplicationConfigurationsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2691,8 +2616,7 @@ extension EFSClientTypes {
             sourceFileSystemId: Swift.String? = nil,
             sourceFileSystemOwnerId: Swift.String? = nil,
             sourceFileSystemRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.destinations = destinations
             self.originalSourceFileSystemArn = originalSourceFileSystemArn
@@ -2713,8 +2637,7 @@ public struct DescribeReplicationConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replications: [EFSClientTypes.ReplicationConfigurationDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replications = replications
     }
@@ -2734,8 +2657,7 @@ public struct DescribeTagsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.marker = marker
         self.maxItems = maxItems
@@ -2756,8 +2678,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.nextMarker = nextMarker
         self.tags = tags
@@ -2786,8 +2707,7 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -2806,8 +2726,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -2823,8 +2742,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -2841,8 +2759,7 @@ public struct ModifyMountTargetSecurityGroupsInput: Swift.Sendable {
     public init(
         mountTargetId: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.mountTargetId = mountTargetId
         self.securityGroups = securityGroups
     }
@@ -2855,8 +2772,7 @@ public struct PutAccountPreferencesInput: Swift.Sendable {
 
     public init(
         resourceIdType: EFSClientTypes.ResourceIdType? = nil
-    )
-    {
+    ) {
         self.resourceIdType = resourceIdType
     }
 }
@@ -2867,8 +2783,7 @@ public struct PutAccountPreferencesOutput: Swift.Sendable {
 
     public init(
         resourceIdPreference: EFSClientTypes.ResourceIdPreference? = nil
-    )
-    {
+    ) {
         self.resourceIdPreference = resourceIdPreference
     }
 }
@@ -2884,8 +2799,7 @@ public struct PutBackupPolicyInput: Swift.Sendable {
     public init(
         backupPolicy: EFSClientTypes.BackupPolicy? = nil,
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPolicy = backupPolicy
         self.fileSystemId = fileSystemId
     }
@@ -2897,8 +2811,7 @@ public struct PutBackupPolicyOutput: Swift.Sendable {
 
     public init(
         backupPolicy: EFSClientTypes.BackupPolicy? = nil
-    )
-    {
+    ) {
         self.backupPolicy = backupPolicy
     }
 }
@@ -2917,8 +2830,7 @@ public struct PutFileSystemPolicyInput: Swift.Sendable {
         bypassPolicyLockoutSafetyCheck: Swift.Bool? = false,
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.fileSystemId = fileSystemId
         self.policy = policy
@@ -2934,8 +2846,7 @@ public struct PutFileSystemPolicyOutput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.policy = policy
     }
@@ -2961,8 +2872,7 @@ public struct PutLifecycleConfigurationInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.lifecyclePolicies = lifecyclePolicies
     }
@@ -2974,8 +2884,7 @@ public struct PutLifecycleConfigurationOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicies = lifecyclePolicies
     }
 }
@@ -2991,8 +2900,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tags = tags
     }
@@ -3009,8 +2917,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeys = tagKeys
     }
@@ -3039,8 +2946,7 @@ public struct TooManyRequests: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -3059,8 +2965,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         provisionedThroughputInMibps: Swift.Double? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.provisionedThroughputInMibps = provisionedThroughputInMibps
         self.throughputMode = throughputMode
@@ -3134,8 +3039,7 @@ public struct UpdateFileSystemOutput: Swift.Sendable {
         sizeInBytes: EFSClientTypes.FileSystemSize? = nil,
         tags: [EFSClientTypes.Tag]? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.availabilityZoneName = availabilityZoneName
         self.creationTime = creationTime
@@ -3179,8 +3083,7 @@ public struct ReplicationAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -3205,8 +3108,7 @@ public struct UpdateFileSystemProtectionInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.replicationOverwriteProtection = replicationOverwriteProtection
     }
@@ -3228,8 +3130,7 @@ public struct UpdateFileSystemProtectionOutput: Swift.Sendable {
 
     public init(
         replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection? = nil
-    )
-    {
+    ) {
         self.replicationOverwriteProtection = replicationOverwriteProtection
     }
 }

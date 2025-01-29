@@ -52,8 +52,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -70,8 +69,7 @@ extension BackupSearchClientTypes {
         public init(
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
         }
@@ -106,8 +104,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -137,8 +134,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -172,8 +168,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -193,8 +188,7 @@ public struct ListSearchJobBackupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.searchJobIdentifier = searchJobIdentifier
@@ -295,8 +289,7 @@ extension BackupSearchClientTypes {
             sourceResourceArn: Swift.String? = nil,
             status: BackupSearchClientTypes.SearchJobState? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupCreationTime = backupCreationTime
             self.backupResourceArn = backupResourceArn
             self.indexCreationTime = indexCreationTime
@@ -318,8 +311,7 @@ public struct ListSearchJobBackupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [BackupSearchClientTypes.SearchJobBackupsResult]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -338,8 +330,7 @@ public struct ListSearchJobResultsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.searchJobIdentifier = searchJobIdentifier
@@ -376,8 +367,7 @@ extension BackupSearchClientTypes {
             fileSystemIdentifier: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             sourceResourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupResourceArn = backupResourceArn
             self.backupVaultName = backupVaultName
             self.creationTime = creationTime
@@ -425,8 +415,7 @@ extension BackupSearchClientTypes {
             objectSize: Swift.Int? = nil,
             sourceResourceArn: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupResourceArn = backupResourceArn
             self.backupVaultName = backupVaultName
             self.creationTime = creationTime
@@ -466,8 +455,7 @@ public struct ListSearchJobResultsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [BackupSearchClientTypes.ResultItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -480,8 +468,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -492,8 +479,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -513,8 +499,7 @@ extension BackupSearchClientTypes {
             itemsMatchedCount: Swift.Int? = nil,
             itemsScannedCount: Swift.Int? = nil,
             recoveryPointsScannedCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.itemsMatchedCount = itemsMatchedCount
             self.itemsScannedCount = itemsScannedCount
             self.recoveryPointsScannedCount = recoveryPointsScannedCount
@@ -529,8 +514,7 @@ public struct GetSearchJobInput: Swift.Sendable {
 
     public init(
         searchJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchJobIdentifier = searchJobIdentifier
     }
 }
@@ -583,8 +567,7 @@ extension BackupSearchClientTypes {
         public init(
             `operator`: BackupSearchClientTypes.TimeConditionOperator? = .equalsTo,
             value: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -651,8 +634,7 @@ extension BackupSearchClientTypes {
         public init(
             `operator`: BackupSearchClientTypes.StringConditionOperator? = .equalsTo,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -707,8 +689,7 @@ extension BackupSearchClientTypes {
         public init(
             `operator`: BackupSearchClientTypes.LongConditionOperator? = .equalsTo,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -733,8 +714,7 @@ extension BackupSearchClientTypes {
             filePaths: [BackupSearchClientTypes.StringCondition]? = nil,
             lastModificationTimes: [BackupSearchClientTypes.TimeCondition]? = nil,
             sizes: [BackupSearchClientTypes.LongCondition]? = nil
-        )
-        {
+        ) {
             self.creationTimes = creationTimes
             self.filePaths = filePaths
             self.lastModificationTimes = lastModificationTimes
@@ -764,8 +744,7 @@ extension BackupSearchClientTypes {
             objectKeys: [BackupSearchClientTypes.StringCondition]? = nil,
             sizes: [BackupSearchClientTypes.LongCondition]? = nil,
             versionIds: [BackupSearchClientTypes.StringCondition]? = nil
-        )
-        {
+        ) {
             self.creationTimes = creationTimes
             self.eTags = eTags
             self.objectKeys = objectKeys
@@ -787,8 +766,7 @@ extension BackupSearchClientTypes {
         public init(
             ebsItemFilters: [BackupSearchClientTypes.EBSItemFilter]? = nil,
             s3ItemFilters: [BackupSearchClientTypes.S3ItemFilter]? = nil
-        )
-        {
+        ) {
             self.ebsItemFilters = ebsItemFilters
             self.s3ItemFilters = s3ItemFilters
         }
@@ -817,8 +795,7 @@ extension BackupSearchClientTypes {
             backupResourceTags: [Swift.String: Swift.String?]? = nil,
             backupResourceTypes: [BackupSearchClientTypes.ResourceType]? = nil,
             sourceResourceArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.backupResourceArns = backupResourceArns
             self.backupResourceCreationTime = backupResourceCreationTime
             self.backupResourceTags = backupResourceTags
@@ -844,8 +821,7 @@ extension BackupSearchClientTypes {
         public init(
             totalItemsToScanCount: Swift.Int? = nil,
             totalRecoveryPointsToScanCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.totalItemsToScanCount = totalItemsToScanCount
             self.totalRecoveryPointsToScanCount = totalRecoveryPointsToScanCount
         }
@@ -901,8 +877,7 @@ public struct GetSearchJobOutput: Swift.Sendable {
         searchScopeSummary: BackupSearchClientTypes.SearchScopeSummary? = nil,
         status: BackupSearchClientTypes.SearchJobState? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.currentSearchProgress = currentSearchProgress
@@ -930,8 +905,7 @@ public struct ListSearchJobsInput: Swift.Sendable {
         byStatus: BackupSearchClientTypes.SearchJobState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.byStatus = byStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -972,8 +946,7 @@ extension BackupSearchClientTypes {
             searchScopeSummary: BackupSearchClientTypes.SearchScopeSummary? = nil,
             status: BackupSearchClientTypes.SearchJobState? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.name = name
@@ -996,8 +969,7 @@ public struct ListSearchJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         searchJobs: [BackupSearchClientTypes.SearchJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.searchJobs = searchJobs
     }
@@ -1039,8 +1011,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1071,8 +1042,7 @@ public struct StartSearchJobInput: Swift.Sendable {
         name: Swift.String? = nil,
         searchScope: BackupSearchClientTypes.SearchScope? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.encryptionKeyArn = encryptionKeyArn
         self.itemFilters = itemFilters
@@ -1094,8 +1064,7 @@ public struct StartSearchJobOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         searchJobArn: Swift.String? = nil,
         searchJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.searchJobArn = searchJobArn
         self.searchJobIdentifier = searchJobIdentifier
@@ -1109,8 +1078,7 @@ public struct StopSearchJobInput: Swift.Sendable {
 
     public init(
         searchJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchJobIdentifier = searchJobIdentifier
     }
 }
@@ -1165,8 +1133,7 @@ extension BackupSearchClientTypes {
         public init(
             destinationBucket: Swift.String? = nil,
             destinationPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationBucket = destinationBucket
             self.destinationPrefix = destinationPrefix
         }
@@ -1190,8 +1157,7 @@ public struct GetSearchResultExportJobInput: Swift.Sendable {
 
     public init(
         exportJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportJobIdentifier = exportJobIdentifier
     }
 }
@@ -1224,8 +1190,7 @@ public struct GetSearchResultExportJobOutput: Swift.Sendable {
         searchJobArn: Swift.String? = nil,
         status: BackupSearchClientTypes.ExportJobStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.exportJobArn = exportJobArn
@@ -1252,8 +1217,7 @@ public struct ListSearchResultExportJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchJobIdentifier: Swift.String? = nil,
         status: BackupSearchClientTypes.ExportJobStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.searchJobIdentifier = searchJobIdentifier
@@ -1289,8 +1253,7 @@ extension BackupSearchClientTypes {
             searchJobArn: Swift.String? = nil,
             status: BackupSearchClientTypes.ExportJobStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.exportJobArn = exportJobArn
@@ -1312,8 +1275,7 @@ public struct ListSearchResultExportJobsOutput: Swift.Sendable {
     public init(
         exportJobs: [BackupSearchClientTypes.ExportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportJobs = exportJobs
         self.nextToken = nextToken
     }
@@ -1339,8 +1301,7 @@ public struct StartSearchResultExportJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         searchJobIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.exportSpecification = exportSpecification
         self.roleArn = roleArn
@@ -1359,8 +1320,7 @@ public struct StartSearchResultExportJobOutput: Swift.Sendable {
     public init(
         exportJobArn: Swift.String? = nil,
         exportJobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportJobArn = exportJobArn
         self.exportJobIdentifier = exportJobIdentifier
     }
@@ -1377,8 +1337,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1418,8 +1377,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -1438,8 +1396,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1470,8 +1427,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }

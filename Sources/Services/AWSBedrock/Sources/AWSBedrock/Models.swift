@@ -49,8 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -73,8 +72,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +95,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -121,8 +118,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -145,8 +141,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -169,8 +164,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +187,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -213,8 +206,7 @@ extension BedrockClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -245,8 +237,7 @@ extension BedrockClientTypes {
             instanceType: Swift.String? = nil,
             kmsEncryptionKey: Swift.String? = nil,
             vpc: BedrockClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.executionRole = executionRole
             self.initialInstanceCount = initialInstanceCount
             self.instanceType = instanceType
@@ -280,8 +271,7 @@ extension BedrockClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -312,8 +302,7 @@ public struct CreateMarketplaceModelEndpointInput: Swift.Sendable {
         endpointName: Swift.String? = nil,
         modelSourceIdentifier: Swift.String? = nil,
         tags: [BedrockClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptEula = acceptEula
         self.clientRequestToken = clientRequestToken
         self.endpointConfig = endpointConfig
@@ -391,8 +380,7 @@ extension BedrockClientTypes {
             status: BedrockClientTypes.Status? = nil,
             statusMessage: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endpointArn = endpointArn
             self.endpointConfig = endpointConfig
@@ -413,8 +401,7 @@ public struct CreateMarketplaceModelEndpointOutput: Swift.Sendable {
 
     public init(
         marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
-    )
-    {
+    ) {
         self.marketplaceModelEndpoint = marketplaceModelEndpoint
     }
 }
@@ -426,8 +413,7 @@ public struct DeleteMarketplaceModelEndpointInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -455,8 +441,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -468,8 +453,7 @@ public struct DeregisterMarketplaceModelEndpointInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -486,8 +470,7 @@ public struct GetMarketplaceModelEndpointInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -498,8 +481,7 @@ public struct GetMarketplaceModelEndpointOutput: Swift.Sendable {
 
     public init(
         marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
-    )
-    {
+    ) {
         self.marketplaceModelEndpoint = marketplaceModelEndpoint
     }
 }
@@ -516,8 +498,7 @@ public struct ListMarketplaceModelEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         modelSourceEquals: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.modelSourceEquals = modelSourceEquals
         self.nextToken = nextToken
@@ -552,8 +533,7 @@ extension BedrockClientTypes {
             status: BedrockClientTypes.Status? = nil,
             statusMessage: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endpointArn = endpointArn
             self.modelSourceIdentifier = modelSourceIdentifier
@@ -573,8 +553,7 @@ public struct ListMarketplaceModelEndpointsOutput: Swift.Sendable {
     public init(
         marketplaceModelEndpoints: [BedrockClientTypes.MarketplaceModelEndpointSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.marketplaceModelEndpoints = marketplaceModelEndpoints
         self.nextToken = nextToken
     }
@@ -591,8 +570,7 @@ public struct RegisterMarketplaceModelEndpointInput: Swift.Sendable {
     public init(
         endpointIdentifier: Swift.String? = nil,
         modelSourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointIdentifier = endpointIdentifier
         self.modelSourceIdentifier = modelSourceIdentifier
     }
@@ -605,8 +583,7 @@ public struct RegisterMarketplaceModelEndpointOutput: Swift.Sendable {
 
     public init(
         marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
-    )
-    {
+    ) {
         self.marketplaceModelEndpoint = marketplaceModelEndpoint
     }
 }
@@ -625,8 +602,7 @@ public struct UpdateMarketplaceModelEndpointInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         endpointArn: Swift.String? = nil,
         endpointConfig: BedrockClientTypes.EndpointConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.endpointArn = endpointArn
         self.endpointConfig = endpointConfig
@@ -640,8 +616,7 @@ public struct UpdateMarketplaceModelEndpointOutput: Swift.Sendable {
 
     public init(
         marketplaceModelEndpoint: BedrockClientTypes.MarketplaceModelEndpoint? = nil
-    )
-    {
+    ) {
         self.marketplaceModelEndpoint = marketplaceModelEndpoint
     }
 }
@@ -653,8 +628,7 @@ public struct BatchDeleteEvaluationJobInput: Swift.Sendable {
 
     public init(
         jobIdentifiers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobIdentifiers = jobIdentifiers
     }
 }
@@ -681,8 +655,7 @@ extension BedrockClientTypes {
             code: Swift.String? = nil,
             jobIdentifier: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.jobIdentifier = jobIdentifier
             self.message = message
@@ -750,8 +723,7 @@ extension BedrockClientTypes {
         public init(
             jobIdentifier: Swift.String? = nil,
             jobStatus: BedrockClientTypes.EvaluationJobStatus? = nil
-        )
-        {
+        ) {
             self.jobIdentifier = jobIdentifier
             self.jobStatus = jobStatus
         }
@@ -774,8 +746,7 @@ public struct BatchDeleteEvaluationJobOutput: Swift.Sendable {
     public init(
         errors: [BedrockClientTypes.BatchDeleteEvaluationJobError]? = nil,
         evaluationJobs: [BedrockClientTypes.BatchDeleteEvaluationJobItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.evaluationJobs = evaluationJobs
     }
@@ -833,8 +804,7 @@ extension BedrockClientTypes {
         public init(
             datasetLocation: BedrockClientTypes.EvaluationDatasetLocation? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.datasetLocation = datasetLocation
             self.name = name
         }
@@ -902,8 +872,7 @@ extension BedrockClientTypes {
             dataset: BedrockClientTypes.EvaluationDataset? = nil,
             metricNames: [Swift.String]? = nil,
             taskType: BedrockClientTypes.EvaluationTaskType? = nil
-        )
-        {
+        ) {
             self.dataset = dataset
             self.metricNames = metricNames
             self.taskType = taskType
@@ -926,8 +895,7 @@ extension BedrockClientTypes {
 
         public init(
             modelIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelIdentifier = modelIdentifier
         }
     }
@@ -956,8 +924,7 @@ extension BedrockClientTypes {
         public init(
             datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil,
             evaluatorModelConfig: BedrockClientTypes.EvaluatorModelConfig? = nil
-        )
-        {
+        ) {
             self.datasetMetricConfigs = datasetMetricConfigs
             self.evaluatorModelConfig = evaluatorModelConfig
         }
@@ -981,8 +948,7 @@ extension BedrockClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             ratingMethod: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.ratingMethod = ratingMethod
@@ -1008,8 +974,7 @@ extension BedrockClientTypes {
         public init(
             flowDefinitionArn: Swift.String? = nil,
             instructions: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowDefinitionArn = flowDefinitionArn
             self.instructions = instructions
         }
@@ -1037,8 +1002,7 @@ extension BedrockClientTypes {
             customMetrics: [BedrockClientTypes.HumanEvaluationCustomMetric]? = nil,
             datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil,
             humanWorkflowConfig: BedrockClientTypes.HumanWorkflowConfig? = nil
-        )
-        {
+        ) {
             self.customMetrics = customMetrics
             self.datasetMetricConfigs = datasetMetricConfigs
             self.humanWorkflowConfig = humanWorkflowConfig
@@ -1060,6 +1024,50 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    public enum PerformanceConfigLatency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case optimized
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceConfigLatency] {
+            return [
+                .optimized,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optimized: return "optimized"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Contains performance settings for a model.
+    public struct PerformanceConfiguration: Swift.Sendable {
+        /// Specifies whether to use the latency-optimized or standard version of a model or inference profile.
+        public var latency: BedrockClientTypes.PerformanceConfigLatency?
+
+        public init(
+            latency: BedrockClientTypes.PerformanceConfigLatency? = nil
+        ) {
+            self.latency = latency
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Contains the ARN of the Amazon Bedrock model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) specified in your evaluation job. Each Amazon Bedrock model supports different inferenceParams. To learn more about supported inference parameters for Amazon Bedrock models, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). The inferenceParams are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, "temperature":"0.25" key value pair would need to be formatted as \"temperature\":\"0.25\" to successfully accepted in the request.
     public struct EvaluationBedrockModel: Swift.Sendable {
         /// Each Amazon Bedrock support different inference parameters that change how the model behaves during inference.
@@ -1067,21 +1075,24 @@ extension BedrockClientTypes {
         /// The ARN of the Amazon Bedrock model or inference profile specified.
         /// This member is required.
         public var modelIdentifier: Swift.String?
+        /// Specifies performance settings for the model or inference profile.
+        public var performanceConfig: BedrockClientTypes.PerformanceConfiguration?
 
         public init(
             inferenceParams: Swift.String? = "{}",
-            modelIdentifier: Swift.String? = nil
-        )
-        {
+            modelIdentifier: Swift.String? = nil,
+            performanceConfig: BedrockClientTypes.PerformanceConfiguration? = nil
+        ) {
             self.inferenceParams = inferenceParams
             self.modelIdentifier = modelIdentifier
+            self.performanceConfig = performanceConfig
         }
     }
 }
 
 extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EvaluationBedrockModel(modelIdentifier: \(Swift.String(describing: modelIdentifier)), inferenceParams: \"CONTENT_REDACTED\")"}
+        "EvaluationBedrockModel(modelIdentifier: \(Swift.String(describing: modelIdentifier)), performanceConfig: \(Swift.String(describing: performanceConfig)), inferenceParams: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -1108,8 +1119,7 @@ extension BedrockClientTypes {
         public init(
             guardrailId: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.guardrailId = guardrailId
             self.guardrailVersion = guardrailVersion
         }
@@ -1134,8 +1144,7 @@ extension BedrockClientTypes {
             stopSequences: [Swift.String]? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
             self.temperature = temperature
@@ -1153,8 +1162,7 @@ extension BedrockClientTypes {
 
         public init(
             textInferenceConfig: BedrockClientTypes.TextInferenceConfig? = nil
-        )
-        {
+        ) {
             self.textInferenceConfig = textInferenceConfig
         }
     }
@@ -1169,8 +1177,7 @@ extension BedrockClientTypes {
 
         public init(
             textPromptTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.textPromptTemplate = textPromptTemplate
         }
     }
@@ -1199,8 +1206,7 @@ extension BedrockClientTypes {
             guardrailConfiguration: BedrockClientTypes.GuardrailConfiguration? = nil,
             kbInferenceConfig: BedrockClientTypes.KbInferenceConfig? = nil,
             promptTemplate: BedrockClientTypes.PromptTemplate? = nil
-        )
-        {
+        ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.kbInferenceConfig = kbInferenceConfig
@@ -1227,8 +1233,7 @@ extension BedrockClientTypes {
             contentType: Swift.String? = nil,
             data: Foundation.Data? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.data = data
             self.identifier = identifier
@@ -1251,8 +1256,7 @@ extension BedrockClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -1303,8 +1307,7 @@ extension BedrockClientTypes {
             byteContent: BedrockClientTypes.ByteContentDoc? = nil,
             s3Location: BedrockClientTypes.S3ObjectDoc? = nil,
             sourceType: BedrockClientTypes.ExternalSourceType? = nil
-        )
-        {
+        ) {
             self.byteContent = byteContent
             self.s3Location = s3Location
             self.sourceType = sourceType
@@ -1329,8 +1332,7 @@ extension BedrockClientTypes {
             generationConfiguration: BedrockClientTypes.ExternalSourcesGenerationConfiguration? = nil,
             modelArn: Swift.String? = nil,
             sources: [BedrockClientTypes.ExternalSource]? = nil
-        )
-        {
+        ) {
             self.generationConfiguration = generationConfiguration
             self.modelArn = modelArn
             self.sources = sources
@@ -1356,8 +1358,7 @@ extension BedrockClientTypes {
             guardrailConfiguration: BedrockClientTypes.GuardrailConfiguration? = nil,
             kbInferenceConfig: BedrockClientTypes.KbInferenceConfig? = nil,
             promptTemplate: BedrockClientTypes.PromptTemplate? = nil
-        )
-        {
+        ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.kbInferenceConfig = kbInferenceConfig
@@ -1402,8 +1403,7 @@ extension BedrockClientTypes {
 
         public init(
             type: BedrockClientTypes.QueryTransformationType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -1419,8 +1419,7 @@ extension BedrockClientTypes {
 
         public init(
             queryTransformationConfiguration: BedrockClientTypes.QueryTransformationConfiguration? = nil
-        )
-        {
+        ) {
             self.queryTransformationConfiguration = queryTransformationConfiguration
         }
     }
@@ -1440,8 +1439,7 @@ extension BedrockClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1516,8 +1514,7 @@ extension BedrockClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -1530,8 +1527,7 @@ public struct CreateEvaluationJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -1543,8 +1539,7 @@ public struct GetEvaluationJobInput: Swift.Sendable {
 
     public init(
         jobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobIdentifier = jobIdentifier
     }
 }
@@ -1668,8 +1663,7 @@ public struct ListEvaluationJobsInput: Swift.Sendable {
         sortBy: BedrockClientTypes.SortJobsBy? = nil,
         sortOrder: BedrockClientTypes.SortOrder? = nil,
         statusEquals: BedrockClientTypes.EvaluationJobStatus? = nil
-    )
-    {
+    ) {
         self.applicationTypeEquals = applicationTypeEquals
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -1724,8 +1718,7 @@ extension BedrockClientTypes {
             modelIdentifiers: [Swift.String]? = [],
             ragIdentifiers: [Swift.String]? = nil,
             status: BedrockClientTypes.EvaluationJobStatus? = nil
-        )
-        {
+        ) {
             self.applicationType = applicationType
             self.creationTime = creationTime
             self.evaluationTaskTypes = evaluationTaskTypes
@@ -1749,8 +1742,7 @@ public struct ListEvaluationJobsOutput: Swift.Sendable {
     public init(
         jobSummaries: [BedrockClientTypes.EvaluationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobSummaries = jobSummaries
         self.nextToken = nextToken
     }
@@ -1763,8 +1755,7 @@ public struct StopEvaluationJobInput: Swift.Sendable {
 
     public init(
         jobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobIdentifier = jobIdentifier
     }
 }
@@ -1800,8 +1791,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -1947,8 +1937,7 @@ extension BedrockClientTypes {
             outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
-        )
-        {
+        ) {
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
             self.outputModalities = outputModalities
@@ -1973,8 +1962,7 @@ extension BedrockClientTypes {
 
         public init(
             filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]? = nil
-        )
-        {
+        ) {
             self.filtersConfig = filtersConfig
         }
     }
@@ -2023,8 +2011,7 @@ extension BedrockClientTypes {
         public init(
             threshold: Swift.Double? = nil,
             type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
-        )
-        {
+        ) {
             self.threshold = threshold
             self.type = type
         }
@@ -2041,8 +2028,7 @@ extension BedrockClientTypes {
 
         public init(
             filtersConfig: [BedrockClientTypes.GuardrailContextualGroundingFilterConfig]? = nil
-        )
-        {
+        ) {
             self.filtersConfig = filtersConfig
         }
     }
@@ -2303,8 +2289,7 @@ extension BedrockClientTypes {
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
             type: BedrockClientTypes.GuardrailPiiEntityType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.type = type
         }
@@ -2332,8 +2317,7 @@ extension BedrockClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.description = description
             self.name = name
@@ -2354,8 +2338,7 @@ extension BedrockClientTypes {
         public init(
             piiEntitiesConfig: [BedrockClientTypes.GuardrailPiiEntityConfig]? = nil,
             regexesConfig: [BedrockClientTypes.GuardrailRegexConfig]? = nil
-        )
-        {
+        ) {
             self.piiEntitiesConfig = piiEntitiesConfig
             self.regexesConfig = regexesConfig
         }
@@ -2409,8 +2392,7 @@ extension BedrockClientTypes {
             examples: [Swift.String]? = nil,
             name: Swift.String? = nil,
             type: BedrockClientTypes.GuardrailTopicType? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.examples = examples
             self.name = name
@@ -2434,8 +2416,7 @@ extension BedrockClientTypes {
 
         public init(
             topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]? = nil
-        )
-        {
+        ) {
             self.topicsConfig = topicsConfig
         }
     }
@@ -2477,8 +2458,7 @@ extension BedrockClientTypes {
 
         public init(
             type: BedrockClientTypes.GuardrailManagedWordsType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -2494,8 +2474,7 @@ extension BedrockClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -2513,8 +2492,7 @@ extension BedrockClientTypes {
         public init(
             managedWordListsConfig: [BedrockClientTypes.GuardrailManagedWordsConfig]? = nil,
             wordsConfig: [BedrockClientTypes.GuardrailWordConfig]? = nil
-        )
-        {
+        ) {
             self.managedWordListsConfig = managedWordListsConfig
             self.wordsConfig = wordsConfig
         }
@@ -2563,8 +2541,7 @@ public struct CreateGuardrailInput: Swift.Sendable {
         tags: [BedrockClientTypes.Tag]? = nil,
         topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig? = nil,
         wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig? = nil
-    )
-    {
+    ) {
         self.blockedInputMessaging = blockedInputMessaging
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.clientRequestToken = clientRequestToken
@@ -2604,8 +2581,7 @@ public struct CreateGuardrailOutput: Swift.Sendable {
         guardrailArn: Swift.String? = nil,
         guardrailId: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.guardrailArn = guardrailArn
         self.guardrailId = guardrailId
@@ -2626,8 +2602,7 @@ public struct CreateGuardrailVersionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
         guardrailIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.guardrailIdentifier = guardrailIdentifier
@@ -2650,8 +2625,7 @@ public struct CreateGuardrailVersionOutput: Swift.Sendable {
     public init(
         guardrailId: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.guardrailId = guardrailId
         self.version = version
     }
@@ -2667,8 +2641,7 @@ public struct DeleteGuardrailInput: Swift.Sendable {
     public init(
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.guardrailIdentifier = guardrailIdentifier
         self.guardrailVersion = guardrailVersion
     }
@@ -2689,8 +2662,7 @@ public struct GetGuardrailInput: Swift.Sendable {
     public init(
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.guardrailIdentifier = guardrailIdentifier
         self.guardrailVersion = guardrailVersion
     }
@@ -2733,8 +2705,7 @@ extension BedrockClientTypes {
             outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
-        )
-        {
+        ) {
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
             self.outputModalities = outputModalities
@@ -2760,8 +2731,7 @@ extension BedrockClientTypes {
 
         public init(
             filters: [BedrockClientTypes.GuardrailContentFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -2781,8 +2751,7 @@ extension BedrockClientTypes {
         public init(
             threshold: Swift.Double? = nil,
             type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
-        )
-        {
+        ) {
             self.threshold = threshold
             self.type = type
         }
@@ -2799,8 +2768,7 @@ extension BedrockClientTypes {
 
         public init(
             filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -2820,8 +2788,7 @@ extension BedrockClientTypes {
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
             type: BedrockClientTypes.GuardrailPiiEntityType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.type = type
         }
@@ -2849,8 +2816,7 @@ extension BedrockClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.description = description
             self.name = name
@@ -2871,8 +2837,7 @@ extension BedrockClientTypes {
         public init(
             piiEntities: [BedrockClientTypes.GuardrailPiiEntity]? = nil,
             regexes: [BedrockClientTypes.GuardrailRegex]? = nil
-        )
-        {
+        ) {
             self.piiEntities = piiEntities
             self.regexes = regexes
         }
@@ -2942,8 +2907,7 @@ extension BedrockClientTypes {
             examples: [Swift.String]? = nil,
             name: Swift.String? = nil,
             type: BedrockClientTypes.GuardrailTopicType? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.examples = examples
             self.name = name
@@ -2969,8 +2933,7 @@ extension BedrockClientTypes {
 
         public init(
             topics: [BedrockClientTypes.GuardrailTopic]? = nil
-        )
-        {
+        ) {
             self.topics = topics
         }
     }
@@ -2986,8 +2949,7 @@ extension BedrockClientTypes {
 
         public init(
             type: BedrockClientTypes.GuardrailManagedWordsType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -3003,8 +2965,7 @@ extension BedrockClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -3022,8 +2983,7 @@ extension BedrockClientTypes {
         public init(
             managedWordLists: [BedrockClientTypes.GuardrailManagedWords]? = nil,
             words: [BedrockClientTypes.GuardrailWord]? = nil
-        )
-        {
+        ) {
             self.managedWordLists = managedWordLists
             self.words = words
         }
@@ -3096,8 +3056,7 @@ public struct GetGuardrailOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         version: Swift.String? = nil,
         wordPolicy: BedrockClientTypes.GuardrailWordPolicy? = nil
-    )
-    {
+    ) {
         self.blockedInputMessaging = blockedInputMessaging
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.contentPolicy = contentPolicy
@@ -3136,8 +3095,7 @@ public struct ListGuardrailsInput: Swift.Sendable {
         guardrailIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.guardrailIdentifier = guardrailIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3183,8 +3141,7 @@ extension BedrockClientTypes {
             status: BedrockClientTypes.GuardrailStatus? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -3212,8 +3169,7 @@ public struct ListGuardrailsOutput: Swift.Sendable {
     public init(
         guardrails: [BedrockClientTypes.GuardrailSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.guardrails = guardrails
         self.nextToken = nextToken
     }
@@ -3259,8 +3215,7 @@ public struct UpdateGuardrailInput: Swift.Sendable {
         sensitiveInformationPolicyConfig: BedrockClientTypes.GuardrailSensitiveInformationPolicyConfig? = nil,
         topicPolicyConfig: BedrockClientTypes.GuardrailTopicPolicyConfig? = nil,
         wordPolicyConfig: BedrockClientTypes.GuardrailWordPolicyConfig? = nil
-    )
-    {
+    ) {
         self.blockedInputMessaging = blockedInputMessaging
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.contentPolicyConfig = contentPolicyConfig
@@ -3299,8 +3254,7 @@ public struct UpdateGuardrailOutput: Swift.Sendable {
         guardrailId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.guardrailArn = guardrailArn
         self.guardrailId = guardrailId
         self.updatedAt = updatedAt
@@ -3338,8 +3292,7 @@ public struct CreateInferenceProfileInput: Swift.Sendable {
         inferenceProfileName: Swift.String? = nil,
         modelSource: BedrockClientTypes.InferenceProfileModelSource? = nil,
         tags: [BedrockClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.inferenceProfileName = inferenceProfileName
@@ -3389,8 +3342,7 @@ public struct CreateInferenceProfileOutput: Swift.Sendable {
     public init(
         inferenceProfileArn: Swift.String? = nil,
         status: BedrockClientTypes.InferenceProfileStatus? = nil
-    )
-    {
+    ) {
         self.inferenceProfileArn = inferenceProfileArn
         self.status = status
     }
@@ -3403,8 +3355,7 @@ public struct DeleteInferenceProfileInput: Swift.Sendable {
 
     public init(
         inferenceProfileIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceProfileIdentifier = inferenceProfileIdentifier
     }
 }
@@ -3421,8 +3372,7 @@ public struct GetInferenceProfileInput: Swift.Sendable {
 
     public init(
         inferenceProfileIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceProfileIdentifier = inferenceProfileIdentifier
     }
 }
@@ -3436,8 +3386,7 @@ extension BedrockClientTypes {
 
         public init(
             modelArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelArn = modelArn
         }
     }
@@ -3512,8 +3461,7 @@ public struct GetInferenceProfileOutput: Swift.Sendable {
         status: BedrockClientTypes.InferenceProfileStatus? = nil,
         type: BedrockClientTypes.InferenceProfileType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.inferenceProfileArn = inferenceProfileArn
@@ -3547,8 +3495,7 @@ public struct ListInferenceProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         typeEquals: BedrockClientTypes.InferenceProfileType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.typeEquals = typeEquals
@@ -3598,8 +3545,7 @@ extension BedrockClientTypes {
             status: BedrockClientTypes.InferenceProfileStatus? = nil,
             type: BedrockClientTypes.InferenceProfileType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.inferenceProfileArn = inferenceProfileArn
@@ -3627,8 +3573,7 @@ public struct ListInferenceProfilesOutput: Swift.Sendable {
     public init(
         inferenceProfileSummaries: [BedrockClientTypes.InferenceProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceProfileSummaries = inferenceProfileSummaries
         self.nextToken = nextToken
     }
@@ -3662,8 +3607,7 @@ extension BedrockClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             keyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.keyPrefix = keyPrefix
         }
@@ -3687,8 +3631,7 @@ extension BedrockClientTypes {
             largeDataDeliveryS3Config: BedrockClientTypes.S3Config? = nil,
             logGroupName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.largeDataDeliveryS3Config = largeDataDeliveryS3Config
             self.logGroupName = logGroupName
             self.roleArn = roleArn
@@ -3720,8 +3663,7 @@ extension BedrockClientTypes {
             s3Config: BedrockClientTypes.S3Config? = nil,
             textDataDeliveryEnabled: Swift.Bool? = nil,
             videoDataDeliveryEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchConfig = cloudWatchConfig
             self.embeddingDataDeliveryEnabled = embeddingDataDeliveryEnabled
             self.imageDataDeliveryEnabled = imageDataDeliveryEnabled
@@ -3738,8 +3680,7 @@ public struct GetModelInvocationLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfig: BedrockClientTypes.LoggingConfig? = nil
-    )
-    {
+    ) {
         self.loggingConfig = loggingConfig
     }
 }
@@ -3751,8 +3692,7 @@ public struct PutModelInvocationLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         loggingConfig: BedrockClientTypes.LoggingConfig? = nil
-    )
-    {
+    ) {
         self.loggingConfig = loggingConfig
     }
 }
@@ -3782,8 +3722,7 @@ public struct CreateModelCopyJobInput: Swift.Sendable {
         sourceModelArn: Swift.String? = nil,
         targetModelName: Swift.String? = nil,
         targetModelTags: [BedrockClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.modelKmsKeyId = modelKmsKeyId
         self.sourceModelArn = sourceModelArn
@@ -3799,8 +3738,7 @@ public struct CreateModelCopyJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -3812,8 +3750,7 @@ public struct GetModelCopyJobInput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -3892,8 +3829,7 @@ public struct GetModelCopyJobOutput: Swift.Sendable {
         targetModelKmsKeyArn: Swift.String? = nil,
         targetModelName: Swift.String? = nil,
         targetModelTags: [BedrockClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureMessage = failureMessage
         self.jobArn = jobArn
@@ -3941,8 +3877,7 @@ public struct ListModelCopyJobsInput: Swift.Sendable {
         sourceModelArnEquals: Swift.String? = nil,
         statusEquals: BedrockClientTypes.ModelCopyJobStatus? = nil,
         targetModelNameContains: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -4003,8 +3938,7 @@ extension BedrockClientTypes {
             targetModelKmsKeyArn: Swift.String? = nil,
             targetModelName: Swift.String? = nil,
             targetModelTags: [BedrockClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureMessage = failureMessage
             self.jobArn = jobArn
@@ -4029,8 +3963,7 @@ public struct ListModelCopyJobsOutput: Swift.Sendable {
     public init(
         modelCopyJobSummaries: [BedrockClientTypes.ModelCopyJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCopyJobSummaries = modelCopyJobSummaries
         self.nextToken = nextToken
     }
@@ -4046,8 +3979,7 @@ extension BedrockClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -4097,8 +4029,7 @@ public struct CreateModelImportJobInput: Swift.Sendable {
         modelDataSource: BedrockClientTypes.ModelDataSource? = nil,
         roleArn: Swift.String? = nil,
         vpcConfig: BedrockClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.importedModelKmsKeyId = importedModelKmsKeyId
         self.importedModelName = importedModelName
@@ -4118,8 +4049,7 @@ public struct CreateModelImportJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -4131,8 +4061,7 @@ public struct DeleteImportedModelInput: Swift.Sendable {
 
     public init(
         modelIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelIdentifier = modelIdentifier
     }
 }
@@ -4149,8 +4078,7 @@ public struct GetImportedModelInput: Swift.Sendable {
 
     public init(
         modelIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelIdentifier = modelIdentifier
     }
 }
@@ -4185,8 +4113,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
         modelDataSource: BedrockClientTypes.ModelDataSource? = nil,
         modelKmsKeyArn: Swift.String? = nil,
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.instructSupported = instructSupported
         self.jobArn = jobArn
@@ -4206,8 +4133,7 @@ public struct GetModelImportJobInput: Swift.Sendable {
 
     public init(
         jobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobIdentifier = jobIdentifier
     }
 }
@@ -4286,8 +4212,7 @@ public struct GetModelImportJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         status: BedrockClientTypes.ModelImportJobStatus? = nil,
         vpcConfig: BedrockClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.endTime = endTime
         self.failureMessage = failureMessage
@@ -4354,8 +4279,7 @@ public struct ListImportedModelsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: BedrockClientTypes.SortModelsBy? = nil,
         sortOrder: BedrockClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -4390,8 +4314,7 @@ extension BedrockClientTypes {
             modelArchitecture: Swift.String? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.instructSupported = instructSupported
             self.modelArchitecture = modelArchitecture
@@ -4410,8 +4333,7 @@ public struct ListImportedModelsOutput: Swift.Sendable {
     public init(
         modelSummaries: [BedrockClientTypes.ImportedModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelSummaries = modelSummaries
         self.nextToken = nextToken
     }
@@ -4444,8 +4366,7 @@ public struct ListModelImportJobsInput: Swift.Sendable {
         sortBy: BedrockClientTypes.SortJobsBy? = nil,
         sortOrder: BedrockClientTypes.SortOrder? = nil,
         statusEquals: BedrockClientTypes.ModelImportJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -4491,8 +4412,7 @@ extension BedrockClientTypes {
             jobName: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             status: BedrockClientTypes.ModelImportJobStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endTime = endTime
             self.importedModelArn = importedModelArn
@@ -4514,8 +4434,7 @@ public struct ListModelImportJobsOutput: Swift.Sendable {
     public init(
         modelImportJobSummaries: [BedrockClientTypes.ModelImportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelImportJobSummaries = modelImportJobSummaries
         self.nextToken = nextToken
     }
@@ -4563,8 +4482,7 @@ extension BedrockClientTypes {
             s3BucketOwner: Swift.String? = nil,
             s3InputFormat: BedrockClientTypes.S3InputFormat? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketOwner = s3BucketOwner
             self.s3InputFormat = s3InputFormat
             self.s3Uri = s3Uri
@@ -4598,8 +4516,7 @@ extension BedrockClientTypes {
             s3BucketOwner: Swift.String? = nil,
             s3EncryptionKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketOwner = s3BucketOwner
             self.s3EncryptionKeyId = s3EncryptionKeyId
             self.s3Uri = s3Uri
@@ -4652,8 +4569,7 @@ public struct CreateModelInvocationJobInput: Swift.Sendable {
         tags: [BedrockClientTypes.Tag]? = nil,
         timeoutDurationInHours: Swift.Int? = nil,
         vpcConfig: BedrockClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.inputDataConfig = inputDataConfig
         self.jobName = jobName
@@ -4673,8 +4589,7 @@ public struct CreateModelInvocationJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -4686,8 +4601,7 @@ public struct GetModelInvocationJobInput: Swift.Sendable {
 
     public init(
         jobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobIdentifier = jobIdentifier
     }
 }
@@ -4828,8 +4742,7 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
         submitTime: Foundation.Date? = nil,
         timeoutDurationInHours: Swift.Int? = nil,
         vpcConfig: BedrockClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.endTime = endTime
         self.inputDataConfig = inputDataConfig
@@ -4909,8 +4822,7 @@ public struct ListModelInvocationJobsInput: Swift.Sendable {
         statusEquals: BedrockClientTypes.ModelInvocationJobStatus? = nil,
         submitTimeAfter: Foundation.Date? = nil,
         submitTimeBefore: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -5009,8 +4921,7 @@ extension BedrockClientTypes {
             submitTime: Foundation.Date? = nil,
             timeoutDurationInHours: Swift.Int? = nil,
             vpcConfig: BedrockClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -5044,8 +4955,7 @@ public struct ListModelInvocationJobsOutput: Swift.Sendable {
     public init(
         invocationJobSummaries: [BedrockClientTypes.ModelInvocationJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.invocationJobSummaries = invocationJobSummaries
         self.nextToken = nextToken
     }
@@ -5058,8 +4968,7 @@ public struct StopModelInvocationJobInput: Swift.Sendable {
 
     public init(
         jobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobIdentifier = jobIdentifier
     }
 }
@@ -5076,8 +4985,7 @@ public struct DeleteCustomModelInput: Swift.Sendable {
 
     public init(
         modelIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelIdentifier = modelIdentifier
     }
 }
@@ -5094,8 +5002,7 @@ public struct GetCustomModelInput: Swift.Sendable {
 
     public init(
         modelIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelIdentifier = modelIdentifier
     }
 }
@@ -5113,8 +5020,7 @@ extension BedrockClientTypes {
         public init(
             maxResponseLengthForInference: Swift.Int? = nil,
             teacherModelIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxResponseLengthForInference = maxResponseLengthForInference
             self.teacherModelIdentifier = teacherModelIdentifier
         }
@@ -5131,8 +5037,7 @@ extension BedrockClientTypes {
 
         public init(
             teacherModelConfig: BedrockClientTypes.TeacherModelConfig? = nil
-        )
-        {
+        ) {
             self.teacherModelConfig = teacherModelConfig
         }
     }
@@ -5190,8 +5095,7 @@ extension BedrockClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -5219,8 +5123,7 @@ extension BedrockClientTypes {
         public init(
             equals: [Swift.String: Swift.String]? = nil,
             notEquals: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.equals = equals
             self.notEquals = notEquals
         }
@@ -5264,8 +5167,7 @@ extension BedrockClientTypes {
             invocationLogSource: BedrockClientTypes.InvocationLogSource? = nil,
             requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters? = nil,
             usePromptResponse: Swift.Bool = false
-        )
-        {
+        ) {
             self.invocationLogSource = invocationLogSource
             self.requestMetadataFilters = requestMetadataFilters
             self.usePromptResponse = usePromptResponse
@@ -5285,8 +5187,7 @@ extension BedrockClientTypes {
         public init(
             invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.invocationLogsConfig = invocationLogsConfig
             self.s3Uri = s3Uri
         }
@@ -5302,8 +5203,7 @@ extension BedrockClientTypes {
 
         public init(
             trainingLoss: Swift.Float? = nil
-        )
-        {
+        ) {
             self.trainingLoss = trainingLoss
         }
     }
@@ -5319,8 +5219,7 @@ extension BedrockClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -5336,8 +5235,7 @@ extension BedrockClientTypes {
 
         public init(
             validators: [BedrockClientTypes.Validator]? = nil
-        )
-        {
+        ) {
             self.validators = validators
         }
     }
@@ -5352,8 +5250,7 @@ extension BedrockClientTypes {
 
         public init(
             validationLoss: Swift.Float? = nil
-        )
-        {
+        ) {
             self.validationLoss = validationLoss
         }
     }
@@ -5414,8 +5311,7 @@ public struct GetCustomModelOutput: Swift.Sendable {
         trainingMetrics: BedrockClientTypes.TrainingMetrics? = nil,
         validationDataConfig: BedrockClientTypes.ValidationDataConfig? = nil,
         validationMetrics: [BedrockClientTypes.ValidatorMetric]? = nil
-    )
-    {
+    ) {
         self.baseModelArn = baseModelArn
         self.creationTime = creationTime
         self.customizationConfig = customizationConfig
@@ -5441,8 +5337,7 @@ public struct GetFoundationModelInput: Swift.Sendable {
 
     public init(
         modelIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelIdentifier = modelIdentifier
     }
 }
@@ -5579,8 +5474,7 @@ extension BedrockClientTypes {
 
         public init(
             status: BedrockClientTypes.FoundationModelLifecycleStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -5624,8 +5518,7 @@ extension BedrockClientTypes {
             outputModalities: [BedrockClientTypes.ModelModality]? = nil,
             providerName: Swift.String? = nil,
             responseStreamingSupported: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.customizationsSupported = customizationsSupported
             self.inferenceTypesSupported = inferenceTypesSupported
             self.inputModalities = inputModalities
@@ -5646,8 +5539,7 @@ public struct GetFoundationModelOutput: Swift.Sendable {
 
     public init(
         modelDetails: BedrockClientTypes.FoundationModelDetails? = nil
-    )
-    {
+    ) {
         self.modelDetails = modelDetails
     }
 }
@@ -5685,8 +5577,7 @@ public struct ListCustomModelsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: BedrockClientTypes.SortModelsBy? = nil,
         sortOrder: BedrockClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.baseModelArnEquals = baseModelArnEquals
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -5732,8 +5623,7 @@ extension BedrockClientTypes {
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseModelArn = baseModelArn
             self.baseModelName = baseModelName
             self.creationTime = creationTime
@@ -5754,8 +5644,7 @@ public struct ListCustomModelsOutput: Swift.Sendable {
     public init(
         modelSummaries: [BedrockClientTypes.CustomModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelSummaries = modelSummaries
         self.nextToken = nextToken
     }
@@ -5776,8 +5665,7 @@ public struct ListFoundationModelsInput: Swift.Sendable {
         byInferenceType: BedrockClientTypes.InferenceType? = nil,
         byOutputModality: BedrockClientTypes.ModelModality? = nil,
         byProvider: Swift.String? = nil
-    )
-    {
+    ) {
         self.byCustomizationType = byCustomizationType
         self.byInferenceType = byInferenceType
         self.byOutputModality = byOutputModality
@@ -5823,8 +5711,7 @@ extension BedrockClientTypes {
             outputModalities: [BedrockClientTypes.ModelModality]? = nil,
             providerName: Swift.String? = nil,
             responseStreamingSupported: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.customizationsSupported = customizationsSupported
             self.inferenceTypesSupported = inferenceTypesSupported
             self.inputModalities = inputModalities
@@ -5845,8 +5732,7 @@ public struct ListFoundationModelsOutput: Swift.Sendable {
 
     public init(
         modelSummaries: [BedrockClientTypes.FoundationModelSummary]? = nil
-    )
-    {
+    ) {
         self.modelSummaries = modelSummaries
     }
 }
@@ -5858,8 +5744,7 @@ public struct GetPromptRouterInput: Swift.Sendable {
 
     public init(
         promptRouterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.promptRouterArn = promptRouterArn
     }
 }
@@ -5873,8 +5758,7 @@ extension BedrockClientTypes {
 
         public init(
             modelArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelArn = modelArn
         }
     }
@@ -5890,8 +5774,7 @@ extension BedrockClientTypes {
 
         public init(
             responseQualityDifference: Swift.Double? = nil
-        )
-        {
+        ) {
             self.responseQualityDifference = responseQualityDifference
         }
     }
@@ -5992,8 +5875,7 @@ public struct GetPromptRouterOutput: Swift.Sendable {
         status: BedrockClientTypes.PromptRouterStatus? = nil,
         type: BedrockClientTypes.PromptRouterType? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.description = description
         self.fallbackModel = fallbackModel
@@ -6021,8 +5903,7 @@ public struct ListPromptRoutersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6071,8 +5952,7 @@ extension BedrockClientTypes {
             status: BedrockClientTypes.PromptRouterStatus? = nil,
             type: BedrockClientTypes.PromptRouterType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.fallbackModel = fallbackModel
@@ -6101,8 +5981,7 @@ public struct ListPromptRoutersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         promptRouterSummaries: [BedrockClientTypes.PromptRouterSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.promptRouterSummaries = promptRouterSummaries
     }
@@ -6161,8 +6040,7 @@ public struct CreateProvisionedModelThroughputInput: Swift.Sendable {
         modelUnits: Swift.Int? = nil,
         provisionedModelName: Swift.String? = nil,
         tags: [BedrockClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.commitmentDuration = commitmentDuration
         self.modelId = modelId
@@ -6179,8 +6057,7 @@ public struct CreateProvisionedModelThroughputOutput: Swift.Sendable {
 
     public init(
         provisionedModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.provisionedModelArn = provisionedModelArn
     }
 }
@@ -6192,8 +6069,7 @@ public struct DeleteProvisionedModelThroughputInput: Swift.Sendable {
 
     public init(
         provisionedModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.provisionedModelId = provisionedModelId
     }
 }
@@ -6210,8 +6086,7 @@ public struct GetProvisionedModelThroughputInput: Swift.Sendable {
 
     public init(
         provisionedModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.provisionedModelId = provisionedModelId
     }
 }
@@ -6303,8 +6178,7 @@ public struct GetProvisionedModelThroughputOutput: Swift.Sendable {
         provisionedModelArn: Swift.String? = nil,
         provisionedModelName: Swift.String? = nil,
         status: BedrockClientTypes.ProvisionedModelStatus? = nil
-    )
-    {
+    ) {
         self.commitmentDuration = commitmentDuration
         self.commitmentExpirationTime = commitmentExpirationTime
         self.creationTime = creationTime
@@ -6377,8 +6251,7 @@ public struct ListProvisionedModelThroughputsInput: Swift.Sendable {
         sortBy: BedrockClientTypes.SortByProvisionedModels? = nil,
         sortOrder: BedrockClientTypes.SortOrder? = nil,
         statusEquals: BedrockClientTypes.ProvisionedModelStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -6445,8 +6318,7 @@ extension BedrockClientTypes {
             provisionedModelArn: Swift.String? = nil,
             provisionedModelName: Swift.String? = nil,
             status: BedrockClientTypes.ProvisionedModelStatus? = nil
-        )
-        {
+        ) {
             self.commitmentDuration = commitmentDuration
             self.commitmentExpirationTime = commitmentExpirationTime
             self.creationTime = creationTime
@@ -6472,8 +6344,7 @@ public struct ListProvisionedModelThroughputsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         provisionedModelSummaries: [BedrockClientTypes.ProvisionedModelSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.provisionedModelSummaries = provisionedModelSummaries
     }
@@ -6496,8 +6367,7 @@ public struct UpdateProvisionedModelThroughputInput: Swift.Sendable {
         desiredModelId: Swift.String? = nil,
         desiredProvisionedModelName: Swift.String? = nil,
         provisionedModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredModelId = desiredModelId
         self.desiredProvisionedModelName = desiredProvisionedModelName
         self.provisionedModelId = provisionedModelId
@@ -6516,8 +6386,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -6528,8 +6397,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [BedrockClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -6545,8 +6413,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [BedrockClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -6568,8 +6435,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -6634,8 +6500,7 @@ public struct CreateModelCustomizationJobInput: Swift.Sendable {
         trainingDataConfig: BedrockClientTypes.TrainingDataConfig? = nil,
         validationDataConfig: BedrockClientTypes.ValidationDataConfig? = nil,
         vpcConfig: BedrockClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.baseModelIdentifier = baseModelIdentifier
         self.clientRequestToken = clientRequestToken
         self.customModelKmsKeyId = customModelKmsKeyId
@@ -6661,8 +6526,7 @@ public struct CreateModelCustomizationJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -6674,8 +6538,7 @@ public struct GetModelCustomizationJobInput: Swift.Sendable {
 
     public init(
         jobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobIdentifier = jobIdentifier
     }
 }
@@ -6796,8 +6659,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         validationDataConfig: BedrockClientTypes.ValidationDataConfig? = nil,
         validationMetrics: [BedrockClientTypes.ValidatorMetric]? = nil,
         vpcConfig: BedrockClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.baseModelArn = baseModelArn
         self.clientRequestToken = clientRequestToken
         self.creationTime = creationTime
@@ -6888,8 +6750,7 @@ public struct ListModelCustomizationJobsInput: Swift.Sendable {
         sortBy: BedrockClientTypes.SortJobsBy? = nil,
         sortOrder: BedrockClientTypes.SortOrder? = nil,
         statusEquals: BedrockClientTypes.FineTuningJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -6942,8 +6803,7 @@ extension BedrockClientTypes {
             jobName: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             status: BedrockClientTypes.ModelCustomizationJobStatus? = nil
-        )
-        {
+        ) {
             self.baseModelArn = baseModelArn
             self.creationTime = creationTime
             self.customModelArn = customModelArn
@@ -6967,8 +6827,7 @@ public struct ListModelCustomizationJobsOutput: Swift.Sendable {
     public init(
         modelCustomizationJobSummaries: [BedrockClientTypes.ModelCustomizationJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCustomizationJobSummaries = modelCustomizationJobSummaries
         self.nextToken = nextToken
     }
@@ -6981,8 +6840,7 @@ public struct StopModelCustomizationJobInput: Swift.Sendable {
 
     public init(
         jobIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobIdentifier = jobIdentifier
     }
 }
@@ -7041,8 +6899,7 @@ extension BedrockClientTypes {
             filter: BedrockClientTypes.RetrievalFilter? = nil,
             numberOfResults: Swift.Int? = nil,
             overrideSearchType: BedrockClientTypes.SearchType? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.numberOfResults = numberOfResults
             self.overrideSearchType = overrideSearchType
@@ -7065,8 +6922,7 @@ extension BedrockClientTypes {
 
         public init(
             vectorSearchConfiguration: BedrockClientTypes.KnowledgeBaseVectorSearchConfiguration? = nil
-        )
-        {
+        ) {
             self.vectorSearchConfiguration = vectorSearchConfiguration
         }
     }
@@ -7095,8 +6951,7 @@ extension BedrockClientTypes {
             modelArn: Swift.String? = nil,
             orchestrationConfiguration: BedrockClientTypes.OrchestrationConfiguration? = nil,
             retrievalConfiguration: BedrockClientTypes.KnowledgeBaseRetrievalConfiguration? = nil
-        )
-        {
+        ) {
             self.generationConfiguration = generationConfiguration
             self.knowledgeBaseId = knowledgeBaseId
             self.modelArn = modelArn
@@ -7120,8 +6975,7 @@ extension BedrockClientTypes {
         public init(
             knowledgeBaseId: Swift.String? = nil,
             knowledgeBaseRetrievalConfiguration: BedrockClientTypes.KnowledgeBaseRetrievalConfiguration? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseId = knowledgeBaseId
             self.knowledgeBaseRetrievalConfiguration = knowledgeBaseRetrievalConfiguration
         }
@@ -7144,8 +6998,7 @@ extension BedrockClientTypes {
             externalSourcesConfiguration: BedrockClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration? = nil,
             knowledgeBaseConfiguration: BedrockClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration? = nil,
             type: BedrockClientTypes.RetrieveAndGenerateType? = nil
-        )
-        {
+        ) {
             self.externalSourcesConfiguration = externalSourcesConfiguration
             self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
             self.type = type
@@ -7225,8 +7078,7 @@ public struct CreateEvaluationJobInput: Swift.Sendable {
         jobTags: [BedrockClientTypes.Tag]? = nil,
         outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationType = applicationType
         self.clientRequestToken = clientRequestToken
         self.customerEncryptionKeyId = customerEncryptionKeyId
@@ -7299,8 +7151,7 @@ public struct GetEvaluationJobOutput: Swift.Sendable {
         outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig? = nil,
         roleArn: Swift.String? = nil,
         status: BedrockClientTypes.EvaluationJobStatus? = nil
-    )
-    {
+    ) {
         self.applicationType = applicationType
         self.creationTime = creationTime
         self.customerEncryptionKeyId = customerEncryptionKeyId
@@ -11480,6 +11331,7 @@ extension BedrockClientTypes.EvaluationBedrockModel {
         guard let value else { return }
         try writer["inferenceParams"].write(value.inferenceParams)
         try writer["modelIdentifier"].write(value.modelIdentifier)
+        try writer["performanceConfig"].write(value.performanceConfig, with: BedrockClientTypes.PerformanceConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationBedrockModel {
@@ -11487,6 +11339,22 @@ extension BedrockClientTypes.EvaluationBedrockModel {
         var value = BedrockClientTypes.EvaluationBedrockModel()
         value.modelIdentifier = try reader["modelIdentifier"].readIfPresent() ?? ""
         value.inferenceParams = try reader["inferenceParams"].readIfPresent() ?? "{}"
+        value.performanceConfig = try reader["performanceConfig"].readIfPresent(with: BedrockClientTypes.PerformanceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.PerformanceConfiguration {
+
+    static func write(value: BedrockClientTypes.PerformanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["latency"].write(value.latency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PerformanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.PerformanceConfiguration()
+        value.latency = try reader["latency"].readIfPresent()
         return value
     }
 }

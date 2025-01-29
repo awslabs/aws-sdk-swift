@@ -43,8 +43,7 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -67,8 +66,7 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -91,8 +89,7 @@ public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -115,8 +112,7 @@ public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -139,8 +135,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -163,8 +158,7 @@ public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -187,8 +181,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -211,8 +204,7 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -235,8 +227,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -259,8 +250,7 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -283,8 +273,7 @@ public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -307,8 +296,7 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -344,8 +332,7 @@ public struct SubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -368,8 +355,7 @@ public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -413,8 +399,7 @@ extension DAXClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -432,8 +417,7 @@ extension DAXClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -516,8 +500,7 @@ public struct CreateClusterInput: Swift.Sendable {
         sseSpecification: DAXClientTypes.SSESpecification? = nil,
         subnetGroupName: Swift.String? = nil,
         tags: [DAXClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.clusterEndpointEncryptionType = clusterEndpointEncryptionType
         self.clusterName = clusterName
@@ -550,8 +533,7 @@ extension DAXClientTypes {
             address: Swift.String? = nil,
             port: Swift.Int = 0,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.port = port
             self.url = url
@@ -583,8 +565,7 @@ extension DAXClientTypes {
             nodeId: Swift.String? = nil,
             nodeStatus: Swift.String? = nil,
             parameterGroupStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.endpoint = endpoint
             self.nodeCreateTime = nodeCreateTime
@@ -607,8 +588,7 @@ extension DAXClientTypes {
         public init(
             topicArn: Swift.String? = nil,
             topicStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
             self.topicStatus = topicStatus
         }
@@ -630,8 +610,7 @@ extension DAXClientTypes {
             nodeIdsToReboot: [Swift.String]? = nil,
             parameterApplyStatus: Swift.String? = nil,
             parameterGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.nodeIdsToReboot = nodeIdsToReboot
             self.parameterApplyStatus = parameterApplyStatus
             self.parameterGroupName = parameterGroupName
@@ -651,8 +630,7 @@ extension DAXClientTypes {
         public init(
             securityGroupIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIdentifier = securityGroupIdentifier
             self.status = status
         }
@@ -711,8 +689,7 @@ extension DAXClientTypes {
 
         public init(
             status: DAXClientTypes.SSEStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -780,8 +757,7 @@ extension DAXClientTypes {
             status: Swift.String? = nil,
             subnetGroup: Swift.String? = nil,
             totalNodes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeNodes = activeNodes
             self.clusterArn = clusterArn
             self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
@@ -810,8 +786,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -834,8 +809,7 @@ public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -858,8 +832,7 @@ public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -874,8 +847,7 @@ public struct CreateParameterGroupInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.parameterGroupName = parameterGroupName
     }
@@ -893,8 +865,7 @@ extension DAXClientTypes {
         public init(
             description: Swift.String? = nil,
             parameterGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.parameterGroupName = parameterGroupName
         }
@@ -907,8 +878,7 @@ public struct CreateParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: DAXClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
@@ -931,8 +901,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -955,8 +924,7 @@ public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -979,8 +947,7 @@ public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1003,8 +970,7 @@ public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1023,8 +989,7 @@ public struct CreateSubnetGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.subnetGroupName = subnetGroupName
         self.subnetIds = subnetIds
@@ -1043,8 +1008,7 @@ extension DAXClientTypes {
         public init(
             subnetAvailabilityZone: Swift.String? = nil,
             subnetIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
         }
@@ -1073,8 +1037,7 @@ extension DAXClientTypes {
             subnetGroupName: Swift.String? = nil,
             subnets: [DAXClientTypes.Subnet]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.subnetGroupName = subnetGroupName
             self.subnets = subnets
@@ -1089,8 +1052,7 @@ public struct CreateSubnetGroupOutput: Swift.Sendable {
 
     public init(
         subnetGroup: DAXClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }
@@ -1113,8 +1075,7 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1137,8 +1098,7 @@ public struct NodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1160,8 +1120,7 @@ public struct DecreaseReplicationFactorInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         newReplicationFactor: Swift.Int? = 0,
         nodeIdsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.clusterName = clusterName
         self.newReplicationFactor = newReplicationFactor
@@ -1175,8 +1134,7 @@ public struct DecreaseReplicationFactorOutput: Swift.Sendable {
 
     public init(
         cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1188,8 +1146,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -1200,8 +1157,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1213,8 +1169,7 @@ public struct DeleteParameterGroupInput: Swift.Sendable {
 
     public init(
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
     }
 }
@@ -1225,8 +1180,7 @@ public struct DeleteParameterGroupOutput: Swift.Sendable {
 
     public init(
         deletionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionMessage = deletionMessage
     }
 }
@@ -1249,8 +1203,7 @@ public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1262,8 +1215,7 @@ public struct DeleteSubnetGroupInput: Swift.Sendable {
 
     public init(
         subnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subnetGroupName = subnetGroupName
     }
 }
@@ -1274,8 +1226,7 @@ public struct DeleteSubnetGroupOutput: Swift.Sendable {
 
     public init(
         deletionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionMessage = deletionMessage
     }
 }
@@ -1292,8 +1243,7 @@ public struct DescribeClustersInput: Swift.Sendable {
         clusterNames: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterNames = clusterNames
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1309,8 +1259,7 @@ public struct DescribeClustersOutput: Swift.Sendable {
     public init(
         clusters: [DAXClientTypes.Cluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -1325,8 +1274,7 @@ public struct DescribeDefaultParametersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1405,8 +1353,7 @@ extension DAXClientTypes {
         public init(
             nodeType: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.nodeType = nodeType
             self.value = value
         }
@@ -1478,8 +1425,7 @@ extension DAXClientTypes {
             parameterType: DAXClientTypes.ParameterType? = nil,
             parameterValue: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.changeType = changeType
             self.dataType = dataType
@@ -1503,8 +1449,7 @@ public struct DescribeDefaultParametersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameters: [DAXClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameters = parameters
     }
@@ -1566,8 +1511,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceName: Swift.String? = nil,
         sourceType: DAXClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.maxResults = maxResults
@@ -1596,8 +1540,7 @@ extension DAXClientTypes {
             message: Swift.String? = nil,
             sourceName: Swift.String? = nil,
             sourceType: DAXClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.message = message
             self.sourceName = sourceName
@@ -1615,8 +1558,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [DAXClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -1634,8 +1576,7 @@ public struct DescribeParameterGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterGroupNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterGroupNames = parameterGroupNames
@@ -1651,8 +1592,7 @@ public struct DescribeParameterGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameterGroups: [DAXClientTypes.ParameterGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameterGroups = parameterGroups
     }
@@ -1674,8 +1614,7 @@ public struct DescribeParametersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterGroupName = parameterGroupName
@@ -1692,8 +1631,7 @@ public struct DescribeParametersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameters: [DAXClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameters = parameters
     }
@@ -1711,8 +1649,7 @@ public struct DescribeSubnetGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         subnetGroupNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.subnetGroupNames = subnetGroupNames
@@ -1728,8 +1665,7 @@ public struct DescribeSubnetGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subnetGroups: [DAXClientTypes.SubnetGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subnetGroups = subnetGroups
     }
@@ -1749,8 +1685,7 @@ public struct IncreaseReplicationFactorInput: Swift.Sendable {
         availabilityZones: [Swift.String]? = nil,
         clusterName: Swift.String? = nil,
         newReplicationFactor: Swift.Int? = 0
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.clusterName = clusterName
         self.newReplicationFactor = newReplicationFactor
@@ -1763,8 +1698,7 @@ public struct IncreaseReplicationFactorOutput: Swift.Sendable {
 
     public init(
         cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1787,8 +1721,7 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1803,8 +1736,7 @@ public struct ListTagsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceName = resourceName
     }
@@ -1819,8 +1751,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [DAXClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -1837,8 +1768,7 @@ public struct RebootNodeInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.nodeId = nodeId
     }
@@ -1850,8 +1780,7 @@ public struct RebootNodeOutput: Swift.Sendable {
 
     public init(
         cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1867,8 +1796,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tags: [DAXClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tags = tags
     }
@@ -1880,8 +1808,7 @@ public struct TagResourceOutput: Swift.Sendable {
 
     public init(
         tags: [DAXClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1904,8 +1831,7 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1921,8 +1847,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tagKeys = tagKeys
     }
@@ -1934,8 +1859,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 
     public init(
         tags: [DAXClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1965,8 +1889,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         parameterGroupName: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.description = description
         self.notificationTopicArn = notificationTopicArn
@@ -1983,8 +1906,7 @@ public struct UpdateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: DAXClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -2001,8 +1923,7 @@ extension DAXClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -2020,8 +1941,7 @@ public struct UpdateParameterGroupInput: Swift.Sendable {
     public init(
         parameterGroupName: Swift.String? = nil,
         parameterNameValues: [DAXClientTypes.ParameterNameValue]? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
         self.parameterNameValues = parameterNameValues
     }
@@ -2033,8 +1953,7 @@ public struct UpdateParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: DAXClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
@@ -2057,8 +1976,7 @@ public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2076,8 +1994,7 @@ public struct UpdateSubnetGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.subnetGroupName = subnetGroupName
         self.subnetIds = subnetIds
@@ -2090,8 +2007,7 @@ public struct UpdateSubnetGroupOutput: Swift.Sendable {
 
     public init(
         subnetGroup: DAXClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }

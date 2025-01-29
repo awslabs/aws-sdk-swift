@@ -127,8 +127,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -152,8 +151,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -177,8 +175,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -208,8 +205,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil,
         resource: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resource = resource
         self.properties.resourceType = resourceType
@@ -241,8 +237,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resource: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resource = resource
         self.properties.resourceType = resourceType
@@ -267,8 +262,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -291,9 +285,44 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         retryAfterSeconds: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains Amazon S3 locations for storing specific types of AS2 message files.
+    public struct CustomDirectoriesType: Swift.Sendable {
+        /// Specifies a location to store failed AS2 message files.
+        /// This member is required.
+        public var failedFilesDirectory: Swift.String?
+        /// Specifies a location to store MDN files.
+        /// This member is required.
+        public var mdnFilesDirectory: Swift.String?
+        /// Specifies a location to store the payload for AS2 message files.
+        /// This member is required.
+        public var payloadFilesDirectory: Swift.String?
+        /// Specifies a location to store AS2 status messages.
+        /// This member is required.
+        public var statusFilesDirectory: Swift.String?
+        /// Specifies a location to store temporary AS2 message files.
+        /// This member is required.
+        public var temporaryFilesDirectory: Swift.String?
+
+        public init(
+            failedFilesDirectory: Swift.String? = nil,
+            mdnFilesDirectory: Swift.String? = nil,
+            payloadFilesDirectory: Swift.String? = nil,
+            statusFilesDirectory: Swift.String? = nil,
+            temporaryFilesDirectory: Swift.String? = nil
+        ) {
+            self.failedFilesDirectory = failedFilesDirectory
+            self.mdnFilesDirectory = mdnFilesDirectory
+            self.payloadFilesDirectory = payloadFilesDirectory
+            self.statusFilesDirectory = statusFilesDirectory
+            self.temporaryFilesDirectory = temporaryFilesDirectory
+        }
     }
 }
 
@@ -398,8 +427,7 @@ extension TransferClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -411,8 +439,19 @@ public struct CreateAgreementInput: Swift.Sendable {
     /// This member is required.
     public var accessRole: Swift.String?
     /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /amzn-s3-demo-bucket/home/mydirectory.
-    /// This member is required.
     public var baseDirectory: Swift.String?
+    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.
+    ///
+    /// * Failed files
+    ///
+    /// * MDN files
+    ///
+    /// * Payload files
+    ///
+    /// * Status files
+    ///
+    /// * Temporary files
+    public var customDirectories: TransferClientTypes.CustomDirectoriesType?
     /// A name or short description to identify the agreement.
     public var description: Swift.String?
     /// Determines whether or not unsigned messages from your trading partners will be accepted.
@@ -444,6 +483,7 @@ public struct CreateAgreementInput: Swift.Sendable {
     public init(
         accessRole: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
+        customDirectories: TransferClientTypes.CustomDirectoriesType? = nil,
         description: Swift.String? = nil,
         enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
@@ -452,10 +492,10 @@ public struct CreateAgreementInput: Swift.Sendable {
         serverId: Swift.String? = nil,
         status: TransferClientTypes.AgreementStatusType? = nil,
         tags: [TransferClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accessRole = accessRole
         self.baseDirectory = baseDirectory
+        self.customDirectories = customDirectories
         self.description = description
         self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
@@ -474,8 +514,7 @@ public struct CreateAgreementOutput: Swift.Sendable {
 
     public init(
         agreementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementId = agreementId
     }
 }
@@ -491,8 +530,7 @@ public struct DeleteAgreementInput: Swift.Sendable {
     public init(
         agreementId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementId = agreementId
         self.serverId = serverId
     }
@@ -509,8 +547,7 @@ public struct DescribeAgreementInput: Swift.Sendable {
     public init(
         agreementId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementId = agreementId
         self.serverId = serverId
     }
@@ -529,6 +566,18 @@ extension TransferClientTypes {
         public var arn: Swift.String?
         /// The landing directory (folder) for files that are transferred by using the AS2 protocol.
         public var baseDirectory: Swift.String?
+        /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.
+        ///
+        /// * Failed files
+        ///
+        /// * MDN files
+        ///
+        /// * Payload files
+        ///
+        /// * Status files
+        ///
+        /// * Temporary files
+        public var customDirectories: TransferClientTypes.CustomDirectoriesType?
         /// The name or short description that's used to identify the agreement.
         public var description: Swift.String?
         /// Determines whether or not unsigned messages from your trading partners will be accepted.
@@ -559,6 +608,7 @@ extension TransferClientTypes {
             agreementId: Swift.String? = nil,
             arn: Swift.String? = nil,
             baseDirectory: Swift.String? = nil,
+            customDirectories: TransferClientTypes.CustomDirectoriesType? = nil,
             description: Swift.String? = nil,
             enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
             localProfileId: Swift.String? = nil,
@@ -567,12 +617,12 @@ extension TransferClientTypes {
             serverId: Swift.String? = nil,
             status: TransferClientTypes.AgreementStatusType? = nil,
             tags: [TransferClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accessRole = accessRole
             self.agreementId = agreementId
             self.arn = arn
             self.baseDirectory = baseDirectory
+            self.customDirectories = customDirectories
             self.description = description
             self.enforceMessageSigning = enforceMessageSigning
             self.localProfileId = localProfileId
@@ -592,8 +642,7 @@ public struct DescribeAgreementOutput: Swift.Sendable {
 
     public init(
         agreement: TransferClientTypes.DescribedAgreement? = nil
-    )
-    {
+    ) {
         self.agreement = agreement
     }
 }
@@ -617,8 +666,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -636,8 +684,7 @@ public struct ListAgreementsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverId = serverId
@@ -671,8 +718,7 @@ extension TransferClientTypes {
             partnerProfileId: Swift.String? = nil,
             serverId: Swift.String? = nil,
             status: TransferClientTypes.AgreementStatusType? = nil
-        )
-        {
+        ) {
             self.agreementId = agreementId
             self.arn = arn
             self.description = description
@@ -694,8 +740,7 @@ public struct ListAgreementsOutput: Swift.Sendable {
     public init(
         agreements: [TransferClientTypes.ListedAgreement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreements = agreements
         self.nextToken = nextToken
     }
@@ -709,6 +754,18 @@ public struct UpdateAgreementInput: Swift.Sendable {
     public var agreementId: Swift.String?
     /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /amzn-s3-demo-bucket/home/mydirectory .
     public var baseDirectory: Swift.String?
+    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.
+    ///
+    /// * Failed files
+    ///
+    /// * MDN files
+    ///
+    /// * Payload files
+    ///
+    /// * Status files
+    ///
+    /// * Temporary files
+    public var customDirectories: TransferClientTypes.CustomDirectoriesType?
     /// To replace the existing description, provide a short description for the agreement.
     public var description: Swift.String?
     /// Determines whether or not unsigned messages from your trading partners will be accepted.
@@ -737,6 +794,7 @@ public struct UpdateAgreementInput: Swift.Sendable {
         accessRole: Swift.String? = nil,
         agreementId: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
+        customDirectories: TransferClientTypes.CustomDirectoriesType? = nil,
         description: Swift.String? = nil,
         enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
@@ -744,11 +802,11 @@ public struct UpdateAgreementInput: Swift.Sendable {
         preserveFilename: TransferClientTypes.PreserveFilenameType? = nil,
         serverId: Swift.String? = nil,
         status: TransferClientTypes.AgreementStatusType? = nil
-    )
-    {
+    ) {
         self.accessRole = accessRole
         self.agreementId = agreementId
         self.baseDirectory = baseDirectory
+        self.customDirectories = customDirectories
         self.description = description
         self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
@@ -766,8 +824,7 @@ public struct UpdateAgreementOutput: Swift.Sendable {
 
     public init(
         agreementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementId = agreementId
     }
 }
@@ -1027,8 +1084,7 @@ extension TransferClientTypes {
             partnerProfileId: Swift.String? = nil,
             preserveContentType: TransferClientTypes.PreserveContentType? = nil,
             signingAlgorithm: TransferClientTypes.SigningAlg? = nil
-        )
-        {
+        ) {
             self.basicAuthSecretId = basicAuthSecretId
             self.compression = compression
             self.encryptionAlgorithm = encryptionAlgorithm
@@ -1076,8 +1132,7 @@ public struct DeleteCertificateInput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -1089,8 +1144,7 @@ public struct DescribeCertificateInput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -1243,8 +1297,7 @@ extension TransferClientTypes {
             tags: [TransferClientTypes.Tag]? = nil,
             type: TransferClientTypes.CertificateType? = nil,
             usage: TransferClientTypes.CertificateUsageType? = nil
-        )
-        {
+        ) {
             self.activeDate = activeDate
             self.arn = arn
             self.certificate = certificate
@@ -1275,8 +1328,7 @@ public struct DescribeCertificateOutput: Swift.Sendable {
 
     public init(
         certificate: TransferClientTypes.DescribedCertificate? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
@@ -1320,8 +1372,7 @@ public struct ImportCertificateInput: Swift.Sendable {
         privateKey: Swift.String? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         usage: TransferClientTypes.CertificateUsageType? = nil
-    )
-    {
+    ) {
         self.activeDate = activeDate
         self.certificate = certificate
         self.certificateChain = certificateChain
@@ -1345,8 +1396,7 @@ public struct ImportCertificateOutput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -1360,8 +1410,7 @@ public struct ListCertificatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1403,8 +1452,7 @@ extension TransferClientTypes {
             status: TransferClientTypes.CertificateStatusType? = nil,
             type: TransferClientTypes.CertificateType? = nil,
             usage: TransferClientTypes.CertificateUsageType? = nil
-        )
-        {
+        ) {
             self.activeDate = activeDate
             self.arn = arn
             self.certificateId = certificateId
@@ -1427,8 +1475,7 @@ public struct ListCertificatesOutput: Swift.Sendable {
     public init(
         certificates: [TransferClientTypes.ListedCertificate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.nextToken = nextToken
     }
@@ -1450,8 +1497,7 @@ public struct UpdateCertificateInput: Swift.Sendable {
         certificateId: Swift.String? = nil,
         description: Swift.String? = nil,
         inactiveDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.activeDate = activeDate
         self.certificateId = certificateId
         self.description = description
@@ -1466,8 +1512,7 @@ public struct UpdateCertificateOutput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -1491,8 +1536,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1552,8 +1596,7 @@ extension TransferClientTypes {
             failureMessage: Swift.String? = nil,
             filePath: Swift.String? = nil,
             statusCode: TransferClientTypes.TransferTableStatus? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
             self.filePath = filePath
@@ -1581,8 +1624,7 @@ extension TransferClientTypes {
         public init(
             trustedHostKeys: [Swift.String]? = nil,
             userSecretId: Swift.String? = nil
-        )
-        {
+        ) {
             self.trustedHostKeys = trustedHostKeys
             self.userSecretId = userSecretId
         }
@@ -1615,8 +1657,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessRole = accessRole
         self.as2Config = as2Config
         self.loggingRole = loggingRole
@@ -1634,8 +1675,7 @@ public struct CreateConnectorOutput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
     }
 }
@@ -1647,8 +1687,7 @@ public struct DeleteConnectorInput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
     }
 }
@@ -1660,8 +1699,7 @@ public struct DescribeConnectorInput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
     }
 }
@@ -1703,8 +1741,7 @@ extension TransferClientTypes {
             sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessRole = accessRole
             self.arn = arn
             self.as2Config = as2Config
@@ -1726,8 +1763,7 @@ public struct DescribeConnectorOutput: Swift.Sendable {
 
     public init(
         connector: TransferClientTypes.DescribedConnector? = nil
-    )
-    {
+    ) {
         self.connector = connector
     }
 }
@@ -1741,8 +1777,7 @@ public struct ListConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1763,8 +1798,7 @@ extension TransferClientTypes {
             arn: Swift.String? = nil,
             connectorId: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectorId = connectorId
             self.url = url
@@ -1782,8 +1816,7 @@ public struct ListConnectorsOutput: Swift.Sendable {
     public init(
         connectors: [TransferClientTypes.ListedConnector]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectors = connectors
         self.nextToken = nextToken
     }
@@ -1814,8 +1847,7 @@ public struct UpdateConnectorInput: Swift.Sendable {
         securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessRole = accessRole
         self.as2Config = as2Config
         self.connectorId = connectorId
@@ -1833,8 +1865,7 @@ public struct UpdateConnectorOutput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
     }
 }
@@ -1851,8 +1882,7 @@ extension TransferClientTypes {
         public init(
             fileSystemId: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.path = path
         }
@@ -1871,8 +1901,7 @@ extension TransferClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -1891,8 +1920,7 @@ extension TransferClientTypes {
         public init(
             efsFileLocation: TransferClientTypes.EfsFileLocation? = nil,
             s3FileLocation: TransferClientTypes.S3InputFileLocation? = nil
-        )
-        {
+        ) {
             self.efsFileLocation = efsFileLocation
             self.s3FileLocation = s3FileLocation
         }
@@ -1958,8 +1986,7 @@ extension TransferClientTypes {
             name: Swift.String? = nil,
             overwriteExisting: TransferClientTypes.OverwriteExisting? = nil,
             sourceFileLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationFileLocation = destinationFileLocation
             self.name = name
             self.overwriteExisting = overwriteExisting
@@ -2014,8 +2041,7 @@ extension TransferClientTypes {
             entry: Swift.String? = nil,
             target: Swift.String? = nil,
             type: TransferClientTypes.MapType? = nil
-        )
-        {
+        ) {
             self.entry = entry
             self.target = target
             self.type = type
@@ -2069,8 +2095,7 @@ extension TransferClientTypes {
             gid: Swift.Int? = nil,
             secondaryGids: [Swift.Int]? = nil,
             uid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gid = gid
             self.secondaryGids = secondaryGids
             self.uid = uid
@@ -2108,8 +2133,7 @@ public struct CreateAccessInput: Swift.Sendable {
         posixProfile: TransferClientTypes.PosixProfile? = nil,
         role: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.externalId = externalId
         self.homeDirectory = homeDirectory
         self.homeDirectoryMappings = homeDirectoryMappings
@@ -2132,8 +2156,7 @@ public struct CreateAccessOutput: Swift.Sendable {
     public init(
         externalId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.externalId = externalId
         self.serverId = serverId
     }
@@ -2189,8 +2212,7 @@ public struct CreateProfileInput: Swift.Sendable {
         certificateIds: [Swift.String]? = nil,
         profileType: TransferClientTypes.ProfileType? = nil,
         tags: [TransferClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.as2Id = as2Id
         self.certificateIds = certificateIds
         self.profileType = profileType
@@ -2205,8 +2227,7 @@ public struct CreateProfileOutput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -2273,8 +2294,7 @@ extension TransferClientTypes {
             subnetIds: [Swift.String]? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressAllocationIds = addressAllocationIds
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2380,8 +2400,7 @@ extension TransferClientTypes {
             invocationRole: Swift.String? = nil,
             sftpAuthenticationMethods: TransferClientTypes.SftpAuthenticationMethods? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.directoryId = directoryId
             self.function = function
             self.invocationRole = invocationRole
@@ -2512,8 +2531,7 @@ extension TransferClientTypes {
             passiveIp: Swift.String? = nil,
             setStatOption: TransferClientTypes.SetStatOption? = nil,
             tlsSessionResumptionMode: TransferClientTypes.TlsSessionResumptionMode? = nil
-        )
-        {
+        ) {
             self.as2Transports = as2Transports
             self.passiveIp = passiveIp
             self.setStatOption = setStatOption
@@ -2596,8 +2614,7 @@ extension TransferClientTypes {
 
         public init(
             directoryListingOptimization: TransferClientTypes.DirectoryListingOptimization? = nil
-        )
-        {
+        ) {
             self.directoryListingOptimization = directoryListingOptimization
         }
     }
@@ -2617,8 +2634,7 @@ extension TransferClientTypes {
         public init(
             executionRole: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionRole = executionRole
             self.workflowId = workflowId
         }
@@ -2637,8 +2653,7 @@ extension TransferClientTypes {
         public init(
             onPartialUpload: [TransferClientTypes.WorkflowDetail]? = nil,
             onUpload: [TransferClientTypes.WorkflowDetail]? = nil
-        )
-        {
+        ) {
             self.onPartialUpload = onPartialUpload
             self.onUpload = onUpload
         }
@@ -2741,8 +2756,7 @@ public struct CreateServerInput: Swift.Sendable {
         structuredLogDestinations: [Swift.String]? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         workflowDetails: TransferClientTypes.WorkflowDetails? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.domain = domain
         self.endpointDetails = endpointDetails
@@ -2775,8 +2789,7 @@ public struct CreateServerOutput: Swift.Sendable {
 
     public init(
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
     }
 }
@@ -2823,8 +2836,7 @@ public struct CreateUserInput: Swift.Sendable {
         sshPublicKeyBody: Swift.String? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeDirectory = homeDirectory
         self.homeDirectoryMappings = homeDirectoryMappings
         self.homeDirectoryType = homeDirectoryType
@@ -2849,8 +2861,7 @@ public struct CreateUserOutput: Swift.Sendable {
     public init(
         serverId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.userName = userName
     }
@@ -2868,8 +2879,7 @@ extension TransferClientTypes {
         public init(
             instanceArn: Swift.String? = nil,
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceArn = instanceArn
             self.role = role
         }
@@ -2912,8 +2922,7 @@ public struct CreateWebAppInput: Swift.Sendable {
         identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
-    )
-    {
+    ) {
         self.accessEndpoint = accessEndpoint
         self.identityProviderDetails = identityProviderDetails
         self.tags = tags
@@ -2928,8 +2937,7 @@ public struct CreateWebAppOutput: Swift.Sendable {
 
     public init(
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webAppId = webAppId
     }
 }
@@ -2956,8 +2964,7 @@ extension TransferClientTypes {
             sourceFileLocation: Swift.String? = nil,
             target: Swift.String? = nil,
             timeoutSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sourceFileLocation = sourceFileLocation
             self.target = target
@@ -3027,8 +3034,7 @@ extension TransferClientTypes {
             overwriteExisting: TransferClientTypes.OverwriteExisting? = nil,
             sourceFileLocation: Swift.String? = nil,
             type: TransferClientTypes.EncryptionType? = nil
-        )
-        {
+        ) {
             self.destinationFileLocation = destinationFileLocation
             self.name = name
             self.overwriteExisting = overwriteExisting
@@ -3054,8 +3060,7 @@ extension TransferClientTypes {
         public init(
             name: Swift.String? = nil,
             sourceFileLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sourceFileLocation = sourceFileLocation
         }
@@ -3076,8 +3081,7 @@ extension TransferClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3103,8 +3107,7 @@ extension TransferClientTypes {
             name: Swift.String? = nil,
             sourceFileLocation: Swift.String? = nil,
             tags: [TransferClientTypes.S3Tag]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sourceFileLocation = sourceFileLocation
             self.tags = tags
@@ -3200,8 +3203,7 @@ extension TransferClientTypes {
             deleteStepDetails: TransferClientTypes.DeleteStepDetails? = nil,
             tagStepDetails: TransferClientTypes.TagStepDetails? = nil,
             type: TransferClientTypes.WorkflowStepType? = nil
-        )
-        {
+        ) {
             self.copyStepDetails = copyStepDetails
             self.customStepDetails = customStepDetails
             self.decryptStepDetails = decryptStepDetails
@@ -3241,8 +3243,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         onExceptionSteps: [TransferClientTypes.WorkflowStep]? = nil,
         steps: [TransferClientTypes.WorkflowStep]? = nil,
         tags: [TransferClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.onExceptionSteps = onExceptionSteps
         self.steps = steps
@@ -3257,8 +3258,7 @@ public struct CreateWorkflowOutput: Swift.Sendable {
 
     public init(
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowId = workflowId
     }
 }
@@ -3303,8 +3303,7 @@ public struct DeleteAccessInput: Swift.Sendable {
     public init(
         externalId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.externalId = externalId
         self.serverId = serverId
     }
@@ -3321,8 +3320,7 @@ public struct DeleteHostKeyInput: Swift.Sendable {
     public init(
         hostKeyId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostKeyId = hostKeyId
         self.serverId = serverId
     }
@@ -3335,8 +3333,7 @@ public struct DeleteProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -3348,8 +3345,7 @@ public struct DeleteServerInput: Swift.Sendable {
 
     public init(
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
     }
 }
@@ -3369,8 +3365,7 @@ public struct DeleteSshPublicKeyInput: Swift.Sendable {
         serverId: Swift.String? = nil,
         sshPublicKeyId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.sshPublicKeyId = sshPublicKeyId
         self.userName = userName
@@ -3388,8 +3383,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         serverId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.userName = userName
     }
@@ -3402,8 +3396,7 @@ public struct DeleteWebAppInput: Swift.Sendable {
 
     public init(
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webAppId = webAppId
     }
 }
@@ -3415,8 +3408,7 @@ public struct DeleteWebAppCustomizationInput: Swift.Sendable {
 
     public init(
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webAppId = webAppId
     }
 }
@@ -3428,8 +3420,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 
     public init(
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowId = workflowId
     }
 }
@@ -3445,8 +3436,7 @@ public struct DescribeAccessInput: Swift.Sendable {
     public init(
         externalId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.externalId = externalId
         self.serverId = serverId
     }
@@ -3479,8 +3469,7 @@ extension TransferClientTypes {
             policy: Swift.String? = nil,
             posixProfile: TransferClientTypes.PosixProfile? = nil,
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalId = externalId
             self.homeDirectory = homeDirectory
             self.homeDirectoryMappings = homeDirectoryMappings
@@ -3503,8 +3492,7 @@ public struct DescribeAccessOutput: Swift.Sendable {
     public init(
         access: TransferClientTypes.DescribedAccess? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.access = access
         self.serverId = serverId
     }
@@ -3528,8 +3516,7 @@ extension TransferClientTypes {
             etag: Swift.String? = nil,
             key: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.etag = etag
             self.key = key
@@ -3550,8 +3537,7 @@ extension TransferClientTypes {
         public init(
             efsFileLocation: TransferClientTypes.EfsFileLocation? = nil,
             s3FileLocation: TransferClientTypes.S3FileLocation? = nil
-        )
-        {
+        ) {
             self.efsFileLocation = efsFileLocation
             self.s3FileLocation = s3FileLocation
         }
@@ -3570,8 +3556,7 @@ extension TransferClientTypes {
         public init(
             logGroupName: Swift.String? = nil,
             loggingRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
             self.loggingRole = loggingRole
         }
@@ -3655,8 +3640,7 @@ extension TransferClientTypes {
         public init(
             message: Swift.String? = nil,
             type: TransferClientTypes.ExecutionErrorType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -3688,8 +3672,7 @@ extension TransferClientTypes {
             error: TransferClientTypes.ExecutionError? = nil,
             outputs: Swift.String? = nil,
             stepType: TransferClientTypes.WorkflowStepType? = nil
-        )
-        {
+        ) {
             self.error = error
             self.outputs = outputs
             self.stepType = stepType
@@ -3709,8 +3692,7 @@ extension TransferClientTypes {
         public init(
             onExceptionSteps: [TransferClientTypes.ExecutionStepResult]? = nil,
             steps: [TransferClientTypes.ExecutionStepResult]? = nil
-        )
-        {
+        ) {
             self.onExceptionSteps = onExceptionSteps
             self.steps = steps
         }
@@ -3734,8 +3716,7 @@ extension TransferClientTypes {
             serverId: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.serverId = serverId
             self.sessionId = sessionId
             self.userName = userName
@@ -3753,8 +3734,7 @@ extension TransferClientTypes {
 
         public init(
             userDetails: TransferClientTypes.UserDetails? = nil
-        )
-        {
+        ) {
             self.userDetails = userDetails
         }
     }
@@ -3825,8 +3805,7 @@ extension TransferClientTypes {
             results: TransferClientTypes.ExecutionResults? = nil,
             serviceMetadata: TransferClientTypes.ServiceMetadata? = nil,
             status: TransferClientTypes.ExecutionStatus? = nil
-        )
-        {
+        ) {
             self.executionId = executionId
             self.executionRole = executionRole
             self.initialFileLocation = initialFileLocation
@@ -3877,8 +3856,7 @@ extension TransferClientTypes {
             hostKeyId: Swift.String? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateImported = dateImported
             self.description = description
@@ -3905,8 +3883,7 @@ extension TransferClientTypes {
             applicationArn: Swift.String? = nil,
             instanceArn: Swift.String? = nil,
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.instanceArn = instanceArn
             self.role = role
@@ -3939,8 +3916,7 @@ extension TransferClientTypes {
             profileId: Swift.String? = nil,
             profileType: TransferClientTypes.ProfileType? = nil,
             tags: [TransferClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.as2Id = as2Id
             self.certificateIds = certificateIds
@@ -4043,8 +4019,7 @@ extension TransferClientTypes {
             sshMacs: [Swift.String]? = nil,
             tlsCiphers: [Swift.String]? = nil,
             type: TransferClientTypes.SecurityPolicyResourceType? = nil
-        )
-        {
+        ) {
             self.fips = fips
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
@@ -4202,8 +4177,7 @@ extension TransferClientTypes {
             tags: [TransferClientTypes.Tag]? = nil,
             userCount: Swift.Int? = nil,
             workflowDetails: TransferClientTypes.WorkflowDetails? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.as2ServiceManagedEgressIpAddresses = as2ServiceManagedEgressIpAddresses
             self.certificate = certificate
@@ -4248,8 +4222,7 @@ extension TransferClientTypes {
             dateImported: Foundation.Date? = nil,
             sshPublicKeyBody: Swift.String? = nil,
             sshPublicKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dateImported = dateImported
             self.sshPublicKeyBody = sshPublicKeyBody
             self.sshPublicKeyId = sshPublicKeyId
@@ -4294,8 +4267,7 @@ extension TransferClientTypes {
             sshPublicKeys: [TransferClientTypes.SshPublicKey]? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.homeDirectory = homeDirectory
             self.homeDirectoryMappings = homeDirectoryMappings
@@ -4349,8 +4321,7 @@ extension TransferClientTypes {
             webAppEndpoint: Swift.String? = nil,
             webAppId: Swift.String? = nil,
             webAppUnits: TransferClientTypes.WebAppUnits? = nil
-        )
-        {
+        ) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
             self.describedIdentityProviderDetails = describedIdentityProviderDetails
@@ -4385,8 +4356,7 @@ extension TransferClientTypes {
             logoFile: Foundation.Data? = nil,
             title: Swift.String? = nil,
             webAppId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.faviconFile = faviconFile
             self.logoFile = logoFile
@@ -4426,8 +4396,7 @@ extension TransferClientTypes {
             steps: [TransferClientTypes.WorkflowStep]? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.onExceptionSteps = onExceptionSteps
@@ -4449,8 +4418,7 @@ public struct DescribeExecutionInput: Swift.Sendable {
     public init(
         executionId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
         self.workflowId = workflowId
     }
@@ -4467,8 +4435,7 @@ public struct DescribeExecutionOutput: Swift.Sendable {
     public init(
         execution: TransferClientTypes.DescribedExecution? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.execution = execution
         self.workflowId = workflowId
     }
@@ -4485,8 +4452,7 @@ public struct DescribeHostKeyInput: Swift.Sendable {
     public init(
         hostKeyId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostKeyId = hostKeyId
         self.serverId = serverId
     }
@@ -4499,8 +4465,7 @@ public struct DescribeHostKeyOutput: Swift.Sendable {
 
     public init(
         hostKey: TransferClientTypes.DescribedHostKey? = nil
-    )
-    {
+    ) {
         self.hostKey = hostKey
     }
 }
@@ -4512,8 +4477,7 @@ public struct DescribeProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -4525,8 +4489,7 @@ public struct DescribeProfileOutput: Swift.Sendable {
 
     public init(
         profile: TransferClientTypes.DescribedProfile? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -4538,8 +4501,7 @@ public struct DescribeSecurityPolicyInput: Swift.Sendable {
 
     public init(
         securityPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityPolicyName = securityPolicyName
     }
 }
@@ -4551,8 +4513,7 @@ public struct DescribeSecurityPolicyOutput: Swift.Sendable {
 
     public init(
         securityPolicy: TransferClientTypes.DescribedSecurityPolicy? = nil
-    )
-    {
+    ) {
         self.securityPolicy = securityPolicy
     }
 }
@@ -4564,8 +4525,7 @@ public struct DescribeServerInput: Swift.Sendable {
 
     public init(
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
     }
 }
@@ -4577,8 +4537,7 @@ public struct DescribeServerOutput: Swift.Sendable {
 
     public init(
         server: TransferClientTypes.DescribedServer? = nil
-    )
-    {
+    ) {
         self.server = server
     }
 }
@@ -4594,8 +4553,7 @@ public struct DescribeUserInput: Swift.Sendable {
     public init(
         serverId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.userName = userName
     }
@@ -4612,8 +4570,7 @@ public struct DescribeUserOutput: Swift.Sendable {
     public init(
         serverId: Swift.String? = nil,
         user: TransferClientTypes.DescribedUser? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.user = user
     }
@@ -4626,8 +4583,7 @@ public struct DescribeWebAppInput: Swift.Sendable {
 
     public init(
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webAppId = webAppId
     }
 }
@@ -4639,8 +4595,7 @@ public struct DescribeWebAppOutput: Swift.Sendable {
 
     public init(
         webApp: TransferClientTypes.DescribedWebApp? = nil
-    )
-    {
+    ) {
         self.webApp = webApp
     }
 }
@@ -4652,8 +4607,7 @@ public struct DescribeWebAppCustomizationInput: Swift.Sendable {
 
     public init(
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webAppId = webAppId
     }
 }
@@ -4665,8 +4619,7 @@ public struct DescribeWebAppCustomizationOutput: Swift.Sendable {
 
     public init(
         webAppCustomization: TransferClientTypes.DescribedWebAppCustomization? = nil
-    )
-    {
+    ) {
         self.webAppCustomization = webAppCustomization
     }
 }
@@ -4678,8 +4631,7 @@ public struct DescribeWorkflowInput: Swift.Sendable {
 
     public init(
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workflowId = workflowId
     }
 }
@@ -4691,8 +4643,7 @@ public struct DescribeWorkflowOutput: Swift.Sendable {
 
     public init(
         workflow: TransferClientTypes.DescribedWorkflow? = nil
-    )
-    {
+    ) {
         self.workflow = workflow
     }
 }
@@ -4714,8 +4665,7 @@ public struct ImportHostKeyInput: Swift.Sendable {
         hostKeyBody: Swift.String? = nil,
         serverId: Swift.String? = nil,
         tags: [TransferClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.hostKeyBody = hostKeyBody
         self.serverId = serverId
@@ -4739,8 +4689,7 @@ public struct ImportHostKeyOutput: Swift.Sendable {
     public init(
         hostKeyId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostKeyId = hostKeyId
         self.serverId = serverId
     }
@@ -4761,8 +4710,7 @@ public struct ImportSshPublicKeyInput: Swift.Sendable {
         serverId: Swift.String? = nil,
         sshPublicKeyBody: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.sshPublicKeyBody = sshPublicKeyBody
         self.userName = userName
@@ -4785,8 +4733,7 @@ public struct ImportSshPublicKeyOutput: Swift.Sendable {
         serverId: Swift.String? = nil,
         sshPublicKeyId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.sshPublicKeyId = sshPublicKeyId
         self.userName = userName
@@ -4806,8 +4753,7 @@ public struct ListAccessesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverId = serverId
@@ -4832,8 +4778,7 @@ extension TransferClientTypes {
             homeDirectory: Swift.String? = nil,
             homeDirectoryType: TransferClientTypes.HomeDirectoryType? = nil,
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalId = externalId
             self.homeDirectory = homeDirectory
             self.homeDirectoryType = homeDirectoryType
@@ -4856,8 +4801,7 @@ public struct ListAccessesOutput: Swift.Sendable {
         accesses: [TransferClientTypes.ListedAccess]? = nil,
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accesses = accesses
         self.nextToken = nextToken
         self.serverId = serverId
@@ -4882,8 +4826,7 @@ extension TransferClientTypes {
             initialFileLocation: TransferClientTypes.FileLocation? = nil,
             serviceMetadata: TransferClientTypes.ServiceMetadata? = nil,
             status: TransferClientTypes.ExecutionStatus? = nil
-        )
-        {
+        ) {
             self.executionId = executionId
             self.initialFileLocation = initialFileLocation
             self.serviceMetadata = serviceMetadata
@@ -4927,8 +4870,7 @@ extension TransferClientTypes {
             fingerprint: Swift.String? = nil,
             hostKeyId: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.dateImported = dateImported
             self.description = description
@@ -4957,8 +4899,7 @@ extension TransferClientTypes {
             as2Id: Swift.String? = nil,
             profileId: Swift.String? = nil,
             profileType: TransferClientTypes.ProfileType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.as2Id = as2Id
             self.profileId = profileId
@@ -4998,8 +4939,7 @@ extension TransferClientTypes {
             serverId: Swift.String? = nil,
             state: TransferClientTypes.State? = nil,
             userCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.domain = domain
             self.endpointType = endpointType
@@ -5037,8 +4977,7 @@ extension TransferClientTypes {
             role: Swift.String? = nil,
             sshPublicKeyCount: Swift.Int? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.homeDirectory = homeDirectory
             self.homeDirectoryType = homeDirectoryType
@@ -5069,8 +5008,7 @@ extension TransferClientTypes {
             arn: Swift.String? = nil,
             webAppEndpoint: Swift.String? = nil,
             webAppId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
             self.webAppEndpoint = webAppEndpoint
@@ -5094,8 +5032,7 @@ extension TransferClientTypes {
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.workflowId = workflowId
@@ -5116,8 +5053,7 @@ public struct ListExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workflowId = workflowId
@@ -5138,8 +5074,7 @@ public struct ListExecutionsOutput: Swift.Sendable {
         executions: [TransferClientTypes.ListedExecution]? = nil,
         nextToken: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executions = executions
         self.nextToken = nextToken
         self.workflowId = workflowId
@@ -5163,8 +5098,7 @@ public struct ListFileTransferResultsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         transferId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5190,8 +5124,7 @@ public struct ListFileTransferResultsOutput: Swift.Sendable {
     public init(
         fileTransferResults: [TransferClientTypes.ConnectorFileTransferResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileTransferResults = fileTransferResults
         self.nextToken = nextToken
     }
@@ -5210,8 +5143,7 @@ public struct ListHostKeysInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverId = serverId
@@ -5232,8 +5164,7 @@ public struct ListHostKeysOutput: Swift.Sendable {
         hostKeys: [TransferClientTypes.ListedHostKey]? = nil,
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostKeys = hostKeys
         self.nextToken = nextToken
         self.serverId = serverId
@@ -5252,8 +5183,7 @@ public struct ListProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         profileType: TransferClientTypes.ProfileType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileType = profileType
@@ -5270,8 +5200,7 @@ public struct ListProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profiles: [TransferClientTypes.ListedProfile]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profiles = profiles
     }
@@ -5286,8 +5215,7 @@ public struct ListSecurityPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5303,8 +5231,7 @@ public struct ListSecurityPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityPolicyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityPolicyNames = securityPolicyNames
     }
@@ -5319,8 +5246,7 @@ public struct ListServersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5336,8 +5262,7 @@ public struct ListServersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         servers: [TransferClientTypes.ListedServer]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.servers = servers
     }
@@ -5356,8 +5281,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         arn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5376,8 +5300,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         tags: [TransferClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
         self.tags = tags
@@ -5397,8 +5320,7 @@ public struct ListUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverId = serverId
@@ -5419,8 +5341,7 @@ public struct ListUsersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serverId: Swift.String? = nil,
         users: [TransferClientTypes.ListedUser]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serverId = serverId
         self.users = users
@@ -5436,8 +5357,7 @@ public struct ListWebAppsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5453,8 +5373,7 @@ public struct ListWebAppsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         webApps: [TransferClientTypes.ListedWebApp]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.webApps = webApps
     }
@@ -5469,8 +5388,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5486,8 +5404,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflows: [TransferClientTypes.ListedWorkflow]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflows = workflows
     }
@@ -5503,8 +5420,7 @@ public struct UpdateProfileInput: Swift.Sendable {
     public init(
         certificateIds: [Swift.String]? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateIds = certificateIds
         self.profileId = profileId
     }
@@ -5517,8 +5433,7 @@ public struct UpdateProfileOutput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -5542,8 +5457,7 @@ public struct SendWorkflowStepStateInput: Swift.Sendable {
         status: TransferClientTypes.CustomStepStatus? = nil,
         token: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
         self.status = status
         self.token = token
@@ -5647,8 +5561,7 @@ public struct UpdateServerInput: Swift.Sendable {
         serverId: Swift.String? = nil,
         structuredLogDestinations: [Swift.String]? = nil,
         workflowDetails: TransferClientTypes.WorkflowDetails? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.endpointDetails = endpointDetails
         self.endpointType = endpointType
@@ -5679,8 +5592,7 @@ public struct UpdateServerOutput: Swift.Sendable {
 
     public init(
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
     }
 }
@@ -5703,8 +5615,7 @@ public struct StartDirectoryListingInput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         outputDirectoryPath: Swift.String? = nil,
         remoteDirectoryPath: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
         self.maxItems = maxItems
         self.outputDirectoryPath = outputDirectoryPath
@@ -5723,8 +5634,7 @@ public struct StartDirectoryListingOutput: Swift.Sendable {
     public init(
         listingId: Swift.String? = nil,
         outputFileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.listingId = listingId
         self.outputFileName = outputFileName
     }
@@ -5749,8 +5659,7 @@ public struct StartFileTransferInput: Swift.Sendable {
         remoteDirectoryPath: Swift.String? = nil,
         retrieveFilePaths: [Swift.String]? = nil,
         sendFilePaths: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
         self.localDirectoryPath = localDirectoryPath
         self.remoteDirectoryPath = remoteDirectoryPath
@@ -5766,8 +5675,7 @@ public struct StartFileTransferOutput: Swift.Sendable {
 
     public init(
         transferId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transferId = transferId
     }
 }
@@ -5779,8 +5687,7 @@ public struct StartServerInput: Swift.Sendable {
 
     public init(
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
     }
 }
@@ -5792,8 +5699,7 @@ public struct StopServerInput: Swift.Sendable {
 
     public init(
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
     }
 }
@@ -5809,8 +5715,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [TransferClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -5823,8 +5728,7 @@ public struct TestConnectionInput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
     }
 }
@@ -5849,8 +5753,7 @@ public struct TestConnectionOutput: Swift.Sendable {
         connectorId: Swift.String? = nil,
         status: Swift.String? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
         self.status = status
         self.statusMessage = statusMessage
@@ -5885,8 +5788,7 @@ public struct TestIdentityProviderInput: Swift.Sendable {
         sourceIp: Swift.String? = nil,
         userName: Swift.String? = nil,
         userPassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.serverProtocol = serverProtocol
         self.sourceIp = sourceIp
@@ -5917,8 +5819,7 @@ public struct TestIdentityProviderOutput: Swift.Sendable {
         response: Swift.String? = nil,
         statusCode: Swift.Int = 0,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.response = response
         self.statusCode = statusCode
@@ -5937,8 +5838,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -5973,8 +5873,7 @@ public struct UpdateAccessInput: Swift.Sendable {
         posixProfile: TransferClientTypes.PosixProfile? = nil,
         role: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.externalId = externalId
         self.homeDirectory = homeDirectory
         self.homeDirectoryMappings = homeDirectoryMappings
@@ -5997,8 +5896,7 @@ public struct UpdateAccessOutput: Swift.Sendable {
     public init(
         externalId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.externalId = externalId
         self.serverId = serverId
     }
@@ -6019,8 +5917,7 @@ public struct UpdateHostKeyInput: Swift.Sendable {
         description: Swift.String? = nil,
         hostKeyId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.hostKeyId = hostKeyId
         self.serverId = serverId
@@ -6038,8 +5935,7 @@ public struct UpdateHostKeyOutput: Swift.Sendable {
     public init(
         hostKeyId: Swift.String? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostKeyId = hostKeyId
         self.serverId = serverId
     }
@@ -6074,8 +5970,7 @@ public struct UpdateUserInput: Swift.Sendable {
         role: Swift.String? = nil,
         serverId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeDirectory = homeDirectory
         self.homeDirectoryMappings = homeDirectoryMappings
         self.homeDirectoryType = homeDirectoryType
@@ -6099,8 +5994,7 @@ public struct UpdateUserOutput: Swift.Sendable {
     public init(
         serverId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverId = serverId
         self.userName = userName
     }
@@ -6122,8 +6016,7 @@ public struct UpdateWebAppCustomizationInput: Swift.Sendable {
         logoFile: Foundation.Data? = nil,
         title: Swift.String? = nil,
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.faviconFile = faviconFile
         self.logoFile = logoFile
         self.title = title
@@ -6143,8 +6036,7 @@ public struct UpdateWebAppCustomizationOutput: Swift.Sendable {
 
     public init(
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webAppId = webAppId
     }
 }
@@ -6158,8 +6050,7 @@ extension TransferClientTypes {
 
         public init(
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.role = role
         }
     }
@@ -6191,8 +6082,7 @@ public struct UpdateWebAppInput: Swift.Sendable {
         identityProviderDetails: TransferClientTypes.UpdateWebAppIdentityProviderDetails? = nil,
         webAppId: Swift.String? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
-    )
-    {
+    ) {
         self.accessEndpoint = accessEndpoint
         self.identityProviderDetails = identityProviderDetails
         self.webAppId = webAppId
@@ -6207,8 +6097,7 @@ public struct UpdateWebAppOutput: Swift.Sendable {
 
     public init(
         webAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webAppId = webAppId
     }
 }
@@ -6717,6 +6606,7 @@ extension CreateAgreementInput {
         guard let value else { return }
         try writer["AccessRole"].write(value.accessRole)
         try writer["BaseDirectory"].write(value.baseDirectory)
+        try writer["CustomDirectories"].write(value.customDirectories, with: TransferClientTypes.CustomDirectoriesType.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
@@ -7308,6 +7198,7 @@ extension UpdateAgreementInput {
         try writer["AccessRole"].write(value.accessRole)
         try writer["AgreementId"].write(value.agreementId)
         try writer["BaseDirectory"].write(value.baseDirectory)
+        try writer["CustomDirectories"].write(value.customDirectories, with: TransferClientTypes.CustomDirectoriesType.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
@@ -9625,6 +9516,30 @@ extension TransferClientTypes.DescribedAgreement {
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.preserveFilename = try reader["PreserveFilename"].readIfPresent()
         value.enforceMessageSigning = try reader["EnforceMessageSigning"].readIfPresent()
+        value.customDirectories = try reader["CustomDirectories"].readIfPresent(with: TransferClientTypes.CustomDirectoriesType.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.CustomDirectoriesType {
+
+    static func write(value: TransferClientTypes.CustomDirectoriesType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailedFilesDirectory"].write(value.failedFilesDirectory)
+        try writer["MdnFilesDirectory"].write(value.mdnFilesDirectory)
+        try writer["PayloadFilesDirectory"].write(value.payloadFilesDirectory)
+        try writer["StatusFilesDirectory"].write(value.statusFilesDirectory)
+        try writer["TemporaryFilesDirectory"].write(value.temporaryFilesDirectory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.CustomDirectoriesType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.CustomDirectoriesType()
+        value.failedFilesDirectory = try reader["FailedFilesDirectory"].readIfPresent() ?? ""
+        value.mdnFilesDirectory = try reader["MdnFilesDirectory"].readIfPresent() ?? ""
+        value.payloadFilesDirectory = try reader["PayloadFilesDirectory"].readIfPresent() ?? ""
+        value.statusFilesDirectory = try reader["StatusFilesDirectory"].readIfPresent() ?? ""
+        value.temporaryFilesDirectory = try reader["TemporaryFilesDirectory"].readIfPresent() ?? ""
         return value
     }
 }

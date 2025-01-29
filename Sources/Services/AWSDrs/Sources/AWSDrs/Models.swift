@@ -80,8 +80,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -96,8 +95,7 @@ extension DrsClientTypes {
 
         public init(
             accountID: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountID = accountID
         }
     }
@@ -129,8 +127,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -160,8 +157,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -193,8 +189,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -234,8 +229,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.quotaCode = quotaCode
@@ -273,8 +267,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -302,8 +295,7 @@ public struct UninitializedAccountException: ClientRuntime.ModeledError, AWSClie
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -321,8 +313,7 @@ extension DrsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -390,8 +381,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [DrsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: DrsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.fieldList = fieldList
         self.properties.message = message
@@ -410,8 +400,7 @@ public struct AssociateSourceNetworkStackInput: Swift.Sendable {
     public init(
         cfnStackName: Swift.String? = nil,
         sourceNetworkID: Swift.String? = nil
-    )
-    {
+    ) {
         self.cfnStackName = cfnStackName
         self.sourceNetworkID = sourceNetworkID
     }
@@ -532,8 +521,7 @@ extension DrsClientTypes {
         public init(
             launchStatus: DrsClientTypes.LaunchStatus? = nil,
             participatingResourceID: DrsClientTypes.ParticipatingResourceID? = nil
-        )
-        {
+        ) {
             self.launchStatus = launchStatus
             self.participatingResourceID = participatingResourceID
         }
@@ -620,8 +608,7 @@ extension DrsClientTypes {
         public init(
             type: DrsClientTypes.LaunchActionParameterType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -696,8 +683,7 @@ extension DrsClientTypes {
             order: Swift.Int? = nil,
             parameters: [Swift.String: DrsClientTypes.LaunchActionParameter]? = nil,
             type: DrsClientTypes.LaunchActionType? = nil
-        )
-        {
+        ) {
             self.actionCode = actionCode
             self.actionId = actionId
             self.actionVersion = actionVersion
@@ -763,8 +749,7 @@ extension DrsClientTypes {
             failureReason: Swift.String? = nil,
             runId: Swift.String? = nil,
             status: DrsClientTypes.LaunchActionRunStatus? = nil
-        )
-        {
+        ) {
             self.action = action
             self.failureReason = failureReason
             self.runId = runId
@@ -785,8 +770,7 @@ extension DrsClientTypes {
         public init(
             runs: [DrsClientTypes.LaunchActionRun]? = nil,
             ssmAgentDiscoveryDatetime: Swift.String? = nil
-        )
-        {
+        ) {
             self.runs = runs
             self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
         }
@@ -811,8 +795,7 @@ extension DrsClientTypes {
             launchStatus: DrsClientTypes.LaunchStatus? = nil,
             recoveryInstanceID: Swift.String? = nil,
             sourceServerID: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchActionsStatus = launchActionsStatus
             self.launchStatus = launchStatus
             self.recoveryInstanceID = recoveryInstanceID
@@ -922,8 +905,7 @@ extension DrsClientTypes {
             status: DrsClientTypes.JobStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: DrsClientTypes.JobType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -949,8 +931,7 @@ public struct AssociateSourceNetworkStackOutput: Swift.Sendable {
 
     public init(
         job: DrsClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -996,8 +977,7 @@ extension DrsClientTypes {
         public init(
             productCodeId: Swift.String? = nil,
             productCodeMode: DrsClientTypes.ProductCodeMode? = nil
-        )
-        {
+        ) {
             self.productCodeId = productCodeId
             self.productCodeMode = productCodeMode
         }
@@ -1028,8 +1008,7 @@ extension DrsClientTypes {
             volumeToConversionMap: [Swift.String: [Swift.String: Swift.String]]? = nil,
             volumeToProductCodes: [Swift.String: [DrsClientTypes.ProductCode]]? = nil,
             volumeToVolumeSize: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.dataTimestamp = dataTimestamp
             self.forceUefi = forceUefi
             self.rootVolumeName = rootVolumeName
@@ -1052,8 +1031,7 @@ extension DrsClientTypes {
         public init(
             cores: Swift.Int = 0,
             modelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cores = cores
             self.modelName = modelName
         }
@@ -1070,8 +1048,7 @@ public struct CreateExtendedSourceServerInput: Swift.Sendable {
     public init(
         sourceServerArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.sourceServerArn = sourceServerArn
         self.tags = tags
     }
@@ -1159,8 +1136,7 @@ extension DrsClientTypes {
         public init(
             error: DrsClientTypes.DataReplicationErrorString? = nil,
             rawError: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.rawError = rawError
         }
@@ -1273,8 +1249,7 @@ extension DrsClientTypes {
         public init(
             name: DrsClientTypes.DataReplicationInitiationStepName? = nil,
             status: DrsClientTypes.DataReplicationInitiationStepStatus? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -1296,8 +1271,7 @@ extension DrsClientTypes {
             nextAttemptDateTime: Swift.String? = nil,
             startDateTime: Swift.String? = nil,
             steps: [DrsClientTypes.DataReplicationInitiationStep]? = nil
-        )
-        {
+        ) {
             self.nextAttemptDateTime = nextAttemptDateTime
             self.startDateTime = startDateTime
             self.steps = steps
@@ -1420,8 +1394,7 @@ extension DrsClientTypes {
             rescannedStorageBytes: Swift.Int = 0,
             totalStorageBytes: Swift.Int = 0,
             volumeStatus: DrsClientTypes.VolumeStatus? = nil
-        )
-        {
+        ) {
             self.backloggedStorageBytes = backloggedStorageBytes
             self.deviceName = deviceName
             self.replicatedStorageBytes = replicatedStorageBytes
@@ -1462,8 +1435,7 @@ extension DrsClientTypes {
             replicatedDisks: [DrsClientTypes.DataReplicationInfoReplicatedDisk]? = nil,
             stagingAvailabilityZone: Swift.String? = nil,
             stagingOutpostArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
@@ -1555,8 +1527,7 @@ extension DrsClientTypes {
             apiCallDateTime: Swift.String? = nil,
             jobID: Swift.String? = nil,
             type: DrsClientTypes.LastLaunchType? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
             self.type = type
@@ -1576,8 +1547,7 @@ extension DrsClientTypes {
         public init(
             initiated: DrsClientTypes.LifeCycleLastLaunchInitiated? = nil,
             status: DrsClientTypes.LaunchStatus? = nil
-        )
-        {
+        ) {
             self.initiated = initiated
             self.status = status
         }
@@ -1605,8 +1575,7 @@ extension DrsClientTypes {
             firstByteDateTime: Swift.String? = nil,
             lastLaunch: DrsClientTypes.LifeCycleLastLaunch? = nil,
             lastSeenByServiceDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.addedToServiceDateTime = addedToServiceDateTime
             self.elapsedReplicationDuration = elapsedReplicationDuration
             self.firstByteDateTime = firstByteDateTime
@@ -1664,8 +1633,7 @@ extension DrsClientTypes {
             originAvailabilityZone: Swift.String? = nil,
             originRegion: Swift.String? = nil,
             sourceOutpostArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.originAccountID = originAccountID
             self.originAvailabilityZone = originAvailabilityZone
             self.originRegion = originRegion
@@ -1686,8 +1654,7 @@ extension DrsClientTypes {
         public init(
             bytes: Swift.Int = 0,
             deviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
             self.deviceName = deviceName
         }
@@ -1712,8 +1679,7 @@ extension DrsClientTypes {
             fqdn: Swift.String? = nil,
             hostname: Swift.String? = nil,
             vmWareUuid: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsInstanceID = awsInstanceID
             self.fqdn = fqdn
             self.hostname = hostname
@@ -1737,8 +1703,7 @@ extension DrsClientTypes {
             ips: [Swift.String]? = nil,
             isPrimary: Swift.Bool? = nil,
             macAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.ips = ips
             self.isPrimary = isPrimary
             self.macAddress = macAddress
@@ -1755,8 +1720,7 @@ extension DrsClientTypes {
 
         public init(
             fullString: Swift.String? = nil
-        )
-        {
+        ) {
             self.fullString = fullString
         }
     }
@@ -1795,8 +1759,7 @@ extension DrsClientTypes {
             ramBytes: Swift.Int = 0,
             recommendedInstanceType: Swift.String? = nil,
             supportsNitroInstances: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cpus = cpus
             self.disks = disks
             self.identificationHints = identificationHints
@@ -1860,8 +1823,7 @@ extension DrsClientTypes {
             stagingAccountID: Swift.String? = nil,
             stagingSourceServerArn: Swift.String? = nil,
             status: DrsClientTypes.ExtensionStatus? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.stagingAccountID = stagingAccountID
             self.stagingSourceServerArn = stagingSourceServerArn
@@ -1917,8 +1879,7 @@ extension DrsClientTypes {
             sourceServerID: Swift.String? = nil,
             stagingArea: DrsClientTypes.StagingArea? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.agentVersion = agentVersion
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
@@ -1948,8 +1909,7 @@ public struct CreateExtendedSourceServerOutput: Swift.Sendable {
 
     public init(
         sourceServer: DrsClientTypes.SourceServer? = nil
-    )
-    {
+    ) {
         self.sourceServer = sourceServer
     }
 }
@@ -1992,8 +1952,7 @@ extension DrsClientTypes {
 
         public init(
             osByol: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.osByol = osByol
         }
     }
@@ -2061,8 +2020,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         postLaunchEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.exportBucketArn = exportBucketArn
@@ -2119,8 +2077,7 @@ extension DrsClientTypes {
             postLaunchEnabled: Swift.Bool? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -2147,8 +2104,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
 
     public init(
         launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate? = nil
-    )
-    {
+    ) {
         self.launchConfigurationTemplate = launchConfigurationTemplate
     }
 }
@@ -2305,8 +2261,7 @@ extension DrsClientTypes {
             retentionDuration: Swift.Int? = nil,
             ruleID: Swift.Int = 0,
             units: DrsClientTypes.PITPolicyRuleUnits? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.interval = interval
             self.retentionDuration = retentionDuration
@@ -2376,8 +2331,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
@@ -2456,8 +2410,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -2501,8 +2454,7 @@ public struct CreateSourceNetworkInput: Swift.Sendable {
         originRegion: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcID: Swift.String? = nil
-    )
-    {
+    ) {
         self.originAccountID = originAccountID
         self.originRegion = originRegion
         self.tags = tags
@@ -2521,8 +2473,7 @@ public struct CreateSourceNetworkOutput: Swift.Sendable {
 
     public init(
         sourceNetworkID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceNetworkID = sourceNetworkID
     }
 }
@@ -2534,8 +2485,7 @@ public struct DeleteJobInput: Swift.Sendable {
 
     public init(
         jobID: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobID = jobID
     }
 }
@@ -2556,8 +2506,7 @@ public struct DeleteLaunchActionInput: Swift.Sendable {
     public init(
         actionId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionId = actionId
         self.resourceId = resourceId
     }
@@ -2575,8 +2524,7 @@ public struct DeleteLaunchConfigurationTemplateInput: Swift.Sendable {
 
     public init(
         launchConfigurationTemplateID: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
     }
 }
@@ -2593,8 +2541,7 @@ public struct DeleteRecoveryInstanceInput: Swift.Sendable {
 
     public init(
         recoveryInstanceID: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryInstanceID = recoveryInstanceID
     }
 }
@@ -2606,8 +2553,7 @@ public struct DeleteReplicationConfigurationTemplateInput: Swift.Sendable {
 
     public init(
         replicationConfigurationTemplateID: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
     }
 }
@@ -2624,8 +2570,7 @@ public struct DeleteSourceNetworkInput: Swift.Sendable {
 
     public init(
         sourceNetworkID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceNetworkID = sourceNetworkID
     }
 }
@@ -2642,8 +2587,7 @@ public struct DeleteSourceServerInput: Swift.Sendable {
 
     public init(
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceServerID = sourceServerID
     }
 }
@@ -2666,8 +2610,7 @@ public struct DescribeJobLogItemsInput: Swift.Sendable {
         jobID: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobID = jobID
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2796,8 +2739,7 @@ extension DrsClientTypes {
             sourceVpc: Swift.String? = nil,
             stackName: Swift.String? = nil,
             targetVpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceNetworkID = sourceNetworkID
             self.sourceVpc = sourceVpc
             self.stackName = stackName
@@ -2840,8 +2782,7 @@ extension DrsClientTypes {
             rawError: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             targetInstanceID: Swift.String? = nil
-        )
-        {
+        ) {
             self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
             self.eventResourceData = eventResourceData
@@ -2867,8 +2808,7 @@ extension DrsClientTypes {
             event: DrsClientTypes.JobLogEvent? = nil,
             eventData: DrsClientTypes.JobLogEventData? = nil,
             logDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.event = event
             self.eventData = eventData
             self.logDateTime = logDateTime
@@ -2885,8 +2825,7 @@ public struct DescribeJobLogItemsOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.JobLog]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2907,8 +2846,7 @@ extension DrsClientTypes {
             fromDate: Swift.String? = nil,
             jobIDs: [Swift.String]? = nil,
             toDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.fromDate = fromDate
             self.jobIDs = jobIDs
             self.toDate = toDate
@@ -2928,8 +2866,7 @@ public struct DescribeJobsInput: Swift.Sendable {
         filters: DrsClientTypes.DescribeJobsRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2945,8 +2882,7 @@ public struct DescribeJobsOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2964,8 +2900,7 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Sendable {
         launchConfigurationTemplateIDs: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchConfigurationTemplateIDs = launchConfigurationTemplateIDs
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2981,8 +2916,7 @@ public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.LaunchConfigurationTemplate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3000,8 +2934,7 @@ extension DrsClientTypes {
         public init(
             recoveryInstanceIDs: [Swift.String]? = nil,
             sourceServerIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.recoveryInstanceIDs = recoveryInstanceIDs
             self.sourceServerIDs = sourceServerIDs
         }
@@ -3020,8 +2953,7 @@ public struct DescribeRecoveryInstancesInput: Swift.Sendable {
         filters: DrsClientTypes.DescribeRecoveryInstancesRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3126,8 +3058,7 @@ extension DrsClientTypes {
         public init(
             error: DrsClientTypes.FailbackReplicationError? = nil,
             rawError: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.rawError = rawError
         }
@@ -3261,8 +3192,7 @@ extension DrsClientTypes {
         public init(
             name: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStepName? = nil,
             status: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStepStatus? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -3281,8 +3211,7 @@ extension DrsClientTypes {
         public init(
             startDateTime: Swift.String? = nil,
             steps: [DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep]? = nil
-        )
-        {
+        ) {
             self.startDateTime = startDateTime
             self.steps = steps
         }
@@ -3369,8 +3298,7 @@ extension DrsClientTypes {
             replicatedStorageBytes: Swift.Int = 0,
             rescannedStorageBytes: Swift.Int = 0,
             totalStorageBytes: Swift.Int = 0
-        )
-        {
+        ) {
             self.backloggedStorageBytes = backloggedStorageBytes
             self.deviceName = deviceName
             self.replicatedStorageBytes = replicatedStorageBytes
@@ -3410,8 +3338,7 @@ extension DrsClientTypes {
             replicatedDisks: [DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil,
             stagingAvailabilityZone: Swift.String? = nil,
             stagingOutpostArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
@@ -3577,8 +3504,7 @@ extension DrsClientTypes {
             failbackToOriginalServer: Swift.Bool? = nil,
             firstByteDateTime: Swift.String? = nil,
             state: DrsClientTypes.FailbackState? = nil
-        )
-        {
+        ) {
             self.agentLastSeenByServiceDateTime = agentLastSeenByServiceDateTime
             self.elapsedReplicationDuration = elapsedReplicationDuration
             self.failbackClientID = failbackClientID
@@ -3637,8 +3563,7 @@ extension DrsClientTypes {
             bytes: Swift.Int = 0,
             ebsVolumeID: Swift.String? = nil,
             internalDeviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
             self.ebsVolumeID = ebsVolumeID
             self.internalDeviceName = internalDeviceName
@@ -3673,8 +3598,7 @@ extension DrsClientTypes {
             networkInterfaces: [DrsClientTypes.NetworkInterface]? = nil,
             os: DrsClientTypes.OS? = nil,
             ramBytes: Swift.Int = 0
-        )
-        {
+        ) {
             self.cpus = cpus
             self.disks = disks
             self.identificationHints = identificationHints
@@ -3740,8 +3664,7 @@ extension DrsClientTypes {
             sourceOutpostArn: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.agentVersion = agentVersion
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
@@ -3776,8 +3699,7 @@ public struct DescribeRecoveryInstancesOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.RecoveryInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3795,8 +3717,7 @@ extension DrsClientTypes {
         public init(
             fromDateTime: Swift.String? = nil,
             toDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.fromDateTime = fromDateTime
             self.toDateTime = toDateTime
         }
@@ -3851,8 +3772,7 @@ public struct DescribeRecoverySnapshotsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         order: DrsClientTypes.RecoverySnapshotsOrder? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3885,8 +3805,7 @@ extension DrsClientTypes {
             snapshotID: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.ebsSnapshots = ebsSnapshots
             self.expectedTimestamp = expectedTimestamp
             self.snapshotID = snapshotID
@@ -3905,8 +3824,7 @@ public struct DescribeRecoverySnapshotsOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.RecoverySnapshot]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3924,8 +3842,7 @@ public struct DescribeReplicationConfigurationTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicationConfigurationTemplateIDs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDs
@@ -3989,8 +3906,7 @@ extension DrsClientTypes {
             stagingAreaTags: [Swift.String: Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             useDedicatedReplicationServer: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -4026,8 +3942,7 @@ public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.ReplicationConfigurationTemplate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4048,8 +3963,7 @@ extension DrsClientTypes {
             originAccountID: Swift.String? = nil,
             originRegion: Swift.String? = nil,
             sourceNetworkIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.originAccountID = originAccountID
             self.originRegion = originRegion
             self.sourceNetworkIDs = sourceNetworkIDs
@@ -4069,8 +3983,7 @@ public struct DescribeSourceNetworksInput: Swift.Sendable {
         filters: DrsClientTypes.DescribeSourceNetworksRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4136,8 +4049,7 @@ extension DrsClientTypes {
             apiCallDateTime: Foundation.Date? = nil,
             jobID: Swift.String? = nil,
             lastRecoveryResult: DrsClientTypes.RecoveryResult? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
             self.lastRecoveryResult = lastRecoveryResult
@@ -4219,8 +4131,7 @@ extension DrsClientTypes {
             sourceRegion: Swift.String? = nil,
             sourceVpcID: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cfnStackName = cfnStackName
             self.lastRecovery = lastRecovery
@@ -4250,8 +4161,7 @@ public struct DescribeSourceNetworksOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.SourceNetwork]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4272,8 +4182,7 @@ extension DrsClientTypes {
             hardwareId: Swift.String? = nil,
             sourceServerIDs: [Swift.String]? = nil,
             stagingAccountIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.hardwareId = hardwareId
             self.sourceServerIDs = sourceServerIDs
             self.stagingAccountIDs = stagingAccountIDs
@@ -4293,8 +4202,7 @@ public struct DescribeSourceServersInput: Swift.Sendable {
         filters: DrsClientTypes.DescribeSourceServersRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4310,8 +4218,7 @@ public struct DescribeSourceServersOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.SourceServer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4324,8 +4231,7 @@ public struct DisconnectRecoveryInstanceInput: Swift.Sendable {
 
     public init(
         recoveryInstanceID: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryInstanceID = recoveryInstanceID
     }
 }
@@ -4337,8 +4243,7 @@ public struct DisconnectSourceServerInput: Swift.Sendable {
 
     public init(
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceServerID = sourceServerID
     }
 }
@@ -4388,8 +4293,7 @@ public struct DisconnectSourceServerOutput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingArea: DrsClientTypes.StagingArea? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
@@ -4453,8 +4357,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         licensing: DrsClientTypes.Licensing? = nil,
         postLaunchEnabled: Swift.Bool? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.exportBucketArn = exportBucketArn
@@ -4473,8 +4376,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
 
     public init(
         launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate? = nil
-    )
-    {
+    ) {
         self.launchConfigurationTemplate = launchConfigurationTemplate
     }
 }
@@ -4492,8 +4394,7 @@ public struct ListExtensibleSourceServersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stagingAccountID: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stagingAccountID = stagingAccountID
@@ -4515,8 +4416,7 @@ extension DrsClientTypes {
             arn: Swift.String? = nil,
             hostname: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.hostname = hostname
             self.tags = tags
@@ -4538,8 +4438,7 @@ public struct ListExtensibleSourceServersOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.StagingSourceServer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4554,8 +4453,7 @@ extension DrsClientTypes {
 
         public init(
             actionIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionIds = actionIds
         }
     }
@@ -4577,8 +4475,7 @@ public struct ListLaunchActionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4595,8 +4492,7 @@ public struct ListLaunchActionsOutput: Swift.Sendable {
     public init(
         items: [DrsClientTypes.LaunchAction]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4611,8 +4507,7 @@ public struct ListStagingAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4627,8 +4522,7 @@ public struct ListStagingAccountsOutput: Swift.Sendable {
     public init(
         accounts: [DrsClientTypes.Account]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.nextToken = nextToken
     }
@@ -4641,8 +4535,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4653,8 +4546,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4710,8 +4602,7 @@ public struct PutLaunchActionInput: Swift.Sendable {
         order: Swift.Int? = nil,
         parameters: [Swift.String: DrsClientTypes.LaunchActionParameter]? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionCode = actionCode
         self.actionId = actionId
         self.actionVersion = actionVersion
@@ -4765,8 +4656,7 @@ public struct PutLaunchActionOutput: Swift.Sendable {
         parameters: [Swift.String: DrsClientTypes.LaunchActionParameter]? = nil,
         resourceId: Swift.String? = nil,
         type: DrsClientTypes.LaunchActionType? = nil
-    )
-    {
+    ) {
         self.actionCode = actionCode
         self.actionId = actionId
         self.actionVersion = actionVersion
@@ -4789,8 +4679,7 @@ public struct GetFailbackReplicationConfigurationInput: Swift.Sendable {
 
     public init(
         recoveryInstanceID: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryInstanceID = recoveryInstanceID
     }
 }
@@ -4811,8 +4700,7 @@ public struct GetFailbackReplicationConfigurationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         recoveryInstanceID: Swift.String? = nil,
         usePrivateIP: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.bandwidthThrottling = bandwidthThrottling
         self.name = name
         self.recoveryInstanceID = recoveryInstanceID
@@ -4827,8 +4715,7 @@ public struct ReverseReplicationInput: Swift.Sendable {
 
     public init(
         recoveryInstanceID: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryInstanceID = recoveryInstanceID
     }
 }
@@ -4839,8 +4726,7 @@ public struct ReverseReplicationOutput: Swift.Sendable {
 
     public init(
         reversedDirectionSourceServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
     }
 }
@@ -4855,8 +4741,7 @@ public struct StartFailbackLaunchInput: Swift.Sendable {
     public init(
         recoveryInstanceIDs: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.recoveryInstanceIDs = recoveryInstanceIDs
         self.tags = tags
     }
@@ -4873,8 +4758,7 @@ public struct StartFailbackLaunchOutput: Swift.Sendable {
 
     public init(
         job: DrsClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -4886,8 +4770,7 @@ public struct StopFailbackInput: Swift.Sendable {
 
     public init(
         recoveryInstanceID: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryInstanceID = recoveryInstanceID
     }
 }
@@ -4899,8 +4782,7 @@ public struct TerminateRecoveryInstancesInput: Swift.Sendable {
 
     public init(
         recoveryInstanceIDs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.recoveryInstanceIDs = recoveryInstanceIDs
     }
 }
@@ -4911,8 +4793,7 @@ public struct TerminateRecoveryInstancesOutput: Swift.Sendable {
 
     public init(
         job: DrsClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -4933,8 +4814,7 @@ public struct UpdateFailbackReplicationConfigurationInput: Swift.Sendable {
         name: Swift.String? = nil,
         recoveryInstanceID: Swift.String? = nil,
         usePrivateIP: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.bandwidthThrottling = bandwidthThrottling
         self.name = name
         self.recoveryInstanceID = recoveryInstanceID
@@ -4994,8 +4874,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -5075,8 +4954,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -5109,8 +4987,7 @@ public struct ExportSourceNetworkCfnTemplateInput: Swift.Sendable {
 
     public init(
         sourceNetworkID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceNetworkID = sourceNetworkID
     }
 }
@@ -5121,8 +4998,7 @@ public struct ExportSourceNetworkCfnTemplateOutput: Swift.Sendable {
 
     public init(
         s3DestinationUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3DestinationUrl = s3DestinationUrl
     }
 }
@@ -5140,8 +5016,7 @@ extension DrsClientTypes {
         public init(
             cfnStackName: Swift.String? = nil,
             sourceNetworkID: Swift.String? = nil
-        )
-        {
+        ) {
             self.cfnStackName = cfnStackName
             self.sourceNetworkID = sourceNetworkID
         }
@@ -5166,8 +5041,7 @@ public struct StartSourceNetworkRecoveryInput: Swift.Sendable {
         deployAsNew: Swift.Bool? = nil,
         sourceNetworks: [DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deployAsNew = deployAsNew
         self.sourceNetworks = sourceNetworks
         self.tags = tags
@@ -5185,8 +5059,7 @@ public struct StartSourceNetworkRecoveryOutput: Swift.Sendable {
 
     public init(
         job: DrsClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -5198,8 +5071,7 @@ public struct StartSourceNetworkReplicationInput: Swift.Sendable {
 
     public init(
         sourceNetworkID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceNetworkID = sourceNetworkID
     }
 }
@@ -5210,8 +5082,7 @@ public struct StartSourceNetworkReplicationOutput: Swift.Sendable {
 
     public init(
         sourceNetwork: DrsClientTypes.SourceNetwork? = nil
-    )
-    {
+    ) {
         self.sourceNetwork = sourceNetwork
     }
 }
@@ -5223,8 +5094,7 @@ public struct StopSourceNetworkReplicationInput: Swift.Sendable {
 
     public init(
         sourceNetworkID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceNetworkID = sourceNetworkID
     }
 }
@@ -5235,8 +5105,7 @@ public struct StopSourceNetworkReplicationOutput: Swift.Sendable {
 
     public init(
         sourceNetwork: DrsClientTypes.SourceNetwork? = nil
-    )
-    {
+    ) {
         self.sourceNetwork = sourceNetwork
     }
 }
@@ -5248,8 +5117,7 @@ public struct GetLaunchConfigurationInput: Swift.Sendable {
 
     public init(
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceServerID = sourceServerID
     }
 }
@@ -5263,8 +5131,7 @@ extension DrsClientTypes {
 
         public init(
             launchIntoEC2InstanceID: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchIntoEC2InstanceID = launchIntoEC2InstanceID
         }
     }
@@ -5303,8 +5170,7 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
         postLaunchEnabled: Swift.Bool? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.ec2LaunchTemplateID = ec2LaunchTemplateID
@@ -5325,8 +5191,7 @@ public struct GetReplicationConfigurationInput: Swift.Sendable {
 
     public init(
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceServerID = sourceServerID
     }
 }
@@ -5399,8 +5264,7 @@ extension DrsClientTypes {
             optimizedStagingDiskType: DrsClientTypes.ReplicationConfigurationReplicatedDiskStagingDiskType? = nil,
             stagingDiskType: DrsClientTypes.ReplicationConfigurationReplicatedDiskStagingDiskType? = nil,
             throughput: Swift.Int = 0
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.iops = iops
             self.isBootDisk = isBootDisk
@@ -5465,8 +5329,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
@@ -5500,8 +5363,7 @@ public struct RetryDataReplicationInput: Swift.Sendable {
 
     public init(
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceServerID = sourceServerID
     }
 }
@@ -5551,8 +5413,7 @@ public struct RetryDataReplicationOutput: Swift.Sendable {
         sourceServerID: Swift.String? = nil,
         stagingArea: DrsClientTypes.StagingArea? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
@@ -5588,8 +5449,7 @@ extension DrsClientTypes {
         public init(
             recoverySnapshotID: Swift.String? = nil,
             sourceServerID: Swift.String? = nil
-        )
-        {
+        ) {
             self.recoverySnapshotID = recoverySnapshotID
             self.sourceServerID = sourceServerID
         }
@@ -5609,8 +5469,7 @@ public struct StartRecoveryInput: Swift.Sendable {
         isDrill: Swift.Bool? = nil,
         sourceServers: [DrsClientTypes.StartRecoveryRequestSourceServer]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.isDrill = isDrill
         self.sourceServers = sourceServers
         self.tags = tags
@@ -5628,8 +5487,7 @@ public struct StartRecoveryOutput: Swift.Sendable {
 
     public init(
         job: DrsClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -5641,8 +5499,7 @@ public struct StartReplicationInput: Swift.Sendable {
 
     public init(
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceServerID = sourceServerID
     }
 }
@@ -5653,8 +5510,7 @@ public struct StartReplicationOutput: Swift.Sendable {
 
     public init(
         sourceServer: DrsClientTypes.SourceServer? = nil
-    )
-    {
+    ) {
         self.sourceServer = sourceServer
     }
 }
@@ -5666,8 +5522,7 @@ public struct StopReplicationInput: Swift.Sendable {
 
     public init(
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceServerID = sourceServerID
     }
 }
@@ -5678,8 +5533,7 @@ public struct StopReplicationOutput: Swift.Sendable {
 
     public init(
         sourceServer: DrsClientTypes.SourceServer? = nil
-    )
-    {
+    ) {
         self.sourceServer = sourceServer
     }
 }
@@ -5715,8 +5569,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
         postLaunchEnabled: Swift.Bool? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.launchDisposition = launchDisposition
@@ -5762,8 +5615,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
         postLaunchEnabled: Swift.Bool? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.ec2LaunchTemplateID = ec2LaunchTemplateID
@@ -5832,8 +5684,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
@@ -5913,8 +5764,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         stagingAreaSubnetId: Swift.String? = nil,
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
@@ -5951,8 +5801,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5974,8 +5823,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

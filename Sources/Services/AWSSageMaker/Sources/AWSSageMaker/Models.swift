@@ -348,8 +348,7 @@ extension SageMakerClientTypes {
             sourceId: Swift.String? = nil,
             sourceType: Swift.String? = nil,
             sourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceId = sourceId
             self.sourceType = sourceType
             self.sourceUri = sourceUri
@@ -425,8 +424,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ActionSource? = nil,
             status: SageMakerClientTypes.ActionStatus? = nil
-        )
-        {
+        ) {
             self.actionArn = actionArn
             self.actionName = actionName
             self.actionType = actionType
@@ -485,8 +483,7 @@ public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -509,8 +506,7 @@ public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -575,8 +571,7 @@ public struct AddAssociationInput: Swift.Sendable {
         associationType: SageMakerClientTypes.AssociationEdgeType? = nil,
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationType = associationType
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
@@ -592,8 +587,7 @@ public struct AddAssociationOutput: Swift.Sendable {
     public init(
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
     }
@@ -663,6 +657,8 @@ extension SageMakerClientTypes {
     public struct AdditionalS3DataSource: Swift.Sendable {
         /// The type of compression used for an additional data source used in inference or training. Specify None if your additional data source is not compressed.
         public var compressionType: SageMakerClientTypes.CompressionType?
+        /// The ETag associated with S3 URI.
+        public var eTag: Swift.String?
         /// The data type of the additional data source that you specify for use in inference or training.
         /// This member is required.
         public var s3DataType: SageMakerClientTypes.AdditionalS3DataSourceDataType?
@@ -672,11 +668,12 @@ extension SageMakerClientTypes {
 
         public init(
             compressionType: SageMakerClientTypes.CompressionType? = nil,
+            eTag: Swift.String? = nil,
             s3DataType: SageMakerClientTypes.AdditionalS3DataSourceDataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -722,8 +719,7 @@ extension SageMakerClientTypes {
 
         public init(
             hubContentArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.hubContentArn = hubContentArn
         }
     }
@@ -743,8 +739,7 @@ extension SageMakerClientTypes {
 
         public init(
             acceptEula: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.acceptEula = acceptEula
         }
     }
@@ -809,8 +804,12 @@ extension SageMakerClientTypes {
         /// * Do not organize the model artifacts in [S3 console using folders](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html). When you create a folder in S3 console, S3 creates a 0-byte object with a key set to the folder name you provide. They key of the 0-byte object ends with a slash (/) which violates SageMaker restrictions on model artifact file names, leading to model deployment failure.
         /// This member is required.
         public var compressionType: SageMakerClientTypes.ModelCompressionType?
+        /// The ETag associated with S3 URI.
+        public var eTag: Swift.String?
         /// Configuration information for hub access.
         public var hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig?
+        /// The ETag associated with Manifest S3 URI.
+        public var manifestEtag: Swift.String?
         /// The Amazon S3 URI of the manifest file. The manifest file is a CSV file that stores the artifact locations.
         public var manifestS3Uri: Swift.String?
         /// Specifies the access configuration file for the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
@@ -824,15 +823,18 @@ extension SageMakerClientTypes {
 
         public init(
             compressionType: SageMakerClientTypes.ModelCompressionType? = nil,
+            eTag: Swift.String? = nil,
             hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig? = nil,
+            manifestEtag: Swift.String? = nil,
             manifestS3Uri: Swift.String? = nil,
             modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataType: SageMakerClientTypes.S3ModelDataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.hubAccessConfig = hubAccessConfig
+            self.manifestEtag = manifestEtag
             self.manifestS3Uri = manifestS3Uri
             self.modelAccessConfig = modelAccessConfig
             self.s3DataType = s3DataType
@@ -850,8 +852,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3DataSource: SageMakerClientTypes.S3ModelDataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -867,8 +868,7 @@ extension SageMakerClientTypes {
 
         public init(
             dataInputConfig: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataInputConfig = dataInputConfig
         }
     }
@@ -888,11 +888,13 @@ extension SageMakerClientTypes {
         public var framework: Swift.String?
         /// The framework version of the Model Package Container Image.
         public var frameworkVersion: Swift.String?
-        /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+        /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
         /// This member is required.
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public var imageDigest: Swift.String?
+        /// The ETag associated with Model Data URL.
+        public var modelDataETag: Swift.String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public var modelDataSource: SageMakerClientTypes.ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The model artifacts must be in an S3 bucket that is in the same region as the model package.
@@ -912,13 +914,13 @@ extension SageMakerClientTypes {
             frameworkVersion: Swift.String? = nil,
             image: Swift.String? = nil,
             imageDigest: Swift.String? = nil,
+            modelDataETag: Swift.String? = nil,
             modelDataSource: SageMakerClientTypes.ModelDataSource? = nil,
             modelDataUrl: Swift.String? = nil,
             modelInput: SageMakerClientTypes.ModelInput? = nil,
             nearestModelName: Swift.String? = nil,
             productId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalS3DataSource = additionalS3DataSource
             self.containerHostname = containerHostname
             self.environment = environment
@@ -926,6 +928,7 @@ extension SageMakerClientTypes {
             self.frameworkVersion = frameworkVersion
             self.image = image
             self.imageDigest = imageDigest
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
             self.modelInput = modelInput
@@ -1949,8 +1952,7 @@ extension SageMakerClientTypes {
             supportedRealtimeInferenceInstanceTypes: [SageMakerClientTypes.ProductionVariantInstanceType]? = nil,
             supportedResponseMIMETypes: [Swift.String]? = nil,
             supportedTransformInstanceTypes: [SageMakerClientTypes.TransformInstanceType]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.description = description
             self.name = name
@@ -1976,8 +1978,7 @@ extension SageMakerClientTypes {
         public init(
             channelName: Swift.String? = nil,
             s3DataSource: SageMakerClientTypes.S3ModelDataSource? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.s3DataSource = s3DataSource
         }
@@ -1998,8 +1999,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2017,8 +2017,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2030,8 +2029,7 @@ public struct AddTagsOutput: Swift.Sendable {
 
     public init(
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2050,8 +2048,7 @@ extension SageMakerClientTypes {
         public init(
             agentCount: Swift.Int? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentCount = agentCount
             self.version = version
         }
@@ -2105,8 +2102,7 @@ extension SageMakerClientTypes {
 
         public init(
             alarmName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmName = alarmName
         }
     }
@@ -2155,8 +2151,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regex = regex
         }
@@ -2202,8 +2197,7 @@ extension SageMakerClientTypes {
 
         public init(
             trainingRepositoryCredentialsProviderArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.trainingRepositoryCredentialsProviderArn = trainingRepositoryCredentialsProviderArn
         }
     }
@@ -2222,8 +2216,7 @@ extension SageMakerClientTypes {
         public init(
             trainingRepositoryAccessMode: SageMakerClientTypes.TrainingRepositoryAccessMode? = nil,
             trainingRepositoryAuthConfig: SageMakerClientTypes.TrainingRepositoryAuthConfig? = nil
-        )
-        {
+        ) {
             self.trainingRepositoryAccessMode = trainingRepositoryAccessMode
             self.trainingRepositoryAuthConfig = trainingRepositoryAuthConfig
         }
@@ -2309,8 +2302,7 @@ extension SageMakerClientTypes {
             trainingImage: Swift.String? = nil,
             trainingImageConfig: SageMakerClientTypes.TrainingImageConfig? = nil,
             trainingInputMode: SageMakerClientTypes.TrainingInputMode? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
@@ -2413,8 +2405,7 @@ extension SageMakerClientTypes {
             failureReason: Swift.String? = nil,
             name: Swift.String? = nil,
             status: SageMakerClientTypes.DetailedAlgorithmStatus? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.name = name
             self.status = status
@@ -2434,8 +2425,7 @@ extension SageMakerClientTypes {
         public init(
             imageScanStatuses: [SageMakerClientTypes.AlgorithmStatusItem]? = nil,
             validationStatuses: [SageMakerClientTypes.AlgorithmStatusItem]? = nil
-        )
-        {
+        ) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
         }
@@ -2467,8 +2457,7 @@ extension SageMakerClientTypes {
             algorithmName: Swift.String? = nil,
             algorithmStatus: SageMakerClientTypes.AlgorithmStatus? = nil,
             creationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
@@ -2558,8 +2547,7 @@ extension SageMakerClientTypes {
             fileSystemAccessMode: SageMakerClientTypes.FileSystemAccessMode? = nil,
             fileSystemId: Swift.String? = nil,
             fileSystemType: SageMakerClientTypes.FileSystemType? = nil
-        )
-        {
+        ) {
             self.directoryPath = directoryPath
             self.fileSystemAccessMode = fileSystemAccessMode
             self.fileSystemId = fileSystemId
@@ -2659,8 +2647,7 @@ extension SageMakerClientTypes {
             s3DataDistributionType: SageMakerClientTypes.S3DataDistribution? = nil,
             s3DataType: SageMakerClientTypes.S3DataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeNames = attributeNames
             self.instanceGroupNames = instanceGroupNames
             self.s3DataDistributionType = s3DataDistributionType
@@ -2682,8 +2669,7 @@ extension SageMakerClientTypes {
         public init(
             fileSystemDataSource: SageMakerClientTypes.FileSystemDataSource? = nil,
             s3DataSource: SageMakerClientTypes.S3DataSource? = nil
-        )
-        {
+        ) {
             self.fileSystemDataSource = fileSystemDataSource
             self.s3DataSource = s3DataSource
         }
@@ -2729,8 +2715,7 @@ extension SageMakerClientTypes {
 
         public init(
             seed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.seed = seed
         }
     }
@@ -2765,8 +2750,7 @@ extension SageMakerClientTypes {
             inputMode: SageMakerClientTypes.TrainingInputMode? = nil,
             recordWrapperType: SageMakerClientTypes.RecordWrapper? = nil,
             shuffleConfig: SageMakerClientTypes.ShuffleConfig? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.compressionType = compressionType
             self.contentType = contentType
@@ -2834,8 +2818,7 @@ extension SageMakerClientTypes {
             compressionType: SageMakerClientTypes.OutputCompressionType? = nil,
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -3208,8 +3191,7 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceType = instanceType
@@ -3256,8 +3238,7 @@ extension SageMakerClientTypes {
             trainingPlanArn: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceGroups = instanceGroups
             self.instanceType = instanceType
@@ -3284,8 +3265,7 @@ extension SageMakerClientTypes {
             maxPendingTimeInSeconds: Swift.Int? = nil,
             maxRuntimeInSeconds: Swift.Int? = nil,
             maxWaitTimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxPendingTimeInSeconds = maxPendingTimeInSeconds
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
             self.maxWaitTimeInSeconds = maxWaitTimeInSeconds
@@ -3322,8 +3302,7 @@ extension SageMakerClientTypes {
             resourceConfig: SageMakerClientTypes.ResourceConfig? = nil,
             stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
             trainingInputMode: SageMakerClientTypes.TrainingInputMode? = nil
-        )
-        {
+        ) {
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
             self.outputDataConfig = outputDataConfig
@@ -3381,8 +3360,7 @@ extension SageMakerClientTypes {
         public init(
             s3DataType: SageMakerClientTypes.S3DataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -3399,8 +3377,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3DataSource: SageMakerClientTypes.TransformS3DataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -3467,8 +3444,7 @@ extension SageMakerClientTypes {
             contentType: Swift.String? = nil,
             dataSource: SageMakerClientTypes.TransformDataSource? = nil,
             splitType: SageMakerClientTypes.SplitType? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
             self.contentType = contentType
             self.dataSource = dataSource
@@ -3536,8 +3512,7 @@ extension SageMakerClientTypes {
             assembleWith: SageMakerClientTypes.AssemblyType? = nil,
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.accept = accept
             self.assembleWith = assembleWith
             self.kmsKeyId = kmsKeyId
@@ -3571,8 +3546,7 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.TransformInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -3610,8 +3584,7 @@ extension SageMakerClientTypes {
             transformInput: SageMakerClientTypes.TransformInput? = nil,
             transformOutput: SageMakerClientTypes.TransformOutput? = nil,
             transformResources: SageMakerClientTypes.TransformResources? = nil
-        )
-        {
+        ) {
             self.batchStrategy = batchStrategy
             self.environment = environment
             self.maxConcurrentTransforms = maxConcurrentTransforms
@@ -3640,8 +3613,7 @@ extension SageMakerClientTypes {
             profileName: Swift.String? = nil,
             trainingJobDefinition: SageMakerClientTypes.TrainingJobDefinition? = nil,
             transformJobDefinition: SageMakerClientTypes.TransformJobDefinition? = nil
-        )
-        {
+        ) {
             self.profileName = profileName
             self.trainingJobDefinition = trainingJobDefinition
             self.transformJobDefinition = transformJobDefinition
@@ -3663,8 +3635,7 @@ extension SageMakerClientTypes {
         public init(
             validationProfiles: [SageMakerClientTypes.AlgorithmValidationProfile]? = nil,
             validationRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
         }
@@ -3712,8 +3683,7 @@ extension SageMakerClientTypes {
         public init(
             qProfileArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.qProfileArn = qProfileArn
             self.status = status
         }
@@ -4323,8 +4293,7 @@ extension SageMakerClientTypes {
 
         public init(
             annotationConsolidationLambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
         }
     }
@@ -4907,8 +4876,7 @@ extension SageMakerClientTypes {
             sageMakerImageArn: Swift.String? = nil,
             sageMakerImageVersionAlias: Swift.String? = nil,
             sageMakerImageVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.lifecycleConfigArn = lifecycleConfigArn
             self.sageMakerImageArn = sageMakerImageArn
@@ -4986,8 +4954,7 @@ extension SageMakerClientTypes {
             spaceName: Swift.String? = nil,
             status: SageMakerClientTypes.AppStatus? = nil,
             userProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appName = appName
             self.appType = appType
             self.creationTime = creationTime
@@ -5015,8 +4982,7 @@ extension SageMakerClientTypes {
             containerArguments: [Swift.String]? = nil,
             containerEntrypoint: [Swift.String]? = nil,
             containerEnvironmentVariables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.containerEnvironmentVariables = containerEnvironmentVariables
@@ -5039,8 +5005,7 @@ extension SageMakerClientTypes {
             defaultGid: Swift.Int? = nil,
             defaultUid: Swift.Int? = nil,
             mountPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultGid = defaultGid
             self.defaultUid = defaultUid
             self.mountPath = mountPath
@@ -5060,8 +5025,7 @@ extension SageMakerClientTypes {
         public init(
             containerConfig: SageMakerClientTypes.ContainerConfig? = nil,
             fileSystemConfig: SageMakerClientTypes.FileSystemConfig? = nil
-        )
-        {
+        ) {
             self.containerConfig = containerConfig
             self.fileSystemConfig = fileSystemConfig
         }
@@ -5080,8 +5044,7 @@ extension SageMakerClientTypes {
         public init(
             containerConfig: SageMakerClientTypes.ContainerConfig? = nil,
             fileSystemConfig: SageMakerClientTypes.FileSystemConfig? = nil
-        )
-        {
+        ) {
             self.containerConfig = containerConfig
             self.fileSystemConfig = fileSystemConfig
         }
@@ -5101,8 +5064,7 @@ extension SageMakerClientTypes {
         public init(
             displayName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.name = name
         }
@@ -5122,8 +5084,7 @@ extension SageMakerClientTypes {
         public init(
             fileSystemConfig: SageMakerClientTypes.FileSystemConfig? = nil,
             kernelSpecs: [SageMakerClientTypes.KernelSpec]? = nil
-        )
-        {
+        ) {
             self.fileSystemConfig = fileSystemConfig
             self.kernelSpecs = kernelSpecs
         }
@@ -5157,8 +5118,7 @@ extension SageMakerClientTypes {
             jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
             kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.appImageConfigArn = appImageConfigArn
             self.appImageConfigName = appImageConfigName
             self.codeEditorAppImageConfig = codeEditorAppImageConfig
@@ -5249,8 +5209,7 @@ extension SageMakerClientTypes {
             lifecycleManagement: SageMakerClientTypes.LifecycleManagement? = nil,
             maxIdleTimeoutInMinutes: Swift.Int? = nil,
             minIdleTimeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeoutInMinutes = idleTimeoutInMinutes
             self.lifecycleManagement = lifecycleManagement
             self.maxIdleTimeoutInMinutes = maxIdleTimeoutInMinutes
@@ -5268,8 +5227,7 @@ extension SageMakerClientTypes {
 
         public init(
             idleSettings: SageMakerClientTypes.IdleSettings? = nil
-        )
-        {
+        ) {
             self.idleSettings = idleSettings
         }
     }
@@ -5375,8 +5333,7 @@ extension SageMakerClientTypes {
             containerArguments: [Swift.String]? = nil,
             containerEntrypoint: [Swift.String]? = nil,
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.imageUri = imageUri
@@ -5433,8 +5390,7 @@ extension SageMakerClientTypes {
         public init(
             sourceIdType: SageMakerClientTypes.ArtifactSourceIdType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceIdType = sourceIdType
             self.value = value
         }
@@ -5454,8 +5410,7 @@ extension SageMakerClientTypes {
         public init(
             sourceTypes: [SageMakerClientTypes.ArtifactSourceType]? = nil,
             sourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceTypes = sourceTypes
             self.sourceUri = sourceUri
         }
@@ -5486,8 +5441,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ArtifactSource? = nil
-        )
-        {
+        ) {
             self.artifactArn = artifactArn
             self.artifactName = artifactName
             self.artifactType = artifactType
@@ -5509,8 +5463,7 @@ public struct AssociateTrialComponentInput: Swift.Sendable {
     public init(
         trialComponentName: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
         self.trialName = trialName
     }
@@ -5525,8 +5478,7 @@ public struct AssociateTrialComponentOutput: Swift.Sendable {
     public init(
         trialArn: Swift.String? = nil,
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
         self.trialComponentArn = trialComponentArn
     }
@@ -5547,8 +5499,7 @@ extension SageMakerClientTypes {
             arn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             sourceIdentity: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.principalId = principalId
             self.sourceIdentity = sourceIdentity
@@ -5574,8 +5525,7 @@ extension SageMakerClientTypes {
             iamIdentity: SageMakerClientTypes.IamIdentity? = nil,
             userProfileArn: Swift.String? = nil,
             userProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainId = domainId
             self.iamIdentity = iamIdentity
             self.userProfileArn = userProfileArn
@@ -5617,8 +5567,7 @@ extension SageMakerClientTypes {
             sourceArn: Swift.String? = nil,
             sourceName: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationType = associationType
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -5641,8 +5590,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxConcurrentInvocationsPerInstance: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrentInvocationsPerInstance = maxConcurrentInvocationsPerInstance
         }
     }
@@ -5692,8 +5640,7 @@ extension SageMakerClientTypes {
             errorTopic: Swift.String? = nil,
             includeInferenceResponseIn: [SageMakerClientTypes.AsyncNotificationTopicTypes]? = nil,
             successTopic: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorTopic = errorTopic
             self.includeInferenceResponseIn = includeInferenceResponseIn
             self.successTopic = successTopic
@@ -5719,8 +5666,7 @@ extension SageMakerClientTypes {
             notificationConfig: SageMakerClientTypes.AsyncInferenceNotificationConfig? = nil,
             s3FailurePath: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.notificationConfig = notificationConfig
             self.s3FailurePath = s3FailurePath
@@ -5742,8 +5688,7 @@ extension SageMakerClientTypes {
         public init(
             clientConfig: SageMakerClientTypes.AsyncInferenceClientConfig? = nil,
             outputConfig: SageMakerClientTypes.AsyncInferenceOutputConfig? = nil
-        )
-        {
+        ) {
             self.clientConfig = clientConfig
             self.outputConfig = outputConfig
         }
@@ -5857,8 +5802,7 @@ extension SageMakerClientTypes {
             outputS3Uri: Swift.String? = nil,
             queryString: Swift.String? = nil,
             workGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.database = database
             self.kmsKeyId = kmsKeyId
@@ -6031,8 +5975,7 @@ extension SageMakerClientTypes {
 
         public init(
             autoMLAlgorithms: [SageMakerClientTypes.AutoMLAlgorithm]? = nil
-        )
-        {
+        ) {
             self.autoMLAlgorithms = autoMLAlgorithms
         }
     }
@@ -6054,8 +5997,7 @@ extension SageMakerClientTypes {
             backtestResults: Swift.String? = nil,
             explainability: Swift.String? = nil,
             modelInsights: Swift.String? = nil
-        )
-        {
+        ) {
             self.backtestResults = backtestResults
             self.explainability = explainability
             self.modelInsights = modelInsights
@@ -6288,8 +6230,7 @@ extension SageMakerClientTypes {
             `set`: SageMakerClientTypes.MetricSetSource? = nil,
             standardMetricName: SageMakerClientTypes.AutoMLMetricExtendedEnum? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.`set` = `set`
             self.standardMetricName = standardMetricName
@@ -6310,8 +6251,7 @@ extension SageMakerClientTypes {
         public init(
             candidateArtifactLocations: SageMakerClientTypes.CandidateArtifactLocations? = nil,
             candidateMetrics: [SageMakerClientTypes.MetricDatum]? = nil
-        )
-        {
+        ) {
             self.candidateArtifactLocations = candidateArtifactLocations
             self.candidateMetrics = candidateMetrics
         }
@@ -6406,8 +6346,7 @@ extension SageMakerClientTypes {
             candidateStepArn: Swift.String? = nil,
             candidateStepName: Swift.String? = nil,
             candidateStepType: SageMakerClientTypes.CandidateStepType? = nil
-        )
-        {
+        ) {
             self.candidateStepArn = candidateStepArn
             self.candidateStepName = candidateStepName
             self.candidateStepType = candidateStepType
@@ -6464,8 +6403,7 @@ extension SageMakerClientTypes {
             standardMetricName: SageMakerClientTypes.AutoMLMetricEnum? = nil,
             type: SageMakerClientTypes.AutoMLJobObjectiveType? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.standardMetricName = standardMetricName
             self.type = type
@@ -6520,8 +6458,7 @@ extension SageMakerClientTypes {
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil,
             modelDataUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.environment = environment
             self.image = image
             self.modelDataUrl = modelDataUrl
@@ -6609,8 +6546,7 @@ extension SageMakerClientTypes {
             inferenceContainers: [SageMakerClientTypes.AutoMLContainerDefinition]? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             objectiveStatus: SageMakerClientTypes.ObjectiveStatus? = nil
-        )
-        {
+        ) {
             self.candidateName = candidateName
             self.candidateProperties = candidateProperties
             self.candidateStatus = candidateStatus
@@ -6648,8 +6584,7 @@ extension SageMakerClientTypes {
         public init(
             algorithmsConfig: [SageMakerClientTypes.AutoMLAlgorithmConfig]? = nil,
             featureSpecificationS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithmsConfig = algorithmsConfig
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
         }
@@ -6737,8 +6672,7 @@ extension SageMakerClientTypes {
         public init(
             s3DataType: SageMakerClientTypes.AutoMLS3DataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -6755,8 +6689,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3DataSource: SageMakerClientTypes.AutoMLS3DataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -6787,8 +6720,7 @@ extension SageMakerClientTypes {
             dataSource: SageMakerClientTypes.AutoMLDataSource? = nil,
             sampleWeightAttributeName: Swift.String? = nil,
             targetAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelType = channelType
             self.compressionType = compressionType
             self.contentType = contentType
@@ -6809,8 +6741,7 @@ extension SageMakerClientTypes {
 
         public init(
             executionRoleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionRoleARN = executionRoleARN
         }
     }
@@ -6825,8 +6756,7 @@ extension SageMakerClientTypes {
 
         public init(
             emrServerlessComputeConfig: SageMakerClientTypes.EmrServerlessComputeConfig? = nil
-        )
-        {
+        ) {
             self.emrServerlessComputeConfig = emrServerlessComputeConfig
         }
     }
@@ -6841,8 +6771,7 @@ extension SageMakerClientTypes {
 
         public init(
             validationFraction: Swift.Float? = nil
-        )
-        {
+        ) {
             self.validationFraction = validationFraction
         }
     }
@@ -6860,8 +6789,7 @@ extension SageMakerClientTypes {
         public init(
             candidateDefinitionNotebookLocation: Swift.String? = nil,
             dataExplorationNotebookLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.candidateDefinitionNotebookLocation = candidateDefinitionNotebookLocation
             self.dataExplorationNotebookLocation = dataExplorationNotebookLocation
         }
@@ -6896,8 +6824,7 @@ extension SageMakerClientTypes {
             compressionType: SageMakerClientTypes.CompressionType? = nil,
             contentType: Swift.String? = nil,
             dataSource: SageMakerClientTypes.AutoMLDataSource? = nil
-        )
-        {
+        ) {
             self.channelType = channelType
             self.compressionType = compressionType
             self.contentType = contentType
@@ -6921,8 +6848,7 @@ extension SageMakerClientTypes {
             maxAutoMLJobRuntimeInSeconds: Swift.Int? = nil,
             maxCandidates: Swift.Int? = nil,
             maxRuntimePerTrainingJobInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxAutoMLJobRuntimeInSeconds = maxAutoMLJobRuntimeInSeconds
             self.maxCandidates = maxCandidates
             self.maxRuntimePerTrainingJobInSeconds = maxRuntimePerTrainingJobInSeconds
@@ -6976,8 +6902,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -6999,8 +6924,7 @@ extension SageMakerClientTypes {
             enableInterContainerTrafficEncryption: Swift.Bool? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
@@ -7029,8 +6953,7 @@ extension SageMakerClientTypes {
             dataSplitConfig: SageMakerClientTypes.AutoMLDataSplitConfig? = nil,
             mode: SageMakerClientTypes.AutoMLMode? = nil,
             securityConfig: SageMakerClientTypes.AutoMLSecurityConfig? = nil
-        )
-        {
+        ) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.dataSplitConfig = dataSplitConfig
@@ -7097,8 +7020,7 @@ extension SageMakerClientTypes {
 
         public init(
             metricName: SageMakerClientTypes.AutoMLMetricEnum? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
         }
     }
@@ -7231,8 +7153,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -7247,8 +7168,7 @@ extension SageMakerClientTypes {
 
         public init(
             partialFailureMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.partialFailureMessage = partialFailureMessage
         }
     }
@@ -7293,8 +7213,7 @@ extension SageMakerClientTypes {
             failureReason: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             partialFailureReasons: [SageMakerClientTypes.AutoMLPartialFailureReason]? = nil
-        )
-        {
+        ) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobName = autoMLJobName
             self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
@@ -7321,8 +7240,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
         }
@@ -7338,8 +7256,7 @@ extension SageMakerClientTypes {
 
         public init(
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil
-        )
-        {
+        ) {
             self.completionCriteria = completionCriteria
         }
     }
@@ -7371,8 +7288,7 @@ extension SageMakerClientTypes {
 
         public init(
             algorithmsConfig: [SageMakerClientTypes.AutoMLAlgorithmConfig]? = nil
-        )
-        {
+        ) {
             self.algorithmsConfig = algorithmsConfig
         }
     }
@@ -7441,8 +7357,7 @@ extension SageMakerClientTypes {
             problemType: SageMakerClientTypes.ProblemType? = nil,
             sampleWeightAttributeName: Swift.String? = nil,
             targetAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
@@ -7472,8 +7387,7 @@ extension SageMakerClientTypes {
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil,
             contentColumn: Swift.String? = nil,
             targetLabelColumn: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionCriteria = completionCriteria
             self.contentColumn = contentColumn
             self.targetLabelColumn = targetLabelColumn
@@ -7514,8 +7428,7 @@ extension SageMakerClientTypes {
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil,
             modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             textGenerationHyperParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.baseModelName = baseModelName
             self.completionCriteria = completionCriteria
             self.modelAccessConfig = modelAccessConfig
@@ -7533,8 +7446,7 @@ extension SageMakerClientTypes {
 
         public init(
             countryCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.countryCode = countryCode
         }
     }
@@ -7561,8 +7473,7 @@ extension SageMakerClientTypes {
             itemIdentifierAttributeName: Swift.String? = nil,
             targetAttributeName: Swift.String? = nil,
             timestampAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupingAttributeNames = groupingAttributeNames
             self.itemIdentifierAttributeName = itemIdentifierAttributeName
             self.targetAttributeName = targetAttributeName
@@ -7641,8 +7552,7 @@ extension SageMakerClientTypes {
         public init(
             aggregation: [Swift.String: SageMakerClientTypes.AggregationTransformationValue]? = nil,
             filling: [Swift.String: [Swift.String: Swift.String]]? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.filling = filling
         }
@@ -7697,8 +7607,7 @@ extension SageMakerClientTypes {
             holidayConfig: [SageMakerClientTypes.HolidayConfigAttributes]? = nil,
             timeSeriesConfig: SageMakerClientTypes.TimeSeriesConfig? = nil,
             transformations: SageMakerClientTypes.TimeSeriesTransformations? = nil
-        )
-        {
+        ) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
@@ -7777,8 +7686,7 @@ extension SageMakerClientTypes {
 
         public init(
             problemType: SageMakerClientTypes.ProblemType? = nil
-        )
-        {
+        ) {
             self.problemType = problemType
         }
     }
@@ -7793,8 +7701,7 @@ extension SageMakerClientTypes {
 
         public init(
             baseModelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseModelName = baseModelName
         }
     }
@@ -7827,8 +7734,7 @@ extension SageMakerClientTypes {
             autoMLJobObjective: SageMakerClientTypes.AutoMLJobObjective? = nil,
             autoMLProblemTypeResolvedAttributes: SageMakerClientTypes.AutoMLProblemTypeResolvedAttributes? = nil,
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil
-        )
-        {
+        ) {
             self.autoMLJobObjective = autoMLJobObjective
             self.autoMLProblemTypeResolvedAttributes = autoMLProblemTypeResolvedAttributes
             self.completionCriteria = completionCriteria
@@ -7943,8 +7849,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             valueHint: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.valueHint = valueHint
         }
@@ -7960,8 +7865,7 @@ extension SageMakerClientTypes {
 
         public init(
             alarms: [SageMakerClientTypes.Alarm]? = nil
-        )
-        {
+        ) {
             self.alarms = alarms
         }
     }
@@ -8015,8 +7919,7 @@ extension SageMakerClientTypes {
 
         public init(
             mode: SageMakerClientTypes.AutotuneMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -8075,8 +7978,7 @@ extension SageMakerClientTypes {
             destinationS3Uri: Swift.String? = nil,
             generateInferenceId: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationS3Uri = destinationS3Uri
             self.generateInferenceId = generateInferenceId
             self.kmsKeyId = kmsKeyId
@@ -8095,8 +7997,7 @@ public struct BatchDeleteClusterNodesInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         nodeIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.nodeIds = nodeIds
     }
@@ -8152,8 +8053,7 @@ extension SageMakerClientTypes {
             code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode? = nil,
             message: Swift.String? = nil,
             nodeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.nodeId = nodeId
@@ -8170,8 +8070,7 @@ public struct BatchDeleteClusterNodesOutput: Swift.Sendable {
     public init(
         failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]? = nil,
         successful: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -8184,8 +8083,7 @@ public struct BatchDescribeModelPackageInput: Swift.Sendable {
 
     public init(
         modelPackageArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.modelPackageArnList = modelPackageArnList
     }
 }
@@ -8204,8 +8102,7 @@ extension SageMakerClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorResponse: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorResponse = errorResponse
         }
@@ -8234,8 +8131,7 @@ extension SageMakerClientTypes {
             supportedRealtimeInferenceInstanceTypes: [SageMakerClientTypes.ProductionVariantInstanceType]? = nil,
             supportedResponseMIMETypes: [Swift.String]? = nil,
             supportedTransformInstanceTypes: [SageMakerClientTypes.TransformInstanceType]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.supportedContentTypes = supportedContentTypes
             self.supportedRealtimeInferenceInstanceTypes = supportedRealtimeInferenceInstanceTypes
@@ -8350,8 +8246,7 @@ extension SageMakerClientTypes {
             modelPackageGroupName: Swift.String? = nil,
             modelPackageStatus: SageMakerClientTypes.ModelPackageStatus? = nil,
             modelPackageVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.inferenceSpecification = inferenceSpecification
             self.modelApprovalStatus = modelApprovalStatus
@@ -8373,8 +8268,7 @@ public struct BatchDescribeModelPackageOutput: Swift.Sendable {
     public init(
         batchDescribeModelPackageErrorMap: [Swift.String: SageMakerClientTypes.BatchDescribeModelPackageError]? = nil,
         modelPackageSummaries: [Swift.String: SageMakerClientTypes.BatchDescribeModelPackageSummary]? = nil
-    )
-    {
+    ) {
         self.batchDescribeModelPackageErrorMap = batchDescribeModelPackageErrorMap
         self.modelPackageSummaries = modelPackageSummaries
     }
@@ -8389,8 +8283,7 @@ extension SageMakerClientTypes {
 
         public init(
             header: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.header = header
         }
     }
@@ -8405,8 +8298,7 @@ extension SageMakerClientTypes {
 
         public init(
             line: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.line = line
         }
     }
@@ -8436,8 +8328,7 @@ extension SageMakerClientTypes {
             csv: SageMakerClientTypes.MonitoringCsvDatasetFormat? = nil,
             json: SageMakerClientTypes.MonitoringJsonDatasetFormat? = nil,
             parquet: SageMakerClientTypes.MonitoringParquetDatasetFormat? = nil
-        )
-        {
+        ) {
             self.csv = csv
             self.json = json
             self.parquet = parquet
@@ -8548,8 +8439,7 @@ extension SageMakerClientTypes {
             s3DataDistributionType: SageMakerClientTypes.ProcessingS3DataDistributionType? = nil,
             s3InputMode: SageMakerClientTypes.ProcessingS3InputMode? = nil,
             startTimeOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataCapturedDestinationS3Uri = dataCapturedDestinationS3Uri
             self.datasetFormat = datasetFormat
             self.endTimeOffset = endTimeOffset
@@ -8575,8 +8465,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxNumberOfTrainingJobsNotImproving: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxNumberOfTrainingJobsNotImproving = maxNumberOfTrainingJobsNotImproving
         }
     }
@@ -8599,8 +8488,7 @@ extension SageMakerClientTypes {
             contentDigest: Swift.String? = nil,
             contentType: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentDigest = contentDigest
             self.contentType = contentType
             self.s3Uri = s3Uri
@@ -8623,8 +8511,7 @@ extension SageMakerClientTypes {
             postTrainingReport: SageMakerClientTypes.MetricsSource? = nil,
             preTrainingReport: SageMakerClientTypes.MetricsSource? = nil,
             report: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.postTrainingReport = postTrainingReport
             self.preTrainingReport = preTrainingReport
             self.report = report
@@ -8679,8 +8566,7 @@ extension SageMakerClientTypes {
         public init(
             type: SageMakerClientTypes.CapacitySizeType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -8745,8 +8631,7 @@ extension SageMakerClientTypes {
             linearStepSize: SageMakerClientTypes.CapacitySize? = nil,
             type: SageMakerClientTypes.TrafficRoutingConfigType? = nil,
             waitIntervalInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.canarySize = canarySize
             self.linearStepSize = linearStepSize
             self.type = type
@@ -8771,8 +8656,7 @@ extension SageMakerClientTypes {
             maximumExecutionTimeoutInSeconds: Swift.Int? = nil,
             terminationWaitInSeconds: Swift.Int? = nil,
             trafficRoutingConfiguration: SageMakerClientTypes.TrafficRoutingConfig? = nil
-        )
-        {
+        ) {
             self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
             self.terminationWaitInSeconds = terminationWaitInSeconds
             self.trafficRoutingConfiguration = trafficRoutingConfiguration
@@ -8818,8 +8702,7 @@ extension SageMakerClientTypes {
 
         public init(
             sourcePipelineExecutionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
     }
@@ -8839,8 +8722,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -8862,8 +8744,7 @@ extension SageMakerClientTypes {
             callbackToken: Swift.String? = nil,
             outputParameters: [SageMakerClientTypes.OutputParameter]? = nil,
             sqsQueueUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.callbackToken = callbackToken
             self.outputParameters = outputParameters
             self.sqsQueueUrl = sqsQueueUrl
@@ -8912,8 +8793,7 @@ extension SageMakerClientTypes {
 
         public init(
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -8931,8 +8811,7 @@ extension SageMakerClientTypes {
         public init(
             executionRoleArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.executionRoleArn = executionRoleArn
             self.status = status
         }
@@ -8948,8 +8827,7 @@ extension SageMakerClientTypes {
 
         public init(
             amazonBedrockRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonBedrockRoleArn = amazonBedrockRoleArn
         }
     }
@@ -8999,8 +8877,7 @@ extension SageMakerClientTypes {
             dataSourceName: SageMakerClientTypes.DataSourceName? = nil,
             secretArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.dataSourceName = dataSourceName
             self.secretArn = secretArn
             self.status = status
@@ -9017,8 +8894,7 @@ extension SageMakerClientTypes {
 
         public init(
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -9036,8 +8912,7 @@ extension SageMakerClientTypes {
         public init(
             crossAccountModelRegisterRoleArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.crossAccountModelRegisterRoleArn = crossAccountModelRegisterRoleArn
             self.status = status
         }
@@ -9056,8 +8931,7 @@ extension SageMakerClientTypes {
         public init(
             amazonForecastRoleArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.amazonForecastRoleArn = amazonForecastRoleArn
             self.status = status
         }
@@ -9076,8 +8950,7 @@ extension SageMakerClientTypes {
         public init(
             s3ArtifactPath: Swift.String? = nil,
             s3KmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3ArtifactPath = s3ArtifactPath
             self.s3KmsKeyId = s3KmsKeyId
         }
@@ -9114,8 +8987,7 @@ extension SageMakerClientTypes {
             modelRegisterSettings: SageMakerClientTypes.ModelRegisterSettings? = nil,
             timeSeriesForecastingSettings: SageMakerClientTypes.TimeSeriesForecastingSettings? = nil,
             workspaceSettings: SageMakerClientTypes.WorkspaceSettings? = nil
-        )
-        {
+        ) {
             self.directDeploySettings = directDeploySettings
             self.emrServerlessSettings = emrServerlessSettings
             self.generativeAiSettings = generativeAiSettings
@@ -9140,8 +9012,7 @@ extension SageMakerClientTypes {
         public init(
             csvContentTypes: [Swift.String]? = nil,
             jsonContentTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.csvContentTypes = csvContentTypes
             self.jsonContentTypes = jsonContentTypes
         }
@@ -9190,8 +9061,7 @@ extension SageMakerClientTypes {
 
         public init(
             captureMode: SageMakerClientTypes.CaptureMode? = nil
-        )
-        {
+        ) {
             self.captureMode = captureMode
         }
     }
@@ -9240,8 +9110,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -9262,8 +9131,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -9280,8 +9148,7 @@ extension SageMakerClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -9314,8 +9181,7 @@ extension SageMakerClientTypes {
             supportedCompressionTypes: [SageMakerClientTypes.CompressionType]? = nil,
             supportedContentTypes: [Swift.String]? = nil,
             supportedInputModes: [SageMakerClientTypes.TrainingInputMode]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.isRequired = isRequired
             self.name = name
@@ -9339,8 +9205,7 @@ extension SageMakerClientTypes {
         public init(
             localPath: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3Uri = s3Uri
         }
@@ -9377,8 +9242,7 @@ extension SageMakerClientTypes {
             registerNewBaseline: Swift.Bool? = nil,
             skipCheck: Swift.Bool? = nil,
             violationReport: Swift.String? = nil
-        )
-        {
+        ) {
             self.baselineUsedForDriftCheckConstraints = baselineUsedForDriftCheckConstraints
             self.calculatedBaselineConstraints = calculatedBaselineConstraints
             self.checkJobArn = checkJobArn
@@ -9462,8 +9326,7 @@ extension SageMakerClientTypes {
             maxRecordCount: Swift.Int? = nil,
             probabilityAttribute: Swift.String? = nil,
             probabilityIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.contentTemplate = contentTemplate
             self.featureHeaders = featureHeaders
             self.featureTypes = featureTypes
@@ -9498,8 +9361,7 @@ extension SageMakerClientTypes {
             mimeType: Swift.String? = nil,
             shapBaseline: Swift.String? = nil,
             shapBaselineUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.mimeType = mimeType
             self.shapBaseline = shapBaseline
             self.shapBaselineUri = shapBaselineUri
@@ -9756,8 +9618,7 @@ extension SageMakerClientTypes {
         public init(
             granularity: SageMakerClientTypes.ClarifyTextGranularity? = nil,
             language: SageMakerClientTypes.ClarifyTextLanguage? = nil
-        )
-        {
+        ) {
             self.granularity = granularity
             self.language = language
         }
@@ -9786,8 +9647,7 @@ extension SageMakerClientTypes {
             shapBaselineConfig: SageMakerClientTypes.ClarifyShapBaselineConfig? = nil,
             textConfig: SageMakerClientTypes.ClarifyTextConfig? = nil,
             useLogit: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.numberOfSamples = numberOfSamples
             self.seed = seed
             self.shapBaselineConfig = shapBaselineConfig
@@ -9813,8 +9673,7 @@ extension SageMakerClientTypes {
             enableExplanations: Swift.String? = nil,
             inferenceConfig: SageMakerClientTypes.ClarifyInferenceConfig? = nil,
             shapConfig: SageMakerClientTypes.ClarifyShapConfig? = nil
-        )
-        {
+        ) {
             self.enableExplanations = enableExplanations
             self.inferenceConfig = inferenceConfig
             self.shapConfig = shapConfig
@@ -9832,8 +9691,7 @@ extension SageMakerClientTypes {
 
         public init(
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.volumeSizeInGB = volumeSizeInGB
         }
     }
@@ -10144,8 +10002,7 @@ extension SageMakerClientTypes {
         public init(
             onCreate: Swift.String? = nil,
             sourceS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.onCreate = onCreate
             self.sourceS3Uri = sourceS3Uri
         }
@@ -10282,8 +10139,7 @@ extension SageMakerClientTypes {
             threadsPerCore: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil,
             trainingPlanStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentCount = currentCount
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
@@ -10342,8 +10198,7 @@ extension SageMakerClientTypes {
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
             threadsPerCore: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionRole = executionRole
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
@@ -10370,8 +10225,7 @@ extension SageMakerClientTypes {
         public init(
             availabilityZone: Swift.String? = nil,
             availabilityZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
         }
@@ -10432,8 +10286,7 @@ extension SageMakerClientTypes {
         public init(
             message: Swift.String? = nil,
             status: SageMakerClientTypes.ClusterInstanceStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.status = status
         }
@@ -10466,6 +10319,8 @@ extension SageMakerClientTypes {
         public var privateDnsHostname: Swift.String?
         /// The private primary IP address of the SageMaker HyperPod cluster node.
         public var privatePrimaryIp: Swift.String?
+        /// The private primary IPv6 address of the SageMaker HyperPod cluster node.
+        public var privatePrimaryIpv6: Swift.String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public var threadsPerCore: Swift.Int?
 
@@ -10481,9 +10336,9 @@ extension SageMakerClientTypes {
             placement: SageMakerClientTypes.ClusterInstancePlacement? = nil,
             privateDnsHostname: Swift.String? = nil,
             privatePrimaryIp: Swift.String? = nil,
+            privatePrimaryIpv6: Swift.String? = nil,
             threadsPerCore: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -10495,6 +10350,7 @@ extension SageMakerClientTypes {
             self.placement = placement
             self.privateDnsHostname = privateDnsHostname
             self.privatePrimaryIp = privatePrimaryIp
+            self.privatePrimaryIpv6 = privatePrimaryIpv6
             self.threadsPerCore = threadsPerCore
         }
     }
@@ -10555,8 +10411,7 @@ extension SageMakerClientTypes {
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             launchTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -10576,8 +10431,7 @@ extension SageMakerClientTypes {
 
         public init(
             clusterArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
         }
     }
@@ -10593,8 +10447,7 @@ extension SageMakerClientTypes {
 
         public init(
             eks: SageMakerClientTypes.ClusterOrchestratorEksConfig? = nil
-        )
-        {
+        ) {
             self.eks = eks
         }
     }
@@ -10694,8 +10547,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: SageMakerClientTypes.SchedulerResourceStatus? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
             self.clusterSchedulerConfigId = clusterSchedulerConfigId
@@ -10806,8 +10658,7 @@ extension SageMakerClientTypes {
             clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
             creationTime: Foundation.Date? = nil,
             trainingPlanArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
@@ -10834,8 +10685,7 @@ extension SageMakerClientTypes {
             appImageConfigName: Swift.String? = nil,
             imageName: Swift.String? = nil,
             imageVersionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.appImageConfigName = appImageConfigName
             self.imageName = imageName
             self.imageVersionNumber = imageVersionNumber
@@ -10864,8 +10714,7 @@ extension SageMakerClientTypes {
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.customImages = customImages
@@ -10885,8 +10734,7 @@ extension SageMakerClientTypes {
 
         public init(
             repositoryUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryUrl = repositoryUrl
         }
     }
@@ -10969,8 +10817,7 @@ extension SageMakerClientTypes {
             branch: Swift.String? = nil,
             repositoryUrl: Swift.String? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.repositoryUrl = repositoryUrl
             self.secretArn = secretArn
@@ -11003,8 +10850,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             gitConfig: SageMakerClientTypes.GitConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
             self.creationTime = creationTime
@@ -11028,8 +10874,7 @@ extension SageMakerClientTypes {
         public init(
             clientId: Swift.String? = nil,
             userPool: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.userPool = userPool
         }
@@ -11054,8 +10899,7 @@ extension SageMakerClientTypes {
             clientId: Swift.String? = nil,
             userGroup: Swift.String? = nil,
             userPool: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.userGroup = userGroup
             self.userPool = userPool
@@ -11073,8 +10917,7 @@ extension SageMakerClientTypes {
 
         public init(
             dimension: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dimension = dimension
         }
     }
@@ -11104,8 +10947,7 @@ extension SageMakerClientTypes {
         public init(
             collectionName: Swift.String? = nil,
             collectionParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.collectionName = collectionName
             self.collectionParameters = collectionParameters
         }
@@ -11464,8 +11306,7 @@ extension SageMakerClientTypes {
             compilationTargetPlatformOs: SageMakerClientTypes.TargetPlatformOs? = nil,
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
             self.compilationJobName = compilationJobName
@@ -11524,8 +11365,7 @@ extension SageMakerClientTypes {
         public init(
             count: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil
-        )
-        {
+        ) {
             self.count = count
             self.instanceType = instanceType
         }
@@ -11615,8 +11455,7 @@ extension SageMakerClientTypes {
         public init(
             borrowLimit: Swift.Int? = nil,
             strategy: SageMakerClientTypes.ResourceSharingStrategy? = nil
-        )
-        {
+        ) {
             self.borrowLimit = borrowLimit
             self.strategy = strategy
         }
@@ -11638,8 +11477,7 @@ extension SageMakerClientTypes {
             computeQuotaResources: [SageMakerClientTypes.ComputeQuotaResourceConfig]? = nil,
             preemptTeamTasks: SageMakerClientTypes.PreemptTeamTasks? = nil,
             resourceSharingConfig: SageMakerClientTypes.ResourceSharingConfig? = nil
-        )
-        {
+        ) {
             self.computeQuotaResources = computeQuotaResources
             self.preemptTeamTasks = preemptTeamTasks
             self.resourceSharingConfig = resourceSharingConfig
@@ -11660,8 +11498,7 @@ extension SageMakerClientTypes {
         public init(
             fairShareWeight: Swift.Int? = nil,
             teamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fairShareWeight = fairShareWeight
             self.teamName = teamName
         }
@@ -11713,8 +11550,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: SageMakerClientTypes.SchedulerResourceStatus? = nil
-        )
-        {
+        ) {
             self.activationState = activationState
             self.clusterArn = clusterArn
             self.computeQuotaArn = computeQuotaArn
@@ -11768,8 +11604,7 @@ extension SageMakerClientTypes {
 
         public init(
             outcome: SageMakerClientTypes.ConditionOutcome? = nil
-        )
-        {
+        ) {
             self.outcome = outcome
         }
     }
@@ -11793,8 +11628,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11838,8 +11672,7 @@ extension SageMakerClientTypes {
 
         public init(
             repositoryCredentialsProviderArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryCredentialsProviderArn = repositoryCredentialsProviderArn
         }
     }
@@ -11862,8 +11695,7 @@ extension SageMakerClientTypes {
         public init(
             repositoryAccessMode: SageMakerClientTypes.RepositoryAccessMode? = nil,
             repositoryAuthConfig: SageMakerClientTypes.RepositoryAuthConfig? = nil
-        )
-        {
+        ) {
             self.repositoryAccessMode = repositoryAccessMode
             self.repositoryAuthConfig = repositoryAuthConfig
         }
@@ -11937,8 +11769,7 @@ extension SageMakerClientTypes {
 
         public init(
             modelCacheSetting: SageMakerClientTypes.ModelCacheSetting? = nil
-        )
-        {
+        ) {
             self.modelCacheSetting = modelCacheSetting
         }
     }
@@ -11983,8 +11814,7 @@ extension SageMakerClientTypes {
             modelDataUrl: Swift.String? = nil,
             modelPackageName: Swift.String? = nil,
             multiModelConfig: SageMakerClientTypes.MultiModelConfig? = nil
-        )
-        {
+        ) {
             self.additionalModelDataSources = additionalModelDataSources
             self.containerHostname = containerHostname
             self.environment = environment
@@ -12045,8 +11875,7 @@ extension SageMakerClientTypes {
             sourceId: Swift.String? = nil,
             sourceType: Swift.String? = nil,
             sourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceId = sourceId
             self.sourceType = sourceType
             self.sourceUri = sourceUri
@@ -12078,8 +11907,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ContextSource? = nil
-        )
-        {
+        ) {
             self.contextArn = contextArn
             self.contextName = contextName
             self.contextType = contextType
@@ -12146,8 +11974,7 @@ extension SageMakerClientTypes {
             minValue: Swift.String? = nil,
             name: Swift.String? = nil,
             scalingType: SageMakerClientTypes.HyperParameterScalingType? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -12170,8 +11997,7 @@ extension SageMakerClientTypes {
         public init(
             maxValue: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
         }
@@ -12187,8 +12013,7 @@ extension SageMakerClientTypes {
 
         public init(
             completeOnConvergence: SageMakerClientTypes.CompleteOnConvergence? = nil
-        )
-        {
+        ) {
             self.completeOnConvergence = completeOnConvergence
         }
     }
@@ -12212,8 +12037,7 @@ extension SageMakerClientTypes {
             generatedBy: Swift.String? = nil,
             projectId: Swift.String? = nil,
             repository: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitId = commitId
             self.generatedBy = generatedBy
             self.projectId = projectId
@@ -12252,8 +12076,7 @@ public struct CreateActionInput: Swift.Sendable {
         source: SageMakerClientTypes.ActionSource? = nil,
         status: SageMakerClientTypes.ActionStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.actionType = actionType
         self.description = description
@@ -12271,8 +12094,7 @@ public struct CreateActionOutput: Swift.Sendable {
 
     public init(
         actionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
     }
 }
@@ -12291,8 +12113,7 @@ extension SageMakerClientTypes {
         public init(
             maxValue: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
         }
@@ -12314,8 +12135,7 @@ extension SageMakerClientTypes {
             categoricalParameterRangeSpecification: SageMakerClientTypes.CategoricalParameterRangeSpecification? = nil,
             continuousParameterRangeSpecification: SageMakerClientTypes.ContinuousParameterRangeSpecification? = nil,
             integerParameterRangeSpecification: SageMakerClientTypes.IntegerParameterRangeSpecification? = nil
-        )
-        {
+        ) {
             self.categoricalParameterRangeSpecification = categoricalParameterRangeSpecification
             self.continuousParameterRangeSpecification = continuousParameterRangeSpecification
             self.integerParameterRangeSpecification = integerParameterRangeSpecification
@@ -12387,8 +12207,7 @@ extension SageMakerClientTypes {
             name: Swift.String? = nil,
             range: SageMakerClientTypes.ParameterRange? = nil,
             type: SageMakerClientTypes.ParameterType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.isRequired = isRequired
@@ -12443,8 +12262,7 @@ extension SageMakerClientTypes {
         public init(
             metricName: Swift.String? = nil,
             type: SageMakerClientTypes.HyperParameterTuningJobObjectiveType? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.type = type
         }
@@ -12487,8 +12305,7 @@ extension SageMakerClientTypes {
             trainingChannels: [SageMakerClientTypes.ChannelSpecification]? = nil,
             trainingImage: Swift.String? = nil,
             trainingImageDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalS3DataSource = additionalS3DataSource
             self.metricDefinitions = metricDefinitions
             self.supportedHyperParameters = supportedHyperParameters
@@ -12548,8 +12365,7 @@ public struct CreateAlgorithmInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         trainingSpecification: SageMakerClientTypes.TrainingSpecification? = nil,
         validationSpecification: SageMakerClientTypes.AlgorithmValidationSpecification? = nil
-    )
-    {
+    ) {
         self.algorithmDescription = algorithmDescription
         self.algorithmName = algorithmName
         self.certifyForMarketplace = certifyForMarketplace
@@ -12567,8 +12383,7 @@ public struct CreateAlgorithmOutput: Swift.Sendable {
 
     public init(
         algorithmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmArn = algorithmArn
     }
 }
@@ -12591,8 +12406,7 @@ public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12624,8 +12438,7 @@ public struct CreateAppInput: Swift.Sendable {
         spaceName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
@@ -12642,8 +12455,7 @@ public struct CreateAppOutput: Swift.Sendable {
 
     public init(
         appArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
     }
 }
@@ -12667,8 +12479,7 @@ public struct CreateAppImageConfigInput: Swift.Sendable {
         jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
         kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
         self.codeEditorAppImageConfig = codeEditorAppImageConfig
         self.jupyterLabAppImageConfig = jupyterLabAppImageConfig
@@ -12683,8 +12494,7 @@ public struct CreateAppImageConfigOutput: Swift.Sendable {
 
     public init(
         appImageConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigArn = appImageConfigArn
     }
 }
@@ -12712,8 +12522,7 @@ public struct CreateArtifactInput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ArtifactSource? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.artifactName = artifactName
         self.artifactType = artifactType
         self.metadataProperties = metadataProperties
@@ -12729,8 +12538,7 @@ public struct CreateArtifactOutput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -12747,8 +12555,7 @@ extension SageMakerClientTypes {
         public init(
             autoGenerateEndpointName: Swift.Bool? = nil,
             endpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoGenerateEndpointName = autoGenerateEndpointName
             self.endpointName = endpointName
         }
@@ -12792,8 +12599,7 @@ public struct CreateAutoMLJobInput: Swift.Sendable {
         problemType: SageMakerClientTypes.ProblemType? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoMLJobConfig = autoMLJobConfig
         self.autoMLJobName = autoMLJobName
         self.autoMLJobObjective = autoMLJobObjective
@@ -12814,8 +12620,7 @@ public struct CreateAutoMLJobOutput: Swift.Sendable {
 
     public init(
         autoMLJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
     }
 }
@@ -12875,8 +12680,7 @@ public struct CreateAutoMLJobV2Input: Swift.Sendable {
         roleArn: Swift.String? = nil,
         securityConfig: SageMakerClientTypes.AutoMLSecurityConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoMLComputeConfig = autoMLComputeConfig
         self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
         self.autoMLJobName = autoMLJobName
@@ -12898,8 +12702,7 @@ public struct CreateAutoMLJobV2Output: Swift.Sendable {
 
     public init(
         autoMLJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
     }
 }
@@ -12927,8 +12730,7 @@ public struct CreateClusterInput: Swift.Sendable {
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
         self.nodeRecovery = nodeRecovery
@@ -12945,8 +12747,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -12994,8 +12795,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.weight = weight
         }
@@ -13014,8 +12814,7 @@ extension SageMakerClientTypes {
         public init(
             fairShare: SageMakerClientTypes.FairShare? = nil,
             priorityClasses: [SageMakerClientTypes.PriorityClass]? = nil
-        )
-        {
+        ) {
             self.fairShare = fairShare
             self.priorityClasses = priorityClasses
         }
@@ -13043,8 +12842,7 @@ public struct CreateClusterSchedulerConfigInput: Swift.Sendable {
         name: Swift.String? = nil,
         schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.description = description
         self.name = name
@@ -13064,8 +12862,7 @@ public struct CreateClusterSchedulerConfigOutput: Swift.Sendable {
     public init(
         clusterSchedulerConfigArn: Swift.String? = nil,
         clusterSchedulerConfigId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
         self.clusterSchedulerConfigId = clusterSchedulerConfigId
     }
@@ -13085,8 +12882,7 @@ public struct CreateCodeRepositoryInput: Swift.Sendable {
         codeRepositoryName: Swift.String? = nil,
         gitConfig: SageMakerClientTypes.GitConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
         self.gitConfig = gitConfig
         self.tags = tags
@@ -13100,8 +12896,7 @@ public struct CreateCodeRepositoryOutput: Swift.Sendable {
 
     public init(
         codeRepositoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryArn = codeRepositoryArn
     }
 }
@@ -13347,8 +13142,7 @@ extension SageMakerClientTypes {
             framework: SageMakerClientTypes.Framework? = nil,
             frameworkVersion: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataInputConfig = dataInputConfig
             self.framework = framework
             self.frameworkVersion = frameworkVersion
@@ -13394,8 +13188,7 @@ extension SageMakerClientTypes {
             accelerator: SageMakerClientTypes.TargetPlatformAccelerator? = nil,
             arch: SageMakerClientTypes.TargetPlatformArch? = nil,
             os: SageMakerClientTypes.TargetPlatformOs? = nil
-        )
-        {
+        ) {
             self.accelerator = accelerator
             self.arch = arch
             self.os = os
@@ -13496,8 +13289,7 @@ extension SageMakerClientTypes {
             s3OutputLocation: Swift.String? = nil,
             targetDevice: SageMakerClientTypes.TargetDevice? = nil,
             targetPlatform: SageMakerClientTypes.TargetPlatform? = nil
-        )
-        {
+        ) {
             self.compilerOptions = compilerOptions
             self.kmsKeyId = kmsKeyId
             self.s3OutputLocation = s3OutputLocation
@@ -13521,8 +13313,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -13571,8 +13362,7 @@ public struct CreateCompilationJobInput: Swift.Sendable {
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.NeoVpcConfig? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
         self.inputConfig = inputConfig
         self.modelPackageVersionArn = modelPackageVersionArn
@@ -13593,8 +13383,7 @@ public struct CreateCompilationJobOutput: Swift.Sendable {
 
     public init(
         compilationJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobArn = compilationJobArn
     }
 }
@@ -13627,8 +13416,7 @@ public struct CreateComputeQuotaInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.activationState = activationState
         self.clusterArn = clusterArn
         self.computeQuotaConfig = computeQuotaConfig
@@ -13650,8 +13438,7 @@ public struct CreateComputeQuotaOutput: Swift.Sendable {
     public init(
         computeQuotaArn: Swift.String? = nil,
         computeQuotaId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeQuotaArn = computeQuotaArn
         self.computeQuotaId = computeQuotaId
     }
@@ -13681,8 +13468,7 @@ public struct CreateContextInput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ContextSource? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
         self.contextType = contextType
         self.description = description
@@ -13698,8 +13484,7 @@ public struct CreateContextOutput: Swift.Sendable {
 
     public init(
         contextArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
     }
 }
@@ -13729,8 +13514,7 @@ extension SageMakerClientTypes {
             imageUri: Swift.String? = nil,
             postAnalyticsProcessorSourceUri: Swift.String? = nil,
             recordPreprocessorSourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.environment = environment
@@ -13750,8 +13534,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -13766,8 +13549,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -13788,8 +13570,7 @@ extension SageMakerClientTypes {
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil,
             statisticsResource: SageMakerClientTypes.MonitoringStatisticsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
             self.statisticsResource = statisticsResource
@@ -13838,8 +13619,7 @@ extension SageMakerClientTypes {
             s3DataDistributionType: SageMakerClientTypes.ProcessingS3DataDistributionType? = nil,
             s3InputMode: SageMakerClientTypes.ProcessingS3InputMode? = nil,
             startTimeOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTimeOffset = endTimeOffset
             self.endpointName = endpointName
             self.excludeFeaturesAttribute = excludeFeaturesAttribute
@@ -13867,8 +13647,7 @@ extension SageMakerClientTypes {
         public init(
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
@@ -13921,8 +13700,7 @@ extension SageMakerClientTypes {
             localPath: Swift.String? = nil,
             s3UploadMode: SageMakerClientTypes.ProcessingS3UploadMode? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3UploadMode = s3UploadMode
             self.s3Uri = s3Uri
@@ -13940,8 +13718,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Output: SageMakerClientTypes.MonitoringS3Output? = nil
-        )
-        {
+        ) {
             self.s3Output = s3Output
         }
     }
@@ -13960,8 +13737,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             monitoringOutputs: [SageMakerClientTypes.MonitoringOutput]? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.monitoringOutputs = monitoringOutputs
         }
@@ -14192,8 +13968,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ProcessingInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -14212,8 +13987,7 @@ extension SageMakerClientTypes {
 
         public init(
             clusterConfig: SageMakerClientTypes.MonitoringClusterConfig? = nil
-        )
-        {
+        ) {
             self.clusterConfig = clusterConfig
         }
     }
@@ -14234,8 +14008,7 @@ extension SageMakerClientTypes {
             enableInterContainerTrafficEncryption: Swift.Bool? = nil,
             enableNetworkIsolation: Swift.Bool? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableNetworkIsolation = enableNetworkIsolation
             self.vpcConfig = vpcConfig
@@ -14253,8 +14026,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxRuntimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
     }
@@ -14299,8 +14071,7 @@ public struct CreateDataQualityJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataQualityAppSpecification = dataQualityAppSpecification
         self.dataQualityBaselineConfig = dataQualityBaselineConfig
         self.dataQualityJobInput = dataQualityJobInput
@@ -14321,8 +14092,7 @@ public struct CreateDataQualityJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -14382,8 +14152,7 @@ extension SageMakerClientTypes {
             presetDeploymentConfig: Swift.String? = nil,
             presetDeploymentType: SageMakerClientTypes.EdgePresetDeploymentType? = nil,
             s3OutputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.presetDeploymentConfig = presetDeploymentConfig
             self.presetDeploymentType = presetDeploymentType
@@ -14415,8 +14184,7 @@ public struct CreateDeviceFleetInput: Swift.Sendable {
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.deviceFleetName = deviceFleetName
         self.enableIotRoleAlias = enableIotRoleAlias
@@ -14439,8 +14207,7 @@ extension SageMakerClientTypes {
         public init(
             fileSystemId: Swift.String? = nil,
             fileSystemPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.fileSystemPath = fileSystemPath
         }
@@ -14460,8 +14227,7 @@ extension SageMakerClientTypes {
         public init(
             fileSystemId: Swift.String? = nil,
             fileSystemPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.fileSystemPath = fileSystemPath
         }
@@ -14494,8 +14260,7 @@ extension SageMakerClientTypes {
         public init(
             gid: Swift.Int? = nil,
             uid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gid = gid
             self.uid = uid
         }
@@ -14514,8 +14279,7 @@ extension SageMakerClientTypes {
         public init(
             assumableRoleArns: [Swift.String]? = nil,
             executionRoleArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assumableRoleArns = assumableRoleArns
             self.executionRoleArns = executionRoleArns
         }
@@ -14549,8 +14313,7 @@ extension SageMakerClientTypes {
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             emrSettings: SageMakerClientTypes.EmrSettings? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.codeRepositories = codeRepositories
@@ -14577,8 +14340,7 @@ extension SageMakerClientTypes {
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
@@ -14601,8 +14363,7 @@ extension SageMakerClientTypes {
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
@@ -14624,8 +14385,7 @@ extension SageMakerClientTypes {
         public init(
             defaultEbsVolumeSizeInGb: Swift.Int? = nil,
             maximumEbsVolumeSizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.defaultEbsVolumeSizeInGb = defaultEbsVolumeSizeInGb
             self.maximumEbsVolumeSizeInGb = maximumEbsVolumeSizeInGb
         }
@@ -14641,8 +14401,7 @@ extension SageMakerClientTypes {
 
         public init(
             defaultEbsStorageSettings: SageMakerClientTypes.DefaultEbsStorageSettings? = nil
-        )
-        {
+        ) {
             self.defaultEbsStorageSettings = defaultEbsStorageSettings
         }
     }
@@ -14678,8 +14437,7 @@ extension SageMakerClientTypes {
             kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings? = nil,
             securityGroups: [Swift.String]? = nil,
             spaceStorageSettings: SageMakerClientTypes.DefaultSpaceStorageSettings? = nil
-        )
-        {
+        ) {
             self.customFileSystemConfigs = customFileSystemConfigs
             self.customPosixUserConfig = customPosixUserConfig
             self.executionRole = executionRole
@@ -14704,8 +14462,7 @@ extension SageMakerClientTypes {
         public init(
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
         }
@@ -14782,8 +14539,7 @@ extension SageMakerClientTypes {
         public init(
             accessStatus: SageMakerClientTypes.RStudioServerProAccessStatus? = nil,
             userGroup: SageMakerClientTypes.RStudioServerProUserGroup? = nil
-        )
-        {
+        ) {
             self.accessStatus = accessStatus
             self.userGroup = userGroup
         }
@@ -14834,8 +14590,7 @@ extension SageMakerClientTypes {
             notebookOutputOption: SageMakerClientTypes.NotebookOutputOption? = nil,
             s3KmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.notebookOutputOption = notebookOutputOption
             self.s3KmsKeyId = s3KmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -14993,8 +14748,7 @@ extension SageMakerClientTypes {
         public init(
             sageMakerImageName: SageMakerClientTypes.SageMakerImageName? = nil,
             versionAliases: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.sageMakerImageName = sageMakerImageName
             self.versionAliases = versionAliases
         }
@@ -15019,8 +14773,7 @@ extension SageMakerClientTypes {
             hiddenInstanceTypes: [SageMakerClientTypes.AppInstanceType]? = nil,
             hiddenMlTools: [SageMakerClientTypes.MlTools]? = nil,
             hiddenSageMakerImageVersionAliases: [SageMakerClientTypes.HiddenSageMakerImage]? = nil
-        )
-        {
+        ) {
             self.hiddenAppTypes = hiddenAppTypes
             self.hiddenInstanceTypes = hiddenInstanceTypes
             self.hiddenMlTools = hiddenMlTools
@@ -15038,8 +14791,7 @@ extension SageMakerClientTypes {
 
         public init(
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.defaultResourceSpec = defaultResourceSpec
         }
     }
@@ -15109,8 +14861,7 @@ extension SageMakerClientTypes {
             studioWebPortal: SageMakerClientTypes.StudioWebPortal? = nil,
             studioWebPortalSettings: SageMakerClientTypes.StudioWebPortalSettings? = nil,
             tensorBoardAppSettings: SageMakerClientTypes.TensorBoardAppSettings? = nil
-        )
-        {
+        ) {
             self.autoMountHomeEFS = autoMountHomeEFS
             self.canvasAppSettings = canvasAppSettings
             self.codeEditorAppSettings = codeEditorAppSettings
@@ -15145,8 +14896,7 @@ extension SageMakerClientTypes {
         public init(
             enableDockerAccess: SageMakerClientTypes.FeatureStatus? = nil,
             vpcOnlyTrustedAccounts: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.enableDockerAccess = enableDockerAccess
             self.vpcOnlyTrustedAccounts = vpcOnlyTrustedAccounts
         }
@@ -15201,8 +14951,7 @@ extension SageMakerClientTypes {
             domainExecutionRoleArn: Swift.String? = nil,
             rStudioConnectUrl: Swift.String? = nil,
             rStudioPackageManagerUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultResourceSpec = defaultResourceSpec
             self.domainExecutionRoleArn = domainExecutionRoleArn
             self.rStudioConnectUrl = rStudioConnectUrl
@@ -15232,8 +14981,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
             securityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
@@ -15324,8 +15072,7 @@ public struct CreateDomainInput: Swift.Sendable {
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appNetworkAccessType = appNetworkAccessType
         self.appSecurityGroupManagement = appSecurityGroupManagement
         self.authMode = authMode
@@ -15351,8 +15098,7 @@ public struct CreateDomainOutput: Swift.Sendable {
     public init(
         domainArn: Swift.String? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainArn = domainArn
         self.url = url
     }
@@ -15372,8 +15118,7 @@ extension SageMakerClientTypes {
         public init(
             edgePackagingJobName: Swift.String? = nil,
             modelHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.edgePackagingJobName = edgePackagingJobName
             self.modelHandle = modelHandle
         }
@@ -15419,8 +15164,7 @@ extension SageMakerClientTypes {
 
         public init(
             failureHandlingPolicy: SageMakerClientTypes.FailureHandlingPolicy? = nil
-        )
-        {
+        ) {
             self.failureHandlingPolicy = failureHandlingPolicy
         }
     }
@@ -15477,8 +15221,7 @@ extension SageMakerClientTypes {
             deviceNames: [Swift.String]? = nil,
             deviceSubsetType: SageMakerClientTypes.DeviceSubsetType? = nil,
             percentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deviceNameContains = deviceNameContains
             self.deviceNames = deviceNames
             self.deviceSubsetType = deviceSubsetType
@@ -15504,8 +15247,7 @@ extension SageMakerClientTypes {
             deploymentConfig: SageMakerClientTypes.EdgeDeploymentConfig? = nil,
             deviceSelectionConfig: SageMakerClientTypes.DeviceSelectionConfig? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentConfig = deploymentConfig
             self.deviceSelectionConfig = deviceSelectionConfig
             self.stageName = stageName
@@ -15534,8 +15276,7 @@ public struct CreateEdgeDeploymentPlanInput: Swift.Sendable {
         modelConfigs: [SageMakerClientTypes.EdgeDeploymentModelConfig]? = nil,
         stages: [SageMakerClientTypes.DeploymentStage]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.modelConfigs = modelConfigs
@@ -15551,8 +15292,7 @@ public struct CreateEdgeDeploymentPlanOutput: Swift.Sendable {
 
     public init(
         edgeDeploymentPlanArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanArn = edgeDeploymentPlanArn
     }
 }
@@ -15568,8 +15308,7 @@ public struct CreateEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stages: [SageMakerClientTypes.DeploymentStage]? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stages = stages
     }
@@ -15608,8 +15347,7 @@ public struct CreateEdgePackagingJobInput: Swift.Sendable {
         resourceKey: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
         self.edgePackagingJobName = edgePackagingJobName
         self.modelName = modelName
@@ -15641,8 +15379,7 @@ extension SageMakerClientTypes {
             maximumExecutionTimeoutInSeconds: Swift.Int? = nil,
             rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySize? = nil,
             waitIntervalInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumBatchSize = maximumBatchSize
             self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
             self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
@@ -15666,8 +15403,7 @@ extension SageMakerClientTypes {
             autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig? = nil,
             blueGreenUpdatePolicy: SageMakerClientTypes.BlueGreenUpdatePolicy? = nil,
             rollingUpdatePolicy: SageMakerClientTypes.RollingUpdatePolicy? = nil
-        )
-        {
+        ) {
             self.autoRollbackConfiguration = autoRollbackConfiguration
             self.blueGreenUpdatePolicy = blueGreenUpdatePolicy
             self.rollingUpdatePolicy = rollingUpdatePolicy
@@ -15692,8 +15428,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         endpointConfigName: Swift.String? = nil,
         endpointName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deploymentConfig = deploymentConfig
         self.endpointConfigName = endpointConfigName
         self.endpointName = endpointName
@@ -15708,8 +15443,7 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -15749,8 +15483,7 @@ extension SageMakerClientTypes {
             enableCapture: Swift.Bool? = nil,
             initialSamplingPercentage: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.captureContentTypeHeader = captureContentTypeHeader
             self.captureOptions = captureOptions
             self.destinationS3Uri = destinationS3Uri
@@ -15770,8 +15503,7 @@ extension SageMakerClientTypes {
 
         public init(
             clarifyExplainerConfig: SageMakerClientTypes.ClarifyExplainerConfig? = nil
-        )
-        {
+        ) {
             self.clarifyExplainerConfig = clarifyExplainerConfig
         }
     }
@@ -15842,8 +15574,7 @@ extension SageMakerClientTypes {
         public init(
             destinationS3Uri: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationS3Uri = destinationS3Uri
             self.kmsKeyId = kmsKeyId
         }
@@ -15920,8 +15651,7 @@ extension SageMakerClientTypes {
             maxInstanceCount: Swift.Int? = nil,
             minInstanceCount: Swift.Int? = nil,
             status: SageMakerClientTypes.ManagedInstanceScalingStatus? = nil
-        )
-        {
+        ) {
             self.maxInstanceCount = maxInstanceCount
             self.minInstanceCount = minInstanceCount
             self.status = status
@@ -15972,8 +15702,7 @@ extension SageMakerClientTypes {
 
         public init(
             routingStrategy: SageMakerClientTypes.RoutingStrategy? = nil
-        )
-        {
+        ) {
             self.routingStrategy = routingStrategy
         }
     }
@@ -15996,8 +15725,7 @@ extension SageMakerClientTypes {
             maxConcurrency: Swift.Int? = nil,
             memorySizeInMB: Swift.Int? = nil,
             provisionedConcurrency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrency = maxConcurrency
             self.memorySizeInMB = memorySizeInMB
             self.provisionedConcurrency = provisionedConcurrency
@@ -16065,8 +15793,7 @@ extension SageMakerClientTypes {
             serverlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
             variantName: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceleratorType = acceleratorType
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
@@ -16135,8 +15862,7 @@ public struct CreateEndpointConfigInput: Swift.Sendable {
         shadowProductionVariants: [SageMakerClientTypes.ProductionVariant]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.enableNetworkIsolation = enableNetworkIsolation
@@ -16158,8 +15884,7 @@ public struct CreateEndpointConfigOutput: Swift.Sendable {
 
     public init(
         endpointConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigArn = endpointConfigArn
     }
 }
@@ -16180,8 +15905,7 @@ public struct CreateExperimentInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         experimentName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.experimentName = experimentName
@@ -16195,8 +15919,7 @@ public struct CreateExperimentOutput: Swift.Sendable {
 
     public init(
         experimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentArn = experimentArn
     }
 }
@@ -16263,8 +15986,7 @@ extension SageMakerClientTypes {
             collectionType: SageMakerClientTypes.CollectionType? = nil,
             featureName: Swift.String? = nil,
             featureType: SageMakerClientTypes.FeatureType? = nil
-        )
-        {
+        ) {
             self.collectionConfig = collectionConfig
             self.collectionType = collectionType
             self.featureName = featureName
@@ -16291,8 +16013,7 @@ extension SageMakerClientTypes {
             catalog: Swift.String? = nil,
             database: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.database = database
             self.tableName = tableName
@@ -16318,8 +16039,7 @@ extension SageMakerClientTypes {
             kmsKeyId: Swift.String? = nil,
             resolvedOutputS3Uri: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.resolvedOutputS3Uri = resolvedOutputS3Uri
             self.s3Uri = s3Uri
@@ -16378,8 +16098,7 @@ extension SageMakerClientTypes {
             disableGlueTableCreation: Swift.Bool? = nil,
             s3StorageConfig: SageMakerClientTypes.S3StorageConfig? = nil,
             tableFormat: SageMakerClientTypes.TableFormat? = nil
-        )
-        {
+        ) {
             self.dataCatalogConfig = dataCatalogConfig
             self.disableGlueTableCreation = disableGlueTableCreation
             self.s3StorageConfig = s3StorageConfig
@@ -16424,8 +16143,7 @@ extension SageMakerClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -16510,8 +16228,7 @@ extension SageMakerClientTypes {
         public init(
             unit: SageMakerClientTypes.TtlDurationUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -16540,8 +16257,7 @@ extension SageMakerClientTypes {
             securityConfig: SageMakerClientTypes.OnlineStoreSecurityConfig? = nil,
             storageType: SageMakerClientTypes.StorageType? = nil,
             ttlDuration: SageMakerClientTypes.TtlDuration? = nil
-        )
-        {
+        ) {
             self.enableOnlineStore = enableOnlineStore
             self.securityConfig = securityConfig
             self.storageType = storageType
@@ -16595,8 +16311,7 @@ extension SageMakerClientTypes {
             provisionedReadCapacityUnits: Swift.Int? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil,
             throughputMode: SageMakerClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
             self.throughputMode = throughputMode
@@ -16664,8 +16379,7 @@ public struct CreateFeatureGroupInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         throughputConfig: SageMakerClientTypes.ThroughputConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventTimeFeatureName = eventTimeFeatureName
         self.featureDefinitions = featureDefinitions
@@ -16686,8 +16400,7 @@ public struct CreateFeatureGroupOutput: Swift.Sendable {
 
     public init(
         featureGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupArn = featureGroupArn
     }
 }
@@ -16702,8 +16415,7 @@ extension SageMakerClientTypes {
 
         public init(
             humanLoopActivationConditions: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanLoopActivationConditions = humanLoopActivationConditions
         }
     }
@@ -16719,8 +16431,7 @@ extension SageMakerClientTypes {
 
         public init(
             humanLoopActivationConditionsConfig: SageMakerClientTypes.HumanLoopActivationConditionsConfig? = nil
-        )
-        {
+        ) {
             self.humanLoopActivationConditionsConfig = humanLoopActivationConditionsConfig
         }
     }
@@ -16741,8 +16452,7 @@ extension SageMakerClientTypes {
             cents: Swift.Int? = nil,
             dollars: Swift.Int? = nil,
             tenthFractionsOfACent: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cents = cents
             self.dollars = dollars
             self.tenthFractionsOfACent = tenthFractionsOfACent
@@ -16958,8 +16668,7 @@ extension SageMakerClientTypes {
 
         public init(
             amountInUsd: SageMakerClientTypes.USD? = nil
-        )
-        {
+        ) {
             self.amountInUsd = amountInUsd
         }
     }
@@ -17202,8 +16911,7 @@ extension SageMakerClientTypes {
             taskTimeLimitInSeconds: Swift.Int? = nil,
             taskTitle: Swift.String? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanTaskUiArn = humanTaskUiArn
             self.publicWorkforceTaskPrice = publicWorkforceTaskPrice
             self.taskAvailabilityLifetimeInSeconds = taskAvailabilityLifetimeInSeconds
@@ -17227,8 +16935,7 @@ extension SageMakerClientTypes {
 
         public init(
             awsManagedHumanLoopRequestSource: SageMakerClientTypes.AwsManagedHumanLoopRequestSource? = nil
-        )
-        {
+        ) {
             self.awsManagedHumanLoopRequestSource = awsManagedHumanLoopRequestSource
         }
     }
@@ -17247,8 +16954,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
         }
@@ -17282,8 +16988,7 @@ public struct CreateFlowDefinitionInput: Swift.Sendable {
         outputConfig: SageMakerClientTypes.FlowDefinitionOutputConfig? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.flowDefinitionName = flowDefinitionName
         self.humanLoopActivationConfig = humanLoopActivationConfig
         self.humanLoopConfig = humanLoopConfig
@@ -17301,8 +17006,7 @@ public struct CreateFlowDefinitionOutput: Swift.Sendable {
 
     public init(
         flowDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionArn = flowDefinitionArn
     }
 }
@@ -17316,8 +17020,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3OutputPath = s3OutputPath
         }
     }
@@ -17346,8 +17049,7 @@ public struct CreateHubInput: Swift.Sendable {
         hubSearchKeywords: [Swift.String]? = nil,
         s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hubDescription = hubDescription
         self.hubDisplayName = hubDisplayName
         self.hubName = hubName
@@ -17364,8 +17066,7 @@ public struct CreateHubOutput: Swift.Sendable {
 
     public init(
         hubArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
     }
 }
@@ -17390,8 +17091,7 @@ public struct CreateHubContentReferenceInput: Swift.Sendable {
         minVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubName = hubName
         self.minVersion = minVersion
@@ -17411,8 +17111,7 @@ public struct CreateHubContentReferenceOutput: Swift.Sendable {
     public init(
         hubArn: Swift.String? = nil,
         hubContentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
         self.hubContentArn = hubContentArn
     }
@@ -17428,8 +17127,7 @@ extension SageMakerClientTypes {
 
         public init(
             content: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -17449,8 +17147,7 @@ public struct CreateHumanTaskUiInput: Swift.Sendable {
         humanTaskUiName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         uiTemplate: SageMakerClientTypes.UiTemplate? = nil
-    )
-    {
+    ) {
         self.humanTaskUiName = humanTaskUiName
         self.tags = tags
         self.uiTemplate = uiTemplate
@@ -17464,8 +17161,7 @@ public struct CreateHumanTaskUiOutput: Swift.Sendable {
 
     public init(
         humanTaskUiArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiArn = humanTaskUiArn
     }
 }
@@ -17491,8 +17187,7 @@ extension SageMakerClientTypes {
             minValue: Swift.String? = nil,
             name: Swift.String? = nil,
             scalingType: SageMakerClientTypes.HyperParameterScalingType? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -17519,8 +17214,7 @@ extension SageMakerClientTypes {
             categoricalParameterRanges: [SageMakerClientTypes.CategoricalParameterRange]? = nil,
             continuousParameterRanges: [SageMakerClientTypes.ContinuousParameterRange]? = nil,
             integerParameterRanges: [SageMakerClientTypes.IntegerParameterRange]? = nil
-        )
-        {
+        ) {
             self.autoParameters = autoParameters
             self.categoricalParameterRanges = categoricalParameterRanges
             self.continuousParameterRanges = continuousParameterRanges
@@ -17545,8 +17239,7 @@ extension SageMakerClientTypes {
             maxNumberOfTrainingJobs: Swift.Int? = nil,
             maxParallelTrainingJobs: Swift.Int? = nil,
             maxRuntimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
@@ -17615,8 +17308,7 @@ extension SageMakerClientTypes {
         public init(
             maxResource: Swift.Int? = nil,
             minResource: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxResource = maxResource
             self.minResource = minResource
         }
@@ -17632,8 +17324,7 @@ extension SageMakerClientTypes {
 
         public init(
             hyperbandStrategyConfig: SageMakerClientTypes.HyperbandStrategyConfig? = nil
-        )
-        {
+        ) {
             self.hyperbandStrategyConfig = hyperbandStrategyConfig
         }
     }
@@ -17683,8 +17374,7 @@ extension SageMakerClientTypes {
             bestObjectiveNotImproving: SageMakerClientTypes.BestObjectiveNotImproving? = nil,
             convergenceDetected: SageMakerClientTypes.ConvergenceDetected? = nil,
             targetObjectiveMetricValue: Swift.Float? = nil
-        )
-        {
+        ) {
             self.bestObjectiveNotImproving = bestObjectiveNotImproving
             self.convergenceDetected = convergenceDetected
             self.targetObjectiveMetricValue = targetObjectiveMetricValue
@@ -17724,8 +17414,7 @@ extension SageMakerClientTypes {
             strategyConfig: SageMakerClientTypes.HyperParameterTuningJobStrategyConfig? = nil,
             trainingJobEarlyStoppingType: SageMakerClientTypes.TrainingJobEarlyStoppingType? = nil,
             tuningJobCompletionCriteria: SageMakerClientTypes.TuningJobCompletionCriteria? = nil
-        )
-        {
+        ) {
             self.hyperParameterTuningJobObjective = hyperParameterTuningJobObjective
             self.parameterRanges = parameterRanges
             self.randomSeed = randomSeed
@@ -17757,8 +17446,7 @@ extension SageMakerClientTypes {
             metricDefinitions: [SageMakerClientTypes.MetricDefinition]? = nil,
             trainingImage: Swift.String? = nil,
             trainingInputMode: SageMakerClientTypes.TrainingInputMode? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
             self.metricDefinitions = metricDefinitions
             self.trainingImage = trainingImage
@@ -17811,8 +17499,7 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeSizeInGB = volumeSizeInGB
@@ -17844,8 +17531,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.instanceConfigs = instanceConfigs
             self.instanceCount = instanceCount
@@ -17866,8 +17552,7 @@ extension SageMakerClientTypes {
 
         public init(
             maximumRetryAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumRetryAttempts = maximumRetryAttempts
         }
     }
@@ -17937,8 +17622,7 @@ extension SageMakerClientTypes {
             stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
             tuningObjective: SageMakerClientTypes.HyperParameterTuningJobObjective? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.definitionName = definitionName
@@ -17970,8 +17654,7 @@ extension SageMakerClientTypes {
 
         public init(
             hyperParameterTuningJobName: Swift.String? = nil
-        )
-        {
+        ) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
     }
@@ -18020,8 +17703,7 @@ extension SageMakerClientTypes {
         public init(
             parentHyperParameterTuningJobs: [SageMakerClientTypes.ParentHyperParameterTuningJob]? = nil,
             warmStartType: SageMakerClientTypes.HyperParameterTuningJobWarmStartType? = nil
-        )
-        {
+        ) {
             self.parentHyperParameterTuningJobs = parentHyperParameterTuningJobs
             self.warmStartType = warmStartType
         }
@@ -18066,8 +17748,7 @@ public struct CreateHyperParameterTuningJobInput: Swift.Sendable {
         trainingJobDefinition: SageMakerClientTypes.HyperParameterTrainingJobDefinition? = nil,
         trainingJobDefinitions: [SageMakerClientTypes.HyperParameterTrainingJobDefinition]? = nil,
         warmStartConfig: SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig? = nil
-    )
-    {
+    ) {
         self.autotune = autotune
         self.hyperParameterTuningJobConfig = hyperParameterTuningJobConfig
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
@@ -18085,8 +17766,7 @@ public struct CreateHyperParameterTuningJobOutput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
     }
 }
@@ -18111,8 +17791,7 @@ public struct CreateImageInput: Swift.Sendable {
         imageName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.imageName = imageName
@@ -18127,8 +17806,7 @@ public struct CreateImageOutput: Swift.Sendable {
 
     public init(
         imageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageArn = imageArn
     }
 }
@@ -18286,8 +17964,7 @@ public struct CreateImageVersionInput: Swift.Sendable {
         programmingLang: Swift.String? = nil,
         releaseNotes: Swift.String? = nil,
         vendorGuidance: SageMakerClientTypes.VendorGuidance? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.baseImage = baseImage
         self.clientToken = clientToken
@@ -18308,8 +17985,7 @@ public struct CreateImageVersionOutput: Swift.Sendable {
 
     public init(
         imageVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageVersionArn = imageVersionArn
     }
 }
@@ -18324,8 +18000,7 @@ extension SageMakerClientTypes {
 
         public init(
             copyCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.copyCount = copyCount
         }
     }
@@ -18350,8 +18025,7 @@ extension SageMakerClientTypes {
             minMemoryRequiredInMb: Swift.Int? = nil,
             numberOfAcceleratorDevicesRequired: Swift.Float? = nil,
             numberOfCpuCoresRequired: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maxMemoryRequiredInMb = maxMemoryRequiredInMb
             self.minMemoryRequiredInMb = minMemoryRequiredInMb
             self.numberOfAcceleratorDevicesRequired = numberOfAcceleratorDevicesRequired
@@ -18375,8 +18049,7 @@ extension SageMakerClientTypes {
             artifactUrl: Swift.String? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactUrl = artifactUrl
             self.environment = environment
             self.image = image
@@ -18396,8 +18069,7 @@ extension SageMakerClientTypes {
         public init(
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
             modelDataDownloadTimeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.modelDataDownloadTimeoutInSeconds = modelDataDownloadTimeoutInSeconds
         }
@@ -18425,8 +18097,7 @@ extension SageMakerClientTypes {
             container: SageMakerClientTypes.InferenceComponentContainerSpecification? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
-        )
-        {
+        ) {
             self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
@@ -18460,8 +18131,7 @@ public struct CreateInferenceComponentInput: Swift.Sendable {
         specification: SageMakerClientTypes.InferenceComponentSpecification? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         variantName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
         self.inferenceComponentName = inferenceComponentName
         self.runtimeConfig = runtimeConfig
@@ -18478,8 +18148,7 @@ public struct CreateInferenceComponentOutput: Swift.Sendable {
 
     public init(
         inferenceComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentArn = inferenceComponentArn
     }
 }
@@ -18500,8 +18169,7 @@ extension SageMakerClientTypes {
             contentType: SageMakerClientTypes.CaptureContentTypeHeader? = nil,
             destination: Swift.String? = nil,
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.destination = destination
             self.kmsKey = kmsKey
@@ -19088,8 +18756,7 @@ extension SageMakerClientTypes {
         public init(
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.InstanceType? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
         }
@@ -19112,8 +18779,7 @@ extension SageMakerClientTypes {
         public init(
             infrastructureType: SageMakerClientTypes.ModelInfrastructureType? = nil,
             realTimeInferenceConfig: SageMakerClientTypes.RealTimeInferenceConfig? = nil
-        )
-        {
+        ) {
             self.infrastructureType = infrastructureType
             self.realTimeInferenceConfig = realTimeInferenceConfig
         }
@@ -19138,8 +18804,7 @@ extension SageMakerClientTypes {
             infrastructureConfig: SageMakerClientTypes.ModelInfrastructureConfig? = nil,
             modelName: Swift.String? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.infrastructureConfig = infrastructureConfig
             self.modelName = modelName
             self.variantName = variantName
@@ -19159,8 +18824,7 @@ extension SageMakerClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -19181,8 +18845,7 @@ extension SageMakerClientTypes {
         public init(
             samplingPercentage: Swift.Int? = nil,
             shadowModelVariantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.samplingPercentage = samplingPercentage
             self.shadowModelVariantName = shadowModelVariantName
         }
@@ -19203,8 +18866,7 @@ extension SageMakerClientTypes {
         public init(
             shadowModelVariants: [SageMakerClientTypes.ShadowModelVariantConfig]? = nil,
             sourceModelVariantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.shadowModelVariants = shadowModelVariants
             self.sourceModelVariantName = sourceModelVariantName
         }
@@ -19292,8 +18954,7 @@ public struct CreateInferenceExperimentInput: Swift.Sendable {
         shadowModeConfig: SageMakerClientTypes.ShadowModeConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         type: SageMakerClientTypes.InferenceExperimentType? = nil
-    )
-    {
+    ) {
         self.dataStorageConfig = dataStorageConfig
         self.description = description
         self.endpointName = endpointName
@@ -19315,8 +18976,7 @@ public struct CreateInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -19333,8 +18993,7 @@ extension SageMakerClientTypes {
         public init(
             samplePayloadUrl: Swift.String? = nil,
             supportedContentTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.samplePayloadUrl = samplePayloadUrl
             self.supportedContentTypes = supportedContentTypes
         }
@@ -19406,8 +19065,7 @@ extension SageMakerClientTypes {
             supportedInstanceTypes: [Swift.String]? = nil,
             supportedResponseMIMETypes: [Swift.String]? = nil,
             task: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataInputConfig = dataInputConfig
             self.domain = domain
             self.framework = framework
@@ -19431,8 +19089,7 @@ extension SageMakerClientTypes {
 
         public init(
             categoricalParameterRanges: [SageMakerClientTypes.CategoricalParameter]? = nil
-        )
-        {
+        ) {
             self.categoricalParameterRanges = categoricalParameterRanges
         }
     }
@@ -19456,8 +19113,7 @@ extension SageMakerClientTypes {
             inferenceSpecificationName: Swift.String? = nil,
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
             serverlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil
-        )
-        {
+        ) {
             self.environmentParameterRanges = environmentParameterRanges
             self.inferenceSpecificationName = inferenceSpecificationName
             self.instanceType = instanceType
@@ -19475,8 +19131,7 @@ extension SageMakerClientTypes {
 
         public init(
             endpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointName = endpointName
         }
     }
@@ -19494,8 +19149,7 @@ extension SageMakerClientTypes {
         public init(
             maxNumberOfTests: Swift.Int? = nil,
             maxParallelOfTests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxNumberOfTests = maxNumberOfTests
             self.maxParallelOfTests = maxParallelOfTests
         }
@@ -19517,8 +19171,7 @@ extension SageMakerClientTypes {
             durationInSeconds: Swift.Int? = nil,
             initialNumberOfUsers: Swift.Int? = nil,
             spawnRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.initialNumberOfUsers = initialNumberOfUsers
             self.spawnRate = spawnRate
@@ -19541,8 +19194,7 @@ extension SageMakerClientTypes {
             durationInSeconds: Swift.Int? = nil,
             numberOfSteps: Swift.Int? = nil,
             usersPerStep: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.numberOfSteps = numberOfSteps
             self.usersPerStep = usersPerStep
@@ -19594,8 +19246,7 @@ extension SageMakerClientTypes {
             phases: [SageMakerClientTypes.Phase]? = nil,
             stairs: SageMakerClientTypes.Stairs? = nil,
             trafficType: SageMakerClientTypes.TrafficType? = nil
-        )
-        {
+        ) {
             self.phases = phases
             self.stairs = stairs
             self.trafficType = trafficType
@@ -19617,8 +19268,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -19672,8 +19322,7 @@ extension SageMakerClientTypes {
             trafficPattern: SageMakerClientTypes.TrafficPattern? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.RecommendationJobVpcConfig? = nil
-        )
-        {
+        ) {
             self.containerConfig = containerConfig
             self.endpointConfigurations = endpointConfigurations
             self.endpoints = endpoints
@@ -19726,8 +19375,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3OutputUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3OutputUri = s3OutputUri
         }
     }
@@ -19756,8 +19404,7 @@ extension SageMakerClientTypes {
         public init(
             compiledOutputConfig: SageMakerClientTypes.RecommendationJobCompiledOutputConfig? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.compiledOutputConfig = compiledOutputConfig
             self.kmsKeyId = kmsKeyId
         }
@@ -19805,8 +19452,7 @@ extension SageMakerClientTypes {
         public init(
             percentile: Swift.String? = nil,
             valueInMilliseconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.percentile = percentile
             self.valueInMilliseconds = valueInMilliseconds
         }
@@ -19828,8 +19474,7 @@ extension SageMakerClientTypes {
             flatInvocations: SageMakerClientTypes.FlatInvocations? = nil,
             maxInvocations: Swift.Int? = nil,
             modelLatencyThresholds: [SageMakerClientTypes.ModelLatencyThreshold]? = nil
-        )
-        {
+        ) {
             self.flatInvocations = flatInvocations
             self.maxInvocations = maxInvocations
             self.modelLatencyThresholds = modelLatencyThresholds
@@ -19868,8 +19513,7 @@ public struct CreateInferenceRecommendationsJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingConditions: SageMakerClientTypes.RecommendationJobStoppingConditions? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.inputConfig = inputConfig
         self.jobDescription = jobDescription
         self.jobName = jobName
@@ -19888,8 +19532,7 @@ public struct CreateInferenceRecommendationsJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -19928,8 +19571,7 @@ extension SageMakerClientTypes {
         public init(
             humanTaskUiArn: Swift.String? = nil,
             uiTemplateS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanTaskUiArn = humanTaskUiArn
             self.uiTemplateS3Uri = uiTemplateS3Uri
         }
@@ -20583,8 +20225,7 @@ extension SageMakerClientTypes {
             taskTitle: Swift.String? = nil,
             uiConfig: SageMakerClientTypes.UiConfig? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationConsolidationConfig = annotationConsolidationConfig
             self.maxConcurrentTaskCount = maxConcurrentTaskCount
             self.numberOfHumanWorkersPerDataObject = numberOfHumanWorkersPerDataObject
@@ -20610,8 +20251,7 @@ extension SageMakerClientTypes {
 
         public init(
             contentClassifiers: [SageMakerClientTypes.ContentClassifier]? = nil
-        )
-        {
+        ) {
             self.contentClassifiers = contentClassifiers
         }
     }
@@ -20634,8 +20274,7 @@ extension SageMakerClientTypes {
 
         public init(
             manifestS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestS3Uri = manifestS3Uri
         }
     }
@@ -20651,8 +20290,7 @@ extension SageMakerClientTypes {
 
         public init(
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.snsTopicArn = snsTopicArn
         }
     }
@@ -20670,8 +20308,7 @@ extension SageMakerClientTypes {
         public init(
             s3DataSource: SageMakerClientTypes.LabelingJobS3DataSource? = nil,
             snsDataSource: SageMakerClientTypes.LabelingJobSnsDataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
             self.snsDataSource = snsDataSource
         }
@@ -20691,8 +20328,7 @@ extension SageMakerClientTypes {
         public init(
             dataAttributes: SageMakerClientTypes.LabelingJobDataAttributes? = nil,
             dataSource: SageMakerClientTypes.LabelingJobDataSource? = nil
-        )
-        {
+        ) {
             self.dataAttributes = dataAttributes
             self.dataSource = dataSource
         }
@@ -20715,8 +20351,7 @@ extension SageMakerClientTypes {
         public init(
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -20747,8 +20382,7 @@ extension SageMakerClientTypes {
             initialActiveLearningModelArn: Swift.String? = nil,
             labelingJobAlgorithmSpecificationArn: Swift.String? = nil,
             labelingJobResourceConfig: SageMakerClientTypes.LabelingJobResourceConfig? = nil
-        )
-        {
+        ) {
             self.initialActiveLearningModelArn = initialActiveLearningModelArn
             self.labelingJobAlgorithmSpecificationArn = labelingJobAlgorithmSpecificationArn
             self.labelingJobResourceConfig = labelingJobResourceConfig
@@ -20772,8 +20406,7 @@ extension SageMakerClientTypes {
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
             self.snsTopicArn = snsTopicArn
@@ -20793,8 +20426,7 @@ extension SageMakerClientTypes {
         public init(
             maxHumanLabeledObjectCount: Swift.Int? = nil,
             maxPercentageOfInputDatasetLabeled: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxHumanLabeledObjectCount = maxHumanLabeledObjectCount
             self.maxPercentageOfInputDatasetLabeled = maxPercentageOfInputDatasetLabeled
         }
@@ -20885,8 +20517,7 @@ public struct CreateLabelingJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingConditions: SageMakerClientTypes.LabelingJobStoppingConditions? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.humanTaskConfig = humanTaskConfig
         self.inputConfig = inputConfig
         self.labelAttributeName = labelAttributeName
@@ -20907,8 +20538,7 @@ public struct CreateLabelingJobOutput: Swift.Sendable {
 
     public init(
         labelingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobArn = labelingJobArn
     }
 }
@@ -20975,8 +20605,7 @@ public struct CreateMlflowTrackingServerInput: Swift.Sendable {
         trackingServerName: Swift.String? = nil,
         trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactStoreUri = artifactStoreUri
         self.automaticModelRegistration = automaticModelRegistration
         self.mlflowVersion = mlflowVersion
@@ -20994,8 +20623,7 @@ public struct CreateMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -21043,8 +20671,7 @@ extension SageMakerClientTypes {
 
         public init(
             mode: SageMakerClientTypes.InferenceExecutionMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -21078,8 +20705,7 @@ public struct CreateModelInput: Swift.Sendable {
         primaryContainer: SageMakerClientTypes.ContainerDefinition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.containers = containers
         self.enableNetworkIsolation = enableNetworkIsolation
         self.executionRoleArn = executionRoleArn
@@ -21098,8 +20724,7 @@ public struct CreateModelOutput: Swift.Sendable {
 
     public init(
         modelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
     }
 }
@@ -21121,8 +20746,7 @@ extension SageMakerClientTypes {
             configUri: Swift.String? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.configUri = configUri
             self.environment = environment
             self.imageUri = imageUri
@@ -21142,8 +20766,7 @@ extension SageMakerClientTypes {
         public init(
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
         }
@@ -21159,8 +20782,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -21182,8 +20804,7 @@ extension SageMakerClientTypes {
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil,
             groundTruthS3Input: SageMakerClientTypes.MonitoringGroundTruthS3Input? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
             self.groundTruthS3Input = groundTruthS3Input
@@ -21230,8 +20851,7 @@ public struct CreateModelBiasJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
         self.jobResources = jobResources
         self.modelBiasAppSpecification = modelBiasAppSpecification
@@ -21252,8 +20872,7 @@ public struct CreateModelBiasJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -21302,8 +20921,7 @@ extension SageMakerClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -21338,8 +20956,7 @@ public struct CreateModelCardInput: Swift.Sendable {
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
         securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.content = content
         self.modelCardName = modelCardName
         self.modelCardStatus = modelCardStatus
@@ -21360,8 +20977,7 @@ public struct CreateModelCardOutput: Swift.Sendable {
 
     public init(
         modelCardArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardArn = modelCardArn
     }
 }
@@ -21376,8 +20992,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3OutputPath = s3OutputPath
         }
     }
@@ -21401,8 +21016,7 @@ public struct CreateModelCardExportJobInput: Swift.Sendable {
         modelCardName: Swift.String? = nil,
         modelCardVersion: Swift.Int? = nil,
         outputConfig: SageMakerClientTypes.ModelCardExportOutputConfig? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobName = modelCardExportJobName
         self.modelCardName = modelCardName
         self.modelCardVersion = modelCardVersion
@@ -21417,8 +21031,7 @@ public struct CreateModelCardExportJobOutput: Swift.Sendable {
 
     public init(
         modelCardExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobArn = modelCardExportJobArn
     }
 }
@@ -21440,8 +21053,7 @@ extension SageMakerClientTypes {
             configUri: Swift.String? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.configUri = configUri
             self.environment = environment
             self.imageUri = imageUri
@@ -21461,8 +21073,7 @@ extension SageMakerClientTypes {
         public init(
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
         }
@@ -21481,8 +21092,7 @@ extension SageMakerClientTypes {
         public init(
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
@@ -21528,8 +21138,7 @@ public struct CreateModelExplainabilityJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
         self.jobResources = jobResources
         self.modelExplainabilityAppSpecification = modelExplainabilityAppSpecification
@@ -21550,8 +21159,7 @@ public struct CreateModelExplainabilityJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -21572,8 +21180,7 @@ extension SageMakerClientTypes {
             contentDigest: Swift.String? = nil,
             contentType: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentDigest = contentDigest
             self.contentType = contentType
             self.s3Uri = s3Uri
@@ -21596,8 +21203,7 @@ extension SageMakerClientTypes {
             configFile: SageMakerClientTypes.FileSource? = nil,
             postTrainingConstraints: SageMakerClientTypes.MetricsSource? = nil,
             preTrainingConstraints: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.configFile = configFile
             self.postTrainingConstraints = postTrainingConstraints
             self.preTrainingConstraints = preTrainingConstraints
@@ -21617,8 +21223,7 @@ extension SageMakerClientTypes {
         public init(
             configFile: SageMakerClientTypes.FileSource? = nil,
             constraints: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.configFile = configFile
             self.constraints = constraints
         }
@@ -21637,8 +21242,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -21657,8 +21261,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -21683,8 +21286,7 @@ extension SageMakerClientTypes {
             explainability: SageMakerClientTypes.DriftCheckExplainability? = nil,
             modelDataQuality: SageMakerClientTypes.DriftCheckModelDataQuality? = nil,
             modelQuality: SageMakerClientTypes.DriftCheckModelQuality? = nil
-        )
-        {
+        ) {
             self.bias = bias
             self.explainability = explainability
             self.modelDataQuality = modelDataQuality
@@ -21713,8 +21315,7 @@ extension SageMakerClientTypes {
         public init(
             modelCardContent: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
-        )
-        {
+        ) {
             self.modelCardContent = modelCardContent
             self.modelCardStatus = modelCardStatus
         }
@@ -21743,8 +21344,7 @@ extension SageMakerClientTypes {
             stage: Swift.String? = nil,
             stageDescription: Swift.String? = nil,
             stageStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.stage = stage
             self.stageDescription = stageDescription
             self.stageStatus = stageStatus
@@ -21761,8 +21361,7 @@ extension SageMakerClientTypes {
 
         public init(
             report: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.report = report
         }
     }
@@ -21780,8 +21379,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -21800,8 +21398,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -21826,8 +21423,7 @@ extension SageMakerClientTypes {
             explainability: SageMakerClientTypes.Explainability? = nil,
             modelDataQuality: SageMakerClientTypes.ModelDataQuality? = nil,
             modelQuality: SageMakerClientTypes.ModelQuality? = nil
-        )
-        {
+        ) {
             self.bias = bias
             self.explainability = explainability
             self.modelDataQuality = modelDataQuality
@@ -21846,8 +21442,7 @@ extension SageMakerClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -21889,6 +21484,8 @@ extension SageMakerClientTypes {
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your SageMaker account or an algorithm in Amazon Web Services Marketplace that you are subscribed to.
         /// This member is required.
         public var algorithmName: Swift.String?
+        /// The ETag associated with Model Data URL.
+        public var modelDataETag: Swift.String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public var modelDataSource: SageMakerClientTypes.ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The model artifacts must be in an S3 bucket that is in the same Amazon Web Services region as the algorithm.
@@ -21896,11 +21493,12 @@ extension SageMakerClientTypes {
 
         public init(
             algorithmName: Swift.String? = nil,
+            modelDataETag: Swift.String? = nil,
             modelDataSource: SageMakerClientTypes.ModelDataSource? = nil,
             modelDataUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
         }
@@ -21917,8 +21515,7 @@ extension SageMakerClientTypes {
 
         public init(
             sourceAlgorithms: [SageMakerClientTypes.SourceAlgorithm]? = nil
-        )
-        {
+        ) {
             self.sourceAlgorithms = sourceAlgorithms
         }
     }
@@ -21938,8 +21535,7 @@ extension SageMakerClientTypes {
         public init(
             profileName: Swift.String? = nil,
             transformJobDefinition: SageMakerClientTypes.TransformJobDefinition? = nil
-        )
-        {
+        ) {
             self.profileName = profileName
             self.transformJobDefinition = transformJobDefinition
         }
@@ -21960,8 +21556,7 @@ extension SageMakerClientTypes {
         public init(
             validationProfiles: [SageMakerClientTypes.ModelPackageValidationProfile]? = nil,
             validationRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
         }
@@ -22046,8 +21641,7 @@ public struct CreateModelPackageInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         task: Swift.String? = nil,
         validationSpecification: SageMakerClientTypes.ModelPackageValidationSpecification? = nil
-    )
-    {
+    ) {
         self.additionalInferenceSpecifications = additionalInferenceSpecifications
         self.certifyForMarketplace = certifyForMarketplace
         self.clientToken = clientToken
@@ -22081,8 +21675,7 @@ public struct CreateModelPackageOutput: Swift.Sendable {
 
     public init(
         modelPackageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageArn = modelPackageArn
     }
 }
@@ -22100,8 +21693,7 @@ public struct CreateModelPackageGroupInput: Swift.Sendable {
         modelPackageGroupDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupDescription = modelPackageGroupDescription
         self.modelPackageGroupName = modelPackageGroupName
         self.tags = tags
@@ -22115,8 +21707,7 @@ public struct CreateModelPackageGroupOutput: Swift.Sendable {
 
     public init(
         modelPackageGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupArn = modelPackageGroupArn
     }
 }
@@ -22181,8 +21772,7 @@ extension SageMakerClientTypes {
             postAnalyticsProcessorSourceUri: Swift.String? = nil,
             problemType: SageMakerClientTypes.MonitoringProblemType? = nil,
             recordPreprocessorSourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.environment = environment
@@ -22206,8 +21796,7 @@ extension SageMakerClientTypes {
         public init(
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
         }
@@ -22230,8 +21819,7 @@ extension SageMakerClientTypes {
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil,
             groundTruthS3Input: SageMakerClientTypes.MonitoringGroundTruthS3Input? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
             self.groundTruthS3Input = groundTruthS3Input
@@ -22278,8 +21866,7 @@ public struct CreateModelQualityJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
         self.jobResources = jobResources
         self.modelQualityAppSpecification = modelQualityAppSpecification
@@ -22300,8 +21887,7 @@ public struct CreateModelQualityJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -22321,8 +21907,7 @@ extension SageMakerClientTypes {
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil,
             statisticsResource: SageMakerClientTypes.MonitoringStatisticsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
             self.statisticsResource = statisticsResource
@@ -22352,8 +21937,7 @@ extension SageMakerClientTypes {
             imageUri: Swift.String? = nil,
             postAnalyticsProcessorSourceUri: Swift.String? = nil,
             recordPreprocessorSourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.imageUri = imageUri
@@ -22375,8 +21959,7 @@ extension SageMakerClientTypes {
         public init(
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
@@ -22398,8 +21981,7 @@ extension SageMakerClientTypes {
             enableInterContainerTrafficEncryption: Swift.Bool? = nil,
             enableNetworkIsolation: Swift.Bool? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableNetworkIsolation = enableNetworkIsolation
             self.vpcConfig = vpcConfig
@@ -22445,8 +22027,7 @@ extension SageMakerClientTypes {
             networkConfig: SageMakerClientTypes.NetworkConfig? = nil,
             roleArn: Swift.String? = nil,
             stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-        )
-        {
+        ) {
             self.baselineConfig = baselineConfig
             self.environment = environment
             self.monitoringAppSpecification = monitoringAppSpecification
@@ -22541,8 +22122,7 @@ extension SageMakerClientTypes {
             dataAnalysisEndTime: Swift.String? = nil,
             dataAnalysisStartTime: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataAnalysisEndTime = dataAnalysisEndTime
             self.dataAnalysisStartTime = dataAnalysisStartTime
             self.scheduleExpression = scheduleExpression
@@ -22568,8 +22148,7 @@ extension SageMakerClientTypes {
             monitoringJobDefinitionName: Swift.String? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil,
             scheduleConfig: SageMakerClientTypes.ScheduleConfig? = nil
-        )
-        {
+        ) {
             self.monitoringJobDefinition = monitoringJobDefinition
             self.monitoringJobDefinitionName = monitoringJobDefinitionName
             self.monitoringType = monitoringType
@@ -22592,8 +22171,7 @@ public struct CreateMonitoringScheduleInput: Swift.Sendable {
         monitoringScheduleConfig: SageMakerClientTypes.MonitoringScheduleConfig? = nil,
         monitoringScheduleName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleConfig = monitoringScheduleConfig
         self.monitoringScheduleName = monitoringScheduleName
         self.tags = tags
@@ -22607,8 +22185,7 @@ public struct CreateMonitoringScheduleOutput: Swift.Sendable {
 
     public init(
         monitoringScheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleArn = monitoringScheduleArn
     }
 }
@@ -22693,8 +22270,7 @@ extension SageMakerClientTypes {
 
         public init(
             minimumInstanceMetadataServiceVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
         }
     }
@@ -22783,8 +22359,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         volumeSizeInGB: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
         self.additionalCodeRepositories = additionalCodeRepositories
         self.defaultCodeRepository = defaultCodeRepository
@@ -22810,8 +22385,7 @@ public struct CreateNotebookInstanceOutput: Swift.Sendable {
 
     public init(
         notebookInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceArn = notebookInstanceArn
     }
 }
@@ -22825,8 +22399,7 @@ extension SageMakerClientTypes {
 
         public init(
             content: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -22845,8 +22418,7 @@ public struct CreateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
         onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         self.onCreate = onCreate
         self.onStart = onStart
@@ -22859,8 +22431,7 @@ public struct CreateNotebookInstanceLifecycleConfigOutput: Swift.Sendable {
 
     public init(
         notebookInstanceLifecycleConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
     }
 }
@@ -22976,8 +22547,7 @@ extension SageMakerClientTypes {
 
         public init(
             acceptEula: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.acceptEula = acceptEula
         }
     }
@@ -22995,8 +22565,7 @@ extension SageMakerClientTypes {
         public init(
             modelAccessConfig: SageMakerClientTypes.OptimizationModelAccessConfig? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelAccessConfig = modelAccessConfig
             self.s3Uri = s3Uri
         }
@@ -23012,8 +22581,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3: SageMakerClientTypes.OptimizationJobModelSourceS3? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -23031,8 +22599,7 @@ extension SageMakerClientTypes {
         public init(
             image: Swift.String? = nil,
             overrideEnvironment: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.image = image
             self.overrideEnvironment = overrideEnvironment
         }
@@ -23051,8 +22618,7 @@ extension SageMakerClientTypes {
         public init(
             image: Swift.String? = nil,
             overrideEnvironment: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.image = image
             self.overrideEnvironment = overrideEnvironment
         }
@@ -23071,8 +22637,7 @@ extension SageMakerClientTypes {
         public init(
             image: Swift.String? = nil,
             overrideEnvironment: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.image = image
             self.overrideEnvironment = overrideEnvironment
         }
@@ -23106,8 +22671,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputLocation = s3OutputLocation
         }
@@ -23128,8 +22692,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -23187,8 +22750,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
-    )
-    {
+    ) {
         self.deploymentInstanceType = deploymentInstanceType
         self.modelSource = modelSource
         self.optimizationConfigs = optimizationConfigs
@@ -23209,8 +22771,7 @@ public struct CreateOptimizationJobOutput: Swift.Sendable {
 
     public init(
         optimizationJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobArn = optimizationJobArn
     }
 }
@@ -23227,8 +22788,7 @@ extension SageMakerClientTypes {
         public init(
             adminUsers: [Swift.String]? = nil,
             arguments: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.adminUsers = adminUsers
             self.arguments = arguments
         }
@@ -23270,8 +22830,7 @@ extension SageMakerClientTypes {
 
         public init(
             maintenanceWindowStart: Swift.String? = nil
-        )
-        {
+        ) {
             self.maintenanceWindowStart = maintenanceWindowStart
         }
     }
@@ -23350,8 +22909,7 @@ public struct CreatePartnerAppInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         tier: Swift.String? = nil,
         type: SageMakerClientTypes.PartnerAppType? = nil
-    )
-    {
+    ) {
         self.applicationConfig = applicationConfig
         self.authType = authType
         self.clientToken = clientToken
@@ -23371,8 +22929,7 @@ public struct CreatePartnerAppOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -23390,8 +22947,7 @@ public struct CreatePartnerAppPresignedUrlInput: Swift.Sendable {
         arn: Swift.String? = nil,
         expiresInSeconds: Swift.Int? = nil,
         sessionExpirationDurationInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.expiresInSeconds = expiresInSeconds
         self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
@@ -23404,8 +22960,7 @@ public struct CreatePartnerAppPresignedUrlOutput: Swift.Sendable {
 
     public init(
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.url = url
     }
 }
@@ -23420,8 +22975,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxParallelExecutionSteps: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxParallelExecutionSteps = maxParallelExecutionSteps
         }
     }
@@ -23444,8 +22998,7 @@ extension SageMakerClientTypes {
             bucket: Swift.String? = nil,
             objectKey: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.objectKey = objectKey
             self.versionId = versionId
@@ -23486,8 +23039,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineDefinition = pipelineDefinition
@@ -23506,8 +23058,7 @@ public struct CreatePipelineOutput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineArn = pipelineArn
     }
 }
@@ -23547,8 +23098,7 @@ public struct CreatePresignedDomainUrlInput: Swift.Sendable {
         sessionExpirationDurationInSeconds: Swift.Int? = nil,
         spaceName: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.expiresInSeconds = expiresInSeconds
         self.landingUri = landingUri
@@ -23564,8 +23114,7 @@ public struct CreatePresignedDomainUrlOutput: Swift.Sendable {
 
     public init(
         authorizedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedUrl = authorizedUrl
     }
 }
@@ -23583,8 +23132,7 @@ public struct CreatePresignedMlflowTrackingServerUrlInput: Swift.Sendable {
         expiresInSeconds: Swift.Int? = nil,
         sessionExpirationDurationInSeconds: Swift.Int? = nil,
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresInSeconds = expiresInSeconds
         self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
         self.trackingServerName = trackingServerName
@@ -23597,8 +23145,7 @@ public struct CreatePresignedMlflowTrackingServerUrlOutput: Swift.Sendable {
 
     public init(
         authorizedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedUrl = authorizedUrl
     }
 }
@@ -23613,8 +23160,7 @@ public struct CreatePresignedNotebookInstanceUrlInput: Swift.Sendable {
     public init(
         notebookInstanceName: Swift.String? = nil,
         sessionExpirationDurationInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
         self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
     }
@@ -23626,8 +23172,7 @@ public struct CreatePresignedNotebookInstanceUrlOutput: Swift.Sendable {
 
     public init(
         authorizedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedUrl = authorizedUrl
     }
 }
@@ -23656,8 +23201,7 @@ extension SageMakerClientTypes {
             runName: Swift.String? = nil,
             trialComponentDisplayName: Swift.String? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.experimentName = experimentName
             self.runName = runName
             self.trialComponentDisplayName = trialComponentDisplayName
@@ -23833,8 +23377,7 @@ extension SageMakerClientTypes {
             outputFormat: SageMakerClientTypes.RedshiftResultFormat? = nil,
             outputS3Uri: Swift.String? = nil,
             queryString: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterId = clusterId
             self.clusterRoleArn = clusterRoleArn
             self.database = database
@@ -23869,8 +23412,7 @@ extension SageMakerClientTypes {
             inputMode: SageMakerClientTypes.InputMode? = nil,
             localPath: Swift.String? = nil,
             redshiftDatasetDefinition: SageMakerClientTypes.RedshiftDatasetDefinition? = nil
-        )
-        {
+        ) {
             self.athenaDatasetDefinition = athenaDatasetDefinition
             self.dataDistributionType = dataDistributionType
             self.inputMode = inputMode
@@ -23964,8 +23506,7 @@ extension SageMakerClientTypes {
             s3DataType: SageMakerClientTypes.ProcessingS3DataType? = nil,
             s3InputMode: SageMakerClientTypes.ProcessingS3InputMode? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3CompressionType = s3CompressionType
             self.s3DataDistributionType = s3DataDistributionType
@@ -23995,8 +23536,7 @@ extension SageMakerClientTypes {
             datasetDefinition: SageMakerClientTypes.DatasetDefinition? = nil,
             inputName: Swift.String? = nil,
             s3Input: SageMakerClientTypes.ProcessingS3Input? = nil
-        )
-        {
+        ) {
             self.appManaged = appManaged
             self.datasetDefinition = datasetDefinition
             self.inputName = inputName
@@ -24015,8 +23555,7 @@ extension SageMakerClientTypes {
 
         public init(
             featureGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureGroupName = featureGroupName
         }
     }
@@ -24039,8 +23578,7 @@ extension SageMakerClientTypes {
             localPath: Swift.String? = nil,
             s3UploadMode: SageMakerClientTypes.ProcessingS3UploadMode? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3UploadMode = s3UploadMode
             self.s3Uri = s3Uri
@@ -24067,8 +23605,7 @@ extension SageMakerClientTypes {
             featureStoreOutput: SageMakerClientTypes.ProcessingFeatureStoreOutput? = nil,
             outputName: Swift.String? = nil,
             s3Output: SageMakerClientTypes.ProcessingS3Output? = nil
-        )
-        {
+        ) {
             self.appManaged = appManaged
             self.featureStoreOutput = featureStoreOutput
             self.outputName = outputName
@@ -24090,8 +23627,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             outputs: [SageMakerClientTypes.ProcessingOutput]? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.outputs = outputs
         }
@@ -24119,8 +23655,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ProcessingInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -24139,8 +23674,7 @@ extension SageMakerClientTypes {
 
         public init(
             clusterConfig: SageMakerClientTypes.ProcessingClusterConfig? = nil
-        )
-        {
+        ) {
             self.clusterConfig = clusterConfig
         }
     }
@@ -24156,8 +23690,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxRuntimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
     }
@@ -24209,8 +23742,7 @@ public struct CreateProcessingJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appSpecification = appSpecification
         self.environment = environment
         self.experimentConfig = experimentConfig
@@ -24232,8 +23764,7 @@ public struct CreateProcessingJobOutput: Swift.Sendable {
 
     public init(
         processingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.processingJobArn = processingJobArn
     }
 }
@@ -24250,8 +23781,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -24277,8 +23807,7 @@ extension SageMakerClientTypes {
             productId: Swift.String? = nil,
             provisioningArtifactId: Swift.String? = nil,
             provisioningParameters: [SageMakerClientTypes.ProvisioningParameter]? = nil
-        )
-        {
+        ) {
             self.pathId = pathId
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -24304,8 +23833,7 @@ public struct CreateProjectInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
@@ -24324,8 +23852,7 @@ public struct CreateProjectOutput: Swift.Sendable {
     public init(
         projectArn: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectId = projectId
     }
@@ -24341,8 +23868,7 @@ extension SageMakerClientTypes {
 
         public init(
             ownerUserProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ownerUserProfileName = ownerUserProfileName
         }
     }
@@ -24357,8 +23883,7 @@ extension SageMakerClientTypes {
 
         public init(
             idleTimeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeoutInMinutes = idleTimeoutInMinutes
         }
     }
@@ -24373,8 +23898,7 @@ extension SageMakerClientTypes {
 
         public init(
             idleSettings: SageMakerClientTypes.SpaceIdleSettings? = nil
-        )
-        {
+        ) {
             self.idleSettings = idleSettings
         }
     }
@@ -24392,8 +23916,7 @@ extension SageMakerClientTypes {
         public init(
             appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.defaultResourceSpec = defaultResourceSpec
         }
@@ -24410,8 +23933,7 @@ extension SageMakerClientTypes {
 
         public init(
             fileSystemId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
         }
     }
@@ -24427,8 +23949,7 @@ extension SageMakerClientTypes {
 
         public init(
             fileSystemId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
         }
     }
@@ -24461,8 +23982,7 @@ extension SageMakerClientTypes {
             appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement? = nil,
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
@@ -24480,8 +24000,7 @@ extension SageMakerClientTypes {
 
         public init(
             ebsVolumeSizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ebsVolumeSizeInGb = ebsVolumeSizeInGb
         }
     }
@@ -24496,8 +24015,7 @@ extension SageMakerClientTypes {
 
         public init(
             ebsStorageSettings: SageMakerClientTypes.EbsStorageSettings? = nil
-        )
-        {
+        ) {
             self.ebsStorageSettings = ebsStorageSettings
         }
     }
@@ -24530,8 +24048,7 @@ extension SageMakerClientTypes {
             jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings? = nil,
             kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
-        )
-        {
+        ) {
             self.appType = appType
             self.codeEditorAppSettings = codeEditorAppSettings
             self.customFileSystems = customFileSystems
@@ -24582,8 +24099,7 @@ extension SageMakerClientTypes {
 
         public init(
             sharingType: SageMakerClientTypes.SharingType? = nil
-        )
-        {
+        ) {
             self.sharingType = sharingType
         }
     }
@@ -24615,8 +24131,7 @@ public struct CreateSpaceInput: Swift.Sendable {
         spaceSettings: SageMakerClientTypes.SpaceSettings? = nil,
         spaceSharingSettings: SageMakerClientTypes.SpaceSharingSettings? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.ownershipSettings = ownershipSettings
         self.spaceDisplayName = spaceDisplayName
@@ -24633,8 +24148,7 @@ public struct CreateSpaceOutput: Swift.Sendable {
 
     public init(
         spaceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceArn = spaceArn
     }
 }
@@ -24692,8 +24206,7 @@ public struct CreateStudioLifecycleConfigInput: Swift.Sendable {
         studioLifecycleConfigContent: Swift.String? = nil,
         studioLifecycleConfigName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
         self.studioLifecycleConfigContent = studioLifecycleConfigContent
         self.studioLifecycleConfigName = studioLifecycleConfigName
@@ -24707,8 +24220,7 @@ public struct CreateStudioLifecycleConfigOutput: Swift.Sendable {
 
     public init(
         studioLifecycleConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigArn = studioLifecycleConfigArn
     }
 }
@@ -24732,8 +24244,7 @@ extension SageMakerClientTypes {
             hookParameters: [Swift.String: Swift.String]? = nil,
             localPath: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.collectionConfigurations = collectionConfigurations
             self.hookParameters = hookParameters
             self.localPath = localPath
@@ -24771,8 +24282,7 @@ extension SageMakerClientTypes {
             ruleParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.localPath = localPath
             self.ruleConfigurationName = ruleConfigurationName
@@ -24793,8 +24303,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableInfraCheck: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableInfraCheck = enableInfraCheck
         }
     }
@@ -24818,8 +24327,7 @@ extension SageMakerClientTypes {
             profilingIntervalInMilliseconds: Swift.Int? = nil,
             profilingParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
             self.profilingParameters = profilingParameters
@@ -24857,8 +24365,7 @@ extension SageMakerClientTypes {
             ruleParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.localPath = localPath
             self.ruleConfigurationName = ruleConfigurationName
@@ -24879,8 +24386,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableRemoteDebug: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableRemoteDebug = enableRemoteDebug
         }
     }
@@ -24895,8 +24401,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableSessionTagChaining: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableSessionTagChaining = enableSessionTagChaining
         }
     }
@@ -24915,8 +24420,7 @@ extension SageMakerClientTypes {
         public init(
             localPath: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3OutputPath = s3OutputPath
         }
@@ -25013,8 +24517,7 @@ public struct CreateTrainingJobInput: Swift.Sendable {
         tensorBoardOutputConfig: SageMakerClientTypes.TensorBoardOutputConfig? = nil,
         trainingJobName: Swift.String? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.algorithmSpecification = algorithmSpecification
         self.checkpointConfig = checkpointConfig
         self.debugHookConfig = debugHookConfig
@@ -25050,8 +24553,7 @@ public struct CreateTrainingJobOutput: Swift.Sendable {
 
     public init(
         trainingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobArn = trainingJobArn
     }
 }
@@ -25070,8 +24572,7 @@ public struct CreateTrainingPlanInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         trainingPlanName: Swift.String? = nil,
         trainingPlanOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.trainingPlanName = trainingPlanName
         self.trainingPlanOfferingId = trainingPlanOfferingId
@@ -25085,8 +24586,7 @@ public struct CreateTrainingPlanOutput: Swift.Sendable {
 
     public init(
         trainingPlanArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingPlanArn = trainingPlanArn
     }
 }
@@ -25135,8 +24635,7 @@ extension SageMakerClientTypes {
             inputFilter: Swift.String? = nil,
             joinSource: SageMakerClientTypes.JoinSource? = nil,
             outputFilter: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputFilter = inputFilter
             self.joinSource = joinSource
             self.outputFilter = outputFilter
@@ -25156,8 +24655,7 @@ extension SageMakerClientTypes {
         public init(
             invocationsMaxRetries: Swift.Int? = nil,
             invocationsTimeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.invocationsMaxRetries = invocationsMaxRetries
             self.invocationsTimeoutInSeconds = invocationsTimeoutInSeconds
         }
@@ -25220,8 +24718,7 @@ public struct CreateTransformJobInput: Swift.Sendable {
         transformJobName: Swift.String? = nil,
         transformOutput: SageMakerClientTypes.TransformOutput? = nil,
         transformResources: SageMakerClientTypes.TransformResources? = nil
-    )
-    {
+    ) {
         self.batchStrategy = batchStrategy
         self.dataCaptureConfig = dataCaptureConfig
         self.dataProcessing = dataProcessing
@@ -25246,8 +24743,7 @@ public struct CreateTransformJobOutput: Swift.Sendable {
 
     public init(
         transformJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformJobArn = transformJobArn
     }
 }
@@ -25272,8 +24768,7 @@ public struct CreateTrialInput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.experimentName = experimentName
         self.metadataProperties = metadataProperties
@@ -25288,8 +24783,7 @@ public struct CreateTrialOutput: Swift.Sendable {
 
     public init(
         trialArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
     }
 }
@@ -25307,8 +24801,7 @@ extension SageMakerClientTypes {
         public init(
             mediaType: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaType = mediaType
             self.value = value
         }
@@ -25377,8 +24870,7 @@ extension SageMakerClientTypes {
         public init(
             message: Swift.String? = nil,
             primaryStatus: SageMakerClientTypes.TrialComponentPrimaryStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.primaryStatus = primaryStatus
         }
@@ -25425,8 +24917,7 @@ public struct CreateTrialComponentInput: Swift.Sendable {
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.endTime = endTime
         self.inputArtifacts = inputArtifacts
@@ -25446,8 +24937,7 @@ public struct CreateTrialComponentOutput: Swift.Sendable {
 
     public init(
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentArn = trialComponentArn
     }
 }
@@ -25475,8 +24965,7 @@ public struct CreateUserProfileInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         userProfileName: Swift.String? = nil,
         userSettings: SageMakerClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.singleSignOnUserIdentifier = singleSignOnUserIdentifier
         self.singleSignOnUserValue = singleSignOnUserValue
@@ -25492,8 +24981,7 @@ public struct CreateUserProfileOutput: Swift.Sendable {
 
     public init(
         userProfileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userProfileArn = userProfileArn
     }
 }
@@ -25542,8 +25030,7 @@ extension SageMakerClientTypes {
             scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -25573,8 +25060,7 @@ extension SageMakerClientTypes {
 
         public init(
             cidrs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cidrs = cidrs
         }
     }
@@ -25595,8 +25081,7 @@ extension SageMakerClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.vpcId = vpcId
@@ -25626,8 +25111,7 @@ public struct CreateWorkforceInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         workforceName: Swift.String? = nil,
         workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigRequest? = nil
-    )
-    {
+    ) {
         self.cognitoConfig = cognitoConfig
         self.oidcConfig = oidcConfig
         self.sourceIpConfig = sourceIpConfig
@@ -25644,8 +25128,7 @@ public struct CreateWorkforceOutput: Swift.Sendable {
 
     public init(
         workforceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workforceArn = workforceArn
     }
 }
@@ -25659,8 +25142,7 @@ extension SageMakerClientTypes {
 
         public init(
             groups: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groups = groups
         }
     }
@@ -25678,8 +25160,7 @@ extension SageMakerClientTypes {
         public init(
             cognitoMemberDefinition: SageMakerClientTypes.CognitoMemberDefinition? = nil,
             oidcMemberDefinition: SageMakerClientTypes.OidcMemberDefinition? = nil
-        )
-        {
+        ) {
             self.cognitoMemberDefinition = cognitoMemberDefinition
             self.oidcMemberDefinition = oidcMemberDefinition
         }
@@ -25695,8 +25176,7 @@ extension SageMakerClientTypes {
 
         public init(
             notificationTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.notificationTopicArn = notificationTopicArn
         }
     }
@@ -25743,8 +25223,7 @@ extension SageMakerClientTypes {
         public init(
             sourceIp: SageMakerClientTypes.EnabledOrDisabled? = nil,
             vpcSourceIp: SageMakerClientTypes.EnabledOrDisabled? = nil
-        )
-        {
+        ) {
             self.sourceIp = sourceIp
             self.vpcSourceIp = vpcSourceIp
         }
@@ -25760,8 +25239,7 @@ extension SageMakerClientTypes {
 
         public init(
             iamPolicyConstraints: SageMakerClientTypes.IamPolicyConstraints? = nil
-        )
-        {
+        ) {
             self.iamPolicyConstraints = iamPolicyConstraints
         }
     }
@@ -25776,8 +25254,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Presign: SageMakerClientTypes.S3Presign? = nil
-        )
-        {
+        ) {
             self.s3Presign = s3Presign
         }
     }
@@ -25810,8 +25287,7 @@ public struct CreateWorkteamInput: Swift.Sendable {
         workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration? = nil,
         workforceName: Swift.String? = nil,
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.memberDefinitions = memberDefinitions
         self.notificationConfiguration = notificationConfiguration
@@ -25828,8 +25304,7 @@ public struct CreateWorkteamOutput: Swift.Sendable {
 
     public init(
         workteamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamArn = workteamArn
     }
 }
@@ -25916,8 +25391,7 @@ extension SageMakerClientTypes {
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil,
             statistic: SageMakerClientTypes.Statistic? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.namespace = namespace
             self.statistic = statistic
@@ -25951,8 +25425,7 @@ extension SageMakerClientTypes {
             destinationS3Uri: Swift.String? = nil,
             enableCapture: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.captureStatus = captureStatus
             self.currentSamplingPercentage = currentSamplingPercentage
             self.destinationS3Uri = destinationS3Uri
@@ -26024,8 +25497,7 @@ extension SageMakerClientTypes {
             ruleEvaluationJobArn: Swift.String? = nil,
             ruleEvaluationStatus: SageMakerClientTypes.RuleEvaluationStatus? = nil,
             statusDetails: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTime = lastModifiedTime
             self.ruleConfigurationName = ruleConfigurationName
             self.ruleEvaluationJobArn = ruleEvaluationJobArn
@@ -26042,8 +25514,7 @@ public struct DeleteActionInput: Swift.Sendable {
 
     public init(
         actionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
     }
 }
@@ -26054,8 +25525,7 @@ public struct DeleteActionOutput: Swift.Sendable {
 
     public init(
         actionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
     }
 }
@@ -26067,8 +25537,7 @@ public struct DeleteAlgorithmInput: Swift.Sendable {
 
     public init(
         algorithmName: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmName = algorithmName
     }
 }
@@ -26094,8 +25563,7 @@ public struct DeleteAppInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
@@ -26111,8 +25579,7 @@ public struct DeleteAppImageConfigInput: Swift.Sendable {
 
     public init(
         appImageConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
     }
 }
@@ -26126,8 +25593,7 @@ public struct DeleteArtifactInput: Swift.Sendable {
     public init(
         artifactArn: Swift.String? = nil,
         source: SageMakerClientTypes.ArtifactSource? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
         self.source = source
     }
@@ -26139,8 +25605,7 @@ public struct DeleteArtifactOutput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -26156,8 +25621,7 @@ public struct DeleteAssociationInput: Swift.Sendable {
     public init(
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
     }
@@ -26172,8 +25636,7 @@ public struct DeleteAssociationOutput: Swift.Sendable {
     public init(
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
     }
@@ -26186,8 +25649,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -26199,8 +25661,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -26212,8 +25673,7 @@ public struct DeleteClusterSchedulerConfigInput: Swift.Sendable {
 
     public init(
         clusterSchedulerConfigId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSchedulerConfigId = clusterSchedulerConfigId
     }
 }
@@ -26225,8 +25685,7 @@ public struct DeleteCodeRepositoryInput: Swift.Sendable {
 
     public init(
         codeRepositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
     }
 }
@@ -26238,8 +25697,7 @@ public struct DeleteCompilationJobInput: Swift.Sendable {
 
     public init(
         compilationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
     }
 }
@@ -26251,8 +25709,7 @@ public struct DeleteComputeQuotaInput: Swift.Sendable {
 
     public init(
         computeQuotaId: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeQuotaId = computeQuotaId
     }
 }
@@ -26264,8 +25721,7 @@ public struct DeleteContextInput: Swift.Sendable {
 
     public init(
         contextName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
     }
 }
@@ -26276,8 +25732,7 @@ public struct DeleteContextOutput: Swift.Sendable {
 
     public init(
         contextArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
     }
 }
@@ -26289,8 +25744,7 @@ public struct DeleteDataQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -26302,8 +25756,7 @@ public struct DeleteDeviceFleetInput: Swift.Sendable {
 
     public init(
         deviceFleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
     }
 }
@@ -26346,8 +25799,7 @@ extension SageMakerClientTypes {
 
         public init(
             homeEfsFileSystem: SageMakerClientTypes.RetentionType? = nil
-        )
-        {
+        ) {
             self.homeEfsFileSystem = homeEfsFileSystem
         }
     }
@@ -26363,8 +25815,7 @@ public struct DeleteDomainInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         retentionPolicy: SageMakerClientTypes.RetentionPolicy? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.retentionPolicy = retentionPolicy
     }
@@ -26377,8 +25828,7 @@ public struct DeleteEdgeDeploymentPlanInput: Swift.Sendable {
 
     public init(
         edgeDeploymentPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
     }
 }
@@ -26394,8 +25844,7 @@ public struct DeleteEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stageName = stageName
     }
@@ -26408,8 +25857,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -26421,8 +25869,7 @@ public struct DeleteEndpointConfigInput: Swift.Sendable {
 
     public init(
         endpointConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigName = endpointConfigName
     }
 }
@@ -26434,8 +25881,7 @@ public struct DeleteExperimentInput: Swift.Sendable {
 
     public init(
         experimentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentName = experimentName
     }
 }
@@ -26446,8 +25892,7 @@ public struct DeleteExperimentOutput: Swift.Sendable {
 
     public init(
         experimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentArn = experimentArn
     }
 }
@@ -26459,8 +25904,7 @@ public struct DeleteFeatureGroupInput: Swift.Sendable {
 
     public init(
         featureGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupName = featureGroupName
     }
 }
@@ -26472,8 +25916,7 @@ public struct DeleteFlowDefinitionInput: Swift.Sendable {
 
     public init(
         flowDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionName = flowDefinitionName
     }
 }
@@ -26490,8 +25933,7 @@ public struct DeleteHubInput: Swift.Sendable {
 
     public init(
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubName = hubName
     }
 }
@@ -26547,8 +25989,7 @@ public struct DeleteHubContentInput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
@@ -26571,8 +26012,7 @@ public struct DeleteHubContentReferenceInput: Swift.Sendable {
         hubContentName: Swift.String? = nil,
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubContentType = hubContentType
         self.hubName = hubName
@@ -26586,8 +26026,7 @@ public struct DeleteHumanTaskUiInput: Swift.Sendable {
 
     public init(
         humanTaskUiName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiName = humanTaskUiName
     }
 }
@@ -26604,8 +26043,7 @@ public struct DeleteHyperParameterTuningJobInput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
     }
 }
@@ -26617,8 +26055,7 @@ public struct DeleteImageInput: Swift.Sendable {
 
     public init(
         imageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageName = imageName
     }
 }
@@ -26641,8 +26078,7 @@ public struct DeleteImageVersionInput: Swift.Sendable {
         alias: Swift.String? = nil,
         imageName: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.imageName = imageName
         self.version = version
@@ -26661,8 +26097,7 @@ public struct DeleteInferenceComponentInput: Swift.Sendable {
 
     public init(
         inferenceComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentName = inferenceComponentName
     }
 }
@@ -26674,8 +26109,7 @@ public struct DeleteInferenceExperimentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -26687,8 +26121,7 @@ public struct DeleteInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -26700,8 +26133,7 @@ public struct DeleteMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -26712,8 +26144,7 @@ public struct DeleteMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -26725,8 +26156,7 @@ public struct DeleteModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -26738,8 +26168,7 @@ public struct DeleteModelBiasJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -26751,8 +26180,7 @@ public struct DeleteModelCardInput: Swift.Sendable {
 
     public init(
         modelCardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardName = modelCardName
     }
 }
@@ -26764,8 +26192,7 @@ public struct DeleteModelExplainabilityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -26777,8 +26204,7 @@ public struct DeleteModelPackageInput: Swift.Sendable {
 
     public init(
         modelPackageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageName = modelPackageName
     }
 }
@@ -26790,8 +26216,7 @@ public struct DeleteModelPackageGroupInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -26803,8 +26228,7 @@ public struct DeleteModelPackageGroupPolicyInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -26816,8 +26240,7 @@ public struct DeleteModelQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -26829,8 +26252,7 @@ public struct DeleteMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
@@ -26842,8 +26264,7 @@ public struct DeleteNotebookInstanceInput: Swift.Sendable {
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -26855,8 +26276,7 @@ public struct DeleteNotebookInstanceLifecycleConfigInput: Swift.Sendable {
 
     public init(
         notebookInstanceLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
     }
 }
@@ -26868,8 +26288,7 @@ public struct DeleteOptimizationJobInput: Swift.Sendable {
 
     public init(
         optimizationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobName = optimizationJobName
     }
 }
@@ -26884,8 +26303,7 @@ public struct DeletePartnerAppInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientToken = clientToken
     }
@@ -26897,8 +26315,7 @@ public struct DeletePartnerAppOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -26914,8 +26331,7 @@ public struct DeletePipelineInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.pipelineName = pipelineName
     }
@@ -26927,8 +26343,7 @@ public struct DeletePipelineOutput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineArn = pipelineArn
     }
 }
@@ -26940,8 +26355,7 @@ public struct DeleteProjectInput: Swift.Sendable {
 
     public init(
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
     }
 }
@@ -26957,8 +26371,7 @@ public struct DeleteSpaceInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.spaceName = spaceName
     }
@@ -26971,8 +26384,7 @@ public struct DeleteStudioLifecycleConfigInput: Swift.Sendable {
 
     public init(
         studioLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigName = studioLifecycleConfigName
     }
 }
@@ -26988,8 +26400,7 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -27007,8 +26418,7 @@ public struct DeleteTrialInput: Swift.Sendable {
 
     public init(
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialName = trialName
     }
 }
@@ -27019,8 +26429,7 @@ public struct DeleteTrialOutput: Swift.Sendable {
 
     public init(
         trialArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
     }
 }
@@ -27032,8 +26441,7 @@ public struct DeleteTrialComponentInput: Swift.Sendable {
 
     public init(
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
     }
 }
@@ -27044,8 +26452,7 @@ public struct DeleteTrialComponentOutput: Swift.Sendable {
 
     public init(
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentArn = trialComponentArn
     }
 }
@@ -27061,8 +26468,7 @@ public struct DeleteUserProfileInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.userProfileName = userProfileName
     }
@@ -27075,8 +26481,7 @@ public struct DeleteWorkforceInput: Swift.Sendable {
 
     public init(
         workforceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workforceName = workforceName
     }
 }
@@ -27093,8 +26498,7 @@ public struct DeleteWorkteamInput: Swift.Sendable {
 
     public init(
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamName = workteamName
     }
 }
@@ -27106,8 +26510,7 @@ public struct DeleteWorkteamOutput: Swift.Sendable {
 
     public init(
         success: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.success = success
     }
 }
@@ -27127,8 +26530,7 @@ extension SageMakerClientTypes {
             resolutionTime: Foundation.Date? = nil,
             resolvedImage: Swift.String? = nil,
             specifiedImage: Swift.String? = nil
-        )
-        {
+        ) {
             self.resolutionTime = resolutionTime
             self.resolvedImage = resolvedImage
             self.specifiedImage = specifiedImage
@@ -27153,8 +26555,7 @@ extension SageMakerClientTypes {
             environment: [Swift.String: Swift.String]? = nil,
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environment = environment
             self.instanceType = instanceType
             self.recommendationId = recommendationId
@@ -27210,8 +26611,7 @@ extension SageMakerClientTypes {
         public init(
             realTimeInferenceRecommendations: [SageMakerClientTypes.RealTimeInferenceRecommendation]? = nil,
             recommendationStatus: SageMakerClientTypes.RecommendationStatus? = nil
-        )
-        {
+        ) {
             self.realTimeInferenceRecommendations = realTimeInferenceRecommendations
             self.recommendationStatus = recommendationStatus
         }
@@ -27293,8 +26693,7 @@ extension SageMakerClientTypes {
             edgeDeploymentStatusMessage: Swift.String? = nil,
             edgeDeploymentSuccessInStage: Swift.Int? = nil,
             stageStatus: SageMakerClientTypes.StageStatus? = nil
-        )
-        {
+        ) {
             self.edgeDeploymentFailedInStage = edgeDeploymentFailedInStage
             self.edgeDeploymentPendingInStage = edgeDeploymentPendingInStage
             self.edgeDeploymentStageStartTime = edgeDeploymentStageStartTime
@@ -27327,8 +26726,7 @@ extension SageMakerClientTypes {
             deploymentStatus: SageMakerClientTypes.EdgeDeploymentStatus? = nil,
             deviceSelectionConfig: SageMakerClientTypes.DeviceSelectionConfig? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentConfig = deploymentConfig
             self.deploymentStatus = deploymentStatus
             self.deviceSelectionConfig = deviceSelectionConfig
@@ -27348,8 +26746,7 @@ public struct DeregisterDevicesInput: Swift.Sendable {
     public init(
         deviceFleetName: Swift.String? = nil,
         deviceNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.deviceNames = deviceNames
     }
@@ -27364,8 +26761,7 @@ extension SageMakerClientTypes {
 
         public init(
             derivedDataInputConfig: Swift.String? = nil
-        )
-        {
+        ) {
             self.derivedDataInputConfig = derivedDataInputConfig
         }
     }
@@ -27378,8 +26774,7 @@ public struct DescribeActionInput: Swift.Sendable {
 
     public init(
         actionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
     }
 }
@@ -27426,8 +26821,7 @@ public struct DescribeActionOutput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ActionSource? = nil,
         status: SageMakerClientTypes.ActionStatus? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
         self.actionName = actionName
         self.actionType = actionType
@@ -27451,8 +26845,7 @@ public struct DescribeAlgorithmInput: Swift.Sendable {
 
     public init(
         algorithmName: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmName = algorithmName
     }
 }
@@ -27499,8 +26892,7 @@ public struct DescribeAlgorithmOutput: Swift.Sendable {
         productId: Swift.String? = nil,
         trainingSpecification: SageMakerClientTypes.TrainingSpecification? = nil,
         validationSpecification: SageMakerClientTypes.AlgorithmValidationSpecification? = nil
-    )
-    {
+    ) {
         self.algorithmArn = algorithmArn
         self.algorithmDescription = algorithmDescription
         self.algorithmName = algorithmName
@@ -27536,8 +26928,7 @@ public struct DescribeAppInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
@@ -27588,8 +26979,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         spaceName: Swift.String? = nil,
         status: SageMakerClientTypes.AppStatus? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appName = appName
         self.appType = appType
@@ -27613,8 +27003,7 @@ public struct DescribeAppImageConfigInput: Swift.Sendable {
 
     public init(
         appImageConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
     }
 }
@@ -27643,8 +27032,7 @@ public struct DescribeAppImageConfigOutput: Swift.Sendable {
         jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
         kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appImageConfigArn = appImageConfigArn
         self.appImageConfigName = appImageConfigName
         self.codeEditorAppImageConfig = codeEditorAppImageConfig
@@ -27662,8 +27050,7 @@ public struct DescribeArtifactInput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -27704,8 +27091,7 @@ public struct DescribeArtifactOutput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ArtifactSource? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
         self.artifactName = artifactName
         self.artifactType = artifactType
@@ -27727,8 +27113,7 @@ public struct DescribeAutoMLJobInput: Swift.Sendable {
 
     public init(
         autoMLJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
     }
 }
@@ -27742,8 +27127,7 @@ extension SageMakerClientTypes {
 
         public init(
             endpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointName = endpointName
         }
     }
@@ -27764,8 +27148,7 @@ extension SageMakerClientTypes {
             autoMLJobObjective: SageMakerClientTypes.AutoMLJobObjective? = nil,
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil,
             problemType: SageMakerClientTypes.ProblemType? = nil
-        )
-        {
+        ) {
             self.autoMLJobObjective = autoMLJobObjective
             self.completionCriteria = completionCriteria
             self.problemType = problemType
@@ -27848,8 +27231,7 @@ public struct DescribeAutoMLJobOutput: Swift.Sendable {
         problemType: SageMakerClientTypes.ProblemType? = nil,
         resolvedAttributes: SageMakerClientTypes.ResolvedAttributes? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
         self.autoMLJobArtifacts = autoMLJobArtifacts
         self.autoMLJobConfig = autoMLJobConfig
@@ -27881,8 +27263,7 @@ public struct DescribeAutoMLJobV2Input: Swift.Sendable {
 
     public init(
         autoMLJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
     }
 }
@@ -27968,8 +27349,7 @@ public struct DescribeAutoMLJobV2Output: Swift.Sendable {
         resolvedAttributes: SageMakerClientTypes.AutoMLResolvedAttributes? = nil,
         roleArn: Swift.String? = nil,
         securityConfig: SageMakerClientTypes.AutoMLSecurityConfig? = nil
-    )
-    {
+    ) {
         self.autoMLComputeConfig = autoMLComputeConfig
         self.autoMLJobArn = autoMLJobArn
         self.autoMLJobArtifacts = autoMLJobArtifacts
@@ -28003,8 +27383,7 @@ public struct DescribeClusterInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -28042,8 +27421,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterName = clusterName
         self.clusterStatus = clusterStatus
@@ -28067,8 +27445,7 @@ public struct DescribeClusterNodeInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.nodeId = nodeId
     }
@@ -28081,8 +27458,7 @@ public struct DescribeClusterNodeOutput: Swift.Sendable {
 
     public init(
         nodeDetails: SageMakerClientTypes.ClusterNodeDetails? = nil
-    )
-    {
+    ) {
         self.nodeDetails = nodeDetails
     }
 }
@@ -28097,8 +27473,7 @@ public struct DescribeClusterSchedulerConfigInput: Swift.Sendable {
     public init(
         clusterSchedulerConfigId: Swift.String? = nil,
         clusterSchedulerConfigVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterSchedulerConfigId = clusterSchedulerConfigId
         self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
     }
@@ -28152,8 +27527,7 @@ public struct DescribeClusterSchedulerConfigOutput: Swift.Sendable {
         name: Swift.String? = nil,
         schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
         status: SageMakerClientTypes.SchedulerResourceStatus? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
         self.clusterSchedulerConfigId = clusterSchedulerConfigId
@@ -28177,8 +27551,7 @@ public struct DescribeCodeRepositoryInput: Swift.Sendable {
 
     public init(
         codeRepositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
     }
 }
@@ -28205,8 +27578,7 @@ public struct DescribeCodeRepositoryOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         gitConfig: SageMakerClientTypes.GitConfig? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.codeRepositoryArn = codeRepositoryArn
         self.codeRepositoryName = codeRepositoryName
         self.creationTime = creationTime
@@ -28222,8 +27594,7 @@ public struct DescribeCompilationJobInput: Swift.Sendable {
 
     public init(
         compilationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
     }
 }
@@ -28238,8 +27609,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3ModelArtifacts: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3ModelArtifacts = s3ModelArtifacts
         }
     }
@@ -28254,8 +27624,7 @@ extension SageMakerClientTypes {
 
         public init(
             artifactDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactDigest = artifactDigest
         }
     }
@@ -28329,8 +27698,7 @@ public struct DescribeCompilationJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         vpcConfig: SageMakerClientTypes.NeoVpcConfig? = nil
-    )
-    {
+    ) {
         self.compilationEndTime = compilationEndTime
         self.compilationJobArn = compilationJobArn
         self.compilationJobName = compilationJobName
@@ -28362,8 +27730,7 @@ public struct DescribeComputeQuotaInput: Swift.Sendable {
     public init(
         computeQuotaId: Swift.String? = nil,
         computeQuotaVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.computeQuotaId = computeQuotaId
         self.computeQuotaVersion = computeQuotaVersion
     }
@@ -28424,8 +27791,7 @@ public struct DescribeComputeQuotaOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: SageMakerClientTypes.SchedulerResourceStatus? = nil
-    )
-    {
+    ) {
         self.activationState = activationState
         self.clusterArn = clusterArn
         self.computeQuotaArn = computeQuotaArn
@@ -28451,8 +27817,7 @@ public struct DescribeContextInput: Swift.Sendable {
 
     public init(
         contextName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
     }
 }
@@ -28493,8 +27858,7 @@ public struct DescribeContextOutput: Swift.Sendable {
         lineageGroupArn: Swift.String? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ContextSource? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
         self.contextName = contextName
         self.contextType = contextType
@@ -28516,8 +27880,7 @@ public struct DescribeDataQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -28566,8 +27929,7 @@ public struct DescribeDataQualityJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.dataQualityAppSpecification = dataQualityAppSpecification
         self.dataQualityBaselineConfig = dataQualityBaselineConfig
@@ -28596,8 +27958,7 @@ public struct DescribeDeviceInput: Swift.Sendable {
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.deviceName = deviceName
         self.nextToken = nextToken
@@ -28624,8 +27985,7 @@ extension SageMakerClientTypes {
             latestSampleTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestInference = latestInference
             self.latestSampleTime = latestSampleTime
             self.modelName = modelName
@@ -28673,8 +28033,7 @@ public struct DescribeDeviceOutput: Swift.Sendable {
         models: [SageMakerClientTypes.EdgeModel]? = nil,
         nextToken: Swift.String? = nil,
         registrationTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.description = description
         self.deviceArn = deviceArn
@@ -28696,8 +28055,7 @@ public struct DescribeDeviceFleetInput: Swift.Sendable {
 
     public init(
         deviceFleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
     }
 }
@@ -28734,8 +28092,7 @@ public struct DescribeDeviceFleetOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.deviceFleetArn = deviceFleetArn
@@ -28754,8 +28111,7 @@ public struct DescribeDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -28881,8 +28237,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         url: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appNetworkAccessType = appNetworkAccessType
         self.appSecurityGroupManagement = appSecurityGroupManagement
         self.authMode = authMode
@@ -28922,8 +28277,7 @@ public struct DescribeEdgeDeploymentPlanInput: Swift.Sendable {
         edgeDeploymentPlanName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -28971,8 +28325,7 @@ public struct DescribeEdgeDeploymentPlanOutput: Swift.Sendable {
         modelConfigs: [SageMakerClientTypes.EdgeDeploymentModelConfig]? = nil,
         nextToken: Swift.String? = nil,
         stages: [SageMakerClientTypes.DeploymentStageStatusSummary]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.deviceFleetName = deviceFleetName
         self.edgeDeploymentFailed = edgeDeploymentFailed
@@ -28994,8 +28347,7 @@ public struct DescribeEdgePackagingJobInput: Swift.Sendable {
 
     public init(
         edgePackagingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgePackagingJobName = edgePackagingJobName
     }
 }
@@ -29089,8 +28441,7 @@ extension SageMakerClientTypes {
             status: SageMakerClientTypes.EdgePresetDeploymentStatus? = nil,
             statusMessage: Swift.String? = nil,
             type: SageMakerClientTypes.EdgePresetDeploymentType? = nil
-        )
-        {
+        ) {
             self.artifact = artifact
             self.status = status
             self.statusMessage = statusMessage
@@ -29150,8 +28501,7 @@ public struct DescribeEdgePackagingJobOutput: Swift.Sendable {
         presetDeploymentOutput: SageMakerClientTypes.EdgePresetDeploymentOutput? = nil,
         resourceKey: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
         self.creationTime = creationTime
         self.edgePackagingJobArn = edgePackagingJobArn
@@ -29177,8 +28527,7 @@ public struct DescribeEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -29297,8 +28646,7 @@ extension SageMakerClientTypes {
             startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.VariantStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.startTime = startTime
             self.status = status
             self.statusMessage = statusMessage
@@ -29352,8 +28700,7 @@ extension SageMakerClientTypes {
             routingConfig: SageMakerClientTypes.ProductionVariantRoutingConfig? = nil,
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
-        )
-        {
+        ) {
             self.acceleratorType = acceleratorType
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
@@ -29390,8 +28737,7 @@ extension SageMakerClientTypes {
             productionVariants: [SageMakerClientTypes.PendingProductionVariantSummary]? = nil,
             shadowProductionVariants: [SageMakerClientTypes.PendingProductionVariantSummary]? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endpointConfigName = endpointConfigName
             self.productionVariants = productionVariants
             self.shadowProductionVariants = shadowProductionVariants
@@ -29440,8 +28786,7 @@ extension SageMakerClientTypes {
             routingConfig: SageMakerClientTypes.ProductionVariantRoutingConfig? = nil,
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
-        )
-        {
+        ) {
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
             self.currentWeight = currentWeight
@@ -29525,8 +28870,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
         pendingDeploymentSummary: SageMakerClientTypes.PendingDeploymentSummary? = nil,
         productionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
         shadowProductionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil
-    )
-    {
+    ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
         self.dataCaptureConfig = dataCaptureConfig
@@ -29551,8 +28895,7 @@ public struct DescribeEndpointConfigInput: Swift.Sendable {
 
     public init(
         endpointConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigName = endpointConfigName
     }
 }
@@ -29600,8 +28943,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
         productionVariants: [SageMakerClientTypes.ProductionVariant]? = nil,
         shadowProductionVariants: [SageMakerClientTypes.ProductionVariant]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
         self.dataCaptureConfig = dataCaptureConfig
@@ -29624,8 +28966,7 @@ public struct DescribeExperimentInput: Swift.Sendable {
 
     public init(
         experimentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentName = experimentName
     }
 }
@@ -29643,8 +28984,7 @@ extension SageMakerClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
         }
@@ -29681,8 +29021,7 @@ public struct DescribeExperimentOutput: Swift.Sendable {
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         source: SageMakerClientTypes.ExperimentSource? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.description = description
@@ -29705,8 +29044,7 @@ public struct DescribeFeatureGroupInput: Swift.Sendable {
     public init(
         featureGroupName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupName = featureGroupName
         self.nextToken = nextToken
     }
@@ -29795,8 +29133,7 @@ extension SageMakerClientTypes {
         public init(
             failureReason: Swift.String? = nil,
             status: SageMakerClientTypes.LastUpdateStatusValue? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.status = status
         }
@@ -29848,8 +29185,7 @@ extension SageMakerClientTypes {
         public init(
             blockedReason: Swift.String? = nil,
             status: SageMakerClientTypes.OfflineStoreStatusValue? = nil
-        )
-        {
+        ) {
             self.blockedReason = blockedReason
             self.status = status
         }
@@ -29872,8 +29208,7 @@ extension SageMakerClientTypes {
             provisionedReadCapacityUnits: Swift.Int? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil,
             throughputMode: SageMakerClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
             self.throughputMode = throughputMode
@@ -29959,8 +29294,7 @@ public struct DescribeFeatureGroupOutput: Swift.Sendable {
         recordIdentifierFeatureName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         throughputConfig: SageMakerClientTypes.ThroughputConfigDescription? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.eventTimeFeatureName = eventTimeFeatureName
@@ -29993,8 +29327,7 @@ public struct DescribeFeatureMetadataInput: Swift.Sendable {
     public init(
         featureGroupName: Swift.String? = nil,
         featureName: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupName = featureGroupName
         self.featureName = featureName
     }
@@ -30012,8 +29345,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -30053,8 +29385,7 @@ public struct DescribeFeatureMetadataOutput: Swift.Sendable {
         featureType: SageMakerClientTypes.FeatureType? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         parameters: [SageMakerClientTypes.FeatureParameter]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.featureGroupArn = featureGroupArn
@@ -30073,8 +29404,7 @@ public struct DescribeFlowDefinitionInput: Swift.Sendable {
 
     public init(
         flowDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionName = flowDefinitionName
     }
 }
@@ -30153,8 +29483,7 @@ public struct DescribeFlowDefinitionOutput: Swift.Sendable {
         humanLoopRequestSource: SageMakerClientTypes.HumanLoopRequestSource? = nil,
         outputConfig: SageMakerClientTypes.FlowDefinitionOutputConfig? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.flowDefinitionArn = flowDefinitionArn
@@ -30175,8 +29504,7 @@ public struct DescribeHubInput: Swift.Sendable {
 
     public init(
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubName = hubName
     }
 }
@@ -30263,8 +29591,7 @@ public struct DescribeHubOutput: Swift.Sendable {
         hubStatus: SageMakerClientTypes.HubStatus? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.hubArn = hubArn
@@ -30296,8 +29623,7 @@ public struct DescribeHubContentInput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
@@ -30317,8 +29643,7 @@ extension SageMakerClientTypes {
         public init(
             dependencyCopyPath: Swift.String? = nil,
             dependencyOriginPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.dependencyCopyPath = dependencyCopyPath
             self.dependencyOriginPath = dependencyOriginPath
         }
@@ -30462,8 +29787,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         referenceMinVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.documentSchemaVersion = documentSchemaVersion
         self.failureReason = failureReason
@@ -30493,8 +29817,7 @@ public struct DescribeHumanTaskUiInput: Swift.Sendable {
 
     public init(
         humanTaskUiName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiName = humanTaskUiName
     }
 }
@@ -30540,8 +29863,7 @@ extension SageMakerClientTypes {
         public init(
             contentSha256: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentSha256 = contentSha256
             self.url = url
         }
@@ -30570,8 +29892,7 @@ public struct DescribeHumanTaskUiOutput: Swift.Sendable {
         humanTaskUiName: Swift.String? = nil,
         humanTaskUiStatus: SageMakerClientTypes.HumanTaskUiStatus? = nil,
         uiTemplate: SageMakerClientTypes.UiTemplateInfo? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.humanTaskUiArn = humanTaskUiArn
         self.humanTaskUiName = humanTaskUiName
@@ -30587,8 +29908,7 @@ public struct DescribeHyperParameterTuningJobInput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
     }
 }
@@ -30610,8 +29930,7 @@ extension SageMakerClientTypes {
             metricName: Swift.String? = nil,
             type: SageMakerClientTypes.HyperParameterTuningJobObjectiveType? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.type = type
             self.value = value
@@ -30716,8 +30035,7 @@ extension SageMakerClientTypes {
             trainingStartTime: Foundation.Date? = nil,
             tunedHyperParameters: [Swift.String: Swift.String]? = nil,
             tuningJobName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.finalHyperParameterTuningJobObjectiveMetric = finalHyperParameterTuningJobObjectiveMetric
@@ -30743,8 +30061,7 @@ extension SageMakerClientTypes {
 
         public init(
             runtimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.runtimeInSeconds = runtimeInSeconds
         }
     }
@@ -30809,8 +30126,7 @@ extension SageMakerClientTypes {
             failed: Swift.Int? = nil,
             pending: Swift.Int? = nil,
             succeeded: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failed = failed
             self.pending = pending
             self.succeeded = succeeded
@@ -30839,8 +30155,7 @@ extension SageMakerClientTypes {
             nonRetryableError: Swift.Int? = nil,
             retryableError: Swift.Int? = nil,
             stopped: Swift.Int? = nil
-        )
-        {
+        ) {
             self.completed = completed
             self.inProgress = inProgress
             self.nonRetryableError = nonRetryableError
@@ -30862,8 +30177,7 @@ extension SageMakerClientTypes {
         public init(
             convergenceDetectedTime: Foundation.Date? = nil,
             numberOfTrainingJobsObjectiveNotImproving: Swift.Int? = nil
-        )
-        {
+        ) {
             self.convergenceDetectedTime = convergenceDetectedTime
             self.numberOfTrainingJobsObjectiveNotImproving = numberOfTrainingJobsObjectiveNotImproving
         }
@@ -30934,8 +30248,7 @@ public struct DescribeHyperParameterTuningJobOutput: Swift.Sendable {
         trainingJobStatusCounters: SageMakerClientTypes.TrainingJobStatusCounters? = nil,
         tuningJobCompletionDetails: SageMakerClientTypes.HyperParameterTuningJobCompletionDetails? = nil,
         warmStartConfig: SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig? = nil
-    )
-    {
+    ) {
         self.autotune = autotune
         self.bestTrainingJob = bestTrainingJob
         self.consumedResources = consumedResources
@@ -30964,8 +30277,7 @@ public struct DescribeImageInput: Swift.Sendable {
 
     public init(
         imageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageName = imageName
     }
 }
@@ -31044,8 +30356,7 @@ public struct DescribeImageOutput: Swift.Sendable {
         imageStatus: SageMakerClientTypes.ImageStatus? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.displayName = displayName
@@ -31071,8 +30382,7 @@ public struct DescribeImageVersionInput: Swift.Sendable {
         alias: Swift.String? = nil,
         imageName: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.imageName = imageName
         self.version = version
@@ -31186,8 +30496,7 @@ public struct DescribeImageVersionOutput: Swift.Sendable {
         releaseNotes: Swift.String? = nil,
         vendorGuidance: SageMakerClientTypes.VendorGuidance? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.baseImage = baseImage
         self.containerImage = containerImage
         self.creationTime = creationTime
@@ -31214,8 +30523,7 @@ public struct DescribeInferenceComponentInput: Swift.Sendable {
 
     public init(
         inferenceComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentName = inferenceComponentName
     }
 }
@@ -31270,8 +30578,7 @@ extension SageMakerClientTypes {
         public init(
             currentCopyCount: Swift.Int? = nil,
             desiredCopyCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.currentCopyCount = currentCopyCount
             self.desiredCopyCount = desiredCopyCount
         }
@@ -31293,8 +30600,7 @@ extension SageMakerClientTypes {
             artifactUrl: Swift.String? = nil,
             deployedImage: SageMakerClientTypes.DeployedImage? = nil,
             environment: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.artifactUrl = artifactUrl
             self.deployedImage = deployedImage
             self.environment = environment
@@ -31323,8 +30629,7 @@ extension SageMakerClientTypes {
             container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
-        )
-        {
+        ) {
             self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
@@ -31376,8 +30681,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecificationSummary? = nil,
         variantName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.endpointArn = endpointArn
         self.endpointName = endpointName
@@ -31399,8 +30703,7 @@ public struct DescribeInferenceExperimentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -31424,8 +30727,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
             failureReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
             self.endpointStatus = endpointStatus
@@ -31504,8 +30806,7 @@ extension SageMakerClientTypes {
             modelName: Swift.String? = nil,
             status: SageMakerClientTypes.ModelVariantStatus? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.infrastructureConfig = infrastructureConfig
             self.modelName = modelName
             self.status = status
@@ -31634,8 +30935,7 @@ public struct DescribeInferenceExperimentOutput: Swift.Sendable {
         status: SageMakerClientTypes.InferenceExperimentStatus? = nil,
         statusReason: Swift.String? = nil,
         type: SageMakerClientTypes.InferenceExperimentType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.completionTime = completionTime
         self.creationTime = creationTime
@@ -31662,8 +30962,7 @@ public struct DescribeInferenceRecommendationsJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -31682,8 +30981,7 @@ extension SageMakerClientTypes {
         public init(
             maxInvocations: Swift.Int? = nil,
             modelLatency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxInvocations = maxInvocations
             self.modelLatency = modelLatency
         }
@@ -31704,8 +31002,7 @@ extension SageMakerClientTypes {
         public init(
             endpointInfo: SageMakerClientTypes.EndpointInfo? = nil,
             metrics: SageMakerClientTypes.InferenceMetrics? = nil
-        )
-        {
+        ) {
             self.endpointInfo = endpointInfo
             self.metrics = metrics
         }
@@ -31735,8 +31032,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
             serverlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointName = endpointName
             self.initialInstanceCount = initialInstanceCount
             self.instanceType = instanceType
@@ -31773,8 +31069,7 @@ extension SageMakerClientTypes {
             memoryUtilization: Swift.Float? = nil,
             modelLatency: Swift.Int? = nil,
             modelSetupTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.costPerHour = costPerHour
             self.costPerInference = costPerInference
             self.cpuUtilization = cpuUtilization
@@ -31804,8 +31099,7 @@ extension SageMakerClientTypes {
             key: Swift.String? = nil,
             value: Swift.String? = nil,
             valueType: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
             self.valueType = valueType
@@ -31828,8 +31122,7 @@ extension SageMakerClientTypes {
             compilationJobName: Swift.String? = nil,
             environmentParameters: [SageMakerClientTypes.EnvironmentParameter]? = nil,
             inferenceSpecificationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.compilationJobName = compilationJobName
             self.environmentParameters = environmentParameters
             self.inferenceSpecificationName = inferenceSpecificationName
@@ -31863,8 +31156,7 @@ extension SageMakerClientTypes {
             metrics: SageMakerClientTypes.RecommendationMetrics? = nil,
             modelConfiguration: SageMakerClientTypes.ModelConfiguration? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointConfiguration = endpointConfiguration
             self.invocationEndTime = invocationEndTime
             self.invocationStartTime = invocationStartTime
@@ -31975,8 +31267,7 @@ public struct DescribeInferenceRecommendationsJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         status: SageMakerClientTypes.RecommendationJobStatus? = nil,
         stoppingConditions: SageMakerClientTypes.RecommendationJobStoppingConditions? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.endpointPerformances = endpointPerformances
@@ -32001,8 +31292,7 @@ public struct DescribeLabelingJobInput: Swift.Sendable {
 
     public init(
         labelingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobName = labelingJobName
     }
 }
@@ -32028,8 +31318,7 @@ extension SageMakerClientTypes {
             machineLabeled: Swift.Int? = nil,
             totalLabeled: Swift.Int? = nil,
             unlabeled: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failedNonRetryableError = failedNonRetryableError
             self.humanLabeled = humanLabeled
             self.machineLabeled = machineLabeled
@@ -32052,8 +31341,7 @@ extension SageMakerClientTypes {
         public init(
             finalActiveLearningModelArn: Swift.String? = nil,
             outputDatasetS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.finalActiveLearningModelArn = finalActiveLearningModelArn
             self.outputDatasetS3Uri = outputDatasetS3Uri
         }
@@ -32216,8 +31504,7 @@ public struct DescribeLabelingJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingConditions: SageMakerClientTypes.LabelingJobStoppingConditions? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.humanTaskConfig = humanTaskConfig
@@ -32246,8 +31533,7 @@ public struct DescribeLineageGroupInput: Swift.Sendable {
 
     public init(
         lineageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupName = lineageGroupName
     }
 }
@@ -32279,8 +31565,7 @@ public struct DescribeLineageGroupOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         lineageGroupArn: Swift.String? = nil,
         lineageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.description = description
@@ -32299,8 +31584,7 @@ public struct DescribeMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -32456,8 +31740,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil,
         trackingServerUrl: Swift.String? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactStoreUri = artifactStoreUri
         self.automaticModelRegistration = automaticModelRegistration
         self.createdBy = createdBy
@@ -32483,8 +31766,7 @@ public struct DescribeModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -32525,8 +31807,7 @@ public struct DescribeModelOutput: Swift.Sendable {
         modelName: Swift.String? = nil,
         primaryContainer: SageMakerClientTypes.ContainerDefinition? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.containers = containers
         self.creationTime = creationTime
         self.deploymentRecommendation = deploymentRecommendation
@@ -32547,8 +31828,7 @@ public struct DescribeModelBiasJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -32597,8 +31877,7 @@ public struct DescribeModelBiasJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.jobDefinitionArn = jobDefinitionArn
         self.jobDefinitionName = jobDefinitionName
@@ -32623,8 +31902,7 @@ public struct DescribeModelCardInput: Swift.Sendable {
     public init(
         modelCardName: Swift.String? = nil,
         modelCardVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.modelCardName = modelCardName
         self.modelCardVersion = modelCardVersion
     }
@@ -32734,8 +32012,7 @@ public struct DescribeModelCardOutput: Swift.Sendable {
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
         modelCardVersion: Swift.Int? = nil,
         securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil
-    )
-    {
+    ) {
         self.content = content
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -32762,8 +32039,7 @@ public struct DescribeModelCardExportJobInput: Swift.Sendable {
 
     public init(
         modelCardExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobArn = modelCardExportJobArn
     }
 }
@@ -32778,8 +32054,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3ExportArtifacts: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3ExportArtifacts = s3ExportArtifacts
         }
     }
@@ -32864,8 +32139,7 @@ public struct DescribeModelCardExportJobOutput: Swift.Sendable {
         modelCardVersion: Swift.Int? = nil,
         outputConfig: SageMakerClientTypes.ModelCardExportOutputConfig? = nil,
         status: SageMakerClientTypes.ModelCardExportJobStatus? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.exportArtifacts = exportArtifacts
         self.failureReason = failureReason
@@ -32886,8 +32160,7 @@ public struct DescribeModelExplainabilityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -32936,8 +32209,7 @@ public struct DescribeModelExplainabilityJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.jobDefinitionArn = jobDefinitionArn
         self.jobDefinitionName = jobDefinitionName
@@ -32959,8 +32231,7 @@ public struct DescribeModelPackageInput: Swift.Sendable {
 
     public init(
         modelPackageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageName = modelPackageName
     }
 }
@@ -33017,8 +32288,7 @@ extension SageMakerClientTypes {
             failureReason: Swift.String? = nil,
             name: Swift.String? = nil,
             status: SageMakerClientTypes.DetailedModelPackageStatus? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.name = name
             self.status = status
@@ -33039,8 +32309,7 @@ extension SageMakerClientTypes {
         public init(
             imageScanStatuses: [SageMakerClientTypes.ModelPackageStatusItem]? = nil,
             validationStatuses: [SageMakerClientTypes.ModelPackageStatusItem]? = nil
-        )
-        {
+        ) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
         }
@@ -33145,8 +32414,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
         sourceUri: Swift.String? = nil,
         task: Swift.String? = nil,
         validationSpecification: SageMakerClientTypes.ModelPackageValidationSpecification? = nil
-    )
-    {
+    ) {
         self.additionalInferenceSpecifications = additionalInferenceSpecifications
         self.approvalDescription = approvalDescription
         self.certifyForMarketplace = certifyForMarketplace
@@ -33187,8 +32455,7 @@ public struct DescribeModelPackageGroupInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -33260,8 +32527,7 @@ public struct DescribeModelPackageGroupOutput: Swift.Sendable {
         modelPackageGroupDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
         modelPackageGroupStatus: SageMakerClientTypes.ModelPackageGroupStatus? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.modelPackageGroupArn = modelPackageGroupArn
@@ -33278,8 +32544,7 @@ public struct DescribeModelQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -33328,8 +32593,7 @@ public struct DescribeModelQualityJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.jobDefinitionArn = jobDefinitionArn
         self.jobDefinitionName = jobDefinitionName
@@ -33351,8 +32615,7 @@ public struct DescribeMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
@@ -33442,8 +32705,7 @@ extension SageMakerClientTypes {
             monitoringType: SageMakerClientTypes.MonitoringType? = nil,
             processingJobArn: Swift.String? = nil,
             scheduledTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -33540,8 +32802,7 @@ public struct DescribeMonitoringScheduleOutput: Swift.Sendable {
         monitoringScheduleName: Swift.String? = nil,
         monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
         monitoringType: SageMakerClientTypes.MonitoringType? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.endpointName = endpointName
         self.failureReason = failureReason
@@ -33562,8 +32823,7 @@ public struct DescribeNotebookInstanceInput: Swift.Sendable {
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -33681,8 +32941,7 @@ public struct DescribeNotebookInstanceOutput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         url: Swift.String? = nil,
         volumeSizeInGB: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
         self.additionalCodeRepositories = additionalCodeRepositories
         self.creationTime = creationTime
@@ -33715,8 +32974,7 @@ public struct DescribeNotebookInstanceLifecycleConfigInput: Swift.Sendable {
 
     public init(
         notebookInstanceLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
     }
 }
@@ -33742,8 +33000,7 @@ public struct DescribeNotebookInstanceLifecycleConfigOutput: Swift.Sendable {
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
         onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastModifiedTime = lastModifiedTime
         self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
@@ -33760,8 +33017,7 @@ public struct DescribeOptimizationJobInput: Swift.Sendable {
 
     public init(
         optimizationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobName = optimizationJobName
     }
 }
@@ -33816,8 +33072,7 @@ extension SageMakerClientTypes {
 
         public init(
             recommendedInferenceImage: Swift.String? = nil
-        )
-        {
+        ) {
             self.recommendedInferenceImage = recommendedInferenceImage
         }
     }
@@ -33888,8 +33143,7 @@ public struct DescribeOptimizationJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.deploymentInstanceType = deploymentInstanceType
         self.failureReason = failureReason
@@ -33917,8 +33171,7 @@ public struct DescribePartnerAppInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -33935,8 +33188,7 @@ extension SageMakerClientTypes {
         public init(
             code: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.reason = reason
         }
@@ -34032,8 +33284,7 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
         tier: Swift.String? = nil,
         type: SageMakerClientTypes.PartnerAppType? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationConfig = applicationConfig
         self.arn = arn
         self.authType = authType
@@ -34058,8 +33309,7 @@ public struct DescribePipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -34135,8 +33385,7 @@ public struct DescribePipelineOutput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         pipelineStatus: SageMakerClientTypes.PipelineStatus? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.lastModifiedBy = lastModifiedBy
@@ -34160,8 +33409,7 @@ public struct DescribePipelineDefinitionForExecutionInput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -34175,8 +33423,7 @@ public struct DescribePipelineDefinitionForExecutionOutput: Swift.Sendable {
     public init(
         creationTime: Foundation.Date? = nil,
         pipelineDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.pipelineDefinition = pipelineDefinition
     }
@@ -34189,8 +33436,7 @@ public struct DescribePipelineExecutionInput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -34245,8 +33491,7 @@ extension SageMakerClientTypes {
         public init(
             experimentName: Swift.String? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.experimentName = experimentName
             self.trialName = trialName
         }
@@ -34263,8 +33508,7 @@ extension SageMakerClientTypes {
 
         public init(
             stepName: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepName = stepName
         }
     }
@@ -34283,8 +33527,7 @@ extension SageMakerClientTypes {
         public init(
             selectedSteps: [SageMakerClientTypes.SelectedStep]? = nil,
             sourcePipelineExecutionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.selectedSteps = selectedSteps
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
@@ -34333,8 +33576,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
         pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.failureReason = failureReason
@@ -34358,8 +33600,7 @@ public struct DescribeProcessingJobInput: Swift.Sendable {
 
     public init(
         processingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.processingJobName = processingJobName
     }
 }
@@ -34474,8 +33715,7 @@ public struct DescribeProcessingJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
         trainingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appSpecification = appSpecification
         self.autoMLJobArn = autoMLJobArn
         self.creationTime = creationTime
@@ -34507,8 +33747,7 @@ public struct DescribeProjectInput: Swift.Sendable {
 
     public init(
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
     }
 }
@@ -34588,8 +33827,7 @@ extension SageMakerClientTypes {
         public init(
             provisionedProductId: Swift.String? = nil,
             provisionedProductStatusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.provisionedProductId = provisionedProductId
             self.provisionedProductStatusMessage = provisionedProductStatusMessage
         }
@@ -34638,8 +33876,7 @@ public struct DescribeProjectOutput: Swift.Sendable {
         projectStatus: SageMakerClientTypes.ProjectStatus? = nil,
         serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
         serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.lastModifiedBy = lastModifiedBy
@@ -34665,8 +33902,7 @@ public struct DescribeSpaceInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.spaceName = spaceName
     }
@@ -34764,8 +34000,7 @@ public struct DescribeSpaceOutput: Swift.Sendable {
         spaceSharingSettings: SageMakerClientTypes.SpaceSharingSettings? = nil,
         status: SageMakerClientTypes.SpaceStatus? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.domainId = domainId
         self.failureReason = failureReason
@@ -34789,8 +34024,7 @@ public struct DescribeStudioLifecycleConfigInput: Swift.Sendable {
 
     public init(
         studioLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigName = studioLifecycleConfigName
     }
 }
@@ -34816,8 +34050,7 @@ public struct DescribeStudioLifecycleConfigOutput: Swift.Sendable {
         studioLifecycleConfigArn: Swift.String? = nil,
         studioLifecycleConfigContent: Swift.String? = nil,
         studioLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastModifiedTime = lastModifiedTime
         self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
@@ -34834,8 +34067,7 @@ public struct DescribeSubscribedWorkteamInput: Swift.Sendable {
 
     public init(
         workteamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamArn = workteamArn
     }
 }
@@ -34862,8 +34094,7 @@ extension SageMakerClientTypes {
             marketplaceTitle: Swift.String? = nil,
             sellerName: Swift.String? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.listingId = listingId
             self.marketplaceDescription = marketplaceDescription
             self.marketplaceTitle = marketplaceTitle
@@ -34880,8 +34111,7 @@ public struct DescribeSubscribedWorkteamOutput: Swift.Sendable {
 
     public init(
         subscribedWorkteam: SageMakerClientTypes.SubscribedWorkteam? = nil
-    )
-    {
+    ) {
         self.subscribedWorkteam = subscribedWorkteam
     }
 }
@@ -34893,8 +34123,7 @@ public struct DescribeTrainingJobInput: Swift.Sendable {
 
     public init(
         trainingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobName = trainingJobName
     }
 }
@@ -34914,8 +34143,7 @@ extension SageMakerClientTypes {
             metricName: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.timestamp = timestamp
             self.value = value
@@ -34944,8 +34172,7 @@ extension SageMakerClientTypes {
             ruleEvaluationJobArn: Swift.String? = nil,
             ruleEvaluationStatus: SageMakerClientTypes.RuleEvaluationStatus? = nil,
             statusDetails: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTime = lastModifiedTime
             self.ruleConfigurationName = ruleConfigurationName
             self.ruleEvaluationJobArn = ruleEvaluationJobArn
@@ -35141,8 +34368,7 @@ extension SageMakerClientTypes {
             startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.SecondaryStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
             self.status = status
@@ -35210,8 +34436,7 @@ extension SageMakerClientTypes {
             resourceRetainedBillableTimeInSeconds: Swift.Int? = nil,
             reusedByJob: Swift.String? = nil,
             status: SageMakerClientTypes.WarmPoolResourceStatus? = nil
-        )
-        {
+        ) {
             self.resourceRetainedBillableTimeInSeconds = resourceRetainedBillableTimeInSeconds
             self.reusedByJob = reusedByJob
             self.status = status
@@ -35422,8 +34647,7 @@ public struct DescribeTrainingJobOutput: Swift.Sendable {
         tuningJobArn: Swift.String? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil,
         warmPoolStatus: SageMakerClientTypes.WarmPoolStatus? = nil
-    )
-    {
+    ) {
         self.algorithmSpecification = algorithmSpecification
         self.autoMLJobArn = autoMLJobArn
         self.billableTimeInSeconds = billableTimeInSeconds
@@ -35477,8 +34701,7 @@ public struct DescribeTrainingPlanInput: Swift.Sendable {
 
     public init(
         trainingPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingPlanName = trainingPlanName
     }
 }
@@ -35490,6 +34713,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlTrn132xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
@@ -35499,6 +34723,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlTrn132xlarge,
                 .mlTrn248xlarge
             ]
         }
@@ -35514,6 +34739,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
@@ -35596,8 +34822,7 @@ extension SageMakerClientTypes {
             startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.ReservedCapacityStatus? = nil,
             totalInstanceCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
@@ -35733,8 +34958,7 @@ public struct DescribeTrainingPlanOutput: Swift.Sendable {
         trainingPlanArn: Swift.String? = nil,
         trainingPlanName: Swift.String? = nil,
         upfrontFee: Swift.String? = nil
-    )
-    {
+    ) {
         self.availableInstanceCount = availableInstanceCount
         self.currencyCode = currencyCode
         self.durationHours = durationHours
@@ -35760,8 +34984,7 @@ public struct DescribeTransformJobInput: Swift.Sendable {
 
     public init(
         transformJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformJobName = transformJobName
     }
 }
@@ -35883,8 +35106,7 @@ public struct DescribeTransformJobOutput: Swift.Sendable {
         transformOutput: SageMakerClientTypes.TransformOutput? = nil,
         transformResources: SageMakerClientTypes.TransformResources? = nil,
         transformStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
         self.batchStrategy = batchStrategy
         self.creationTime = creationTime
@@ -35916,8 +35138,7 @@ public struct DescribeTrialInput: Swift.Sendable {
 
     public init(
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialName = trialName
     }
 }
@@ -35935,8 +35156,7 @@ extension SageMakerClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
         }
@@ -35976,8 +35196,7 @@ public struct DescribeTrialOutput: Swift.Sendable {
         source: SageMakerClientTypes.TrialSource? = nil,
         trialArn: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.displayName = displayName
@@ -35998,8 +35217,7 @@ public struct DescribeTrialComponentInput: Swift.Sendable {
 
     public init(
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
     }
 }
@@ -36037,8 +35255,7 @@ extension SageMakerClientTypes {
             sourceArn: Swift.String? = nil,
             stdDev: Swift.Double? = nil,
             timeStamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.avg = avg
             self.count = count
             self.last = last
@@ -36065,8 +35282,7 @@ extension SageMakerClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
         }
@@ -36136,8 +35352,7 @@ public struct DescribeTrialComponentOutput: Swift.Sendable {
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         trialComponentArn: Swift.String? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.displayName = displayName
@@ -36170,8 +35385,7 @@ public struct DescribeUserProfileInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.userProfileName = userProfileName
     }
@@ -36257,8 +35471,7 @@ public struct DescribeUserProfileOutput: Swift.Sendable {
         userProfileArn: Swift.String? = nil,
         userProfileName: Swift.String? = nil,
         userSettings: SageMakerClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.domainId = domainId
         self.failureReason = failureReason
@@ -36280,8 +35493,7 @@ public struct DescribeWorkforceInput: Swift.Sendable {
 
     public init(
         workforceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workforceName = workforceName
     }
 }
@@ -36319,8 +35531,7 @@ extension SageMakerClientTypes {
             scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -36393,8 +35604,7 @@ extension SageMakerClientTypes {
             subnets: [Swift.String]? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.vpcEndpointId = vpcEndpointId
@@ -36444,8 +35654,7 @@ extension SageMakerClientTypes {
             workforceArn: Swift.String? = nil,
             workforceName: Swift.String? = nil,
             workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigResponse? = nil
-        )
-        {
+        ) {
             self.cognitoConfig = cognitoConfig
             self.createDate = createDate
             self.failureReason = failureReason
@@ -36468,8 +35677,7 @@ public struct DescribeWorkforceOutput: Swift.Sendable {
 
     public init(
         workforce: SageMakerClientTypes.Workforce? = nil
-    )
-    {
+    ) {
         self.workforce = workforce
     }
 }
@@ -36481,8 +35689,7 @@ public struct DescribeWorkteamInput: Swift.Sendable {
 
     public init(
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamName = workteamName
     }
 }
@@ -36530,8 +35737,7 @@ extension SageMakerClientTypes {
             workforceArn: Swift.String? = nil,
             workteamArn: Swift.String? = nil,
             workteamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -36554,8 +35760,7 @@ public struct DescribeWorkteamOutput: Swift.Sendable {
 
     public init(
         workteam: SageMakerClientTypes.Workteam? = nil
-    )
-    {
+    ) {
         self.workteam = workteam
     }
 }
@@ -36572,8 +35777,7 @@ extension SageMakerClientTypes {
         public init(
             maxConcurrency: Swift.Int? = nil,
             provisionedConcurrency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrency = maxConcurrency
             self.provisionedConcurrency = provisionedConcurrency
         }
@@ -36599,8 +35803,7 @@ extension SageMakerClientTypes {
             desiredWeight: Swift.Float? = nil,
             serverlessUpdateConfig: SageMakerClientTypes.ProductionVariantServerlessUpdateConfig? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.desiredInstanceCount = desiredInstanceCount
             self.desiredWeight = desiredWeight
             self.serverlessUpdateConfig = serverlessUpdateConfig
@@ -36625,8 +35828,7 @@ extension SageMakerClientTypes {
             description: Swift.String? = nil,
             deviceName: Swift.String? = nil,
             iotThingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.deviceName = deviceName
             self.iotThingName = iotThingName
@@ -36719,8 +35921,7 @@ extension SageMakerClientTypes {
             edgeDeploymentPlanArn: Swift.String? = nil,
             edgeDeploymentPlanName: Swift.String? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deployedStageName = deployedStageName
             self.deploymentStartTime = deploymentStartTime
             self.description = description
@@ -36756,8 +35957,7 @@ extension SageMakerClientTypes {
             deviceFleetArn: Swift.String? = nil,
             deviceFleetName: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deviceFleetArn = deviceFleetArn
             self.deviceFleetName = deviceFleetName
@@ -36780,8 +35980,7 @@ extension SageMakerClientTypes {
         public init(
             connectedDeviceCount: Swift.Int? = nil,
             registeredDeviceCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.connectedDeviceCount = connectedDeviceCount
             self.registeredDeviceCount = registeredDeviceCount
         }
@@ -36802,8 +36001,7 @@ extension SageMakerClientTypes {
         public init(
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelName = modelName
             self.modelVersion = modelVersion
         }
@@ -36845,8 +36043,7 @@ extension SageMakerClientTypes {
             latestHeartbeat: Foundation.Date? = nil,
             models: [SageMakerClientTypes.EdgeModelSummary]? = nil,
             registrationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.agentVersion = agentVersion
             self.description = description
             self.deviceArn = deviceArn
@@ -36913,8 +36110,7 @@ public struct DisassociateTrialComponentInput: Swift.Sendable {
     public init(
         trialComponentName: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
         self.trialName = trialName
     }
@@ -36929,8 +36125,7 @@ public struct DisassociateTrialComponentOutput: Swift.Sendable {
     public init(
         trialArn: Swift.String? = nil,
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
         self.trialComponentArn = trialComponentArn
     }
@@ -36963,8 +36158,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.DomainStatus? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.domainArn = domainArn
             self.domainId = domainId
@@ -36995,8 +36189,7 @@ extension SageMakerClientTypes {
             domainExecutionRoleArn: Swift.String? = nil,
             rStudioConnectUrl: Swift.String? = nil,
             rStudioPackageManagerUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultResourceSpec = defaultResourceSpec
             self.domainExecutionRoleArn = domainExecutionRoleArn
             self.rStudioConnectUrl = rStudioConnectUrl
@@ -37026,8 +36219,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
             securityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
@@ -37046,8 +36238,7 @@ extension SageMakerClientTypes {
 
         public init(
             predefinedMetricType: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
         }
     }
@@ -37077,8 +36268,7 @@ extension SageMakerClientTypes {
         public init(
             metricSpecification: SageMakerClientTypes.MetricSpecification? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metricSpecification = metricSpecification
             self.targetValue = targetValue
         }
@@ -37116,8 +36306,7 @@ extension SageMakerClientTypes {
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
             scalingPolicies: [SageMakerClientTypes.ScalingPolicy]? = nil
-        )
-        {
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
             self.scaleInCooldown = scaleInCooldown
@@ -37142,8 +36331,7 @@ extension SageMakerClientTypes {
             associationType: SageMakerClientTypes.AssociationEdgeType? = nil,
             destinationArn: Swift.String? = nil,
             sourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationType = associationType
             self.destinationArn = destinationArn
             self.sourceArn = sourceArn
@@ -37187,8 +36375,7 @@ extension SageMakerClientTypes {
             edgeDeploymentPlanName: Swift.String? = nil,
             edgeDeploymentSuccess: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deviceFleetName = deviceFleetName
             self.edgeDeploymentFailed = edgeDeploymentFailed
@@ -37231,8 +36418,7 @@ extension SageMakerClientTypes {
             modelVersion: Swift.String? = nil,
             offlineDeviceCount: Swift.Int? = nil,
             samplingDeviceCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeDeviceCount = activeDeviceCount
             self.connectedDeviceCount = connectedDeviceCount
             self.modelName = modelName
@@ -37276,8 +36462,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.compilationJobName = compilationJobName
             self.creationTime = creationTime
             self.edgePackagingJobArn = edgePackagingJobArn
@@ -37308,8 +36493,7 @@ extension SageMakerClientTypes {
             logFilePath: Swift.String? = nil,
             stepId: Swift.String? = nil,
             stepName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterId = clusterId
             self.logFilePath = logFilePath
             self.stepId = stepId
@@ -37375,8 +36559,7 @@ extension SageMakerClientTypes {
             monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -37440,8 +36623,7 @@ extension SageMakerClientTypes {
             productionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
             shadowProductionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointArn = endpointArn
@@ -37496,8 +36678,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -37521,8 +36702,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             endpointConfigArn: Swift.String? = nil,
             endpointConfigName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointConfigArn = endpointConfigArn
             self.endpointConfigName = endpointConfigName
@@ -37571,8 +36751,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -37623,8 +36802,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
             self.endpointName = endpointName
@@ -37670,8 +36848,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ExperimentSource? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.description = description
@@ -37710,8 +36887,7 @@ extension SageMakerClientTypes {
             experimentName: Swift.String? = nil,
             experimentSource: SageMakerClientTypes.ExperimentSource? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.experimentArn = experimentArn
@@ -37731,8 +36907,7 @@ extension SageMakerClientTypes {
 
         public init(
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
         }
     }
@@ -37792,8 +36967,7 @@ extension SageMakerClientTypes {
             recordIdentifierFeatureName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.eventTimeFeatureName = eventTimeFeatureName
@@ -37902,8 +37076,7 @@ extension SageMakerClientTypes {
             featureGroupName: Swift.String? = nil,
             featureGroupStatus: SageMakerClientTypes.FeatureGroupStatus? = nil,
             offlineStoreStatus: SageMakerClientTypes.OfflineStoreStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.featureGroupArn = featureGroupArn
             self.featureGroupName = featureGroupName
@@ -37943,8 +37116,7 @@ extension SageMakerClientTypes {
             featureType: SageMakerClientTypes.FeatureType? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             parameters: [SageMakerClientTypes.FeatureParameter]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.featureGroupArn = featureGroupArn
@@ -38069,8 +37241,7 @@ extension SageMakerClientTypes {
             name: Swift.String? = nil,
             `operator`: SageMakerClientTypes.Operator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -38103,8 +37274,7 @@ extension SageMakerClientTypes {
             flowDefinitionArn: Swift.String? = nil,
             flowDefinitionName: Swift.String? = nil,
             flowDefinitionStatus: SageMakerClientTypes.FlowDefinitionStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
@@ -38121,8 +37291,7 @@ public struct GetDeviceFleetReportInput: Swift.Sendable {
 
     public init(
         deviceFleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
     }
 }
@@ -38156,8 +37325,7 @@ public struct GetDeviceFleetReportOutput: Swift.Sendable {
         modelStats: [SageMakerClientTypes.EdgeModelStat]? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         reportGenerated: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.agentVersions = agentVersions
         self.description = description
         self.deviceFleetArn = deviceFleetArn
@@ -38176,8 +37344,7 @@ public struct GetLineageGroupPolicyInput: Swift.Sendable {
 
     public init(
         lineageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupName = lineageGroupName
     }
 }
@@ -38191,8 +37358,7 @@ public struct GetLineageGroupPolicyOutput: Swift.Sendable {
     public init(
         lineageGroupArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupArn = lineageGroupArn
         self.resourcePolicy = resourcePolicy
     }
@@ -38205,8 +37371,7 @@ public struct GetModelPackageGroupPolicyInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -38218,8 +37383,7 @@ public struct GetModelPackageGroupPolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -38264,8 +37428,7 @@ public struct GetSagemakerServicecatalogPortfolioStatusOutput: Swift.Sendable {
 
     public init(
         status: SageMakerClientTypes.SagemakerServicecatalogStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -38282,8 +37445,7 @@ extension SageMakerClientTypes {
         public init(
             maxInvocationsPerMinute: Swift.Int? = nil,
             minInvocationsPerMinute: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxInvocationsPerMinute = maxInvocationsPerMinute
             self.minInvocationsPerMinute = minInvocationsPerMinute
         }
@@ -38309,8 +37471,7 @@ public struct GetScalingConfigurationRecommendationInput: Swift.Sendable {
         recommendationId: Swift.String? = nil,
         scalingPolicyObjective: SageMakerClientTypes.ScalingPolicyObjective? = nil,
         targetCpuUtilizationPerCore: Swift.Int? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
         self.inferenceRecommendationsJobName = inferenceRecommendationsJobName
         self.recommendationId = recommendationId
@@ -38331,8 +37492,7 @@ extension SageMakerClientTypes {
         public init(
             invocationsPerInstance: Swift.Int? = nil,
             modelLatency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.invocationsPerInstance = invocationsPerInstance
             self.modelLatency = modelLatency
         }
@@ -38363,8 +37523,7 @@ public struct GetScalingConfigurationRecommendationOutput: Swift.Sendable {
         recommendationId: Swift.String? = nil,
         scalingPolicyObjective: SageMakerClientTypes.ScalingPolicyObjective? = nil,
         targetCpuUtilizationPerCore: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dynamicScalingConfiguration = dynamicScalingConfiguration
         self.endpointName = endpointName
         self.inferenceRecommendationsJobName = inferenceRecommendationsJobName
@@ -38459,8 +37618,7 @@ extension SageMakerClientTypes {
 
         public init(
             propertyNameHint: Swift.String? = nil
-        )
-        {
+        ) {
             self.propertyNameHint = propertyNameHint
         }
     }
@@ -38475,8 +37633,7 @@ extension SageMakerClientTypes {
 
         public init(
             propertyNameQuery: SageMakerClientTypes.PropertyNameQuery? = nil
-        )
-        {
+        ) {
             self.propertyNameQuery = propertyNameQuery
         }
     }
@@ -38492,8 +37649,7 @@ public struct GetSearchSuggestionsInput: Swift.Sendable {
     public init(
         resource: SageMakerClientTypes.ResourceType? = nil,
         suggestionQuery: SageMakerClientTypes.SuggestionQuery? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.suggestionQuery = suggestionQuery
     }
@@ -38508,8 +37664,7 @@ extension SageMakerClientTypes {
 
         public init(
             propertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.propertyName = propertyName
         }
     }
@@ -38521,8 +37676,7 @@ public struct GetSearchSuggestionsOutput: Swift.Sendable {
 
     public init(
         propertyNameSuggestions: [SageMakerClientTypes.PropertyNameSuggestion]? = nil
-    )
-    {
+    ) {
         self.propertyNameSuggestions = propertyNameSuggestions
     }
 }
@@ -38536,8 +37690,7 @@ extension SageMakerClientTypes {
 
         public init(
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretArn = secretArn
         }
     }
@@ -38595,8 +37748,7 @@ extension SageMakerClientTypes {
             originalCreationTime: Foundation.Date? = nil,
             sageMakerPublicHubContentArn: Swift.String? = nil,
             supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.documentSchemaVersion = documentSchemaVersion
             self.hubContentArn = hubContentArn
@@ -38681,8 +37833,7 @@ extension SageMakerClientTypes {
             hubSearchKeywords: [Swift.String]? = nil,
             hubStatus: SageMakerClientTypes.HubStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.hubArn = hubArn
             self.hubDescription = hubDescription
@@ -38748,8 +37899,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             humanTaskUiArn: Swift.String? = nil,
             humanTaskUiName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.humanTaskUiArn = humanTaskUiArn
             self.humanTaskUiName = humanTaskUiName
@@ -38817,8 +37967,7 @@ extension SageMakerClientTypes {
             trainingJobStatusCounters: SageMakerClientTypes.TrainingJobStatusCounters? = nil,
             tuningJobCompletionDetails: SageMakerClientTypes.HyperParameterTuningJobCompletionDetails? = nil,
             warmStartConfig: SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig? = nil
-        )
-        {
+        ) {
             self.bestTrainingJob = bestTrainingJob
             self.consumedResources = consumedResources
             self.creationTime = creationTime
@@ -38916,8 +38065,7 @@ extension SageMakerClientTypes {
             resourceLimits: SageMakerClientTypes.ResourceLimits? = nil,
             strategy: SageMakerClientTypes.HyperParameterTuningJobStrategyType? = nil,
             trainingJobStatusCounters: SageMakerClientTypes.TrainingJobStatusCounters? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
             self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
@@ -38967,8 +38115,7 @@ extension SageMakerClientTypes {
             imageName: Swift.String? = nil,
             imageStatus: SageMakerClientTypes.ImageStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.displayName = displayName
@@ -39075,8 +38222,7 @@ extension SageMakerClientTypes {
             imageVersionStatus: SageMakerClientTypes.ImageVersionStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.imageArn = imageArn
@@ -39190,8 +38336,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.documentSchemaVersion = documentSchemaVersion
         self.hubContentDescription = hubContentDescription
         self.hubContentDisplayName = hubContentDisplayName
@@ -39217,8 +38362,7 @@ public struct ImportHubContentOutput: Swift.Sendable {
     public init(
         hubArn: Swift.String? = nil,
         hubContentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
         self.hubContentArn = hubContentArn
     }
@@ -39293,8 +38437,7 @@ extension SageMakerClientTypes {
             inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
             self.endpointName = endpointName
@@ -39348,8 +38491,7 @@ extension SageMakerClientTypes {
             status: SageMakerClientTypes.InferenceExperimentStatus? = nil,
             statusReason: Swift.String? = nil,
             type: SageMakerClientTypes.InferenceExperimentType? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.description = description
@@ -39446,8 +38588,7 @@ extension SageMakerClientTypes {
             roleArn: Swift.String? = nil,
             samplePayloadUrl: Swift.String? = nil,
             status: SageMakerClientTypes.RecommendationJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -39493,8 +38634,7 @@ extension SageMakerClientTypes {
             invocationStartTime: Foundation.Date? = nil,
             metrics: SageMakerClientTypes.RecommendationMetrics? = nil,
             modelConfiguration: SageMakerClientTypes.ModelConfiguration? = nil
-        )
-        {
+        ) {
             self.endpointConfiguration = endpointConfiguration
             self.endpointMetrics = endpointMetrics
             self.failureReason = failureReason
@@ -39553,8 +38693,7 @@ extension SageMakerClientTypes {
             jobName: Swift.String? = nil,
             status: SageMakerClientTypes.RecommendationJobStatus? = nil,
             stepType: SageMakerClientTypes.RecommendationStepType? = nil
-        )
-        {
+        ) {
             self.inferenceBenchmark = inferenceBenchmark
             self.jobName = jobName
             self.status = status
@@ -39578,8 +38717,7 @@ extension SageMakerClientTypes {
             humanLabeled: Swift.Int? = nil,
             pendingHuman: Swift.Int? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.humanLabeled = humanLabeled
             self.pendingHuman = pendingHuman
             self.total = total
@@ -39614,8 +38752,7 @@ extension SageMakerClientTypes {
             labelingJobName: Swift.String? = nil,
             numberOfHumanWorkersPerDataObject: Swift.Int? = nil,
             workRequesterAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.jobReferenceCode = jobReferenceCode
             self.labelCounters = labelCounters
@@ -39675,8 +38812,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             preHumanTaskLambdaArn: Swift.String? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -39705,8 +38841,7 @@ extension SageMakerClientTypes {
         public init(
             arn: Swift.String? = nil,
             outputParameters: [SageMakerClientTypes.OutputParameter]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.outputParameters = outputParameters
         }
@@ -39734,8 +38869,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             lineageGroupArn: Swift.String? = nil,
             lineageGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.lastModifiedTime = lastModifiedTime
@@ -39865,8 +38999,7 @@ public struct ListActionsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortActionsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -39887,8 +39020,7 @@ public struct ListActionsOutput: Swift.Sendable {
     public init(
         actionSummaries: [SageMakerClientTypes.ActionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionSummaries = actionSummaries
         self.nextToken = nextToken
     }
@@ -39918,8 +39050,7 @@ public struct ListAlgorithmsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.AlgorithmSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -39940,8 +39071,7 @@ public struct ListAlgorithmsOutput: Swift.Sendable {
     public init(
         algorithmSummaryList: [SageMakerClientTypes.AlgorithmSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmSummaryList = algorithmSummaryList
         self.nextToken = nextToken
     }
@@ -39966,8 +39096,7 @@ public struct ListAliasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.imageName = imageName
         self.maxResults = maxResults
@@ -39985,8 +39114,7 @@ public struct ListAliasesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sageMakerImageVersionAliases: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sageMakerImageVersionAliases = sageMakerImageVersionAliases
     }
@@ -40022,8 +39150,7 @@ public struct ListAppImageConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.AppImageConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -40045,8 +39172,7 @@ public struct ListAppImageConfigsOutput: Swift.Sendable {
     public init(
         appImageConfigs: [SageMakerClientTypes.AppImageConfigDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigs = appImageConfigs
         self.nextToken = nextToken
     }
@@ -40076,8 +39202,7 @@ public struct ListAppsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         spaceNameEquals: Swift.String? = nil,
         userProfileNameEquals: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdEquals = domainIdEquals
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -40097,8 +39222,7 @@ public struct ListAppsOutput: Swift.Sendable {
     public init(
         apps: [SageMakerClientTypes.AppDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apps = apps
         self.nextToken = nextToken
     }
@@ -40157,8 +39281,7 @@ public struct ListArtifactsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortArtifactsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactType = artifactType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -40179,8 +39302,7 @@ public struct ListArtifactsOutput: Swift.Sendable {
     public init(
         artifactSummaries: [SageMakerClientTypes.ArtifactSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactSummaries = artifactSummaries
         self.nextToken = nextToken
     }
@@ -40260,8 +39382,7 @@ public struct ListAssociationsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceArn: Swift.String? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationType = associationType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -40285,8 +39406,7 @@ public struct ListAssociationsOutput: Swift.Sendable {
     public init(
         associationSummaries: [SageMakerClientTypes.AssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationSummaries = associationSummaries
         self.nextToken = nextToken
     }
@@ -40325,8 +39445,7 @@ public struct ListAutoMLJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.AutoMLSortBy? = nil,
         sortOrder: SageMakerClientTypes.AutoMLSortOrder? = nil,
         statusEquals: SageMakerClientTypes.AutoMLJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40350,8 +39469,7 @@ public struct ListAutoMLJobsOutput: Swift.Sendable {
     public init(
         autoMLJobSummaries: [SageMakerClientTypes.AutoMLJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobSummaries = autoMLJobSummaries
         self.nextToken = nextToken
     }
@@ -40382,8 +39500,7 @@ public struct ListCandidatesForAutoMLJobInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.CandidateSortBy? = nil,
         sortOrder: SageMakerClientTypes.AutoMLSortOrder? = nil,
         statusEquals: SageMakerClientTypes.CandidateStatus? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
         self.candidateNameEquals = candidateNameEquals
         self.maxResults = maxResults
@@ -40404,8 +39521,7 @@ public struct ListCandidatesForAutoMLJobOutput: Swift.Sendable {
     public init(
         candidates: [SageMakerClientTypes.AutoMLCandidate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.candidates = candidates
         self.nextToken = nextToken
     }
@@ -40450,8 +39566,7 @@ public struct ListClusterNodesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ClusterSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -40474,8 +39589,7 @@ public struct ListClusterNodesOutput: Swift.Sendable {
     public init(
         clusterNodeSummaries: [SageMakerClientTypes.ClusterNodeSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterNodeSummaries = clusterNodeSummaries
         self.nextToken = nextToken
     }
@@ -40519,8 +39633,7 @@ public struct ListClustersInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ClusterSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         trainingPlanArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -40543,8 +39656,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusterSummaries: [SageMakerClientTypes.ClusterSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSummaries = clusterSummaries
         self.nextToken = nextToken
     }
@@ -40612,8 +39724,7 @@ public struct ListClusterSchedulerConfigsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortClusterSchedulerConfigBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         status: SageMakerClientTypes.SchedulerResourceStatus? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -40635,8 +39746,7 @@ public struct ListClusterSchedulerConfigsOutput: Swift.Sendable {
     public init(
         clusterSchedulerConfigSummaries: [SageMakerClientTypes.ClusterSchedulerConfigSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSchedulerConfigSummaries = clusterSchedulerConfigSummaries
         self.nextToken = nextToken
     }
@@ -40672,8 +39782,7 @@ public struct ListCodeRepositoriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.CodeRepositorySortBy? = nil,
         sortOrder: SageMakerClientTypes.CodeRepositorySortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40706,8 +39815,7 @@ public struct ListCodeRepositoriesOutput: Swift.Sendable {
     public init(
         codeRepositorySummaryList: [SageMakerClientTypes.CodeRepositorySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositorySummaryList = codeRepositorySummaryList
         self.nextToken = nextToken
     }
@@ -40778,8 +39886,7 @@ public struct ListCompilationJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListCompilationJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.CompilationJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40803,8 +39910,7 @@ public struct ListCompilationJobsOutput: Swift.Sendable {
     public init(
         compilationJobSummaries: [SageMakerClientTypes.CompilationJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobSummaries = compilationJobSummaries
         self.nextToken = nextToken
     }
@@ -40875,8 +39981,7 @@ public struct ListComputeQuotasInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortQuotaBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         status: SageMakerClientTypes.SchedulerResourceStatus? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -40898,8 +40003,7 @@ public struct ListComputeQuotasOutput: Swift.Sendable {
     public init(
         computeQuotaSummaries: [SageMakerClientTypes.ComputeQuotaSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeQuotaSummaries = computeQuotaSummaries
         self.nextToken = nextToken
     }
@@ -40961,8 +40065,7 @@ public struct ListContextsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortContextsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextType = contextType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -40983,8 +40086,7 @@ public struct ListContextsOutput: Swift.Sendable {
     public init(
         contextSummaries: [SageMakerClientTypes.ContextSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextSummaries = contextSummaries
         self.nextToken = nextToken
     }
@@ -41046,8 +40148,7 @@ public struct ListDataQualityJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -41081,8 +40182,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             monitoringJobDefinitionArn: Swift.String? = nil,
             monitoringJobDefinitionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.monitoringJobDefinitionArn = monitoringJobDefinitionArn
@@ -41101,8 +40201,7 @@ public struct ListDataQualityJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -41170,8 +40269,7 @@ public struct ListDeviceFleetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListDeviceFleetsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -41194,8 +40292,7 @@ public struct ListDeviceFleetsOutput: Swift.Sendable {
     public init(
         deviceFleetSummaries: [SageMakerClientTypes.DeviceFleetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetSummaries = deviceFleetSummaries
         self.nextToken = nextToken
     }
@@ -41219,8 +40316,7 @@ public struct ListDevicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         modelName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.latestHeartbeatAfter = latestHeartbeatAfter
         self.maxResults = maxResults
@@ -41239,8 +40335,7 @@ public struct ListDevicesOutput: Swift.Sendable {
     public init(
         deviceSummaries: [SageMakerClientTypes.DeviceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceSummaries = deviceSummaries
         self.nextToken = nextToken
     }
@@ -41255,8 +40350,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -41271,8 +40365,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domains: [SageMakerClientTypes.DomainDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextToken = nextToken
     }
@@ -41346,8 +40439,7 @@ public struct ListEdgeDeploymentPlansInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListEdgeDeploymentPlansSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.deviceFleetNameContains = deviceFleetNameContains
@@ -41371,8 +40463,7 @@ public struct ListEdgeDeploymentPlansOutput: Swift.Sendable {
     public init(
         edgeDeploymentPlanSummaries: [SageMakerClientTypes.EdgeDeploymentPlanSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanSummaries = edgeDeploymentPlanSummaries
         self.nextToken = nextToken
     }
@@ -41452,8 +40543,7 @@ public struct ListEdgePackagingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListEdgePackagingJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.EdgePackagingJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -41478,8 +40568,7 @@ public struct ListEdgePackagingJobsOutput: Swift.Sendable {
     public init(
         edgePackagingJobSummaries: [SageMakerClientTypes.EdgePackagingJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgePackagingJobSummaries = edgePackagingJobSummaries
         self.nextToken = nextToken
     }
@@ -41538,8 +40627,7 @@ public struct ListEndpointConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.EndpointConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.OrderKey? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -41560,8 +40648,7 @@ public struct ListEndpointConfigsOutput: Swift.Sendable {
     public init(
         endpointConfigs: [SageMakerClientTypes.EndpointConfigSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigs = endpointConfigs
         self.nextToken = nextToken
     }
@@ -41600,8 +40687,7 @@ public struct ListEndpointsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.EndpointSortKey? = nil,
         sortOrder: SageMakerClientTypes.OrderKey? = nil,
         statusEquals: SageMakerClientTypes.EndpointStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -41625,8 +40711,7 @@ public struct ListEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [SageMakerClientTypes.EndpointSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -41682,8 +40767,7 @@ public struct ListExperimentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortExperimentsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -41702,8 +40786,7 @@ public struct ListExperimentsOutput: Swift.Sendable {
     public init(
         experimentSummaries: [SageMakerClientTypes.ExperimentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentSummaries = experimentSummaries
         self.nextToken = nextToken
     }
@@ -41739,8 +40822,7 @@ public struct ListFeatureGroupsInput: Swift.Sendable {
         offlineStoreStatusEquals: SageMakerClientTypes.OfflineStoreStatusValue? = nil,
         sortBy: SageMakerClientTypes.FeatureGroupSortBy? = nil,
         sortOrder: SageMakerClientTypes.FeatureGroupSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.featureGroupStatusEquals = featureGroupStatusEquals
@@ -41763,8 +40845,7 @@ public struct ListFeatureGroupsOutput: Swift.Sendable {
     public init(
         featureGroupSummaries: [SageMakerClientTypes.FeatureGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupSummaries = featureGroupSummaries
         self.nextToken = nextToken
     }
@@ -41788,8 +40869,7 @@ public struct ListFlowDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -41808,8 +40888,7 @@ public struct ListFlowDefinitionsOutput: Swift.Sendable {
     public init(
         flowDefinitionSummaries: [SageMakerClientTypes.FlowDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionSummaries = flowDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -41850,8 +40929,7 @@ public struct ListHubContentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.HubContentSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.hubContentType = hubContentType
@@ -41875,8 +40953,7 @@ public struct ListHubContentsOutput: Swift.Sendable {
     public init(
         hubContentSummaries: [SageMakerClientTypes.HubContentInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentSummaries = hubContentSummaries
         self.nextToken = nextToken
     }
@@ -41921,8 +40998,7 @@ public struct ListHubContentVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.HubContentSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.hubContentName = hubContentName
@@ -41947,8 +41023,7 @@ public struct ListHubContentVersionsOutput: Swift.Sendable {
     public init(
         hubContentSummaries: [SageMakerClientTypes.HubContentInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentSummaries = hubContentSummaries
         self.nextToken = nextToken
     }
@@ -41984,8 +41059,7 @@ public struct ListHubsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.HubSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -42008,8 +41082,7 @@ public struct ListHubsOutput: Swift.Sendable {
     public init(
         hubSummaries: [SageMakerClientTypes.HubInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubSummaries = hubSummaries
         self.nextToken = nextToken
     }
@@ -42033,8 +41106,7 @@ public struct ListHumanTaskUisInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -42053,8 +41125,7 @@ public struct ListHumanTaskUisOutput: Swift.Sendable {
     public init(
         humanTaskUiSummaries: [SageMakerClientTypes.HumanTaskUiSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiSummaries = humanTaskUiSummaries
         self.nextToken = nextToken
     }
@@ -42093,8 +41164,7 @@ public struct ListHyperParameterTuningJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.HyperParameterTuningJobSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.HyperParameterTuningJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -42118,8 +41188,7 @@ public struct ListHyperParameterTuningJobsOutput: Swift.Sendable {
     public init(
         hyperParameterTuningJobSummaries: [SageMakerClientTypes.HyperParameterTuningJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobSummaries = hyperParameterTuningJobSummaries
         self.nextToken = nextToken
     }
@@ -42155,8 +41224,7 @@ public struct ListImagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ImageSortBy? = nil,
         sortOrder: SageMakerClientTypes.ImageSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -42178,8 +41246,7 @@ public struct ListImagesOutput: Swift.Sendable {
     public init(
         images: [SageMakerClientTypes.Image]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.images = images
         self.nextToken = nextToken
     }
@@ -42216,8 +41283,7 @@ public struct ListImageVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ImageVersionSortBy? = nil,
         sortOrder: SageMakerClientTypes.ImageVersionSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.imageName = imageName
@@ -42239,8 +41305,7 @@ public struct ListImageVersionsOutput: Swift.Sendable {
     public init(
         imageVersions: [SageMakerClientTypes.ImageVersion]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageVersions = imageVersions
         self.nextToken = nextToken
     }
@@ -42285,8 +41350,7 @@ public struct ListInferenceComponentsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.OrderKey? = nil,
         statusEquals: SageMakerClientTypes.InferenceComponentStatus? = nil,
         variantNameEquals: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointNameEquals = endpointNameEquals
@@ -42312,8 +41376,7 @@ public struct ListInferenceComponentsOutput: Swift.Sendable {
     public init(
         inferenceComponents: [SageMakerClientTypes.InferenceComponentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponents = inferenceComponents
         self.nextToken = nextToken
     }
@@ -42387,8 +41450,7 @@ public struct ListInferenceExperimentsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.InferenceExperimentStatus? = nil,
         type: SageMakerClientTypes.InferenceExperimentType? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -42412,8 +41474,7 @@ public struct ListInferenceExperimentsOutput: Swift.Sendable {
     public init(
         inferenceExperiments: [SageMakerClientTypes.InferenceExperimentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperiments = inferenceExperiments
         self.nextToken = nextToken
     }
@@ -42490,8 +41551,7 @@ public struct ListInferenceRecommendationsJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListInferenceRecommendationsJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.RecommendationJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -42517,8 +41577,7 @@ public struct ListInferenceRecommendationsJobsOutput: Swift.Sendable {
     public init(
         inferenceRecommendationsJobs: [SageMakerClientTypes.InferenceRecommendationsJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceRecommendationsJobs = inferenceRecommendationsJobs
         self.nextToken = nextToken
     }
@@ -42543,8 +41602,7 @@ public struct ListInferenceRecommendationsJobStepsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: SageMakerClientTypes.RecommendationJobStatus? = nil,
         stepType: SageMakerClientTypes.RecommendationStepType? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -42562,8 +41620,7 @@ public struct ListInferenceRecommendationsJobStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         steps: [SageMakerClientTypes.InferenceRecommendationsJobStep]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.steps = steps
     }
@@ -42634,8 +41691,7 @@ public struct ListLabelingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.LabelingJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -42658,8 +41714,7 @@ public struct ListLabelingJobsOutput: Swift.Sendable {
     public init(
         labelingJobSummaryList: [SageMakerClientTypes.LabelingJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobSummaryList = labelingJobSummaryList
         self.nextToken = nextToken
     }
@@ -42719,8 +41774,7 @@ public struct ListLabelingJobsForWorkteamInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListLabelingJobsForWorkteamSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         workteamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.jobReferenceCodeContains = jobReferenceCodeContains
@@ -42742,8 +41796,7 @@ public struct ListLabelingJobsForWorkteamOutput: Swift.Sendable {
     public init(
         labelingJobSummaryList: [SageMakerClientTypes.LabelingJobForWorkteamSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobSummaryList = labelingJobSummaryList
         self.nextToken = nextToken
     }
@@ -42799,8 +41852,7 @@ public struct ListLineageGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortLineageGroupsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -42819,8 +41871,7 @@ public struct ListLineageGroupsOutput: Swift.Sendable {
     public init(
         lineageGroupSummaries: [SageMakerClientTypes.LineageGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupSummaries = lineageGroupSummaries
         self.nextToken = nextToken
     }
@@ -42885,8 +41936,7 @@ public struct ListMlflowTrackingServersInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortTrackingServerBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -42925,8 +41975,7 @@ extension SageMakerClientTypes {
             trackingServerArn: Swift.String? = nil,
             trackingServerName: Swift.String? = nil,
             trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.isActive = isActive
             self.lastModifiedTime = lastModifiedTime
@@ -42947,8 +41996,7 @@ public struct ListMlflowTrackingServersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trackingServerSummaries: [SageMakerClientTypes.TrackingServerSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trackingServerSummaries = trackingServerSummaries
     }
@@ -42981,8 +42029,7 @@ public struct ListModelBiasJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -43004,8 +42051,7 @@ public struct ListModelBiasJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -43107,8 +42153,7 @@ public struct ListModelCardExportJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ModelCardExportJobSortBy? = nil,
         sortOrder: SageMakerClientTypes.ModelCardExportJobSortOrder? = nil,
         statusEquals: SageMakerClientTypes.ModelCardExportJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -43156,8 +42201,7 @@ extension SageMakerClientTypes {
             modelCardName: Swift.String? = nil,
             modelCardVersion: Swift.Int? = nil,
             status: SageMakerClientTypes.ModelCardExportJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModifiedAt = lastModifiedAt
             self.modelCardExportJobArn = modelCardExportJobArn
@@ -43179,8 +42223,7 @@ public struct ListModelCardExportJobsOutput: Swift.Sendable {
     public init(
         modelCardExportJobSummaries: [SageMakerClientTypes.ModelCardExportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobSummaries = modelCardExportJobSummaries
         self.nextToken = nextToken
     }
@@ -43271,8 +42314,7 @@ public struct ListModelCardsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelCardSortBy? = nil,
         sortOrder: SageMakerClientTypes.ModelCardSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -43317,8 +42359,7 @@ extension SageMakerClientTypes {
             modelCardArn: Swift.String? = nil,
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.modelCardArn = modelCardArn
@@ -43338,8 +42379,7 @@ public struct ListModelCardsOutput: Swift.Sendable {
     public init(
         modelCardSummaries: [SageMakerClientTypes.ModelCardSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardSummaries = modelCardSummaries
         self.nextToken = nextToken
     }
@@ -43399,8 +42439,7 @@ public struct ListModelCardVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelCardVersionSortBy? = nil,
         sortOrder: SageMakerClientTypes.ModelCardSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -43449,8 +42488,7 @@ extension SageMakerClientTypes {
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
             modelCardVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.modelCardArn = modelCardArn
@@ -43471,8 +42509,7 @@ public struct ListModelCardVersionsOutput: Swift.Sendable {
     public init(
         modelCardVersionSummaryList: [SageMakerClientTypes.ModelCardVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardVersionSummaryList = modelCardVersionSummaryList
         self.nextToken = nextToken
     }
@@ -43505,8 +42542,7 @@ public struct ListModelExplainabilityJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -43528,8 +42564,7 @@ public struct ListModelExplainabilityJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -43584,8 +42619,7 @@ extension SageMakerClientTypes {
         public init(
             name: SageMakerClientTypes.ModelMetadataFilterType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -43601,8 +42635,7 @@ extension SageMakerClientTypes {
 
         public init(
             filters: [SageMakerClientTypes.ModelMetadataFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -43620,8 +42653,7 @@ public struct ListModelMetadataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: SageMakerClientTypes.ModelMetadataSearchExpression? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.searchExpression = searchExpression
@@ -43654,8 +42686,7 @@ extension SageMakerClientTypes {
             frameworkVersion: Swift.String? = nil,
             model: Swift.String? = nil,
             task: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.framework = framework
             self.frameworkVersion = frameworkVersion
@@ -43675,8 +42706,7 @@ public struct ListModelMetadataOutput: Swift.Sendable {
     public init(
         modelMetadataSummaries: [SageMakerClientTypes.ModelMetadataSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelMetadataSummaries = modelMetadataSummaries
         self.nextToken = nextToken
     }
@@ -43738,8 +42768,7 @@ public struct ListModelPackageGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelPackageGroupSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.crossAccountFilterOption = crossAccountFilterOption
@@ -43776,8 +42805,7 @@ extension SageMakerClientTypes {
             modelPackageGroupDescription: Swift.String? = nil,
             modelPackageGroupName: Swift.String? = nil,
             modelPackageGroupStatus: SageMakerClientTypes.ModelPackageGroupStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.modelPackageGroupArn = modelPackageGroupArn
             self.modelPackageGroupDescription = modelPackageGroupDescription
@@ -43797,8 +42825,7 @@ public struct ListModelPackageGroupsOutput: Swift.Sendable {
     public init(
         modelPackageGroupSummaryList: [SageMakerClientTypes.ModelPackageGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupSummaryList = modelPackageGroupSummaryList
         self.nextToken = nextToken
     }
@@ -43904,8 +42931,7 @@ public struct ListModelPackagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelPackageSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -43958,8 +42984,7 @@ extension SageMakerClientTypes {
             modelPackageName: Swift.String? = nil,
             modelPackageStatus: SageMakerClientTypes.ModelPackageStatus? = nil,
             modelPackageVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.modelApprovalStatus = modelApprovalStatus
             self.modelPackageArn = modelPackageArn
@@ -43982,8 +43007,7 @@ public struct ListModelPackagesOutput: Swift.Sendable {
     public init(
         modelPackageSummaryList: [SageMakerClientTypes.ModelPackageSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageSummaryList = modelPackageSummaryList
         self.nextToken = nextToken
     }
@@ -44016,8 +43040,7 @@ public struct ListModelQualityJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -44039,8 +43062,7 @@ public struct ListModelQualityJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -44099,8 +43121,7 @@ public struct ListModelsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelSortKey? = nil,
         sortOrder: SageMakerClientTypes.OrderKey? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -44129,8 +43150,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.modelArn = modelArn
             self.modelName = modelName
@@ -44148,8 +43168,7 @@ public struct ListModelsOutput: Swift.Sendable {
     public init(
         models: [SageMakerClientTypes.ModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.models = models
         self.nextToken = nextToken
     }
@@ -44243,8 +43262,7 @@ public struct ListMonitoringAlertHistoryInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.MonitoringAlertHistorySortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.MonitoringAlertStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -44279,8 +43297,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             monitoringAlertName: Swift.String? = nil,
             monitoringScheduleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alertStatus = alertStatus
             self.creationTime = creationTime
             self.monitoringAlertName = monitoringAlertName
@@ -44298,8 +43315,7 @@ public struct ListMonitoringAlertHistoryOutput: Swift.Sendable {
     public init(
         monitoringAlertHistory: [SageMakerClientTypes.MonitoringAlertHistorySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringAlertHistory = monitoringAlertHistory
         self.nextToken = nextToken
     }
@@ -44318,8 +43334,7 @@ public struct ListMonitoringAlertsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         monitoringScheduleName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.monitoringScheduleName = monitoringScheduleName
         self.nextToken = nextToken
@@ -44335,8 +43350,7 @@ extension SageMakerClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -44351,8 +43365,7 @@ extension SageMakerClientTypes {
 
         public init(
             modelDashboardIndicator: SageMakerClientTypes.ModelDashboardIndicatorAction? = nil
-        )
-        {
+        ) {
             self.modelDashboardIndicator = modelDashboardIndicator
         }
     }
@@ -44392,8 +43405,7 @@ extension SageMakerClientTypes {
             evaluationPeriod: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             monitoringAlertName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.alertStatus = alertStatus
             self.creationTime = creationTime
@@ -44414,8 +43426,7 @@ public struct ListMonitoringAlertsOutput: Swift.Sendable {
     public init(
         monitoringAlertSummaries: [SageMakerClientTypes.MonitoringAlertSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringAlertSummaries = monitoringAlertSummaries
         self.nextToken = nextToken
     }
@@ -44501,8 +43512,7 @@ public struct ListMonitoringExecutionsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.MonitoringExecutionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.ExecutionStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -44531,8 +43541,7 @@ public struct ListMonitoringExecutionsOutput: Swift.Sendable {
     public init(
         monitoringExecutionSummaries: [SageMakerClientTypes.MonitoringExecutionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringExecutionSummaries = monitoringExecutionSummaries
         self.nextToken = nextToken
     }
@@ -44612,8 +43621,7 @@ public struct ListMonitoringSchedulesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.MonitoringScheduleSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.ScheduleStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -44665,8 +43673,7 @@ extension SageMakerClientTypes {
             monitoringScheduleName: Swift.String? = nil,
             monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.lastModifiedTime = lastModifiedTime
@@ -44689,8 +43696,7 @@ public struct ListMonitoringSchedulesOutput: Swift.Sendable {
     public init(
         monitoringScheduleSummaries: [SageMakerClientTypes.MonitoringScheduleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleSummaries = monitoringScheduleSummaries
         self.nextToken = nextToken
     }
@@ -44787,8 +43793,7 @@ public struct ListNotebookInstanceLifecycleConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.NotebookInstanceLifecycleConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.NotebookInstanceLifecycleConfigSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -44821,8 +43826,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             notebookInstanceLifecycleConfigArn: Swift.String? = nil,
             notebookInstanceLifecycleConfigName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
@@ -44840,8 +43844,7 @@ public struct ListNotebookInstanceLifecycleConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notebookInstanceLifecycleConfigs: [SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notebookInstanceLifecycleConfigs = notebookInstanceLifecycleConfigs
     }
@@ -44950,8 +43953,7 @@ public struct ListNotebookInstancesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.NotebookInstanceSortKey? = nil,
         sortOrder: SageMakerClientTypes.NotebookInstanceSortOrder? = nil,
         statusEquals: SageMakerClientTypes.NotebookInstanceStatus? = nil
-    )
-    {
+    ) {
         self.additionalCodeRepositoryEquals = additionalCodeRepositoryEquals
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -45006,8 +44008,7 @@ extension SageMakerClientTypes {
             notebookInstanceName: Swift.String? = nil,
             notebookInstanceStatus: SageMakerClientTypes.NotebookInstanceStatus? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
             self.defaultCodeRepository = defaultCodeRepository
@@ -45031,8 +44032,7 @@ public struct ListNotebookInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notebookInstances: [SageMakerClientTypes.NotebookInstanceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notebookInstances = notebookInstances
     }
@@ -45106,8 +44106,7 @@ public struct ListOptimizationJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListOptimizationJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.OptimizationJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -45161,8 +44160,7 @@ extension SageMakerClientTypes {
             optimizationJobStatus: SageMakerClientTypes.OptimizationJobStatus? = nil,
             optimizationStartTime: Foundation.Date? = nil,
             optimizationTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deploymentInstanceType = deploymentInstanceType
             self.lastModifiedTime = lastModifiedTime
@@ -45186,8 +44184,7 @@ public struct ListOptimizationJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         optimizationJobSummaries: [SageMakerClientTypes.OptimizationJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.optimizationJobSummaries = optimizationJobSummaries
     }
@@ -45202,8 +44199,7 @@ public struct ListPartnerAppsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -45230,8 +44226,7 @@ extension SageMakerClientTypes {
             name: Swift.String? = nil,
             status: SageMakerClientTypes.PartnerAppStatus? = nil,
             type: SageMakerClientTypes.PartnerAppType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.name = name
@@ -45250,8 +44245,7 @@ public struct ListPartnerAppsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [SageMakerClientTypes.PartnerAppSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -45311,8 +44305,7 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortPipelineExecutionsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -45347,8 +44340,7 @@ extension SageMakerClientTypes {
             pipelineExecutionFailureReason: Swift.String? = nil,
             pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.pipelineExecutionArn = pipelineExecutionArn
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
@@ -45368,8 +44360,7 @@ public struct ListPipelineExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineExecutionSummaries: [SageMakerClientTypes.PipelineExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineExecutionSummaries = pipelineExecutionSummaries
     }
@@ -45390,8 +44381,7 @@ public struct ListPipelineExecutionStepsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pipelineExecutionArn: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineExecutionArn = pipelineExecutionArn
@@ -45408,8 +44398,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -45424,8 +44413,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -45467,8 +44455,7 @@ extension SageMakerClientTypes {
             registerNewBaseline: Swift.Bool? = nil,
             skipCheck: Swift.Bool? = nil,
             violationReport: Swift.String? = nil
-        )
-        {
+        ) {
             self.baselineUsedForDriftCheckConstraints = baselineUsedForDriftCheckConstraints
             self.baselineUsedForDriftCheckStatistics = baselineUsedForDriftCheckStatistics
             self.calculatedBaselineConstraints = calculatedBaselineConstraints
@@ -45492,8 +44479,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -45508,8 +44494,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -45524,8 +44509,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -45540,8 +44524,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -45633,8 +44616,7 @@ extension SageMakerClientTypes {
             trainingJob: SageMakerClientTypes.TrainingJobStepMetadata? = nil,
             transformJob: SageMakerClientTypes.TransformJobStepMetadata? = nil,
             tuningJob: SageMakerClientTypes.TuningJobStepMetaData? = nil
-        )
-        {
+        ) {
             self.autoMLJob = autoMLJob
             self.callback = callback
             self.clarifyCheck = clarifyCheck
@@ -45664,8 +44646,7 @@ extension SageMakerClientTypes {
 
         public init(
             sourcePipelineExecutionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
     }
@@ -45751,8 +44732,7 @@ extension SageMakerClientTypes {
             stepDisplayName: Swift.String? = nil,
             stepName: Swift.String? = nil,
             stepStatus: SageMakerClientTypes.StepStatus? = nil
-        )
-        {
+        ) {
             self.attemptCount = attemptCount
             self.cacheHitResult = cacheHitResult
             self.endTime = endTime
@@ -45777,8 +44757,7 @@ public struct ListPipelineExecutionStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineExecutionSteps: [SageMakerClientTypes.PipelineExecutionStep]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineExecutionSteps = pipelineExecutionSteps
     }
@@ -45797,8 +44776,7 @@ public struct ListPipelineParametersForExecutionInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineExecutionArn = pipelineExecutionArn
@@ -45819,8 +44797,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -45836,8 +44813,7 @@ public struct ListPipelineParametersForExecutionOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineParameters: [SageMakerClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineParameters = pipelineParameters
     }
@@ -45896,8 +44872,7 @@ public struct ListPipelinesInput: Swift.Sendable {
         pipelineNamePrefix: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortPipelinesBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -45938,8 +44913,7 @@ extension SageMakerClientTypes {
             pipelineDisplayName: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastExecutionTime = lastExecutionTime
             self.lastModifiedTime = lastModifiedTime
@@ -45961,8 +44935,7 @@ public struct ListPipelinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineSummaries: [SageMakerClientTypes.PipelineSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineSummaries = pipelineSummaries
     }
@@ -46001,8 +44974,7 @@ public struct ListProcessingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.ProcessingJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -46050,8 +45022,7 @@ extension SageMakerClientTypes {
             processingJobArn: Swift.String? = nil,
             processingJobName: Swift.String? = nil,
             processingJobStatus: SageMakerClientTypes.ProcessingJobStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.exitMessage = exitMessage
             self.failureReason = failureReason
@@ -46074,8 +45045,7 @@ public struct ListProcessingJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         processingJobSummaries: [SageMakerClientTypes.ProcessingJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.processingJobSummaries = processingJobSummaries
     }
@@ -46163,8 +45133,7 @@ public struct ListProjectsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ProjectSortBy? = nil,
         sortOrder: SageMakerClientTypes.ProjectSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -46204,8 +45173,7 @@ extension SageMakerClientTypes {
             projectId: Swift.String? = nil,
             projectName: Swift.String? = nil,
             projectStatus: SageMakerClientTypes.ProjectStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.projectArn = projectArn
             self.projectDescription = projectDescription
@@ -46226,8 +45194,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projectSummaryList: [SageMakerClientTypes.ProjectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projectSummaryList = projectSummaryList
     }
@@ -46312,8 +45279,7 @@ public struct ListResourceCatalogsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ResourceCatalogSortBy? = nil,
         sortOrder: SageMakerClientTypes.ResourceCatalogSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -46346,8 +45312,7 @@ extension SageMakerClientTypes {
             description: Swift.String? = nil,
             resourceCatalogArn: Swift.String? = nil,
             resourceCatalogName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.resourceCatalogArn = resourceCatalogArn
@@ -46365,8 +45330,7 @@ public struct ListResourceCatalogsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceCatalogs: [SageMakerClientTypes.ResourceCatalog]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceCatalogs = resourceCatalogs
     }
@@ -46422,8 +45386,7 @@ public struct ListSpacesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SpaceSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         spaceNameContains: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdEquals = domainIdEquals
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -46442,8 +45405,7 @@ extension SageMakerClientTypes {
 
         public init(
             ownerUserProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ownerUserProfileName = ownerUserProfileName
         }
     }
@@ -46461,8 +45423,7 @@ extension SageMakerClientTypes {
         public init(
             appType: SageMakerClientTypes.AppType? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
-        )
-        {
+        ) {
             self.appType = appType
             self.spaceStorageSettings = spaceStorageSettings
         }
@@ -46478,8 +45439,7 @@ extension SageMakerClientTypes {
 
         public init(
             sharingType: SageMakerClientTypes.SharingType? = nil
-        )
-        {
+        ) {
             self.sharingType = sharingType
         }
     }
@@ -46518,8 +45478,7 @@ extension SageMakerClientTypes {
             spaceSettingsSummary: SageMakerClientTypes.SpaceSettingsSummary? = nil,
             spaceSharingSettingsSummary: SageMakerClientTypes.SpaceSharingSettingsSummary? = nil,
             status: SageMakerClientTypes.SpaceStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.domainId = domainId
             self.lastModifiedTime = lastModifiedTime
@@ -46542,8 +45501,7 @@ public struct ListSpacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         spaces: [SageMakerClientTypes.SpaceDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.spaces = spaces
     }
@@ -46569,8 +45527,7 @@ public struct ListStageDevicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.excludeDevicesDeployedInOtherStage = excludeDevicesDeployedInOtherStage
         self.maxResults = maxResults
@@ -46589,8 +45546,7 @@ public struct ListStageDevicesOutput: Swift.Sendable {
     public init(
         deviceDeploymentSummaries: [SageMakerClientTypes.DeviceDeploymentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceDeploymentSummaries = deviceDeploymentSummaries
         self.nextToken = nextToken
     }
@@ -46661,8 +45617,7 @@ public struct ListStudioLifecycleConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.StudioLifecycleConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.appTypeEquals = appTypeEquals
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -46697,8 +45652,7 @@ extension SageMakerClientTypes {
             studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType? = nil,
             studioLifecycleConfigArn: Swift.String? = nil,
             studioLifecycleConfigName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
@@ -46717,8 +45671,7 @@ public struct ListStudioLifecycleConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         studioLifecycleConfigs: [SageMakerClientTypes.StudioLifecycleConfigDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.studioLifecycleConfigs = studioLifecycleConfigs
     }
@@ -46736,8 +45689,7 @@ public struct ListSubscribedWorkteamsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -46754,8 +45706,7 @@ public struct ListSubscribedWorkteamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscribedWorkteams: [SageMakerClientTypes.SubscribedWorkteam]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscribedWorkteams = subscribedWorkteams
     }
@@ -46774,8 +45725,7 @@ public struct ListTagsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -46791,8 +45741,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -46837,8 +45786,7 @@ public struct ListTrainingJobsInput: Swift.Sendable {
         statusEquals: SageMakerClientTypes.TrainingJobStatus? = nil,
         trainingPlanArnEquals: Swift.String? = nil,
         warmPoolStatusEquals: SageMakerClientTypes.WarmPoolResourceStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -46891,8 +45839,7 @@ extension SageMakerClientTypes {
             trainingJobStatus: SageMakerClientTypes.TrainingJobStatus? = nil,
             trainingPlanArn: Swift.String? = nil,
             warmPoolStatus: SageMakerClientTypes.WarmPoolStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.secondaryStatus = secondaryStatus
@@ -46916,8 +45863,7 @@ public struct ListTrainingJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainingJobSummaries: [SageMakerClientTypes.TrainingJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainingJobSummaries = trainingJobSummaries
     }
@@ -46980,8 +45926,7 @@ public struct ListTrainingJobsForHyperParameterTuningJobInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.TrainingJobSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.TrainingJobStatus? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -47001,8 +45946,7 @@ public struct ListTrainingJobsForHyperParameterTuningJobOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainingJobSummaries: [SageMakerClientTypes.HyperParameterTrainingJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainingJobSummaries = trainingJobSummaries
     }
@@ -47048,8 +45992,7 @@ extension SageMakerClientTypes {
         public init(
             name: SageMakerClientTypes.TrainingPlanFilterName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -47141,8 +46084,7 @@ public struct ListTrainingPlansInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.TrainingPlanSortOrder? = nil,
         startTimeAfter: Foundation.Date? = nil,
         startTimeBefore: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -47211,8 +46153,7 @@ extension SageMakerClientTypes {
             trainingPlanArn: Swift.String? = nil,
             trainingPlanName: Swift.String? = nil,
             upfrontFee: Swift.String? = nil
-        )
-        {
+        ) {
             self.availableInstanceCount = availableInstanceCount
             self.currencyCode = currencyCode
             self.durationHours = durationHours
@@ -47242,8 +46183,7 @@ public struct ListTrainingPlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainingPlanSummaries: [SageMakerClientTypes.TrainingPlanSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainingPlanSummaries = trainingPlanSummaries
     }
@@ -47282,8 +46222,7 @@ public struct ListTransformJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.TransformJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -47328,8 +46267,7 @@ extension SageMakerClientTypes {
             transformJobArn: Swift.String? = nil,
             transformJobName: Swift.String? = nil,
             transformJobStatus: SageMakerClientTypes.TransformJobStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.lastModifiedTime = lastModifiedTime
@@ -47351,8 +46289,7 @@ public struct ListTransformJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transformJobSummaries: [SageMakerClientTypes.TransformJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transformJobSummaries = transformJobSummaries
     }
@@ -47417,8 +46354,7 @@ public struct ListTrialComponentsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceArn: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.experimentName = experimentName
@@ -47476,8 +46412,7 @@ extension SageMakerClientTypes {
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil,
             trialComponentSource: SageMakerClientTypes.TrialComponentSource? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -47502,8 +46437,7 @@ public struct ListTrialComponentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trialComponentSummaries: [SageMakerClientTypes.TrialComponentSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trialComponentSummaries = trialComponentSummaries
     }
@@ -47565,8 +46499,7 @@ public struct ListTrialsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortTrialsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.experimentName = experimentName
@@ -47602,8 +46535,7 @@ extension SageMakerClientTypes {
             trialArn: Swift.String? = nil,
             trialName: Swift.String? = nil,
             trialSource: SageMakerClientTypes.TrialSource? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.lastModifiedTime = lastModifiedTime
@@ -47623,8 +46555,7 @@ public struct ListTrialsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trialSummaries: [SageMakerClientTypes.TrialSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trialSummaries = trialSummaries
     }
@@ -47680,8 +46611,7 @@ public struct ListUserProfilesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.UserProfileSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         userProfileNameContains: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdEquals = domainIdEquals
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -47712,8 +46642,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.UserProfileStatus? = nil,
             userProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.domainId = domainId
             self.lastModifiedTime = lastModifiedTime
@@ -47732,8 +46661,7 @@ public struct ListUserProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userProfiles: [SageMakerClientTypes.UserProfileDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userProfiles = userProfiles
     }
@@ -47786,8 +46714,7 @@ public struct ListWorkforcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListWorkforcesSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -47806,8 +46733,7 @@ public struct ListWorkforcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workforces: [SageMakerClientTypes.Workforce]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workforces = workforces
     }
@@ -47860,8 +46786,7 @@ public struct ListWorkteamsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListWorkteamsSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -47880,8 +46805,7 @@ public struct ListWorkteamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workteams: [SageMakerClientTypes.Workteam]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workteams = workteams
     }
@@ -47926,8 +46850,7 @@ extension SageMakerClientTypes {
             primaryContainer: SageMakerClientTypes.ContainerDefinition? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.creationTime = creationTime
             self.deploymentRecommendation = deploymentRecommendation
@@ -47999,8 +46922,7 @@ extension SageMakerClientTypes {
             riskRating: Swift.String? = nil,
             securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.content = content
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -48050,8 +46972,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
             self.endpointName = endpointName
@@ -48149,8 +47070,7 @@ extension SageMakerClientTypes {
             transformOutput: SageMakerClientTypes.TransformOutput? = nil,
             transformResources: SageMakerClientTypes.TransformResources? = nil,
             transformStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
@@ -48219,8 +47139,7 @@ extension SageMakerClientTypes {
             riskRating: Swift.String? = nil,
             securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -48279,8 +47198,7 @@ extension SageMakerClientTypes {
             monitoringScheduleName: Swift.String? = nil,
             monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.creationTime = creationTime
             self.endpointName = endpointName
@@ -48318,8 +47236,7 @@ extension SageMakerClientTypes {
             model: SageMakerClientTypes.Model? = nil,
             modelCard: SageMakerClientTypes.ModelDashboardModelCard? = nil,
             monitoringSchedules: [SageMakerClientTypes.ModelDashboardMonitoringSchedule]? = nil
-        )
-        {
+        ) {
             self.endpoints = endpoints
             self.lastBatchTransformJob = lastBatchTransformJob
             self.model = model
@@ -48444,8 +47361,7 @@ extension SageMakerClientTypes {
             tags: [SageMakerClientTypes.Tag]? = nil,
             task: Swift.String? = nil,
             validationSpecification: SageMakerClientTypes.ModelPackageValidationSpecification? = nil
-        )
-        {
+        ) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.approvalDescription = approvalDescription
             self.certifyForMarketplace = certifyForMarketplace
@@ -48520,8 +47436,7 @@ extension SageMakerClientTypes {
             modelPackageGroupName: Swift.String? = nil,
             modelPackageGroupStatus: SageMakerClientTypes.ModelPackageGroupStatus? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.modelPackageGroupArn = modelPackageGroupArn
@@ -48583,8 +47498,7 @@ extension SageMakerClientTypes {
         public init(
             filters: [SageMakerClientTypes.Filter]? = nil,
             nestedPropertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.nestedPropertyName = nestedPropertyName
         }
@@ -48600,8 +47514,7 @@ extension SageMakerClientTypes {
 
         public init(
             ttlDuration: SageMakerClientTypes.TtlDuration? = nil
-        )
-        {
+        ) {
             self.ttlDuration = ttlDuration
         }
     }
@@ -48619,8 +47532,7 @@ extension SageMakerClientTypes {
         public init(
             experimentName: Swift.String? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.experimentName = experimentName
             self.trialName = trialName
         }
@@ -48672,8 +47584,7 @@ extension SageMakerClientTypes {
             pipelineStatus: SageMakerClientTypes.PipelineStatus? = nil,
             roleArn: Swift.String? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -48739,8 +47650,7 @@ extension SageMakerClientTypes {
             pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
             pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
             selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -48837,8 +47747,7 @@ extension SageMakerClientTypes {
             stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
             trainingJobArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.appSpecification = appSpecification
             self.autoMLJobArn = autoMLJobArn
             self.creationTime = creationTime
@@ -48883,8 +47792,7 @@ extension SageMakerClientTypes {
             profilingIntervalInMilliseconds: Swift.Int? = nil,
             profilingParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
             self.profilingParameters = profilingParameters
@@ -48935,8 +47843,7 @@ extension SageMakerClientTypes {
             serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
             serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -48964,8 +47871,7 @@ public struct PutModelPackageGroupPolicyInput: Swift.Sendable {
     public init(
         modelPackageGroupName: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
         self.resourcePolicy = resourcePolicy
     }
@@ -48978,8 +47884,7 @@ public struct PutModelPackageGroupPolicyOutput: Swift.Sendable {
 
     public init(
         modelPackageGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupArn = modelPackageGroupArn
     }
 }
@@ -49011,8 +47916,7 @@ extension SageMakerClientTypes {
             modifiedBefore: Foundation.Date? = nil,
             properties: [Swift.String: Swift.String]? = nil,
             types: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.lineageTypes = lineageTypes
@@ -49058,8 +47962,7 @@ public struct QueryLineageInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.direction = direction
         self.filters = filters
         self.includeEdges = includeEdges
@@ -49085,8 +47988,7 @@ extension SageMakerClientTypes {
             arn: Swift.String? = nil,
             lineageType: SageMakerClientTypes.LineageType? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.lineageType = lineageType
             self.type = type
@@ -49106,8 +48008,7 @@ public struct QueryLineageOutput: Swift.Sendable {
         edges: [SageMakerClientTypes.Edge]? = nil,
         nextToken: Swift.String? = nil,
         vertices: [SageMakerClientTypes.Vertex]? = nil
-    )
-    {
+    ) {
         self.edges = edges
         self.nextToken = nextToken
         self.vertices = vertices
@@ -49128,8 +48029,7 @@ public struct RegisterDevicesInput: Swift.Sendable {
         deviceFleetName: Swift.String? = nil,
         devices: [SageMakerClientTypes.Device]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.devices = devices
         self.tags = tags
@@ -49145,8 +48045,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableRemoteDebug: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableRemoteDebug = enableRemoteDebug
         }
     }
@@ -49162,8 +48061,7 @@ extension SageMakerClientTypes {
 
         public init(
             input: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
         }
     }
@@ -49183,8 +48081,7 @@ extension SageMakerClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -49208,8 +48105,7 @@ public struct RenderUiTemplateInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         task: SageMakerClientTypes.RenderableTask? = nil,
         uiTemplate: SageMakerClientTypes.UiTemplate? = nil
-    )
-    {
+    ) {
         self.humanTaskUiArn = humanTaskUiArn
         self.roleArn = roleArn
         self.task = task
@@ -49228,8 +48124,7 @@ public struct RenderUiTemplateOutput: Swift.Sendable {
     public init(
         errors: [SageMakerClientTypes.RenderingError]? = nil,
         renderedContent: Swift.String? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.renderedContent = renderedContent
     }
@@ -49264,8 +48159,7 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
@@ -49287,8 +48181,7 @@ extension SageMakerClientTypes {
 
         public init(
             keepAlivePeriodInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
         }
     }
@@ -49308,8 +48201,7 @@ public struct RetryPipelineExecutionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration? = nil,
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineExecutionArn = pipelineExecutionArn
@@ -49322,8 +48214,7 @@ public struct RetryPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -49369,8 +48260,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -49555,8 +48445,7 @@ extension SageMakerClientTypes {
             trainingTimeInSeconds: Swift.Int? = nil,
             tuningJobArn: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -49620,8 +48509,7 @@ extension SageMakerClientTypes {
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil,
             trialComponentSource: SageMakerClientTypes.TrialComponentSource? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.trialComponentArn = trialComponentArn
@@ -49673,8 +48561,7 @@ extension SageMakerClientTypes {
             trialArn: Swift.String? = nil,
             trialComponentSummaries: [SageMakerClientTypes.TrialComponentSimpleSummary]? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -49709,8 +48596,7 @@ extension SageMakerClientTypes {
             sourceArn: Swift.String? = nil,
             trainingJob: SageMakerClientTypes.TrainingJob? = nil,
             transformJob: SageMakerClientTypes.TransformJob? = nil
-        )
-        {
+        ) {
             self.processingJob = processingJob
             self.sourceArn = sourceArn
             self.trainingJob = trainingJob
@@ -49788,8 +48674,7 @@ extension SageMakerClientTypes {
             tags: [SageMakerClientTypes.Tag]? = nil,
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -49866,8 +48751,7 @@ extension SageMakerClientTypes {
             trainingJob: SageMakerClientTypes.TrainingJob? = nil,
             trial: SageMakerClientTypes.Trial? = nil,
             trialComponent: SageMakerClientTypes.TrialComponent? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.experiment = experiment
             self.featureGroup = featureGroup
@@ -49896,8 +48780,7 @@ public struct SearchOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [SageMakerClientTypes.SearchRecord]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -49931,8 +48814,7 @@ public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
         instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
         startTimeAfter: Foundation.Date? = nil,
         targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil
-    )
-    {
+    ) {
         self.durationHours = durationHours
         self.endTimeBefore = endTimeBefore
         self.instanceCount = instanceCount
@@ -49981,8 +48863,7 @@ extension SageMakerClientTypes {
             targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
             trainingPlanOfferingId: Swift.String? = nil,
             upfrontFee: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
@@ -50003,8 +48884,7 @@ public struct SearchTrainingPlanOfferingsOutput: Swift.Sendable {
 
     public init(
         trainingPlanOfferings: [SageMakerClientTypes.TrainingPlanOffering]? = nil
-    )
-    {
+    ) {
         self.trainingPlanOfferings = trainingPlanOfferings
     }
 }
@@ -50022,8 +48902,7 @@ public struct SendPipelineExecutionStepFailureInput: Swift.Sendable {
         callbackToken: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         failureReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.callbackToken = callbackToken
         self.clientRequestToken = clientRequestToken
         self.failureReason = failureReason
@@ -50036,8 +48915,7 @@ public struct SendPipelineExecutionStepFailureOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -50055,8 +48933,7 @@ public struct SendPipelineExecutionStepSuccessInput: Swift.Sendable {
         callbackToken: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         outputParameters: [SageMakerClientTypes.OutputParameter]? = nil
-    )
-    {
+    ) {
         self.callbackToken = callbackToken
         self.clientRequestToken = clientRequestToken
         self.outputParameters = outputParameters
@@ -50069,8 +48946,7 @@ public struct SendPipelineExecutionStepSuccessOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -50086,8 +48962,7 @@ public struct StartEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stageName = stageName
     }
@@ -50100,8 +48975,7 @@ public struct StartInferenceExperimentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -50113,8 +48987,7 @@ public struct StartInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -50126,8 +48999,7 @@ public struct StartMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -50138,8 +49010,7 @@ public struct StartMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -50151,8 +49022,7 @@ public struct StartMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
@@ -50164,8 +49034,7 @@ public struct StartNotebookInstanceInput: Swift.Sendable {
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -50196,8 +49065,7 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineExecutionDescription = pipelineExecutionDescription
@@ -50214,8 +49082,7 @@ public struct StartPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -50227,8 +49094,7 @@ public struct StopAutoMLJobInput: Swift.Sendable {
 
     public init(
         autoMLJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
     }
 }
@@ -50240,8 +49106,7 @@ public struct StopCompilationJobInput: Swift.Sendable {
 
     public init(
         compilationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
     }
 }
@@ -50257,8 +49122,7 @@ public struct StopEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stageName = stageName
     }
@@ -50271,8 +49135,7 @@ public struct StopEdgePackagingJobInput: Swift.Sendable {
 
     public init(
         edgePackagingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgePackagingJobName = edgePackagingJobName
     }
 }
@@ -50284,8 +49147,7 @@ public struct StopHyperParameterTuningJobInput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
     }
 }
@@ -50320,8 +49182,7 @@ public struct StopInferenceExperimentInput: Swift.Sendable {
         modelVariantActions: [Swift.String: SageMakerClientTypes.ModelVariantAction]? = nil,
         name: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredModelVariants = desiredModelVariants
         self.desiredState = desiredState
         self.modelVariantActions = modelVariantActions
@@ -50337,8 +49198,7 @@ public struct StopInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -50350,8 +49210,7 @@ public struct StopInferenceRecommendationsJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -50363,8 +49222,7 @@ public struct StopLabelingJobInput: Swift.Sendable {
 
     public init(
         labelingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobName = labelingJobName
     }
 }
@@ -50376,8 +49234,7 @@ public struct StopMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -50388,8 +49245,7 @@ public struct StopMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -50401,8 +49257,7 @@ public struct StopMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
@@ -50414,8 +49269,7 @@ public struct StopNotebookInstanceInput: Swift.Sendable {
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -50427,8 +49281,7 @@ public struct StopOptimizationJobInput: Swift.Sendable {
 
     public init(
         optimizationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobName = optimizationJobName
     }
 }
@@ -50444,8 +49297,7 @@ public struct StopPipelineExecutionInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.pipelineExecutionArn = pipelineExecutionArn
     }
@@ -50457,8 +49309,7 @@ public struct StopPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -50470,8 +49321,7 @@ public struct StopProcessingJobInput: Swift.Sendable {
 
     public init(
         processingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.processingJobName = processingJobName
     }
 }
@@ -50483,8 +49333,7 @@ public struct StopTrainingJobInput: Swift.Sendable {
 
     public init(
         trainingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobName = trainingJobName
     }
 }
@@ -50496,8 +49345,7 @@ public struct StopTransformJobInput: Swift.Sendable {
 
     public init(
         transformJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformJobName = transformJobName
     }
 }
@@ -50521,8 +49369,7 @@ public struct UpdateActionInput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         propertiesToRemove: [Swift.String]? = nil,
         status: SageMakerClientTypes.ActionStatus? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.description = description
         self.properties = properties
@@ -50537,8 +49384,7 @@ public struct UpdateActionOutput: Swift.Sendable {
 
     public init(
         actionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
     }
 }
@@ -50559,8 +49405,7 @@ public struct UpdateAppImageConfigInput: Swift.Sendable {
         codeEditorAppImageConfig: SageMakerClientTypes.CodeEditorAppImageConfig? = nil,
         jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
         kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
         self.codeEditorAppImageConfig = codeEditorAppImageConfig
         self.jupyterLabAppImageConfig = jupyterLabAppImageConfig
@@ -50574,8 +49419,7 @@ public struct UpdateAppImageConfigOutput: Swift.Sendable {
 
     public init(
         appImageConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigArn = appImageConfigArn
     }
 }
@@ -50596,8 +49440,7 @@ public struct UpdateArtifactInput: Swift.Sendable {
         artifactName: Swift.String? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         propertiesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
         self.artifactName = artifactName
         self.properties = properties
@@ -50611,8 +49454,7 @@ public struct UpdateArtifactOutput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -50631,8 +49473,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
         self.nodeRecovery = nodeRecovery
@@ -50646,8 +49487,7 @@ public struct UpdateClusterOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -50669,8 +49509,7 @@ public struct UpdateClusterSchedulerConfigInput: Swift.Sendable {
         description: Swift.String? = nil,
         schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
         targetVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterSchedulerConfigId = clusterSchedulerConfigId
         self.description = description
         self.schedulerConfig = schedulerConfig
@@ -50689,8 +49528,7 @@ public struct UpdateClusterSchedulerConfigOutput: Swift.Sendable {
     public init(
         clusterSchedulerConfigArn: Swift.String? = nil,
         clusterSchedulerConfigVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
         self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
     }
@@ -50703,8 +49541,7 @@ public struct UpdateClusterSoftwareInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -50716,8 +49553,7 @@ public struct UpdateClusterSoftwareOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -50732,8 +49568,7 @@ public struct UpdateCodeRepositoryInput: Swift.Sendable {
     public init(
         codeRepositoryName: Swift.String? = nil,
         gitConfig: SageMakerClientTypes.GitConfigForUpdate? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
         self.gitConfig = gitConfig
     }
@@ -50746,8 +49581,7 @@ public struct UpdateCodeRepositoryOutput: Swift.Sendable {
 
     public init(
         codeRepositoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryArn = codeRepositoryArn
     }
 }
@@ -50775,8 +49609,7 @@ public struct UpdateComputeQuotaInput: Swift.Sendable {
         computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
         description: Swift.String? = nil,
         targetVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.activationState = activationState
         self.computeQuotaConfig = computeQuotaConfig
         self.computeQuotaId = computeQuotaId
@@ -50797,8 +49630,7 @@ public struct UpdateComputeQuotaOutput: Swift.Sendable {
     public init(
         computeQuotaArn: Swift.String? = nil,
         computeQuotaVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.computeQuotaArn = computeQuotaArn
         self.computeQuotaVersion = computeQuotaVersion
     }
@@ -50820,8 +49652,7 @@ public struct UpdateContextInput: Swift.Sendable {
         description: Swift.String? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         propertiesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
         self.description = description
         self.properties = properties
@@ -50835,8 +49666,7 @@ public struct UpdateContextOutput: Swift.Sendable {
 
     public init(
         contextArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
     }
 }
@@ -50861,8 +49691,7 @@ public struct UpdateDeviceFleetInput: Swift.Sendable {
         enableIotRoleAlias: Swift.Bool? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.deviceFleetName = deviceFleetName
         self.enableIotRoleAlias = enableIotRoleAlias
@@ -50882,8 +49711,7 @@ public struct UpdateDevicesInput: Swift.Sendable {
     public init(
         deviceFleetName: Swift.String? = nil,
         devices: [SageMakerClientTypes.Device]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.devices = devices
     }
@@ -50924,8 +49752,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate? = nil,
         subnetIds: [Swift.String]? = nil,
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil
-    )
-    {
+    ) {
         self.appNetworkAccessType = appNetworkAccessType
         self.appSecurityGroupManagement = appSecurityGroupManagement
         self.defaultSpaceSettings = defaultSpaceSettings
@@ -50943,8 +49770,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
 
     public init(
         domainArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainArn = domainArn
     }
 }
@@ -50997,8 +49823,7 @@ extension SageMakerClientTypes {
 
         public init(
             variantPropertyType: SageMakerClientTypes.VariantPropertyType? = nil
-        )
-        {
+        ) {
             self.variantPropertyType = variantPropertyType
         }
     }
@@ -51027,8 +49852,7 @@ public struct UpdateEndpointInput: Swift.Sendable {
         excludeRetainedVariantProperties: [SageMakerClientTypes.VariantProperty]? = nil,
         retainAllVariantProperties: Swift.Bool? = nil,
         retainDeploymentConfig: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.deploymentConfig = deploymentConfig
         self.endpointConfigName = endpointConfigName
         self.endpointName = endpointName
@@ -51045,8 +49869,7 @@ public struct UpdateEndpointOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -51062,8 +49885,7 @@ public struct UpdateEndpointWeightsAndCapacitiesInput: Swift.Sendable {
     public init(
         desiredWeightsAndCapacities: [SageMakerClientTypes.DesiredWeightAndCapacity]? = nil,
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredWeightsAndCapacities = desiredWeightsAndCapacities
         self.endpointName = endpointName
     }
@@ -51076,8 +49898,7 @@ public struct UpdateEndpointWeightsAndCapacitiesOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -51095,8 +49916,7 @@ public struct UpdateExperimentInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         experimentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.experimentName = experimentName
@@ -51109,8 +49929,7 @@ public struct UpdateExperimentOutput: Swift.Sendable {
 
     public init(
         experimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentArn = experimentArn
     }
 }
@@ -51130,8 +49949,7 @@ extension SageMakerClientTypes {
             provisionedReadCapacityUnits: Swift.Int? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil,
             throughputMode: SageMakerClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
             self.throughputMode = throughputMode
@@ -51155,8 +49973,7 @@ public struct UpdateFeatureGroupInput: Swift.Sendable {
         featureGroupName: Swift.String? = nil,
         onlineStoreConfig: SageMakerClientTypes.OnlineStoreConfigUpdate? = nil,
         throughputConfig: SageMakerClientTypes.ThroughputConfigUpdate? = nil
-    )
-    {
+    ) {
         self.featureAdditions = featureAdditions
         self.featureGroupName = featureGroupName
         self.onlineStoreConfig = onlineStoreConfig
@@ -51171,8 +49988,7 @@ public struct UpdateFeatureGroupOutput: Swift.Sendable {
 
     public init(
         featureGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupArn = featureGroupArn
     }
 }
@@ -51197,8 +50013,7 @@ public struct UpdateFeatureMetadataInput: Swift.Sendable {
         featureName: Swift.String? = nil,
         parameterAdditions: [SageMakerClientTypes.FeatureParameter]? = nil,
         parameterRemovals: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.featureGroupName = featureGroupName
         self.featureName = featureName
@@ -51223,8 +50038,7 @@ public struct UpdateHubInput: Swift.Sendable {
         hubDisplayName: Swift.String? = nil,
         hubName: Swift.String? = nil,
         hubSearchKeywords: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.hubDescription = hubDescription
         self.hubDisplayName = hubDisplayName
         self.hubName = hubName
@@ -51239,8 +50053,7 @@ public struct UpdateHubOutput: Swift.Sendable {
 
     public init(
         hubArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
     }
 }
@@ -51264,8 +50077,7 @@ public struct UpdateImageInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         imageName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteProperties = deleteProperties
         self.description = description
         self.displayName = displayName
@@ -51280,8 +50092,7 @@ public struct UpdateImageOutput: Swift.Sendable {
 
     public init(
         imageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageArn = imageArn
     }
 }
@@ -51344,8 +50155,7 @@ public struct UpdateImageVersionInput: Swift.Sendable {
         releaseNotes: Swift.String? = nil,
         vendorGuidance: SageMakerClientTypes.VendorGuidance? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.aliasesToAdd = aliasesToAdd
         self.aliasesToDelete = aliasesToDelete
@@ -51367,8 +50177,7 @@ public struct UpdateImageVersionOutput: Swift.Sendable {
 
     public init(
         imageVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageVersionArn = imageVersionArn
     }
 }
@@ -51386,8 +50195,7 @@ public struct UpdateInferenceComponentInput: Swift.Sendable {
         inferenceComponentName: Swift.String? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecification? = nil
-    )
-    {
+    ) {
         self.inferenceComponentName = inferenceComponentName
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -51401,8 +50209,7 @@ public struct UpdateInferenceComponentOutput: Swift.Sendable {
 
     public init(
         inferenceComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentArn = inferenceComponentArn
     }
 }
@@ -51418,8 +50225,7 @@ public struct UpdateInferenceComponentRuntimeConfigInput: Swift.Sendable {
     public init(
         desiredRuntimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig? = nil,
         inferenceComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredRuntimeConfig = desiredRuntimeConfig
         self.inferenceComponentName = inferenceComponentName
     }
@@ -51432,8 +50238,7 @@ public struct UpdateInferenceComponentRuntimeConfigOutput: Swift.Sendable {
 
     public init(
         inferenceComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentArn = inferenceComponentArn
     }
 }
@@ -51460,8 +50265,7 @@ public struct UpdateInferenceExperimentInput: Swift.Sendable {
         name: Swift.String? = nil,
         schedule: SageMakerClientTypes.InferenceExperimentSchedule? = nil,
         shadowModeConfig: SageMakerClientTypes.ShadowModeConfig? = nil
-    )
-    {
+    ) {
         self.dataStorageConfig = dataStorageConfig
         self.description = description
         self.modelVariants = modelVariants
@@ -51478,8 +50282,7 @@ public struct UpdateInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -51503,8 +50306,7 @@ public struct UpdateMlflowTrackingServerInput: Swift.Sendable {
         trackingServerName: Swift.String? = nil,
         trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactStoreUri = artifactStoreUri
         self.automaticModelRegistration = automaticModelRegistration
         self.trackingServerName = trackingServerName
@@ -51519,8 +50321,7 @@ public struct UpdateMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -51546,8 +50347,7 @@ public struct UpdateModelCardInput: Swift.Sendable {
         content: Swift.String? = nil,
         modelCardName: Swift.String? = nil,
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
-    )
-    {
+    ) {
         self.content = content
         self.modelCardName = modelCardName
         self.modelCardStatus = modelCardStatus
@@ -51566,8 +50366,7 @@ public struct UpdateModelCardOutput: Swift.Sendable {
 
     public init(
         modelCardArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardArn = modelCardArn
     }
 }
@@ -51615,8 +50414,7 @@ public struct UpdateModelPackageInput: Swift.Sendable {
         modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelPackageArn: Swift.String? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInferenceSpecificationsToAdd = additionalInferenceSpecificationsToAdd
         self.approvalDescription = approvalDescription
         self.clientToken = clientToken
@@ -51638,8 +50436,7 @@ public struct UpdateModelPackageOutput: Swift.Sendable {
 
     public init(
         modelPackageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageArn = modelPackageArn
     }
 }
@@ -51663,8 +50460,7 @@ public struct UpdateMonitoringAlertInput: Swift.Sendable {
         evaluationPeriod: Swift.Int? = nil,
         monitoringAlertName: Swift.String? = nil,
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datapointsToAlert = datapointsToAlert
         self.evaluationPeriod = evaluationPeriod
         self.monitoringAlertName = monitoringAlertName
@@ -51682,8 +50478,7 @@ public struct UpdateMonitoringAlertOutput: Swift.Sendable {
     public init(
         monitoringAlertName: Swift.String? = nil,
         monitoringScheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringAlertName = monitoringAlertName
         self.monitoringScheduleArn = monitoringScheduleArn
     }
@@ -51700,8 +50495,7 @@ public struct UpdateMonitoringScheduleInput: Swift.Sendable {
     public init(
         monitoringScheduleConfig: SageMakerClientTypes.MonitoringScheduleConfig? = nil,
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleConfig = monitoringScheduleConfig
         self.monitoringScheduleName = monitoringScheduleName
     }
@@ -51714,8 +50508,7 @@ public struct UpdateMonitoringScheduleOutput: Swift.Sendable {
 
     public init(
         monitoringScheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleArn = monitoringScheduleArn
     }
 }
@@ -51766,8 +50559,7 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         rootAccess: SageMakerClientTypes.RootAccess? = nil,
         volumeSizeInGB: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
         self.additionalCodeRepositories = additionalCodeRepositories
         self.defaultCodeRepository = defaultCodeRepository
@@ -51803,8 +50595,7 @@ public struct UpdateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
         onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         self.onCreate = onCreate
         self.onStart = onStart
@@ -51841,8 +50632,7 @@ public struct UpdatePartnerAppInput: Swift.Sendable {
         maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         tier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationConfig = applicationConfig
         self.arn = arn
         self.clientToken = clientToken
@@ -51859,8 +50649,7 @@ public struct UpdatePartnerAppOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -51890,8 +50679,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineDefinition = pipelineDefinition
         self.pipelineDefinitionS3Location = pipelineDefinitionS3Location
@@ -51908,8 +50696,7 @@ public struct UpdatePipelineOutput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineArn = pipelineArn
     }
 }
@@ -51930,8 +50717,7 @@ public struct UpdatePipelineExecutionInput: Swift.Sendable {
         pipelineExecutionArn: Swift.String? = nil,
         pipelineExecutionDescription: Swift.String? = nil,
         pipelineExecutionDisplayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineExecutionArn = pipelineExecutionArn
         self.pipelineExecutionDescription = pipelineExecutionDescription
@@ -51945,8 +50731,7 @@ public struct UpdatePipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -51963,8 +50748,7 @@ extension SageMakerClientTypes {
         public init(
             provisioningArtifactId: Swift.String? = nil,
             provisioningParameters: [SageMakerClientTypes.ProvisioningParameter]? = nil
-        )
-        {
+        ) {
             self.provisioningArtifactId = provisioningArtifactId
             self.provisioningParameters = provisioningParameters
         }
@@ -51987,8 +50771,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningUpdateDetails: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningUpdateDetails = serviceCatalogProvisioningUpdateDetails
@@ -52003,8 +50786,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -52026,8 +50808,7 @@ public struct UpdateSpaceInput: Swift.Sendable {
         spaceDisplayName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         spaceSettings: SageMakerClientTypes.SpaceSettings? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.spaceDisplayName = spaceDisplayName
         self.spaceName = spaceName
@@ -52041,8 +50822,7 @@ public struct UpdateSpaceOutput: Swift.Sendable {
 
     public init(
         spaceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceArn = spaceArn
     }
 }
@@ -52066,8 +50846,7 @@ public struct UpdateTrainingJobInput: Swift.Sendable {
         remoteDebugConfig: SageMakerClientTypes.RemoteDebugConfigForUpdate? = nil,
         resourceConfig: SageMakerClientTypes.ResourceConfigForUpdate? = nil,
         trainingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.profilerConfig = profilerConfig
         self.profilerRuleConfigurations = profilerRuleConfigurations
         self.remoteDebugConfig = remoteDebugConfig
@@ -52083,8 +50862,7 @@ public struct UpdateTrainingJobOutput: Swift.Sendable {
 
     public init(
         trainingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobArn = trainingJobArn
     }
 }
@@ -52099,8 +50877,7 @@ public struct UpdateTrialInput: Swift.Sendable {
     public init(
         displayName: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.trialName = trialName
     }
@@ -52112,8 +50889,7 @@ public struct UpdateTrialOutput: Swift.Sendable {
 
     public init(
         trialArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
     }
 }
@@ -52155,8 +50931,7 @@ public struct UpdateTrialComponentInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.endTime = endTime
         self.inputArtifacts = inputArtifacts
@@ -52177,8 +50952,7 @@ public struct UpdateTrialComponentOutput: Swift.Sendable {
 
     public init(
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentArn = trialComponentArn
     }
 }
@@ -52197,8 +50971,7 @@ public struct UpdateUserProfileInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         userProfileName: Swift.String? = nil,
         userSettings: SageMakerClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.userProfileName = userProfileName
         self.userSettings = userSettings
@@ -52211,8 +50984,7 @@ public struct UpdateUserProfileOutput: Swift.Sendable {
 
     public init(
         userProfileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userProfileArn = userProfileArn
     }
 }
@@ -52233,8 +51005,7 @@ public struct UpdateWorkforceInput: Swift.Sendable {
         sourceIpConfig: SageMakerClientTypes.SourceIpConfig? = nil,
         workforceName: Swift.String? = nil,
         workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigRequest? = nil
-    )
-    {
+    ) {
         self.oidcConfig = oidcConfig
         self.sourceIpConfig = sourceIpConfig
         self.workforceName = workforceName
@@ -52249,8 +51020,7 @@ public struct UpdateWorkforceOutput: Swift.Sendable {
 
     public init(
         workforce: SageMakerClientTypes.Workforce? = nil
-    )
-    {
+    ) {
         self.workforce = workforce
     }
 }
@@ -52274,8 +51044,7 @@ public struct UpdateWorkteamInput: Swift.Sendable {
         notificationConfiguration: SageMakerClientTypes.NotificationConfiguration? = nil,
         workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration? = nil,
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.memberDefinitions = memberDefinitions
         self.notificationConfiguration = notificationConfiguration
@@ -52291,8 +51060,7 @@ public struct UpdateWorkteamOutput: Swift.Sendable {
 
     public init(
         workteam: SageMakerClientTypes.Workteam? = nil
-    )
-    {
+    ) {
         self.workteam = workteam
     }
 }
@@ -52323,8 +51091,7 @@ extension SageMakerClientTypes {
             nestedFilters: [SageMakerClientTypes.NestedFilters]? = nil,
             `operator`: SageMakerClientTypes.BooleanOperator? = nil,
             subExpressions: [SageMakerClientTypes.SearchExpression]? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.nestedFilters = nestedFilters
             self.`operator` = `operator`
@@ -52361,8 +51128,7 @@ public struct SearchInput: Swift.Sendable {
         sortBy: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SearchSortOrder? = nil,
         visibilityConditions: [SageMakerClientTypes.VisibilityConditions]? = nil
-    )
-    {
+    ) {
         self.crossAccountFilterOption = crossAccountFilterOption
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -68907,6 +67673,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         try writer["FrameworkVersion"].write(value.frameworkVersion)
         try writer["Image"].write(value.image)
         try writer["ImageDigest"].write(value.imageDigest)
+        try writer["ModelDataETag"].write(value.modelDataETag)
         try writer["ModelDataSource"].write(value.modelDataSource, with: SageMakerClientTypes.ModelDataSource.write(value:to:))
         try writer["ModelDataUrl"].write(value.modelDataUrl)
         try writer["ModelInput"].write(value.modelInput, with: SageMakerClientTypes.ModelInput.write(value:to:))
@@ -68929,6 +67696,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent()
         value.nearestModelName = try reader["NearestModelName"].readIfPresent()
         value.additionalS3DataSource = try reader["AdditionalS3DataSource"].readIfPresent(with: SageMakerClientTypes.AdditionalS3DataSource.read(from:))
+        value.modelDataETag = try reader["ModelDataETag"].readIfPresent()
         return value
     }
 }
@@ -68938,6 +67706,7 @@ extension SageMakerClientTypes.AdditionalS3DataSource {
     static func write(value: SageMakerClientTypes.AdditionalS3DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
+        try writer["ETag"].write(value.eTag)
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
     }
@@ -68948,6 +67717,7 @@ extension SageMakerClientTypes.AdditionalS3DataSource {
         value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
         value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
         return value
     }
 }
@@ -68987,7 +67757,9 @@ extension SageMakerClientTypes.S3ModelDataSource {
     static func write(value: SageMakerClientTypes.S3ModelDataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
+        try writer["ETag"].write(value.eTag)
         try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.InferenceHubAccessConfig.write(value:to:))
+        try writer["ManifestEtag"].write(value.manifestEtag)
         try writer["ManifestS3Uri"].write(value.manifestS3Uri)
         try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataType"].write(value.s3DataType)
@@ -69003,6 +67775,8 @@ extension SageMakerClientTypes.S3ModelDataSource {
         value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
         value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.InferenceHubAccessConfig.read(from:))
         value.manifestS3Uri = try reader["ManifestS3Uri"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.manifestEtag = try reader["ManifestEtag"].readIfPresent()
         return value
     }
 }
@@ -70665,6 +69439,7 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
         value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privatePrimaryIp = try reader["PrivatePrimaryIp"].readIfPresent()
+        value.privatePrimaryIpv6 = try reader["PrivatePrimaryIpv6"].readIfPresent()
         value.privateDnsHostname = try reader["PrivateDnsHostname"].readIfPresent()
         value.placement = try reader["Placement"].readIfPresent(with: SageMakerClientTypes.ClusterInstancePlacement.read(from:))
         return value
@@ -74754,6 +73529,7 @@ extension SageMakerClientTypes.SourceAlgorithm {
     static func write(value: SageMakerClientTypes.SourceAlgorithm?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AlgorithmName"].write(value.algorithmName)
+        try writer["ModelDataETag"].write(value.modelDataETag)
         try writer["ModelDataSource"].write(value.modelDataSource, with: SageMakerClientTypes.ModelDataSource.write(value:to:))
         try writer["ModelDataUrl"].write(value.modelDataUrl)
     }
@@ -74763,6 +73539,7 @@ extension SageMakerClientTypes.SourceAlgorithm {
         var value = SageMakerClientTypes.SourceAlgorithm()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))
+        value.modelDataETag = try reader["ModelDataETag"].readIfPresent()
         value.algorithmName = try reader["AlgorithmName"].readIfPresent() ?? ""
         return value
     }

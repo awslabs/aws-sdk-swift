@@ -399,8 +399,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -462,8 +461,7 @@ extension ConnectClientTypes {
 
         public init(
             actionType: ConnectClientTypes.ActionType? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
         }
     }
@@ -488,8 +486,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -513,8 +510,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -537,8 +533,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -562,8 +557,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -586,8 +580,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -607,8 +600,7 @@ public struct ActivateEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -630,8 +622,7 @@ public struct ActivateEvaluationFormOutput: Swift.Sendable {
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int = 0
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
@@ -650,8 +641,7 @@ extension ConnectClientTypes {
         public init(
             address: Swift.String? = nil,
             displayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.displayName = displayName
         }
@@ -670,8 +660,7 @@ extension ConnectClientTypes {
         public init(
             ccList: [ConnectClientTypes.EmailRecipient]? = nil,
             toList: [ConnectClientTypes.EmailRecipient]? = nil
-        )
-        {
+        ) {
             self.ccList = ccList
             self.toList = toList
         }
@@ -721,8 +710,7 @@ extension ConnectClientTypes {
         public init(
             percentage: Swift.Int = 0,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.percentage = percentage
             self.region = region
         }
@@ -739,8 +727,7 @@ extension ConnectClientTypes {
 
         public init(
             distributions: [ConnectClientTypes.Distribution]? = nil
-        )
-        {
+        ) {
             self.distributions = distributions
         }
     }
@@ -902,8 +889,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -937,8 +923,7 @@ extension ConnectClientTypes {
             initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
             queue: ConnectClientTypes.QueueReference? = nil,
             stateStartTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.agentContactState = agentContactState
             self.channel = channel
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
@@ -959,8 +944,7 @@ extension ConnectClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -987,8 +971,7 @@ extension ConnectClientTypes {
             l3Ids: [Swift.String]? = nil,
             l4Ids: [Swift.String]? = nil,
             l5Ids: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.l1Ids = l1Ids
             self.l2Ids = l2Ids
             self.l3Ids = l3Ids
@@ -1062,8 +1045,7 @@ extension ConnectClientTypes {
         public init(
             screenShare: ConnectClientTypes.ScreenShareCapability? = nil,
             video: ConnectClientTypes.VideoCapability? = nil
-        )
-        {
+        ) {
             self.screenShare = screenShare
             self.video = video
         }
@@ -1085,8 +1067,7 @@ extension ConnectClientTypes {
             operatingSystem: Swift.String? = nil,
             platformName: Swift.String? = nil,
             platformVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.operatingSystem = operatingSystem
             self.platformName = platformName
             self.platformVersion = platformVersion
@@ -1115,8 +1096,7 @@ extension ConnectClientTypes {
             level3: ConnectClientTypes.AgentHierarchyGroup? = nil,
             level4: ConnectClientTypes.AgentHierarchyGroup? = nil,
             level5: ConnectClientTypes.AgentHierarchyGroup? = nil
-        )
-        {
+        ) {
             self.level1 = level1
             self.level2 = level2
             self.level3 = level3
@@ -1150,8 +1130,7 @@ extension ConnectClientTypes {
             deviceInfo: ConnectClientTypes.DeviceInfo? = nil,
             hierarchyGroups: ConnectClientTypes.HierarchyGroups? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentPauseDurationInSeconds = agentPauseDurationInSeconds
             self.capabilities = capabilities
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
@@ -1174,8 +1153,7 @@ extension ConnectClientTypes {
         public init(
             potentialQualityIssues: [Swift.String]? = nil,
             qualityScore: Swift.Float = 0.0
-        )
-        {
+        ) {
             self.potentialQualityIssues = potentialQualityIssues
             self.qualityScore = qualityScore
         }
@@ -1191,8 +1169,7 @@ extension ConnectClientTypes {
 
         public init(
             audio: ConnectClientTypes.AudioQualityMetricsInfo? = nil
-        )
-        {
+        ) {
             self.audio = audio
         }
     }
@@ -1207,8 +1184,7 @@ extension ConnectClientTypes {
 
         public init(
             agentIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.agentIds = agentIds
         }
     }
@@ -1311,8 +1287,7 @@ extension ConnectClientTypes {
             state: ConnectClientTypes.AgentStatusState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: ConnectClientTypes.AgentStatusType? = nil
-        )
-        {
+        ) {
             self.agentStatusARN = agentStatusARN
             self.agentStatusId = agentStatusId
             self.description = description
@@ -1342,8 +1317,7 @@ extension ConnectClientTypes {
             statusArn: Swift.String? = nil,
             statusName: Swift.String? = nil,
             statusStartTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.statusArn = statusArn
             self.statusName = statusName
             self.statusStartTimestamp = statusStartTimestamp
@@ -1398,8 +1372,7 @@ extension ConnectClientTypes {
             comparisonType: ConnectClientTypes.StringComparisonType? = nil,
             fieldName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonType = comparisonType
             self.fieldName = fieldName
             self.value = value
@@ -1419,8 +1392,7 @@ extension ConnectClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -1436,8 +1408,7 @@ extension ConnectClientTypes {
 
         public init(
             tagConditions: [ConnectClientTypes.TagCondition]? = nil
-        )
-        {
+        ) {
             self.tagConditions = tagConditions
         }
     }
@@ -1462,8 +1433,7 @@ extension ConnectClientTypes {
             andCondition: ConnectClientTypes.CommonAttributeAndCondition? = nil,
             orConditions: [ConnectClientTypes.CommonAttributeAndCondition]? = nil,
             tagCondition: ConnectClientTypes.TagCondition? = nil
-        )
-        {
+        ) {
             self.andCondition = andCondition
             self.orConditions = orConditions
             self.tagCondition = tagCondition
@@ -1484,8 +1454,7 @@ extension ConnectClientTypes {
 
         public init(
             attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
-        )
-        {
+        ) {
             self.attributeFilter = attributeFilter
         }
     }
@@ -1515,8 +1484,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: ConnectClientTypes.AgentStatusType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -1539,8 +1507,7 @@ extension ConnectClientTypes {
         public init(
             agent: ConnectClientTypes.ParticipantCapabilities? = nil,
             customer: ConnectClientTypes.ParticipantCapabilities? = nil
-        )
-        {
+        ) {
             self.agent = agent
             self.customer = customer
         }
@@ -1640,8 +1607,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         reason: ConnectClientTypes.InvalidRequestExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -1661,8 +1627,7 @@ public struct AssociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -1684,8 +1649,7 @@ public struct AssociateAnalyticsDataSetOutput: Swift.Sendable {
         resourceShareArn: Swift.String? = nil,
         resourceShareId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.resourceShareArn = resourceShareArn
         self.resourceShareId = resourceShareId
@@ -1753,8 +1717,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         reason: ConnectClientTypes.ServiceQuotaExceededExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -1771,8 +1734,7 @@ public struct AssociateApprovedOriginInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         origin: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.origin = origin
     }
@@ -1797,8 +1759,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1817,8 +1778,7 @@ extension ConnectClientTypes {
         public init(
             lexRegion: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lexRegion = lexRegion
             self.name = name
         }
@@ -1834,8 +1794,7 @@ extension ConnectClientTypes {
 
         public init(
             aliasArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.aliasArn = aliasArn
         }
     }
@@ -1854,8 +1813,7 @@ public struct AssociateBotInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         lexBot: ConnectClientTypes.LexBot? = nil,
         lexV2Bot: ConnectClientTypes.LexV2Bot? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.lexBot = lexBot
         self.lexV2Bot = lexV2Bot
@@ -1998,8 +1956,7 @@ public struct AssociateDefaultVocabularyInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.languageCode = languageCode
         self.vocabularyId = vocabularyId
@@ -2072,8 +2029,7 @@ public struct AssociateFlowInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.flowId = flowId
         self.instanceId = instanceId
         self.resourceId = resourceId
@@ -2158,8 +2114,7 @@ extension ConnectClientTypes {
 
         public init(
             firehoseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.firehoseArn = firehoseArn
         }
     }
@@ -2175,8 +2130,7 @@ extension ConnectClientTypes {
 
         public init(
             streamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamArn = streamArn
         }
     }
@@ -2222,8 +2176,7 @@ extension ConnectClientTypes {
         public init(
             encryptionType: ConnectClientTypes.EncryptionType? = nil,
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.keyId = keyId
         }
@@ -2248,8 +2201,7 @@ extension ConnectClientTypes {
             encryptionConfig: ConnectClientTypes.EncryptionConfig? = nil,
             `prefix`: Swift.String? = nil,
             retentionPeriodHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.encryptionConfig = encryptionConfig
             self.`prefix` = `prefix`
             self.retentionPeriodHours = retentionPeriodHours
@@ -2274,8 +2226,7 @@ extension ConnectClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             encryptionConfig: ConnectClientTypes.EncryptionConfig? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.encryptionConfig = encryptionConfig
@@ -2343,8 +2294,7 @@ extension ConnectClientTypes {
             kinesisVideoStreamConfig: ConnectClientTypes.KinesisVideoStreamConfig? = nil,
             s3Config: ConnectClientTypes.S3Config? = nil,
             storageType: ConnectClientTypes.StorageType? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.kinesisFirehoseConfig = kinesisFirehoseConfig
             self.kinesisStreamConfig = kinesisStreamConfig
@@ -2377,8 +2327,7 @@ public struct AssociateInstanceStorageConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil,
         storageConfig: ConnectClientTypes.InstanceStorageConfig? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.resourceType = resourceType
         self.storageConfig = storageConfig
@@ -2391,8 +2340,7 @@ public struct AssociateInstanceStorageConfigOutput: Swift.Sendable {
 
     public init(
         associationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
     }
 }
@@ -2408,8 +2356,7 @@ public struct AssociateLambdaFunctionInput: Swift.Sendable {
     public init(
         functionArn: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionArn = functionArn
         self.instanceId = instanceId
     }
@@ -2426,8 +2373,7 @@ public struct AssociateLexBotInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         lexBot: ConnectClientTypes.LexBot? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.lexBot = lexBot
     }
@@ -2448,8 +2394,7 @@ public struct AssociatePhoneNumberContactFlowInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
@@ -2471,8 +2416,7 @@ public struct AssociateQueueQuickConnectsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         quickConnectIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
         self.quickConnectIds = quickConnectIds
@@ -2493,8 +2437,7 @@ extension ConnectClientTypes {
         public init(
             channel: ConnectClientTypes.Channel? = nil,
             queueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.queueId = queueId
         }
@@ -2519,8 +2462,7 @@ extension ConnectClientTypes {
             delay: Swift.Int? = 0,
             priority: Swift.Int? = nil,
             queueReference: ConnectClientTypes.RoutingProfileQueueReference? = nil
-        )
-        {
+        ) {
             self.delay = delay
             self.priority = priority
             self.queueReference = queueReference
@@ -2543,8 +2485,7 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueConfigs = queueConfigs
         self.routingProfileId = routingProfileId
@@ -2562,8 +2503,7 @@ public struct AssociateSecurityKeyInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         key: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.key = key
     }
@@ -2575,8 +2515,7 @@ public struct AssociateSecurityKeyOutput: Swift.Sendable {
 
     public init(
         associationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
     }
 }
@@ -2596,8 +2535,7 @@ public struct AssociateTrafficDistributionGroupUserInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         trafficDistributionGroupId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.trafficDistributionGroupId = trafficDistributionGroupId
         self.userId = userId
@@ -2627,8 +2565,7 @@ extension ConnectClientTypes {
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil,
             level: Swift.Float? = 1.0
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
             self.level = level
@@ -2651,8 +2588,7 @@ public struct AssociateUserProficienciesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil,
         userProficiencies: [ConnectClientTypes.UserProficiency]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
         self.userProficiencies = userProficiencies
@@ -2673,8 +2609,7 @@ public struct BatchAssociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetIds: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetIds = dataSetIds
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -2699,8 +2634,7 @@ extension ConnectClientTypes {
             resourceShareArn: Swift.String? = nil,
             resourceShareId: Swift.String? = nil,
             targetAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetId = dataSetId
             self.resourceShareArn = resourceShareArn
             self.resourceShareId = resourceShareId
@@ -2721,8 +2655,7 @@ extension ConnectClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -2738,8 +2671,7 @@ public struct BatchAssociateAnalyticsDataSetOutput: Swift.Sendable {
     public init(
         created: [ConnectClientTypes.AnalyticsDataAssociationResult]? = nil,
         errors: [ConnectClientTypes.ErrorResult]? = nil
-    )
-    {
+    ) {
         self.created = created
         self.errors = errors
     }
@@ -2759,8 +2691,7 @@ public struct BatchDisassociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetIds: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetIds = dataSetIds
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -2776,8 +2707,7 @@ public struct BatchDisassociateAnalyticsDataSetOutput: Swift.Sendable {
     public init(
         deleted: [Swift.String]? = nil,
         errors: [ConnectClientTypes.ErrorResult]? = nil
-    )
-    {
+    ) {
         self.deleted = deleted
         self.errors = errors
     }
@@ -2798,8 +2728,7 @@ public struct BatchGetAttachedFileMetadataInput: Swift.Sendable {
         associatedResourceArn: Swift.String? = nil,
         fileIds: [Swift.String]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileIds = fileIds
         self.instanceId = instanceId
@@ -2821,8 +2750,7 @@ extension ConnectClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             fileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.fileId = fileId
@@ -2948,8 +2876,7 @@ extension ConnectClientTypes {
             fileStatus: ConnectClientTypes.FileStatusType? = nil,
             fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.associatedResourceArn = associatedResourceArn
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -2973,8 +2900,7 @@ public struct BatchGetAttachedFileMetadataOutput: Swift.Sendable {
     public init(
         errors: [ConnectClientTypes.AttachedFileError]? = nil,
         files: [ConnectClientTypes.AttachedFile]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.files = files
     }
@@ -3036,8 +2962,7 @@ public struct BatchGetFlowAssociationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.resourceIds = resourceIds
         self.resourceType = resourceType
@@ -3059,8 +2984,7 @@ extension ConnectClientTypes {
             flowId: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
-        )
-        {
+        ) {
             self.flowId = flowId
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -3074,8 +2998,7 @@ public struct BatchGetFlowAssociationOutput: Swift.Sendable {
 
     public init(
         flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]? = nil
-    )
-    {
+    ) {
         self.flowAssociationSummaryList = flowAssociationSummaryList
     }
 }
@@ -3098,8 +3021,7 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3113,8 +3035,7 @@ extension ConnectClientTypes {
 
         public init(
             campaignId: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
         }
     }
@@ -3170,8 +3091,7 @@ extension ConnectClientTypes {
         public init(
             address: Swift.String? = nil,
             type: ConnectClientTypes.EndpointType? = nil
-        )
-        {
+        ) {
             self.address = address
             self.type = type
         }
@@ -3202,8 +3122,7 @@ extension ConnectClientTypes {
             queueId: Swift.String? = nil,
             requestIdentifier: Swift.String? = nil,
             systemEndpoint: ConnectClientTypes.Endpoint? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.campaign = campaign
             self.customerEndpoint = customerEndpoint
@@ -3228,8 +3147,7 @@ public struct BatchPutContactInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contactDataRequestList: [ConnectClientTypes.ContactDataRequest]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactDataRequestList = contactDataRequestList
         self.instanceId = instanceId
@@ -3304,8 +3222,7 @@ extension ConnectClientTypes {
             failureReasonCode: ConnectClientTypes.FailureReasonCode? = nil,
             failureReasonMessage: Swift.String? = nil,
             requestIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureReasonCode = failureReasonCode
             self.failureReasonMessage = failureReasonMessage
             self.requestIdentifier = requestIdentifier
@@ -3325,8 +3242,7 @@ extension ConnectClientTypes {
         public init(
             contactId: Swift.String? = nil,
             requestIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactId = contactId
             self.requestIdentifier = requestIdentifier
         }
@@ -3342,8 +3258,7 @@ public struct BatchPutContactOutput: Swift.Sendable {
     public init(
         failedRequestList: [ConnectClientTypes.FailedRequest]? = nil,
         successfulRequestList: [ConnectClientTypes.SuccessfulRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequestList = failedRequestList
         self.successfulRequestList = successfulRequestList
     }
@@ -3371,8 +3286,7 @@ public struct ClaimPhoneNumberInput: Swift.Sendable {
         phoneNumberDescription: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.phoneNumber = phoneNumber
@@ -3391,8 +3305,7 @@ public struct ClaimPhoneNumberOutput: Swift.Sendable {
     public init(
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
     }
@@ -3414,8 +3327,7 @@ public struct CompleteAttachedFileUploadInput: Swift.Sendable {
         associatedResourceArn: Swift.String? = nil,
         fileId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileId = fileId
         self.instanceId = instanceId
@@ -3446,8 +3358,7 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3476,8 +3387,7 @@ public struct CreateAgentStatusInput: Swift.Sendable {
         name: Swift.String? = nil,
         state: ConnectClientTypes.AgentStatusState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayOrder = displayOrder
         self.instanceId = instanceId
@@ -3496,8 +3406,7 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
     public init(
         agentStatusARN: Swift.String? = nil,
         agentStatusId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusARN = agentStatusARN
         self.agentStatusId = agentStatusId
     }
@@ -3521,8 +3430,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3663,8 +3571,7 @@ extension ConnectClientTypes {
             statusReason: Swift.String? = nil,
             type: ConnectClientTypes.ReferenceType? = nil,
             value: Swift.String? = ""
-        )
-        {
+        ) {
             self.arn = arn
             self.status = status
             self.statusReason = statusReason
@@ -3683,8 +3590,7 @@ extension ConnectClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -3699,8 +3605,7 @@ public struct CreateContactOutput: Swift.Sendable {
     public init(
         contactArn: Swift.String? = nil,
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.contactId = contactId
     }
@@ -3715,8 +3620,7 @@ extension ConnectClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -3741,8 +3645,7 @@ public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         problems: [ConnectClientTypes.ProblemDetail]? = nil
-    )
-    {
+    ) {
         self.properties.problems = problems
     }
 }
@@ -3782,6 +3685,7 @@ extension ConnectClientTypes {
         case agentHold
         case agentTransfer
         case agentWhisper
+        case campaign
         case contactFlow
         case customerHold
         case customerQueue
@@ -3795,6 +3699,7 @@ extension ConnectClientTypes {
                 .agentHold,
                 .agentTransfer,
                 .agentWhisper,
+                .campaign,
                 .contactFlow,
                 .customerHold,
                 .customerQueue,
@@ -3814,6 +3719,7 @@ extension ConnectClientTypes {
             case .agentHold: return "AGENT_HOLD"
             case .agentTransfer: return "AGENT_TRANSFER"
             case .agentWhisper: return "AGENT_WHISPER"
+            case .campaign: return "CAMPAIGN"
             case .contactFlow: return "CONTACT_FLOW"
             case .customerHold: return "CUSTOMER_HOLD"
             case .customerQueue: return "CUSTOMER_QUEUE"
@@ -3854,8 +3760,7 @@ public struct CreateContactFlowInput: Swift.Sendable {
         status: ConnectClientTypes.ContactFlowStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: ConnectClientTypes.ContactFlowType? = nil
-    )
-    {
+    ) {
         self.content = content
         self.description = description
         self.instanceId = instanceId
@@ -3871,15 +3776,14 @@ public struct CreateContactFlowOutput: Swift.Sendable {
     public var contactFlowArn: Swift.String?
     /// The identifier of the flow.
     public var contactFlowId: Swift.String?
-    /// Indicates the checksum value of the flow content.
+    /// Indicates the checksum value of the latest published flow content.
     public var flowContentSha256: Swift.String?
 
     public init(
         contactFlowArn: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
         flowContentSha256: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowArn = contactFlowArn
         self.contactFlowId = contactFlowId
         self.flowContentSha256 = flowContentSha256
@@ -3904,8 +3808,7 @@ public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWS
 
     public init(
         problems: [ConnectClientTypes.ProblemDetail]? = nil
-    )
-    {
+    ) {
         self.properties.problems = problems
     }
 }
@@ -3934,8 +3837,7 @@ public struct CreateContactFlowModuleInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.content = content
         self.description = description
@@ -3954,8 +3856,7 @@ public struct CreateContactFlowModuleOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -3965,6 +3866,8 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
+    /// The identifier of the flow version.
+    public var contactFlowVersion: Swift.Int?
     /// The description of the flow version.
     public var description: Swift.String?
     /// Indicates the checksum value of the flow content.
@@ -3979,14 +3882,15 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
 
     public init(
         contactFlowId: Swift.String? = nil,
+        contactFlowVersion: Swift.Int? = nil,
         description: Swift.String? = nil,
         flowContentSha256: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
+        self.contactFlowVersion = contactFlowVersion
         self.description = description
         self.flowContentSha256 = flowContentSha256
         self.instanceId = instanceId
@@ -4004,8 +3908,7 @@ public struct CreateContactFlowVersionOutput: Swift.Sendable {
     public init(
         contactFlowArn: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.contactFlowArn = contactFlowArn
         self.version = version
     }
@@ -4034,8 +3937,7 @@ public struct CreateEmailAddressInput: Swift.Sendable {
         emailAddress: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
@@ -4059,8 +3961,7 @@ public struct CreateEmailAddressOutput: Swift.Sendable {
     public init(
         emailAddressArn: Swift.String? = nil,
         emailAddressId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressArn = emailAddressArn
         self.emailAddressId = emailAddressId
     }
@@ -4163,8 +4064,7 @@ extension ConnectClientTypes {
 
         public init(
             label: ConnectClientTypes.NumericQuestionPropertyAutomationLabel? = nil
-        )
-        {
+        ) {
             self.label = label
         }
     }
@@ -4200,8 +4100,7 @@ extension ConnectClientTypes {
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
             score: Swift.Int = 0
-        )
-        {
+        ) {
             self.automaticFail = automaticFail
             self.maxValue = maxValue
             self.minValue = minValue
@@ -4230,8 +4129,7 @@ extension ConnectClientTypes {
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
             options: [ConnectClientTypes.EvaluationFormNumericQuestionOption]? = nil
-        )
-        {
+        ) {
             self.automation = automation
             self.maxValue = maxValue
             self.minValue = minValue
@@ -4287,8 +4185,7 @@ extension ConnectClientTypes {
             category: Swift.String? = nil,
             condition: ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomationCondition? = nil,
             optionRefId: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.condition = condition
             self.optionRefId = optionRefId
@@ -4319,8 +4216,7 @@ extension ConnectClientTypes {
         public init(
             defaultOptionRefId: Swift.String? = nil,
             options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]? = nil
-        )
-        {
+        ) {
             self.defaultOptionRefId = defaultOptionRefId
             self.options = options
         }
@@ -4376,8 +4272,7 @@ extension ConnectClientTypes {
             refId: Swift.String? = nil,
             score: Swift.Int = 0,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticFail = automaticFail
             self.refId = refId
             self.score = score
@@ -4402,8 +4297,7 @@ extension ConnectClientTypes {
             automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation? = nil,
             displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode? = nil,
             options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]? = nil
-        )
-        {
+        ) {
             self.automation = automation
             self.displayAs = displayAs
             self.options = options
@@ -4453,8 +4347,7 @@ extension ConnectClientTypes {
             refId: Swift.String? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.instructions = instructions
             self.notApplicableEnabled = notApplicableEnabled
             self.questionType = questionType
@@ -4538,8 +4431,7 @@ extension ConnectClientTypes {
         public init(
             mode: ConnectClientTypes.EvaluationFormScoringMode? = nil,
             status: ConnectClientTypes.EvaluationFormScoringStatus? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.status = status
         }
@@ -4557,8 +4449,7 @@ public struct CreateEvaluationFormOutput: Swift.Sendable {
     public init(
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
     }
@@ -4622,8 +4513,7 @@ extension ConnectClientTypes {
         public init(
             hours: Swift.Int? = 0,
             minutes: Swift.Int? = 0
-        )
-        {
+        ) {
             self.hours = hours
             self.minutes = minutes
         }
@@ -4648,8 +4538,7 @@ extension ConnectClientTypes {
             day: ConnectClientTypes.HoursOfOperationDays? = nil,
             endTime: ConnectClientTypes.HoursOfOperationTimeSlice? = nil,
             startTime: ConnectClientTypes.HoursOfOperationTimeSlice? = nil
-        )
-        {
+        ) {
             self.day = day
             self.endTime = endTime
             self.startTime = startTime
@@ -4682,8 +4571,7 @@ public struct CreateHoursOfOperationInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         timeZone: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.description = description
         self.instanceId = instanceId
@@ -4702,8 +4590,7 @@ public struct CreateHoursOfOperationOutput: Swift.Sendable {
     public init(
         hoursOfOperationArn: Swift.String? = nil,
         hoursOfOperationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationArn = hoursOfOperationArn
         self.hoursOfOperationId = hoursOfOperationId
     }
@@ -4767,8 +4654,7 @@ extension ConnectClientTypes {
         public init(
             hours: Swift.Int? = 0,
             minutes: Swift.Int? = 0
-        )
-        {
+        ) {
             self.hours = hours
             self.minutes = minutes
         }
@@ -4790,8 +4676,7 @@ extension ConnectClientTypes {
             day: ConnectClientTypes.OverrideDays? = nil,
             endTime: ConnectClientTypes.OverrideTimeSlice? = nil,
             startTime: ConnectClientTypes.OverrideTimeSlice? = nil
-        )
-        {
+        ) {
             self.day = day
             self.endTime = endTime
             self.startTime = startTime
@@ -4829,8 +4714,7 @@ public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.description = description
         self.effectiveFrom = effectiveFrom
@@ -4847,8 +4731,7 @@ public struct CreateHoursOfOperationOverrideOutput: Swift.Sendable {
 
     public init(
         hoursOfOperationOverrideId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
     }
 }
@@ -4912,8 +4795,7 @@ public struct CreateInstanceInput: Swift.Sendable {
         instanceAlias: Swift.String? = nil,
         outboundCallsEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.identityManagementType = identityManagementType
@@ -4938,8 +4820,7 @@ public struct CreateInstanceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -5069,8 +4950,7 @@ public struct CreateIntegrationAssociationInput: Swift.Sendable {
         sourceApplicationUrl: Swift.String? = nil,
         sourceType: ConnectClientTypes.SourceType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationArn = integrationArn
         self.integrationType = integrationType
@@ -5090,8 +4970,7 @@ public struct CreateIntegrationAssociationOutput: Swift.Sendable {
     public init(
         integrationAssociationArn: Swift.String? = nil,
         integrationAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationAssociationArn = integrationAssociationArn
         self.integrationAssociationId = integrationAssociationId
     }
@@ -5147,8 +5026,7 @@ extension ConnectClientTypes {
         public init(
             displayName: Swift.String? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.participantRole = participantRole
         }
@@ -5173,8 +5051,7 @@ public struct CreateParticipantInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetailsToAdd? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactId = contactId
         self.instanceId = instanceId
@@ -5194,8 +5071,7 @@ extension ConnectClientTypes {
         public init(
             expiry: Swift.String? = nil,
             participantToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.expiry = expiry
             self.participantToken = participantToken
         }
@@ -5211,8 +5087,7 @@ public struct CreateParticipantOutput: Swift.Sendable {
     public init(
         participantCredentials: ConnectClientTypes.ParticipantTokenCredentials? = nil,
         participantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.participantCredentials = participantCredentials
         self.participantId = participantId
     }
@@ -5312,8 +5187,7 @@ public struct CreatePersistentContactAssociationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         rehydrationType: ConnectClientTypes.RehydrationType? = nil,
         sourceContactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.initialContactId = initialContactId
         self.instanceId = instanceId
@@ -5328,8 +5202,7 @@ public struct CreatePersistentContactAssociationOutput: Swift.Sendable {
 
     public init(
         continuedFromContactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuedFromContactId = continuedFromContactId
     }
 }
@@ -5359,8 +5232,7 @@ public struct CreatePredefinedAttributeInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         values: ConnectClientTypes.PredefinedAttributeValues? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.values = values
@@ -5388,8 +5260,7 @@ public struct CreatePromptInput: Swift.Sendable {
         name: Swift.String? = nil,
         s3Uri: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -5407,8 +5278,7 @@ public struct CreatePromptOutput: Swift.Sendable {
     public init(
         promptARN: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.promptARN = promptARN
         self.promptId = promptId
     }
@@ -5430,8 +5300,7 @@ extension ConnectClientTypes {
             contactId: Swift.String? = nil,
             includeRawMessage: Swift.Bool = false,
             participantRole: ConnectClientTypes.ParticipantRole? = nil
-        )
-        {
+        ) {
             self.contactId = contactId
             self.includeRawMessage = includeRawMessage
             self.participantRole = participantRole
@@ -5497,8 +5366,7 @@ public struct CreatePushNotificationRegistrationInput: Swift.Sendable {
         deviceType: ConnectClientTypes.DeviceType? = nil,
         instanceId: Swift.String? = nil,
         pinpointAppArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactConfiguration = contactConfiguration
         self.deviceToken = deviceToken
@@ -5515,8 +5383,7 @@ public struct CreatePushNotificationRegistrationOutput: Swift.Sendable {
 
     public init(
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationId = registrationId
     }
 }
@@ -5536,8 +5403,7 @@ extension ConnectClientTypes {
             outboundCallerIdName: Swift.String? = nil,
             outboundCallerIdNumberId: Swift.String? = nil,
             outboundFlowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.outboundCallerIdName = outboundCallerIdName
             self.outboundCallerIdNumberId = outboundCallerIdNumberId
             self.outboundFlowId = outboundFlowId
@@ -5554,8 +5420,7 @@ extension ConnectClientTypes {
 
         public init(
             outboundEmailAddressId: Swift.String? = nil
-        )
-        {
+        ) {
             self.outboundEmailAddressId = outboundEmailAddressId
         }
     }
@@ -5594,8 +5459,7 @@ public struct CreateQueueInput: Swift.Sendable {
         outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
         quickConnectIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
@@ -5617,8 +5481,7 @@ public struct CreateQueueOutput: Swift.Sendable {
     public init(
         queueArn: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueArn = queueArn
         self.queueId = queueId
     }
@@ -5634,8 +5497,7 @@ extension ConnectClientTypes {
 
         public init(
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.phoneNumber = phoneNumber
         }
     }
@@ -5655,8 +5517,7 @@ extension ConnectClientTypes {
         public init(
             contactFlowId: Swift.String? = nil,
             queueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactFlowId = contactFlowId
             self.queueId = queueId
         }
@@ -5709,8 +5570,7 @@ extension ConnectClientTypes {
         public init(
             contactFlowId: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactFlowId = contactFlowId
             self.userId = userId
         }
@@ -5736,8 +5596,7 @@ extension ConnectClientTypes {
             queueConfig: ConnectClientTypes.QueueQuickConnectConfig? = nil,
             quickConnectType: ConnectClientTypes.QuickConnectType? = nil,
             userConfig: ConnectClientTypes.UserQuickConnectConfig? = nil
-        )
-        {
+        ) {
             self.phoneConfig = phoneConfig
             self.queueConfig = queueConfig
             self.quickConnectType = quickConnectType
@@ -5767,8 +5626,7 @@ public struct CreateQuickConnectInput: Swift.Sendable {
         name: Swift.String? = nil,
         quickConnectConfig: ConnectClientTypes.QuickConnectConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -5786,8 +5644,7 @@ public struct CreateQuickConnectOutput: Swift.Sendable {
     public init(
         quickConnectARN: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.quickConnectARN = quickConnectARN
         self.quickConnectId = quickConnectId
     }
@@ -5832,8 +5689,7 @@ extension ConnectClientTypes {
 
         public init(
             behaviorType: ConnectClientTypes.BehaviorType? = nil
-        )
-        {
+        ) {
             self.behaviorType = behaviorType
         }
     }
@@ -5856,8 +5712,7 @@ extension ConnectClientTypes {
             channel: ConnectClientTypes.Channel? = nil,
             concurrency: Swift.Int? = nil,
             crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.concurrency = concurrency
             self.crossChannelBehavior = crossChannelBehavior
@@ -5897,8 +5752,7 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentAvailabilityTimer = agentAvailabilityTimer
         self.defaultOutboundQueueId = defaultOutboundQueueId
         self.description = description
@@ -5919,8 +5773,7 @@ public struct CreateRoutingProfileOutput: Swift.Sendable {
     public init(
         routingProfileArn: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.routingProfileArn = routingProfileArn
         self.routingProfileId = routingProfileId
     }
@@ -5962,8 +5815,7 @@ extension ConnectClientTypes {
             doubleValue: Swift.Double? = nil,
             emptyValue: ConnectClientTypes.EmptyFieldValue? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.emptyValue = emptyValue
@@ -5986,8 +5838,7 @@ extension ConnectClientTypes {
         public init(
             id: Swift.String? = nil,
             value: ConnectClientTypes.FieldValueUnion? = nil
-        )
-        {
+        ) {
             self.id = id
             self.value = value
         }
@@ -6008,8 +5859,7 @@ extension ConnectClientTypes {
         public init(
             fields: [ConnectClientTypes.FieldValue]? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.templateId = templateId
         }
@@ -6035,8 +5885,7 @@ extension ConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -6106,8 +5955,7 @@ extension ConnectClientTypes {
         public init(
             userIds: [Swift.String]? = nil,
             userTags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.userIds = userIds
             self.userTags = userTags
         }
@@ -6139,8 +5987,7 @@ extension ConnectClientTypes {
             deliveryMethod: ConnectClientTypes.NotificationDeliveryType? = nil,
             recipient: ConnectClientTypes.NotificationRecipientType? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.deliveryMethod = deliveryMethod
@@ -6160,8 +6007,7 @@ extension ConnectClientTypes {
 
         public init(
             evaluationFormId: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluationFormId = evaluationFormId
         }
     }
@@ -6187,8 +6033,7 @@ extension ConnectClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             references: [Swift.String: ConnectClientTypes.Reference]? = nil
-        )
-        {
+        ) {
             self.contactFlowId = contactFlowId
             self.description = description
             self.name = name
@@ -6207,8 +6052,7 @@ extension ConnectClientTypes {
 
         public init(
             fields: [ConnectClientTypes.FieldValue]? = nil
-        )
-        {
+        ) {
             self.fields = fields
         }
     }
@@ -6248,8 +6092,7 @@ extension ConnectClientTypes {
             submitAutoEvaluationAction: ConnectClientTypes.SubmitAutoEvaluationActionDefinition? = nil,
             taskAction: ConnectClientTypes.TaskActionDefinition? = nil,
             updateCaseAction: ConnectClientTypes.UpdateCaseActionDefinition? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.assignContactCategoryAction = assignContactCategoryAction
             self.createCaseAction = createCaseAction
@@ -6361,8 +6204,7 @@ extension ConnectClientTypes {
         public init(
             eventSourceName: ConnectClientTypes.EventSourceName? = nil,
             integrationAssociationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventSourceName = eventSourceName
             self.integrationAssociationId = integrationAssociationId
         }
@@ -6399,8 +6241,7 @@ public struct CreateRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
         triggerEventSource: ConnectClientTypes.RuleTriggerEventSource? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.clientToken = clientToken
         self.function = function
@@ -6422,8 +6263,7 @@ public struct CreateRuleOutput: Swift.Sendable {
     public init(
         ruleArn: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleArn = ruleArn
         self.ruleId = ruleId
     }
@@ -6441,8 +6281,7 @@ extension ConnectClientTypes {
         public init(
             applicationPermissions: [Swift.String]? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationPermissions = applicationPermissions
             self.namespace = namespace
         }
@@ -6484,8 +6323,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
         securityProfileName: Swift.String? = nil,
         tagRestrictedResources: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.applications = applications
@@ -6508,8 +6346,7 @@ public struct CreateSecurityProfileOutput: Swift.Sendable {
     public init(
         securityProfileArn: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityProfileArn = securityProfileArn
         self.securityProfileId = securityProfileId
     }
@@ -6574,8 +6411,7 @@ extension ConnectClientTypes {
             message: Swift.String? = nil,
             propertyPath: Swift.String? = nil,
             reason: ConnectClientTypes.PropertyValidationExceptionReason? = nil
-        )
-        {
+        ) {
             self.message = message
             self.propertyPath = propertyPath
             self.reason = reason
@@ -6604,8 +6440,7 @@ public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         propertyList: [ConnectClientTypes.PropertyValidationExceptionProperty]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.propertyList = propertyList
     }
@@ -6620,8 +6455,7 @@ extension ConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -6636,8 +6470,7 @@ extension ConnectClientTypes {
 
         public init(
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -6652,8 +6485,7 @@ extension ConnectClientTypes {
 
         public init(
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -6668,8 +6500,7 @@ extension ConnectClientTypes {
 
         public init(
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -6690,8 +6521,7 @@ extension ConnectClientTypes {
             invisibleFields: [ConnectClientTypes.InvisibleFieldInfo]? = nil,
             readOnlyFields: [ConnectClientTypes.ReadOnlyFieldInfo]? = nil,
             requiredFields: [ConnectClientTypes.RequiredFieldInfo]? = nil
-        )
-        {
+        ) {
             self.invisibleFields = invisibleFields
             self.readOnlyFields = readOnlyFields
             self.requiredFields = requiredFields
@@ -6711,8 +6541,7 @@ extension ConnectClientTypes {
         public init(
             defaultValue: Swift.String? = nil,
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.id = id
         }
@@ -6728,8 +6557,7 @@ extension ConnectClientTypes {
 
         public init(
             defaultFieldValues: [ConnectClientTypes.TaskTemplateDefaultFieldValue]? = nil
-        )
-        {
+        ) {
             self.defaultFieldValues = defaultFieldValues
         }
     }
@@ -6819,8 +6647,7 @@ extension ConnectClientTypes {
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil,
             singleSelectOptions: [Swift.String]? = nil,
             type: ConnectClientTypes.TaskTemplateFieldType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.singleSelectOptions = singleSelectOptions
@@ -6894,8 +6721,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.constraints = constraints
         self.contactFlowId = contactFlowId
@@ -6920,8 +6746,7 @@ public struct CreateTaskTemplateOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -6945,8 +6770,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6971,8 +6795,7 @@ public struct CreateTrafficDistributionGroupInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.instanceId = instanceId
@@ -6990,8 +6813,7 @@ public struct CreateTrafficDistributionGroupOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -7044,8 +6866,7 @@ public struct CreateUseCaseInput: Swift.Sendable {
         integrationAssociationId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useCaseType: ConnectClientTypes.UseCaseType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
         self.tags = tags
@@ -7062,8 +6883,7 @@ public struct CreateUseCaseOutput: Swift.Sendable {
     public init(
         useCaseArn: Swift.String? = nil,
         useCaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.useCaseArn = useCaseArn
         self.useCaseId = useCaseId
     }
@@ -7090,8 +6910,7 @@ extension ConnectClientTypes {
             lastName: Swift.String? = nil,
             mobile: Swift.String? = nil,
             secondaryEmail: Swift.String? = nil
-        )
-        {
+        ) {
             self.email = email
             self.firstName = firstName
             self.lastName = lastName
@@ -7154,8 +6973,7 @@ extension ConnectClientTypes {
             autoAccept: Swift.Bool = false,
             deskPhoneNumber: Swift.String? = nil,
             phoneType: ConnectClientTypes.PhoneType? = nil
-        )
-        {
+        ) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
             self.autoAccept = autoAccept
             self.deskPhoneNumber = deskPhoneNumber
@@ -7208,8 +7026,7 @@ public struct CreateUserInput: Swift.Sendable {
         securityProfileIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryUserId = directoryUserId
         self.hierarchyGroupId = hierarchyGroupId
         self.identityInfo = identityInfo
@@ -7237,8 +7054,7 @@ public struct CreateUserOutput: Swift.Sendable {
     public init(
         userArn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userArn = userArn
         self.userId = userId
     }
@@ -7261,8 +7077,7 @@ public struct CreateUserHierarchyGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         parentGroupId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.parentGroupId = parentGroupId
@@ -7279,8 +7094,7 @@ public struct CreateUserHierarchyGroupOutput: Swift.Sendable {
     public init(
         hierarchyGroupArn: Swift.String? = nil,
         hierarchyGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupArn = hierarchyGroupArn
         self.hierarchyGroupId = hierarchyGroupId
     }
@@ -7357,8 +7171,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -7383,8 +7196,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7401,8 +7213,7 @@ extension ConnectClientTypes {
         public init(
             actions: [Swift.String]? = nil,
             template: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.template = template
         }
@@ -7471,8 +7282,7 @@ public struct CreateViewInput: Swift.Sendable {
         name: Swift.String? = nil,
         status: ConnectClientTypes.ViewStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.content = content
         self.description = description
@@ -7503,8 +7313,7 @@ extension ConnectClientTypes {
             actions: [Swift.String]? = nil,
             inputSchema: Swift.String? = nil,
             template: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.inputSchema = inputSchema
             self.template = template
@@ -7591,8 +7400,7 @@ extension ConnectClientTypes {
             version: Swift.Int = 0,
             versionDescription: Swift.String? = nil,
             viewContentSha256: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.createdTime = createdTime
@@ -7621,8 +7429,7 @@ public struct CreateViewOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -7644,8 +7451,7 @@ public struct CreateViewVersionInput: Swift.Sendable {
         versionDescription: Swift.String? = nil,
         viewContentSha256: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.versionDescription = versionDescription
         self.viewContentSha256 = viewContentSha256
@@ -7659,8 +7465,7 @@ public struct CreateViewVersionOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -7690,8 +7495,7 @@ public struct CreateVocabularyInput: Swift.Sendable {
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.content = content
         self.instanceId = instanceId
@@ -7751,8 +7555,7 @@ public struct CreateVocabularyOutput: Swift.Sendable {
         state: ConnectClientTypes.VocabularyState? = nil,
         vocabularyArn: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.state = state
         self.vocabularyArn = vocabularyArn
         self.vocabularyId = vocabularyId
@@ -7774,8 +7577,7 @@ public struct DeactivateEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -7797,8 +7599,7 @@ public struct DeactivateEvaluationFormOutput: Swift.Sendable {
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int = 0
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
@@ -7821,8 +7622,7 @@ public struct DeleteAttachedFileInput: Swift.Sendable {
         associatedResourceArn: Swift.String? = nil,
         fileId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileId = fileId
         self.instanceId = instanceId
@@ -7846,8 +7646,7 @@ public struct DeleteContactEvaluationInput: Swift.Sendable {
     public init(
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
         self.instanceId = instanceId
     }
@@ -7864,8 +7663,7 @@ public struct DeleteContactFlowInput: Swift.Sendable {
     public init(
         contactFlowId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
     }
@@ -7887,14 +7685,40 @@ public struct DeleteContactFlowModuleInput: Swift.Sendable {
     public init(
         contactFlowModuleId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.instanceId = instanceId
     }
 }
 
 public struct DeleteContactFlowModuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteContactFlowVersionInput: Swift.Sendable {
+    /// The identifier of the flow.
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// The identifier of the flow version.
+    /// This member is required.
+    public var contactFlowVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFlowId: Swift.String? = nil,
+        contactFlowVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactFlowId = contactFlowId
+        self.contactFlowVersion = contactFlowVersion
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteContactFlowVersionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -7910,8 +7734,7 @@ public struct DeleteEmailAddressInput: Swift.Sendable {
     public init(
         emailAddressId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressId = emailAddressId
         self.instanceId = instanceId
     }
@@ -7936,8 +7759,7 @@ public struct DeleteEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -7955,8 +7777,7 @@ public struct DeleteHoursOfOperationInput: Swift.Sendable {
     public init(
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
     }
@@ -7977,8 +7798,7 @@ public struct DeleteHoursOfOperationOverrideInput: Swift.Sendable {
         hoursOfOperationId: Swift.String? = nil,
         hoursOfOperationOverrideId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
         self.instanceId = instanceId
@@ -7992,8 +7812,7 @@ public struct DeleteInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -8009,8 +7828,7 @@ public struct DeleteIntegrationAssociationInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         integrationAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
     }
@@ -8027,8 +7845,7 @@ public struct DeletePredefinedAttributeInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -8045,8 +7862,7 @@ public struct DeletePromptInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.promptId = promptId
     }
@@ -8067,8 +7883,7 @@ public struct DeletePushNotificationRegistrationInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.registrationId = registrationId
@@ -8091,8 +7906,7 @@ public struct DeleteQueueInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
     }
@@ -8109,8 +7923,7 @@ public struct DeleteQuickConnectInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.quickConnectId = quickConnectId
     }
@@ -8127,8 +7940,7 @@ public struct DeleteRoutingProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
     }
@@ -8145,8 +7957,7 @@ public struct DeleteRuleInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.ruleId = ruleId
     }
@@ -8163,8 +7974,7 @@ public struct DeleteSecurityProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.securityProfileId = securityProfileId
     }
@@ -8181,8 +7991,7 @@ public struct DeleteTaskTemplateInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         taskTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.taskTemplateId = taskTemplateId
     }
@@ -8200,8 +8009,7 @@ public struct DeleteTrafficDistributionGroupInput: Swift.Sendable {
 
     public init(
         trafficDistributionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficDistributionGroupId = trafficDistributionGroupId
     }
 }
@@ -8226,8 +8034,7 @@ public struct DeleteUseCaseInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         integrationAssociationId: Swift.String? = nil,
         useCaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
         self.useCaseId = useCaseId
@@ -8245,8 +8052,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
     }
@@ -8263,8 +8069,7 @@ public struct DeleteUserHierarchyGroupInput: Swift.Sendable {
     public init(
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
     }
@@ -8281,8 +8086,7 @@ public struct DeleteViewInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.viewId = viewId
     }
@@ -8308,8 +8112,7 @@ public struct DeleteViewVersionInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil,
         viewVersion: Swift.Int? = 0
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.viewId = viewId
         self.viewVersion = viewVersion
@@ -8332,8 +8135,7 @@ public struct DeleteVocabularyInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.vocabularyId = vocabularyId
     }
@@ -8354,8 +8156,7 @@ public struct DeleteVocabularyOutput: Swift.Sendable {
         state: ConnectClientTypes.VocabularyState? = nil,
         vocabularyArn: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.state = state
         self.vocabularyArn = vocabularyArn
         self.vocabularyId = vocabularyId
@@ -8373,8 +8174,7 @@ public struct DescribeAgentStatusInput: Swift.Sendable {
     public init(
         agentStatusId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusId = agentStatusId
         self.instanceId = instanceId
     }
@@ -8386,8 +8186,7 @@ public struct DescribeAgentStatusOutput: Swift.Sendable {
 
     public init(
         agentStatus: ConnectClientTypes.AgentStatus? = nil
-    )
-    {
+    ) {
         self.agentStatus = agentStatus
     }
 }
@@ -8403,8 +8202,7 @@ public struct DescribeAuthenticationProfileInput: Swift.Sendable {
     public init(
         authenticationProfileId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileId = authenticationProfileId
         self.instanceId = instanceId
     }
@@ -8452,8 +8250,7 @@ extension ConnectClientTypes {
             maxSessionDuration: Swift.Int? = nil,
             name: Swift.String? = nil,
             periodicSessionDuration: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowedIps = allowedIps
             self.arn = arn
             self.blockedIps = blockedIps
@@ -8476,8 +8273,7 @@ public struct DescribeAuthenticationProfileOutput: Swift.Sendable {
 
     public init(
         authenticationProfile: ConnectClientTypes.AuthenticationProfile? = nil
-    )
-    {
+    ) {
         self.authenticationProfile = authenticationProfile
     }
 }
@@ -8493,8 +8289,7 @@ public struct DescribeContactInput: Swift.Sendable {
     public init(
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
     }
@@ -8577,8 +8372,7 @@ extension ConnectClientTypes {
         public init(
             capabilities: ConnectClientTypes.ParticipantCapabilities? = nil,
             deviceInfo: ConnectClientTypes.DeviceInfo? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.deviceInfo = deviceInfo
         }
@@ -8600,8 +8394,7 @@ extension ConnectClientTypes {
             address: Swift.String? = nil,
             displayName: Swift.String? = nil,
             type: ConnectClientTypes.EndpointType? = nil
-        )
-        {
+        ) {
             self.address = address
             self.displayName = displayName
             self.type = type
@@ -8621,8 +8414,7 @@ extension ConnectClientTypes {
         public init(
             greetingEndTimestamp: Foundation.Date? = nil,
             greetingStartTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.greetingEndTimestamp = greetingEndTimestamp
             self.greetingStartTimestamp = greetingStartTimestamp
         }
@@ -8638,8 +8430,7 @@ extension ConnectClientTypes {
 
         public init(
             potentialDisconnectIssue: Swift.String? = nil
-        )
-        {
+        ) {
             self.potentialDisconnectIssue = potentialDisconnectIssue
         }
     }
@@ -8654,8 +8445,7 @@ extension ConnectClientTypes {
 
         public init(
             audio: ConnectClientTypes.AudioQualityMetricsInfo? = nil
-        )
-        {
+        ) {
             self.audio = audio
         }
     }
@@ -8673,8 +8463,7 @@ extension ConnectClientTypes {
         public init(
             agent: ConnectClientTypes.AgentQualityMetrics? = nil,
             customer: ConnectClientTypes.CustomerQualityMetrics? = nil
-        )
-        {
+        ) {
             self.agent = agent
             self.customer = customer
         }
@@ -8693,8 +8482,7 @@ extension ConnectClientTypes {
         public init(
             enqueueTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.enqueueTimestamp = enqueueTimestamp
             self.id = id
         }
@@ -8713,8 +8501,7 @@ extension ConnectClientTypes {
         public init(
             durationInSeconds: Swift.Int? = nil,
             expiryTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.expiryTimestamp = expiryTimestamp
         }
@@ -8730,8 +8517,7 @@ extension ConnectClientTypes {
 
         public init(
             agentsCriteria: ConnectClientTypes.AgentsCriteria? = nil
-        )
-        {
+        ) {
             self.agentsCriteria = agentsCriteria
         }
     }
@@ -8749,8 +8535,7 @@ extension ConnectClientTypes {
         public init(
             maxProficiencyLevel: Swift.Float? = nil,
             minProficiencyLevel: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maxProficiencyLevel = maxProficiencyLevel
             self.minProficiencyLevel = minProficiencyLevel
         }
@@ -8781,8 +8566,7 @@ extension ConnectClientTypes {
             proficiencyLevel: Swift.Float? = nil,
             range: ConnectClientTypes.Range? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.matchCriteria = matchCriteria
             self.name = name
@@ -8837,8 +8621,7 @@ extension ConnectClientTypes {
 
         public init(
             sessionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sessionArn = sessionArn
         }
     }
@@ -8855,8 +8638,7 @@ public struct DescribeContactEvaluationInput: Swift.Sendable {
     public init(
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
         self.instanceId = instanceId
     }
@@ -8888,8 +8670,7 @@ extension ConnectClientTypes {
         public init(
             systemSuggestedValue: ConnectClientTypes.EvaluationAnswerData? = nil,
             value: ConnectClientTypes.EvaluationAnswerData? = nil
-        )
-        {
+        ) {
             self.systemSuggestedValue = systemSuggestedValue
             self.value = value
         }
@@ -8911,8 +8692,7 @@ extension ConnectClientTypes {
             automaticFail: Swift.Bool = false,
             notApplicable: Swift.Bool = false,
             percentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.automaticFail = automaticFail
             self.notApplicable = notApplicable
             self.percentage = percentage
@@ -8940,8 +8720,7 @@ extension ConnectClientTypes {
             contactId: Swift.String? = nil,
             evaluatorArn: Swift.String? = nil,
             score: ConnectClientTypes.EvaluationScore? = nil
-        )
-        {
+        ) {
             self.contactAgentId = contactAgentId
             self.contactId = contactId
             self.evaluatorArn = evaluatorArn
@@ -8959,8 +8738,7 @@ extension ConnectClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -9039,8 +8817,7 @@ extension ConnectClientTypes {
             scores: [Swift.String: ConnectClientTypes.EvaluationScore]? = nil,
             status: ConnectClientTypes.EvaluationStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.answers = answers
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
@@ -9073,8 +8850,7 @@ public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9090,8 +8866,7 @@ public struct DescribeContactFlowInput: Swift.Sendable {
     public init(
         contactFlowId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
     }
@@ -9174,8 +8949,7 @@ extension ConnectClientTypes {
             type: ConnectClientTypes.ContactFlowType? = nil,
             version: Swift.Int? = nil,
             versionDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.description = description
@@ -9200,8 +8974,7 @@ public struct DescribeContactFlowOutput: Swift.Sendable {
 
     public init(
         contactFlow: ConnectClientTypes.ContactFlow? = nil
-    )
-    {
+    ) {
         self.contactFlow = contactFlow
     }
 }
@@ -9217,8 +8990,7 @@ public struct DescribeContactFlowModuleInput: Swift.Sendable {
     public init(
         contactFlowModuleId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.instanceId = instanceId
     }
@@ -9312,8 +9084,7 @@ extension ConnectClientTypes {
             state: ConnectClientTypes.ContactFlowModuleState? = nil,
             status: ConnectClientTypes.ContactFlowModuleStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.description = description
@@ -9332,8 +9103,7 @@ public struct DescribeContactFlowModuleOutput: Swift.Sendable {
 
     public init(
         contactFlowModule: ConnectClientTypes.ContactFlowModule? = nil
-    )
-    {
+    ) {
         self.contactFlowModule = contactFlowModule
     }
 }
@@ -9349,8 +9119,7 @@ public struct DescribeEmailAddressInput: Swift.Sendable {
     public init(
         emailAddressId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressId = emailAddressId
         self.instanceId = instanceId
     }
@@ -9383,8 +9152,7 @@ public struct DescribeEmailAddressOutput: Swift.Sendable {
         emailAddressId: Swift.String? = nil,
         modifiedTimestamp: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createTimestamp = createTimestamp
         self.description = description
         self.displayName = displayName
@@ -9415,8 +9183,7 @@ public struct DescribeEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -9463,8 +9230,7 @@ public struct DescribeHoursOfOperationInput: Swift.Sendable {
     public init(
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
     }
@@ -9503,8 +9269,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.config = config
             self.description = description
             self.hoursOfOperationArn = hoursOfOperationArn
@@ -9524,8 +9289,7 @@ public struct DescribeHoursOfOperationOutput: Swift.Sendable {
 
     public init(
         hoursOfOperation: ConnectClientTypes.HoursOfOperation? = nil
-    )
-    {
+    ) {
         self.hoursOfOperation = hoursOfOperation
     }
 }
@@ -9545,8 +9309,7 @@ public struct DescribeHoursOfOperationOverrideInput: Swift.Sendable {
         hoursOfOperationId: Swift.String? = nil,
         hoursOfOperationOverrideId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
         self.instanceId = instanceId
@@ -9583,8 +9346,7 @@ extension ConnectClientTypes {
             hoursOfOperationId: Swift.String? = nil,
             hoursOfOperationOverrideId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.config = config
             self.description = description
             self.effectiveFrom = effectiveFrom
@@ -9603,8 +9365,7 @@ public struct DescribeHoursOfOperationOverrideOutput: Swift.Sendable {
 
     public init(
         hoursOfOperationOverride: ConnectClientTypes.HoursOfOperationOverride? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationOverride = hoursOfOperationOverride
     }
 }
@@ -9616,8 +9377,7 @@ public struct DescribeInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -9663,8 +9423,7 @@ extension ConnectClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -9712,8 +9471,7 @@ extension ConnectClientTypes {
             serviceRole: Swift.String? = nil,
             statusReason: ConnectClientTypes.InstanceStatusReason? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -9791,8 +9549,7 @@ extension ConnectClientTypes {
             region: Swift.String? = nil,
             replicationStatus: ConnectClientTypes.InstanceReplicationStatus? = nil,
             replicationStatusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.region = region
             self.replicationStatus = replicationStatus
             self.replicationStatusReason = replicationStatusReason
@@ -9815,8 +9572,7 @@ extension ConnectClientTypes {
             globalSignInEndpoint: Swift.String? = nil,
             replicationStatusSummaryList: [ConnectClientTypes.ReplicationStatusSummary]? = nil,
             sourceRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.globalSignInEndpoint = globalSignInEndpoint
             self.replicationStatusSummaryList = replicationStatusSummaryList
             self.sourceRegion = sourceRegion
@@ -9833,8 +9589,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
     public init(
         instance: ConnectClientTypes.Instance? = nil,
         replicationConfiguration: ConnectClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.instance = instance
         self.replicationConfiguration = replicationConfiguration
     }
@@ -9910,8 +9665,7 @@ public struct DescribeInstanceAttributeInput: Swift.Sendable {
     public init(
         attributeType: ConnectClientTypes.InstanceAttributeType? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeType = attributeType
         self.instanceId = instanceId
     }
@@ -9929,8 +9683,7 @@ extension ConnectClientTypes {
         public init(
             attributeType: ConnectClientTypes.InstanceAttributeType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeType = attributeType
             self.value = value
         }
@@ -9943,8 +9696,7 @@ public struct DescribeInstanceAttributeOutput: Swift.Sendable {
 
     public init(
         attribute: ConnectClientTypes.Attribute? = nil
-    )
-    {
+    ) {
         self.attribute = attribute
     }
 }
@@ -9964,8 +9716,7 @@ public struct DescribeInstanceStorageConfigInput: Swift.Sendable {
         associationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.instanceId = instanceId
         self.resourceType = resourceType
@@ -9978,8 +9729,7 @@ public struct DescribeInstanceStorageConfigOutput: Swift.Sendable {
 
     public init(
         storageConfig: ConnectClientTypes.InstanceStorageConfig? = nil
-    )
-    {
+    ) {
         self.storageConfig = storageConfig
     }
 }
@@ -9991,8 +9741,7 @@ public struct DescribePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -10781,8 +10530,7 @@ extension ConnectClientTypes {
         public init(
             message: Swift.String? = nil,
             status: ConnectClientTypes.PhoneNumberWorkflowStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.status = status
         }
@@ -10881,8 +10629,7 @@ extension ConnectClientTypes {
             sourcePhoneNumberArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
@@ -10904,8 +10651,7 @@ public struct DescribePhoneNumberOutput: Swift.Sendable {
 
     public init(
         claimedPhoneNumberSummary: ConnectClientTypes.ClaimedPhoneNumberSummary? = nil
-    )
-    {
+    ) {
         self.claimedPhoneNumberSummary = claimedPhoneNumberSummary
     }
 }
@@ -10921,8 +10667,7 @@ public struct DescribePredefinedAttributeInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -10946,8 +10691,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             values: ConnectClientTypes.PredefinedAttributeValues? = nil
-        )
-        {
+        ) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -10962,8 +10706,7 @@ public struct DescribePredefinedAttributeOutput: Swift.Sendable {
 
     public init(
         predefinedAttribute: ConnectClientTypes.PredefinedAttribute? = nil
-    )
-    {
+    ) {
         self.predefinedAttribute = predefinedAttribute
     }
 }
@@ -10979,8 +10722,7 @@ public struct DescribePromptInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.promptId = promptId
     }
@@ -11013,8 +10755,7 @@ extension ConnectClientTypes {
             promptARN: Swift.String? = nil,
             promptId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -11032,8 +10773,7 @@ public struct DescribePromptOutput: Swift.Sendable {
 
     public init(
         prompt: ConnectClientTypes.Prompt? = nil
-    )
-    {
+    ) {
         self.prompt = prompt
     }
 }
@@ -11049,8 +10789,7 @@ public struct DescribeQueueInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
     }
@@ -11127,8 +10866,7 @@ extension ConnectClientTypes {
             queueId: Swift.String? = nil,
             status: ConnectClientTypes.QueueStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.hoursOfOperationId = hoursOfOperationId
             self.lastModifiedRegion = lastModifiedRegion
@@ -11151,8 +10889,7 @@ public struct DescribeQueueOutput: Swift.Sendable {
 
     public init(
         queue: ConnectClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -11168,8 +10905,7 @@ public struct DescribeQuickConnectInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.quickConnectId = quickConnectId
     }
@@ -11205,8 +10941,7 @@ extension ConnectClientTypes {
             quickConnectConfig: ConnectClientTypes.QuickConnectConfig? = nil,
             quickConnectId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -11225,8 +10960,7 @@ public struct DescribeQuickConnectOutput: Swift.Sendable {
 
     public init(
         quickConnect: ConnectClientTypes.QuickConnect? = nil
-    )
-    {
+    ) {
         self.quickConnect = quickConnect
     }
 }
@@ -11242,8 +10976,7 @@ public struct DescribeRoutingProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
     }
@@ -11300,8 +11033,7 @@ extension ConnectClientTypes {
             routingProfileArn: Swift.String? = nil,
             routingProfileId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.agentAvailabilityTimer = agentAvailabilityTimer
             self.associatedQueueIds = associatedQueueIds
             self.defaultOutboundQueueId = defaultOutboundQueueId
@@ -11327,8 +11059,7 @@ public struct DescribeRoutingProfileOutput: Swift.Sendable {
 
     public init(
         routingProfile: ConnectClientTypes.RoutingProfile? = nil
-    )
-    {
+    ) {
         self.routingProfile = routingProfile
     }
 }
@@ -11344,8 +11075,7 @@ public struct DescribeRuleInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.ruleId = ruleId
     }
@@ -11400,8 +11130,7 @@ extension ConnectClientTypes {
             ruleId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             triggerEventSource: ConnectClientTypes.RuleTriggerEventSource? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.createdTime = createdTime
             self.function = function
@@ -11424,8 +11153,7 @@ public struct DescribeRuleOutput: Swift.Sendable {
 
     public init(
         rule: ConnectClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -11441,8 +11169,7 @@ public struct DescribeSecurityProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.securityProfileId = securityProfileId
     }
@@ -11490,8 +11217,7 @@ extension ConnectClientTypes {
             securityProfileName: Swift.String? = nil,
             tagRestrictedResources: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
             self.arn = arn
@@ -11514,8 +11240,7 @@ public struct DescribeSecurityProfileOutput: Swift.Sendable {
 
     public init(
         securityProfile: ConnectClientTypes.SecurityProfile? = nil
-    )
-    {
+    ) {
         self.securityProfile = securityProfile
     }
 }
@@ -11527,8 +11252,7 @@ public struct DescribeTrafficDistributionGroupInput: Swift.Sendable {
 
     public init(
         trafficDistributionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficDistributionGroupId = trafficDistributionGroupId
     }
 }
@@ -11616,8 +11340,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             status: ConnectClientTypes.TrafficDistributionGroupStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -11636,8 +11359,7 @@ public struct DescribeTrafficDistributionGroupOutput: Swift.Sendable {
 
     public init(
         trafficDistributionGroup: ConnectClientTypes.TrafficDistributionGroup? = nil
-    )
-    {
+    ) {
         self.trafficDistributionGroup = trafficDistributionGroup
     }
 }
@@ -11653,8 +11375,7 @@ public struct DescribeUserInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
     }
@@ -11702,8 +11423,7 @@ extension ConnectClientTypes {
             securityProfileIds: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
@@ -11726,8 +11446,7 @@ public struct DescribeUserOutput: Swift.Sendable {
 
     public init(
         user: ConnectClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -11743,8 +11462,7 @@ public struct DescribeUserHierarchyGroupInput: Swift.Sendable {
     public init(
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
     }
@@ -11771,8 +11489,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -11803,8 +11520,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyGroupSummary? = nil,
             levelThree: ConnectClientTypes.HierarchyGroupSummary? = nil,
             levelTwo: ConnectClientTypes.HierarchyGroupSummary? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -11844,8 +11560,7 @@ extension ConnectClientTypes {
             levelId: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.hierarchyPath = hierarchyPath
             self.id = id
@@ -11864,8 +11579,7 @@ public struct DescribeUserHierarchyGroupOutput: Swift.Sendable {
 
     public init(
         hierarchyGroup: ConnectClientTypes.HierarchyGroup? = nil
-    )
-    {
+    ) {
         self.hierarchyGroup = hierarchyGroup
     }
 }
@@ -11877,8 +11591,7 @@ public struct DescribeUserHierarchyStructureInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -11904,8 +11617,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -11936,8 +11648,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyLevel? = nil,
             levelThree: ConnectClientTypes.HierarchyLevel? = nil,
             levelTwo: ConnectClientTypes.HierarchyLevel? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -11953,8 +11664,7 @@ public struct DescribeUserHierarchyStructureOutput: Swift.Sendable {
 
     public init(
         hierarchyStructure: ConnectClientTypes.HierarchyStructure? = nil
-    )
-    {
+    ) {
         self.hierarchyStructure = hierarchyStructure
     }
 }
@@ -11970,8 +11680,7 @@ public struct DescribeViewInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.viewId = viewId
     }
@@ -11983,8 +11692,7 @@ public struct DescribeViewOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -12000,8 +11708,7 @@ public struct DescribeVocabularyInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.vocabularyId = vocabularyId
     }
@@ -12046,8 +11753,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             state: ConnectClientTypes.VocabularyState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.failureReason = failureReason
@@ -12068,8 +11774,7 @@ public struct DescribeVocabularyOutput: Swift.Sendable {
 
     public init(
         vocabulary: ConnectClientTypes.Vocabulary? = nil
-    )
-    {
+    ) {
         self.vocabulary = vocabulary
     }
 }
@@ -12088,8 +11793,7 @@ public struct DisassociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -12107,8 +11811,7 @@ public struct DisassociateApprovedOriginInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         origin: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.origin = origin
     }
@@ -12127,8 +11830,7 @@ public struct DisassociateBotInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         lexBot: ConnectClientTypes.LexBot? = nil,
         lexV2Bot: ConnectClientTypes.LexV2Bot? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.lexBot = lexBot
         self.lexV2Bot = lexV2Bot
@@ -12154,8 +11856,7 @@ public struct DisassociateFlowInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -12182,8 +11883,7 @@ public struct DisassociateInstanceStorageConfigInput: Swift.Sendable {
         associationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.instanceId = instanceId
         self.resourceType = resourceType
@@ -12201,8 +11901,7 @@ public struct DisassociateLambdaFunctionInput: Swift.Sendable {
     public init(
         functionArn: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionArn = functionArn
         self.instanceId = instanceId
     }
@@ -12223,8 +11922,7 @@ public struct DisassociateLexBotInput: Swift.Sendable {
         botName: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lexRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botName = botName
         self.instanceId = instanceId
         self.lexRegion = lexRegion
@@ -12242,8 +11940,7 @@ public struct DisassociatePhoneNumberContactFlowInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
     }
@@ -12264,8 +11961,7 @@ public struct DisassociateQueueQuickConnectsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         quickConnectIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
         self.quickConnectIds = quickConnectIds
@@ -12287,8 +11983,7 @@ public struct DisassociateRoutingProfileQueuesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueReferences: [ConnectClientTypes.RoutingProfileQueueReference]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueReferences = queueReferences
         self.routingProfileId = routingProfileId
@@ -12306,8 +12001,7 @@ public struct DisassociateSecurityKeyInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.instanceId = instanceId
     }
@@ -12328,8 +12022,7 @@ public struct DisassociateTrafficDistributionGroupUserInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         trafficDistributionGroupId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.trafficDistributionGroupId = trafficDistributionGroupId
         self.userId = userId
@@ -12355,8 +12048,7 @@ extension ConnectClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
         }
@@ -12378,8 +12070,7 @@ public struct DisassociateUserProficienciesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil,
         userProficiencies: [ConnectClientTypes.UserProficiencyDisassociate]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
         self.userProficiencies = userProficiencies
@@ -12401,8 +12092,7 @@ public struct DismissUserContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.userId = userId
@@ -12433,8 +12123,7 @@ public struct GetAttachedFileInput: Swift.Sendable {
         fileId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         urlExpiryInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileId = fileId
         self.instanceId = instanceId
@@ -12454,8 +12143,7 @@ extension ConnectClientTypes {
         public init(
             url: Swift.String? = nil,
             urlExpiry: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
             self.urlExpiry = urlExpiry
         }
@@ -12500,8 +12188,7 @@ public struct GetAttachedFileOutput: Swift.Sendable {
         fileStatus: ConnectClientTypes.FileStatusType? = nil,
         fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -12527,8 +12214,7 @@ public struct GetContactAttributesInput: Swift.Sendable {
     public init(
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.initialContactId = initialContactId
         self.instanceId = instanceId
     }
@@ -12540,8 +12226,7 @@ public struct GetContactAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -12653,8 +12338,7 @@ extension ConnectClientTypes {
         public init(
             name: ConnectClientTypes.CurrentMetricName? = nil,
             unit: ConnectClientTypes.Unit? = nil
-        )
-        {
+        ) {
             self.name = name
             self.unit = unit
         }
@@ -12679,8 +12363,7 @@ extension ConnectClientTypes {
             queues: [Swift.String]? = nil,
             routingProfiles: [Swift.String]? = nil,
             routingStepExpressions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.queues = queues
             self.routingProfiles = routingProfiles
@@ -12765,8 +12448,7 @@ extension ConnectClientTypes {
         public init(
             sortByMetric: ConnectClientTypes.CurrentMetricName? = nil,
             sortOrder: ConnectClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortByMetric = sortByMetric
             self.sortOrder = sortOrder
         }
@@ -12821,8 +12503,7 @@ public struct GetCurrentMetricDataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: [ConnectClientTypes.CurrentMetricSortCriteria]? = nil
-    )
-    {
+    ) {
         self.currentMetrics = currentMetrics
         self.filters = filters
         self.groupings = groupings
@@ -12845,8 +12526,7 @@ extension ConnectClientTypes {
         public init(
             metric: ConnectClientTypes.CurrentMetric? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.value = value
         }
@@ -12865,8 +12545,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -12891,8 +12570,7 @@ extension ConnectClientTypes {
             queue: ConnectClientTypes.QueueReference? = nil,
             routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
             routingStepExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.queue = queue
             self.routingProfile = routingProfile
@@ -12913,8 +12591,7 @@ extension ConnectClientTypes {
         public init(
             collections: [ConnectClientTypes.CurrentMetricData]? = nil,
             dimensions: ConnectClientTypes.Dimensions? = nil
-        )
-        {
+        ) {
             self.collections = collections
             self.dimensions = dimensions
         }
@@ -12936,8 +12613,7 @@ public struct GetCurrentMetricDataOutput: Swift.Sendable {
         dataSnapshotTime: Foundation.Date? = nil,
         metricResults: [ConnectClientTypes.CurrentMetricResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.dataSnapshotTime = dataSnapshotTime
         self.metricResults = metricResults
@@ -12954,8 +12630,7 @@ extension ConnectClientTypes {
 
         public init(
             contactStates: [ConnectClientTypes.ContactState]? = nil
-        )
-        {
+        ) {
             self.contactStates = contactStates
         }
     }
@@ -12982,8 +12657,7 @@ extension ConnectClientTypes {
             queues: [Swift.String]? = nil,
             routingProfiles: [Swift.String]? = nil,
             userHierarchyGroups: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.agents = agents
             self.contactFilter = contactFilter
             self.queues = queues
@@ -13023,8 +12697,7 @@ public struct GetCurrentUserDataInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -13044,8 +12717,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -13073,8 +12745,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyGroupSummaryReference? = nil,
             levelThree: ConnectClientTypes.HierarchyGroupSummaryReference? = nil,
             levelTwo: ConnectClientTypes.HierarchyGroupSummaryReference? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -13096,8 +12767,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -13137,8 +12807,7 @@ extension ConnectClientTypes {
             routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
             status: ConnectClientTypes.AgentStatusReference? = nil,
             user: ConnectClientTypes.UserReference? = nil
-        )
-        {
+        ) {
             self.activeSlotsByChannel = activeSlotsByChannel
             self.availableSlotsByChannel = availableSlotsByChannel
             self.contacts = contacts
@@ -13164,8 +12833,7 @@ public struct GetCurrentUserDataOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userDataList: [ConnectClientTypes.UserData]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.userDataList = userDataList
@@ -13191,8 +12859,7 @@ public struct GetEffectiveHoursOfOperationsInput: Swift.Sendable {
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         toDate: Swift.String? = nil
-    )
-    {
+    ) {
         self.fromDate = fromDate
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
@@ -13212,8 +12879,7 @@ extension ConnectClientTypes {
         public init(
             end: ConnectClientTypes.OverrideTimeSlice? = nil,
             start: ConnectClientTypes.OverrideTimeSlice? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -13232,8 +12898,7 @@ extension ConnectClientTypes {
         public init(
             date: Swift.String? = nil,
             operationalHours: [ConnectClientTypes.OperationalHour]? = nil
-        )
-        {
+        ) {
             self.date = date
             self.operationalHours = operationalHours
         }
@@ -13249,8 +12914,7 @@ public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
     public init(
         effectiveHoursOfOperationList: [ConnectClientTypes.EffectiveHoursOfOperations]? = nil,
         timeZone: Swift.String? = nil
-    )
-    {
+    ) {
         self.effectiveHoursOfOperationList = effectiveHoursOfOperationList
         self.timeZone = timeZone
     }
@@ -13274,8 +12938,7 @@ public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13287,8 +12950,7 @@ public struct GetFederationTokenInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -13311,8 +12973,7 @@ extension ConnectClientTypes {
             accessTokenExpiration: Foundation.Date? = nil,
             refreshToken: Swift.String? = nil,
             refreshTokenExpiration: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.accessTokenExpiration = accessTokenExpiration
             self.refreshToken = refreshToken
@@ -13342,8 +13003,7 @@ public struct GetFederationTokenOutput: Swift.Sendable {
         signInUrl: Swift.String? = nil,
         userArn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.signInUrl = signInUrl
         self.userArn = userArn
@@ -13375,8 +13035,7 @@ public struct GetFlowAssociationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -13395,8 +13054,7 @@ public struct GetFlowAssociationOutput: Swift.Sendable {
         flowId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.flowId = flowId
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -13572,8 +13230,7 @@ extension ConnectClientTypes {
         public init(
             comparison: ConnectClientTypes.Comparison? = nil,
             thresholdValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.thresholdValue = thresholdValue
         }
@@ -13598,8 +13255,7 @@ extension ConnectClientTypes {
             statistic: ConnectClientTypes.Statistic? = nil,
             threshold: ConnectClientTypes.Threshold? = nil,
             unit: ConnectClientTypes.Unit? = nil
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.threshold = threshold
@@ -13640,8 +13296,7 @@ public struct GetMetricDataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.filters = filters
         self.groupings = groupings
@@ -13665,8 +13320,7 @@ extension ConnectClientTypes {
         public init(
             metric: ConnectClientTypes.HistoricalMetric? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.value = value
         }
@@ -13685,8 +13339,7 @@ extension ConnectClientTypes {
         public init(
             collections: [ConnectClientTypes.HistoricalMetricData]? = nil,
             dimensions: ConnectClientTypes.Dimensions? = nil
-        )
-        {
+        ) {
             self.collections = collections
             self.dimensions = dimensions
         }
@@ -13702,8 +13355,7 @@ public struct GetMetricDataOutput: Swift.Sendable {
     public init(
         metricResults: [ConnectClientTypes.HistoricalMetricResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricResults = metricResults
         self.nextToken = nextToken
     }
@@ -13721,8 +13373,7 @@ extension ConnectClientTypes {
         public init(
             filterKey: Swift.String? = nil,
             filterValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.filterKey = filterKey
             self.filterValues = filterValues
         }
@@ -13794,8 +13445,7 @@ extension ConnectClientTypes {
         public init(
             intervalPeriod: ConnectClientTypes.IntervalPeriod? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.intervalPeriod = intervalPeriod
             self.timeZone = timeZone
         }
@@ -13833,8 +13483,7 @@ extension ConnectClientTypes {
             metricFilterKey: Swift.String? = nil,
             metricFilterValues: [Swift.String]? = nil,
             negate: Swift.Bool = false
-        )
-        {
+        ) {
             self.metricFilterKey = metricFilterKey
             self.metricFilterValues = metricFilterValues
             self.negate = negate
@@ -13854,8 +13503,7 @@ extension ConnectClientTypes {
         public init(
             comparison: Swift.String? = nil,
             thresholdValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.thresholdValue = thresholdValue
         }
@@ -13877,8 +13525,7 @@ extension ConnectClientTypes {
             metricFilters: [ConnectClientTypes.MetricFilterV2]? = nil,
             name: Swift.String? = nil,
             threshold: [ConnectClientTypes.ThresholdV2]? = nil
-        )
-        {
+        ) {
             self.metricFilters = metricFilters
             self.name = name
             self.threshold = threshold
@@ -13975,8 +13622,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.filters = filters
         self.groupings = groupings
@@ -14001,8 +13647,7 @@ extension ConnectClientTypes {
         public init(
             metric: ConnectClientTypes.MetricV2? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.value = value
         }
@@ -14024,8 +13669,7 @@ extension ConnectClientTypes {
             endTime: Foundation.Date? = nil,
             interval: ConnectClientTypes.IntervalPeriod? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.interval = interval
             self.startTime = startTime
@@ -14048,8 +13692,7 @@ extension ConnectClientTypes {
             collections: [ConnectClientTypes.MetricDataV2]? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             metricInterval: ConnectClientTypes.MetricInterval? = nil
-        )
-        {
+        ) {
             self.collections = collections
             self.dimensions = dimensions
             self.metricInterval = metricInterval
@@ -14066,8 +13709,7 @@ public struct GetMetricDataV2Output: Swift.Sendable {
     public init(
         metricResults: [ConnectClientTypes.MetricResultV2]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricResults = metricResults
         self.nextToken = nextToken
     }
@@ -14084,8 +13726,7 @@ public struct GetPromptFileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.promptId = promptId
     }
@@ -14103,8 +13744,7 @@ public struct GetPromptFileOutput: Swift.Sendable {
         lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         promptPresignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.promptPresignedUrl = promptPresignedUrl
@@ -14125,8 +13765,7 @@ public struct GetTaskTemplateInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         snapshotVersion: Swift.String? = nil,
         taskTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.snapshotVersion = snapshotVersion
         self.taskTemplateId = taskTemplateId
@@ -14181,8 +13820,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.constraints = constraints
         self.contactFlowId = contactFlowId
@@ -14207,8 +13845,7 @@ public struct GetTrafficDistributionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -14227,8 +13864,7 @@ extension ConnectClientTypes {
         public init(
             enabled: Swift.Bool = false,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.region = region
         }
@@ -14245,8 +13881,7 @@ extension ConnectClientTypes {
 
         public init(
             distributions: [ConnectClientTypes.SignInDistribution]? = nil
-        )
-        {
+        ) {
             self.distributions = distributions
         }
     }
@@ -14262,8 +13897,7 @@ extension ConnectClientTypes {
 
         public init(
             distributions: [ConnectClientTypes.Distribution]? = nil
-        )
-        {
+        ) {
             self.distributions = distributions
         }
     }
@@ -14287,8 +13921,7 @@ public struct GetTrafficDistributionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         signInConfig: ConnectClientTypes.SignInConfig? = nil,
         telephonyConfig: ConnectClientTypes.TelephonyConfig? = nil
-    )
-    {
+    ) {
         self.agentConfig = agentConfig
         self.arn = arn
         self.id = id
@@ -14317,8 +13950,7 @@ public struct ImportPhoneNumberInput: Swift.Sendable {
         phoneNumberDescription: Swift.String? = nil,
         sourcePhoneNumberArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.phoneNumberDescription = phoneNumberDescription
@@ -14336,8 +13968,7 @@ public struct ImportPhoneNumberOutput: Swift.Sendable {
     public init(
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
     }
@@ -14359,8 +13990,7 @@ public struct ListAgentStatusesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusTypes = agentStatusTypes
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14377,8 +14007,7 @@ public struct ListAgentStatusesOutput: Swift.Sendable {
     public init(
         agentStatusSummaryList: [ConnectClientTypes.AgentStatusSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusSummaryList = agentStatusSummaryList
         self.nextToken = nextToken
     }
@@ -14400,8 +14029,7 @@ public struct ListAnalyticsDataAssociationsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14418,8 +14046,7 @@ public struct ListAnalyticsDataAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [ConnectClientTypes.AnalyticsDataAssociationResult]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -14438,8 +14065,7 @@ public struct ListApprovedOriginsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14455,8 +14081,7 @@ public struct ListApprovedOriginsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         origins: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.origins = origins
     }
@@ -14479,8 +14104,7 @@ public struct ListAssociatedContactsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14521,8 +14145,7 @@ extension ConnectClientTypes {
             initiationTimestamp: Foundation.Date? = nil,
             previousContactId: Swift.String? = nil,
             relatedContactId: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.contactArn = contactArn
             self.contactId = contactId
@@ -14545,8 +14168,7 @@ public struct ListAssociatedContactsOutput: Swift.Sendable {
     public init(
         contactSummaryList: [ConnectClientTypes.AssociatedContactSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactSummaryList = contactSummaryList
         self.nextToken = nextToken
     }
@@ -14565,8 +14187,7 @@ public struct ListAuthenticationProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14597,8 +14218,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.isDefault = isDefault
@@ -14618,8 +14238,7 @@ public struct ListAuthenticationProfilesOutput: Swift.Sendable {
     public init(
         authenticationProfileSummaryList: [ConnectClientTypes.AuthenticationProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileSummaryList = authenticationProfileSummaryList
         self.nextToken = nextToken
     }
@@ -14671,8 +14290,7 @@ public struct ListBotsInput: Swift.Sendable {
         lexVersion: ConnectClientTypes.LexVersion? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.lexVersion = lexVersion
         self.maxResults = maxResults
@@ -14692,8 +14310,7 @@ extension ConnectClientTypes {
         public init(
             lexBot: ConnectClientTypes.LexBot? = nil,
             lexV2Bot: ConnectClientTypes.LexV2Bot? = nil
-        )
-        {
+        ) {
             self.lexBot = lexBot
             self.lexV2Bot = lexV2Bot
         }
@@ -14709,8 +14326,7 @@ public struct ListBotsOutput: Swift.Sendable {
     public init(
         lexBots: [ConnectClientTypes.LexBotConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lexBots = lexBots
         self.nextToken = nextToken
     }
@@ -14730,8 +14346,7 @@ public struct ListContactEvaluationsInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.nextToken = nextToken
@@ -14779,8 +14394,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             score: ConnectClientTypes.EvaluationScore? = nil,
             status: ConnectClientTypes.EvaluationStatus? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
             self.evaluationFormId = evaluationFormId
@@ -14804,8 +14418,7 @@ public struct ListContactEvaluationsOutput: Swift.Sendable {
     public init(
         evaluationSummaryList: [ConnectClientTypes.EvaluationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationSummaryList = evaluationSummaryList
         self.nextToken = nextToken
     }
@@ -14827,8 +14440,7 @@ public struct ListContactFlowModulesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleState = contactFlowModuleState
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14854,8 +14466,7 @@ extension ConnectClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             state: ConnectClientTypes.ContactFlowModuleState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -14873,8 +14484,7 @@ public struct ListContactFlowModulesOutput: Swift.Sendable {
     public init(
         contactFlowModulesSummaryList: [ConnectClientTypes.ContactFlowModuleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModulesSummaryList = contactFlowModulesSummaryList
         self.nextToken = nextToken
     }
@@ -14896,8 +14506,7 @@ public struct ListContactFlowsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowTypes = contactFlowTypes
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14929,8 +14538,7 @@ extension ConnectClientTypes {
             contactFlowType: ConnectClientTypes.ContactFlowType? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.contactFlowState = contactFlowState
             self.contactFlowStatus = contactFlowStatus
@@ -14950,8 +14558,7 @@ public struct ListContactFlowsOutput: Swift.Sendable {
     public init(
         contactFlowSummaryList: [ConnectClientTypes.ContactFlowSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowSummaryList = contactFlowSummaryList
         self.nextToken = nextToken
     }
@@ -14974,8 +14581,7 @@ public struct ListContactFlowVersionsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14998,8 +14604,7 @@ extension ConnectClientTypes {
             arn: Swift.String? = nil,
             version: Swift.Int? = nil,
             versionDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.version = version
             self.versionDescription = versionDescription
@@ -15016,8 +14621,7 @@ public struct ListContactFlowVersionsOutput: Swift.Sendable {
     public init(
         contactFlowVersionSummaryList: [ConnectClientTypes.ContactFlowVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowVersionSummaryList = contactFlowVersionSummaryList
         self.nextToken = nextToken
     }
@@ -15041,8 +14645,7 @@ public struct ListContactReferencesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         referenceTypes: [ConnectClientTypes.ReferenceType]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.nextToken = nextToken
@@ -15068,8 +14671,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             status: ConnectClientTypes.ReferenceStatus? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.status = status
@@ -15090,8 +14692,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -15110,8 +14711,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -15130,8 +14730,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -15150,8 +14749,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -15170,8 +14768,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -15190,8 +14787,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -15229,8 +14825,7 @@ public struct ListContactReferencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         referenceSummaryList: [ConnectClientTypes.ReferenceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.referenceSummaryList = referenceSummaryList
     }
@@ -15252,8 +14847,7 @@ public struct ListDefaultVocabulariesInput: Swift.Sendable {
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.languageCode = languageCode
         self.maxResults = maxResults
@@ -15283,8 +14877,7 @@ extension ConnectClientTypes {
             languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
             vocabularyId: Swift.String? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.languageCode = languageCode
             self.vocabularyId = vocabularyId
@@ -15303,8 +14896,7 @@ public struct ListDefaultVocabulariesOutput: Swift.Sendable {
     public init(
         defaultVocabularyList: [ConnectClientTypes.DefaultVocabulary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultVocabularyList = defaultVocabularyList
         self.nextToken = nextToken
     }
@@ -15323,8 +14915,7 @@ public struct ListEvaluationFormsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15378,8 +14969,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             latestVersion: Swift.Int = 0,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeVersion = activeVersion
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -15405,8 +14995,7 @@ public struct ListEvaluationFormsOutput: Swift.Sendable {
     public init(
         evaluationFormSummaryList: [ConnectClientTypes.EvaluationFormSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormSummaryList = evaluationFormSummaryList
         self.nextToken = nextToken
     }
@@ -15429,8 +15018,7 @@ public struct ListEvaluationFormVersionsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -15480,8 +15068,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             locked: Swift.Bool = false,
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.evaluationFormArn = evaluationFormArn
@@ -15505,8 +15092,7 @@ public struct ListEvaluationFormVersionsOutput: Swift.Sendable {
     public init(
         evaluationFormVersionSummaryList: [ConnectClientTypes.EvaluationFormVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormVersionSummaryList = evaluationFormVersionSummaryList
         self.nextToken = nextToken
     }
@@ -15528,8 +15114,7 @@ public struct ListFlowAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15546,8 +15131,7 @@ public struct ListFlowAssociationsOutput: Swift.Sendable {
     public init(
         flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowAssociationSummaryList = flowAssociationSummaryList
         self.nextToken = nextToken
     }
@@ -15570,8 +15154,7 @@ public struct ListHoursOfOperationOverridesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -15594,8 +15177,7 @@ public struct ListHoursOfOperationOverridesOutput: Swift.Sendable {
         lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationOverrideList = hoursOfOperationOverrideList
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
@@ -15616,8 +15198,7 @@ public struct ListHoursOfOperationsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15645,8 +15226,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -15665,8 +15245,7 @@ public struct ListHoursOfOperationsOutput: Swift.Sendable {
     public init(
         hoursOfOperationSummaryList: [ConnectClientTypes.HoursOfOperationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationSummaryList = hoursOfOperationSummaryList
         self.nextToken = nextToken
     }
@@ -15685,8 +15264,7 @@ public struct ListInstanceAttributesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15702,8 +15280,7 @@ public struct ListInstanceAttributesOutput: Swift.Sendable {
     public init(
         attributes: [ConnectClientTypes.Attribute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.nextToken = nextToken
     }
@@ -15718,8 +15295,7 @@ public struct ListInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -15761,8 +15337,7 @@ extension ConnectClientTypes {
             instanceStatus: ConnectClientTypes.InstanceStatus? = nil,
             outboundCallsEnabled: Swift.Bool? = nil,
             serviceRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -15791,8 +15366,7 @@ public struct ListInstancesOutput: Swift.Sendable {
     public init(
         instanceSummaryList: [ConnectClientTypes.InstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceSummaryList = instanceSummaryList
         self.nextToken = nextToken
     }
@@ -15815,8 +15389,7 @@ public struct ListInstanceStorageConfigsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15833,8 +15406,7 @@ public struct ListInstanceStorageConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageConfigs: [ConnectClientTypes.InstanceStorageConfig]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageConfigs = storageConfigs
     }
@@ -15859,8 +15431,7 @@ public struct ListIntegrationAssociationsInput: Swift.Sendable {
         integrationType: ConnectClientTypes.IntegrationType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationArn = integrationArn
         self.integrationType = integrationType
@@ -15899,8 +15470,7 @@ extension ConnectClientTypes {
             sourceApplicationName: Swift.String? = nil,
             sourceApplicationUrl: Swift.String? = nil,
             sourceType: ConnectClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
             self.integrationAssociationArn = integrationAssociationArn
@@ -15922,8 +15492,7 @@ public struct ListIntegrationAssociationsOutput: Swift.Sendable {
     public init(
         integrationAssociationSummaryList: [ConnectClientTypes.IntegrationAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationAssociationSummaryList = integrationAssociationSummaryList
         self.nextToken = nextToken
     }
@@ -15942,8 +15511,7 @@ public struct ListLambdaFunctionsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15959,8 +15527,7 @@ public struct ListLambdaFunctionsOutput: Swift.Sendable {
     public init(
         lambdaFunctions: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lambdaFunctions = lambdaFunctions
         self.nextToken = nextToken
     }
@@ -15979,8 +15546,7 @@ public struct ListLexBotsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15996,8 +15562,7 @@ public struct ListLexBotsOutput: Swift.Sendable {
     public init(
         lexBots: [ConnectClientTypes.LexBot]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lexBots = lexBots
         self.nextToken = nextToken
     }
@@ -16022,8 +15587,7 @@ public struct ListPhoneNumbersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         phoneNumberCountryCodes: [ConnectClientTypes.PhoneNumberCountryCode]? = nil,
         phoneNumberTypes: [ConnectClientTypes.PhoneNumberType]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16053,8 +15617,7 @@ extension ConnectClientTypes {
             phoneNumber: Swift.String? = nil,
             phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode? = nil,
             phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.phoneNumber = phoneNumber
@@ -16073,8 +15636,7 @@ public struct ListPhoneNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumberSummaryList: [ConnectClientTypes.PhoneNumberSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumberSummaryList = phoneNumberSummaryList
     }
@@ -16104,8 +15666,7 @@ public struct ListPhoneNumbersV2Input: Swift.Sendable {
         phoneNumberPrefix: Swift.String? = nil,
         phoneNumberTypes: [ConnectClientTypes.PhoneNumberType]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16149,8 +15710,7 @@ extension ConnectClientTypes {
             phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil,
             sourcePhoneNumberArn: Swift.String? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
@@ -16173,8 +15733,7 @@ public struct ListPhoneNumbersV2Output: Swift.Sendable {
     public init(
         listPhoneNumbersSummaryList: [ConnectClientTypes.ListPhoneNumbersSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.listPhoneNumbersSummaryList = listPhoneNumbersSummaryList
         self.nextToken = nextToken
     }
@@ -16193,8 +15752,7 @@ public struct ListPredefinedAttributesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16216,8 +15774,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -16234,8 +15791,7 @@ public struct ListPredefinedAttributesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         predefinedAttributeSummaryList: [ConnectClientTypes.PredefinedAttributeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.predefinedAttributeSummaryList = predefinedAttributeSummaryList
     }
@@ -16254,8 +15810,7 @@ public struct ListPromptsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16283,8 +15838,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -16303,8 +15857,7 @@ public struct ListPromptsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         promptSummaryList: [ConnectClientTypes.PromptSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.promptSummaryList = promptSummaryList
     }
@@ -16327,8 +15880,7 @@ public struct ListQueueQuickConnectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16360,8 +15912,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             quickConnectType: ConnectClientTypes.QuickConnectType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -16387,8 +15938,7 @@ public struct ListQueueQuickConnectsOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -16441,8 +15991,7 @@ public struct ListQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueTypes: [ConnectClientTypes.QueueType]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16474,8 +16023,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             queueType: ConnectClientTypes.QueueType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -16495,8 +16043,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queueSummaryList: [ConnectClientTypes.QueueSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queueSummaryList = queueSummaryList
     }
@@ -16518,8 +16065,7 @@ public struct ListQuickConnectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         quickConnectTypes: [ConnectClientTypes.QuickConnectType]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16536,8 +16082,7 @@ public struct ListQuickConnectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.quickConnectSummaryList = quickConnectSummaryList
     }
@@ -16561,8 +16106,7 @@ public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16662,8 +16206,7 @@ public struct ListRealtimeContactAnalysisSegmentsV2Input: Swift.Sendable {
         nextToken: Swift.String? = nil,
         outputType: ConnectClientTypes.RealTimeContactAnalysisOutputType? = nil,
         segmentTypes: [ConnectClientTypes.RealTimeContactAnalysisSegmentType]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -16754,8 +16297,7 @@ extension ConnectClientTypes {
             attachmentName: Swift.String? = nil,
             contentType: Swift.String? = nil,
             status: ConnectClientTypes.ArtifactStatus? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.attachmentName = attachmentName
             self.contentType = contentType
@@ -16803,8 +16345,7 @@ extension ConnectClientTypes {
             participantId: Swift.String? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil,
             time: ConnectClientTypes.RealTimeContactAnalysisTimeData? = nil
-        )
-        {
+        ) {
             self.attachments = attachments
             self.displayName = displayName
             self.id = id
@@ -16829,8 +16370,7 @@ extension ConnectClientTypes {
         public init(
             beginOffsetChar: Swift.Int = 0,
             endOffsetChar: Swift.Int = 0
-        )
-        {
+        ) {
             self.beginOffsetChar = beginOffsetChar
             self.endOffsetChar = endOffsetChar
         }
@@ -16850,8 +16390,7 @@ extension ConnectClientTypes {
         public init(
             characterOffsets: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
             self.id = id
         }
@@ -16867,8 +16406,7 @@ extension ConnectClientTypes {
 
         public init(
             transcriptItems: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]? = nil
-        )
-        {
+        ) {
             self.transcriptItems = transcriptItems
         }
     }
@@ -16884,8 +16422,7 @@ extension ConnectClientTypes {
 
         public init(
             pointsOfInterest: [ConnectClientTypes.RealTimeContactAnalysisPointOfInterest]? = nil
-        )
-        {
+        ) {
             self.pointsOfInterest = pointsOfInterest
         }
     }
@@ -16901,8 +16438,7 @@ extension ConnectClientTypes {
 
         public init(
             matchedDetails: [Swift.String: ConnectClientTypes.RealTimeContactAnalysisCategoryDetails]? = nil
-        )
-        {
+        ) {
             self.matchedDetails = matchedDetails
         }
     }
@@ -16935,8 +16471,7 @@ extension ConnectClientTypes {
             participantId: Swift.String? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil,
             time: ConnectClientTypes.RealTimeContactAnalysisTimeData? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.eventType = eventType
             self.id = id
@@ -16963,8 +16498,7 @@ extension ConnectClientTypes {
             characterOffsets: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval? = nil,
             content: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
             self.content = content
             self.id = id
@@ -16982,8 +16516,7 @@ extension ConnectClientTypes {
 
         public init(
             transcriptItems: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent]? = nil
-        )
-        {
+        ) {
             self.transcriptItems = transcriptItems
         }
     }
@@ -16999,8 +16532,7 @@ extension ConnectClientTypes {
 
         public init(
             issuesDetected: [ConnectClientTypes.RealTimeContactAnalysisIssueDetected]? = nil
-        )
-        {
+        ) {
             self.issuesDetected = issuesDetected
         }
     }
@@ -17099,8 +16631,7 @@ extension ConnectClientTypes {
             content: Swift.String? = nil,
             failureCode: ConnectClientTypes.RealTimeContactAnalysisPostContactSummaryFailureCode? = nil,
             status: ConnectClientTypes.RealTimeContactAnalysisPostContactSummaryStatus? = nil
-        )
-        {
+        ) {
             self.content = content
             self.failureCode = failureCode
             self.status = status
@@ -17117,8 +16648,7 @@ extension ConnectClientTypes {
 
         public init(
             characterOffsets: [ConnectClientTypes.RealTimeContactAnalysisCharacterInterval]? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
         }
     }
@@ -17194,8 +16724,7 @@ extension ConnectClientTypes {
             redaction: ConnectClientTypes.RealTimeContactAnalysisTranscriptItemRedaction? = nil,
             sentiment: ConnectClientTypes.RealTimeContactAnalysisSentimentLabel? = nil,
             time: ConnectClientTypes.RealTimeContactAnalysisTimeData? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.displayName = displayName
@@ -17279,8 +16808,7 @@ public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Sendable {
         nextToken: Swift.String? = nil,
         segments: [ConnectClientTypes.RealtimeContactAnalysisSegment]? = nil,
         status: ConnectClientTypes.RealTimeContactAnalysisStatus? = nil
-    )
-    {
+    ) {
         self.channel = channel
         self.nextToken = nextToken
         self.segments = segments
@@ -17305,8 +16833,7 @@ public struct ListRoutingProfileQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17344,8 +16871,7 @@ extension ConnectClientTypes {
             queueArn: Swift.String? = nil,
             queueId: Swift.String? = nil,
             queueName: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.delay = delay
             self.priority = priority
@@ -17371,8 +16897,7 @@ public struct ListRoutingProfileQueuesOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         routingProfileQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileQueueConfigSummary]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -17393,8 +16918,7 @@ public struct ListRoutingProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17422,8 +16946,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -17442,8 +16965,7 @@ public struct ListRoutingProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         routingProfileSummaryList: [ConnectClientTypes.RoutingProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.routingProfileSummaryList = routingProfileSummaryList
     }
@@ -17468,8 +16990,7 @@ public struct ListRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil
-    )
-    {
+    ) {
         self.eventSourceName = eventSourceName
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -17516,8 +17037,7 @@ extension ConnectClientTypes {
             publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
             ruleArn: Swift.String? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionSummaries = actionSummaries
             self.createdTime = createdTime
             self.eventSourceName = eventSourceName
@@ -17540,8 +17060,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleSummaryList: [ConnectClientTypes.RuleSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleSummaryList = ruleSummaryList
     }
@@ -17560,8 +17079,7 @@ public struct ListSecurityKeysInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17583,8 +17101,7 @@ extension ConnectClientTypes {
             associationId: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.creationTime = creationTime
             self.key = key
@@ -17601,8 +17118,7 @@ public struct ListSecurityKeysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityKeys: [ConnectClientTypes.SecurityKey]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityKeys = securityKeys
     }
@@ -17625,8 +17141,7 @@ public struct ListSecurityProfileApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17649,8 +17164,7 @@ public struct ListSecurityProfileApplicationsOutput: Swift.Sendable {
         lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
@@ -17675,8 +17189,7 @@ public struct ListSecurityProfilePermissionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17699,8 +17212,7 @@ public struct ListSecurityProfilePermissionsOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         permissions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -17721,8 +17233,7 @@ public struct ListSecurityProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17750,8 +17261,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -17770,8 +17280,7 @@ public struct ListSecurityProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityProfileSummaryList: [ConnectClientTypes.SecurityProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityProfileSummaryList = securityProfileSummaryList
     }
@@ -17784,8 +17293,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -17796,8 +17304,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -17821,8 +17328,7 @@ public struct ListTaskTemplatesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.name = name
@@ -17858,8 +17364,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: ConnectClientTypes.TaskTemplateStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -17880,8 +17385,7 @@ public struct ListTaskTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskTemplates: [ConnectClientTypes.TaskTemplateMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskTemplates = taskTemplates
     }
@@ -17899,8 +17403,7 @@ public struct ListTrafficDistributionGroupsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17943,8 +17446,7 @@ extension ConnectClientTypes {
             isDefault: Swift.Bool = false,
             name: Swift.String? = nil,
             status: ConnectClientTypes.TrafficDistributionGroupStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.instanceArn = instanceArn
@@ -17964,8 +17466,7 @@ public struct ListTrafficDistributionGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trafficDistributionGroupSummaryList: [ConnectClientTypes.TrafficDistributionGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trafficDistributionGroupSummaryList = trafficDistributionGroupSummaryList
     }
@@ -17984,8 +17485,7 @@ public struct ListTrafficDistributionGroupUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trafficDistributionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.trafficDistributionGroupId = trafficDistributionGroupId
@@ -18001,8 +17501,7 @@ extension ConnectClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -18017,8 +17516,7 @@ public struct ListTrafficDistributionGroupUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trafficDistributionGroupUserSummaryList: [ConnectClientTypes.TrafficDistributionGroupUserSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trafficDistributionGroupUserSummaryList = trafficDistributionGroupUserSummaryList
     }
@@ -18042,8 +17540,7 @@ public struct ListUseCasesInput: Swift.Sendable {
         integrationAssociationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
         self.maxResults = maxResults
@@ -18066,8 +17563,7 @@ extension ConnectClientTypes {
             useCaseArn: Swift.String? = nil,
             useCaseId: Swift.String? = nil,
             useCaseType: ConnectClientTypes.UseCaseType? = nil
-        )
-        {
+        ) {
             self.useCaseArn = useCaseArn
             self.useCaseId = useCaseId
             self.useCaseType = useCaseType
@@ -18084,8 +17580,7 @@ public struct ListUseCasesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         useCaseSummaryList: [ConnectClientTypes.UseCase]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.useCaseSummaryList = useCaseSummaryList
     }
@@ -18104,8 +17599,7 @@ public struct ListUserHierarchyGroupsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18121,8 +17615,7 @@ public struct ListUserHierarchyGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userHierarchyGroupSummaryList: [ConnectClientTypes.HierarchyGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userHierarchyGroupSummaryList = userHierarchyGroupSummaryList
     }
@@ -18145,8 +17638,7 @@ public struct ListUserProficienciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18169,8 +17661,7 @@ public struct ListUserProficienciesOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         userProficiencyList: [ConnectClientTypes.UserProficiency]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -18191,8 +17682,7 @@ public struct ListUsersInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18220,8 +17710,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -18240,8 +17729,7 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userSummaryList: [ConnectClientTypes.UserSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userSummaryList = userSummaryList
     }
@@ -18263,8 +17751,7 @@ public struct ListViewsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         type: ConnectClientTypes.ViewType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18296,8 +17783,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             status: ConnectClientTypes.ViewStatus? = nil,
             type: ConnectClientTypes.ViewType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -18322,8 +17808,7 @@ public struct ListViewsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         viewsSummaryList: [ConnectClientTypes.ViewSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.viewsSummaryList = viewsSummaryList
     }
@@ -18346,8 +17831,7 @@ public struct ListViewVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18382,8 +17866,7 @@ extension ConnectClientTypes {
             type: ConnectClientTypes.ViewType? = nil,
             version: Swift.Int = 0,
             versionDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -18409,8 +17892,7 @@ public struct ListViewVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         viewVersionSummaryList: [ConnectClientTypes.ViewVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.viewVersionSummaryList = viewVersionSummaryList
     }
@@ -18437,8 +17919,7 @@ public struct MonitorContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedMonitorCapabilities = allowedMonitorCapabilities
         self.clientToken = clientToken
         self.contactId = contactId
@@ -18456,8 +17937,7 @@ public struct MonitorContactOutput: Swift.Sendable {
     public init(
         contactArn: Swift.String? = nil,
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.contactId = contactId
     }
@@ -18477,8 +17957,7 @@ public struct PauseContactInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.contactId = contactId
         self.instanceId = instanceId
@@ -18505,8 +17984,7 @@ public struct PutUserStatusInput: Swift.Sendable {
         agentStatusId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusId = agentStatusId
         self.instanceId = instanceId
         self.userId = userId
@@ -18528,8 +18006,7 @@ public struct ReleasePhoneNumberInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.phoneNumberId = phoneNumberId
     }
@@ -18553,8 +18030,7 @@ public struct ReplicateInstanceInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         replicaAlias: Swift.String? = nil,
         replicaRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.replicaAlias = replicaAlias
@@ -18576,8 +18052,7 @@ public struct ReplicateInstanceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -18597,8 +18072,7 @@ public struct ResumeContactInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.contactId = contactId
         self.instanceId = instanceId
@@ -18660,8 +18134,7 @@ public struct ResumeContactRecordingInput: Swift.Sendable {
         contactRecordingType: ConnectClientTypes.ContactRecordingType? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.contactRecordingType = contactRecordingType
         self.initialContactId = initialContactId
@@ -18686,8 +18159,7 @@ public struct SearchAgentStatusesOutput: Swift.Sendable {
         agentStatuses: [ConnectClientTypes.AgentStatus]? = nil,
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatuses = agentStatuses
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
@@ -18720,8 +18192,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Sendable {
         phoneNumberPrefix: Swift.String? = nil,
         phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18747,8 +18218,7 @@ extension ConnectClientTypes {
             phoneNumber: Swift.String? = nil,
             phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode? = nil,
             phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil
-        )
-        {
+        ) {
             self.phoneNumber = phoneNumber
             self.phoneNumberCountryCode = phoneNumberCountryCode
             self.phoneNumberType = phoneNumberType
@@ -18765,8 +18235,7 @@ public struct SearchAvailablePhoneNumbersOutput: Swift.Sendable {
     public init(
         availableNumbersList: [ConnectClientTypes.AvailableNumberSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.availableNumbersList = availableNumbersList
         self.nextToken = nextToken
     }
@@ -18791,8 +18260,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.TagCondition]? = nil,
             orConditions: [[ConnectClientTypes.TagCondition]]? = nil,
             tagCondition: ConnectClientTypes.TagCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.tagCondition = tagCondition
@@ -18813,8 +18281,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -18832,8 +18299,7 @@ public struct SearchContactFlowModulesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         contactFlowModules: [ConnectClientTypes.ContactFlowModule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.contactFlowModules = contactFlowModules
         self.nextToken = nextToken
@@ -18853,8 +18319,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -18872,8 +18337,7 @@ public struct SearchContactFlowsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         contactFlows: [ConnectClientTypes.ContactFlow]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.contactFlows = contactFlows
         self.nextToken = nextToken
@@ -18927,8 +18391,7 @@ extension ConnectClientTypes {
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil,
             searchText: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchType = matchType
             self.participantRole = participantRole
             self.searchText = searchText
@@ -18954,8 +18417,7 @@ extension ConnectClientTypes {
         public init(
             criteria: [ConnectClientTypes.TranscriptCriteria]? = nil,
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.matchType = matchType
         }
@@ -18971,8 +18433,7 @@ extension ConnectClientTypes {
 
         public init(
             transcript: ConnectClientTypes.Transcript? = nil
-        )
-        {
+        ) {
             self.transcript = transcript
         }
     }
@@ -18992,8 +18453,7 @@ extension ConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -19018,8 +18478,7 @@ extension ConnectClientTypes {
         public init(
             criteria: [ConnectClientTypes.SearchableContactAttributesCriteria]? = nil,
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.matchType = matchType
         }
@@ -19040,8 +18499,7 @@ extension ConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -19066,8 +18524,7 @@ extension ConnectClientTypes {
         public init(
             criteria: [ConnectClientTypes.SearchableSegmentAttributesCriteria]? = nil,
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.matchType = matchType
         }
@@ -19104,8 +18561,7 @@ extension ConnectClientTypes {
             queueIds: [Swift.String]? = nil,
             searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes? = nil,
             searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes? = nil
-        )
-        {
+        ) {
             self.agentHierarchyGroups = agentHierarchyGroups
             self.agentIds = agentIds
             self.channels = channels
@@ -19173,8 +18629,7 @@ extension ConnectClientTypes {
         public init(
             fieldName: ConnectClientTypes.SortableFieldName? = nil,
             order: ConnectClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.order = order
         }
@@ -19234,8 +18689,7 @@ extension ConnectClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             type: ConnectClientTypes.SearchContactsTimeRangeType? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
             self.type = type
@@ -19266,8 +18720,7 @@ public struct SearchContactsInput: Swift.Sendable {
         searchCriteria: ConnectClientTypes.SearchCriteria? = nil,
         sort: ConnectClientTypes.Sort? = nil,
         timeRange: ConnectClientTypes.SearchContactsTimeRange? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -19289,8 +18742,7 @@ extension ConnectClientTypes {
         public init(
             connectedToAgentTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
             self.id = id
         }
@@ -19309,8 +18761,7 @@ extension ConnectClientTypes {
         public init(
             enqueueTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.enqueueTimestamp = enqueueTimestamp
             self.id = id
         }
@@ -19326,8 +18777,7 @@ extension ConnectClientTypes {
 
         public init(
             valueString: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueString = valueString
         }
     }
@@ -19375,8 +18825,7 @@ extension ConnectClientTypes {
             queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
             scheduledTimestamp: Foundation.Date? = nil,
             segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil
-        )
-        {
+        ) {
             self.agentInfo = agentInfo
             self.arn = arn
             self.channel = channel
@@ -19406,8 +18855,7 @@ public struct SearchContactsOutput: Swift.Sendable {
         contacts: [ConnectClientTypes.ContactSearchSummary]? = nil,
         nextToken: Swift.String? = nil,
         totalCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.contacts = contacts
         self.nextToken = nextToken
         self.totalCount = totalCount
@@ -19427,8 +18875,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19455,8 +18902,7 @@ extension ConnectClientTypes {
             emailAddress: Swift.String? = nil,
             emailAddressArn: Swift.String? = nil,
             emailAddressId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -19483,8 +18929,7 @@ public struct SearchEmailAddressesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         emailAddresses: [ConnectClientTypes.EmailAddressMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.emailAddresses = emailAddresses
         self.nextToken = nextToken
@@ -19544,8 +18989,7 @@ extension ConnectClientTypes {
             comparisonType: ConnectClientTypes.DateComparisonType? = nil,
             fieldName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonType = comparisonType
             self.fieldName = fieldName
             self.value = value
@@ -19566,8 +19010,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19585,8 +19028,7 @@ public struct SearchHoursOfOperationOverridesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         hoursOfOperationOverrides: [ConnectClientTypes.HoursOfOperationOverride]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.hoursOfOperationOverrides = hoursOfOperationOverrides
         self.nextToken = nextToken
@@ -19605,8 +19047,7 @@ public struct SearchHoursOfOperationsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         hoursOfOperations: [ConnectClientTypes.HoursOfOperation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.hoursOfOperations = hoursOfOperations
         self.nextToken = nextToken
@@ -19625,8 +19066,7 @@ public struct SearchPredefinedAttributesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         predefinedAttributes: [ConnectClientTypes.PredefinedAttribute]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.predefinedAttributes = predefinedAttributes
@@ -19646,8 +19086,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19665,8 +19104,7 @@ public struct SearchPromptsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         prompts: [ConnectClientTypes.Prompt]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.prompts = prompts
@@ -19712,8 +19150,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19731,8 +19168,7 @@ public struct SearchQueuesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queues: [ConnectClientTypes.Queue]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.queues = queues
@@ -19752,8 +19188,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19771,8 +19206,7 @@ public struct SearchQuickConnectsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         quickConnects: [ConnectClientTypes.QuickConnect]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.quickConnects = quickConnects
@@ -19797,8 +19231,7 @@ public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19821,8 +19254,7 @@ extension ConnectClientTypes {
             tagKeyComparisonType: ConnectClientTypes.StringComparisonType? = nil,
             tagValue: Swift.String? = nil,
             tagValueComparisonType: ConnectClientTypes.StringComparisonType? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagKeyComparisonType = tagKeyComparisonType
             self.tagValue = tagValue
@@ -19840,8 +19272,7 @@ extension ConnectClientTypes {
 
         public init(
             tagSearchCondition: ConnectClientTypes.TagSearchCondition? = nil
-        )
-        {
+        ) {
             self.tagSearchCondition = tagSearchCondition
         }
     }
@@ -19882,8 +19313,7 @@ public struct SearchResourceTagsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil,
         searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -19904,8 +19334,7 @@ extension ConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -19921,8 +19350,7 @@ public struct SearchResourceTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [ConnectClientTypes.TagSet]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -19941,8 +19369,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19960,8 +19387,7 @@ public struct SearchRoutingProfilesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         routingProfiles: [ConnectClientTypes.RoutingProfile]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.routingProfiles = routingProfiles
@@ -19981,8 +19407,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -20012,8 +19437,7 @@ extension ConnectClientTypes {
             organizationResourceId: Swift.String? = nil,
             securityProfileName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -20036,8 +19460,7 @@ public struct SearchSecurityProfilesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfiles: [ConnectClientTypes.SecurityProfileSearchSummary]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.securityProfiles = securityProfiles
@@ -20057,8 +19480,7 @@ extension ConnectClientTypes {
 
         public init(
             attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
-        )
-        {
+        ) {
             self.attributeFilter = attributeFilter
         }
     }
@@ -20076,8 +19498,7 @@ public struct SearchUserHierarchyGroupsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userHierarchyGroups: [ConnectClientTypes.HierarchyGroup]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.userHierarchyGroups = userHierarchyGroups
@@ -20125,8 +19546,7 @@ extension ConnectClientTypes {
         public init(
             hierarchyGroupMatchType: ConnectClientTypes.HierarchyGroupMatchType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.hierarchyGroupMatchType = hierarchyGroupMatchType
             self.value = value
         }
@@ -20195,8 +19615,7 @@ extension ConnectClientTypes {
             fieldName: Swift.String? = nil,
             maxValue: Swift.Int? = nil,
             minValue: Swift.Int? = nil
-        )
-        {
+        ) {
             self.comparisonType = comparisonType
             self.fieldName = fieldName
             self.maxValue = maxValue
@@ -20217,8 +19636,7 @@ extension ConnectClientTypes {
         public init(
             numberCondition: ConnectClientTypes.NumberCondition? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.numberCondition = numberCondition
             self.stringCondition = stringCondition
         }
@@ -20263,8 +19681,7 @@ extension ConnectClientTypes {
         public init(
             conditions: [ConnectClientTypes.Condition]? = nil,
             targetListType: ConnectClientTypes.TargetListType? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
             self.targetListType = targetListType
         }
@@ -20283,8 +19700,7 @@ extension ConnectClientTypes {
         public init(
             hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
             tagConditions: [ConnectClientTypes.TagCondition]? = nil
-        )
-        {
+        ) {
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.tagConditions = tagConditions
         }
@@ -20316,8 +19732,7 @@ extension ConnectClientTypes {
             hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
             orConditions: [ConnectClientTypes.AttributeAndCondition]? = nil,
             tagCondition: ConnectClientTypes.TagCondition? = nil
-        )
-        {
+        ) {
             self.andCondition = andCondition
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.orConditions = orConditions
@@ -20349,8 +19764,7 @@ extension ConnectClientTypes {
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil,
             userAttributeFilter: ConnectClientTypes.ControlPlaneUserAttributeFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
             self.userAttributeFilter = userAttributeFilter
         }
@@ -20369,8 +19783,7 @@ extension ConnectClientTypes {
         public init(
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstName = firstName
             self.lastName = lastName
         }
@@ -20418,8 +19831,7 @@ extension ConnectClientTypes {
             securityProfileIds: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
@@ -20446,8 +19858,7 @@ public struct SearchUsersOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         users: [ConnectClientTypes.UserSearchSummary]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.users = users
@@ -20476,8 +19887,7 @@ public struct SearchVocabulariesInput: Swift.Sendable {
         nameStartsWith: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: ConnectClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.languageCode = languageCode
         self.maxResults = maxResults
@@ -20520,8 +19930,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: ConnectClientTypes.VocabularyState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.failureReason = failureReason
             self.id = id
@@ -20542,8 +19951,7 @@ public struct SearchVocabulariesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vocabularySummaryList: [ConnectClientTypes.VocabularySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vocabularySummaryList = vocabularySummaryList
     }
@@ -20611,8 +20019,7 @@ extension ConnectClientTypes {
             content: Swift.String? = nil,
             contentType: Swift.String? = nil,
             type: ConnectClientTypes.ChatEventType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.type = type
@@ -20630,8 +20037,7 @@ extension ConnectClientTypes {
 
         public init(
             displayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
         }
     }
@@ -20647,8 +20053,7 @@ extension ConnectClientTypes {
 
         public init(
             streamingEndpointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamingEndpointArn = streamingEndpointArn
         }
     }
@@ -20672,8 +20077,7 @@ extension ConnectClientTypes {
             participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
             streamingConfiguration: ConnectClientTypes.ChatStreamingConfiguration? = nil,
             supportedMessagingContentTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.participantDetails = participantDetails
             self.streamingConfiguration = streamingConfiguration
@@ -20703,8 +20107,7 @@ public struct SendChatIntegrationEventInput: Swift.Sendable {
         newSessionDetails: ConnectClientTypes.NewSessionDetails? = nil,
         sourceId: Swift.String? = nil,
         subtype: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationId = destinationId
         self.event = event
         self.newSessionDetails = newSessionDetails
@@ -20722,8 +20125,7 @@ public struct SendChatIntegrationEventOutput: Swift.Sendable {
     public init(
         initialContactId: Swift.String? = nil,
         newChatCreated: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.initialContactId = initialContactId
         self.newChatCreated = newChatCreated
     }
@@ -20742,8 +20144,7 @@ extension ConnectClientTypes {
         public init(
             displayName: Swift.String? = nil,
             emailAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.emailAddress = emailAddress
         }
@@ -20764,8 +20165,7 @@ extension ConnectClientTypes {
 
         public init(
             ccEmailAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil
-        )
-        {
+        ) {
             self.ccEmailAddresses = ccEmailAddresses
         }
     }
@@ -20818,8 +20218,7 @@ extension ConnectClientTypes {
             body: Swift.String? = nil,
             contentType: Swift.String? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.contentType = contentType
             self.subject = subject
@@ -20844,8 +20243,7 @@ extension ConnectClientTypes {
         public init(
             customAttributes: [Swift.String: Swift.String]? = nil,
             customerProfileAttributes: Swift.String? = nil
-        )
-        {
+        ) {
             self.customAttributes = customAttributes
             self.customerProfileAttributes = customerProfileAttributes
         }
@@ -20870,8 +20268,7 @@ extension ConnectClientTypes {
             knowledgeBaseId: Swift.String? = nil,
             messageTemplateId: Swift.String? = nil,
             templateAttributes: ConnectClientTypes.TemplateAttributes? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseId = knowledgeBaseId
             self.messageTemplateId = messageTemplateId
             self.templateAttributes = templateAttributes
@@ -20895,8 +20292,7 @@ extension ConnectClientTypes {
             messageSourceType: ConnectClientTypes.OutboundMessageSourceType? = nil,
             rawMessage: ConnectClientTypes.OutboundRawMessage? = nil,
             templatedMessageConfig: ConnectClientTypes.TemplatedMessageConfig? = nil
-        )
-        {
+        ) {
             self.messageSourceType = messageSourceType
             self.rawMessage = rawMessage
             self.templatedMessageConfig = templatedMessageConfig
@@ -20916,8 +20312,7 @@ extension ConnectClientTypes {
         public init(
             campaignId: Swift.String? = nil,
             outboundRequestId: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.outboundRequestId = outboundRequestId
         }
@@ -20985,8 +20380,7 @@ public struct SendOutboundEmailInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         sourceCampaign: ConnectClientTypes.SourceCampaign? = nil,
         trafficType: ConnectClientTypes.TrafficType? = nil
-    )
-    {
+    ) {
         self.additionalRecipients = additionalRecipients
         self.clientToken = clientToken
         self.destinationEmailAddress = destinationEmailAddress
@@ -21038,8 +20432,7 @@ public struct StartAttachedFileUploadInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         urlExpiryInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.clientToken = clientToken
         self.createdBy = createdBy
@@ -21067,8 +20460,7 @@ extension ConnectClientTypes {
             headersToInclude: [Swift.String: Swift.String]? = nil,
             url: Swift.String? = nil,
             urlExpiry: Swift.String? = nil
-        )
-        {
+        ) {
             self.headersToInclude = headersToInclude
             self.url = url
             self.urlExpiry = urlExpiry
@@ -21098,8 +20490,7 @@ public struct StartAttachedFileUploadOutput: Swift.Sendable {
         fileId: Swift.String? = nil,
         fileStatus: ConnectClientTypes.FileStatusType? = nil,
         uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.fileArn = fileArn
@@ -21129,8 +20520,7 @@ extension ConnectClientTypes {
         public init(
             content: Swift.String? = nil,
             contentType: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
         }
@@ -21156,8 +20546,7 @@ extension ConnectClientTypes {
         public init(
             rehydrationType: ConnectClientTypes.RehydrationType? = nil,
             sourceContactId: Swift.String? = nil
-        )
-        {
+        ) {
             self.rehydrationType = rehydrationType
             self.sourceContactId = sourceContactId
         }
@@ -21179,8 +20568,7 @@ public struct StartChatContactOutput: Swift.Sendable {
         continuedFromContactId: Swift.String? = nil,
         participantId: Swift.String? = nil,
         participantToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.continuedFromContactId = continuedFromContactId
         self.participantId = participantId
@@ -21206,8 +20594,7 @@ public struct StartContactEvaluationInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactId = contactId
         self.evaluationFormId = evaluationFormId
@@ -21226,8 +20613,7 @@ public struct StartContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluationArn: Swift.String? = nil,
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationArn = evaluationArn
         self.evaluationId = evaluationId
     }
@@ -21303,8 +20689,7 @@ extension ConnectClientTypes {
         public init(
             ivrRecordingTrack: ConnectClientTypes.IvrRecordingTrack? = nil,
             voiceRecordingTrack: ConnectClientTypes.VoiceRecordingTrack? = nil
-        )
-        {
+        ) {
             self.ivrRecordingTrack = ivrRecordingTrack
             self.voiceRecordingTrack = voiceRecordingTrack
         }
@@ -21330,8 +20715,7 @@ public struct StartContactRecordingInput: Swift.Sendable {
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         voiceRecordingConfiguration: ConnectClientTypes.VoiceRecordingConfiguration? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.initialContactId = initialContactId
         self.instanceId = instanceId
@@ -21363,8 +20747,7 @@ public struct StartContactStreamingInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatStreamingConfiguration = chatStreamingConfiguration
         self.clientToken = clientToken
         self.contactId = contactId
@@ -21379,8 +20762,7 @@ public struct StartContactStreamingOutput: Swift.Sendable {
 
     public init(
         streamingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamingId = streamingId
     }
 }
@@ -21397,8 +20779,7 @@ extension ConnectClientTypes {
         public init(
             ccAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil,
             toAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil
-        )
-        {
+        ) {
             self.ccAddresses = ccAddresses
             self.toAddresses = toAddresses
         }
@@ -21419,8 +20800,7 @@ extension ConnectClientTypes {
         public init(
             fileName: Swift.String? = nil,
             s3Url: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileName = fileName
             self.s3Url = s3Url
         }
@@ -21512,8 +20892,7 @@ extension ConnectClientTypes {
             contentType: Swift.String? = nil,
             headers: [Swift.String: Swift.String]? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.contentType = contentType
             self.headers = headers
@@ -21540,8 +20919,7 @@ extension ConnectClientTypes {
         public init(
             messageSourceType: ConnectClientTypes.InboundMessageSourceType? = nil,
             rawMessage: ConnectClientTypes.InboundRawMessage? = nil
-        )
-        {
+        ) {
             self.messageSourceType = messageSourceType
             self.rawMessage = rawMessage
         }
@@ -21554,8 +20932,7 @@ public struct StartEmailContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -21566,8 +20943,7 @@ public struct StartOutboundChatContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -21600,8 +20976,7 @@ public struct StartOutboundEmailContactInput: Swift.Sendable {
         emailMessage: ConnectClientTypes.OutboundEmailContent? = nil,
         fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalRecipients = additionalRecipients
         self.clientToken = clientToken
         self.contactId = contactId
@@ -21618,8 +20993,7 @@ public struct StartOutboundEmailContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -21643,8 +21017,7 @@ public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21668,8 +21041,7 @@ public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21686,8 +21058,7 @@ extension ConnectClientTypes {
         public init(
             awaitAnswerMachinePrompt: Swift.Bool = false,
             enableAnswerMachineDetection: Swift.Bool = false
-        )
-        {
+        ) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
@@ -21742,8 +21113,7 @@ public struct StartOutboundVoiceContactInput: Swift.Sendable {
         relatedContactId: Swift.String? = nil,
         sourcePhoneNumber: Swift.String? = nil,
         trafficType: ConnectClientTypes.TrafficType? = nil
-    )
-    {
+    ) {
         self.answerMachineDetectionConfig = answerMachineDetectionConfig
         self.attributes = attributes
         self.campaignId = campaignId
@@ -21772,8 +21142,7 @@ public struct StartOutboundVoiceContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -21792,8 +21161,7 @@ public struct StartScreenSharingInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactId = contactId
         self.instanceId = instanceId
@@ -21811,8 +21179,7 @@ public struct StartTaskContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -21850,8 +21217,7 @@ public struct StartWebRTCContactInput: Swift.Sendable {
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
         references: [Swift.String: ConnectClientTypes.Reference]? = nil,
         relatedContactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedCapabilities = allowedCapabilities
         self.attributes = attributes
         self.clientToken = clientToken
@@ -21881,8 +21247,7 @@ extension ConnectClientTypes {
         public init(
             attendeeId: Swift.String? = nil,
             joinToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.attendeeId = attendeeId
             self.joinToken = joinToken
         }
@@ -21915,8 +21280,7 @@ extension ConnectClientTypes {
             eventIngestionUrl: Swift.String? = nil,
             signalingUrl: Swift.String? = nil,
             turnControlUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
             self.eventIngestionUrl = eventIngestionUrl
@@ -21964,8 +21328,7 @@ extension ConnectClientTypes {
 
         public init(
             echoReduction: ConnectClientTypes.MeetingFeatureStatus? = nil
-        )
-        {
+        ) {
             self.echoReduction = echoReduction
         }
     }
@@ -21980,8 +21343,7 @@ extension ConnectClientTypes {
 
         public init(
             audio: ConnectClientTypes.AudioFeatures? = nil
-        )
-        {
+        ) {
             self.audio = audio
         }
     }
@@ -22005,8 +21367,7 @@ extension ConnectClientTypes {
             mediaRegion: Swift.String? = nil,
             meetingFeatures: ConnectClientTypes.MeetingFeaturesConfiguration? = nil,
             meetingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
@@ -22027,8 +21388,7 @@ extension ConnectClientTypes {
         public init(
             attendee: ConnectClientTypes.Attendee? = nil,
             meeting: ConnectClientTypes.Meeting? = nil
-        )
-        {
+        ) {
             self.attendee = attendee
             self.meeting = meeting
         }
@@ -22050,8 +21410,7 @@ public struct StartWebRTCContactOutput: Swift.Sendable {
         contactId: Swift.String? = nil,
         participantId: Swift.String? = nil,
         participantToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionData = connectionData
         self.contactId = contactId
         self.participantId = participantId
@@ -22078,8 +21437,7 @@ public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -22093,8 +21451,7 @@ extension ConnectClientTypes {
 
         public init(
             code: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
         }
     }
@@ -22114,8 +21471,7 @@ public struct StopContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         disconnectReason: ConnectClientTypes.DisconnectReason? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.disconnectReason = disconnectReason
         self.instanceId = instanceId
@@ -22145,8 +21501,7 @@ public struct StopContactRecordingInput: Swift.Sendable {
         contactRecordingType: ConnectClientTypes.ContactRecordingType? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.contactRecordingType = contactRecordingType
         self.initialContactId = initialContactId
@@ -22174,8 +21529,7 @@ public struct StopContactStreamingInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         streamingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.streamingId = streamingId
@@ -22196,8 +21550,7 @@ extension ConnectClientTypes {
 
         public init(
             value: ConnectClientTypes.EvaluationAnswerData? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -22220,8 +21573,7 @@ public struct SubmitContactEvaluationInput: Swift.Sendable {
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         notes: [Swift.String: ConnectClientTypes.EvaluationNote]? = nil
-    )
-    {
+    ) {
         self.answers = answers
         self.evaluationId = evaluationId
         self.instanceId = instanceId
@@ -22240,8 +21592,7 @@ public struct SubmitContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluationArn: Swift.String? = nil,
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationArn = evaluationArn
         self.evaluationId = evaluationId
     }
@@ -22265,8 +21616,7 @@ public struct SuspendContactRecordingInput: Swift.Sendable {
         contactRecordingType: ConnectClientTypes.ContactRecordingType? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.contactRecordingType = contactRecordingType
         self.initialContactId = initialContactId
@@ -22294,8 +21644,7 @@ public struct TagContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.tags = tags
@@ -22318,8 +21667,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -22349,8 +21697,7 @@ public struct TransferContactInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
         self.contactId = contactId
@@ -22369,8 +21716,7 @@ public struct TransferContactOutput: Swift.Sendable {
     public init(
         contactArn: Swift.String? = nil,
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.contactId = contactId
     }
@@ -22391,8 +21737,7 @@ public struct UntagContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.tagKeys = tagKeys
@@ -22415,8 +21760,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -22448,8 +21792,7 @@ public struct UpdateAgentStatusInput: Swift.Sendable {
         name: Swift.String? = nil,
         resetOrderNumber: Swift.Bool? = false,
         state: ConnectClientTypes.AgentStatusState? = nil
-    )
-    {
+    ) {
         self.agentStatusId = agentStatusId
         self.description = description
         self.displayOrder = displayOrder
@@ -22486,8 +21829,7 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         periodicSessionDuration: Swift.Int? = nil
-    )
-    {
+    ) {
         self.allowedIps = allowedIps
         self.authenticationProfileId = authenticationProfileId
         self.blockedIps = blockedIps
@@ -22507,8 +21849,7 @@ extension ConnectClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -22538,8 +21879,7 @@ public struct UpdateContactAttributesInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.initialContactId = initialContactId
         self.instanceId = instanceId
@@ -22568,8 +21908,7 @@ public struct UpdateContactEvaluationInput: Swift.Sendable {
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         notes: [Swift.String: ConnectClientTypes.EvaluationNote]? = nil
-    )
-    {
+    ) {
         self.answers = answers
         self.evaluationId = evaluationId
         self.instanceId = instanceId
@@ -22588,8 +21927,7 @@ public struct UpdateContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluationArn: Swift.String? = nil,
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationArn = evaluationArn
         self.evaluationId = evaluationId
     }
@@ -22610,8 +21948,7 @@ public struct UpdateContactFlowContentInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         content: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.content = content
         self.instanceId = instanceId
@@ -22643,8 +21980,7 @@ public struct UpdateContactFlowMetadataInput: Swift.Sendable {
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.contactFlowState = contactFlowState
         self.description = description
@@ -22673,8 +22009,7 @@ public struct UpdateContactFlowModuleContentInput: Swift.Sendable {
         contactFlowModuleId: Swift.String? = nil,
         content: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.content = content
         self.instanceId = instanceId
@@ -22706,8 +22041,7 @@ public struct UpdateContactFlowModuleMetadataInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         state: ConnectClientTypes.ContactFlowModuleState? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.description = description
         self.instanceId = instanceId
@@ -22738,8 +22072,7 @@ public struct UpdateContactFlowNameInput: Swift.Sendable {
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.description = description
         self.instanceId = instanceId
@@ -22761,8 +22094,7 @@ extension ConnectClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -22788,8 +22120,7 @@ public struct UpdateContactScheduleInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         scheduledTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.scheduledTime = scheduledTime
@@ -22821,8 +22152,7 @@ public struct UpdateEmailAddressMetadataInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         emailAddressId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
@@ -22845,8 +22175,7 @@ public struct UpdateEmailAddressMetadataOutput: Swift.Sendable {
     public init(
         emailAddressArn: Swift.String? = nil,
         emailAddressId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressArn = emailAddressArn
         self.emailAddressId = emailAddressId
     }
@@ -22867,8 +22196,7 @@ public struct UpdateEvaluationFormOutput: Swift.Sendable {
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int = 0
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
@@ -22898,8 +22226,7 @@ public struct UpdateHoursOfOperationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         timeZone: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.description = description
         self.hoursOfOperationId = hoursOfOperationId
@@ -22927,8 +22254,7 @@ public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -22963,8 +22289,7 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
         hoursOfOperationOverrideId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.description = description
         self.effectiveFrom = effectiveFrom
@@ -22991,8 +22316,7 @@ public struct UpdateInstanceAttributeInput: Swift.Sendable {
         attributeType: ConnectClientTypes.InstanceAttributeType? = nil,
         instanceId: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeType = attributeType
         self.instanceId = instanceId
         self.value = value
@@ -23018,8 +22342,7 @@ public struct UpdateInstanceStorageConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil,
         storageConfig: ConnectClientTypes.InstanceStorageConfig? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.instanceId = instanceId
         self.resourceType = resourceType
@@ -23047,8 +22370,7 @@ public struct UpdateParticipantAuthenticationInput: Swift.Sendable {
         errorDescription: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         state: Swift.String? = nil
-    )
-    {
+    ) {
         self.code = code
         self.error = error
         self.errorDescription = errorDescription
@@ -23181,8 +22503,7 @@ extension ConnectClientTypes {
             participantRole: ConnectClientTypes.TimerEligibleParticipantRoles? = nil,
             timerType: ConnectClientTypes.ParticipantTimerType? = nil,
             timerValue: ConnectClientTypes.ParticipantTimerValue? = nil
-        )
-        {
+        ) {
             self.participantRole = participantRole
             self.timerType = timerType
             self.timerValue = timerValue
@@ -23200,8 +22521,7 @@ extension ConnectClientTypes {
 
         public init(
             participantTimerConfigList: [ConnectClientTypes.ParticipantTimerConfiguration]? = nil
-        )
-        {
+        ) {
             self.participantTimerConfigList = participantTimerConfigList
         }
     }
@@ -23232,8 +22552,7 @@ public struct UpdateParticipantRoleConfigInput: Swift.Sendable {
         channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelConfiguration = channelConfiguration
         self.contactId = contactId
         self.instanceId = instanceId
@@ -23261,8 +22580,7 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
@@ -23279,8 +22597,7 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
     public init(
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
     }
@@ -23299,8 +22616,7 @@ public struct UpdatePhoneNumberMetadataInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         phoneNumberDescription: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.phoneNumberDescription = phoneNumberDescription
         self.phoneNumberId = phoneNumberId
@@ -23321,8 +22637,7 @@ public struct UpdatePredefinedAttributeInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         values: ConnectClientTypes.PredefinedAttributeValues? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.values = values
@@ -23349,8 +22664,7 @@ public struct UpdatePromptInput: Swift.Sendable {
         name: Swift.String? = nil,
         promptId: Swift.String? = nil,
         s3Uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -23368,8 +22682,7 @@ public struct UpdatePromptOutput: Swift.Sendable {
     public init(
         promptARN: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.promptARN = promptARN
         self.promptId = promptId
     }
@@ -23390,8 +22703,7 @@ public struct UpdateQueueHoursOfOperationInput: Swift.Sendable {
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
         self.queueId = queueId
@@ -23412,8 +22724,7 @@ public struct UpdateQueueMaxContactsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxContacts: Swift.Int? = 0,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxContacts = maxContacts
         self.queueId = queueId
@@ -23437,8 +22748,7 @@ public struct UpdateQueueNameInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -23461,8 +22771,7 @@ public struct UpdateQueueOutboundCallerConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.outboundCallerConfig = outboundCallerConfig
         self.queueId = queueId
@@ -23484,8 +22793,7 @@ public struct UpdateQueueOutboundEmailConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.outboundEmailConfig = outboundEmailConfig
         self.queueId = queueId
@@ -23507,8 +22815,7 @@ public struct UpdateQueueStatusInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         status: ConnectClientTypes.QueueStatus? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
         self.status = status
@@ -23530,8 +22837,7 @@ public struct UpdateQuickConnectConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         quickConnectConfig: ConnectClientTypes.QuickConnectConfig? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.quickConnectConfig = quickConnectConfig
         self.quickConnectId = quickConnectId
@@ -23555,8 +22861,7 @@ public struct UpdateQuickConnectNameInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -23579,8 +22884,7 @@ public struct UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Sendable {
         agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer? = nil,
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentAvailabilityTimer = agentAvailabilityTimer
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
@@ -23602,8 +22906,7 @@ public struct UpdateRoutingProfileConcurrencyInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.mediaConcurrencies = mediaConcurrencies
         self.routingProfileId = routingProfileId
@@ -23625,8 +22928,7 @@ public struct UpdateRoutingProfileDefaultOutboundQueueInput: Swift.Sendable {
         defaultOutboundQueueId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultOutboundQueueId = defaultOutboundQueueId
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
@@ -23650,8 +22952,7 @@ public struct UpdateRoutingProfileNameInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -23674,8 +22975,7 @@ public struct UpdateRoutingProfileQueuesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueConfigs = queueConfigs
         self.routingProfileId = routingProfileId
@@ -23709,8 +23009,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.function = function
         self.instanceId = instanceId
@@ -23752,8 +23051,7 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
         permissions: [Swift.String]? = nil,
         securityProfileId: Swift.String? = nil,
         tagRestrictedResources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.applications = applications
@@ -23801,8 +23099,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil,
         taskTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.constraints = constraints
         self.contactFlowId = contactFlowId
         self.defaults = defaults
@@ -23858,8 +23155,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
         name: Swift.String? = nil,
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.constraints = constraints
         self.contactFlowId = contactFlowId
@@ -23892,8 +23188,7 @@ public struct UpdateTrafficDistributionInput: Swift.Sendable {
         id: Swift.String? = nil,
         signInConfig: ConnectClientTypes.SignInConfig? = nil,
         telephonyConfig: ConnectClientTypes.TelephonyConfig? = nil
-    )
-    {
+    ) {
         self.agentConfig = agentConfig
         self.id = id
         self.signInConfig = signInConfig
@@ -23920,8 +23215,7 @@ public struct UpdateUserHierarchyInput: Swift.Sendable {
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
         self.userId = userId
@@ -23943,8 +23237,7 @@ public struct UpdateUserHierarchyGroupNameInput: Swift.Sendable {
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
         self.name = name
@@ -23961,8 +23254,7 @@ extension ConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -23989,8 +23281,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyLevelUpdate? = nil,
             levelThree: ConnectClientTypes.HierarchyLevelUpdate? = nil,
             levelTwo: ConnectClientTypes.HierarchyLevelUpdate? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -24011,8 +23302,7 @@ public struct UpdateUserHierarchyStructureInput: Swift.Sendable {
     public init(
         hierarchyStructure: ConnectClientTypes.HierarchyStructureUpdate? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyStructure = hierarchyStructure
         self.instanceId = instanceId
     }
@@ -24033,8 +23323,7 @@ public struct UpdateUserIdentityInfoInput: Swift.Sendable {
         identityInfo: ConnectClientTypes.UserIdentityInfo? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityInfo = identityInfo
         self.instanceId = instanceId
         self.userId = userId
@@ -24056,8 +23345,7 @@ public struct UpdateUserPhoneConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         phoneConfig: ConnectClientTypes.UserPhoneConfig? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.phoneConfig = phoneConfig
         self.userId = userId
@@ -24079,8 +23367,7 @@ public struct UpdateUserProficienciesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil,
         userProficiencies: [ConnectClientTypes.UserProficiency]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
         self.userProficiencies = userProficiencies
@@ -24102,8 +23389,7 @@ public struct UpdateUserRoutingProfileInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
         self.userId = userId
@@ -24125,8 +23411,7 @@ public struct UpdateUserSecurityProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         securityProfileIds: [Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.securityProfileIds = securityProfileIds
         self.userId = userId
@@ -24152,8 +23437,7 @@ public struct UpdateViewContentInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         status: ConnectClientTypes.ViewStatus? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.instanceId = instanceId
         self.status = status
@@ -24167,8 +23451,7 @@ public struct UpdateViewContentOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -24190,8 +23473,7 @@ public struct UpdateViewMetadataInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -24224,8 +23506,7 @@ extension ConnectClientTypes {
             valueInteger: Swift.Int? = nil,
             valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
             valueString: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueInteger = valueInteger
             self.valueMap = valueMap
             self.valueString = valueString
@@ -24269,8 +23550,7 @@ extension ConnectClientTypes {
             refId: Swift.String? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.instructions = instructions
             self.items = items
             self.refId = refId
@@ -24295,8 +23575,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.AgentStatusSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.AgentStatusSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24325,8 +23604,7 @@ extension ConnectClientTypes {
             stateCondition: ConnectClientTypes.ContactFlowModuleState? = nil,
             statusCondition: ConnectClientTypes.ContactFlowModuleStatus? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stateCondition = stateCondition
@@ -24360,8 +23638,7 @@ extension ConnectClientTypes {
             statusCondition: ConnectClientTypes.ContactFlowStatus? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil,
             typeCondition: ConnectClientTypes.ContactFlowType? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stateCondition = stateCondition
@@ -24387,8 +23664,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.EmailAddressSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.EmailAddressSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24455,8 +23731,7 @@ extension ConnectClientTypes {
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.description = description
@@ -24507,8 +23782,7 @@ extension ConnectClientTypes {
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
@@ -24538,8 +23812,7 @@ extension ConnectClientTypes {
             attributeCondition: ConnectClientTypes.AttributeCondition? = nil,
             notAttributeCondition: ConnectClientTypes.AttributeCondition? = nil,
             orExpression: [ConnectClientTypes.Expression]? = nil
-        )
-        {
+        ) {
             self.andExpression = andExpression
             self.attributeCondition = attributeCondition
             self.notAttributeCondition = notAttributeCondition
@@ -24566,8 +23839,7 @@ extension ConnectClientTypes {
             dateCondition: ConnectClientTypes.DateCondition? = nil,
             orConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.dateCondition = dateCondition
             self.orConditions = orConditions
@@ -24591,8 +23863,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24615,8 +23886,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24639,8 +23909,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.PromptSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.PromptSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24666,8 +23935,7 @@ extension ConnectClientTypes {
             orConditions: [ConnectClientTypes.QueueSearchCriteria]? = nil,
             queueTypeCondition: ConnectClientTypes.SearchableQueueType? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.queueTypeCondition = queueTypeCondition
@@ -24691,8 +23959,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.QuickConnectSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.QuickConnectSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24715,8 +23982,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24739,8 +24005,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24763,8 +24028,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24793,8 +24057,7 @@ extension ConnectClientTypes {
             listCondition: ConnectClientTypes.ListCondition? = nil,
             orConditions: [ConnectClientTypes.UserSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.listCondition = listCondition
@@ -24849,8 +24112,7 @@ public struct CreateContactInput: Swift.Sendable {
         relatedContactId: Swift.String? = nil,
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         userInfo: ConnectClientTypes.UserInfo? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.channel = channel
         self.clientToken = clientToken
@@ -24896,8 +24158,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.instanceId = instanceId
@@ -24949,8 +24210,7 @@ public struct StartChatContactInput: Swift.Sendable {
         relatedContactId: Swift.String? = nil,
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         supportedMessagingContentTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.chatDurationInMinutes = chatDurationInMinutes
         self.clientToken = clientToken
@@ -25020,8 +24280,7 @@ public struct StartEmailContactInput: Swift.Sendable {
         references: [Swift.String: ConnectClientTypes.Reference]? = nil,
         relatedContactId: Swift.String? = nil,
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
-    )
-    {
+    ) {
         self.additionalRecipients = additionalRecipients
         self.attachments = attachments
         self.attributes = attributes
@@ -25111,8 +24370,7 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         sourceEndpoint: ConnectClientTypes.Endpoint? = nil,
         supportedMessagingContentTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.chatDurationInMinutes = chatDurationInMinutes
         self.clientToken = clientToken
@@ -25172,8 +24430,7 @@ public struct StartTaskContactInput: Swift.Sendable {
         scheduledTime: Foundation.Date? = nil,
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         taskTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
@@ -25230,8 +24487,7 @@ public struct UpdateContactInput: Swift.Sendable {
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         systemEndpoint: ConnectClientTypes.Endpoint? = nil,
         userInfo: ConnectClientTypes.UserInfo? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.customerEndpoint = customerEndpoint
         self.description = description
@@ -25285,8 +24541,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.createNewVersion = createNewVersion
         self.description = description
@@ -25310,8 +24565,7 @@ public struct DescribeContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluation: ConnectClientTypes.Evaluation? = nil,
         evaluationForm: ConnectClientTypes.EvaluationFormContent? = nil
-    )
-    {
+    ) {
         self.evaluation = evaluation
         self.evaluationForm = evaluationForm
     }
@@ -25324,8 +24578,7 @@ public struct DescribeEvaluationFormOutput: Swift.Sendable {
 
     public init(
         evaluationForm: ConnectClientTypes.EvaluationForm? = nil
-    )
-    {
+    ) {
         self.evaluationForm = evaluationForm
     }
 }
@@ -25342,8 +24595,7 @@ extension ConnectClientTypes {
         public init(
             expiry: ConnectClientTypes.RoutingCriteriaInputStepExpiry? = nil,
             expression: ConnectClientTypes.Expression? = nil
-        )
-        {
+        ) {
             self.expiry = expiry
             self.expression = expression
         }
@@ -25365,8 +24617,7 @@ extension ConnectClientTypes {
             expiry: ConnectClientTypes.Expiry? = nil,
             expression: ConnectClientTypes.Expression? = nil,
             status: ConnectClientTypes.RoutingCriteriaStepStatus? = nil
-        )
-        {
+        ) {
             self.expiry = expiry
             self.expression = expression
             self.status = status
@@ -25393,8 +24644,7 @@ public struct SearchAgentStatusesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.AgentStatusSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.AgentStatusSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25422,8 +24672,7 @@ public struct SearchContactFlowModulesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.ContactFlowModuleSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.ContactFlowModuleSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25451,8 +24700,7 @@ public struct SearchContactFlowsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.ContactFlowSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.ContactFlowSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25480,8 +24728,7 @@ public struct SearchEmailAddressesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.EmailAddressSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.EmailAddressSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25509,8 +24756,7 @@ public struct SearchHoursOfOperationOverridesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25538,8 +24784,7 @@ public struct SearchHoursOfOperationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.HoursOfOperationSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25564,8 +24809,7 @@ public struct SearchPredefinedAttributesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.PredefinedAttributeSearchCriteria? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25592,8 +24836,7 @@ public struct SearchPromptsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.PromptSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.PromptSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25621,8 +24864,7 @@ public struct SearchQueuesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.QueueSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.QueueSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25650,8 +24892,7 @@ public struct SearchQuickConnectsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.QuickConnectSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.QuickConnectSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25679,8 +24920,7 @@ public struct SearchRoutingProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.RoutingProfileSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.RoutingProfileSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25708,8 +24948,7 @@ public struct SearchSecurityProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.SecurityProfileSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.SecurityProfilesSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25737,8 +24976,7 @@ public struct SearchUserHierarchyGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.UserHierarchyGroupSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.UserHierarchyGroupSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25766,8 +25004,7 @@ public struct SearchUsersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.UserSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.UserSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -25791,8 +25028,7 @@ extension ConnectClientTypes {
             activationTimestamp: Foundation.Date? = nil,
             index: Swift.Int? = nil,
             steps: [ConnectClientTypes.Step]? = nil
-        )
-        {
+        ) {
             self.activationTimestamp = activationTimestamp
             self.index = index
             self.steps = steps
@@ -25809,8 +25045,7 @@ extension ConnectClientTypes {
 
         public init(
             steps: [ConnectClientTypes.RoutingCriteriaInputStep]? = nil
-        )
-        {
+        ) {
             self.steps = steps
         }
     }
@@ -25836,8 +25071,7 @@ public struct UpdateContactRoutingDataInput: Swift.Sendable {
         queuePriority: Swift.Int? = nil,
         queueTimeAdjustmentSeconds: Swift.Int? = nil,
         routingCriteria: ConnectClientTypes.RoutingCriteriaInput? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.queuePriority = queuePriority
@@ -25963,8 +25197,7 @@ extension ConnectClientTypes {
             totalPauseCount: Swift.Int? = nil,
             totalPauseDurationInSeconds: Swift.Int? = nil,
             wisdomInfo: ConnectClientTypes.WisdomInfo? = nil
-        )
-        {
+        ) {
             self.additionalEmailRecipients = additionalEmailRecipients
             self.agentInfo = agentInfo
             self.answeringMachineDetectionStatus = answeringMachineDetectionStatus
@@ -26017,8 +25250,7 @@ public struct DescribeContactOutput: Swift.Sendable {
 
     public init(
         contact: ConnectClientTypes.Contact? = nil
-    )
-    {
+    ) {
         self.contact = contact
     }
 }
@@ -26655,6 +25887,22 @@ extension DeleteContactFlowModuleInput {
             return nil
         }
         return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteContactFlowVersionInput {
+
+    static func urlPathProvider(_ value: DeleteContactFlowVersionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowId = value.contactFlowId else {
+            return nil
+        }
+        guard let contactFlowVersion = value.contactFlowVersion else {
+            return nil
+        }
+        return "/contact-flows/\(instanceId.urlPercentEncoding())/\(contactFlowId.urlPercentEncoding())/version/\(contactFlowVersion)"
     }
 }
 
@@ -30449,6 +29697,7 @@ extension CreateContactFlowVersionInput {
 
     static func write(value: CreateContactFlowVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ContactFlowVersion"].write(value.contactFlowVersion)
         try writer["Description"].write(value.description)
         try writer["FlowContentSha256"].write(value.flowContentSha256)
         try writer["LastModifiedRegion"].write(value.lastModifiedRegion)
@@ -32584,6 +31833,13 @@ extension DeleteContactFlowModuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowModuleOutput {
         return DeleteContactFlowModuleOutput()
+    }
+}
+
+extension DeleteContactFlowVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowVersionOutput {
+        return DeleteContactFlowVersionOutput()
     }
 }
 
@@ -36050,6 +35306,25 @@ enum DeleteContactFlowOutputError {
 }
 
 enum DeleteContactFlowModuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteContactFlowVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

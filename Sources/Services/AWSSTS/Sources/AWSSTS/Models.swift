@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
@@ -30,9 +31,9 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct ClientRuntime.AuthSchemeMiddleware
@@ -62,8 +63,7 @@ extension STSClientTypes {
         public init(
             arn: Swift.String? = nil,
             assumedRoleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assumedRoleId = assumedRoleId
         }
@@ -88,8 +88,7 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +111,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -136,8 +134,7 @@ public struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -160,8 +157,7 @@ public struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -175,8 +171,7 @@ extension STSClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -194,8 +189,7 @@ extension STSClientTypes {
         public init(
             contextAssertion: Swift.String? = nil,
             providerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.contextAssertion = contextAssertion
             self.providerArn = providerArn
         }
@@ -216,8 +210,7 @@ extension STSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -243,7 +236,7 @@ public struct AssumeRoleInput: Swift.Sendable {
     public var roleSessionName: Swift.String?
     /// The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     public var serialNumber: Swift.String?
-    /// The source identity specified by the principal that is calling the AssumeRole operation. The source identity value persists across [chained role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining) sessions. You can require users to specify a source identity when they assume a role. You do this by using the [sts:SourceIdentity](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceidentity) condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-. You cannot use a value that begins with the text aws:. This prefix is reserved for Amazon Web Services internal use.
+    /// The source identity specified by the principal that is calling the AssumeRole operation. The source identity value persists across [chained role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining) sessions. You can require users to specify a source identity when they assume a role. You do this by using the [sts:SourceIdentity](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceidentity) condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@-. You cannot use a value that begins with the text aws:. This prefix is reserved for Amazon Web Services internal use.
     public var sourceIdentity: Swift.String?
     /// A list of session tags that you want to pass. Each session tag consists of a key name and an associated value. For more information about session tags, see [Tagging Amazon Web Services STS Sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128 characters, and the values can’t exceed 256 characters. For these and additional limits, see [IAM and STS Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length) in the IAM User Guide. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. You can pass a session tag with the same key as a tag that is already attached to the role. When you do, session tags override a role tag with the same key. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the role has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the role tag. Additionally, if you used temporary credentials to perform this operation, the new session inherits any transitive session tags from the calling session. If you pass a session tag with the same key as an inherited tag, the operation fails. To view the inherited tags for a session, see the CloudTrail logs. For more information, see [Viewing Session Tags in CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_ctlogs) in the IAM User Guide.
     public var tags: [STSClientTypes.Tag]?
@@ -265,8 +258,7 @@ public struct AssumeRoleInput: Swift.Sendable {
         tags: [STSClientTypes.Tag]? = nil,
         tokenCode: Swift.String? = nil,
         transitiveTagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.externalId = externalId
         self.policy = policy
@@ -304,8 +296,7 @@ extension STSClientTypes {
             expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -335,8 +326,7 @@ public struct AssumeRoleOutput: Swift.Sendable {
         credentials: STSClientTypes.Credentials? = nil,
         packedPolicySize: Swift.Int? = nil,
         sourceIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.assumedRoleUser = assumedRoleUser
         self.credentials = credentials
         self.packedPolicySize = packedPolicySize
@@ -362,8 +352,7 @@ public struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -386,8 +375,7 @@ public struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -416,8 +404,7 @@ public struct AssumeRoleWithSAMLInput: Swift.Sendable {
         principalArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         samlAssertion: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.policy = policy
         self.policyArns = policyArns
@@ -472,8 +459,7 @@ public struct AssumeRoleWithSAMLOutput: Swift.Sendable {
         sourceIdentity: Swift.String? = nil,
         subject: Swift.String? = nil,
         subjectType: Swift.String? = nil
-    )
-    {
+    ) {
         self.assumedRoleUser = assumedRoleUser
         self.audience = audience
         self.credentials = credentials
@@ -504,8 +490,7 @@ public struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -525,7 +510,7 @@ public struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
     /// An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This session name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element. For security purposes, administrators can view this field in [CloudTrail logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds) to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more information, see [sts:RoleSessionName](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname). The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     /// This member is required.
     public var roleSessionName: Swift.String?
-    /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call. Timestamps in the token must be formatted as either an integer or a long integer. Only tokens with RSA algorithms (RS256) are supported.
+    /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call. Timestamps in the token must be formatted as either an integer or a long integer. Tokens must be signed using either RSA keys (RS256, RS384, or RS512) or ECDSA keys (ES256, ES384, or ES512).
     /// This member is required.
     public var webIdentityToken: Swift.String?
 
@@ -537,8 +522,7 @@ public struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         roleSessionName: Swift.String? = nil,
         webIdentityToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.policy = policy
         self.policyArns = policyArns
@@ -579,8 +563,7 @@ public struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
         provider: Swift.String? = nil,
         sourceIdentity: Swift.String? = nil,
         subjectFromWebIdentityToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assumedRoleUser = assumedRoleUser
         self.audience = audience
         self.credentials = credentials
@@ -597,7 +580,7 @@ public struct AssumeRootInput: Swift.Sendable {
     /// The member account principal ARN or account ID.
     /// This member is required.
     public var targetPrincipal: Swift.String?
-    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You can use one of following Amazon Web Services managed policies to scope root session actions. You can add additional customer managed policies to further limit the permissions for the root session.
+    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You can use one of following Amazon Web Services managed policies to scope root session actions.
     ///
     /// * [IAMAuditRootUserCredentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMAuditRootUserCredentials)
     ///
@@ -615,8 +598,7 @@ public struct AssumeRootInput: Swift.Sendable {
         durationSeconds: Swift.Int? = nil,
         targetPrincipal: Swift.String? = nil,
         taskPolicyArn: STSClientTypes.PolicyDescriptorType? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.targetPrincipal = targetPrincipal
         self.taskPolicyArn = taskPolicyArn
@@ -632,8 +614,7 @@ public struct AssumeRootOutput: Swift.Sendable {
     public init(
         credentials: STSClientTypes.Credentials? = nil,
         sourceIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.sourceIdentity = sourceIdentity
     }
@@ -657,8 +638,7 @@ public struct InvalidAuthorizationMessageException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -670,8 +650,7 @@ public struct DecodeAuthorizationMessageInput: Swift.Sendable {
 
     public init(
         encodedMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.encodedMessage = encodedMessage
     }
 }
@@ -683,8 +662,7 @@ public struct DecodeAuthorizationMessageOutput: Swift.Sendable {
 
     public init(
         decodedMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.decodedMessage = decodedMessage
     }
 }
@@ -696,8 +674,7 @@ public struct GetAccessKeyInfoInput: Swift.Sendable {
 
     public init(
         accessKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
     }
 }
@@ -708,8 +685,7 @@ public struct GetAccessKeyInfoOutput: Swift.Sendable {
 
     public init(
         account: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
     }
 }
@@ -732,8 +708,7 @@ public struct GetCallerIdentityOutput: Swift.Sendable {
         account: Swift.String? = nil,
         arn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.arn = arn
         self.userId = userId
@@ -759,8 +734,7 @@ public struct GetFederationTokenInput: Swift.Sendable {
         policy: Swift.String? = nil,
         policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
         tags: [STSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.name = name
         self.policy = policy
@@ -783,8 +757,7 @@ extension STSClientTypes {
         public init(
             arn: Swift.String? = nil,
             federatedUserId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.federatedUserId = federatedUserId
         }
@@ -804,8 +777,7 @@ public struct GetFederationTokenOutput: Swift.Sendable {
         credentials: STSClientTypes.Credentials? = nil,
         federatedUser: STSClientTypes.FederatedUser? = nil,
         packedPolicySize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.federatedUser = federatedUser
         self.packedPolicySize = packedPolicySize
@@ -824,8 +796,7 @@ public struct GetSessionTokenInput: Swift.Sendable {
         durationSeconds: Swift.Int? = nil,
         serialNumber: Swift.String? = nil,
         tokenCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.serialNumber = serialNumber
         self.tokenCode = tokenCode
@@ -839,8 +810,7 @@ public struct GetSessionTokenOutput: Swift.Sendable {
 
     public init(
         credentials: STSClientTypes.Credentials? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
     }
 }
@@ -1488,6 +1458,8 @@ extension GetCallerIdentityInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1506,14 +1478,17 @@ extension GetCallerIdentityInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetCallerIdentityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(serviceID: serviceName, version: STSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCallerIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetCallerIdentityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(contentType: "application/x-www-form-urlencoded"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallerIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(serviceID: serviceName, version: STSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCallerIdentity")

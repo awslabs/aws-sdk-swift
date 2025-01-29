@@ -148,8 +148,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil,
         subErrorCode: DetectiveClientTypes.ErrorCode? = nil,
         subErrorCodeReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.errorCodeReason = errorCodeReason
         self.properties.message = message
@@ -176,8 +175,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -200,8 +198,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -224,8 +221,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -254,8 +250,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         errorCode: DetectiveClientTypes.ErrorCode? = nil,
         errorCodeReason: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.errorCodeReason = errorCodeReason
         self.properties.message = message
@@ -269,8 +264,7 @@ public struct AcceptInvitationInput: Swift.Sendable {
 
     public init(
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
     }
 }
@@ -289,8 +283,7 @@ extension DetectiveClientTypes {
         public init(
             accountId: Swift.String? = nil,
             emailAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.emailAddress = emailAddress
         }
@@ -317,8 +310,7 @@ extension DetectiveClientTypes {
             accountId: Swift.String? = nil,
             delegationTime: Foundation.Date? = nil,
             graphArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.delegationTime = delegationTime
             self.graphArn = graphArn
@@ -337,8 +329,7 @@ public struct BatchGetGraphMemberDatasourcesInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.graphArn = graphArn
     }
@@ -417,8 +408,7 @@ extension DetectiveClientTypes {
 
         public init(
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
         }
     }
@@ -439,8 +429,7 @@ extension DetectiveClientTypes {
             accountId: Swift.String? = nil,
             datasourcePackageIngestHistory: [Swift.String: [Swift.String: DetectiveClientTypes.TimestampForCollection]]? = nil,
             graphArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.datasourcePackageIngestHistory = datasourcePackageIngestHistory
             self.graphArn = graphArn
@@ -460,8 +449,7 @@ extension DetectiveClientTypes {
         public init(
             accountId: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.reason = reason
         }
@@ -477,8 +465,7 @@ public struct BatchGetGraphMemberDatasourcesOutput: Swift.Sendable {
     public init(
         memberDatasources: [DetectiveClientTypes.MembershipDatasources]? = nil,
         unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.memberDatasources = memberDatasources
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -491,8 +478,7 @@ public struct BatchGetMembershipDatasourcesInput: Swift.Sendable {
 
     public init(
         graphArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.graphArns = graphArns
     }
 }
@@ -509,8 +495,7 @@ extension DetectiveClientTypes {
         public init(
             graphArn: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.graphArn = graphArn
             self.reason = reason
         }
@@ -526,8 +511,7 @@ public struct BatchGetMembershipDatasourcesOutput: Swift.Sendable {
     public init(
         membershipDatasources: [DetectiveClientTypes.MembershipDatasources]? = nil,
         unprocessedGraphs: [DetectiveClientTypes.UnprocessedGraph]? = nil
-    )
-    {
+    ) {
         self.membershipDatasources = membershipDatasources
         self.unprocessedGraphs = unprocessedGraphs
     }
@@ -558,8 +542,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         resources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resources = resources
     }
@@ -571,8 +554,7 @@ public struct CreateGraphInput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -583,8 +565,7 @@ public struct CreateGraphOutput: Swift.Sendable {
 
     public init(
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
     }
 }
@@ -606,8 +587,7 @@ public struct CreateMembersInput: Swift.Sendable {
         disableEmailNotification: Swift.Bool? = false,
         graphArn: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.disableEmailNotification = disableEmailNotification
         self.graphArn = graphArn
@@ -728,8 +708,7 @@ extension DetectiveClientTypes {
         public init(
             volumeUsageInBytes: Swift.Int? = nil,
             volumeUsageUpdateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.volumeUsageInBytes = volumeUsageInBytes
             self.volumeUsageUpdateTime = volumeUsageUpdateTime
         }
@@ -812,8 +791,7 @@ extension DetectiveClientTypes {
             volumeUsageByDatasourcePackage: [Swift.String: DetectiveClientTypes.DatasourcePackageUsageInfo]? = nil,
             volumeUsageInBytes: Swift.Int? = nil,
             volumeUsageUpdatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.administratorId = administratorId
             self.datasourcePackageIngestStates = datasourcePackageIngestStates
@@ -848,8 +826,7 @@ public struct CreateMembersOutput: Swift.Sendable {
     public init(
         members: [DetectiveClientTypes.MemberDetail]? = nil,
         unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.members = members
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -862,8 +839,7 @@ public struct DeleteGraphInput: Swift.Sendable {
 
     public init(
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
     }
 }
@@ -879,8 +855,7 @@ public struct DeleteMembersInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.graphArn = graphArn
     }
@@ -895,8 +870,7 @@ public struct DeleteMembersOutput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -920,8 +894,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -933,8 +906,7 @@ public struct DescribeOrganizationConfigurationInput: Swift.Sendable {
 
     public init(
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
     }
 }
@@ -945,8 +917,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Sendable {
 
     public init(
         autoEnable: Swift.Bool = false
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
     }
 }
@@ -958,8 +929,7 @@ public struct DisassociateMembershipInput: Swift.Sendable {
 
     public init(
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
     }
 }
@@ -971,8 +941,7 @@ public struct EnableOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -988,8 +957,7 @@ public struct GetInvestigationInput: Swift.Sendable {
     public init(
         graphArn: Swift.String? = nil,
         investigationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
         self.investigationId = investigationId
     }
@@ -1156,8 +1124,7 @@ public struct GetInvestigationOutput: Swift.Sendable {
         severity: DetectiveClientTypes.Severity? = nil,
         state: DetectiveClientTypes.State? = nil,
         status: DetectiveClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.entityArn = entityArn
         self.entityType = entityType
@@ -1182,8 +1149,7 @@ public struct GetMembersInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.graphArn = graphArn
     }
@@ -1198,8 +1164,7 @@ public struct GetMembersOutput: Swift.Sendable {
     public init(
         memberDetails: [DetectiveClientTypes.MemberDetail]? = nil,
         unprocessedAccounts: [DetectiveClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.memberDetails = memberDetails
         self.unprocessedAccounts = unprocessedAccounts
     }
@@ -1218,8 +1183,7 @@ public struct ListDatasourcePackagesInput: Swift.Sendable {
         graphArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1238,8 +1202,7 @@ extension DetectiveClientTypes {
         public init(
             datasourcePackageIngestState: DetectiveClientTypes.DatasourcePackageIngestState? = nil,
             lastIngestStateChange: [Swift.String: DetectiveClientTypes.TimestampForCollection]? = nil
-        )
-        {
+        ) {
             self.datasourcePackageIngestState = datasourcePackageIngestState
             self.lastIngestStateChange = lastIngestStateChange
         }
@@ -1255,8 +1218,7 @@ public struct ListDatasourcePackagesOutput: Swift.Sendable {
     public init(
         datasourcePackages: [Swift.String: DetectiveClientTypes.DatasourcePackageIngestDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasourcePackages = datasourcePackages
         self.nextToken = nextToken
     }
@@ -1271,8 +1233,7 @@ public struct ListGraphsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1290,8 +1251,7 @@ extension DetectiveClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
         }
@@ -1307,8 +1267,7 @@ public struct ListGraphsOutput: Swift.Sendable {
     public init(
         graphList: [DetectiveClientTypes.Graph]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphList = graphList
         self.nextToken = nextToken
     }
@@ -1365,7 +1324,7 @@ public struct ListIndicatorsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
-    /// For the list of indicators of compromise that are generated by Detective investigations, see [Detective investigations](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigations.html).
+    /// For the list of indicators of compromise that are generated by Detective investigations, see [Detective investigations](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigation-about.html).
     public var indicatorType: DetectiveClientTypes.IndicatorType?
     /// The investigation ID of the investigation report.
     /// This member is required.
@@ -1381,8 +1340,7 @@ public struct ListIndicatorsInput: Swift.Sendable {
         investigationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
         self.indicatorType = indicatorType
         self.investigationId = investigationId
@@ -1429,8 +1387,7 @@ extension DetectiveClientTypes {
         public init(
             ipAddress: Swift.String? = nil,
             reason: DetectiveClientTypes.Reason? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.reason = reason
         }
@@ -1458,8 +1415,7 @@ extension DetectiveClientTypes {
             hourlyTimeDelta: Swift.Int? = nil,
             startingIpAddress: Swift.String? = nil,
             startingLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.endingIpAddress = endingIpAddress
             self.endingLocation = endingLocation
             self.hourlyTimeDelta = hourlyTimeDelta
@@ -1481,8 +1437,7 @@ extension DetectiveClientTypes {
         public init(
             aso: Swift.String? = nil,
             isNewForEntireAccount: Swift.Bool = false
-        )
-        {
+        ) {
             self.aso = aso
             self.isNewForEntireAccount = isNewForEntireAccount
         }
@@ -1504,8 +1459,7 @@ extension DetectiveClientTypes {
             ipAddress: Swift.String? = nil,
             isNewForEntireAccount: Swift.Bool = false,
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.isNewForEntireAccount = isNewForEntireAccount
             self.location = location
@@ -1525,8 +1479,7 @@ extension DetectiveClientTypes {
         public init(
             isNewForEntireAccount: Swift.Bool = false,
             userAgent: Swift.String? = nil
-        )
-        {
+        ) {
             self.isNewForEntireAccount = isNewForEntireAccount
             self.userAgent = userAgent
         }
@@ -1548,8 +1501,7 @@ extension DetectiveClientTypes {
             arn: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.ipAddress = ipAddress
             self.type = type
@@ -1566,8 +1518,7 @@ extension DetectiveClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -1600,8 +1551,7 @@ extension DetectiveClientTypes {
             procedure: Swift.String? = nil,
             tactic: Swift.String? = nil,
             technique: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiFailureCount = apiFailureCount
             self.apiName = apiName
             self.apiSuccessCount = apiSuccessCount
@@ -1615,7 +1565,7 @@ extension DetectiveClientTypes {
 
 extension DetectiveClientTypes {
 
-    /// Details about the indicators of compromise which are used to determine if a resource is involved in a security incident. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. For the list of indicators of compromise that are generated by Detective investigations, see [Detective investigations](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigations.html).
+    /// Details about the indicators of compromise which are used to determine if a resource is involved in a security incident. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. For the list of indicators of compromise that are generated by Detective investigations, see [Detective investigations](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigation-about.html).
     public struct IndicatorDetail: Swift.Sendable {
         /// Suspicious IP addresses that are flagged, which indicates critical or severe threats based on threat intelligence by Detective. This indicator is derived from Amazon Web Services threat intelligence.
         public var flaggedIpAddressDetail: DetectiveClientTypes.FlaggedIpAddressDetail?
@@ -1643,8 +1593,7 @@ extension DetectiveClientTypes {
             relatedFindingDetail: DetectiveClientTypes.RelatedFindingDetail? = nil,
             relatedFindingGroupDetail: DetectiveClientTypes.RelatedFindingGroupDetail? = nil,
             ttPsObservedDetail: DetectiveClientTypes.TTPsObservedDetail? = nil
-        )
-        {
+        ) {
             self.flaggedIpAddressDetail = flaggedIpAddressDetail
             self.impossibleTravelDetail = impossibleTravelDetail
             self.newAsoDetail = newAsoDetail
@@ -1669,8 +1618,7 @@ extension DetectiveClientTypes {
         public init(
             indicatorDetail: DetectiveClientTypes.IndicatorDetail? = nil,
             indicatorType: DetectiveClientTypes.IndicatorType? = nil
-        )
-        {
+        ) {
             self.indicatorDetail = indicatorDetail
             self.indicatorType = indicatorType
         }
@@ -1692,8 +1640,7 @@ public struct ListIndicatorsOutput: Swift.Sendable {
         indicators: [DetectiveClientTypes.Indicator]? = nil,
         investigationId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
         self.indicators = indicators
         self.investigationId = investigationId
@@ -1715,8 +1662,7 @@ extension DetectiveClientTypes {
         public init(
             endInclusive: Foundation.Date? = nil,
             startInclusive: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endInclusive = endInclusive
             self.startInclusive = startInclusive
         }
@@ -1733,8 +1679,7 @@ extension DetectiveClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -1761,8 +1706,7 @@ extension DetectiveClientTypes {
             severity: DetectiveClientTypes.StringFilter? = nil,
             state: DetectiveClientTypes.StringFilter? = nil,
             status: DetectiveClientTypes.StringFilter? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.entityArn = entityArn
             self.severity = severity
@@ -1845,8 +1789,7 @@ extension DetectiveClientTypes {
         public init(
             field: DetectiveClientTypes.Field? = nil,
             sortOrder: DetectiveClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.field = field
             self.sortOrder = sortOrder
         }
@@ -1872,8 +1815,7 @@ public struct ListInvestigationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: DetectiveClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.graphArn = graphArn
         self.maxResults = maxResults
@@ -1909,8 +1851,7 @@ extension DetectiveClientTypes {
             severity: DetectiveClientTypes.Severity? = nil,
             state: DetectiveClientTypes.State? = nil,
             status: DetectiveClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.entityArn = entityArn
             self.entityType = entityType
@@ -1931,8 +1872,7 @@ public struct ListInvestigationsOutput: Swift.Sendable {
     public init(
         investigationDetails: [DetectiveClientTypes.InvestigationDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.investigationDetails = investigationDetails
         self.nextToken = nextToken
     }
@@ -1947,8 +1887,7 @@ public struct ListInvitationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1963,8 +1902,7 @@ public struct ListInvitationsOutput: Swift.Sendable {
     public init(
         invitations: [DetectiveClientTypes.MemberDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.invitations = invitations
         self.nextToken = nextToken
     }
@@ -1983,8 +1921,7 @@ public struct ListMembersInput: Swift.Sendable {
         graphArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2000,8 +1937,7 @@ public struct ListMembersOutput: Swift.Sendable {
     public init(
         memberDetails: [DetectiveClientTypes.MemberDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberDetails = memberDetails
         self.nextToken = nextToken
     }
@@ -2016,8 +1952,7 @@ public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2032,8 +1967,7 @@ public struct ListOrganizationAdminAccountsOutput: Swift.Sendable {
     public init(
         administrators: [DetectiveClientTypes.Administrator]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.administrators = administrators
         self.nextToken = nextToken
     }
@@ -2046,8 +1980,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2058,8 +1991,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2071,8 +2003,7 @@ public struct RejectInvitationInput: Swift.Sendable {
 
     public init(
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
     }
 }
@@ -2096,8 +2027,7 @@ public struct StartInvestigationInput: Swift.Sendable {
         graphArn: Swift.String? = nil,
         scopeEndTime: Foundation.Date? = nil,
         scopeStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.entityArn = entityArn
         self.graphArn = graphArn
         self.scopeEndTime = scopeEndTime
@@ -2111,8 +2041,7 @@ public struct StartInvestigationOutput: Swift.Sendable {
 
     public init(
         investigationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.investigationId = investigationId
     }
 }
@@ -2128,8 +2057,7 @@ public struct StartMonitoringMemberInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.graphArn = graphArn
     }
@@ -2146,8 +2074,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2169,8 +2096,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2182,7 +2108,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateDatasourcePackagesInput: Swift.Sendable {
-    /// The data source package start for the behavior graph.
+    /// The data source package to start for the behavior graph.
     /// This member is required.
     public var datasourcePackages: [DetectiveClientTypes.DatasourcePackage]?
     /// The ARN of the behavior graph.
@@ -2192,8 +2118,7 @@ public struct UpdateDatasourcePackagesInput: Swift.Sendable {
     public init(
         datasourcePackages: [DetectiveClientTypes.DatasourcePackage]? = nil,
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasourcePackages = datasourcePackages
         self.graphArn = graphArn
     }
@@ -2214,8 +2139,7 @@ public struct UpdateInvestigationStateInput: Swift.Sendable {
         graphArn: Swift.String? = nil,
         investigationId: Swift.String? = nil,
         state: DetectiveClientTypes.State? = nil
-    )
-    {
+    ) {
         self.graphArn = graphArn
         self.investigationId = investigationId
         self.state = state
@@ -2232,8 +2156,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
     public init(
         autoEnable: Swift.Bool? = false,
         graphArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
         self.graphArn = graphArn
     }

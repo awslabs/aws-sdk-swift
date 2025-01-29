@@ -15,10 +15,12 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.106.0"
-let crtVersion: Version = "0.42.0"
+let clientRuntimeVersion: Version = "0.112.0"
+let crtVersion: Version = "0.43.0"
 
 let excludeRuntimeUnitTests = false
+
+let isPreviewBuild = false
 
 let serviceTargets: [String] = [
     "AWSACM",
@@ -202,8 +204,6 @@ let serviceTargets: [String] = [
     "AWSInternetMonitor",
     "AWSInvoicing",
     "AWSIoT",
-    "AWSIoT1ClickDevicesService",
-    "AWSIoT1ClickProjects",
     "AWSIoTAnalytics",
     "AWSIoTDataPlane",
     "AWSIoTEvents",
@@ -498,10 +498,17 @@ private func productForService(_ service: String) -> Product {
 // MARK: Dependencies
 
 private var clientRuntimeDependency: Package.Dependency {
-    let path = "../smithy-swift"
+    let previewPath = "./smithy-swift"
+    let developmentPath = "../smithy-swift"
     let gitURL = "https://github.com/smithy-lang/smithy-swift"
     let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
-    return useLocalDeps ? .package(path: path) : .package(url: gitURL, exact: clientRuntimeVersion)
+    if isPreviewBuild {
+        return .package(path: previewPath)
+    } else if useLocalDeps {
+        return .package(path: developmentPath)
+    } else {
+        return .package(url: gitURL, exact: clientRuntimeVersion)
+    }
 }
 
 private var crtDependency: Package.Dependency {
@@ -532,7 +539,8 @@ private var runtimeTargets: [Target] {
                 .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity
+                .awsSDKIdentity,
+                .awsSDKChecksums,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [

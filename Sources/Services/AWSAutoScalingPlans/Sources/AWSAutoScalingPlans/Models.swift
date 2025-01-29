@@ -43,8 +43,7 @@ public struct ConcurrentUpdateException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -67,8 +66,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -91,8 +89,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -115,8 +112,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -133,8 +129,7 @@ extension AutoScalingPlansClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -153,8 +148,7 @@ extension AutoScalingPlansClientTypes {
         public init(
             cloudFormationStackARN: Swift.String? = nil,
             tagFilters: [AutoScalingPlansClientTypes.TagFilter]? = nil
-        )
-        {
+        ) {
             self.cloudFormationStackARN = cloudFormationStackARN
             self.tagFilters = tagFilters
         }
@@ -175,8 +169,7 @@ extension AutoScalingPlansClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -245,8 +238,7 @@ extension AutoScalingPlansClientTypes {
             namespace: Swift.String? = nil,
             statistic: AutoScalingPlansClientTypes.MetricStatistic? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
@@ -311,8 +303,7 @@ extension AutoScalingPlansClientTypes {
         public init(
             predefinedLoadMetricType: AutoScalingPlansClientTypes.LoadMetricType? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedLoadMetricType = predefinedLoadMetricType
             self.resourceLabel = resourceLabel
         }
@@ -525,8 +516,7 @@ extension AutoScalingPlansClientTypes {
             namespace: Swift.String? = nil,
             statistic: AutoScalingPlansClientTypes.MetricStatistic? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
@@ -618,8 +608,7 @@ extension AutoScalingPlansClientTypes {
         public init(
             predefinedScalingMetricType: AutoScalingPlansClientTypes.ScalingMetricType? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedScalingMetricType = predefinedScalingMetricType
             self.resourceLabel = resourceLabel
         }
@@ -654,8 +643,7 @@ extension AutoScalingPlansClientTypes {
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
             self.disableScaleIn = disableScaleIn
             self.estimatedInstanceWarmup = estimatedInstanceWarmup
@@ -758,8 +746,7 @@ extension AutoScalingPlansClientTypes {
             scheduledActionBufferTime: Swift.Int? = nil,
             serviceNamespace: AutoScalingPlansClientTypes.ServiceNamespace? = nil,
             targetTrackingConfigurations: [AutoScalingPlansClientTypes.TargetTrackingConfiguration]? = nil
-        )
-        {
+        ) {
             self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
             self.disableDynamicScaling = disableDynamicScaling
             self.maxCapacity = maxCapacity
@@ -793,8 +780,7 @@ public struct CreateScalingPlanInput: Swift.Sendable {
         applicationSource: AutoScalingPlansClientTypes.ApplicationSource? = nil,
         scalingInstructions: [AutoScalingPlansClientTypes.ScalingInstruction]? = nil,
         scalingPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationSource = applicationSource
         self.scalingInstructions = scalingInstructions
         self.scalingPlanName = scalingPlanName
@@ -808,8 +794,7 @@ public struct CreateScalingPlanOutput: Swift.Sendable {
 
     public init(
         scalingPlanVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.scalingPlanVersion = scalingPlanVersion
     }
 }
@@ -832,8 +817,7 @@ public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -849,8 +833,7 @@ public struct DeleteScalingPlanInput: Swift.Sendable {
     public init(
         scalingPlanName: Swift.String? = nil,
         scalingPlanVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.scalingPlanName = scalingPlanName
         self.scalingPlanVersion = scalingPlanVersion
     }
@@ -879,8 +862,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -902,8 +884,7 @@ public struct DescribeScalingPlanResourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scalingPlanName: Swift.String? = nil,
         scalingPlanVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.scalingPlanName = scalingPlanName
@@ -954,8 +935,7 @@ extension AutoScalingPlansClientTypes {
             policyName: Swift.String? = nil,
             policyType: AutoScalingPlansClientTypes.PolicyType? = nil,
             targetTrackingConfiguration: AutoScalingPlansClientTypes.TargetTrackingConfiguration? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.policyType = policyType
             self.targetTrackingConfiguration = targetTrackingConfiguration
@@ -1065,8 +1045,7 @@ extension AutoScalingPlansClientTypes {
             scalingStatusCode: AutoScalingPlansClientTypes.ScalingStatusCode? = nil,
             scalingStatusMessage: Swift.String? = nil,
             serviceNamespace: AutoScalingPlansClientTypes.ServiceNamespace? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
             self.scalingPlanName = scalingPlanName
@@ -1088,8 +1067,7 @@ public struct DescribeScalingPlanResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingPlanResources: [AutoScalingPlansClientTypes.ScalingPlanResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingPlanResources = scalingPlanResources
     }
@@ -1113,8 +1091,7 @@ public struct DescribeScalingPlansInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scalingPlanNames: [Swift.String]? = nil,
         scalingPlanVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationSources = applicationSources
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1221,8 +1198,7 @@ extension AutoScalingPlansClientTypes {
             statusCode: AutoScalingPlansClientTypes.ScalingPlanStatusCode? = nil,
             statusMessage: Swift.String? = nil,
             statusStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationSource = applicationSource
             self.creationTime = creationTime
             self.scalingInstructions = scalingInstructions
@@ -1244,8 +1220,7 @@ public struct DescribeScalingPlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingPlans: [AutoScalingPlansClientTypes.ScalingPlan]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingPlans = scalingPlans
     }
@@ -1329,8 +1304,7 @@ public struct GetScalingPlanResourceForecastDataInput: Swift.Sendable {
         scalingPlanVersion: Swift.Int? = nil,
         serviceNamespace: AutoScalingPlansClientTypes.ServiceNamespace? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.forecastDataType = forecastDataType
         self.resourceId = resourceId
@@ -1354,8 +1328,7 @@ extension AutoScalingPlansClientTypes {
         public init(
             timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -1369,8 +1342,7 @@ public struct GetScalingPlanResourceForecastDataOutput: Swift.Sendable {
 
     public init(
         datapoints: [AutoScalingPlansClientTypes.Datapoint]? = nil
-    )
-    {
+    ) {
         self.datapoints = datapoints
     }
 }
@@ -1392,8 +1364,7 @@ public struct UpdateScalingPlanInput: Swift.Sendable {
         scalingInstructions: [AutoScalingPlansClientTypes.ScalingInstruction]? = nil,
         scalingPlanName: Swift.String? = nil,
         scalingPlanVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationSource = applicationSource
         self.scalingInstructions = scalingInstructions
         self.scalingPlanName = scalingPlanName

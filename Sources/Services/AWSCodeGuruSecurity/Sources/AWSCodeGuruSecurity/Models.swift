@@ -58,8 +58,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -88,8 +87,7 @@ extension CodeGuruSecurityClientTypes {
             info: Swift.Double? = nil,
             low: Swift.Double? = nil,
             medium: Swift.Double? = nil
-        )
-        {
+        ) {
             self.critical = critical
             self.high = high
             self.info = info
@@ -120,8 +118,7 @@ extension CodeGuruSecurityClientTypes {
             meanTimeToClose: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity? = nil,
             newFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity? = nil,
             openFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity? = nil
-        )
-        {
+        ) {
             self.closedFindings = closedFindings
             self.date = date
             self.meanTimeToClose = meanTimeToClose
@@ -182,8 +179,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         error: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.message = message
     }
@@ -219,8 +215,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
         self.properties.quotaCode = quotaCode
@@ -242,8 +237,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -319,8 +313,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [CodeGuruSecurityClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: CodeGuruSecurityClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.fieldList = fieldList
         self.properties.message = message
@@ -342,8 +335,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             findingId: Swift.String? = nil,
             scanName: Swift.String? = nil
-        )
-        {
+        ) {
             self.findingId = findingId
             self.scanName = scanName
         }
@@ -357,8 +349,7 @@ public struct BatchGetFindingsInput: Swift.Sendable {
 
     public init(
         findingIdentifiers: [CodeGuruSecurityClientTypes.FindingIdentifier]? = nil
-    )
-    {
+    ) {
         self.findingIdentifiers = findingIdentifiers
     }
 }
@@ -423,8 +414,7 @@ extension CodeGuruSecurityClientTypes {
             findingId: Swift.String? = nil,
             message: Swift.String? = nil,
             scanName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.findingId = findingId
             self.message = message
@@ -445,8 +435,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             text: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.url = url
         }
@@ -465,8 +454,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             code: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.description = description
         }
@@ -485,8 +473,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             recommendation: CodeGuruSecurityClientTypes.Recommendation? = nil,
             suggestedFixes: [CodeGuruSecurityClientTypes.SuggestedFix]? = nil
-        )
-        {
+        ) {
             self.recommendation = recommendation
             self.suggestedFixes = suggestedFixes
         }
@@ -505,8 +492,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             id: Swift.String? = nil,
             subResourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.subResourceId = subResourceId
         }
@@ -595,8 +581,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             content: Swift.String? = nil,
             number: Swift.Int? = nil
-        )
-        {
+        ) {
             self.content = content
             self.number = number
         }
@@ -624,8 +609,7 @@ extension CodeGuruSecurityClientTypes {
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             startLine: Swift.Int? = nil
-        )
-        {
+        ) {
             self.codeSnippet = codeSnippet
             self.endLine = endLine
             self.name = name
@@ -657,8 +641,7 @@ extension CodeGuruSecurityClientTypes {
             itemCount: Swift.Int? = nil,
             referenceUrls: [Swift.String]? = nil,
             relatedVulnerabilities: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.filePath = filePath
             self.id = id
             self.itemCount = itemCount
@@ -722,8 +705,7 @@ extension CodeGuruSecurityClientTypes {
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             vulnerability: CodeGuruSecurityClientTypes.Vulnerability? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.detectorId = detectorId
@@ -755,8 +737,7 @@ public struct BatchGetFindingsOutput: Swift.Sendable {
     public init(
         failedFindings: [CodeGuruSecurityClientTypes.BatchGetFindingsError]? = nil,
         findings: [CodeGuruSecurityClientTypes.Finding]? = nil
-    )
-    {
+    ) {
         self.failedFindings = failedFindings
         self.findings = findings
     }
@@ -794,8 +775,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -835,8 +815,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -910,8 +889,7 @@ public struct CreateScanInput: Swift.Sendable {
         scanName: Swift.String? = nil,
         scanType: CodeGuruSecurityClientTypes.ScanType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.analysisType = analysisType
         self.clientToken = clientToken
         self.resourceId = resourceId
@@ -975,8 +953,7 @@ public struct CreateScanOutput: Swift.Sendable {
         scanName: Swift.String? = nil,
         scanNameArn: Swift.String? = nil,
         scanState: CodeGuruSecurityClientTypes.ScanState? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.runId = runId
         self.scanName = scanName
@@ -992,8 +969,7 @@ public struct CreateUploadUrlInput: Swift.Sendable {
 
     public init(
         scanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scanName = scanName
     }
 }
@@ -1013,8 +989,7 @@ public struct CreateUploadUrlOutput: Swift.Sendable {
         codeArtifactId: Swift.String? = nil,
         requestHeaders: [Swift.String: Swift.String]? = nil,
         s3Url: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeArtifactId = codeArtifactId
         self.requestHeaders = requestHeaders
         self.s3Url = s3Url
@@ -1040,8 +1015,7 @@ extension CodeGuruSecurityClientTypes {
 
         public init(
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
         }
     }
@@ -1054,8 +1028,7 @@ public struct GetAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.encryptionConfig = encryptionConfig
     }
 }
@@ -1076,8 +1049,7 @@ public struct GetFindingsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scanName: Swift.String? = nil,
         status: CodeGuruSecurityClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.scanName = scanName
@@ -1094,8 +1066,7 @@ public struct GetFindingsOutput: Swift.Sendable {
     public init(
         findings: [CodeGuruSecurityClientTypes.Finding]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -1108,8 +1079,7 @@ public struct GetMetricsSummaryInput: Swift.Sendable {
 
     public init(
         date: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.date = date
     }
 }
@@ -1126,8 +1096,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             categoryName: Swift.String? = nil,
             findingNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.categoryName = categoryName
             self.findingNumber = findingNumber
         }
@@ -1146,8 +1115,7 @@ extension CodeGuruSecurityClientTypes {
         public init(
             findingNumber: Swift.Int? = nil,
             scanName: Swift.String? = nil
-        )
-        {
+        ) {
             self.findingNumber = findingNumber
             self.scanName = scanName
         }
@@ -1175,8 +1143,7 @@ extension CodeGuruSecurityClientTypes {
             openFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity? = nil,
             scansWithMostOpenCriticalFindings: [CodeGuruSecurityClientTypes.ScanNameWithFindingNum]? = nil,
             scansWithMostOpenFindings: [CodeGuruSecurityClientTypes.ScanNameWithFindingNum]? = nil
-        )
-        {
+        ) {
             self.categoriesWithMostFindings = categoriesWithMostFindings
             self.date = date
             self.openFindings = openFindings
@@ -1192,8 +1159,7 @@ public struct GetMetricsSummaryOutput: Swift.Sendable {
 
     public init(
         metricsSummary: CodeGuruSecurityClientTypes.MetricsSummary? = nil
-    )
-    {
+    ) {
         self.metricsSummary = metricsSummary
     }
 }
@@ -1208,8 +1174,7 @@ public struct GetScanInput: Swift.Sendable {
     public init(
         runId: Swift.String? = nil,
         scanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
         self.scanName = scanName
     }
@@ -1250,8 +1215,7 @@ public struct GetScanOutput: Swift.Sendable {
         scanNameArn: Swift.String? = nil,
         scanState: CodeGuruSecurityClientTypes.ScanState? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.analysisType = analysisType
         self.createdAt = createdAt
         self.errorMessage = errorMessage
@@ -1281,8 +1245,7 @@ public struct ListFindingsMetricsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endDate = endDate
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1299,8 +1262,7 @@ public struct ListFindingsMetricsOutput: Swift.Sendable {
     public init(
         findingsMetrics: [CodeGuruSecurityClientTypes.AccountFindingsMetric]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingsMetrics = findingsMetrics
         self.nextToken = nextToken
     }
@@ -1315,8 +1277,7 @@ public struct ListScansInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1350,8 +1311,7 @@ extension CodeGuruSecurityClientTypes {
             scanNameArn: Swift.String? = nil,
             scanState: CodeGuruSecurityClientTypes.ScanState? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.runId = runId
             self.scanName = scanName
@@ -1371,8 +1331,7 @@ public struct ListScansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [CodeGuruSecurityClientTypes.ScanSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -1385,8 +1344,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1401,8 +1359,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1422,8 +1379,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1445,8 +1401,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1464,8 +1419,7 @@ public struct UpdateAccountConfigurationInput: Swift.Sendable {
 
     public init(
         encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.encryptionConfig = encryptionConfig
     }
 }
@@ -1477,8 +1431,7 @@ public struct UpdateAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.encryptionConfig = encryptionConfig
     }
 }

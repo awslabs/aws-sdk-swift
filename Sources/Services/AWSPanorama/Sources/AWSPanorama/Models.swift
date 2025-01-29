@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ extension PanoramaClientTypes {
 
         public init(
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -211,8 +209,7 @@ extension PanoramaClientTypes {
             deviceReportedStatus: PanoramaClientTypes.DeviceReportedStatus? = nil,
             deviceReportedTime: Foundation.Date? = nil,
             runtimeContextName: Swift.String? = nil
-        )
-        {
+        ) {
             self.desiredState = desiredState
             self.deviceReportedStatus = deviceReportedStatus
             self.deviceReportedTime = deviceReportedTime
@@ -319,8 +316,7 @@ extension PanoramaClientTypes {
             status: PanoramaClientTypes.ApplicationInstanceStatus? = nil,
             statusDescription: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationInstanceId = applicationInstanceId
             self.arn = arn
             self.createdTime = createdTime
@@ -351,8 +347,7 @@ extension PanoramaClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -392,8 +387,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorArguments = errorArguments
         self.properties.errorId = errorId
         self.properties.message = message
@@ -453,8 +447,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -493,8 +486,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -517,8 +509,7 @@ extension PanoramaClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -539,8 +530,7 @@ extension PanoramaClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -613,8 +603,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [PanoramaClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: PanoramaClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.errorArguments = errorArguments
         self.properties.errorId = errorId
         self.properties.fields = fields
@@ -672,8 +661,7 @@ public struct CreateApplicationInstanceInput: Swift.Sendable {
         name: Swift.String? = nil,
         runtimeRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationInstanceIdToReplace = applicationInstanceIdToReplace
         self.defaultRuntimeContextDevice = defaultRuntimeContextDevice
         self.description = description
@@ -692,8 +680,7 @@ public struct CreateApplicationInstanceOutput: Swift.Sendable {
 
     public init(
         applicationInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
     }
 }
@@ -725,8 +712,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -746,8 +732,7 @@ extension PanoramaClientTypes {
         public init(
             allowMajorVersionUpdate: Swift.Bool = false,
             imageVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowMajorVersionUpdate = allowMajorVersionUpdate
             self.imageVersion = imageVersion
         }
@@ -763,8 +748,7 @@ extension PanoramaClientTypes {
 
         public init(
             otaJobConfig: PanoramaClientTypes.OTAJobConfig? = nil
-        )
-        {
+        ) {
             self.otaJobConfig = otaJobConfig
         }
     }
@@ -813,8 +797,7 @@ public struct CreateJobForDevicesInput: Swift.Sendable {
         deviceIds: [Swift.String]? = nil,
         deviceJobConfig: PanoramaClientTypes.DeviceJobConfig? = nil,
         jobType: PanoramaClientTypes.JobType? = nil
-    )
-    {
+    ) {
         self.deviceIds = deviceIds
         self.deviceJobConfig = deviceJobConfig
         self.jobType = jobType
@@ -833,8 +816,7 @@ extension PanoramaClientTypes {
         public init(
             deviceId: Swift.String? = nil,
             jobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.jobId = jobId
         }
@@ -848,8 +830,7 @@ public struct CreateJobForDevicesOutput: Swift.Sendable {
 
     public init(
         jobs: [PanoramaClientTypes.Job]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
     }
 }
@@ -894,8 +875,7 @@ extension PanoramaClientTypes {
         public init(
             resourceType: PanoramaClientTypes.JobResourceType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
             self.tags = tags
         }
@@ -957,8 +937,7 @@ public struct CreateNodeFromTemplateJobInput: Swift.Sendable {
         outputPackageVersion: Swift.String? = nil,
         templateParameters: [Swift.String: Swift.String]? = nil,
         templateType: PanoramaClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.jobTags = jobTags
         self.nodeDescription = nodeDescription
         self.nodeName = nodeName
@@ -981,8 +960,7 @@ public struct CreateNodeFromTemplateJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -997,8 +975,7 @@ public struct CreatePackageInput: Swift.Sendable {
     public init(
         packageName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.packageName = packageName
         self.tags = tags
     }
@@ -1030,8 +1007,7 @@ extension PanoramaClientTypes {
             generatedPrefixLocation: Swift.String? = nil,
             manifestPrefixLocation: Swift.String? = nil,
             repoPrefixLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.binaryPrefixLocation = binaryPrefixLocation
             self.bucket = bucket
             self.generatedPrefixLocation = generatedPrefixLocation
@@ -1054,8 +1030,7 @@ public struct CreatePackageOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         packageId: Swift.String? = nil,
         storageLocation: PanoramaClientTypes.StorageLocation? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.packageId = packageId
         self.storageLocation = storageLocation
@@ -1079,8 +1054,7 @@ extension PanoramaClientTypes {
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
             self.region = region
@@ -1098,8 +1072,7 @@ extension PanoramaClientTypes {
 
         public init(
             s3Location: PanoramaClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -1114,8 +1087,7 @@ extension PanoramaClientTypes {
 
         public init(
             packageVersionInputConfig: PanoramaClientTypes.PackageVersionInputConfig? = nil
-        )
-        {
+        ) {
             self.packageVersionInputConfig = packageVersionInputConfig
         }
     }
@@ -1167,8 +1139,7 @@ extension PanoramaClientTypes {
             markLatest: Swift.Bool = false,
             packageName: Swift.String? = nil,
             packageVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.markLatest = markLatest
             self.packageName = packageName
             self.packageVersion = packageVersion
@@ -1185,8 +1156,7 @@ extension PanoramaClientTypes {
 
         public init(
             packageVersionOutputConfig: PanoramaClientTypes.PackageVersionOutputConfig? = nil
-        )
-        {
+        ) {
             self.packageVersionOutputConfig = packageVersionOutputConfig
         }
     }
@@ -1214,8 +1184,7 @@ public struct CreatePackageImportJobInput: Swift.Sendable {
         jobTags: [PanoramaClientTypes.JobResourceTags]? = nil,
         jobType: PanoramaClientTypes.PackageImportJobType? = nil,
         outputConfig: PanoramaClientTypes.PackageImportJobOutputConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.inputConfig = inputConfig
         self.jobTags = jobTags
@@ -1231,8 +1200,7 @@ public struct CreatePackageImportJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1244,8 +1212,7 @@ public struct DeleteDeviceInput: Swift.Sendable {
 
     public init(
         deviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
     }
 }
@@ -1256,8 +1223,7 @@ public struct DeleteDeviceOutput: Swift.Sendable {
 
     public init(
         deviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
     }
 }
@@ -1272,8 +1238,7 @@ public struct DeletePackageInput: Swift.Sendable {
     public init(
         forceDelete: Swift.Bool = false,
         packageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.forceDelete = forceDelete
         self.packageId = packageId
     }
@@ -1305,8 +1270,7 @@ public struct DeregisterPackageVersionInput: Swift.Sendable {
         packageVersion: Swift.String? = nil,
         patchVersion: Swift.String? = nil,
         updatedLatestPatchVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.ownerAccount = ownerAccount
         self.packageId = packageId
         self.packageVersion = packageVersion
@@ -1327,8 +1291,7 @@ public struct DescribeApplicationInstanceInput: Swift.Sendable {
 
     public init(
         applicationInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
     }
 }
@@ -1381,8 +1344,7 @@ public struct DescribeApplicationInstanceOutput: Swift.Sendable {
         status: PanoramaClientTypes.ApplicationInstanceStatus? = nil,
         statusDescription: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
         self.applicationInstanceIdToReplace = applicationInstanceIdToReplace
         self.arn = arn
@@ -1408,8 +1370,7 @@ public struct DescribeApplicationInstanceDetailsInput: Swift.Sendable {
 
     public init(
         applicationInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
     }
 }
@@ -1441,8 +1402,7 @@ public struct DescribeApplicationInstanceDetailsOutput: Swift.Sendable {
         manifestOverridesPayload: PanoramaClientTypes.ManifestOverridesPayload? = nil,
         manifestPayload: PanoramaClientTypes.ManifestPayload? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
         self.applicationInstanceIdToReplace = applicationInstanceIdToReplace
         self.createdTime = createdTime
@@ -1461,8 +1421,7 @@ public struct DescribeDeviceInput: Swift.Sendable {
 
     public init(
         deviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
     }
 }
@@ -1543,8 +1502,7 @@ extension PanoramaClientTypes {
             connectionStatus: PanoramaClientTypes.NetworkConnectionStatus? = nil,
             hwAddress: Swift.String? = nil,
             ipAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionStatus = connectionStatus
             self.hwAddress = hwAddress
             self.ipAddress = ipAddress
@@ -1567,8 +1525,7 @@ extension PanoramaClientTypes {
             connectionStatus: PanoramaClientTypes.NetworkConnectionStatus? = nil,
             ipAddress: Swift.String? = nil,
             ntpServerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionStatus = connectionStatus
             self.ipAddress = ipAddress
             self.ntpServerName = ntpServerName
@@ -1594,8 +1551,7 @@ extension PanoramaClientTypes {
             ethernet1Status: PanoramaClientTypes.EthernetStatus? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             ntpStatus: PanoramaClientTypes.NtpStatus? = nil
-        )
-        {
+        ) {
             self.ethernet0Status = ethernet0Status
             self.ethernet1Status = ethernet1Status
             self.lastUpdatedTime = lastUpdatedTime
@@ -1754,8 +1710,7 @@ extension PanoramaClientTypes {
             imageVersion: Swift.String? = nil,
             jobType: PanoramaClientTypes.JobType? = nil,
             status: PanoramaClientTypes.UpdateProgress? = nil
-        )
-        {
+        ) {
             self.imageVersion = imageVersion
             self.jobType = jobType
             self.status = status
@@ -1785,8 +1740,7 @@ extension PanoramaClientTypes {
             dns: [Swift.String]? = nil,
             ipAddress: Swift.String? = nil,
             mask: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultGateway = defaultGateway
             self.dns = dns
             self.ipAddress = ipAddress
@@ -1808,8 +1762,7 @@ extension PanoramaClientTypes {
         public init(
             connectionType: PanoramaClientTypes.ConnectionType? = nil,
             staticIpConnectionInfo: PanoramaClientTypes.StaticIpConnectionInfo? = nil
-        )
-        {
+        ) {
             self.connectionType = connectionType
             self.staticIpConnectionInfo = staticIpConnectionInfo
         }
@@ -1826,8 +1779,7 @@ extension PanoramaClientTypes {
 
         public init(
             ntpServers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.ntpServers = ntpServers
         }
     }
@@ -1848,8 +1800,7 @@ extension PanoramaClientTypes {
             ethernet0: PanoramaClientTypes.EthernetPayload? = nil,
             ethernet1: PanoramaClientTypes.EthernetPayload? = nil,
             ntp: PanoramaClientTypes.NtpPayload? = nil
-        )
-        {
+        ) {
             self.ethernet0 = ethernet0
             self.ethernet1 = ethernet1
             self.ntp = ntp
@@ -1990,8 +1941,7 @@ public struct DescribeDeviceOutput: Swift.Sendable {
         serialNumber: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: PanoramaClientTypes.DeviceType? = nil
-    )
-    {
+    ) {
         self.alternateSoftwares = alternateSoftwares
         self.arn = arn
         self.brand = brand
@@ -2022,8 +1972,7 @@ public struct DescribeDeviceJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2058,8 +2007,7 @@ public struct DescribeDeviceJobOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         jobType: PanoramaClientTypes.JobType? = nil,
         status: PanoramaClientTypes.UpdateProgress? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.deviceArn = deviceArn
         self.deviceId = deviceId
@@ -2082,8 +2030,7 @@ public struct DescribeNodeInput: Swift.Sendable {
     public init(
         nodeId: Swift.String? = nil,
         ownerAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeId = nodeId
         self.ownerAccount = ownerAccount
     }
@@ -2183,8 +2130,7 @@ extension PanoramaClientTypes {
             maxConnections: Swift.Int = 0,
             name: Swift.String? = nil,
             type: PanoramaClientTypes.PortType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.maxConnections = maxConnections
@@ -2209,8 +2155,7 @@ extension PanoramaClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             type: PanoramaClientTypes.PortType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.type = type
@@ -2232,8 +2177,7 @@ extension PanoramaClientTypes {
         public init(
             inputs: [PanoramaClientTypes.NodeInputPort]? = nil,
             outputs: [PanoramaClientTypes.NodeOutputPort]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.outputs = outputs
         }
@@ -2297,8 +2241,7 @@ public struct DescribeNodeOutput: Swift.Sendable {
         packageName: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         patchVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetName = assetName
         self.category = category
         self.createdTime = createdTime
@@ -2323,8 +2266,7 @@ public struct DescribeNodeFromTemplateJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2410,8 +2352,7 @@ public struct DescribeNodeFromTemplateJobOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         templateParameters: [Swift.String: Swift.String]? = nil,
         templateType: PanoramaClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.jobId = jobId
         self.jobTags = jobTags
@@ -2439,8 +2380,7 @@ public struct DescribePackageInput: Swift.Sendable {
 
     public init(
         packageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.packageId = packageId
     }
 }
@@ -2478,8 +2418,7 @@ public struct DescribePackageOutput: Swift.Sendable {
         storageLocation: PanoramaClientTypes.StorageLocation? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         writeAccessPrincipalArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdTime = createdTime
         self.packageId = packageId
@@ -2498,8 +2437,7 @@ public struct DescribePackageImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2518,8 +2456,7 @@ extension PanoramaClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -2548,8 +2485,7 @@ extension PanoramaClientTypes {
             packageId: Swift.String? = nil,
             packageVersion: Swift.String? = nil,
             patchVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3Location = outputS3Location
             self.packageId = packageId
             self.packageVersion = packageVersion
@@ -2635,8 +2571,7 @@ public struct DescribePackageImportJobOutput: Swift.Sendable {
         outputConfig: PanoramaClientTypes.PackageImportJobOutputConfig? = nil,
         status: PanoramaClientTypes.PackageImportJobStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.createdTime = createdTime
         self.inputConfig = inputConfig
@@ -2668,8 +2603,7 @@ public struct DescribePackageVersionInput: Swift.Sendable {
         packageId: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         patchVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.ownerAccount = ownerAccount
         self.packageId = packageId
         self.packageVersion = packageVersion
@@ -2751,8 +2685,7 @@ public struct DescribePackageVersionOutput: Swift.Sendable {
         registeredTime: Foundation.Date? = nil,
         status: PanoramaClientTypes.PackageVersionStatus? = nil,
         statusDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.isLatestPatch = isLatestPatch
         self.ownerAccount = ownerAccount
         self.packageArn = packageArn
@@ -2811,8 +2744,7 @@ extension PanoramaClientTypes {
             provisioningStatus: PanoramaClientTypes.DeviceStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: PanoramaClientTypes.DeviceType? = nil
-        )
-        {
+        ) {
             self.brand = brand
             self.createdTime = createdTime
             self.currentSoftware = currentSoftware
@@ -2851,8 +2783,7 @@ extension PanoramaClientTypes {
             deviceName: Swift.String? = nil,
             jobId: Swift.String? = nil,
             jobType: PanoramaClientTypes.JobType? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.deviceId = deviceId
             self.deviceName = deviceName
@@ -2875,8 +2806,7 @@ public struct ListApplicationInstanceDependenciesInput: Swift.Sendable {
         applicationInstanceId: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2901,8 +2831,7 @@ extension PanoramaClientTypes {
             name: Swift.String? = nil,
             packageVersion: Swift.String? = nil,
             patchVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.packageVersion = packageVersion
             self.patchVersion = patchVersion
@@ -2919,8 +2848,7 @@ public struct ListApplicationInstanceDependenciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageObjects: [PanoramaClientTypes.PackageObject]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageObjects = packageObjects
     }
@@ -2939,8 +2867,7 @@ public struct ListApplicationInstanceNodeInstancesInput: Swift.Sendable {
         applicationInstanceId: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3011,8 +2938,7 @@ extension PanoramaClientTypes {
             packageName: Swift.String? = nil,
             packagePatchVersion: Swift.String? = nil,
             packageVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentStatus = currentStatus
             self.nodeId = nodeId
             self.nodeInstanceId = nodeInstanceId
@@ -3033,8 +2959,7 @@ public struct ListApplicationInstanceNodeInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodeInstances: [PanoramaClientTypes.NodeInstance]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodeInstances = nodeInstances
     }
@@ -3099,8 +3024,7 @@ public struct ListApplicationInstancesInput: Swift.Sendable {
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil,
         statusFilter: PanoramaClientTypes.StatusFilter? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3117,8 +3041,7 @@ public struct ListApplicationInstancesOutput: Swift.Sendable {
     public init(
         applicationInstances: [PanoramaClientTypes.ApplicationInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstances = applicationInstances
         self.nextToken = nextToken
     }
@@ -3209,8 +3132,7 @@ public struct ListDevicesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: PanoramaClientTypes.ListDevicesSortBy? = nil,
         sortOrder: PanoramaClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.deviceAggregatedStatusFilter = deviceAggregatedStatusFilter
         self.maxResults = maxResults
         self.nameFilter = nameFilter
@@ -3230,8 +3152,7 @@ public struct ListDevicesOutput: Swift.Sendable {
     public init(
         devices: [PanoramaClientTypes.Device]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.nextToken = nextToken
     }
@@ -3249,8 +3170,7 @@ public struct ListDevicesJobsInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3266,8 +3186,7 @@ public struct ListDevicesJobsOutput: Swift.Sendable {
     public init(
         deviceJobs: [PanoramaClientTypes.DeviceJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceJobs = deviceJobs
         self.nextToken = nextToken
     }
@@ -3282,8 +3201,7 @@ public struct ListNodeFromTemplateJobsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3313,8 +3231,7 @@ extension PanoramaClientTypes {
             status: PanoramaClientTypes.NodeFromTemplateJobStatus? = nil,
             statusMessage: Swift.String? = nil,
             templateType: PanoramaClientTypes.TemplateType? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.jobId = jobId
             self.nodeName = nodeName
@@ -3335,8 +3252,7 @@ public struct ListNodeFromTemplateJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodeFromTemplateJobs: [PanoramaClientTypes.NodeFromTemplateJob]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodeFromTemplateJobs = nodeFromTemplateJobs
     }
@@ -3366,8 +3282,7 @@ public struct ListNodesInput: Swift.Sendable {
         packageName: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         patchVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.category = category
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3425,8 +3340,7 @@ extension PanoramaClientTypes {
             packageName: Swift.String? = nil,
             packageVersion: Swift.String? = nil,
             patchVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.createdTime = createdTime
             self.description = description
@@ -3451,8 +3365,7 @@ public struct ListNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodes: [PanoramaClientTypes.Node]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodes = nodes
     }
@@ -3467,8 +3380,7 @@ public struct ListPackageImportJobsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3498,8 +3410,7 @@ extension PanoramaClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             status: PanoramaClientTypes.PackageImportJobStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.jobId = jobId
             self.jobType = jobType
@@ -3520,8 +3431,7 @@ public struct ListPackageImportJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageImportJobs: [PanoramaClientTypes.PackageImportJob]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageImportJobs = packageImportJobs
     }
@@ -3536,8 +3446,7 @@ public struct ListPackagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3564,8 +3473,7 @@ extension PanoramaClientTypes {
             packageId: Swift.String? = nil,
             packageName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.packageId = packageId
@@ -3584,8 +3492,7 @@ public struct ListPackagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packages: [PanoramaClientTypes.PackageListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packages = packages
     }
@@ -3598,8 +3505,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3610,8 +3516,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3659,8 +3564,7 @@ extension PanoramaClientTypes {
         public init(
             nodeInstanceId: Swift.String? = nil,
             signal: PanoramaClientTypes.NodeSignalValue? = nil
-        )
-        {
+        ) {
             self.nodeInstanceId = nodeInstanceId
             self.signal = signal
         }
@@ -3683,8 +3587,7 @@ public struct ProvisionDeviceInput: Swift.Sendable {
         name: Swift.String? = nil,
         networkingConfiguration: PanoramaClientTypes.NetworkPayload? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.networkingConfiguration = networkingConfiguration
@@ -3712,8 +3615,7 @@ public struct ProvisionDeviceOutput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         iotThingName: Swift.String? = nil,
         status: PanoramaClientTypes.DeviceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.certificates = certificates
         self.deviceId = deviceId
@@ -3743,8 +3645,7 @@ public struct RegisterPackageVersionInput: Swift.Sendable {
         packageId: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         patchVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.markLatest = markLatest
         self.ownerAccount = ownerAccount
         self.packageId = packageId
@@ -3765,8 +3666,7 @@ public struct RemoveApplicationInstanceInput: Swift.Sendable {
 
     public init(
         applicationInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
     }
 }
@@ -3787,8 +3687,7 @@ public struct SignalApplicationInstanceNodeInstancesInput: Swift.Sendable {
     public init(
         applicationInstanceId: Swift.String? = nil,
         nodeSignals: [PanoramaClientTypes.NodeSignal]? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
         self.nodeSignals = nodeSignals
     }
@@ -3801,8 +3700,7 @@ public struct SignalApplicationInstanceNodeInstancesOutput: Swift.Sendable {
 
     public init(
         applicationInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInstanceId = applicationInstanceId
     }
 }
@@ -3818,8 +3716,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3841,8 +3738,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3863,8 +3759,7 @@ public struct UpdateDeviceMetadataInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         deviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.deviceId = deviceId
     }
@@ -3876,8 +3771,7 @@ public struct UpdateDeviceMetadataOutput: Swift.Sendable {
 
     public init(
         deviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
     }
 }

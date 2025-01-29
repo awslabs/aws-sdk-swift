@@ -23,8 +23,7 @@ public struct FooOutput: Swift.Sendable {
     public init(
         expires: Swift.String? = nil,
         payload1: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.payload1 = payload1
     }
@@ -46,8 +45,7 @@ public struct FooInput: Swift.Sendable {
     public init(
         expires: Swift.String? = nil,
         payload1: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.payload1 = payload1
     }
@@ -69,8 +67,7 @@ public struct FooOutput: Swift.Sendable {
     public init(
         expires: Foundation.Date? = nil,
         payload1: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.payload1 = payload1
     }

@@ -31,6 +31,9 @@ codegen/protocol-test-codegen-local/smithy-build.json
 codegen/protocol-test-codegen/smithy-build.json
 SmokeTests/
 
+# Preview embedded dependencies
+/smithy-swift/
+
 # vim temporary files
 *.swp
 

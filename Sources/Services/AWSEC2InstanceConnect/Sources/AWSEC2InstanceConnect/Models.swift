@@ -38,8 +38,7 @@ public struct AuthException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ public struct EC2InstanceNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -86,8 +84,7 @@ public struct EC2InstanceStateInvalidException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -110,8 +107,7 @@ public struct EC2InstanceTypeInvalidException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -134,8 +130,7 @@ public struct EC2InstanceUnavailableException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -158,8 +153,7 @@ public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -182,8 +176,7 @@ public struct SerialConsoleAccessDisabledException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -206,8 +199,7 @@ public struct SerialConsoleSessionLimitExceededException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -230,8 +222,7 @@ public struct SerialConsoleSessionUnavailableException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -254,8 +245,7 @@ public struct SerialConsoleSessionUnsupportedException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -278,8 +268,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -302,8 +291,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -322,8 +310,7 @@ public struct SendSerialConsoleSSHPublicKeyInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         serialPort: Swift.Int? = 0,
         sshPublicKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.serialPort = serialPort
         self.sshPublicKey = sshPublicKey
@@ -339,8 +326,7 @@ public struct SendSerialConsoleSSHPublicKeyOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         success: Swift.Bool = false
-    )
-    {
+    ) {
         self.requestId = requestId
         self.success = success
     }
@@ -364,8 +350,7 @@ public struct SendSSHPublicKeyInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         instanceOSUser: Swift.String? = nil,
         sshPublicKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.instanceId = instanceId
         self.instanceOSUser = instanceOSUser
@@ -382,8 +367,7 @@ public struct SendSSHPublicKeyOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         success: Swift.Bool = false
-    )
-    {
+    ) {
         self.requestId = requestId
         self.success = success
     }

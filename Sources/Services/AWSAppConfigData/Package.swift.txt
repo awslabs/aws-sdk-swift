@@ -16,6 +16,10 @@ let package = Package(
             exact: "0.0.1"
         ),
         .package(
+            id: "aws-sdk-swift.AWSSDKChecksums",
+            exact: "0.0.1"
+        ),
+        .package(
             id: "aws-sdk-swift.AWSSDKHTTPAuth",
             exact: "0.0.1"
         ),
@@ -33,6 +37,10 @@ let package = Package(
                     package: "aws-sdk-swift.AWSClientRuntime"
                 ),
                 .product(
+                    name: "AWSSDKChecksums",
+                    package: "aws-sdk-swift.AWSSDKChecksums"
+                ),
+                .product(
                     name: "AWSSDKHTTPAuth",
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
@@ -41,11 +49,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyIdentity",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyRetriesAPI",
+                    name: "Smithy",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -57,11 +61,7 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "Smithy",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "SmithyRetries",
+                    name: "SmithyIdentity",
                     package: "smithy-swift"
                 ),
                 .product(
@@ -70,6 +70,14 @@ let package = Package(
                 ),
                 .product(
                     name: "SmithyReadWrite",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetries",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetriesAPI",
                     package: "smithy-swift"
                 ),
                 .product(

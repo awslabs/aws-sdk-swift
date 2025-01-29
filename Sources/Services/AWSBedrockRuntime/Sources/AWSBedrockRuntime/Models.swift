@@ -58,8 +58,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -82,8 +81,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -106,8 +104,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -130,8 +127,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +139,7 @@ public struct GetAsyncInvokeInput: Swift.Sendable {
 
     public init(
         invocationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invocationArn = invocationArn
     }
 }
@@ -165,8 +160,7 @@ extension BedrockRuntimeClientTypes {
             bucketOwner: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketOwner = bucketOwner
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -251,8 +245,7 @@ public struct GetAsyncInvokeOutput: Swift.Sendable {
         outputDataConfig: BedrockRuntimeClientTypes.AsyncInvokeOutputDataConfig? = nil,
         status: BedrockRuntimeClientTypes.AsyncInvokeStatus? = nil,
         submitTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.endTime = endTime
         self.failureMessage = failureMessage
@@ -349,8 +342,7 @@ public struct ListAsyncInvokesInput: Swift.Sendable {
         statusEquals: BedrockRuntimeClientTypes.AsyncInvokeStatus? = nil,
         submitTimeAfter: Foundation.Date? = nil,
         submitTimeBefore: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -398,8 +390,7 @@ extension BedrockRuntimeClientTypes {
             outputDataConfig: BedrockRuntimeClientTypes.AsyncInvokeOutputDataConfig? = nil,
             status: BedrockRuntimeClientTypes.AsyncInvokeStatus? = nil,
             submitTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
             self.failureMessage = failureMessage
@@ -427,8 +418,7 @@ public struct ListAsyncInvokesOutput: Swift.Sendable {
     public init(
         asyncInvokeSummaries: [BedrockRuntimeClientTypes.AsyncInvokeSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.asyncInvokeSummaries = asyncInvokeSummaries
         self.nextToken = nextToken
     }
@@ -452,8 +442,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -476,8 +465,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -500,8 +488,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -524,8 +511,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -544,8 +530,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -573,8 +558,7 @@ public struct StartAsyncInvokeInput: Swift.Sendable {
         modelInput: Smithy.Document? = nil,
         outputDataConfig: BedrockRuntimeClientTypes.AsyncInvokeOutputDataConfig? = nil,
         tags: [BedrockRuntimeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.modelId = modelId
         self.modelInput = modelInput
@@ -595,8 +579,7 @@ public struct StartAsyncInvokeOutput: Swift.Sendable {
 
     public init(
         invocationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.invocationArn = invocationArn
     }
 }
@@ -654,8 +637,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             format: BedrockRuntimeClientTypes.GuardrailImageFormat? = nil,
             source: BedrockRuntimeClientTypes.GuardrailImageSource? = nil
-        )
-        {
+        ) {
             self.format = format
             self.source = source
         }
@@ -713,8 +695,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             qualifiers: [BedrockRuntimeClientTypes.GuardrailContentQualifier]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.qualifiers = qualifiers
             self.text = text
         }
@@ -781,8 +762,7 @@ public struct ApplyGuardrailInput: Swift.Sendable {
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil,
         source: BedrockRuntimeClientTypes.GuardrailContentSource? = nil
-    )
-    {
+    ) {
         self.content = content
         self.guardrailIdentifier = guardrailIdentifier
         self.guardrailVersion = guardrailVersion
@@ -977,8 +957,7 @@ extension BedrockRuntimeClientTypes {
             confidence: BedrockRuntimeClientTypes.GuardrailContentFilterConfidence? = nil,
             filterStrength: BedrockRuntimeClientTypes.GuardrailContentFilterStrength? = nil,
             type: BedrockRuntimeClientTypes.GuardrailContentFilterType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.confidence = confidence
             self.filterStrength = filterStrength
@@ -997,8 +976,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             filters: [BedrockRuntimeClientTypes.GuardrailContentFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -1084,8 +1062,7 @@ extension BedrockRuntimeClientTypes {
             score: Swift.Double? = nil,
             threshold: Swift.Double? = nil,
             type: BedrockRuntimeClientTypes.GuardrailContextualGroundingFilterType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.score = score
             self.threshold = threshold
@@ -1103,8 +1080,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             filters: [BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -1122,8 +1098,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             guarded: Swift.Int? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.guarded = guarded
             self.total = total
         }
@@ -1142,8 +1117,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             guarded: Swift.Int? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.guarded = guarded
             self.total = total
         }
@@ -1162,8 +1136,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             images: BedrockRuntimeClientTypes.GuardrailImageCoverage? = nil,
             textCharacters: BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage? = nil
-        )
-        {
+        ) {
             self.images = images
             self.textCharacters = textCharacters
         }
@@ -1200,8 +1173,7 @@ extension BedrockRuntimeClientTypes {
             sensitiveInformationPolicyUnits: Swift.Int? = nil,
             topicPolicyUnits: Swift.Int? = nil,
             wordPolicyUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.contentPolicyUnits = contentPolicyUnits
             self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
             self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
@@ -1227,8 +1199,7 @@ extension BedrockRuntimeClientTypes {
             guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage? = nil,
             guardrailProcessingLatency: Swift.Int? = nil,
             usage: BedrockRuntimeClientTypes.GuardrailUsage? = nil
-        )
-        {
+        ) {
             self.guardrailCoverage = guardrailCoverage
             self.guardrailProcessingLatency = guardrailProcessingLatency
             self.usage = usage
@@ -1399,8 +1370,7 @@ extension BedrockRuntimeClientTypes {
             action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
             match: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailPiiEntityType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.type = type
@@ -1427,8 +1397,7 @@ extension BedrockRuntimeClientTypes {
             match: Swift.String? = nil,
             name: Swift.String? = nil,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.name = name
@@ -1451,8 +1420,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             piiEntities: [BedrockRuntimeClientTypes.GuardrailPiiEntityFilter]? = nil,
             regexes: [BedrockRuntimeClientTypes.GuardrailRegexFilter]? = nil
-        )
-        {
+        ) {
             self.piiEntities = piiEntities
             self.regexes = regexes
         }
@@ -1529,8 +1497,7 @@ extension BedrockRuntimeClientTypes {
             action: BedrockRuntimeClientTypes.GuardrailTopicPolicyAction? = nil,
             name: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailTopicType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.name = name
             self.type = type
@@ -1548,8 +1515,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             topics: [BedrockRuntimeClientTypes.GuardrailTopic]? = nil
-        )
-        {
+        ) {
             self.topics = topics
         }
     }
@@ -1595,8 +1561,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
             match: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
         }
@@ -1647,8 +1612,7 @@ extension BedrockRuntimeClientTypes {
             action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
             match: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailManagedWordType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.type = type
@@ -1670,8 +1634,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             customWords: [BedrockRuntimeClientTypes.GuardrailCustomWord]? = nil,
             managedWordLists: [BedrockRuntimeClientTypes.GuardrailManagedWord]? = nil
-        )
-        {
+        ) {
             self.customWords = customWords
             self.managedWordLists = managedWordLists
         }
@@ -1702,8 +1665,7 @@ extension BedrockRuntimeClientTypes {
             sensitiveInformationPolicy: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment? = nil,
             topicPolicy: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
             wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
-        )
-        {
+        ) {
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
             self.invocationMetrics = invocationMetrics
@@ -1723,8 +1685,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -1752,8 +1713,7 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
         guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage? = nil,
         outputs: [BedrockRuntimeClientTypes.GuardrailOutputContent]? = nil,
         usage: BedrockRuntimeClientTypes.GuardrailUsage? = nil
-    )
-    {
+    ) {
         self.action = action
         self.assessments = assessments
         self.guardrailCoverage = guardrailCoverage
@@ -1786,8 +1746,7 @@ public struct ModelErrorException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         originalStatusCode: Swift.Int? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.originalStatusCode = originalStatusCode
         self.properties.resourceName = resourceName
@@ -1812,8 +1771,7 @@ public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1836,8 +1794,7 @@ public struct ModelTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1888,8 +1845,7 @@ extension BedrockRuntimeClientTypes {
             guardrailIdentifier: Swift.String? = nil,
             guardrailVersion: Swift.String? = nil,
             trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
-        )
-        {
+        ) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.trace = trace
@@ -1915,8 +1871,7 @@ extension BedrockRuntimeClientTypes {
             stopSequences: [Swift.String]? = nil,
             temperature: Swift.Float? = nil,
             topp: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
             self.temperature = temperature
@@ -2016,8 +1971,7 @@ extension BedrockRuntimeClientTypes {
             format: BedrockRuntimeClientTypes.DocumentFormat? = nil,
             name: Swift.String? = nil,
             source: BedrockRuntimeClientTypes.DocumentSource? = nil
-        )
-        {
+        ) {
             self.format = format
             self.name = name
             self.source = source
@@ -2078,8 +2032,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             format: BedrockRuntimeClientTypes.GuardrailConverseImageFormat? = nil,
             source: BedrockRuntimeClientTypes.GuardrailConverseImageSource? = nil
-        )
-        {
+        ) {
             self.format = format
             self.source = source
         }
@@ -2137,8 +2090,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             qualifiers: [BedrockRuntimeClientTypes.GuardrailConverseContentQualifier]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.qualifiers = qualifiers
             self.text = text
         }
@@ -2216,8 +2168,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             format: BedrockRuntimeClientTypes.ImageFormat? = nil,
             source: BedrockRuntimeClientTypes.ImageSource? = nil
-        )
-        {
+        ) {
             self.format = format
             self.source = source
         }
@@ -2287,8 +2238,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             bucketOwner: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketOwner = bucketOwner
             self.uri = uri
         }
@@ -2321,8 +2271,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             format: BedrockRuntimeClientTypes.VideoFormat? = nil,
             source: BedrockRuntimeClientTypes.VideoSource? = nil
-        )
-        {
+        ) {
             self.format = format
             self.source = source
         }
@@ -2393,8 +2342,7 @@ extension BedrockRuntimeClientTypes {
             content: [BedrockRuntimeClientTypes.ToolResultContentBlock]? = nil,
             status: BedrockRuntimeClientTypes.ToolResultStatus? = nil,
             toolUseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.status = status
             self.toolUseId = toolUseId
@@ -2420,8 +2368,7 @@ extension BedrockRuntimeClientTypes {
             input: Smithy.Document? = nil,
             name: Swift.String? = nil,
             toolUseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
             self.name = name
             self.toolUseId = toolUseId
@@ -2502,8 +2449,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             content: [BedrockRuntimeClientTypes.ContentBlock]? = nil,
             role: BedrockRuntimeClientTypes.ConversationRole? = nil
-        )
-        {
+        ) {
             self.content = content
             self.role = role
         }
@@ -2548,8 +2494,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             latency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = .standard
-        )
-        {
+        ) {
             self.latency = latency
         }
     }
@@ -2605,8 +2550,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2653,8 +2597,7 @@ extension BedrockRuntimeClientTypes {
             description: Swift.String? = nil,
             inputSchema: BedrockRuntimeClientTypes.ToolInputSchema? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.inputSchema = inputSchema
             self.name = name
@@ -2685,8 +2628,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             toolChoice: BedrockRuntimeClientTypes.ToolChoice? = nil,
             tools: [BedrockRuntimeClientTypes.Tool]? = nil
-        )
-        {
+        ) {
             self.toolChoice = toolChoice
             self.tools = tools
         }
@@ -2743,8 +2685,7 @@ public struct ConverseInput: Swift.Sendable {
         requestMetadata: [Swift.String: Swift.String]? = nil,
         system: [BedrockRuntimeClientTypes.SystemContentBlock]? = nil,
         toolConfig: BedrockRuntimeClientTypes.ToolConfiguration? = nil
-    )
-    {
+    ) {
         self.additionalModelRequestFields = additionalModelRequestFields
         self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
         self.guardrailConfig = guardrailConfig
@@ -2774,8 +2715,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             latencyMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.latencyMs = latencyMs
         }
     }
@@ -2847,8 +2787,7 @@ extension BedrockRuntimeClientTypes {
             inputAssessment: [Swift.String: BedrockRuntimeClientTypes.GuardrailAssessment]? = nil,
             modelOutput: [Swift.String]? = nil,
             outputAssessments: [Swift.String: [BedrockRuntimeClientTypes.GuardrailAssessment]]? = nil
-        )
-        {
+        ) {
             self.inputAssessment = inputAssessment
             self.modelOutput = modelOutput
             self.outputAssessments = outputAssessments
@@ -2865,8 +2804,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             invokedModelId: Swift.String? = nil
-        )
-        {
+        ) {
             self.invokedModelId = invokedModelId
         }
     }
@@ -2884,8 +2822,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment? = nil,
             promptRouter: BedrockRuntimeClientTypes.PromptRouterTrace? = nil
-        )
-        {
+        ) {
             self.guardrail = guardrail
             self.promptRouter = promptRouter
         }
@@ -2910,8 +2847,7 @@ extension BedrockRuntimeClientTypes {
             inputTokens: Swift.Int? = nil,
             outputTokens: Swift.Int? = nil,
             totalTokens: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inputTokens = inputTokens
             self.outputTokens = outputTokens
             self.totalTokens = totalTokens
@@ -2947,8 +2883,7 @@ public struct ConverseOutput: Swift.Sendable {
         stopReason: BedrockRuntimeClientTypes.StopReason? = nil,
         trace: BedrockRuntimeClientTypes.ConverseTrace? = nil,
         usage: BedrockRuntimeClientTypes.TokenUsage? = nil
-    )
-    {
+    ) {
         self.additionalModelResponseFields = additionalModelResponseFields
         self.metrics = metrics
         self.output = output
@@ -3008,8 +2943,7 @@ extension BedrockRuntimeClientTypes {
             guardrailVersion: Swift.String? = nil,
             streamProcessingMode: BedrockRuntimeClientTypes.GuardrailStreamProcessingMode? = .sync,
             trace: BedrockRuntimeClientTypes.GuardrailTrace? = .disabled
-        )
-        {
+        ) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.streamProcessingMode = streamProcessingMode
@@ -3068,8 +3002,7 @@ public struct ConverseStreamInput: Swift.Sendable {
         requestMetadata: [Swift.String: Swift.String]? = nil,
         system: [BedrockRuntimeClientTypes.SystemContentBlock]? = nil,
         toolConfig: BedrockRuntimeClientTypes.ToolConfiguration? = nil
-    )
-    {
+    ) {
         self.additionalModelRequestFields = additionalModelRequestFields
         self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
         self.guardrailConfig = guardrailConfig
@@ -3099,8 +3032,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             input: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
         }
     }
@@ -3132,8 +3064,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             contentBlockIndex: Swift.Int? = nil,
             delta: BedrockRuntimeClientTypes.ContentBlockDelta? = nil
-        )
-        {
+        ) {
             self.contentBlockIndex = contentBlockIndex
             self.delta = delta
         }
@@ -3154,8 +3085,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             name: Swift.String? = nil,
             toolUseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.toolUseId = toolUseId
         }
@@ -3186,8 +3116,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             contentBlockIndex: Swift.Int? = nil,
             start: BedrockRuntimeClientTypes.ContentBlockStart? = nil
-        )
-        {
+        ) {
             self.contentBlockIndex = contentBlockIndex
             self.start = start
         }
@@ -3204,8 +3133,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             contentBlockIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.contentBlockIndex = contentBlockIndex
         }
     }
@@ -3221,8 +3149,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             role: BedrockRuntimeClientTypes.ConversationRole? = nil
-        )
-        {
+        ) {
             self.role = role
         }
     }
@@ -3241,8 +3168,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             additionalModelResponseFields: Smithy.Document? = nil,
             stopReason: BedrockRuntimeClientTypes.StopReason? = nil
-        )
-        {
+        ) {
             self.additionalModelResponseFields = additionalModelResponseFields
             self.stopReason = stopReason
         }
@@ -3259,8 +3185,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             latencyMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.latencyMs = latencyMs
         }
     }
@@ -3278,8 +3203,7 @@ extension BedrockRuntimeClientTypes {
         public init(
             guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment? = nil,
             promptRouter: BedrockRuntimeClientTypes.PromptRouterTrace? = nil
-        )
-        {
+        ) {
             self.guardrail = guardrail
             self.promptRouter = promptRouter
         }
@@ -3306,8 +3230,7 @@ extension BedrockRuntimeClientTypes {
             performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration? = nil,
             trace: BedrockRuntimeClientTypes.ConverseStreamTrace? = nil,
             usage: BedrockRuntimeClientTypes.TokenUsage? = nil
-        )
-        {
+        ) {
             self.metrics = metrics
             self.performanceConfig = performanceConfig
             self.trace = trace
@@ -3340,8 +3263,7 @@ public struct ModelStreamErrorException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         originalMessage: Swift.String? = nil,
         originalStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.originalMessage = originalMessage
         self.properties.originalStatusCode = originalStatusCode
@@ -3374,8 +3296,7 @@ public struct ConverseStreamOutput: Swift.Sendable {
 
     public init(
         stream: AsyncThrowingStream<BedrockRuntimeClientTypes.ConverseStreamOutput, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.stream = stream
     }
 }
@@ -3453,8 +3374,7 @@ public struct InvokeModelInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil,
         trace: BedrockRuntimeClientTypes.Trace? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.body = body
         self.contentType = contentType
@@ -3485,8 +3405,7 @@ public struct InvokeModelOutput: Swift.Sendable {
         body: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil
-    )
-    {
+    ) {
         self.body = body
         self.contentType = contentType
         self.performanceConfigLatency = performanceConfigLatency
@@ -3542,8 +3461,7 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
         modelId: Swift.String? = nil,
         performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil,
         trace: BedrockRuntimeClientTypes.Trace? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.body = body
         self.contentType = contentType
@@ -3569,8 +3487,7 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             bytes: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
         }
     }
@@ -3606,8 +3523,7 @@ public struct InvokeModelWithResponseStreamOutput: Swift.Sendable {
         body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>? = nil,
         contentType: Swift.String? = nil,
         performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil
-    )
-    {
+    ) {
         self.body = body
         self.contentType = contentType
         self.performanceConfigLatency = performanceConfigLatency

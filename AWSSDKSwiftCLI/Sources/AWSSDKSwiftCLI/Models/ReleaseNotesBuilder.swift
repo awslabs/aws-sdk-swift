@@ -49,7 +49,7 @@ struct ReleaseNotesBuilder {
         _ features: Features,
         _ mapping: [String: String]
     ) -> [String] {
-        let formattedFeatures = features.features
+        let formattedFeatures = (features.features ?? [])
             .filter { $0.featureMetadata.trebuchet.featureType == "NEW_FEATURE" }
             .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes ?? "No description provided.")" }
             .joined(separator: .newline)
@@ -63,7 +63,7 @@ struct ReleaseNotesBuilder {
         _ features: Features,
         _ mapping: [String: String]
     ) -> [String] {
-        let formattedDocUpdates = features.features
+        let formattedDocUpdates = (features.features ?? [])
             .filter { $0.featureMetadata.trebuchet.featureType == "DOC_UPDATE" }
             .map { "* **AWS \(mapping[$0.featureMetadata.trebuchet.featureId]!)**: \($0.releaseNotes ?? "No description provided.")" }
             .joined(separator: .newline)
