@@ -7,7 +7,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
+import software.amazon.smithy.swift.codegen.integration.middlewares.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait

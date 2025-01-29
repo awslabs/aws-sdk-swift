@@ -1,6 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.apigateway
 
-import software.amazon.smithy.aws.swift.codegen.middleware.MutateHeadersMiddleware
+import software.amazon.smithy.swift.codegen.integration.middlewares.MutateHeadersMiddleware
 import software.amazon.smithy.aws.swift.codegen.sdkId
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape

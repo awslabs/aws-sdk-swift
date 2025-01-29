@@ -4,13 +4,15 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.protocols.awsquery.AWSQueryProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.protocols.ec2query.EC2QueryProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.protocols.restxml.RestXMLProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.protocols.rpcv2cbor.RpcV2CborProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.rpcv2cbor.AWSRpcV2CborCustomizations
+import software.amazon.smithy.swift.codegen.protocols.rpcv2cbor.RpcV2CborProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
@@ -33,6 +35,13 @@ class AddProtocols : SwiftIntegration {
         RestXMLProtocolGenerator(),
         AWSQueryProtocolGenerator(),
         EC2QueryProtocolGenerator(),
-        RpcV2CborProtocolGenerator()
+        RpcV2CborProtocolGenerator(
+            rpcCborCustomizations = AWSRpcV2CborCustomizations(),
+            userAgentMiddlewareFactory = { ctx ->
+                UserAgentMiddleware(
+                    ctx.settings
+                )
+            }
+        )
     )
 }
