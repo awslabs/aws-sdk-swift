@@ -14,6 +14,7 @@ import software.amazon.smithy.aws.swift.codegen.protocols.restxml.RestXMLProtoco
 import software.amazon.smithy.aws.swift.codegen.protocols.rpcv2cbor.AWSRpcV2CborCustomizations
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.protocols.rpcv2cbor.RpcV2CborProtocolGenerator
 
 /**
  * Integration that registers protocol generators this package provides
