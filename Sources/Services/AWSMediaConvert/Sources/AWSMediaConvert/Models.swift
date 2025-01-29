@@ -5312,13 +5312,13 @@ extension MediaConvertClientTypes {
         public var customLanguageCode: Swift.String?
         /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
         public var defaultSelection: MediaConvertClientTypes.AudioDefaultSelection?
-        /// Specifies audio data from an external file source.
+        /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public var externalAudioFileInput: Swift.String?
         /// Settings specific to audio sources in an HLS alternate rendition group. Specify the properties (renditionGroupId, renditionName or renditionLanguageCode) to identify the unique audio track among the alternative rendition groups present in the HLS manifest. If no unique track is found, or multiple tracks match the properties provided, the job fails. If no properties in hlsRenditionGroupSettings are specified, the default audio track within the video segment is chosen. If there is no audio within video segment, the alternative audio with DEFAULT=YES is chosen instead.
         public var hlsRenditionGroupSettings: MediaConvertClientTypes.HlsRenditionGroupSettings?
-        /// Selects a specific language code from within an audio source.
+        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
         public var languageCode: MediaConvertClientTypes.LanguageCode?
-        /// Specifies a time delta in milliseconds to offset the audio from the input video.
+        /// Specify a time delta, in milliseconds, to offset the audio from the input video. To specify no offset: Keep the default value, 0. To specify an offset: Enter an integer from -2147483648 to 2147483647
         public var offset: Swift.Int?
         /// Selects a specific PID from within an audio source (e.g. 257 selects PID 0x101).
         public var pids: [Swift.Int]?
@@ -6052,6 +6052,67 @@ extension MediaConvertClientTypes {
             case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Specify which audio tracks to dynamically select from your source. To select all audio tracks: Keep the default value, All tracks. To select all audio tracks with a specific language code: Choose Language code. When you do, you must also specify a language code under the Language code setting. If there is no matching Language code in your source, then no track will be selected.
+    public enum DynamicAudioSelectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allTracks
+        case languageCode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DynamicAudioSelectorType] {
+            return [
+                .allTracks,
+                .languageCode
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allTracks: return "ALL_TRACKS"
+            case .languageCode: return "LANGUAGE_CODE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
+    public struct DynamicAudioSelector: Swift.Sendable {
+        /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion. * Force: Apply audio duration correction, either Track or Frame depending on your input, regardless of the accuracy of your input's STTS table. Your output audio and video may not be aligned or it may contain audio artifacts.
+        public var audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection?
+        /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
+        public var externalAudioFileInput: Swift.String?
+        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
+        public var languageCode: MediaConvertClientTypes.LanguageCode?
+        /// Specify a time delta, in milliseconds, to offset the audio from the input video. To specify no offset: Keep the default value, 0. To specify an offset: Enter an integer from -2147483648 to 2147483647
+        public var offset: Swift.Int?
+        /// Specify which audio tracks to dynamically select from your source. To select all audio tracks: Keep the default value, All tracks. To select all audio tracks with a specific language code: Choose Language code. When you do, you must also specify a language code under the Language code setting. If there is no matching Language code in your source, then no track will be selected.
+        public var selectorType: MediaConvertClientTypes.DynamicAudioSelectorType?
+
+        public init(
+            audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection? = nil,
+            externalAudioFileInput: Swift.String? = nil,
+            languageCode: MediaConvertClientTypes.LanguageCode? = nil,
+            offset: Swift.Int? = nil,
+            selectorType: MediaConvertClientTypes.DynamicAudioSelectorType? = nil
+        ) {
+            self.audioDurationCorrection = audioDurationCorrection
+            self.externalAudioFileInput = externalAudioFileInput
+            self.languageCode = languageCode
+            self.offset = offset
+            self.selectorType = selectorType
         }
     }
 }
@@ -6845,6 +6906,8 @@ extension MediaConvertClientTypes {
         public var denoiseFilter: MediaConvertClientTypes.InputDenoiseFilter?
         /// Use this setting only when your video source has Dolby Vision studio mastering metadata that is carried in a separate XML file. Specify the Amazon S3 location for the metadata XML file. MediaConvert uses this file to provide global and frame-level metadata for Dolby Vision preprocessing. When you specify a file here and your input also has interleaved global and frame level metadata, MediaConvert ignores the interleaved metadata and uses only the the metadata from this external XML file. Note that your IAM service role must grant MediaConvert read permissions to this file. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
         public var dolbyVisionMetadataXml: Swift.String?
+        /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
+        public var dynamicAudioSelectors: [Swift.String: MediaConvertClientTypes.DynamicAudioSelector]?
         /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. If your input format is IMF, specify your input by providing the path to your CPL. For example, "s3://bucket/vf/cpl.xml". If the CPL is in an incomplete IMP, make sure to use Supplemental IMPs to specify any supplemental IMPs that contain assets referenced by the CPL.
         public var fileInput: Swift.String?
         /// Specify whether to apply input filtering to improve the video quality of your input. To apply filtering depending on your input type and quality: Choose Auto. To apply no filtering: Choose Disable. To apply filtering regardless of your input type and quality: Choose Force. When you do, you must also specify a value for Filter strength.
@@ -6891,6 +6954,7 @@ extension MediaConvertClientTypes {
             decryptionSettings: MediaConvertClientTypes.InputDecryptionSettings? = nil,
             denoiseFilter: MediaConvertClientTypes.InputDenoiseFilter? = nil,
             dolbyVisionMetadataXml: Swift.String? = nil,
+            dynamicAudioSelectors: [Swift.String: MediaConvertClientTypes.DynamicAudioSelector]? = nil,
             fileInput: Swift.String? = nil,
             filterEnable: MediaConvertClientTypes.InputFilterEnable? = nil,
             filterStrength: Swift.Int? = nil,
@@ -6917,6 +6981,7 @@ extension MediaConvertClientTypes {
             self.decryptionSettings = decryptionSettings
             self.denoiseFilter = denoiseFilter
             self.dolbyVisionMetadataXml = dolbyVisionMetadataXml
+            self.dynamicAudioSelectors = dynamicAudioSelectors
             self.fileInput = fileInput
             self.filterEnable = filterEnable
             self.filterStrength = filterStrength
@@ -6958,6 +7023,8 @@ extension MediaConvertClientTypes {
         public var denoiseFilter: MediaConvertClientTypes.InputDenoiseFilter?
         /// Use this setting only when your video source has Dolby Vision studio mastering metadata that is carried in a separate XML file. Specify the Amazon S3 location for the metadata XML file. MediaConvert uses this file to provide global and frame-level metadata for Dolby Vision preprocessing. When you specify a file here and your input also has interleaved global and frame level metadata, MediaConvert ignores the interleaved metadata and uses only the the metadata from this external XML file. Note that your IAM service role must grant MediaConvert read permissions to this file. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
         public var dolbyVisionMetadataXml: Swift.String?
+        /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
+        public var dynamicAudioSelectors: [Swift.String: MediaConvertClientTypes.DynamicAudioSelector]?
         /// Specify whether to apply input filtering to improve the video quality of your input. To apply filtering depending on your input type and quality: Choose Auto. To apply no filtering: Choose Disable. To apply filtering regardless of your input type and quality: Choose Force. When you do, you must also specify a value for Filter strength.
         public var filterEnable: MediaConvertClientTypes.InputFilterEnable?
         /// Specify the strength of the input filter. To apply an automatic amount of filtering based the compression artifacts measured in your input: We recommend that you leave Filter strength blank and set Filter enable to Auto. To manually apply filtering: Enter a value from 1 to 5, where 1 is the least amount of filtering and 5 is the most. The value that you enter applies to the strength of the Deblock or Denoise filters, or to the strength of the Advanced input filter.
@@ -6997,6 +7064,7 @@ extension MediaConvertClientTypes {
             deblockFilter: MediaConvertClientTypes.InputDeblockFilter? = nil,
             denoiseFilter: MediaConvertClientTypes.InputDenoiseFilter? = nil,
             dolbyVisionMetadataXml: Swift.String? = nil,
+            dynamicAudioSelectors: [Swift.String: MediaConvertClientTypes.DynamicAudioSelector]? = nil,
             filterEnable: MediaConvertClientTypes.InputFilterEnable? = nil,
             filterStrength: Swift.Int? = nil,
             imageInserter: MediaConvertClientTypes.ImageInserter? = nil,
@@ -7019,6 +7087,7 @@ extension MediaConvertClientTypes {
             self.deblockFilter = deblockFilter
             self.denoiseFilter = denoiseFilter
             self.dolbyVisionMetadataXml = dolbyVisionMetadataXml
+            self.dynamicAudioSelectors = dynamicAudioSelectors
             self.filterEnable = filterEnable
             self.filterStrength = filterStrength
             self.imageInserter = imageInserter
@@ -15492,6 +15561,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Use Deblocking to improve the video quality of your output by smoothing the edges of macroblock artifacts created during video compression. To reduce blocking artifacts at block boundaries, and improve overall video quality: Keep the default value, Enabled. To not apply any deblocking: Choose Disabled. Visible block edge artifacts might appear in the output, especially at lower bitrates.
+    public enum H265Deblocking: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265Deblocking] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Choose Adaptive to improve subjective video quality for high-motion content. This will cause the service to use fewer B-frames (which infer information based on other frames) for high-motion portions of the video and more B-frames for low-motion portions. The maximum number of B-frames is limited by the value you provide for the setting B frames between reference frames.
     public enum H265DynamicSubGop: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case adaptive
@@ -16219,6 +16318,8 @@ extension MediaConvertClientTypes {
         public var codecLevel: MediaConvertClientTypes.H265CodecLevel?
         /// Represents the Profile and Tier, per the HEVC (H.265) specification. Selections are grouped as [Profile] / [Tier], so "Main/High" represents Main Profile with High Tier. 4:2:2 profiles are only available with the HEVC 4:2:2 License.
         public var codecProfile: MediaConvertClientTypes.H265CodecProfile?
+        /// Use Deblocking to improve the video quality of your output by smoothing the edges of macroblock artifacts created during video compression. To reduce blocking artifacts at block boundaries, and improve overall video quality: Keep the default value, Enabled. To not apply any deblocking: Choose Disabled. Visible block edge artifacts might appear in the output, especially at lower bitrates.
+        public var deblocking: MediaConvertClientTypes.H265Deblocking?
         /// Specify whether to allow the number of B-frames in your output GOP structure to vary or not depending on your input video content. To improve the subjective video quality of your output that has high-motion content: Leave blank or keep the default value Adaptive. MediaConvert will use fewer B-frames for high-motion video content than low-motion content. The maximum number of B- frames is limited by the value that you choose for B-frames between reference frames. To use the same number B-frames for all types of content: Choose Static.
         public var dynamicSubGop: MediaConvertClientTypes.H265DynamicSubGop?
         /// Optionally include or suppress markers at the end of your output that signal the end of the video stream. To include end of stream markers: Leave blank or keep the default value, Include. To not include end of stream markers: Choose Suppress. This is useful when your output will be inserted into another stream.
@@ -16301,6 +16402,7 @@ extension MediaConvertClientTypes {
             bitrate: Swift.Int? = nil,
             codecLevel: MediaConvertClientTypes.H265CodecLevel? = nil,
             codecProfile: MediaConvertClientTypes.H265CodecProfile? = nil,
+            deblocking: MediaConvertClientTypes.H265Deblocking? = nil,
             dynamicSubGop: MediaConvertClientTypes.H265DynamicSubGop? = nil,
             endOfStreamMarkers: MediaConvertClientTypes.H265EndOfStreamMarkers? = nil,
             flickerAdaptiveQuantization: MediaConvertClientTypes.H265FlickerAdaptiveQuantization? = nil,
@@ -16345,6 +16447,7 @@ extension MediaConvertClientTypes {
             self.bitrate = bitrate
             self.codecLevel = codecLevel
             self.codecProfile = codecProfile
+            self.deblocking = deblocking
             self.dynamicSubGop = dynamicSubGop
             self.endOfStreamMarkers = endOfStreamMarkers
             self.flickerAdaptiveQuantization = flickerAdaptiveQuantization
@@ -25588,6 +25691,7 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["bitrate"].write(value.bitrate)
         try writer["codecLevel"].write(value.codecLevel)
         try writer["codecProfile"].write(value.codecProfile)
+        try writer["deblocking"].write(value.deblocking)
         try writer["dynamicSubGop"].write(value.dynamicSubGop)
         try writer["endOfStreamMarkers"].write(value.endOfStreamMarkers)
         try writer["flickerAdaptiveQuantization"].write(value.flickerAdaptiveQuantization)
@@ -25636,6 +25740,7 @@ extension MediaConvertClientTypes.H265Settings {
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.codecLevel = try reader["codecLevel"].readIfPresent()
         value.codecProfile = try reader["codecProfile"].readIfPresent()
+        value.deblocking = try reader["deblocking"].readIfPresent()
         value.dynamicSubGop = try reader["dynamicSubGop"].readIfPresent()
         value.endOfStreamMarkers = try reader["endOfStreamMarkers"].readIfPresent()
         value.flickerAdaptiveQuantization = try reader["flickerAdaptiveQuantization"].readIfPresent()
@@ -28186,6 +28291,7 @@ extension MediaConvertClientTypes.Input {
         try writer["decryptionSettings"].write(value.decryptionSettings, with: MediaConvertClientTypes.InputDecryptionSettings.write(value:to:))
         try writer["denoiseFilter"].write(value.denoiseFilter)
         try writer["dolbyVisionMetadataXml"].write(value.dolbyVisionMetadataXml)
+        try writer["dynamicAudioSelectors"].writeMap(value.dynamicAudioSelectors, valueWritingClosure: MediaConvertClientTypes.DynamicAudioSelector.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["fileInput"].write(value.fileInput)
         try writer["filterEnable"].write(value.filterEnable)
         try writer["filterStrength"].write(value.filterStrength)
@@ -28216,6 +28322,7 @@ extension MediaConvertClientTypes.Input {
         value.decryptionSettings = try reader["decryptionSettings"].readIfPresent(with: MediaConvertClientTypes.InputDecryptionSettings.read(from:))
         value.denoiseFilter = try reader["denoiseFilter"].readIfPresent()
         value.dolbyVisionMetadataXml = try reader["dolbyVisionMetadataXml"].readIfPresent()
+        value.dynamicAudioSelectors = try reader["dynamicAudioSelectors"].readMapIfPresent(valueReadingClosure: MediaConvertClientTypes.DynamicAudioSelector.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.fileInput = try reader["fileInput"].readIfPresent()
         value.filterEnable = try reader["filterEnable"].readIfPresent()
         value.filterStrength = try reader["filterStrength"].readIfPresent()
@@ -28411,6 +28518,29 @@ extension MediaConvertClientTypes.InputClipping {
         var value = MediaConvertClientTypes.InputClipping()
         value.endTimecode = try reader["endTimecode"].readIfPresent()
         value.startTimecode = try reader["startTimecode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DynamicAudioSelector {
+
+    static func write(value: MediaConvertClientTypes.DynamicAudioSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioDurationCorrection"].write(value.audioDurationCorrection)
+        try writer["externalAudioFileInput"].write(value.externalAudioFileInput)
+        try writer["languageCode"].write(value.languageCode)
+        try writer["offset"].write(value.offset)
+        try writer["selectorType"].write(value.selectorType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DynamicAudioSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DynamicAudioSelector()
+        value.audioDurationCorrection = try reader["audioDurationCorrection"].readIfPresent()
+        value.externalAudioFileInput = try reader["externalAudioFileInput"].readIfPresent()
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        value.offset = try reader["offset"].readIfPresent()
+        value.selectorType = try reader["selectorType"].readIfPresent()
         return value
     }
 }
@@ -28989,6 +29119,7 @@ extension MediaConvertClientTypes.InputTemplate {
         try writer["deblockFilter"].write(value.deblockFilter)
         try writer["denoiseFilter"].write(value.denoiseFilter)
         try writer["dolbyVisionMetadataXml"].write(value.dolbyVisionMetadataXml)
+        try writer["dynamicAudioSelectors"].writeMap(value.dynamicAudioSelectors, valueWritingClosure: MediaConvertClientTypes.DynamicAudioSelector.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["filterEnable"].write(value.filterEnable)
         try writer["filterStrength"].write(value.filterStrength)
         try writer["imageInserter"].write(value.imageInserter, with: MediaConvertClientTypes.ImageInserter.write(value:to:))
@@ -29015,6 +29146,7 @@ extension MediaConvertClientTypes.InputTemplate {
         value.deblockFilter = try reader["deblockFilter"].readIfPresent()
         value.denoiseFilter = try reader["denoiseFilter"].readIfPresent()
         value.dolbyVisionMetadataXml = try reader["dolbyVisionMetadataXml"].readIfPresent()
+        value.dynamicAudioSelectors = try reader["dynamicAudioSelectors"].readMapIfPresent(valueReadingClosure: MediaConvertClientTypes.DynamicAudioSelector.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.filterEnable = try reader["filterEnable"].readIfPresent()
         value.filterStrength = try reader["filterStrength"].readIfPresent()
         value.imageInserter = try reader["imageInserter"].readIfPresent(with: MediaConvertClientTypes.ImageInserter.read(from:))

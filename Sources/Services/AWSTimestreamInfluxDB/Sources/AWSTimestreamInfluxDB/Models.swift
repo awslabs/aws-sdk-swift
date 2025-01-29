@@ -951,10 +951,14 @@ public struct ListDbInstancesOutput: Swift.Sendable {
 }
 
 public struct UpdateDbInstanceInput: Swift.Sendable {
+    /// The amount of storage to allocate for your DB storage type (in gibibytes).
+    public var allocatedStorage: Swift.Int?
     /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     public var dbParameterGroupIdentifier: Swift.String?
+    /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
+    public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
     /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
     public var deploymentType: TimestreamInfluxDBClientTypes.DeploymentType?
     /// The id of the DB instance.
@@ -966,15 +970,19 @@ public struct UpdateDbInstanceInput: Swift.Sendable {
     public var port: Swift.Int?
 
     public init(
+        allocatedStorage: Swift.Int? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
+        dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.DeploymentType? = nil,
         identifier: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         port: Swift.Int? = nil
     ) {
+        self.allocatedStorage = allocatedStorage
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+        self.dbStorageType = dbStorageType
         self.deploymentType = deploymentType
         self.identifier = identifier
         self.logDeliveryConfiguration = logDeliveryConfiguration
@@ -1740,8 +1748,10 @@ extension UpdateDbInstanceInput {
 
     static func write(value: UpdateDbInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allocatedStorage"].write(value.allocatedStorage)
         try writer["dbInstanceType"].write(value.dbInstanceType)
         try writer["dbParameterGroupIdentifier"].write(value.dbParameterGroupIdentifier)
+        try writer["dbStorageType"].write(value.dbStorageType)
         try writer["deploymentType"].write(value.deploymentType)
         try writer["identifier"].write(value.identifier)
         try writer["logDeliveryConfiguration"].write(value.logDeliveryConfiguration, with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.write(value:to:))

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChatbotClient: ClientRuntime.Client {
     public static let clientName = "ChatbotClient"
-    public static let version = "1.2.3"
+    public static let version = "1.2.6"
     let client: ClientRuntime.SdkHttpClient
     let config: ChatbotClient.ChatbotClientConfiguration
     let serviceName = "chatbot"
