@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MailManagerClient: ClientRuntime.Client {
     public static let clientName = "MailManagerClient"
-    public static let version = "1.2.6"
+    public static let version = "1.2.7"
     let client: ClientRuntime.SdkHttpClient
     let config: MailManagerClient.MailManagerClientConfiguration
     let serviceName = "MailManager"
@@ -505,6 +505,165 @@ extension MailManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAddonSubscription")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAddressList` operation on the `MailManager` service.
+    ///
+    /// Creates a new address list.
+    ///
+    /// - Parameter CreateAddressListInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAddressListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `ServiceQuotaExceededException` : Occurs when an operation exceeds a predefined service quota or limit.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func createAddressList(input: CreateAddressListInput) async throws -> CreateAddressListOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAddressList")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAddressListInput, CreateAddressListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAddressListInput, CreateAddressListOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAddressListInput, CreateAddressListOutput>(CreateAddressListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAddressListInput, CreateAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListInput, CreateAddressListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddressListOutput>(CreateAddressListOutput.httpOutput(from:), CreateAddressListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddressListInput, CreateAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddressListOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAddressListInput, CreateAddressListOutput>(xAmzTarget: "MailManagerSvc.CreateAddressList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAddressListInput, CreateAddressListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAddressListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListInput, CreateAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAddressListInput, CreateAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAddressListInput, CreateAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAddressListInput, CreateAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAddressList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateAddressListImportJob` operation on the `MailManager` service.
+    ///
+    /// Creates an import job for an address list.
+    ///
+    /// - Parameter CreateAddressListImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAddressListImportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func createAddressListImportJob(input: CreateAddressListImportJobInput) async throws -> CreateAddressListImportJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAddressListImportJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAddressListImportJobInput, CreateAddressListImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(CreateAddressListImportJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddressListImportJobOutput>(CreateAddressListImportJobOutput.httpOutput(from:), CreateAddressListImportJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddressListImportJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(xAmzTarget: "MailManagerSvc.CreateAddressListImportJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAddressListImportJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAddressListImportJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1061,6 +1220,83 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteAddressList` operation on the `MailManager` service.
+    ///
+    /// Deletes an address list.
+    ///
+    /// - Parameter DeleteAddressListInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAddressListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    public func deleteAddressList(input: DeleteAddressListInput) async throws -> DeleteAddressListOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAddressList")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAddressListInput, DeleteAddressListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(DeleteAddressListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAddressListOutput>(DeleteAddressListOutput.httpOutput(from:), DeleteAddressListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddressListOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(xAmzTarget: "MailManagerSvc.DeleteAddressList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAddressListInput, DeleteAddressListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAddressListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAddressList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteArchive` operation on the `MailManager` service.
     ///
     /// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
@@ -1446,6 +1682,84 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeregisterMemberFromAddressList` operation on the `MailManager` service.
+    ///
+    /// Removes a member from an address list.
+    ///
+    /// - Parameter DeregisterMemberFromAddressListInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterMemberFromAddressListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func deregisterMemberFromAddressList(input: DeregisterMemberFromAddressListInput) async throws -> DeregisterMemberFromAddressListOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deregisterMemberFromAddressList")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(DeregisterMemberFromAddressListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterMemberFromAddressListOutput>(DeregisterMemberFromAddressListOutput.httpOutput(from:), DeregisterMemberFromAddressListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterMemberFromAddressListOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterMemberFromAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(xAmzTarget: "MailManagerSvc.DeregisterMemberFromAddressList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterMemberFromAddressListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterMemberFromAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterMemberFromAddressList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAddonInstance` operation on the `MailManager` service.
     ///
     /// Gets detailed information about an Add On instance.
@@ -1586,6 +1900,162 @@ extension MailManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAddonSubscription")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAddressList` operation on the `MailManager` service.
+    ///
+    /// Fetch attributes of an address list.
+    ///
+    /// - Parameter GetAddressListInput : [no documentation found]
+    ///
+    /// - Returns: `GetAddressListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func getAddressList(input: GetAddressListInput) async throws -> GetAddressListOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAddressList")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAddressListInput, GetAddressListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAddressListInput, GetAddressListOutput>(GetAddressListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAddressListInput, GetAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListInput, GetAddressListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAddressListOutput>(GetAddressListOutput.httpOutput(from:), GetAddressListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddressListInput, GetAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAddressListOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAddressListInput, GetAddressListOutput>(xAmzTarget: "MailManagerSvc.GetAddressList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAddressListInput, GetAddressListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAddressListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListInput, GetAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAddressListInput, GetAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAddressListInput, GetAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAddressListInput, GetAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAddressList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAddressListImportJob` operation on the `MailManager` service.
+    ///
+    /// Fetch attributes of an import job.
+    ///
+    /// - Parameter GetAddressListImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetAddressListImportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func getAddressListImportJob(input: GetAddressListImportJobInput) async throws -> GetAddressListImportJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAddressListImportJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAddressListImportJobInput, GetAddressListImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(GetAddressListImportJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAddressListImportJobOutput>(GetAddressListImportJobOutput.httpOutput(from:), GetAddressListImportJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAddressListImportJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(xAmzTarget: "MailManagerSvc.GetAddressListImportJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAddressListImportJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAddressListImportJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2138,6 +2608,84 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetMemberOfAddressList` operation on the `MailManager` service.
+    ///
+    /// Fetch attributes of a member in an address list.
+    ///
+    /// - Parameter GetMemberOfAddressListInput : [no documentation found]
+    ///
+    /// - Returns: `GetMemberOfAddressListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func getMemberOfAddressList(input: GetMemberOfAddressListInput) async throws -> GetMemberOfAddressListOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMemberOfAddressList")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetMemberOfAddressListInput, GetMemberOfAddressListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(GetMemberOfAddressListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemberOfAddressListOutput>(GetMemberOfAddressListOutput.httpOutput(from:), GetMemberOfAddressListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMemberOfAddressListOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMemberOfAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(xAmzTarget: "MailManagerSvc.GetMemberOfAddressList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMemberOfAddressListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMemberOfAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMemberOfAddressList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetRelay` operation on the `MailManager` service.
     ///
     /// Fetch the relay resource and it's attributes.
@@ -2516,6 +3064,161 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAddressListImportJobs` operation on the `MailManager` service.
+    ///
+    /// Lists jobs for an address list.
+    ///
+    /// - Parameter ListAddressListImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAddressListImportJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func listAddressListImportJobs(input: ListAddressListImportJobsInput) async throws -> ListAddressListImportJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAddressListImportJobs")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAddressListImportJobsInput, ListAddressListImportJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(ListAddressListImportJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAddressListImportJobsOutput>(ListAddressListImportJobsOutput.httpOutput(from:), ListAddressListImportJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAddressListImportJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAddressListImportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(xAmzTarget: "MailManagerSvc.ListAddressListImportJobs"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAddressListImportJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAddressListImportJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAddressListImportJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAddressLists` operation on the `MailManager` service.
+    ///
+    /// Lists address lists for this account.
+    ///
+    /// - Parameter ListAddressListsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAddressListsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func listAddressLists(input: ListAddressListsInput) async throws -> ListAddressListsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAddressLists")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAddressListsInput, ListAddressListsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAddressListsInput, ListAddressListsOutput>(ListAddressListsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAddressListsInput, ListAddressListsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListsInput, ListAddressListsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAddressListsOutput>(ListAddressListsOutput.httpOutput(from:), ListAddressListsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddressListsInput, ListAddressListsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAddressListsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAddressListsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAddressListsInput, ListAddressListsOutput>(xAmzTarget: "MailManagerSvc.ListAddressLists"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAddressListsInput, ListAddressListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAddressListsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAddressListsInput, ListAddressListsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAddressListsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAddressListsInput, ListAddressListsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAddressListsInput, ListAddressListsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAddressListsInput, ListAddressListsOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAddressLists")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListArchiveExports` operation on the `MailManager` service.
     ///
     /// Returns a list of email archive export jobs.
@@ -2812,6 +3515,84 @@ extension MailManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIngressPoints")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListMembersOfAddressList` operation on the `MailManager` service.
+    ///
+    /// Lists members of an address list.
+    ///
+    /// - Parameter ListMembersOfAddressListInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembersOfAddressListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func listMembersOfAddressList(input: ListMembersOfAddressListInput) async throws -> ListMembersOfAddressListOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMembersOfAddressList")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMembersOfAddressListInput, ListMembersOfAddressListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(ListMembersOfAddressListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOfAddressListOutput>(ListMembersOfAddressListOutput.httpOutput(from:), ListMembersOfAddressListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOfAddressListOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMembersOfAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(xAmzTarget: "MailManagerSvc.ListMembersOfAddressList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMembersOfAddressListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMembersOfAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMembersOfAddressList")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3125,6 +3906,165 @@ extension MailManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RegisterMemberToAddressList` operation on the `MailManager` service.
+    ///
+    /// Adds a member to an address list.
+    ///
+    /// - Parameter RegisterMemberToAddressListInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterMemberToAddressListOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Occurs when an operation exceeds a predefined service quota or limit.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func registerMemberToAddressList(input: RegisterMemberToAddressListInput) async throws -> RegisterMemberToAddressListOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "registerMemberToAddressList")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(RegisterMemberToAddressListInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterMemberToAddressListOutput>(RegisterMemberToAddressListOutput.httpOutput(from:), RegisterMemberToAddressListOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RegisterMemberToAddressListOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterMemberToAddressListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(xAmzTarget: "MailManagerSvc.RegisterMemberToAddressList"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterMemberToAddressListInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterMemberToAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterMemberToAddressList")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartAddressListImportJob` operation on the `MailManager` service.
+    ///
+    /// Starts an import job for an address list.
+    ///
+    /// - Parameter StartAddressListImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartAddressListImportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Occurs when an operation exceeds a predefined service quota or limit.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func startAddressListImportJob(input: StartAddressListImportJobInput) async throws -> StartAddressListImportJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startAddressListImportJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartAddressListImportJobInput, StartAddressListImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(StartAddressListImportJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAddressListImportJobOutput>(StartAddressListImportJobOutput.httpOutput(from:), StartAddressListImportJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartAddressListImportJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(xAmzTarget: "MailManagerSvc.StartAddressListImportJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAddressListImportJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAddressListImportJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartArchiveExport` operation on the `MailManager` service.
     ///
     /// Initiates an export of emails from the specified archive.
@@ -3272,6 +4212,85 @@ extension MailManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartArchiveSearch")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopAddressListImportJob` operation on the `MailManager` service.
+    ///
+    /// Stops an ongoing import job for an address list.
+    ///
+    /// - Parameter StopAddressListImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopAddressListImportJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Occurs when a user is denied access to a specific resource or action.
+    /// - `ConflictException` : The request configuration has conflicts. For details, see the accompanying error message.
+    /// - `ResourceNotFoundException` : Occurs when a requested resource is not found.
+    /// - `ThrottlingException` : Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+    /// - `ValidationException` : The request validation has failed. For details, see the accompanying error message.
+    public func stopAddressListImportJob(input: StopAddressListImportJobInput) async throws -> StopAddressListImportJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopAddressListImportJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ses")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopAddressListImportJobInput, StopAddressListImportJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(StopAddressListImportJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAddressListImportJobOutput>(StopAddressListImportJobOutput.httpOutput(from:), StopAddressListImportJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopAddressListImportJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MailManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopAddressListImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(xAmzTarget: "MailManagerSvc.StopAddressListImportJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopAddressListImportJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(serviceID: serviceName, version: MailManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MailManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopAddressListImportJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
