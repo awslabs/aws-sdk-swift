@@ -4,6 +4,7 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSOperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
@@ -19,7 +20,6 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErro
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.middlewares.OperationEndpointResolverMiddleware
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.testModuleName
 
@@ -79,7 +79,7 @@ abstract class AWSHTTPBindingProtocolGenerator(
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         operationMiddleware.appendMiddleware(
             operation,
-            OperationEndpointResolverMiddleware(ctx, customizations.endpointMiddlewareSymbol)
+            AWSOperationEndpointResolverMiddleware(ctx, customizations.endpointMiddlewareSymbol)
         )
     }
 

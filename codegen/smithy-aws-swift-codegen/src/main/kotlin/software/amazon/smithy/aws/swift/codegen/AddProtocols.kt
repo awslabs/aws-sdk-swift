@@ -4,6 +4,7 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSOperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_1ProtocolGenerator
@@ -37,6 +38,9 @@ class AddProtocols : SwiftIntegration {
         EC2QueryProtocolGenerator(),
         RpcV2CborProtocolGenerator(
             rpcCborCustomizations = AWSRpcV2CborCustomizations(),
+            operationEndpointResolverMiddlewareFactory = { ctx, endpointMiddlewareSymbol ->
+                AWSOperationEndpointResolverMiddleware(ctx, endpointMiddlewareSymbol)
+            },
             userAgentMiddlewareFactory = { ctx ->
                 UserAgentMiddleware(
                     ctx.settings

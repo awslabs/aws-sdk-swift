@@ -7,21 +7,21 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSOperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.GenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.middlewares.OperationEndpointResolverMiddleware
 
-class OperationEndpointResolverMiddlewareTests {
+class AWSOperationEndpointResolverMiddlewareTests {
     @Test
     fun `test endpoint middleware init`() {
         val writer = SwiftWriter("smithy.example")
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
         val operation = context.ctx.model.operationShapes.toList().first { it.id.name == "GetThing" }
-        val middleware = OperationEndpointResolverMiddleware(context.ctx, AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware)
+        val middleware = AWSOperationEndpointResolverMiddleware(context.ctx, AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware)
         middleware.render(context.ctx, writer, operation, "operationStack")
         var contents = writer.toString()
         val expected = """
