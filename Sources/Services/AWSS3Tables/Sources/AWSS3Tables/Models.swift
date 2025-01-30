@@ -299,10 +299,79 @@ extension S3TablesClientTypes {
     }
 }
 
+extension S3TablesClientTypes {
+
+    /// Contains details about a schema field.
+    public struct SchemaField: Swift.Sendable {
+        /// The name of the field.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A Boolean value that specifies whether values are required for each row in this field. By default, this is false and null values are allowed in the field. If this is true the field does not allow null values.
+        public var `required`: Swift.Bool
+        /// The field type. S3 Tables supports all Apache Iceberg primitive types. For more information, see the [Apache Iceberg documentation](https://iceberg.apache.org/spec/#primitive-types).
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            `required`: Swift.Bool = false,
+            type: Swift.String? = nil
+        ) {
+            self.name = name
+            self.`required` = `required`
+            self.type = type
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains details about the schema for an Iceberg table.
+    public struct IcebergSchema: Swift.Sendable {
+        /// The schema fields for the table
+        /// This member is required.
+        public var fields: [S3TablesClientTypes.SchemaField]?
+
+        public init(
+            fields: [S3TablesClientTypes.SchemaField]? = nil
+        ) {
+            self.fields = fields
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains details about the metadata for an Iceberg table.
+    public struct IcebergMetadata: Swift.Sendable {
+        /// The schema for an Iceberg table.
+        /// This member is required.
+        public var schema: S3TablesClientTypes.IcebergSchema?
+
+        public init(
+            schema: S3TablesClientTypes.IcebergSchema? = nil
+        ) {
+            self.schema = schema
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Contains details about the table metadata.
+    public enum TableMetadata: Swift.Sendable {
+        /// Contains details about the metadata of an Iceberg table.
+        case iceberg(S3TablesClientTypes.IcebergMetadata)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct CreateTableInput: Swift.Sendable {
     /// The format for the table.
     /// This member is required.
     public var format: S3TablesClientTypes.OpenTableFormat?
+    /// The metadata for the table.
+    public var metadata: S3TablesClientTypes.TableMetadata?
     /// The name for the table.
     /// This member is required.
     public var name: Swift.String?
@@ -315,11 +384,13 @@ public struct CreateTableInput: Swift.Sendable {
 
     public init(
         format: S3TablesClientTypes.OpenTableFormat? = nil,
+        metadata: S3TablesClientTypes.TableMetadata? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
     ) {
         self.format = format
+        self.metadata = metadata
         self.name = name
         self.namespace = namespace
         self.tableBucketARN = tableBucketARN
@@ -423,7 +494,7 @@ public struct DeleteTableBucketInput: Swift.Sendable {
 }
 
 public struct DeleteTableBucketPolicyInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the table bucket.
+    /// The Amazon Resource Name (ARN) of the table bucket.
     /// This member is required.
     public var tableBucketARN: Swift.String?
 
@@ -441,7 +512,7 @@ public struct DeleteTablePolicyInput: Swift.Sendable {
     /// The namespace associated with the table.
     /// This member is required.
     public var namespace: Swift.String?
-    /// The Amazon Resource Number (ARN) of the table bucket that contains the table.
+    /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
     /// This member is required.
     public var tableBucketARN: Swift.String?
 
@@ -798,7 +869,7 @@ public struct GetTableBucketMaintenanceConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetTableBucketPolicyInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the table bucket.
+    /// The Amazon Resource Name (ARN) of the table bucket.
     /// This member is required.
     public var tableBucketARN: Swift.String?
 
@@ -810,7 +881,7 @@ public struct GetTableBucketPolicyInput: Swift.Sendable {
 }
 
 public struct GetTableBucketPolicyOutput: Swift.Sendable {
-    /// The name of the resource policy.
+    /// The JSON that defines the policy.
     /// This member is required.
     public var resourcePolicy: Swift.String?
 
@@ -1134,7 +1205,7 @@ public struct GetTablePolicyInput: Swift.Sendable {
     /// The namespace associated with the table.
     /// This member is required.
     public var namespace: Swift.String?
-    /// The Amazon Resource Number (ARN) of the table bucket that contains the table.
+    /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
     /// This member is required.
     public var tableBucketARN: Swift.String?
 
@@ -1150,7 +1221,7 @@ public struct GetTablePolicyInput: Swift.Sendable {
 }
 
 public struct GetTablePolicyOutput: Swift.Sendable {
-    /// The name of the resource policy.
+    /// The JSON that defines the policy.
     /// This member is required.
     public var resourcePolicy: Swift.String?
 
@@ -1255,7 +1326,7 @@ extension S3TablesClientTypes {
 
     /// Contains details about a table bucket.
     public struct TableBucketSummary: Swift.Sendable {
-        /// The Amazon Resource Number (ARN) of the table bucket.
+        /// The Amazon Resource Name (ARN) of the table bucket.
         /// This member is required.
         public var arn: Swift.String?
         /// The date and time the table bucket was created at.
@@ -1307,7 +1378,7 @@ public struct ListTablesInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The prefix of the tables.
     public var `prefix`: Swift.String?
-    /// The Amazon resource Number (ARN) of the table bucket.
+    /// The Amazon resource Name (ARN) of the table bucket.
     /// This member is required.
     public var tableBucketARN: Swift.String?
 
@@ -1342,7 +1413,7 @@ extension S3TablesClientTypes {
         /// The name of the namespace.
         /// This member is required.
         public var namespace: [Swift.String]?
-        /// The Amazon Resource Number (ARN) of the table.
+        /// The Amazon Resource Name (ARN) of the table.
         /// This member is required.
         public var tableARN: Swift.String?
         /// The type of the table.
@@ -1406,10 +1477,10 @@ public struct PutTableBucketMaintenanceConfigurationInput: Swift.Sendable {
 }
 
 public struct PutTableBucketPolicyInput: Swift.Sendable {
-    /// The name of the resource policy.
+    /// The JSON that defines the policy.
     /// This member is required.
     public var resourcePolicy: Swift.String?
-    /// The Amazon Resource Number (ARN) of the table bucket.
+    /// The Amazon Resource Name (ARN) of the table bucket.
     /// This member is required.
     public var tableBucketARN: Swift.String?
 
@@ -1461,10 +1532,10 @@ public struct PutTablePolicyInput: Swift.Sendable {
     /// The namespace associated with the table.
     /// This member is required.
     public var namespace: Swift.String?
-    /// The name of the resource policy.
+    /// The JSON that defines the policy.
     /// This member is required.
     public var resourcePolicy: Swift.String?
-    /// The Amazon Resource Number (ARN) of the table bucket that contains the table.
+    /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
     /// This member is required.
     public var tableBucketARN: Swift.String?
 
@@ -1557,7 +1628,7 @@ public struct UpdateTableMetadataLocationOutput: Swift.Sendable {
     /// The namespace the table is associated with.
     /// This member is required.
     public var namespace: [Swift.String]?
-    /// The Amazon Resource Number (ARN) of the table.
+    /// The Amazon Resource Name (ARN) of the table.
     /// This member is required.
     public var tableARN: Swift.String?
     /// The version token of the table.
@@ -2003,6 +2074,7 @@ extension CreateTableInput {
     static func write(value: CreateTableInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["format"].write(value.format)
+        try writer["metadata"].write(value.metadata, with: S3TablesClientTypes.TableMetadata.write(value:to:))
         try writer["name"].write(value.name)
     }
 }
@@ -3136,6 +3208,45 @@ extension S3TablesClientTypes.TableSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension S3TablesClientTypes.TableMetadata {
+
+    static func write(value: S3TablesClientTypes.TableMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .iceberg(iceberg):
+                try writer["iceberg"].write(iceberg, with: S3TablesClientTypes.IcebergMetadata.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension S3TablesClientTypes.IcebergMetadata {
+
+    static func write(value: S3TablesClientTypes.IcebergMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schema"].write(value.schema, with: S3TablesClientTypes.IcebergSchema.write(value:to:))
+    }
+}
+
+extension S3TablesClientTypes.IcebergSchema {
+
+    static func write(value: S3TablesClientTypes.IcebergSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.SchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension S3TablesClientTypes.SchemaField {
+
+    static func write(value: S3TablesClientTypes.SchemaField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["required"].write(value.`required`)
+        try writer["type"].write(value.type)
     }
 }
 
