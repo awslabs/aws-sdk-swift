@@ -31,9 +31,10 @@ class AWSOperationEndpointResolverMiddleware(
         if (getBuiltInName(param) == "endpoint") {
             writer.write(
                 "let configuredEndpoint = try config.${getBuiltInName(param)} " +
-                        "?? \$N.configuredEndpoint(\$S, config.ignoreConfiguredEndpointURLs)",
+                    "?? \$N.configuredEndpoint(\$S, config.ignoreConfiguredEndpointURLs)",
                 AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
-                ctx.settings.sdkId)
+                ctx.settings.sdkId
+            )
             return "configuredEndpoint"
         }
 
