@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// The synthetic output type for the UploadDirectory operation of AWS S3 Transfer Manager.
+/// The synthetic output type for the UploadDirectory operation of S3 Transfer Manager.
 ///
 /// It contains self-explanatory `objectsUploaded` and `objectsFailed` integer counts.
 public struct UploadDirectoryOutput: TransferOutput {

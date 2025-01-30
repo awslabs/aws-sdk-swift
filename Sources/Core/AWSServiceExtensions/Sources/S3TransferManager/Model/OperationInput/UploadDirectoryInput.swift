@@ -8,7 +8,7 @@
 import AWSS3
 import struct Foundation.URL
 
-/// The synthetic input type for the UploadDirectory operation of AWS S3 Transfer Manager.
+/// The synthetic input type for the UploadDirectory operation of S3 Transfer Manager.
 public struct UploadDirectoryInput: TransferInput {
     public let operationType: OperationType = .uploadDirectory
 
@@ -19,7 +19,7 @@ public struct UploadDirectoryInput: TransferInput {
     public let s3Prefix: String?
     public let s3Delimiter: String
     public let putObjectRequestCallback: (PutObjectInput) -> PutObjectInput
-    public let failurePolicy: UploadDirectoryFailurePolicy
+    public let failurePolicy: FailurePolicy
     public let transferListeners: [TransferListener]
 
     /// Creates `UploadDirectoryInput` using provided parameters.
@@ -42,7 +42,7 @@ public struct UploadDirectoryInput: TransferInput {
         s3Prefix: String? = nil,
         s3Delimiter: String = "/",
         putObjectRequestCallback: @escaping (PutObjectInput) -> PutObjectInput = { input in return input },
-        failurePolicy: @escaping UploadDirectoryFailurePolicy = DefaultUploadDirectoryFailurePolicy.rethrowExceptionToTerminateRequest,
+        failurePolicy: @escaping FailurePolicy = DefaultFailurePolicy.rethrowExceptionToTerminateRequest,
         transferListeners: [TransferListener] = []
     ) throws {
         let isDir = (try source.resourceValues(forKeys: [.isDirectoryKey])).isDirectory

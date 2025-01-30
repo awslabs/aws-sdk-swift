@@ -8,7 +8,7 @@
 import AWSS3
 
 /// The config object for the S3 Transfer Manager.
-public class AWSS3TransferManagerConfig {
+public class S3TransferManagerConfig {
     let s3Client: S3Client
     let targetPartSizeBytes: Int
     let multipartUploadThresholdBytes: Int
@@ -16,7 +16,7 @@ public class AWSS3TransferManagerConfig {
     let checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm
     let multipartDownloadType: MultipartDownloadType
 
-    /// Creates the config object for the AWS S3 Transfer Manager.
+    /// Creates the config object for the S3 Transfer Manager.
     ///
     /// - Parameters:
     ///    - s3Client: The S3 client instance to use for the transfer manager. If not provided, a default client is created for use.
@@ -47,7 +47,7 @@ public class AWSS3TransferManagerConfig {
     }
 }
 
-/// The multipart download type enum. This is a config option in `AWSS3TransferManagerConfig`.
+/// The multipart download type enum. This is a config option in `S3TransferManagerConfig`.
 public enum MultipartDownloadType {
     case range // Range HTTP header w/ getObject
     case part // partNumber HTTP query parameter w/ getObject

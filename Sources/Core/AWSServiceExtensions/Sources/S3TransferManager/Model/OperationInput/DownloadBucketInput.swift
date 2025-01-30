@@ -8,7 +8,7 @@
 import AWSS3
 import struct Foundation.URL
 
-/// The synthetic input type for the DownloadBucket operation of AWS S3 Transfer Manager.
+/// The synthetic input type for the DownloadBucket operation of S3 Transfer Manager.
 public struct DownloadBucketInput: TransferInput {
     public let operationType: OperationType = .downloadBucket
 
@@ -18,7 +18,7 @@ public struct DownloadBucketInput: TransferInput {
     public let s3Delimiter: String
     public let filter: (S3ClientTypes.Object) -> Bool
     public let getObjectRequestCallback: (GetObjectInput) -> GetObjectInput
-    public let failurePolicy: DownloadBucketFailurePolicy
+    public let failurePolicy: FailurePolicy
     public let transferListeners: [TransferListener]
 
     /// Creates `DownloadBucketInput` using provided parameters.
@@ -38,7 +38,7 @@ public struct DownloadBucketInput: TransferInput {
         s3Delimiter: String = "/",
         filter: @escaping (S3ClientTypes.Object) -> Bool = { input in return false },
         getObjectRequestCallback: @escaping (GetObjectInput) -> GetObjectInput = { input in return input },
-        failurePolicy: @escaping DownloadBucketFailurePolicy = DefaultDownloadBucketFailurePolicy.rethrowExceptionToTerminateRequest,
+        failurePolicy: @escaping FailurePolicy = DefaultFailurePolicy.rethrowExceptionToTerminateRequest,
         transferListeners: [TransferListener] = []
     ) {
         self.bucket = bucket

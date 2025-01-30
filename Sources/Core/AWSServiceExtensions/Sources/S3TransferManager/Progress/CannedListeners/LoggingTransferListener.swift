@@ -25,7 +25,8 @@ public class LoggingTransferListener: TransferListener {
         output: any TransferOutput,
         snapshot: any TransferProgressSnapshot
     ) {
-        logger.debug("\(input.operationType.rawValue) transfer complete. Total bytes transferred: \(snapshot.totalBytes!)")
+        let op = input.operationType.rawValue
+        logger.debug("\(op) transfer finished successfully. Total bytes transferred: \(snapshot.totalBytes!)")
     }
 
     public func onTransferFailed(input: any TransferInput, snapshot: any TransferProgressSnapshot) {

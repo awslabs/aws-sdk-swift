@@ -9,7 +9,7 @@ import SmithyHTTPAPI
 
 /// The protocol that all concrete transfer listeners must conform to.
 ///
-/// The AWS S3 Transfer Manager is "instrumented" with these transfer listener hooks.
+/// The S3 Transfer Manager is "instrumented" with these transfer listener hooks.
 /// 
 /// Users can implement custom transfer listeners and provide it via the `transferListeners` argument of the input struct of a given operation.
 /// For operation specific behavior (e.g., UploadObject vs. DownloadObject) or to access operation specific input fields, check i`TransferInput.operationType` field to safely typecast into the corresponding input type.

@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// The synthetic output type for the DownloadBucket operation of AWS S3 Transfer Manager.
+/// The synthetic output type for the DownloadBucket operation of S3 Transfer Manager.
 ///
 /// It contains self-explanatory `objectsDownloaded` and `objectsFailed` integer counts.
 public struct DownloadBucketOutput: TransferOutput {

@@ -8,7 +8,7 @@
 import AWSS3
 import class Foundation.OutputStream
 
-/// The synthetic input type for the DownloadObject operation of AWS S3 Transfer Manager.
+/// The synthetic input type for the DownloadObject operation of S3 Transfer Manager.
 public struct DownloadObjectInput: TransferInput {
     public let operationType: OperationType = .downloadObject
 

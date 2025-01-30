@@ -8,7 +8,7 @@
 import AWSS3
 import enum Smithy.ByteStream
 
-/// The synthetic input type for the UploadObject operation of AWS S3 Transfer Manager.
+/// The synthetic input type for the UploadObject operation of S3 Transfer Manager.
 public struct UploadObjectInput: TransferInput {
     public let operationType: OperationType = .uploadObject
 

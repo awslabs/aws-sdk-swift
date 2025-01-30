@@ -7,7 +7,7 @@
 
 import AWSS3
 
-/// The synthetic output type for the UploadObject operation of AWS S3 Transfer Manager.
+/// The synthetic output type for the UploadObject operation of S3 Transfer Manager.
 ///
 /// This type contains the member intersection of `PutObjectOutput` and `CompleteMultipartUploadOutput`.
 public struct UploadObjectOutput: TransferOutput {
