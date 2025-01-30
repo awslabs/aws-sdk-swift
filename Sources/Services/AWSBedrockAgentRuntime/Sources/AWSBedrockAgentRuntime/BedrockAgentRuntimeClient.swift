@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentRuntimeClient"
-    public static let version = "1.2.7"
+    public static let version = "1.2.8"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration
     let serviceName = "Bedrock Agent Runtime"
@@ -1219,7 +1219,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `RetrieveAndGenerateStream` operation on the `BedrockAgentRuntime` service.
     ///
-    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format. The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format. The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream. This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     ///
     /// - Parameter RetrieveAndGenerateStreamInput : [no documentation found]
     ///
