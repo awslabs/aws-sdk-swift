@@ -6,9 +6,6 @@ import software.amazon.smithy.rulesengine.language.syntax.parameters.Parameter
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationEndpointResolverMiddleware
-import software.amazon.smithy.swift.codegen.integration.middlewares.defaultValueLiteral
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
-import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 class AWSOperationEndpointResolverMiddleware(
     ctx: ProtocolGenerator.GenerationContext,
@@ -36,8 +33,7 @@ class AWSOperationEndpointResolverMiddleware(
                 "let configuredEndpoint = try config.${getBuiltInName(param)} " +
                         "?? \$N.configuredEndpoint(\$S, config.ignoreConfiguredEndpointURLs)",
                 AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
-                ctx.settings.sdkId
-            )
+                ctx.settings.sdkId)
             return "configuredEndpoint"
         }
 
