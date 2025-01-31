@@ -45,10 +45,6 @@ public struct UploadDirectoryInput: TransferInput {
         failurePolicy: @escaping FailurePolicy = DefaultFailurePolicy.rethrowExceptionToTerminateRequest,
         transferListeners: [TransferListener] = []
     ) throws {
-        let isDir = (try source.resourceValues(forKeys: [.isDirectoryKey])).isDirectory
-        guard let isDir else {
-            throw S3TMUploadDirectoryError.InvalidSourceURL("Source URL must be a valid directory URL.")
-        }
         self.bucket = bucket
         self.source = source
         self.followSymbolicLinks = followSymbolicLinks
@@ -58,5 +54,17 @@ public struct UploadDirectoryInput: TransferInput {
         self.putObjectRequestCallback = putObjectRequestCallback
         self.failurePolicy = failurePolicy
         self.transferListeners = transferListeners
+    }
+
+    private func validateSourceURL(_ source: URL, followSymbolicLinks: Bool) throws {
+        let urlProperties = try source.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])
+        guard urlProperties.isDirectory ?? false else {
+            throw S3TMUploadDirectoryError.InvalidSourceURL("Provided source URL is not a directory URL.")
+        }
+        if (urlProperties.isSymbolicLink ?? false) && !followSymbolicLinks {
+            throw S3TMUploadDirectoryError.InvalidSourceURL(
+                "Provided source URL is symlink for a direcotry, but `input.followSymbolicLinks` is false."
+            )
+        }
     }
 }
