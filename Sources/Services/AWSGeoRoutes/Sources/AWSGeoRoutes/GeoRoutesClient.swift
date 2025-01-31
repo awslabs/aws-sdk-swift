@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoRoutesClient: ClientRuntime.Client {
     public static let clientName = "GeoRoutesClient"
-    public static let version = "1.2.8"
+    public static let version = "1.2.9"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoRoutesClient.GeoRoutesClientConfiguration
     let serviceName = "Geo Routes"
@@ -438,7 +438,7 @@ extension GeoRoutesClient {
 
     /// Performs the `CalculateRouteMatrix` operation on the `GeoRoutes` service.
     ///
-    /// Calculates route matrix containing the results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
+    /// Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
     ///
     /// - Parameter CalculateRouteMatrixInput : [no documentation found]
     ///
@@ -516,7 +516,7 @@ extension GeoRoutesClient {
 
     /// Performs the `CalculateRoutes` operation on the `GeoRoutes` service.
     ///
-    /// Calculates a route given the following required parameters: Origin and Destination.
+    /// CalculateRoutes computes routes given the following required parameters: Origin and Destination.
     ///
     /// - Parameter CalculateRoutesInput : [no documentation found]
     ///
@@ -594,7 +594,7 @@ extension GeoRoutesClient {
 
     /// Performs the `OptimizeWaypoints` operation on the `GeoRoutes` service.
     ///
-    /// Calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
+    /// OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
     ///
     /// - Parameter OptimizeWaypointsInput : [no documentation found]
     ///
@@ -672,7 +672,7 @@ extension GeoRoutesClient {
 
     /// Performs the `SnapToRoads` operation on the `GeoRoutes` service.
     ///
-    /// The SnapToRoads action matches GPS trace to roads most likely traveled on.
+    /// SnapToRoads matches GPS trace to roads most likely traveled on.
     ///
     /// - Parameter SnapToRoadsInput : [no documentation found]
     ///

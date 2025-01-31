@@ -633,6 +633,25 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
+    /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+    public struct RoleConfiguration: Swift.Sendable {
+        /// A ARN identifying the source role configuration.
+        public var sourceRoleArn: Swift.String?
+        /// A ARN identifying the target role configuration.
+        public var targetRoleArn: Swift.String?
+
+        public init(
+            sourceRoleArn: Swift.String? = nil,
+            targetRoleArn: Swift.String? = nil
+        ) {
+            self.sourceRoleArn = sourceRoleArn
+            self.targetRoleArn = targetRoleArn
+        }
+    }
+}
+
+extension AmpClientTypes {
+
     /// A scrape configuration for a scraper, base 64 encoded. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     public enum ScrapeConfiguration: Swift.Sendable {
         /// The base 64 encoded scrape configuration file.
@@ -685,6 +704,8 @@ public struct CreateScraperInput: Swift.Sendable {
     /// The Amazon Managed Service for Prometheus workspace to send metrics to.
     /// This member is required.
     public var destination: AmpClientTypes.Destination?
+    /// The scraper role configuration for the workspace.
+    public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// The configuration file to use in the new scraper. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
@@ -698,6 +719,7 @@ public struct CreateScraperInput: Swift.Sendable {
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         destination: AmpClientTypes.Destination? = nil,
+        roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
         scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
         source: AmpClientTypes.Source? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -705,6 +727,7 @@ public struct CreateScraperInput: Swift.Sendable {
         self.alias = alias
         self.clientToken = clientToken
         self.destination = destination
+        self.roleConfiguration = roleConfiguration
         self.scrapeConfiguration = scrapeConfiguration
         self.source = source
         self.tags = tags
@@ -875,6 +898,8 @@ extension AmpClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         /// This member is required.
         public var roleArn: Swift.String?
+        /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+        public var roleConfiguration: AmpClientTypes.RoleConfiguration?
         /// The configuration in use by the scraper.
         /// This member is required.
         public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
@@ -899,6 +924,7 @@ extension AmpClientTypes {
             destination: AmpClientTypes.Destination? = nil,
             lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
+            roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
             scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
             scraperId: Swift.String? = nil,
             source: AmpClientTypes.Source? = nil,
@@ -912,6 +938,7 @@ extension AmpClientTypes {
             self.destination = destination
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
+            self.roleConfiguration = roleConfiguration
             self.scrapeConfiguration = scrapeConfiguration
             self.scraperId = scraperId
             self.source = source
@@ -976,6 +1003,8 @@ extension AmpClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
         /// This member is required.
         public var roleArn: Swift.String?
+        /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+        public var roleConfiguration: AmpClientTypes.RoleConfiguration?
         /// The ID of the scraper.
         /// This member is required.
         public var scraperId: Swift.String?
@@ -997,6 +1026,7 @@ extension AmpClientTypes {
             destination: AmpClientTypes.Destination? = nil,
             lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
+            roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
             scraperId: Swift.String? = nil,
             source: AmpClientTypes.Source? = nil,
             status: AmpClientTypes.ScraperStatus? = nil,
@@ -1009,6 +1039,7 @@ extension AmpClientTypes {
             self.destination = destination
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
+            self.roleConfiguration = roleConfiguration
             self.scraperId = scraperId
             self.source = source
             self.status = status
@@ -1042,6 +1073,8 @@ public struct UpdateScraperInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
     public var destination: AmpClientTypes.Destination?
+    /// The scraper role configuration for the workspace.
+    public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// Contains the base-64 encoded YAML configuration for the scraper. For more information about configuring a scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
     /// The ID of the scraper to update.
@@ -1052,12 +1085,14 @@ public struct UpdateScraperInput: Swift.Sendable {
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         destination: AmpClientTypes.Destination? = nil,
+        roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
         scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
         scraperId: Swift.String? = nil
     ) {
         self.alias = alias
         self.clientToken = clientToken
         self.destination = destination
+        self.roleConfiguration = roleConfiguration
         self.scrapeConfiguration = scrapeConfiguration
         self.scraperId = scraperId
     }
@@ -2459,6 +2494,7 @@ extension CreateScraperInput {
         try writer["alias"].write(value.alias)
         try writer["clientToken"].write(value.clientToken)
         try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
+        try writer["roleConfiguration"].write(value.roleConfiguration, with: AmpClientTypes.RoleConfiguration.write(value:to:))
         try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
         try writer["source"].write(value.source, with: AmpClientTypes.Source.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2518,6 +2554,7 @@ extension UpdateScraperInput {
         try writer["alias"].write(value.alias)
         try writer["clientToken"].write(value.clientToken)
         try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
+        try writer["roleConfiguration"].write(value.roleConfiguration, with: AmpClientTypes.RoleConfiguration.write(value:to:))
         try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
     }
 }
@@ -3563,6 +3600,24 @@ extension AmpClientTypes.ScraperDescription {
         value.scrapeConfiguration = try reader["scrapeConfiguration"].readIfPresent(with: AmpClientTypes.ScrapeConfiguration.read(from:))
         value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
         value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
+        value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.RoleConfiguration {
+
+    static func write(value: AmpClientTypes.RoleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceRoleArn"].write(value.sourceRoleArn)
+        try writer["targetRoleArn"].write(value.targetRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RoleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.RoleConfiguration()
+        value.sourceRoleArn = try reader["sourceRoleArn"].readIfPresent()
+        value.targetRoleArn = try reader["targetRoleArn"].readIfPresent()
         return value
     }
 }
@@ -3721,6 +3776,7 @@ extension AmpClientTypes.ScraperSummary {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
         value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
+        value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
         return value
     }
 }

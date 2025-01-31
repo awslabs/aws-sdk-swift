@@ -1100,6 +1100,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
@@ -1317,6 +1318,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
@@ -1540,6 +1542,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -4857,7 +4860,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+    /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
     public struct ResourceSpec: Swift.Sendable {
         /// The instance type that the image version runs on. JupyterServer apps only support the system value. For KernelGateway apps, the system value is translated to ml.t3.medium. KernelGateway apps also support all other values for available instance types.
         public var instanceType: SageMakerClientTypes.AppInstanceType?
@@ -4867,7 +4870,7 @@ extension SageMakerClientTypes {
         public var sageMakerImageArn: Swift.String?
         /// The SageMakerImageVersionAlias of the image to launch with. This value is in SemVer 2.0.0 versioning format.
         public var sageMakerImageVersionAlias: Swift.String?
-        /// The ARN of the image version created on the instance.
+        /// The ARN of the image version created on the instance. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var sageMakerImageVersionArn: Swift.String?
 
         public init(
@@ -4936,7 +4939,7 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// The domain ID.
         public var domainId: Swift.String?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var resourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The name of the space.
         public var spaceName: Swift.String?
@@ -10703,7 +10706,7 @@ extension SageMakerClientTypes {
         public var builtInLifecycleConfigArn: Swift.String?
         /// A list of custom SageMaker images that are configured to run as a Code Editor app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Code Editor application lifecycle configuration.
         public var lifecycleConfigArns: [Swift.String]?
@@ -14298,7 +14301,7 @@ extension SageMakerClientTypes {
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
         public var emrSettings: SageMakerClientTypes.EmrSettings?
@@ -14456,7 +14459,7 @@ extension SageMakerClientTypes {
     public struct RSessionAppSettings: Swift.Sendable {
         /// A list of custom SageMaker AI images that are configured to run as a RSession app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -14936,7 +14939,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that configure the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettings: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The ARN of the execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
@@ -23910,7 +23913,7 @@ extension SageMakerClientTypes {
     public struct SpaceCodeEditorAppSettings: Swift.Sendable {
         /// Settings that are used to configure and manage the lifecycle of CodeEditor applications in a space.
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -23975,7 +23978,7 @@ extension SageMakerClientTypes {
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -36174,7 +36177,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that update the current configuration for the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettingsForUpdate: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
