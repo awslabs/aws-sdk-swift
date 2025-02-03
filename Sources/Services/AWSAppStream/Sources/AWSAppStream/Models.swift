@@ -3155,16 +3155,20 @@ extension AppStreamClientTypes {
         public var connectorType: AppStreamClientTypes.StorageConnectorType?
         /// The names of the domains for the account.
         public var domains: [Swift.String]?
+        /// The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to AppStream 2.0. The attribute can only be specified when ConnectorType=ONE_DRIVE.
+        public var domainsRequireAdminConsent: [Swift.String]?
         /// The ARN of the storage connector.
         public var resourceIdentifier: Swift.String?
 
         public init(
             connectorType: AppStreamClientTypes.StorageConnectorType? = nil,
             domains: [Swift.String]? = nil,
+            domainsRequireAdminConsent: [Swift.String]? = nil,
             resourceIdentifier: Swift.String? = nil
         ) {
             self.connectorType = connectorType
             self.domains = domains
+            self.domainsRequireAdminConsent = domainsRequireAdminConsent
             self.resourceIdentifier = resourceIdentifier
         }
     }
@@ -10749,6 +10753,7 @@ extension AppStreamClientTypes.StorageConnector {
         guard let value else { return }
         try writer["ConnectorType"].write(value.connectorType)
         try writer["Domains"].writeList(value.domains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DomainsRequireAdminConsent"].writeList(value.domainsRequireAdminConsent, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceIdentifier"].write(value.resourceIdentifier)
     }
 
@@ -10758,6 +10763,7 @@ extension AppStreamClientTypes.StorageConnector {
         value.connectorType = try reader["ConnectorType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
         value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainsRequireAdminConsent = try reader["DomainsRequireAdminConsent"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -1127,6 +1127,8 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
+        public internal(set) var reason: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1139,9 +1141,11 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: Swift.String? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -1254,19 +1258,22 @@ extension BedrockAgentRuntimeClientTypes {
         /// Contains information about an input into the prompt flow.
         /// This member is required.
         public var content: BedrockAgentRuntimeClientTypes.FlowInputContent?
+        /// The name of the input from the flow input node.
+        public var nodeInputName: Swift.String?
         /// The name of the flow input node that begins the prompt flow.
         /// This member is required.
         public var nodeName: Swift.String?
         /// The name of the output from the flow input node that begins the prompt flow.
-        /// This member is required.
         public var nodeOutputName: Swift.String?
 
         public init(
             content: BedrockAgentRuntimeClientTypes.FlowInputContent? = nil,
+            nodeInputName: Swift.String? = nil,
             nodeName: Swift.String? = nil,
             nodeOutputName: Swift.String? = nil
         ) {
             self.content = content
+            self.nodeInputName = nodeInputName
             self.nodeName = nodeName
             self.nodeOutputName = nodeOutputName
         }
@@ -1275,7 +1282,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.FlowInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FlowInput(nodeName: \(Swift.String(describing: nodeName)), nodeOutputName: \(Swift.String(describing: nodeOutputName)), content: \"CONTENT_REDACTED\")"}
+        "FlowInput(nodeInputName: \(Swift.String(describing: nodeInputName)), nodeName: \(Swift.String(describing: nodeName)), nodeOutputName: \(Swift.String(describing: nodeOutputName)), content: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -1340,6 +1347,8 @@ extension BedrockAgentRuntimeClientTypes {
 public struct InvokeFlowInput: Swift.Sendable {
     /// Specifies whether to return the trace for the flow or not. Traces track inputs and outputs for nodes in the flow. For more information, see [Track each step in your prompt flow by viewing its trace in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html).
     public var enableTrace: Swift.Bool?
+    /// The unique identifier for the current flow execution. If you don't provide a value, Amazon Bedrock creates the identifier for you.
+    public var executionId: Swift.String?
     /// The unique identifier of the flow alias.
     /// This member is required.
     public var flowAliasIdentifier: Swift.String?
@@ -1354,12 +1363,14 @@ public struct InvokeFlowInput: Swift.Sendable {
 
     public init(
         enableTrace: Swift.Bool? = nil,
+        executionId: Swift.String? = nil,
         flowAliasIdentifier: Swift.String? = nil,
         flowIdentifier: Swift.String? = nil,
         inputs: [BedrockAgentRuntimeClientTypes.FlowInput]? = nil,
         modelPerformanceConfiguration: BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration? = nil
     ) {
         self.enableTrace = enableTrace
+        self.executionId = executionId
         self.flowAliasIdentifier = flowAliasIdentifier
         self.flowIdentifier = flowIdentifier
         self.inputs = inputs
@@ -1370,11 +1381,13 @@ public struct InvokeFlowInput: Swift.Sendable {
 extension BedrockAgentRuntimeClientTypes {
 
     public enum FlowCompletionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inputRequired
         case success
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FlowCompletionReason] {
             return [
+                .inputRequired,
                 .success
             ]
         }
@@ -1386,6 +1399,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .inputRequired: return "INPUT_REQUIRED"
             case .success: return "SUCCESS"
             case let .sdkUnknown(s): return s
             }
@@ -1417,9 +1431,9 @@ extension BedrockAgentRuntimeClientTypes.FlowCompletionEvent: Swift.CustomDebugS
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about the content in an output from prompt flow invocation.
-    public enum FlowOutputContent: Swift.Sendable {
-        /// The content in the output.
+    /// The content structure containing input information for multi-turn flow interactions.
+    public enum FlowMultiTurnInputContent: Swift.Sendable {
+        /// The requested additional input to send back to the multi-turn flow node.
         case document(Smithy.Document)
         case sdkUnknown(Swift.String)
     }
@@ -1466,6 +1480,48 @@ extension BedrockAgentRuntimeClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Response object from the flow multi-turn node requesting additional information.
+    public struct FlowMultiTurnInputRequestEvent: Swift.Sendable {
+        /// The content payload containing the input request details for the multi-turn interaction.
+        /// This member is required.
+        public var content: BedrockAgentRuntimeClientTypes.FlowMultiTurnInputContent?
+        /// The name of the node in the flow that is requesting the input.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// The type of the node in the flow that is requesting the input.
+        /// This member is required.
+        public var nodeType: BedrockAgentRuntimeClientTypes.NodeType?
+
+        public init(
+            content: BedrockAgentRuntimeClientTypes.FlowMultiTurnInputContent? = nil,
+            nodeName: Swift.String? = nil,
+            nodeType: BedrockAgentRuntimeClientTypes.NodeType? = nil
+        ) {
+            self.content = content
+            self.nodeName = nodeName
+            self.nodeType = nodeType
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowMultiTurnInputRequestEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about the content in an output from prompt flow invocation.
+    public enum FlowOutputContent: Swift.Sendable {
+        /// The content in the output.
+        case document(Smithy.Document)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -1738,18 +1794,24 @@ extension BedrockAgentRuntimeClientTypes {
         case flowcompletionevent(BedrockAgentRuntimeClientTypes.FlowCompletionEvent)
         /// Contains information about a trace, which tracks an input or output for a node in the flow.
         case flowtraceevent(BedrockAgentRuntimeClientTypes.FlowTraceEvent)
+        /// The event stream containing the multi-turn input request information from the flow.
+        case flowmultiturninputrequestevent(BedrockAgentRuntimeClientTypes.FlowMultiTurnInputRequestEvent)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct InvokeFlowOutput: Swift.Sendable {
+    /// The unique identifier for the current flow execution.
+    public var executionId: Swift.String?
     /// The output of the flow, returned as a stream. If there's an error, the error is returned.
     /// This member is required.
     public var responseStream: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.FlowResponseStream, Swift.Error>?
 
     public init(
+        executionId: Swift.String? = nil,
         responseStream: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.FlowResponseStream, Swift.Error>? = nil
     ) {
+        self.executionId = executionId
         self.responseStream = responseStream
     }
 }
@@ -6366,12 +6428,21 @@ extension BedrockAgentRuntimeClientTypes {
     /// A citation event.
     public struct CitationEvent: Swift.Sendable {
         /// The citation.
+        @available(*, deprecated, message: "Citation is deprecated. Please use GeneratedResponsePart and RetrievedReferences for citation event. API deprecated since 2024-12-17")
         public var citation: BedrockAgentRuntimeClientTypes.Citation?
+        /// The generated response to the citation event.
+        public var generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart?
+        /// The retrieved references of the citation event.
+        public var retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]?
 
         public init(
-            citation: BedrockAgentRuntimeClientTypes.Citation? = nil
+            citation: BedrockAgentRuntimeClientTypes.Citation? = nil,
+            generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart? = nil,
+            retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]? = nil
         ) {
             self.citation = citation
+            self.generatedResponsePart = generatedResponsePart
+            self.retrievedReferences = retrievedReferences
         }
     }
 }
@@ -7202,6 +7273,7 @@ extension InvokeFlowInput {
     static func write(value: InvokeFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enableTrace"].write(value.enableTrace)
+        try writer["executionId"].write(value.executionId)
         try writer["inputs"].writeList(value.inputs, memberWritingClosure: BedrockAgentRuntimeClientTypes.FlowInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["modelPerformanceConfiguration"].write(value.modelPerformanceConfiguration, with: BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration.write(value:to:))
     }
@@ -7339,6 +7411,9 @@ extension InvokeFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeFlowOutput {
         var value = InvokeFlowOutput()
+        if let executionIdHeaderValue = httpResponse.headers.value(for: "x-amz-bedrock-flow-execution-id") {
+            value.executionId = executionIdHeaderValue
+        }
         if case .stream(let stream) = httpResponse.body {
             let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.FlowResponseStream.unmarshal)
@@ -7724,6 +7799,7 @@ extension InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7896,6 +7972,9 @@ extension BedrockAgentRuntimeClientTypes.FlowResponseStream {
                 case "flowTraceEvent":
                     let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentRuntimeClientTypes.FlowTraceEvent.read(from:))
                     return .flowtraceevent(value)
+                case "flowMultiTurnInputRequestEvent":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentRuntimeClientTypes.FlowMultiTurnInputRequestEvent.read(from:))
+                    return .flowmultiturninputrequestevent(value)
                 default:
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
@@ -8291,6 +8370,7 @@ extension InternalServerException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         return value
     }
 }
@@ -9355,6 +9435,32 @@ extension BedrockAgentRuntimeClientTypes.Span {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.FlowMultiTurnInputRequestEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowMultiTurnInputRequestEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowMultiTurnInputRequestEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.nodeType = try reader["nodeType"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["content"].readIfPresent(with: BedrockAgentRuntimeClientTypes.FlowMultiTurnInputContent.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowMultiTurnInputContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowMultiTurnInputContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "document":
+                return .document(try reader["document"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes.FlowTraceEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowTraceEvent {
@@ -9692,6 +9798,8 @@ extension BedrockAgentRuntimeClientTypes.CitationEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.CitationEvent()
         value.citation = try reader["citation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Citation.read(from:))
+        value.generatedResponsePart = try reader["generatedResponsePart"].readIfPresent(with: BedrockAgentRuntimeClientTypes.GeneratedResponsePart.read(from:))
+        value.retrievedReferences = try reader["retrievedReferences"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.RetrievedReference.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10006,6 +10114,7 @@ extension BedrockAgentRuntimeClientTypes.FlowInput {
     static func write(value: BedrockAgentRuntimeClientTypes.FlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["content"].write(value.content, with: BedrockAgentRuntimeClientTypes.FlowInputContent.write(value:to:))
+        try writer["nodeInputName"].write(value.nodeInputName)
         try writer["nodeName"].write(value.nodeName)
         try writer["nodeOutputName"].write(value.nodeOutputName)
     }

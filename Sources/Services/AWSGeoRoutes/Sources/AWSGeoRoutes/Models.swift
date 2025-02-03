@@ -204,11 +204,11 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension GeoRoutesClientTypes {
 
-    /// Features that are allowed while calculating. a route
+    /// Features that are allowed while calculating an isoline.
     public struct IsolineAllowOptions: Swift.Sendable {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
+        /// Allow Hot (High Occupancy Toll) lanes while calculating an isoline. Default value: false
         public var hot: Swift.Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route.
+        /// Allow Hov (High Occupancy vehicle) lanes while calculating an isoline. Default value: false
         public var hov: Swift.Bool?
 
         public init(
@@ -277,7 +277,7 @@ extension GeoRoutesClientTypes.PolylineCorridor: Swift.CustomDebugStringConverti
 
 extension GeoRoutesClientTypes {
 
-    /// The avoidance geometry, to be included while calculating the route.
+    /// The avoidance geometry, to be included while calculating an isoline.
     public struct IsolineAvoidanceAreaGeometry: Swift.Sendable {
         /// Geometry defined as a bounding box. The first pair represents the X and Y coordinates (longitude and latitude,) of the southwest corner of the bounding box; the second pair represents the X and Y coordinates (longitude and latitude) of the northeast corner.
         public var boundingBox: [Swift.Double]?
@@ -315,7 +315,7 @@ extension GeoRoutesClientTypes {
 
     /// The area to be avoided.
     public struct IsolineAvoidanceArea: Swift.Sendable {
-        /// Exceptions to the provided avoidance geometry, to be included while calculating the route.
+        /// Exceptions to the provided avoidance geometry, to be included while calculating an isoline.
         public var except: [GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry]?
         /// Geometry of the area to be avoided.
         /// This member is required.
@@ -380,19 +380,19 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+    /// Features that are avoided while calculating isolines. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
     public struct IsolineAvoidanceOptions: Swift.Sendable {
         /// Areas to be avoided.
         public var areas: [GeoRoutesClientTypes.IsolineAvoidanceArea]?
-        /// Avoid car-shuttle-trains while calculating the route.
+        /// Avoid car-shuttle-trains while calculating an isoline.
         public var carShuttleTrains: Swift.Bool?
-        /// Avoid controlled access highways while calculating the route.
+        /// Avoid controlled access highways while calculating an isoline.
         public var controlledAccessHighways: Swift.Bool?
-        /// Avoid dirt roads while calculating the route.
+        /// Avoid dirt roads while calculating an isoline.
         public var dirtRoads: Swift.Bool?
-        /// Avoid ferries while calculating the route.
+        /// Avoid ferries while calculating an isoline.
         public var ferries: Swift.Bool?
-        /// Avoid roads that have seasonal closure while calculating the route.
+        /// Avoid roads that have seasonal closure while calculating an isoline.
         public var seasonalClosure: Swift.Bool?
         /// Avoids roads where the specified toll transponders are the only mode of payment.
         public var tollRoads: Swift.Bool?
@@ -400,7 +400,7 @@ extension GeoRoutesClientTypes {
         public var tollTransponders: Swift.Bool?
         /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. There are currently no other supported values as of 26th April 2024.
         public var truckRoadTypes: [Swift.String]?
-        /// Avoid tunnels while calculating the route.
+        /// Avoid tunnels while calculating an isoline.
         public var tunnels: Swift.Bool?
         /// Avoid U-turns for calculation on highways and motorways.
         public var uTurns: Swift.Bool?
@@ -614,7 +614,7 @@ extension GeoRoutesClientTypes {
     public struct IsolineGranularityOptions: Swift.Sendable {
         /// Maximum number of points of returned Isoline.
         public var maxPoints: Swift.Int?
-        /// Maximum resolution of the returned isoline. Unit: centimeters
+        /// Maximum resolution of the returned isoline. Unit: meters
         public var maxResolution: Swift.Int
 
         public init(
@@ -690,7 +690,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options for the property.
+    /// Origin related options.
     public struct IsolineOriginOptions: Swift.Sendable {
         /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
         public var avoidActionsForDistance: Swift.Int
@@ -717,7 +717,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested.
+    /// Threshold to be used for the isoline calculation. Up to 5 thresholds per provided type can be requested.
     public struct IsolineThresholds: Swift.Sendable {
         /// Distance to be used for the isoline calculation.
         public var distance: [Swift.Int]?
@@ -866,7 +866,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options for vehicles.
+    /// Travel mode options when the provided travel mode is Car.
     public struct IsolineCarOptions: Swift.Sendable {
         /// Engine type of the vehicle.
         public var engineType: GeoRoutesClientTypes.IsolineEngineType?
@@ -893,7 +893,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options for the property.
+    /// Travel mode options when the provided travel mode is Scooter
     public struct IsolineScooterOptions: Swift.Sendable {
         /// Engine type of the vehicle.
         public var engineType: GeoRoutesClientTypes.IsolineEngineType?
@@ -1182,7 +1182,7 @@ extension GeoRoutesClientTypes {
     public struct IsolineTravelModeOptions: Swift.Sendable {
         /// Travel mode options when the provided travel mode is "Car"
         public var car: GeoRoutesClientTypes.IsolineCarOptions?
-        /// Travel mode options when the provided travel mode is "Scooter"
+        /// Travel mode options when the provided travel mode is Scooter When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public var scooter: GeoRoutesClientTypes.IsolineScooterOptions?
         /// Travel mode options when the provided travel mode is "Truck"
         public var truck: GeoRoutesClientTypes.IsolineTruckOptions?
@@ -1200,7 +1200,7 @@ extension GeoRoutesClientTypes {
 }
 
 public struct CalculateIsolinesInput: Swift.Sendable {
-    /// Features that are allowed while calculating. a route
+    /// Features that are allowed while calculating an isoline.
     public var allow: GeoRoutesClientTypes.IsolineAllowOptions?
     /// Time of arrival at the destination. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
@@ -1218,7 +1218,7 @@ public struct CalculateIsolinesInput: Swift.Sendable {
     public var destinationOptions: GeoRoutesClientTypes.IsolineDestinationOptions?
     /// The format of the returned IsolineGeometry. Default Value:FlexiblePolyline
     public var isolineGeometryFormat: GeoRoutesClientTypes.GeometryFormat?
-    /// Defines the granularity of the returned Isoline
+    /// Defines the granularity of the returned Isoline.
     public var isolineGranularity: GeoRoutesClientTypes.IsolineGranularityOptions?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
@@ -1230,7 +1230,7 @@ public struct CalculateIsolinesInput: Swift.Sendable {
     public var origin: [Swift.Double]?
     /// Origin related options.
     public var originOptions: GeoRoutesClientTypes.IsolineOriginOptions?
-    /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested.
+    /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested. You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See [ Amazon Location's pricing page](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html`) for more information.
     /// This member is required.
     public var thresholds: GeoRoutesClientTypes.IsolineThresholds?
     /// Traffic related options.
@@ -1288,7 +1288,7 @@ extension CalculateIsolinesInput: Swift.CustomDebugStringConvertible {
 
 extension GeoRoutesClientTypes {
 
-    /// Geometry of the connection between different Isoline components.
+    /// Geometry of the connection between different isoline components.
     public struct IsolineConnectionGeometry: Swift.Sendable {
         /// An ordered list of positions used to plot a route on a map. LineString and Polyline are mutually exclusive properties.
         public var lineString: [[Swift.Double]]?
@@ -1438,9 +1438,9 @@ extension GeoRoutesClientTypes {
 
     /// Allow Options related to the route matrix.
     public struct RouteMatrixAllowOptions: Swift.Sendable {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
+        /// Allow Hot (High Occupancy Toll) lanes while calculating the route. Default value: false
         public var hot: Swift.Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route.
+        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route. Default value: false
         public var hov: Swift.Bool?
 
         public init(
@@ -1546,7 +1546,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options related to the route matrix.
+    /// Specifies options for areas to avoid when calculating the route. This is a best-effort avoidance setting, meaning the router will try to honor the avoidance preferences but may still include restricted areas if no feasible alternative route exists. If avoidance options are not followed, the response will indicate that the avoidance criteria were violated.
     public struct RouteMatrixAvoidanceOptions: Swift.Sendable {
         /// Areas to be avoided.
         public var areas: [GeoRoutesClientTypes.RouteMatrixAvoidanceArea]?
@@ -1710,7 +1710,7 @@ extension GeoRoutesClientTypes.RouteMatrixDestination: Swift.CustomDebugStringCo
 
 extension GeoRoutesClientTypes {
 
-    /// Exclusion options.
+    /// Specifies strict exclusion options for the route calculation. This setting mandates that the router will avoid any routes that include the specified options, rather than merely attempting to minimize them.
     public struct RouteMatrixExclusionOptions: Swift.Sendable {
         /// List of countries to be avoided defined by two-letter or three-letter country codes.
         /// This member is required.
@@ -1944,7 +1944,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options related to the car.
+    /// Travel mode options when the provided travel mode is Car.
     public struct RouteMatrixCarOptions: Swift.Sendable {
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate?
@@ -1967,7 +1967,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Scooter"
+    /// Travel mode options when the provided travel mode is Scooter
     public struct RouteMatrixScooterOptions: Swift.Sendable {
         /// The vehicle License Plate.
         public var licensePlate: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate?
@@ -2205,7 +2205,7 @@ extension GeoRoutesClientTypes {
     public struct RouteMatrixTravelModeOptions: Swift.Sendable {
         /// Travel mode options when the provided travel mode is "Car"
         public var car: GeoRoutesClientTypes.RouteMatrixCarOptions?
-        /// Travel mode options when the provided travel mode is "Scooter"
+        /// Travel mode options when the provided travel mode is Scooter When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public var scooter: GeoRoutesClientTypes.RouteMatrixScooterOptions?
         /// Travel mode options when the provided travel mode is "Truck"
         public var truck: GeoRoutesClientTypes.RouteMatrixTruckOptions?
@@ -2223,7 +2223,7 @@ extension GeoRoutesClientTypes {
 }
 
 public struct CalculateRouteMatrixInput: Swift.Sendable {
-    /// Features that are allowed while calculating. a route
+    /// Features that are allowed while calculating a route.
     public var allow: GeoRoutesClientTypes.RouteMatrixAllowOptions?
     /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
     public var avoid: GeoRoutesClientTypes.RouteMatrixAvoidanceOptions?
@@ -2232,7 +2232,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
     /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var departureTime: Swift.String?
-    /// List of destinations for the route.
+    /// List of destinations for the route. Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. See [ Amazon Location's pricing page](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html`) for more information.
     /// This member is required.
     public var destinations: [GeoRoutesClientTypes.RouteMatrixDestination]?
     /// Features to be strictly excluded while calculating the route.
@@ -2241,7 +2241,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
     public var key: Swift.String?
     /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
     public var optimizeRoutingFor: GeoRoutesClientTypes.RoutingObjective?
-    /// The position in longitude and latitude for the origin.
+    /// The position in longitude and latitude for the origin. Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. See [ Amazon Location's pricing page](https://docs.aws.amazon.com/location/latest/developerguide/routes-pricing.html`) for more information.
     /// This member is required.
     public var origins: [GeoRoutesClientTypes.RouteMatrixOrigin]?
     /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
@@ -2394,11 +2394,11 @@ public struct CalculateRouteMatrixOutput: Swift.Sendable {
 
 extension GeoRoutesClientTypes {
 
-    /// Features that are allowed while calculating. a route
+    /// Features that are allowed while calculating a route.
     public struct RouteAllowOptions: Swift.Sendable {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
+        /// Allow Hot (High Occupancy Toll) lanes while calculating the route. Default value: false
         public var hot: Swift.Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route.
+        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route. Default value: false
         public var hov: Swift.Bool?
 
         public init(
@@ -2517,7 +2517,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options related to areas to be avoided.
+    /// Specifies options for areas to avoid when calculating the route. This is a best-effort avoidance setting, meaning the router will try to honor the avoidance preferences but may still include restricted areas if no feasible alternative route exists. If avoidance options are not followed, the response will indicate that the avoidance criteria were violated.
     public struct RouteAvoidanceOptions: Swift.Sendable {
         /// Areas to be avoided.
         public var areas: [GeoRoutesClientTypes.RouteAvoidanceArea]?
@@ -2704,7 +2704,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Exclusion options for the route.
+    /// Specifies strict exclusion options for the route calculation. This setting mandates that the router will avoid any routes that include the specified options, rather than merely attempting to minimize them.
     public struct RouteExclusionOptions: Swift.Sendable {
         /// List of countries to be avoided defined by two-letter or three-letter country codes.
         /// This member is required.
@@ -3103,7 +3103,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Car"
+    /// Travel mode options when the provided travel mode is Car.
     public struct RouteCarOptions: Swift.Sendable {
         /// Engine type of the vehicle.
         public var engineType: GeoRoutesClientTypes.RouteEngineType?
@@ -3145,7 +3145,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Travel mode options when the provided travel mode is "Scooter"
+    /// Travel mode options when the provided travel mode is Scooter
     public struct RouteScooterOptions: Swift.Sendable {
         /// Engine type of the vehicle.
         public var engineType: GeoRoutesClientTypes.RouteEngineType?
@@ -3405,7 +3405,7 @@ extension GeoRoutesClientTypes {
         public var car: GeoRoutesClientTypes.RouteCarOptions?
         /// Travel mode options when the provided travel mode is "Pedestrian"
         public var pedestrian: GeoRoutesClientTypes.RoutePedestrianOptions?
-        /// Travel mode options when the provided travel mode is "Scooter"
+        /// Travel mode options when the provided travel mode is Scooter When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public var scooter: GeoRoutesClientTypes.RouteScooterOptions?
         /// Travel mode options when the provided travel mode is "Truck"
         public var truck: GeoRoutesClientTypes.RouteTruckOptions?
@@ -3503,7 +3503,7 @@ extension GeoRoutesClientTypes.RouteWaypoint: Swift.CustomDebugStringConvertible
 }
 
 public struct CalculateRoutesInput: Swift.Sendable {
-    /// Features that are allowed while calculating. a route
+    /// Features that are allowed while calculating a route.
     public var allow: GeoRoutesClientTypes.RouteAllowOptions?
     /// Time of arrival at the destination. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
@@ -3571,7 +3571,7 @@ public struct CalculateRoutesInput: Swift.Sendable {
     public var travelMode: GeoRoutesClientTypes.RouteTravelMode?
     /// Travel mode related options for the provided travel mode.
     public var travelModeOptions: GeoRoutesClientTypes.RouteTravelModeOptions?
-    /// Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based naviagtion system.
+    /// Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system.
     public var travelStepType: GeoRoutesClientTypes.RouteTravelStepType?
     /// List of waypoints between the Origin and Destination.
     public var waypoints: [GeoRoutesClientTypes.RouteWaypoint]?
@@ -3898,6 +3898,7 @@ extension GeoRoutesClientTypes {
         case accuratePolylineUnavailable
         case noSchedule
         case other
+        case seasonalClosure
         case violatedAvoidFerry
         case violatedAvoidRailFerry
         case sdkUnknown(Swift.String)
@@ -3907,6 +3908,7 @@ extension GeoRoutesClientTypes {
                 .accuratePolylineUnavailable,
                 .noSchedule,
                 .other,
+                .seasonalClosure,
                 .violatedAvoidFerry,
                 .violatedAvoidRailFerry
             ]
@@ -3922,6 +3924,7 @@ extension GeoRoutesClientTypes {
             case .accuratePolylineUnavailable: return "AccuratePolylineUnavailable"
             case .noSchedule: return "NoSchedule"
             case .other: return "Other"
+            case .seasonalClosure: return "SeasonalClosure"
             case .violatedAvoidFerry: return "ViolatedAvoidFerry"
             case .violatedAvoidRailFerry: return "ViolatedAvoidRailFerry"
             case let .sdkUnknown(s): return s
@@ -4025,7 +4028,7 @@ extension GeoRoutesClientTypes {
     public struct RouteFerrySpan: Swift.Sendable {
         /// 3 letter Country code corresponding to the Span.
         public var country: Swift.String?
-        /// Distance of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.
+        /// Distance of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties. Unit: meters
         public var distance: Swift.Int
         /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties. Unit: seconds
         public var duration: Swift.Int
@@ -5247,6 +5250,7 @@ extension GeoRoutesClientTypes {
 
     public enum RouteLegTravelMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case car
+        case carShuttleTrain
         case ferry
         case pedestrian
         case scooter
@@ -5256,6 +5260,7 @@ extension GeoRoutesClientTypes {
         public static var allCases: [RouteLegTravelMode] {
             return [
                 .car,
+                .carShuttleTrain,
                 .ferry,
                 .pedestrian,
                 .scooter,
@@ -5271,6 +5276,7 @@ extension GeoRoutesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .car: return "Car"
+            case .carShuttleTrain: return "CarShuttleTrain"
             case .ferry: return "Ferry"
             case .pedestrian: return "Pedestrian"
             case .scooter: return "Scooter"
@@ -7170,7 +7176,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options for WaypointOptimizationAvoidance.
+    /// Specifies options for areas to avoid. This is a best-effort avoidance setting, meaning the router will try to honor the avoidance preferences but may still include restricted areas if no feasible alternative route exists. If avoidance options are not followed, the response will indicate that the avoidance criteria were violated.
     public struct WaypointOptimizationAvoidanceOptions: Swift.Sendable {
         /// Areas to be avoided.
         public var areas: [GeoRoutesClientTypes.WaypointOptimizationAvoidanceArea]?
@@ -7207,6 +7213,71 @@ extension GeoRoutesClientTypes {
             self.tollRoads = tollRoads
             self.tunnels = tunnels
             self.uTurns = uTurns
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    public enum WaypointOptimizationClusteringAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drivingDistance
+        case topologySegment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WaypointOptimizationClusteringAlgorithm] {
+            return [
+                .drivingDistance,
+                .topologySegment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .drivingDistance: return "DrivingDistance"
+            case .topologySegment: return "TopologySegment"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Driving distance related options.
+    public struct WaypointOptimizationDrivingDistanceOptions: Swift.Sendable {
+        /// DrivingDistance assigns all the waypoints that are within driving distance of each other into a single cluster.
+        /// This member is required.
+        public var drivingDistance: Swift.Int
+
+        public init(
+            drivingDistance: Swift.Int = 0
+        ) {
+            self.drivingDistance = drivingDistance
+        }
+    }
+}
+
+extension GeoRoutesClientTypes {
+
+    /// Options for WaypointOptimizationClustering.
+    public struct WaypointOptimizationClusteringOptions: Swift.Sendable {
+        /// The algorithm to be used. DrivingDistance assigns all the waypoints that are within driving distance of each other into a single cluster. TopologySegment assigns all the waypoints that are within the same topology segment into a single cluster. A Topology segment is a linear stretch of road between two junctions.
+        /// This member is required.
+        public var algorithm: GeoRoutesClientTypes.WaypointOptimizationClusteringAlgorithm?
+        /// Driving distance options to be used when the clustering algorithm is DrivingDistance.
+        public var drivingDistanceOptions: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions?
+
+        public init(
+            algorithm: GeoRoutesClientTypes.WaypointOptimizationClusteringAlgorithm? = nil,
+            drivingDistanceOptions: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions? = nil
+        ) {
+            self.algorithm = algorithm
+            self.drivingDistanceOptions = drivingDistanceOptions
         }
     }
 }
@@ -7425,7 +7496,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Exclusion options.
+    /// Specifies strict exclusion options for the route calculation. This setting mandates that the router will avoid any routes that include the specified options, rather than merely attempting to minimize them.
     public struct WaypointOptimizationExclusionOptions: Swift.Sendable {
         /// List of countries to be avoided defined by two-letter or three-letter country codes.
         /// This member is required.
@@ -7470,7 +7541,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes {
 
-    /// Options related to the origin.
+    /// Origin related options.
     public struct WaypointOptimizationOriginOptions: Swift.Sendable {
         /// The Origin Id.
         public var id: Swift.String?
@@ -7797,8 +7868,10 @@ extension GeoRoutesClientTypes.WaypointOptimizationWaypoint: Swift.CustomDebugSt
 }
 
 public struct OptimizeWaypointsInput: Swift.Sendable {
-    /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, this setting is ignored.
+    /// Features that are avoided. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, this setting is ignored.
     public var avoid: GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions?
+    /// Clustering allows you to specify how nearby waypoints can be clustered to improve the optimized sequence.
+    public var clustering: GeoRoutesClientTypes.WaypointOptimizationClusteringOptions?
     /// Departure time from the waypoint. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
     ///     2020-04-22T17:57:24+02:00
     public var departureTime: Swift.String?
@@ -7830,6 +7903,7 @@ public struct OptimizeWaypointsInput: Swift.Sendable {
 
     public init(
         avoid: GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions? = nil,
+        clustering: GeoRoutesClientTypes.WaypointOptimizationClusteringOptions? = nil,
         departureTime: Swift.String? = nil,
         destination: [Swift.Double]? = nil,
         destinationOptions: GeoRoutesClientTypes.WaypointOptimizationDestinationOptions? = nil,
@@ -7845,6 +7919,7 @@ public struct OptimizeWaypointsInput: Swift.Sendable {
         waypoints: [GeoRoutesClientTypes.WaypointOptimizationWaypoint]? = nil
     ) {
         self.avoid = avoid
+        self.clustering = clustering
         self.departureTime = departureTime
         self.destination = destination
         self.destinationOptions = destinationOptions
@@ -7863,7 +7938,7 @@ public struct OptimizeWaypointsInput: Swift.Sendable {
 
 extension OptimizeWaypointsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OptimizeWaypointsInput(avoid: \(Swift.String(describing: avoid)), departureTime: \(Swift.String(describing: departureTime)), destinationOptions: \(Swift.String(describing: destinationOptions)), driver: \(Swift.String(describing: driver)), exclude: \(Swift.String(describing: exclude)), optimizeSequencingFor: \(Swift.String(describing: optimizeSequencingFor)), originOptions: \(Swift.String(describing: originOptions)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), waypoints: \(Swift.String(describing: waypoints)), destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
+        "OptimizeWaypointsInput(avoid: \(Swift.String(describing: avoid)), clustering: \(Swift.String(describing: clustering)), departureTime: \(Swift.String(describing: departureTime)), destinationOptions: \(Swift.String(describing: destinationOptions)), driver: \(Swift.String(describing: driver)), exclude: \(Swift.String(describing: exclude)), optimizeSequencingFor: \(Swift.String(describing: optimizeSequencingFor)), originOptions: \(Swift.String(describing: originOptions)), traffic: \(Swift.String(describing: traffic)), travelMode: \(Swift.String(describing: travelMode)), travelModeOptions: \(Swift.String(describing: travelModeOptions)), waypoints: \(Swift.String(describing: waypoints)), destination: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", origin: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8005,6 +8080,8 @@ extension GeoRoutesClientTypes {
         /// Estimated time of arrival at the destination. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
         ///     2020-04-22T17:57:24+02:00
         public var arrivalTime: Swift.String?
+        /// Index of the cluster the waypoint is associated with. The index is included in the response only if clustering was performed while processing the request.
+        public var clusterIndex: Swift.Int?
         /// Estimated time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm Examples: 2020-04-22T17:57:24Z
         ///     2020-04-22T17:57:24+02:00
         /// This member is required.
@@ -8018,11 +8095,13 @@ extension GeoRoutesClientTypes {
 
         public init(
             arrivalTime: Swift.String? = nil,
+            clusterIndex: Swift.Int? = nil,
             departureTime: Swift.String? = nil,
             id: Swift.String? = nil,
             position: [Swift.Double]? = nil
         ) {
             self.arrivalTime = arrivalTime
+            self.clusterIndex = clusterIndex
             self.departureTime = departureTime
             self.id = id
             self.position = position
@@ -8032,7 +8111,7 @@ extension GeoRoutesClientTypes {
 
 extension GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WaypointOptimizationOptimizedWaypoint(arrivalTime: \(Swift.String(describing: arrivalTime)), departureTime: \(Swift.String(describing: departureTime)), id: \(Swift.String(describing: id)), position: \"CONTENT_REDACTED\")"}
+        "WaypointOptimizationOptimizedWaypoint(arrivalTime: \(Swift.String(describing: arrivalTime)), clusterIndex: \(Swift.String(describing: clusterIndex)), departureTime: \(Swift.String(describing: departureTime)), id: \(Swift.String(describing: id)), position: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoRoutesClientTypes {
@@ -8701,6 +8780,7 @@ extension OptimizeWaypointsInput {
     static func write(value: OptimizeWaypointsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Avoid"].write(value.avoid, with: GeoRoutesClientTypes.WaypointOptimizationAvoidanceOptions.write(value:to:))
+        try writer["Clustering"].write(value.clustering, with: GeoRoutesClientTypes.WaypointOptimizationClusteringOptions.write(value:to:))
         try writer["DepartureTime"].write(value.departureTime)
         try writer["Destination"].writeList(value.destination, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DestinationOptions"].write(value.destinationOptions, with: GeoRoutesClientTypes.WaypointOptimizationDestinationOptions.write(value:to:))
@@ -10155,6 +10235,7 @@ extension GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint()
         value.arrivalTime = try reader["ArrivalTime"].readIfPresent()
+        value.clusterIndex = try reader["ClusterIndex"].readIfPresent()
         value.departureTime = try reader["DepartureTime"].readIfPresent() ?? ""
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -10923,6 +11004,23 @@ extension GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry {
     static func write(value: GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationClusteringOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationClusteringOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Algorithm"].write(value.algorithm)
+        try writer["DrivingDistanceOptions"].write(value.drivingDistanceOptions, with: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions.write(value:to:))
+    }
+}
+
+extension GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions {
+
+    static func write(value: GeoRoutesClientTypes.WaypointOptimizationDrivingDistanceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DrivingDistance"].write(value.drivingDistance)
     }
 }
 

@@ -105,3 +105,36 @@ extension PaginatorSequence where OperationStackInput == ListQueueFleetAssociati
         return try await self.asyncCompactMap { item in item.queueFleetAssociations }
     }
 }
+extension DeadlineClient {
+    /// Paginate over `[ListQueueLimitAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListQueueLimitAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQueueLimitAssociationsOutput`
+    public func listQueueLimitAssociationsPaginated(input: ListQueueLimitAssociationsInput) -> ClientRuntime.PaginatorSequence<ListQueueLimitAssociationsInput, ListQueueLimitAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListQueueLimitAssociationsInput, ListQueueLimitAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueueLimitAssociations(input:))
+    }
+}
+
+extension ListQueueLimitAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListQueueLimitAssociationsInput {
+        return ListQueueLimitAssociationsInput(
+            farmId: self.farmId,
+            limitId: self.limitId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            queueId: self.queueId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListQueueLimitAssociationsInput, OperationStackOutput == ListQueueLimitAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listQueueLimitAssociationsPaginated`
+    /// to access the nested member `[DeadlineClientTypes.QueueLimitAssociationSummary]`
+    /// - Returns: `[DeadlineClientTypes.QueueLimitAssociationSummary]`
+    public func queueLimitAssociations() async throws -> [DeadlineClientTypes.QueueLimitAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.queueLimitAssociations }
+    }
+}

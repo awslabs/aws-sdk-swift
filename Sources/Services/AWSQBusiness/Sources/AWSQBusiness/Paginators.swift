@@ -337,6 +337,37 @@ extension PaginatorSequence where OperationStackInput == ListPluginTypeMetadataI
     }
 }
 extension QBusinessClient {
+    /// Paginate over `[ListSubscriptionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSubscriptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionsOutput`
+    public func listSubscriptionsPaginated(input: ListSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptions(input:))
+    }
+}
+
+extension ListSubscriptionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSubscriptionsInput {
+        return ListSubscriptionsInput(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSubscriptionsInput, OperationStackOutput == ListSubscriptionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionsPaginated`
+    /// to access the nested member `[QBusinessClientTypes.Subscription]`
+    /// - Returns: `[QBusinessClientTypes.Subscription]`
+    public func subscriptions() async throws -> [QBusinessClientTypes.Subscription] {
+        return try await self.asyncCompactMap { item in item.subscriptions }
+    }
+}
+extension QBusinessClient {
     /// Paginate over `[SearchRelevantContentOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

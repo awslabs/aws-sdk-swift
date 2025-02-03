@@ -10670,6 +10670,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Cmaf Id3 Behavior
+    public enum CmafId3Behavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafId3Behavior] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Cmaf KLVBehavior
     public enum CmafKLVBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case noPassthrough
@@ -10795,6 +10825,10 @@ extension MediaLiveClientTypes {
         /// A HTTP destination for the tracks
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
+        /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
+        public var id3Behavior: MediaLiveClientTypes.CmafId3Behavior?
+        /// Change the modifier that MediaLive automatically adds to the Streams() name that identifies an ID3 track. The default is "id3", which means the default name will be Streams(id3.cmfm). Any string you enter here will replace the "id3" string.\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.
+        public var id3NameModifier: Swift.String?
         /// If set to passthrough, passes any KLV data from the input source to this output.
         public var klvBehavior: MediaLiveClientTypes.CmafKLVBehavior?
         /// Change the modifier that MediaLive automatically adds to the Streams() name that identifies a KLV track. The default is "klv", which means the default name will be Streams(klv.cmfm). Any string you enter here will replace the "klv" string.\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.
@@ -10816,6 +10850,8 @@ extension MediaLiveClientTypes {
 
         public init(
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
+            id3NameModifier: Swift.String? = nil,
             klvBehavior: MediaLiveClientTypes.CmafKLVBehavior? = nil,
             klvNameModifier: Swift.String? = nil,
             nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior? = nil,
@@ -10827,6 +10863,8 @@ extension MediaLiveClientTypes {
             sendDelayMs: Swift.Int? = nil
         ) {
             self.destination = destination
+            self.id3Behavior = id3Behavior
+            self.id3NameModifier = id3NameModifier
             self.klvBehavior = klvBehavior
             self.klvNameModifier = klvNameModifier
             self.nielsenId3Behavior = nielsenId3Behavior
@@ -13215,6 +13253,25 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Settings for the action to insert ID3 metadata in every segment, in applicable output groups.
+    public struct Id3SegmentTaggingScheduleActionSettings: Swift.Sendable {
+        /// Complete this parameter if you want to specify the entire ID3 metadata. Enter a base64 string that contains one or more fully formed ID3 tags, according to the ID3 specification: http://id3.org/id3v2.4.0-structure
+        public var id3: Swift.String?
+        /// Complete this parameter if you want to specify only the metadata, not the entire frame. MediaLive will insert the metadata in a TXXX frame. Enter the value as plain text. You can include standard MediaLive variable data such as the current segment number.
+        public var tag: Swift.String?
+
+        public init(
+            id3: Swift.String? = nil,
+            tag: Swift.String? = nil
+        ) {
+            self.id3 = id3
+            self.tag = tag
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Documentation update needed
     public enum InputTimecodeSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case embedded
@@ -13961,12 +14018,30 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Settings for the action to insert ID3 metadata (as a one-time action) in applicable output groups.
+    public struct TimedMetadataScheduleActionSettings: Swift.Sendable {
+        /// Enter a base64 string that contains one or more fully formed ID3 tags.See the ID3 specification: http://id3.org/id3v2.4.0-structure
+        /// This member is required.
+        public var id3: Swift.String?
+
+        public init(
+            id3: Swift.String? = nil
+        ) {
+            self.id3 = id3
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Holds the settings for a single schedule action.
     public struct ScheduleActionSettings: Swift.Sendable {
         /// Action to insert ID3 metadata in every segment, in HLS output groups
         public var hlsId3SegmentTaggingSettings: MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings?
         /// Action to insert ID3 metadata once, in HLS output groups
         public var hlsTimedMetadataSettings: MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings?
+        /// Action to insert ID3 metadata in every segment, in applicable output groups
+        public var id3SegmentTaggingSettings: MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings?
         /// Action to prepare an input for a future immediate input switch
         public var inputPrepareSettings: MediaLiveClientTypes.InputPrepareScheduleActionSettings?
         /// Action to switch the input
@@ -13993,10 +14068,13 @@ extension MediaLiveClientTypes {
         public var staticImageOutputActivateSettings: MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings?
         /// Action to deactivate a static image overlay in one or more specified outputs
         public var staticImageOutputDeactivateSettings: MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings?
+        /// Action to insert ID3 metadata once, in applicable output groups
+        public var timedMetadataSettings: MediaLiveClientTypes.TimedMetadataScheduleActionSettings?
 
         public init(
             hlsId3SegmentTaggingSettings: MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings? = nil,
             hlsTimedMetadataSettings: MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings? = nil,
+            id3SegmentTaggingSettings: MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings? = nil,
             inputPrepareSettings: MediaLiveClientTypes.InputPrepareScheduleActionSettings? = nil,
             inputSwitchSettings: MediaLiveClientTypes.InputSwitchScheduleActionSettings? = nil,
             motionGraphicsImageActivateSettings: MediaLiveClientTypes.MotionGraphicsActivateScheduleActionSettings? = nil,
@@ -14009,10 +14087,12 @@ extension MediaLiveClientTypes {
             staticImageActivateSettings: MediaLiveClientTypes.StaticImageActivateScheduleActionSettings? = nil,
             staticImageDeactivateSettings: MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings? = nil,
             staticImageOutputActivateSettings: MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings? = nil,
-            staticImageOutputDeactivateSettings: MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings? = nil
+            staticImageOutputDeactivateSettings: MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings? = nil,
+            timedMetadataSettings: MediaLiveClientTypes.TimedMetadataScheduleActionSettings? = nil
         ) {
             self.hlsId3SegmentTaggingSettings = hlsId3SegmentTaggingSettings
             self.hlsTimedMetadataSettings = hlsTimedMetadataSettings
+            self.id3SegmentTaggingSettings = id3SegmentTaggingSettings
             self.inputPrepareSettings = inputPrepareSettings
             self.inputSwitchSettings = inputSwitchSettings
             self.motionGraphicsImageActivateSettings = motionGraphicsImageActivateSettings
@@ -14026,6 +14106,7 @@ extension MediaLiveClientTypes {
             self.staticImageDeactivateSettings = staticImageDeactivateSettings
             self.staticImageOutputActivateSettings = staticImageOutputActivateSettings
             self.staticImageOutputDeactivateSettings = staticImageOutputDeactivateSettings
+            self.timedMetadataSettings = timedMetadataSettings
         }
     }
 }
@@ -32264,6 +32345,7 @@ extension MediaLiveClientTypes.ScheduleActionSettings {
         guard let value else { return }
         try writer["hlsId3SegmentTaggingSettings"].write(value.hlsId3SegmentTaggingSettings, with: MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings.write(value:to:))
         try writer["hlsTimedMetadataSettings"].write(value.hlsTimedMetadataSettings, with: MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings.write(value:to:))
+        try writer["id3SegmentTaggingSettings"].write(value.id3SegmentTaggingSettings, with: MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings.write(value:to:))
         try writer["inputPrepareSettings"].write(value.inputPrepareSettings, with: MediaLiveClientTypes.InputPrepareScheduleActionSettings.write(value:to:))
         try writer["inputSwitchSettings"].write(value.inputSwitchSettings, with: MediaLiveClientTypes.InputSwitchScheduleActionSettings.write(value:to:))
         try writer["motionGraphicsImageActivateSettings"].write(value.motionGraphicsImageActivateSettings, with: MediaLiveClientTypes.MotionGraphicsActivateScheduleActionSettings.write(value:to:))
@@ -32277,6 +32359,7 @@ extension MediaLiveClientTypes.ScheduleActionSettings {
         try writer["staticImageDeactivateSettings"].write(value.staticImageDeactivateSettings, with: MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings.write(value:to:))
         try writer["staticImageOutputActivateSettings"].write(value.staticImageOutputActivateSettings, with: MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings.write(value:to:))
         try writer["staticImageOutputDeactivateSettings"].write(value.staticImageOutputDeactivateSettings, with: MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings.write(value:to:))
+        try writer["timedMetadataSettings"].write(value.timedMetadataSettings, with: MediaLiveClientTypes.TimedMetadataScheduleActionSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ScheduleActionSettings {
@@ -32297,6 +32380,40 @@ extension MediaLiveClientTypes.ScheduleActionSettings {
         value.staticImageDeactivateSettings = try reader["staticImageDeactivateSettings"].readIfPresent(with: MediaLiveClientTypes.StaticImageDeactivateScheduleActionSettings.read(from:))
         value.staticImageOutputActivateSettings = try reader["staticImageOutputActivateSettings"].readIfPresent(with: MediaLiveClientTypes.StaticImageOutputActivateScheduleActionSettings.read(from:))
         value.staticImageOutputDeactivateSettings = try reader["staticImageOutputDeactivateSettings"].readIfPresent(with: MediaLiveClientTypes.StaticImageOutputDeactivateScheduleActionSettings.read(from:))
+        value.id3SegmentTaggingSettings = try reader["id3SegmentTaggingSettings"].readIfPresent(with: MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings.read(from:))
+        value.timedMetadataSettings = try reader["timedMetadataSettings"].readIfPresent(with: MediaLiveClientTypes.TimedMetadataScheduleActionSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.TimedMetadataScheduleActionSettings {
+
+    static func write(value: MediaLiveClientTypes.TimedMetadataScheduleActionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id3"].write(value.id3)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.TimedMetadataScheduleActionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.TimedMetadataScheduleActionSettings()
+        value.id3 = try reader["id3"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings {
+
+    static func write(value: MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id3"].write(value.id3)
+        try writer["tag"].write(value.tag)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Id3SegmentTaggingScheduleActionSettings()
+        value.id3 = try reader["id3"].readIfPresent()
+        value.tag = try reader["tag"].readIfPresent()
         return value
     }
 }
@@ -34943,6 +35060,8 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
     static func write(value: MediaLiveClientTypes.CmafIngestGroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+        try writer["id3Behavior"].write(value.id3Behavior)
+        try writer["id3NameModifier"].write(value.id3NameModifier)
         try writer["klvBehavior"].write(value.klvBehavior)
         try writer["klvNameModifier"].write(value.klvNameModifier)
         try writer["nielsenId3Behavior"].write(value.nielsenId3Behavior)
@@ -34967,6 +35086,8 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         value.klvNameModifier = try reader["klvNameModifier"].readIfPresent()
         value.nielsenId3NameModifier = try reader["nielsenId3NameModifier"].readIfPresent()
         value.scte35NameModifier = try reader["scte35NameModifier"].readIfPresent()
+        value.id3Behavior = try reader["id3Behavior"].readIfPresent()
+        value.id3NameModifier = try reader["id3NameModifier"].readIfPresent()
         return value
     }
 }

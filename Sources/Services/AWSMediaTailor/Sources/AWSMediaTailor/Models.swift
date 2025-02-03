@@ -745,6 +745,80 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum LoggingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case legacyCloudwatch
+        case vendedLogs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LoggingStrategy] {
+            return [
+                .legacyCloudwatch,
+                .vendedLogs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .legacyCloudwatch: return "LEGACY_CLOUDWATCH"
+            case .vendedLogs: return "VENDED_LOGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum StreamingMediaFileConditioning: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case transcode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamingMediaFileConditioning] {
+            return [
+                .none,
+                .transcode
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .transcode: return "TRANSCODE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns.
+    public struct AdConditioningConfiguration: Swift.Sendable {
+        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS. TRANSCODE indicates that MediaTailor must transcode the ads. NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow. For more information about ad conditioning see [https://docs.aws.amazon.com/precondition-ads.html](https://docs.aws.amazon.com/precondition-ads.html).
+        /// This member is required.
+        public var streamingMediaFileConditioning: MediaTailorClientTypes.StreamingMediaFileConditioning?
+
+        public init(
+            streamingMediaFileConditioning: MediaTailorClientTypes.StreamingMediaFileConditioning? = nil
+        ) {
+            self.streamingMediaFileConditioning = streamingMediaFileConditioning
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum FillPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullAvailOnly
         case partialAvail
@@ -983,15 +1057,19 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// Returns Amazon CloudWatch log settings for a playback configuration.
+    /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public struct LogConfiguration: Swift.Sendable {
-        /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
+        /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+        public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+        /// The percentage of session logs that MediaTailor sends to your configured log destination. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
         /// This member is required.
         public var percentEnabled: Swift.Int?
 
         public init(
+            enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
             percentEnabled: Swift.Int? = nil
         ) {
+            self.enabledLoggingStrategies = enabledLoggingStrategies
             self.percentEnabled = percentEnabled
         }
     }
@@ -1031,6 +1109,8 @@ extension MediaTailorClientTypes {
 
     /// A playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     public struct PlaybackConfiguration: Swift.Sendable {
+        /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+        public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public var adDecisionServerUrl: Swift.String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -1039,7 +1119,7 @@ extension MediaTailorClientTypes {
         public var bumper: MediaTailorClientTypes.Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
         public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-        /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+        /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
         public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
         /// The configuration for a DASH source.
         public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
@@ -1049,7 +1129,7 @@ extension MediaTailorClientTypes {
         public var insertionMode: MediaTailorClientTypes.InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
-        /// The Amazon CloudWatch log settings for a playback configuration.
+        /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
         public var logConfiguration: MediaTailorClientTypes.LogConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public var manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -1073,6 +1153,7 @@ extension MediaTailorClientTypes {
         public var videoContentSourceUrl: Swift.String?
 
         public init(
+            adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
             adDecisionServerUrl: Swift.String? = nil,
             availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
             bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -1094,6 +1175,7 @@ extension MediaTailorClientTypes {
             transcodeProfileName: Swift.String? = nil,
             videoContentSourceUrl: Swift.String? = nil
         ) {
+            self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1127,7 +1209,7 @@ extension MediaTailorClientTypes {
         /// The time when MediaTailor no longer considers the prefetched ads for use in an ad break. MediaTailor automatically deletes prefetch schedules no less than seven days after the end time. If you'd like to manually delete the prefetch schedule, you can call DeletePrefetchSchedule.
         /// This member is required.
         public var endTime: Foundation.Date?
-        /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrives them from the ad decision server.
+        /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrieves them from the ad decision server.
         public var startTime: Foundation.Date?
 
         public init(
@@ -2582,7 +2664,9 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
 /// Configures Amazon CloudWatch log settings for a playback configuration.
 public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
-    /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
+    /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in [Enable logging from AWS services, Logging that requires additional permissions [V2]](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html#AWS-vended-logs-permissions-V2).
+    public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+    /// The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
     /// This member is required.
     public var percentEnabled: Swift.Int?
     /// The name of the playback configuration.
@@ -2590,15 +2674,19 @@ public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
     ) {
+        self.enabledLoggingStrategies = enabledLoggingStrategies
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
 }
 
 public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
+    /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+    public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
     /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
     /// This member is required.
     public var percentEnabled: Swift.Int?
@@ -2606,9 +2694,11 @@ public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
     ) {
+        self.enabledLoggingStrategies = enabledLoggingStrategies
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -3169,6 +3259,8 @@ public struct GetPlaybackConfigurationInput: Swift.Sendable {
 }
 
 public struct GetPlaybackConfigurationOutput: Swift.Sendable {
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+    public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3177,7 +3269,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
@@ -3187,7 +3279,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
     public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
-    /// The Amazon CloudWatch log settings for a playback configuration.
+    /// The configuration that defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public var logConfiguration: MediaTailorClientTypes.LogConfiguration?
     /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
     public var manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -3211,6 +3303,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var videoContentSourceUrl: Swift.String?
 
     public init(
+        adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3232,6 +3325,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
     ) {
+        self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3588,6 +3682,8 @@ public struct UpdateLiveSourceOutput: Swift.Sendable {
 }
 
 public struct PutPlaybackConfigurationInput: Swift.Sendable {
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+    public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3596,7 +3692,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut?
@@ -3621,6 +3717,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var videoContentSourceUrl: Swift.String?
 
     public init(
+        adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3637,6 +3734,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
     ) {
+        self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3656,6 +3754,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
 }
 
 public struct PutPlaybackConfigurationOutput: Swift.Sendable {
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+    public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3664,7 +3764,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
@@ -3674,7 +3774,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
     public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
-    /// The Amazon CloudWatch log settings for a playback configuration.
+    /// The configuration that defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public var logConfiguration: MediaTailorClientTypes.LogConfiguration?
     /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
     public var manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -3698,6 +3798,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var videoContentSourceUrl: Swift.String?
 
     public init(
+        adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3719,6 +3820,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
     ) {
+        self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -4524,6 +4626,7 @@ extension ConfigureLogsForPlaybackConfigurationInput {
 
     static func write(value: ConfigureLogsForPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EnabledLoggingStrategies"].writeList(value.enabledLoggingStrategies, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.LoggingStrategy>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PercentEnabled"].write(value.percentEnabled)
         try writer["PlaybackConfigurationName"].write(value.playbackConfigurationName)
     }
@@ -4618,6 +4721,7 @@ extension PutPlaybackConfigurationInput {
 
     static func write(value: PutPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdConditioningConfiguration"].write(value.adConditioningConfiguration, with: MediaTailorClientTypes.AdConditioningConfiguration.write(value:to:))
         try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
         try writer["AvailSuppression"].write(value.availSuppression, with: MediaTailorClientTypes.AvailSuppression.write(value:to:))
         try writer["Bumper"].write(value.bumper, with: MediaTailorClientTypes.Bumper.write(value:to:))
@@ -4712,6 +4816,7 @@ extension ConfigureLogsForPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ConfigureLogsForPlaybackConfigurationOutput()
+        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
         return value
@@ -5029,6 +5134,7 @@ extension GetPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPlaybackConfigurationOutput()
+        value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -5187,6 +5293,7 @@ extension PutPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutPlaybackConfigurationOutput()
+        value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -6489,6 +6596,7 @@ extension MediaTailorClientTypes.LogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.LogConfiguration()
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
+        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6519,6 +6627,21 @@ extension MediaTailorClientTypes.AdMarkerPassthrough {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.AdMarkerPassthrough()
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.AdConditioningConfiguration {
+
+    static func write(value: MediaTailorClientTypes.AdConditioningConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StreamingMediaFileConditioning"].write(value.streamingMediaFileConditioning)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdConditioningConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdConditioningConfiguration()
+        value.streamingMediaFileConditioning = try reader["StreamingMediaFileConditioning"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6600,6 +6723,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.transcodeProfileName = try reader["TranscodeProfileName"].readIfPresent()
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
+        value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         return value
     }
 }
