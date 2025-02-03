@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComputeOptimizerClient: ClientRuntime.Client {
     public static let clientName = "ComputeOptimizerClient"
-    public static let version = "1.2.9"
+    public static let version = "1.2.10"
     let client: ClientRuntime.SdkHttpClient
     let config: ComputeOptimizerClient.ComputeOptimizerClientConfiguration
     let serviceName = "Compute Optimizer"
