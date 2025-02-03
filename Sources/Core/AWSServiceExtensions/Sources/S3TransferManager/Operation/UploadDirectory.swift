@@ -23,65 +23,110 @@ public extension S3TransferManager {
     /// - Returns: An asynchronous `Task<UploadDirectoryOutput, Error>` that can be waited on or cancelled as needed.
     func uploadDirectory(input: UploadDirectoryInput) throws -> Task<UploadDirectoryOutput, Error> {
         return Task {
-            var visitedCanonicalPaths = Set<String>()
-            var nestedURLs = try getDirectlyNestedURLs(in: input.source)
-
-            // Each child task will call S3TM::UploadObject for a single file.
-            var uploadObjectTasks: [Task<Void, Error>] = []
-
-            // BFS for processing URLs fetched from source directory.
-            while !nestedURLs.isEmpty {
-                var url = nestedURLs.removeFirst()
-                let urlProperties = try url.resourceValues(
-                    forKeys: [.canonicalPathKey, .isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey]
-                )
-
-                // Skip symlink URL if configured to skip.
-                if urlProperties.isSymbolicLink ?? false {
-                    if input.followSymbolicLinks {
-                        // Resolve symlink URL to the actual file or directory.
-                        url = url.resolvingSymlinksInPath()
-                    } else {
-                        continue
+            let nestedFileURLs = try getNestedFileURLs(
+                in: input.source,
+                recursive: input.recursive,
+                followSymbolicLinks: input.followSymbolicLinks
+            )
+            let (successfulUploadCount, failedUploadCount) = try await withThrowingTaskGroup(
+                // Each child task returns the result of a single upload object call.
+                of: Result<Void, Error>.self,
+                // Task group returns success / failure counts of the upload object calls.
+                returning: (successfulUploadCount: Int, failedUploadCount: Int).self
+            ) { group in
+                // Add upload object child tasks.
+                for url in nestedFileURLs {
+                    group.addTask {
+                        do {
+                            try Task.checkCancellation()
+                            _ = try await self.uploadObjectFromURL(url: url, input: input)
+                            return .success(())
+                        } catch {
+                            // Errors are caught and wrapped in .failure to allow individual error handling.
+                            return .failure(error)
+                        }
                     }
                 }
 
-                // Skip URL if it's already visited. Prevents symlink loop.
-                guard let canonicalPath = urlProperties.canonicalPath else {
-                    throw S3TMUploadDirectoryError.FailedToGetCanonicalPathForURL(url: url)
-                }
-                if visitedCanonicalPaths.contains(canonicalPath) {
-                    logger.debug("Skipping a duplicate URL: \(url).")
-                    continue
-                }
-
-                // "Mark" URL as "visited".
-                visitedCanonicalPaths.insert(canonicalPath)
-
-                if urlProperties.isDirectory ?? false {
-                    if input.recursive {
-                        nestedURLs.append(contentsOf: try getDirectlyNestedURLs(in: url))
+                // Collect results of upload object child tasks.
+                var successfulUploadCount = 0, failedUploadCount = 0
+                while let uploadObjectResult = try await group.next() {
+                    switch uploadObjectResult {
+                    case .success:
+                        successfulUploadCount += 1
+                    case .failure(let error):
+                        failedUploadCount += 1
+                        do {
+                            // Call failure policy to handle DownloadObject failure.
+                            try await input.failurePolicy(error, input)
+                        } catch { // input.failurePolicy threw an error; bubble up error.
+                            // Error being thrown automatically cancels all tasks within throwing task group.
+                            throw error
+                        }
                     }
-                } else if urlProperties.isRegularFile ?? false {
-                    try Task.checkCancellation()
-                    uploadObjectTasks.append(
-                        Task { try await uploadObjectFromURL(url: url, input: input) }
-                    )
-                } else {
-                    logger.debug("Skipped URL because it's neither directory nor a regular file: \(url)")
-                    continue
                 }
+
+                // Return counts.
+                return (successfulUploadCount, failedUploadCount)
             }
 
-            let (successfulUploadCount,failedUploadCount) = try await handleUploadObjectResults(
-                of: uploadObjectTasks,
-                input: input
-            )
             return UploadDirectoryOutput(
                 objectsUploaded: successfulUploadCount,
                 objectsFailed: failedUploadCount
             )
         }
+    }
+
+    private func getNestedFileURLs(
+        in source: URL,
+        recursive: Bool,
+        followSymbolicLinks: Bool
+    ) throws -> [URL] {
+        var nestedFileURLs: [URL] = []
+        var visitedCanonicalPaths = Set<String>()
+        var nestedURLs = try getDirectlyNestedURLs(in: source)
+
+        // BFS for processing URLs fetched from source directory.
+        while !nestedURLs.isEmpty {
+            var url = nestedURLs.removeFirst()
+            let urlProperties = try url.resourceValues(
+                forKeys: [.canonicalPathKey, .isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey]
+            )
+
+            // Skip symlink URL if configured to skip.
+            if urlProperties.isSymbolicLink ?? false {
+                if followSymbolicLinks {
+                    // Resolve symlink URL to the actual file or directory.
+                    url = url.resolvingSymlinksInPath()
+                } else {
+                    continue
+                }
+            }
+
+            // Skip URL if it's already visited. Prevents symlink loop.
+            guard let canonicalPath = urlProperties.canonicalPath else {
+                throw S3TMUploadDirectoryError.FailedToGetCanonicalPathForURL(url: url)
+            }
+            if visitedCanonicalPaths.contains(canonicalPath) {
+                logger.debug("Skipping a duplicate URL: \(url).")
+                continue
+            }
+
+            // "Mark" URL as "visited".
+            visitedCanonicalPaths.insert(canonicalPath)
+
+            if urlProperties.isDirectory ?? false {
+                if recursive {
+                    nestedURLs.append(contentsOf: try getDirectlyNestedURLs(in: url))
+                }
+            } else if urlProperties.isRegularFile ?? false {
+                nestedFileURLs.append(url)
+            } else {
+                logger.debug("Skipped URL because it's neither directory nor a regular file: \(url)")
+                continue
+            }
+        }
+        return nestedFileURLs
     }
 
     private func getDirectlyNestedURLs(in directory: URL) throws -> [URL] {
@@ -119,43 +164,10 @@ public extension S3TransferManager {
             let uploadObjectTask = try uploadObject(input: uploadObjectInput)
             _ = try await uploadObjectTask.value
         } catch {
-            throw S3TMUploadDirectoryError.FailedToUploadObject(
+            throw S3TMUploadDirectoryError.FailedToUploadAnObject(
                 originalErrorFromUploadObject: error,
                 failedUploadObjectInput: uploadObjectInput
             )
-        }
-    }
-
-    private func handleUploadObjectResults(
-        of uploadObjectTasks: [Task<Void, Error>],
-        input: UploadDirectoryInput
-    ) async throws -> (successfulUploadCount: Int, failedUploadCount: Int) {
-        var successfulUploadCount = 0, failedUploadCount = 0
-
-        for uploadObjectTask in uploadObjectTasks {
-            do {
-                // Calling .value on the child task waits for all descendant tasks to finish.
-                try await uploadObjectTask.value
-                successfulUploadCount += 1
-            } catch {
-                failedUploadCount += 1
-                try await handleUploadObjectFailure(error: error, input: input, uploadObjectTasks: uploadObjectTasks)
-            }
-        }
-
-        return (successfulUploadCount, failedUploadCount)
-    }
-
-    private func handleUploadObjectFailure(
-        error: Error,
-        input: UploadDirectoryInput,
-        uploadObjectTasks: [Task<Void, Error>]
-    ) async throws {
-        do {
-            try await input.failurePolicy(error, input)
-        } catch { // input.failurePolicy threw an error; cancel all tasks & bubble up error.
-            uploadObjectTasks.forEach { $0.cancel() }
-            throw error
         }
     }
 
@@ -197,6 +209,6 @@ public extension S3TransferManager {
 public enum S3TMUploadDirectoryError: Error {
     case InvalidSourceURL(String)
     case FailedToGetCanonicalPathForURL(url: URL)
-    case FailedToUploadObject(originalErrorFromUploadObject: Error, failedUploadObjectInput: UploadObjectInput)
+    case FailedToUploadAnObject(originalErrorFromUploadObject: Error, failedUploadObjectInput: UploadObjectInput)
     case InvalidFileName(String)
 }
