@@ -29,12 +29,6 @@ jobs:
           - Xcode_15.2
           - Xcode_16.1
         destination:
-          - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-          - 'platform=iOS Simulator,OS=18.1,name=iPhone 16'
-          - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-          - 'platform=tvOS Simulator,OS=18.1,name=Apple TV 4K (3rd generation) (at 1080p)'
-          - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-          - 'platform=visionOS Simulator,OS=2.1,name=Apple Vision Pro'
           - 'platform=macOS'
         exclude:
           # Don't run old macOS with new Xcode
@@ -43,20 +37,8 @@ jobs:
           # Don't run new macOS with old Xcode
           - runner: macos-15
             xcode: Xcode_15.2
-          # Don't run old simulators with new Xcode
-          - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_16.1
-          - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-            xcode: Xcode_16.1
-          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-            xcode: Xcode_16.1
-          # Don't run new simulators with old Xcode
-          - destination: 'platform=tvOS Simulator,OS=18.1,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_15.2
-          - destination: 'platform=iOS Simulator,OS=18.1,name=iPhone 16'
-            xcode: Xcode_15.2
-          - destination: 'platform=visionOS Simulator,OS=2.1,name=Apple Vision Pro'
-            xcode: Xcode_15.2
+        iteration: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        
     steps:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
@@ -134,7 +116,6 @@ jobs:
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
-
   linux:
     # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
@@ -148,6 +129,7 @@ jobs:
         version:
           - "5.9"
           - "6.0"
+        iteration: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
