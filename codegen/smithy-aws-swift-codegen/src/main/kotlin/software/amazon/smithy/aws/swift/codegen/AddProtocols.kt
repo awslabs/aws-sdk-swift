@@ -37,7 +37,7 @@ class AddProtocols : SwiftIntegration {
         AWSQueryProtocolGenerator(),
         EC2QueryProtocolGenerator(),
         RpcV2CborProtocolGenerator(
-            rpcCborCustomizations = AWSRpcV2CborCustomizations(),
+            customizations = AWSRpcV2CborCustomizations(),
             operationEndpointResolverMiddlewareFactory = { ctx, endpointMiddlewareSymbol ->
                 AWSOperationEndpointResolverMiddleware(ctx, endpointMiddlewareSymbol)
             },
