@@ -7,7 +7,7 @@
 
 import struct Smithy.SwiftLogger
 
-public class LoggingTransferListener: TransferListener {
+public struct LoggingTransferListener: TransferListener {
     private let logger = SwiftLogger(label: "LoggingTransferListener")
 
     public func onTransferInitiated(input: any TransferInput, snapshot: any TransferProgressSnapshot) {
