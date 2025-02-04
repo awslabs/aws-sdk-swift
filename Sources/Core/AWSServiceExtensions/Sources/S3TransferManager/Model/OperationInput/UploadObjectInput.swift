@@ -98,7 +98,7 @@ public struct UploadObjectInput: TransferInput {
     func getCompleteMultipartUploadInput(
         multipartUpload: S3ClientTypes.CompletedMultipartUpload,
         uploadID: String,
-        mpuObjectSize: String
+        mpuObjectSize: Int
     ) -> CompleteMultipartUploadInput {
         return CompleteMultipartUploadInput(
             bucket: putObjectInput.bucket,

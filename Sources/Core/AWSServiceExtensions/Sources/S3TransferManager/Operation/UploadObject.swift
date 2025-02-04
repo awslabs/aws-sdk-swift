@@ -71,7 +71,7 @@ public extension S3TransferManager {
         }
     }
 
-    private func resolvePayloadSize(of body: ByteStream?) async throws -> Int {
+    internal func resolvePayloadSize(of body: ByteStream?) async throws -> Int {
         switch body {
         case .data(let data):
             return data?.count ?? 0
@@ -79,14 +79,14 @@ public extension S3TransferManager {
             if let length = stream.length {
                 return length
             } else {
-                throw S3TMUploadObjectError.StreamPayloadOfUnknownLength
+                throw S3TMUploadObjectError.streamPayloadOfUnknownLength
             }
         default:
             return 0
         }
     }
 
-    private func prepareMPU(
+    internal func prepareMPU(
         s3: S3Client,
         payloadSize: Int,
         input: UploadObjectInput
@@ -101,13 +101,13 @@ public extension S3TransferManager {
 
         // Upload ID for the MPU is used throughout the MPU process.
         guard let uploadID = createMPUOutput.uploadId else {
-            throw S3TMUploadObjectError.FailedToCreateMPU
+            throw S3TMUploadObjectError.failedToCreateMPU
         }
         return (uploadID, numParts, partSize)
     }
 
     // Returns completed parts used to complete MPU.
-    private func uploadPartsConcurrently(
+    internal func uploadPartsConcurrently(
         s3: S3Client,
         input: UploadObjectInput,
         uploadID: String,
@@ -126,8 +126,12 @@ public extension S3TransferManager {
                 group.addTask {
                     let partOffset = (partNumber - 1) * partSize
                     // Either take full part size or remainder (only for last part).
-                    let chunkSize = min(partSize, payloadSize - partOffset)
-                    let partData = try await self.readPartData(input: input, partOffset: partOffset, chunkSize: chunkSize)
+                    let resolvedPartSize = min(partSize, payloadSize - partOffset)
+                    let partData = try await self.readPartData(
+                        input: input,
+                        partSize: resolvedPartSize,
+                        partOffset: partOffset
+                    )
 
                     let uploadPartInput = input.getUploadPartInput(
                         body: ByteStream.data(partData),
@@ -157,25 +161,25 @@ public extension S3TransferManager {
         }
     }
 
-    private func readPartData(
+    internal func readPartData(
         input: UploadObjectInput,
-        partOffset: Int,
-        chunkSize: Int
+        partSize: Int,
+        partOffset: Int? = nil // Only used for reading from Data; streams should already point to next start.
     ) async throws -> Data {
         var partData: Data?
         if case .data(let data) = input.putObjectInput.body {
-            partData = data?[partOffset..<(partOffset + chunkSize)]
+            partData = data?[partOffset!..<(partOffset! + partSize)]
         } else if case .stream(let stream) = input.putObjectInput.body {
-            partData = try stream.read(upToCount: Int(chunkSize))
+            partData = try stream.read(upToCount: Int(partSize))
         }
 
         guard let resolvedPartData = partData else {
-            throw S3TMUploadObjectError.FailedToReadPart
+            throw S3TMUploadObjectError.failedToReadPart
         }
         return resolvedPartData
     }
 
-    private func completeMPU(
+    internal func completeMPU(
         s3: S3Client,
         input: UploadObjectInput,
         uploadID: String,
@@ -186,14 +190,14 @@ public extension S3TransferManager {
         let completeMPUInput = input.getCompleteMultipartUploadInput(
             multipartUpload: S3ClientTypes.CompletedMultipartUpload(parts: completedParts),
             uploadID: uploadID,
-            mpuObjectSize: String(payloadSize)
+            mpuObjectSize: payloadSize
         )
         let completeMPUOutput = try await s3.completeMultipartUpload(input: completeMPUInput)
         logger.debug("Successfully completed MPU with uploadID: \"\(uploadID)\".")
         return completeMPUOutput
     }
 
-    private func abortMPU(
+    internal func abortMPU(
         s3: S3Client,
         input: UploadObjectInput,
         uploadID: String,
@@ -204,7 +208,7 @@ public extension S3TransferManager {
             logger.debug("Successfully aborted MPU with the uploadID: \"\(uploadID)\".")
         } catch let abortError {
             logger.debug("Failed to abort MPU with the uploadID: \"\(uploadID)\".")
-            throw S3TMUploadObjectError.FailedToAbortMPU(
+            throw S3TMUploadObjectError.failedToAbortMPU(
                 errorFromMPUOperation: originalError,
                 errorFromFailedAbortMPUOperation: abortError
             )
@@ -214,9 +218,8 @@ public extension S3TransferManager {
 
 /// A non-exhausive list of errors that can be thrown by the UploadObject operation of S3 Transfer Manager.
 public enum S3TMUploadObjectError: Error {
-    case StreamPayloadOfUnknownLength
-    case FailedToCreateMPU
-    case FailedToReadPart
-    case FailedToAbortMPU(errorFromMPUOperation: Error, errorFromFailedAbortMPUOperation: Error)
-    case UploadPartOutputIsMissingPartNumber
+    case streamPayloadOfUnknownLength
+    case failedToCreateMPU
+    case failedToReadPart
+    case failedToAbortMPU(errorFromMPUOperation: Error, errorFromFailedAbortMPUOperation: Error)
 }
