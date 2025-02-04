@@ -11,6 +11,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension MailManagerClient {
+    /// Paginate over `[ListAddressListImportJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAddressListImportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAddressListImportJobsOutput`
+    public func listAddressListImportJobsPaginated(input: ListAddressListImportJobsInput) -> ClientRuntime.PaginatorSequence<ListAddressListImportJobsInput, ListAddressListImportJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAddressListImportJobs(input:))
+    }
+}
+
+extension ListAddressListImportJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAddressListImportJobsInput {
+        return ListAddressListImportJobsInput(
+            addressListId: self.addressListId,
+            nextToken: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAddressListImportJobsInput, OperationStackOutput == ListAddressListImportJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAddressListImportJobsPaginated`
+    /// to access the nested member `[MailManagerClientTypes.ImportJob]`
+    /// - Returns: `[MailManagerClientTypes.ImportJob]`
+    public func importJobs() async throws -> [MailManagerClientTypes.ImportJob] {
+        return try await self.asyncCompactMap { item in item.importJobs }
+    }
+}
+extension MailManagerClient {
     /// Paginate over `[ListArchiveExportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -70,5 +101,37 @@ extension PaginatorSequence where OperationStackInput == ListArchiveSearchesInpu
     /// - Returns: `[MailManagerClientTypes.SearchSummary]`
     public func searches() async throws -> [MailManagerClientTypes.SearchSummary] {
         return try await self.asyncCompactMap { item in item.searches }
+    }
+}
+extension MailManagerClient {
+    /// Paginate over `[ListMembersOfAddressListOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMembersOfAddressListInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOfAddressListOutput`
+    public func listMembersOfAddressListPaginated(input: ListMembersOfAddressListInput) -> ClientRuntime.PaginatorSequence<ListMembersOfAddressListInput, ListMembersOfAddressListOutput> {
+        return ClientRuntime.PaginatorSequence<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMembersOfAddressList(input:))
+    }
+}
+
+extension ListMembersOfAddressListInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMembersOfAddressListInput {
+        return ListMembersOfAddressListInput(
+            addressListId: self.addressListId,
+            filter: self.filter,
+            nextToken: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMembersOfAddressListInput, OperationStackOutput == ListMembersOfAddressListOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMembersOfAddressListPaginated`
+    /// to access the nested member `[MailManagerClientTypes.SavedAddress]`
+    /// - Returns: `[MailManagerClientTypes.SavedAddress]`
+    public func addresses() async throws -> [MailManagerClientTypes.SavedAddress] {
+        return try await self.asyncCompactMap { item in item.addresses }
     }
 }

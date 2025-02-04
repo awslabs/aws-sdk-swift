@@ -2896,7 +2896,7 @@ extension S3ControlClientTypes {
         ///
         /// * General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.
         ///
-        /// * Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone; identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3.
+        /// * Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3. A directory bucket as a destination bucket can be in Availability Zone or Local Zone. Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the error code InvalidRequest.
         public var targetResource: Swift.String?
         ///
         public var unModifiedSinceConstraint: Foundation.Date?
@@ -4678,7 +4678,7 @@ extension S3ControlClientTypes {
         public var date: Foundation.Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public var days: Swift.Int
-        /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
+        /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy. To learn more about delete markers, see [Working with delete markers](https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html).
         public var expiredObjectDeleteMarker: Swift.Bool
 
         public init(

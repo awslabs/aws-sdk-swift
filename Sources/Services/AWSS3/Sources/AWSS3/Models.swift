@@ -770,7 +770,7 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
     /// This member is required.
     public var key: Swift.String?
     /// The expected total object size of the multipart upload request. If there’s a mismatch between the specified object size value and the actual object size value, it results in an HTTP 400 InvalidRequest error.
-    public var mpuObjectSize: Swift.String?
+    public var mpuObjectSize: Swift.Int?
     /// The container for the multipart upload request information.
     public var multipartUpload: S3ClientTypes.CompletedMultipartUpload?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
@@ -797,7 +797,7 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         ifNoneMatch: Swift.String? = nil,
         key: Swift.String? = nil,
-        mpuObjectSize: Swift.String? = nil,
+        mpuObjectSize: Swift.Int? = nil,
         multipartUpload: S3ClientTypes.CompletedMultipartUpload? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,

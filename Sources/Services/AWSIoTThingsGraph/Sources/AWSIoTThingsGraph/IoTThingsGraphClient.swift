@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTThingsGraphClient: ClientRuntime.Client {
     public static let clientName = "IoTThingsGraphClient"
-    public static let version = "1.2.4"
+    public static let version = "1.2.10"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTThingsGraphClient.IoTThingsGraphClientConfiguration
     let serviceName = "IoTThingsGraph"

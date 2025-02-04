@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaTailorClient: ClientRuntime.Client {
     public static let clientName = "MediaTailorClient"
-    public static let version = "1.2.4"
+    public static let version = "1.2.10"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaTailorClient.MediaTailorClientConfiguration
     let serviceName = "MediaTailor"
@@ -430,7 +430,7 @@ extension MediaTailorClient {
 
     /// Performs the `ConfigureLogsForPlaybackConfiguration` operation on the `MediaTailor` service.
     ///
-    /// Amazon CloudWatch log settings for a playback configuration.
+    /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     ///
     /// - Parameter ConfigureLogsForPlaybackConfigurationInput : Configures Amazon CloudWatch log settings for a playback configuration.
     ///

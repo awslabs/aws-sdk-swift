@@ -3040,12 +3040,14 @@ extension CodeBuildClientTypes {
     public enum WebhookBuildType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case build
         case buildBatch
+        case runnerBuildkiteBuild
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WebhookBuildType] {
             return [
                 .build,
-                .buildBatch
+                .buildBatch,
+                .runnerBuildkiteBuild
             ]
         }
 
@@ -3058,6 +3060,7 @@ extension CodeBuildClientTypes {
             switch self {
             case .build: return "BUILD"
             case .buildBatch: return "BUILD_BATCH"
+            case .runnerBuildkiteBuild: return "RUNNER_BUILDKITE_BUILD"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3193,7 +3196,7 @@ extension CodeBuildClientTypes {
         ///
         /// * WORKFLOW_NAME
         ///
-        /// * A webhook triggers a build when the workflow name matches the regular expression pattern. Works with WORKFLOW_JOB_QUEUED events only.
+        /// * A webhook triggers a build when the workflow name matches the regular expression pattern. Works with WORKFLOW_JOB_QUEUED events only. For CodeBuild-hosted Buildkite runner builds, WORKFLOW_NAME filters will filter by pipeline name.
         /// This member is required.
         public var type: CodeBuildClientTypes.WebhookFilterType?
 

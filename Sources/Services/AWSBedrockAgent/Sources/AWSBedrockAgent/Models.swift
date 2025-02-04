@@ -1440,6 +1440,7 @@ extension BedrockAgentClientTypes {
     public enum AgentAliasStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creating
         case deleting
+        case dissociated
         case failed
         case prepared
         case updating
@@ -1449,6 +1450,7 @@ extension BedrockAgentClientTypes {
             return [
                 .creating,
                 .deleting,
+                .dissociated,
                 .failed,
                 .prepared,
                 .updating
@@ -1464,6 +1466,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .dissociated: return "DISSOCIATED"
             case .failed: return "FAILED"
             case .prepared: return "PREPARED"
             case .updating: return "UPDATING"
@@ -1499,6 +1502,8 @@ extension BedrockAgentClientTypes {
         /// * UPDATING – The agent alias is being updated.
         ///
         /// * DELETING – The agent alias is being deleted.
+        ///
+        /// * DISSOCIATED - The agent alias has no version associated with it.
         /// This member is required.
         public var agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus?
         /// The unique identifier of the agent.
@@ -4641,10 +4646,54 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum CachePointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CachePointType] {
+            return [
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "default"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Indicates where a cache checkpoint is located. All information before this checkpoint is cached to be accessed on subsequent requests.
+    public struct CachePointBlock: Swift.Sendable {
+        /// Indicates that the CachePointBlock is of the default type
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.CachePointType?
+
+        public init(
+            type: BedrockAgentClientTypes.CachePointType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Contains the content for the message you pass to, or receive from a model. For more information, see [Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html).
     public enum ContentBlock: Swift.Sendable {
         /// The text in the message.
         case text(Swift.String)
+        /// Creates a cache checkpoint within a message.
+        case cachepoint(BedrockAgentClientTypes.CachePointBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4710,6 +4759,8 @@ extension BedrockAgentClientTypes {
     public enum SystemContentBlock: Swift.Sendable {
         /// The text in the system prompt.
         case text(Swift.String)
+        /// Creates a cache checkpoint within a tool designation
+        case cachepoint(BedrockAgentClientTypes.CachePointBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4803,6 +4854,8 @@ extension BedrockAgentClientTypes {
     public enum Tool: Swift.Sendable {
         /// The specification for the tool.
         case toolspec(BedrockAgentClientTypes.ToolSpecification)
+        /// Creates a cache checkpoint within a tool designation
+        case cachepoint(BedrockAgentClientTypes.CachePointBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4870,6 +4923,8 @@ extension BedrockAgentClientTypes {
 
     /// Contains configurations for a text prompt template. To include a variable, enclose a word in double curly braces as in {{variable}}.
     public struct TextPromptTemplateConfiguration: Swift.Sendable {
+        /// A cache checkpoint within a template configuration.
+        public var cachePoint: BedrockAgentClientTypes.CachePointBlock?
         /// An array of the variables in the prompt template.
         public var inputVariables: [BedrockAgentClientTypes.PromptInputVariable]?
         /// The message for the prompt.
@@ -4877,9 +4932,11 @@ extension BedrockAgentClientTypes {
         public var text: Swift.String?
 
         public init(
+            cachePoint: BedrockAgentClientTypes.CachePointBlock? = nil,
             inputVariables: [BedrockAgentClientTypes.PromptInputVariable]? = nil,
             text: Swift.String? = nil
         ) {
+            self.cachePoint = cachePoint
             self.inputVariables = inputVariables
             self.text = text
         }
@@ -6558,6 +6615,48 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Details about an unknown input for a node.
+    public struct UnknownNodeInputFlowValidationDetails: Swift.Sendable {
+        /// The name of the node with the unknown input.
+        /// This member is required.
+        public var input: Swift.String?
+        /// The name of the unknown input.
+        /// This member is required.
+        public var node: Swift.String?
+
+        public init(
+            input: Swift.String? = nil,
+            node: Swift.String? = nil
+        ) {
+            self.input = input
+            self.node = node
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Details about an unknown output for a node.
+    public struct UnknownNodeOutputFlowValidationDetails: Swift.Sendable {
+        /// The name of the node with the unknown output.
+        /// This member is required.
+        public var node: Swift.String?
+        /// The name of the unknown output.
+        /// This member is required.
+        public var output: Swift.String?
+
+        public init(
+            node: Swift.String? = nil,
+            output: Swift.String? = nil
+        ) {
+            self.node = node
+            self.output = output
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Details about an unreachable node in the flow. A node is unreachable when there are no paths to it from any starting node.
     public struct UnreachableNodeFlowValidationDetails: Swift.Sendable {
         /// The name of the unreachable node.
@@ -6651,6 +6750,10 @@ extension BedrockAgentClientTypes {
         case unsatisfiedconnectionconditions(BedrockAgentClientTypes.UnsatisfiedConnectionConditionsFlowValidationDetails)
         /// Details about an unspecified validation.
         case unspecified(BedrockAgentClientTypes.UnspecifiedFlowValidationDetails)
+        /// Details about an unknown input for a node.
+        case unknownnodeinput(BedrockAgentClientTypes.UnknownNodeInputFlowValidationDetails)
+        /// Details about an unknown output for a node.
+        case unknownnodeoutput(BedrockAgentClientTypes.UnknownNodeOutputFlowValidationDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6709,6 +6812,8 @@ extension BedrockAgentClientTypes {
         case unknownConnectionSourceOutput
         case unknownConnectionTarget
         case unknownConnectionTargetInput
+        case unknownNodeInput
+        case unknownNodeOutput
         case unreachableNode
         case unsatisfiedConnectionConditions
         case unspecified
@@ -6738,6 +6843,8 @@ extension BedrockAgentClientTypes {
                 .unknownConnectionSourceOutput,
                 .unknownConnectionTarget,
                 .unknownConnectionTargetInput,
+                .unknownNodeInput,
+                .unknownNodeOutput,
                 .unreachableNode,
                 .unsatisfiedConnectionConditions,
                 .unspecified
@@ -6773,6 +6880,8 @@ extension BedrockAgentClientTypes {
             case .unknownConnectionSourceOutput: return "UnknownConnectionSourceOutput"
             case .unknownConnectionTarget: return "UnknownConnectionTarget"
             case .unknownConnectionTargetInput: return "UnknownConnectionTargetInput"
+            case .unknownNodeInput: return "UnknownNodeInput"
+            case .unknownNodeOutput: return "UnknownNodeOutput"
             case .unreachableNode: return "UnreachableNode"
             case .unsatisfiedConnectionConditions: return "UnsatisfiedConnectionConditions"
             case .unspecified: return "Unspecified"
@@ -16384,6 +16493,8 @@ extension BedrockAgentClientTypes.Tool {
     static func write(value: BedrockAgentClientTypes.Tool?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cachepoint(cachepoint):
+                try writer["cachePoint"].write(cachepoint, with: BedrockAgentClientTypes.CachePointBlock.write(value:to:))
             case let .toolspec(toolspec):
                 try writer["toolSpec"].write(toolspec, with: BedrockAgentClientTypes.ToolSpecification.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -16397,9 +16508,26 @@ extension BedrockAgentClientTypes.Tool {
         switch name {
             case "toolSpec":
                 return .toolspec(try reader["toolSpec"].read(with: BedrockAgentClientTypes.ToolSpecification.read(from:)))
+            case "cachePoint":
+                return .cachepoint(try reader["cachePoint"].read(with: BedrockAgentClientTypes.CachePointBlock.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentClientTypes.CachePointBlock {
+
+    static func write(value: BedrockAgentClientTypes.CachePointBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.CachePointBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.CachePointBlock()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -16466,6 +16594,8 @@ extension BedrockAgentClientTypes.SystemContentBlock {
     static func write(value: BedrockAgentClientTypes.SystemContentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cachepoint(cachepoint):
+                try writer["cachePoint"].write(cachepoint, with: BedrockAgentClientTypes.CachePointBlock.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text)
             case let .sdkUnknown(sdkUnknown):
@@ -16479,6 +16609,8 @@ extension BedrockAgentClientTypes.SystemContentBlock {
         switch name {
             case "text":
                 return .text(try reader["text"].read())
+            case "cachePoint":
+                return .cachepoint(try reader["cachePoint"].read(with: BedrockAgentClientTypes.CachePointBlock.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -16507,6 +16639,8 @@ extension BedrockAgentClientTypes.ContentBlock {
     static func write(value: BedrockAgentClientTypes.ContentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cachepoint(cachepoint):
+                try writer["cachePoint"].write(cachepoint, with: BedrockAgentClientTypes.CachePointBlock.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text)
             case let .sdkUnknown(sdkUnknown):
@@ -16520,6 +16654,8 @@ extension BedrockAgentClientTypes.ContentBlock {
         switch name {
             case "text":
                 return .text(try reader["text"].read())
+            case "cachePoint":
+                return .cachepoint(try reader["cachePoint"].read(with: BedrockAgentClientTypes.CachePointBlock.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -16530,6 +16666,7 @@ extension BedrockAgentClientTypes.TextPromptTemplateConfiguration {
 
     static func write(value: BedrockAgentClientTypes.TextPromptTemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["cachePoint"].write(value.cachePoint, with: BedrockAgentClientTypes.CachePointBlock.write(value:to:))
         try writer["inputVariables"].writeList(value.inputVariables, memberWritingClosure: BedrockAgentClientTypes.PromptInputVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["text"].write(value.text)
     }
@@ -16538,6 +16675,7 @@ extension BedrockAgentClientTypes.TextPromptTemplateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.TextPromptTemplateConfiguration()
         value.text = try reader["text"].readIfPresent() ?? ""
+        value.cachePoint = try reader["cachePoint"].readIfPresent(with: BedrockAgentClientTypes.CachePointBlock.read(from:))
         value.inputVariables = try reader["inputVariables"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptInputVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -17533,9 +17671,35 @@ extension BedrockAgentClientTypes.FlowValidationDetails {
                 return .unsatisfiedconnectionconditions(try reader["unsatisfiedConnectionConditions"].read(with: BedrockAgentClientTypes.UnsatisfiedConnectionConditionsFlowValidationDetails.read(from:)))
             case "unspecified":
                 return .unspecified(try reader["unspecified"].read(with: BedrockAgentClientTypes.UnspecifiedFlowValidationDetails.read(from:)))
+            case "unknownNodeInput":
+                return .unknownnodeinput(try reader["unknownNodeInput"].read(with: BedrockAgentClientTypes.UnknownNodeInputFlowValidationDetails.read(from:)))
+            case "unknownNodeOutput":
+                return .unknownnodeoutput(try reader["unknownNodeOutput"].read(with: BedrockAgentClientTypes.UnknownNodeOutputFlowValidationDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentClientTypes.UnknownNodeOutputFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.UnknownNodeOutputFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.UnknownNodeOutputFlowValidationDetails()
+        value.node = try reader["node"].readIfPresent() ?? ""
+        value.output = try reader["output"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.UnknownNodeInputFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.UnknownNodeInputFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.UnknownNodeInputFlowValidationDetails()
+        value.node = try reader["node"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent() ?? ""
+        return value
     }
 }
 

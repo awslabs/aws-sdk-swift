@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataSyncClient: ClientRuntime.Client {
     public static let clientName = "DataSyncClient"
-    public static let version = "1.2.4"
+    public static let version = "1.2.10"
     let client: ClientRuntime.SdkHttpClient
     let config: DataSyncClient.DataSyncClientConfiguration
     let serviceName = "DataSync"
@@ -1358,7 +1358,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationSmb` operation on the `DataSync` service.
     ///
-    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb).
+    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     ///
     /// - Parameter CreateLocationSmbInput : CreateLocationSmbRequest
     ///
