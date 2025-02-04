@@ -22,8 +22,6 @@ class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
     override val protocolTestsToIgnore = setOf(
         "SDKAppliedContentEncoding_awsJson1_0",
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0",
-        "AwsJson10ClientPopulatesDefaultValuesInInput", // TODO: broken in Smithy 1.53.0
-        "AwsJson10ClientPopulatesDefaultsValuesWhenMissingInResponse", // TODO: broken in Smithy 1.53.0
     )
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
         HttpBindingResolver = AWSJSONHttpBindingResolver(ctx, defaultContentType)
