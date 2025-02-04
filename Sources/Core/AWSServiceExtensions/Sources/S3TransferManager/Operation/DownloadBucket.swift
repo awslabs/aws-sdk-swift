@@ -160,7 +160,7 @@ public extension S3TransferManager {
         objectKeyToURL pair: (key: String, value: URL),
         input: DownloadBucketInput
     ) async throws {
-        guard let outputStream = OutputStream(url: pair.value, append: false) else {
+        guard let outputStream = OutputStream(url: pair.value, append: true) else {
             throw S3TMDownloadBucketError.FailedToCreateOutputStreamForFileURL(url: pair.value)
         }
         let downloadObjectInput = DownloadObjectInput(
