@@ -693,6 +693,53 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
+extension DatabaseMigrationClientTypes {
+
+    public enum TablePreparationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case doNothing
+        case dropTablesOnTarget
+        case truncate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TablePreparationMode] {
+            return [
+                .doNothing,
+                .dropTablesOnTarget,
+                .truncate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .doNothing: return "do-nothing"
+            case .dropTablesOnTarget: return "drop-tables-on-target"
+            case .truncate: return "truncate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Defines settings for a target data provider for a data migration.
+    public struct TargetDataSetting: Swift.Sendable {
+        /// This setting determines how DMS handles the target tables before starting a data migration, either by leaving them untouched, dropping and recreating them, or truncating the existing data in the target tables.
+        public var tablePreparationMode: DatabaseMigrationClientTypes.TablePreparationMode?
+
+        public init(
+            tablePreparationMode: DatabaseMigrationClientTypes.TablePreparationMode? = nil
+        ) {
+            self.tablePreparationMode = tablePreparationMode
+        }
+    }
+}
+
 public struct CreateDataMigrationInput: Swift.Sendable {
     /// A user-friendly name for the data migration. Data migration names have the following constraints:
     ///
@@ -721,6 +768,8 @@ public struct CreateDataMigrationInput: Swift.Sendable {
     public var sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]?
     /// One or more tags to be assigned to the data migration.
     public var tags: [DatabaseMigrationClientTypes.Tag]?
+    /// Specifies information about the target data provider.
+    public var targetDataSettings: [DatabaseMigrationClientTypes.TargetDataSetting]?
 
     public init(
         dataMigrationName: Swift.String? = nil,
@@ -731,7 +780,8 @@ public struct CreateDataMigrationInput: Swift.Sendable {
         selectionRules: Swift.String? = nil,
         serviceAccessRoleArn: Swift.String? = nil,
         sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil,
-        tags: [DatabaseMigrationClientTypes.Tag]? = nil
+        tags: [DatabaseMigrationClientTypes.Tag]? = nil,
+        targetDataSettings: [DatabaseMigrationClientTypes.TargetDataSetting]? = nil
     ) {
         self.dataMigrationName = dataMigrationName
         self.dataMigrationType = dataMigrationType
@@ -742,12 +792,13 @@ public struct CreateDataMigrationInput: Swift.Sendable {
         self.serviceAccessRoleArn = serviceAccessRoleArn
         self.sourceDataSettings = sourceDataSettings
         self.tags = tags
+        self.targetDataSettings = targetDataSettings
     }
 }
 
 extension CreateDataMigrationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataMigrationInput(dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), enableCloudwatchLogs: \(Swift.String(describing: enableCloudwatchLogs)), migrationProjectIdentifier: \(Swift.String(describing: migrationProjectIdentifier)), numberOfJobs: \(Swift.String(describing: numberOfJobs)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), tags: \(Swift.String(describing: tags)), selectionRules: \"CONTENT_REDACTED\")"}
+        "CreateDataMigrationInput(dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), enableCloudwatchLogs: \(Swift.String(describing: enableCloudwatchLogs)), migrationProjectIdentifier: \(Swift.String(describing: migrationProjectIdentifier)), numberOfJobs: \(Swift.String(describing: numberOfJobs)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), tags: \(Swift.String(describing: tags)), targetDataSettings: \(Swift.String(describing: targetDataSettings)), selectionRules: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -861,6 +912,8 @@ extension DatabaseMigrationClientTypes {
         public var sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]?
         /// The reason the data migration last stopped.
         public var stopReason: Swift.String?
+        /// Specifies information about the data migration's target data provider.
+        public var targetDataSettings: [DatabaseMigrationClientTypes.TargetDataSetting]?
 
         public init(
             dataMigrationArn: Swift.String? = nil,
@@ -878,7 +931,8 @@ extension DatabaseMigrationClientTypes {
             publicIpAddresses: [Swift.String]? = nil,
             serviceAccessRoleArn: Swift.String? = nil,
             sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil,
-            stopReason: Swift.String? = nil
+            stopReason: Swift.String? = nil,
+            targetDataSettings: [DatabaseMigrationClientTypes.TargetDataSetting]? = nil
         ) {
             self.dataMigrationArn = dataMigrationArn
             self.dataMigrationCidrBlocks = dataMigrationCidrBlocks
@@ -896,13 +950,14 @@ extension DatabaseMigrationClientTypes {
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.sourceDataSettings = sourceDataSettings
             self.stopReason = stopReason
+            self.targetDataSettings = targetDataSettings
         }
     }
 }
 
 extension DatabaseMigrationClientTypes.DataMigration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataMigration(dataMigrationArn: \(Swift.String(describing: dataMigrationArn)), dataMigrationCidrBlocks: \(Swift.String(describing: dataMigrationCidrBlocks)), dataMigrationCreateTime: \(Swift.String(describing: dataMigrationCreateTime)), dataMigrationEndTime: \(Swift.String(describing: dataMigrationEndTime)), dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationSettings: \(Swift.String(describing: dataMigrationSettings)), dataMigrationStartTime: \(Swift.String(describing: dataMigrationStartTime)), dataMigrationStatistics: \(Swift.String(describing: dataMigrationStatistics)), dataMigrationStatus: \(Swift.String(describing: dataMigrationStatus)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), lastFailureMessage: \(Swift.String(describing: lastFailureMessage)), migrationProjectArn: \(Swift.String(describing: migrationProjectArn)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), stopReason: \(Swift.String(describing: stopReason)), publicIpAddresses: \"CONTENT_REDACTED\")"}
+        "DataMigration(dataMigrationArn: \(Swift.String(describing: dataMigrationArn)), dataMigrationCidrBlocks: \(Swift.String(describing: dataMigrationCidrBlocks)), dataMigrationCreateTime: \(Swift.String(describing: dataMigrationCreateTime)), dataMigrationEndTime: \(Swift.String(describing: dataMigrationEndTime)), dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationSettings: \(Swift.String(describing: dataMigrationSettings)), dataMigrationStartTime: \(Swift.String(describing: dataMigrationStartTime)), dataMigrationStatistics: \(Swift.String(describing: dataMigrationStatistics)), dataMigrationStatus: \(Swift.String(describing: dataMigrationStatus)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), lastFailureMessage: \(Swift.String(describing: lastFailureMessage)), migrationProjectArn: \(Swift.String(describing: migrationProjectArn)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), stopReason: \(Swift.String(describing: stopReason)), targetDataSettings: \(Swift.String(describing: targetDataSettings)), publicIpAddresses: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateDataMigrationOutput: Swift.Sendable {
@@ -2170,7 +2225,7 @@ extension DatabaseMigrationClientTypes {
 
     /// Provides information that defines a Microsoft SQL Server endpoint.
     public struct MicrosoftSQLServerSettings: Swift.Sendable {
-        /// Specifies using Kerberos authentication with Microsoft SQL Server.
+        /// Specifies the authentication method to be used with Microsoft SQL Server.
         public var authenticationMethod: DatabaseMigrationClientTypes.SqlServerAuthenticationMethod?
         /// The maximum size of the packets (in bytes) used to transfer data using BCP.
         public var bcpPacketSize: Swift.Int?
@@ -2538,7 +2593,7 @@ extension DatabaseMigrationClientTypes {
         public var asmServer: Swift.String?
         /// For an Oracle source endpoint, your ASM user name. You can set this value from the asm_user value. You set asm_user as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see [Configuration for change data capture (CDC) on an Oracle source database](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration).
         public var asmUser: Swift.String?
-        /// Specifies using Kerberos authentication with Oracle.
+        /// Specifies the authentication method to be used with Oracle.
         public var authenticationMethod: DatabaseMigrationClientTypes.OracleAuthenticationMethod?
         /// Specifies whether the length of a character column is in bytes or in characters. To indicate that the character column length is in characters, set this attribute to CHAR. Otherwise, the character column length is in bytes. Example: charLengthSemantics=CHAR;
         public var charLengthSemantics: DatabaseMigrationClientTypes.CharLengthSemantics?
@@ -4940,13 +4995,13 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
 extension DatabaseMigrationClientTypes {
 
-    /// Specifies using Kerberos authentication settings for use with DMS.
+    /// Specifies the settings required for kerberos authentication when creating the replication instance.
     public struct KerberosAuthenticationSettings: Swift.Sendable {
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon Web Services DMS access to the secret containing key cache file for the replication instance.
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon Web Services DMS access to the secret containing key cache file for the kerberos authentication.
         public var keyCacheSecretIamArn: Swift.String?
-        /// Specifies the secret ID of the key cache for the replication instance.
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication.
         public var keyCacheSecretId: Swift.String?
-        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication of the replication instance.
+        /// Specifies the contents of krb5 configuration file required for kerberos authentication.
         public var krb5FileContents: Swift.String?
 
         public init(
@@ -9564,6 +9619,8 @@ public struct ModifyDataMigrationInput: Swift.Sendable {
     public var serviceAccessRoleArn: Swift.String?
     /// The new information about the source data provider for the data migration.
     public var sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]?
+    /// The new information about the target data provider for the data migration.
+    public var targetDataSettings: [DatabaseMigrationClientTypes.TargetDataSetting]?
 
     public init(
         dataMigrationIdentifier: Swift.String? = nil,
@@ -9573,7 +9630,8 @@ public struct ModifyDataMigrationInput: Swift.Sendable {
         numberOfJobs: Swift.Int? = nil,
         selectionRules: Swift.String? = nil,
         serviceAccessRoleArn: Swift.String? = nil,
-        sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil
+        sourceDataSettings: [DatabaseMigrationClientTypes.SourceDataSetting]? = nil,
+        targetDataSettings: [DatabaseMigrationClientTypes.TargetDataSetting]? = nil
     ) {
         self.dataMigrationIdentifier = dataMigrationIdentifier
         self.dataMigrationName = dataMigrationName
@@ -9583,12 +9641,13 @@ public struct ModifyDataMigrationInput: Swift.Sendable {
         self.selectionRules = selectionRules
         self.serviceAccessRoleArn = serviceAccessRoleArn
         self.sourceDataSettings = sourceDataSettings
+        self.targetDataSettings = targetDataSettings
     }
 }
 
 extension ModifyDataMigrationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyDataMigrationInput(dataMigrationIdentifier: \(Swift.String(describing: dataMigrationIdentifier)), dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), enableCloudwatchLogs: \(Swift.String(describing: enableCloudwatchLogs)), numberOfJobs: \(Swift.String(describing: numberOfJobs)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), selectionRules: \"CONTENT_REDACTED\")"}
+        "ModifyDataMigrationInput(dataMigrationIdentifier: \(Swift.String(describing: dataMigrationIdentifier)), dataMigrationName: \(Swift.String(describing: dataMigrationName)), dataMigrationType: \(Swift.String(describing: dataMigrationType)), enableCloudwatchLogs: \(Swift.String(describing: enableCloudwatchLogs)), numberOfJobs: \(Swift.String(describing: numberOfJobs)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sourceDataSettings: \(Swift.String(describing: sourceDataSettings)), targetDataSettings: \(Swift.String(describing: targetDataSettings)), selectionRules: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDataMigrationOutput: Swift.Sendable {
@@ -11979,6 +12038,7 @@ extension CreateDataMigrationInput {
         try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
         try writer["SourceDataSettings"].writeList(value.sourceDataSettings, memberWritingClosure: DatabaseMigrationClientTypes.SourceDataSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DatabaseMigrationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetDataSettings"].writeList(value.targetDataSettings, memberWritingClosure: DatabaseMigrationClientTypes.TargetDataSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -12790,6 +12850,7 @@ extension ModifyDataMigrationInput {
         try writer["SelectionRules"].write(value.selectionRules)
         try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
         try writer["SourceDataSettings"].writeList(value.sourceDataSettings, memberWritingClosure: DatabaseMigrationClientTypes.SourceDataSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetDataSettings"].writeList(value.targetDataSettings, memberWritingClosure: DatabaseMigrationClientTypes.TargetDataSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -16810,6 +16871,7 @@ extension DatabaseMigrationClientTypes.DataMigration {
         value.dataMigrationType = try reader["DataMigrationType"].readIfPresent()
         value.dataMigrationSettings = try reader["DataMigrationSettings"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigrationSettings.read(from:))
         value.sourceDataSettings = try reader["SourceDataSettings"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.SourceDataSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDataSettings = try reader["TargetDataSettings"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.TargetDataSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataMigrationStatistics = try reader["DataMigrationStatistics"].readIfPresent(with: DatabaseMigrationClientTypes.DataMigrationStatistics.read(from:))
         value.dataMigrationStatus = try reader["DataMigrationStatus"].readIfPresent()
         value.publicIpAddresses = try reader["PublicIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -16834,6 +16896,21 @@ extension DatabaseMigrationClientTypes.DataMigrationStatistics {
         value.tablesErrored = try reader["TablesErrored"].readIfPresent() ?? 0
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.stopTime = try reader["StopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.TargetDataSetting {
+
+    static func write(value: DatabaseMigrationClientTypes.TargetDataSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TablePreparationMode"].write(value.tablePreparationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.TargetDataSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.TargetDataSetting()
+        value.tablePreparationMode = try reader["TablePreparationMode"].readIfPresent()
         return value
     }
 }

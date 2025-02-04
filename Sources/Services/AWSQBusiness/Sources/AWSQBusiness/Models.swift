@@ -4569,6 +4569,51 @@ extension QBusinessClientTypes {
     }
 }
 
+extension QBusinessClientTypes {
+
+    public enum OrchestrationControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrchestrationControl] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// The chat orchestration specific admin controls configured for an Amazon Q Business application. Determines whether Amazon Q Business automatically routes chat requests across configured plugins and data sources in your Amazon Q Business application. For more information, see [Chat orchestration settings](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails-global-controls.html#guardrails-global-orchestration).
+    public struct AppliedOrchestrationConfiguration: Swift.Sendable {
+        /// Information about whether chat orchestration is enabled or disabled for an Amazon Q Business application.
+        /// This member is required.
+        public var control: QBusinessClientTypes.OrchestrationControl?
+
+        public init(
+            control: QBusinessClientTypes.OrchestrationControl? = nil
+        ) {
+            self.control = control
+        }
+    }
+}
+
 public struct AssociatePermissionInput: Swift.Sendable {
     /// The list of Amazon Q Business actions that the ISV is allowed to perform.
     /// This member is required.
@@ -6253,6 +6298,8 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     public var creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration?
     /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business chat controls configured.
     public var nextToken: Swift.String?
+    /// The chat response orchestration settings for your application. Chat orchestration is optimized to work for English language content. For more details on language support in Amazon Q Business, see [Supported languages](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/supported-languages.html).
+    public var orchestrationConfiguration: QBusinessClientTypes.AppliedOrchestrationConfiguration?
     /// The response scope configured for a Amazon Q Business application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
     public var responseScope: QBusinessClientTypes.ResponseScope?
     /// The topic specific controls configured for a Amazon Q Business application.
@@ -6262,12 +6309,14 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
         blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration? = nil,
         creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration? = nil,
         nextToken: Swift.String? = nil,
+        orchestrationConfiguration: QBusinessClientTypes.AppliedOrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurations: [QBusinessClientTypes.TopicConfiguration]? = nil
     ) {
         self.blockedPhrases = blockedPhrases
         self.creatorModeConfiguration = creatorModeConfiguration
         self.nextToken = nextToken
+        self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
         self.topicConfigurations = topicConfigurations
     }
@@ -7576,6 +7625,22 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension QBusinessClientTypes {
+
+    /// Configuration information required to enable chat orchestration for your Amazon Q Business application. Chat orchestration is optimized to work for English language content. For more details on language support in Amazon Q Business, see [Supported languages](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/supported-languages.html).
+    public struct OrchestrationConfiguration: Swift.Sendable {
+        /// Status information about whether chat orchestration is activated or deactivated for your Amazon Q Business application.
+        /// This member is required.
+        public var control: QBusinessClientTypes.OrchestrationControl?
+
+        public init(
+            control: QBusinessClientTypes.OrchestrationControl? = nil
+        ) {
+            self.control = control
+        }
+    }
+}
+
 public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
     /// The identifier of the application for which the chat controls are configured.
     /// This member is required.
@@ -7586,6 +7651,8 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The configuration details for CREATOR_MODE.
     public var creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration?
+    /// The chat response orchestration settings for your application.
+    public var orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration?
     /// The response scope configured for your application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
     public var responseScope: QBusinessClientTypes.ResponseScope?
     /// The configured topic specific chat controls you want to update.
@@ -7598,6 +7665,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         blockedPhrasesConfigurationUpdate: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate? = nil,
         clientToken: Swift.String? = nil,
         creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration? = nil,
+        orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurationsToCreateOrUpdate: [QBusinessClientTypes.TopicConfiguration]? = nil,
         topicConfigurationsToDelete: [QBusinessClientTypes.TopicConfiguration]? = nil
@@ -7606,6 +7674,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         self.blockedPhrasesConfigurationUpdate = blockedPhrasesConfigurationUpdate
         self.clientToken = clientToken
         self.creatorModeConfiguration = creatorModeConfiguration
+        self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
         self.topicConfigurationsToCreateOrUpdate = topicConfigurationsToCreateOrUpdate
         self.topicConfigurationsToDelete = topicConfigurationsToDelete
@@ -9668,6 +9737,7 @@ extension UpdateChatControlsConfigurationInput {
         try writer["blockedPhrasesConfigurationUpdate"].write(value.blockedPhrasesConfigurationUpdate, with: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["creatorModeConfiguration"].write(value.creatorModeConfiguration, with: QBusinessClientTypes.CreatorModeConfiguration.write(value:to:))
+        try writer["orchestrationConfiguration"].write(value.orchestrationConfiguration, with: QBusinessClientTypes.OrchestrationConfiguration.write(value:to:))
         try writer["responseScope"].write(value.responseScope)
         try writer["topicConfigurationsToCreateOrUpdate"].writeList(value.topicConfigurationsToCreateOrUpdate, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["topicConfigurationsToDelete"].writeList(value.topicConfigurationsToDelete, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10086,6 +10156,7 @@ extension GetChatControlsConfigurationOutput {
         value.blockedPhrases = try reader["blockedPhrases"].readIfPresent(with: QBusinessClientTypes.BlockedPhrasesConfiguration.read(from:))
         value.creatorModeConfiguration = try reader["creatorModeConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedCreatorModeConfiguration.read(from:))
         value.nextToken = try reader["nextToken"].readIfPresent()
+        value.orchestrationConfiguration = try reader["orchestrationConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedOrchestrationConfiguration.read(from:))
         value.responseScope = try reader["responseScope"].readIfPresent()
         value.topicConfigurations = try reader["topicConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -12586,6 +12657,16 @@ extension QBusinessClientTypes.QuickSightConfiguration {
     }
 }
 
+extension QBusinessClientTypes.AppliedOrchestrationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AppliedOrchestrationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AppliedOrchestrationConfiguration()
+        value.control = try reader["control"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension QBusinessClientTypes.BlockedPhrasesConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.BlockedPhrasesConfiguration {
@@ -14210,6 +14291,14 @@ extension QBusinessClientTypes.RetrieverContentSource {
     static func write(value: QBusinessClientTypes.RetrieverContentSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["retrieverId"].write(value.retrieverId)
+    }
+}
+
+extension QBusinessClientTypes.OrchestrationConfiguration {
+
+    static func write(value: QBusinessClientTypes.OrchestrationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["control"].write(value.control)
     }
 }
 
