@@ -19,28 +19,10 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
-
-typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
+import class ClientRuntime.ClientConfigDefaultsProvider
 
 /// Provides default configuration properties for AWS services.
-public class AWSClientConfigDefaultsProvider {
-    public static func httpClientEngine() -> HTTPClient {
-        return RuntimeConfigType.makeClient(
-            httpClientConfiguration: RuntimeConfigType.defaultHttpClientConfiguration
-        )
-    }
-
-    public static func httpClientConfiguration() -> HttpClientConfiguration {
-        return RuntimeConfigType.defaultHttpClientConfiguration
-    }
-
-    public static func idempotencyTokenGenerator() -> IdempotencyTokenGenerator {
-        return RuntimeConfigType.defaultIdempotencyTokenGenerator
-    }
-
-    public static func clientLogMode() -> ClientLogMode {
-        return RuntimeConfigType.defaultClientLogMode
-    }
+public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
 
     public static func awsCredentialIdentityResolver(
         _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil

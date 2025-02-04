@@ -26,5 +26,6 @@ software.amazon.smithy.aws.swift.codegen.AWSClientConfigurationIntegration
 software.amazon.smithy.swift.codegen.swiftintegrations.InitialRequestIntegration
 software.amazon.smithy.aws.swift.codegen.swiftintegrations.RegistryConfigIntegration
 software.amazon.smithy.aws.swift.codegen.swiftintegrations.AmzSdkRetryHeadersIntegration
+software.amazon.smithy.swift.codegen.protocols.rpcv2cbor.CborValidateResponseHeaderIntegration
 software.amazon.smithy.aws.swift.codegen.customization.rds.AuthTokenGeneratorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.dsql.AuthTokenGeneratorIntegration
