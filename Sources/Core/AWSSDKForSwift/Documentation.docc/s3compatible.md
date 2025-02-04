@@ -1,16 +1,17 @@
-# Using with "S3-like" services
+# Compatibility with "S3-like" third-party storage services
 
 ## Background
 
 Recently, AWS SDK for Swift dropped MD5 for payload checksums, in favor of more
 modern and secure algorithms.  This has caused problems when accessing certain
-operations on "S3-like" services that claim to be API-compatible with AWS S3.
-To our knowledge, this affects only the S3 `DeleteObjects` operation.
+operations on "S3-like" third-party cloud storage services that claim to be
+API-compatible with AWS S3. To our knowledge, this affects only the S3
+`DeleteObjects` operation.
 
 ## Example Code
 
-If you are having issues with accessing such services, the following interceptor
-code can be used to force your SDK to sign `DeleteObjects` requests with MD5:
+If you are having issues with accessing such third-party services, the following interceptor
+code can be used to force the SDK to hash `DeleteObjects` request bodies with MD5:
 
 ```swift
 class DeleteObjectsMD5InterceptorProvider: HttpInterceptorProvider {
@@ -72,7 +73,8 @@ class DeleteObjectsMD5InterceptorProvider: HttpInterceptorProvider {
 }
 ```
 
-Using this interceptor, configure your S3 client as follows:
+Configure your S3 client with the interceptor as follows.  Feel free to add any other
+needed configuration:
 ```swift
 let config = try await S3Client.Config(
     region: "us-east-1",  // substitute your region here
@@ -80,3 +82,14 @@ let config = try await S3Client.Config(
 )
 let client = S3Client(config: config)
 ```
+
+## Usage Notes
+
+- This code reads the entire request body into memory to perform the MD5 hashing.
+  This may cause performance issues when the request is extremely large.
+- The interceptor only modifies requests to S3 `DeleteObjects`.  All other requests
+  are sent without modification.
+- If your "S3-like" storage service supports the SDK's new checksum options, or adds
+  support in the future, we recommend not using the interceptor.
+- Do not use this interceptor with any AWS service, including AWS S3, or with any
+  third-party service other than a "S3-like" storage service.
