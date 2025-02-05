@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Cloud9Client: ClientRuntime.Client {
     public static let clientName = "Cloud9Client"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: Cloud9Client.Cloud9ClientConfiguration
     let serviceName = "Cloud9"
@@ -336,14 +336,6 @@ extension Cloud9Client {
 
         public var partitionID: String? {
             return "\(Cloud9Client.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }

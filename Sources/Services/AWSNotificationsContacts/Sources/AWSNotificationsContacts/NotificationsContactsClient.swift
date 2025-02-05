@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NotificationsContactsClient: ClientRuntime.Client {
     public static let clientName = "NotificationsContactsClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsContactsClient.NotificationsContactsClientConfiguration
     let serviceName = "NotificationsContacts"
@@ -336,14 +336,6 @@ extension NotificationsContactsClient {
 
         public var partitionID: String? {
             return "\(NotificationsContactsClient.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }

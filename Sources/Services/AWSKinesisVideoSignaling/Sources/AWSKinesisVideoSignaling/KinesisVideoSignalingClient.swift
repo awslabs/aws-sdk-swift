@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoSignalingClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoSignalingClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoSignalingClient.KinesisVideoSignalingClientConfiguration
     let serviceName = "Kinesis Video Signaling"
@@ -335,14 +335,6 @@ extension KinesisVideoSignalingClient {
 
         public var partitionID: String? {
             return "\(KinesisVideoSignalingClient.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }

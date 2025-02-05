@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53ResolverClient: ClientRuntime.Client {
     public static let clientName = "Route53ResolverClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53ResolverClient.Route53ResolverClientConfiguration
     let serviceName = "Route53Resolver"
@@ -337,14 +337,6 @@ extension Route53ResolverClient {
 
         public var partitionID: String? {
             return "\(Route53ResolverClient.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }

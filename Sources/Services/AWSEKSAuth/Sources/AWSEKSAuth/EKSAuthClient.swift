@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSAuthClient: ClientRuntime.Client {
     public static let clientName = "EKSAuthClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSAuthClient.EKSAuthClientConfiguration
     let serviceName = "EKS Auth"
@@ -335,14 +335,6 @@ extension EKSAuthClient {
 
         public var partitionID: String? {
             return "\(EKSAuthClient.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }

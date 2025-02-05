@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlobalAcceleratorClient: ClientRuntime.Client {
     public static let clientName = "GlobalAcceleratorClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfiguration
     let serviceName = "Global Accelerator"
@@ -337,14 +337,6 @@ extension GlobalAcceleratorClient {
 
         public var partitionID: String? {
             return "\(GlobalAcceleratorClient.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }

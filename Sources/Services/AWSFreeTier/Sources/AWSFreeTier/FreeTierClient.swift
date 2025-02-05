@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FreeTierClient: ClientRuntime.Client {
     public static let clientName = "FreeTierClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: FreeTierClient.FreeTierClientConfiguration
     let serviceName = "FreeTier"
@@ -336,14 +336,6 @@ extension FreeTierClient {
 
         public var partitionID: String? {
             return "\(FreeTierClient.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }

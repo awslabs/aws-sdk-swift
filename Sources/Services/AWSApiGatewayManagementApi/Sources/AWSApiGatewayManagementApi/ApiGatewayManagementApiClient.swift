@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApiGatewayManagementApiClient: ClientRuntime.Client {
     public static let clientName = "ApiGatewayManagementApiClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfiguration
     let serviceName = "ApiGatewayManagementApi"
@@ -335,14 +335,6 @@ extension ApiGatewayManagementApiClient {
 
         public var partitionID: String? {
             return "\(ApiGatewayManagementApiClient.clientName) - \(region ?? "")"
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
-        }
-
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
         }
 
     }
