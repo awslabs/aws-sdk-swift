@@ -3204,10 +3204,12 @@ extension VerifiedPermissionsClientTypes {
 
 extension VerifiedPermissionsClientTypes {
 
-    /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: "context":{"contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
+    /// Contains additional details about the context of the request. Verified Permissions evaluates this information in an authorization request as part of the when and unless clauses in a policy. This data type is used as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. If you're passing context as part of the request, exactly one instance of context must be passed. If you don't want to pass context, omit the context parameter from your request rather than sending context {}. Example: "context":{"contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}}
     public indirect enum ContextDefinition: Swift.Sendable {
         /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"<KeyName1>":{"boolean":true},"<KeyName2>":{"long":1234}}
         case contextmap([Swift.String: VerifiedPermissionsClientTypes.AttributeValue])
+        /// A Cedar JSON string representation of the context needed to successfully evaluate an authorization request. Example: {"cedarJson":"{\"<KeyName1>\": true, \"<KeyName2>\": 1234}" }
+        case cedarjson(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3362,8 +3364,10 @@ extension VerifiedPermissionsClientTypes {
 
     /// Contains the list of entities to be considered during an authorization request. This includes all principals, resources, and actions required to successfully evaluate the request. This data type is used as a field in the response parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
     public indirect enum EntitiesDefinition: Swift.Sendable {
-        /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities.
+        /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities. If you include multiple entities with the same identifier, only the last one is processed in the request.
         case entitylist([VerifiedPermissionsClientTypes.EntityItem])
+        /// A Cedar JSON string representation of the entities needed to successfully evaluate an authorization request. Example: {"cedarJson": "[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":[]}]"}
+        case cedarjson(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5044,6 +5048,8 @@ extension VerifiedPermissionsClientTypes.ContextDefinition {
     static func write(value: VerifiedPermissionsClientTypes.ContextDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cedarjson(cedarjson):
+                try writer["cedarJson"].write(cedarjson)
             case let .contextmap(contextmap):
                 try writer["contextMap"].writeMap(contextmap, valueWritingClosure: VerifiedPermissionsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
@@ -5057,6 +5063,8 @@ extension VerifiedPermissionsClientTypes.ContextDefinition {
         switch name {
             case "contextMap":
                 return .contextmap(try reader["contextMap"].readMap(valueReadingClosure: VerifiedPermissionsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            case "cedarJson":
+                return .cedarjson(try reader["cedarJson"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -5544,6 +5552,8 @@ extension VerifiedPermissionsClientTypes.EntitiesDefinition {
     static func write(value: VerifiedPermissionsClientTypes.EntitiesDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cedarjson(cedarjson):
+                try writer["cedarJson"].write(cedarjson)
             case let .entitylist(entitylist):
                 try writer["entityList"].writeList(entitylist, memberWritingClosure: VerifiedPermissionsClientTypes.EntityItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):

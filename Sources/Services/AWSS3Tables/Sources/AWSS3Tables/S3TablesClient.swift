@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3TablesClient: ClientRuntime.Client {
     public static let clientName = "S3TablesClient"
-    public static let version = "1.2.6"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: S3TablesClient.S3TablesClientConfiguration
     let serviceName = "S3Tables"
@@ -361,7 +361,7 @@ extension S3TablesClient {
 extension S3TablesClient {
     /// Performs the `CreateNamespace` operation on the `S3Tables` service.
     ///
-    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see [Table namespaces](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace.html).
+    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see [Create a namespace](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace-create.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:CreateNamespace permission to use this operation.
     ///
     /// - Parameter CreateNamespaceInput : [no documentation found]
     ///
@@ -440,7 +440,7 @@ extension S3TablesClient {
 
     /// Performs the `CreateTable` operation on the `S3Tables` service.
     ///
-    /// Creates a new table associated with the given namespace in a table bucket.
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see [Creating an Amazon S3 table](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-create.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:CreateTable permission to use this operation. Additionally, you must have the s3tables:PutTableData permission to use this operation with the optional metadata request parameter.
     ///
     /// - Parameter CreateTableInput : [no documentation found]
     ///
@@ -519,7 +519,7 @@ extension S3TablesClient {
 
     /// Performs the `CreateTableBucket` operation on the `S3Tables` service.
     ///
-    /// Creates a table bucket.
+    /// Creates a table bucket. For more information, see [Creating a table bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-buckets-create.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:CreateTableBucket permission to use this operation.
     ///
     /// - Parameter CreateTableBucketInput : [no documentation found]
     ///
@@ -598,7 +598,7 @@ extension S3TablesClient {
 
     /// Performs the `DeleteNamespace` operation on the `S3Tables` service.
     ///
-    /// Deletes a namespace.
+    /// Deletes a namespace. For more information, see [Delete a namespace](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace-delete.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteNamespace permission to use this operation.
     ///
     /// - Parameter DeleteNamespaceInput : [no documentation found]
     ///
@@ -674,7 +674,7 @@ extension S3TablesClient {
 
     /// Performs the `DeleteTable` operation on the `S3Tables` service.
     ///
-    /// Deletes a table.
+    /// Deletes a table. For more information, see [Deleting an Amazon S3 table](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-delete.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTable permission to use this operation.
     ///
     /// - Parameter DeleteTableInput : [no documentation found]
     ///
@@ -751,7 +751,7 @@ extension S3TablesClient {
 
     /// Performs the `DeleteTableBucket` operation on the `S3Tables` service.
     ///
-    /// Deletes a table bucket.
+    /// Deletes a table bucket. For more information, see [Deleting a table bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-buckets-delete.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTableBucket permission to use this operation.
     ///
     /// - Parameter DeleteTableBucketInput : [no documentation found]
     ///
@@ -827,7 +827,7 @@ extension S3TablesClient {
 
     /// Performs the `DeleteTableBucketPolicy` operation on the `S3Tables` service.
     ///
-    /// Deletes a table bucket policy.
+    /// Deletes a table bucket policy. For more information, see [Deleting a table bucket policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-bucket-policy.html#table-bucket-policy-delete) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTableBucketPolicy permission to use this operation.
     ///
     /// - Parameter DeleteTableBucketPolicyInput : [no documentation found]
     ///
@@ -903,7 +903,7 @@ extension S3TablesClient {
 
     /// Performs the `DeleteTablePolicy` operation on the `S3Tables` service.
     ///
-    /// Deletes a table policy.
+    /// Deletes a table policy. For more information, see [Deleting a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-delete) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTablePolicy permission to use this operation.
     ///
     /// - Parameter DeleteTablePolicyInput : [no documentation found]
     ///
@@ -979,7 +979,7 @@ extension S3TablesClient {
 
     /// Performs the `GetNamespace` operation on the `S3Tables` service.
     ///
-    /// Gets details about a namespace.
+    /// Gets details about a namespace. For more information, see [Table namespaces](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetNamespace permission to use this operation.
     ///
     /// - Parameter GetNamespaceInput : [no documentation found]
     ///
@@ -1056,7 +1056,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTable` operation on the `S3Tables` service.
     ///
-    /// Gets details about a table.
+    /// Gets details about a table. For more information, see [S3 Tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-tables.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTable permission to use this operation.
     ///
     /// - Parameter GetTableInput : [no documentation found]
     ///
@@ -1133,7 +1133,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTableBucket` operation on the `S3Tables` service.
     ///
-    /// Gets details on a table bucket.
+    /// Gets details on a table bucket. For more information, see [Viewing details about an Amazon S3 table bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-buckets-details.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableBucket permission to use this operation.
     ///
     /// - Parameter GetTableBucketInput : [no documentation found]
     ///
@@ -1210,7 +1210,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTableBucketMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
-    /// Gets details about a maintenance configuration for a given table bucket.
+    /// Gets details about a maintenance configuration for a given table bucket. For more information, see [Amazon S3 table bucket maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-table-buckets-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableBucketMaintenanceConfiguration permission to use this operation.
     ///
     /// - Parameter GetTableBucketMaintenanceConfigurationInput : [no documentation found]
     ///
@@ -1286,7 +1286,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTableBucketPolicy` operation on the `S3Tables` service.
     ///
-    /// Gets details about a table bucket policy.
+    /// Gets details about a table bucket policy. For more information, see [Viewing a table bucket policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-bucket-policy.html#table-bucket-policy-get) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableBucketPolicy permission to use this operation.
     ///
     /// - Parameter GetTableBucketPolicyInput : [no documentation found]
     ///
@@ -1362,7 +1362,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTableMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
-    /// Gets details about the maintenance configuration of a table.
+    /// Gets details about the maintenance configuration of a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
     ///
     /// - Parameter GetTableMaintenanceConfigurationInput : [no documentation found]
     ///
@@ -1438,7 +1438,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTableMaintenanceJobStatus` operation on the `S3Tables` service.
     ///
-    /// Gets the status of a maintenance job for a table.
+    /// Gets the status of a maintenance job for a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableMaintenanceJobStatus permission to use this operation.
     ///
     /// - Parameter GetTableMaintenanceJobStatusInput : [no documentation found]
     ///
@@ -1514,7 +1514,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTableMetadataLocation` operation on the `S3Tables` service.
     ///
-    /// Gets the location of the table metadata.
+    /// Gets the location of the table metadata. Permissions You must have the s3tables:GetTableMetadataLocation permission to use this operation.
     ///
     /// - Parameter GetTableMetadataLocationInput : [no documentation found]
     ///
@@ -1590,7 +1590,7 @@ extension S3TablesClient {
 
     /// Performs the `GetTablePolicy` operation on the `S3Tables` service.
     ///
-    /// Gets details about a table policy.
+    /// Gets details about a table policy. For more information, see [Viewing a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-get) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTablePolicy permission to use this operation.
     ///
     /// - Parameter GetTablePolicyInput : [no documentation found]
     ///
@@ -1666,7 +1666,7 @@ extension S3TablesClient {
 
     /// Performs the `ListNamespaces` operation on the `S3Tables` service.
     ///
-    /// Lists the namespaces within a table bucket.
+    /// Lists the namespaces within a table bucket. For more information, see [Table namespaces](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:ListNamespaces permission to use this operation.
     ///
     /// - Parameter ListNamespacesInput : [no documentation found]
     ///
@@ -1744,7 +1744,7 @@ extension S3TablesClient {
 
     /// Performs the `ListTableBuckets` operation on the `S3Tables` service.
     ///
-    /// Lists table buckets for your account.
+    /// Lists table buckets for your account. For more information, see [S3 Table buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-buckets.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:ListTableBuckets permission to use this operation.
     ///
     /// - Parameter ListTableBucketsInput : [no documentation found]
     ///
@@ -1822,7 +1822,7 @@ extension S3TablesClient {
 
     /// Performs the `ListTables` operation on the `S3Tables` service.
     ///
-    /// List tables in the given table bucket.
+    /// List tables in the given table bucket. For more information, see [S3 Tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-tables.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:ListTables permission to use this operation.
     ///
     /// - Parameter ListTablesInput : [no documentation found]
     ///
@@ -1899,7 +1899,7 @@ extension S3TablesClient {
 
     /// Performs the `PutTableBucketMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
-    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket.
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see [Amazon S3 table bucket maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-table-buckets-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation.
     ///
     /// - Parameter PutTableBucketMaintenanceConfigurationInput : [no documentation found]
     ///
@@ -1978,7 +1978,7 @@ extension S3TablesClient {
 
     /// Performs the `PutTableBucketPolicy` operation on the `S3Tables` service.
     ///
-    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket.
+    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket. For more information, see [Adding a table bucket policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-bucket-policy.html#table-bucket-policy-add) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTableBucketPolicy permission to use this operation.
     ///
     /// - Parameter PutTableBucketPolicyInput : [no documentation found]
     ///
@@ -2057,7 +2057,7 @@ extension S3TablesClient {
 
     /// Performs the `PutTableMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
-    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table.
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation.
     ///
     /// - Parameter PutTableMaintenanceConfigurationInput : [no documentation found]
     ///
@@ -2136,7 +2136,7 @@ extension S3TablesClient {
 
     /// Performs the `PutTablePolicy` operation on the `S3Tables` service.
     ///
-    /// Creates a new maintenance configuration or replaces an existing table policy for a table.
+    /// Creates a new maintenance configuration or replaces an existing table policy for a table. For more information, see [Adding a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-add) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTablePolicy permission to use this operation.
     ///
     /// - Parameter PutTablePolicyInput : [no documentation found]
     ///
@@ -2215,7 +2215,7 @@ extension S3TablesClient {
 
     /// Performs the `RenameTable` operation on the `S3Tables` service.
     ///
-    /// Renames a table or a namespace.
+    /// Renames a table or a namespace. For more information, see [S3 Tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-tables.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:RenameTable permission to use this operation.
     ///
     /// - Parameter RenameTableInput : [no documentation found]
     ///
@@ -2294,7 +2294,7 @@ extension S3TablesClient {
 
     /// Performs the `UpdateTableMetadataLocation` operation on the `S3Tables` service.
     ///
-    /// Updates the metadata location for a table.
+    /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz. Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
     ///
     /// - Parameter UpdateTableMetadataLocationInput : [no documentation found]
     ///

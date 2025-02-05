@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WellArchitectedClient: ClientRuntime.Client {
     public static let clientName = "WellArchitectedClient"
-    public static let version = "1.2.6"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: WellArchitectedClient.WellArchitectedClientConfiguration
     let serviceName = "WellArchitected"

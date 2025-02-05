@@ -1127,6 +1127,8 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
+        public internal(set) var reason: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1139,9 +1141,11 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: Swift.String? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -6424,12 +6428,21 @@ extension BedrockAgentRuntimeClientTypes {
     /// A citation event.
     public struct CitationEvent: Swift.Sendable {
         /// The citation.
+        @available(*, deprecated, message: "Citation is deprecated. Please use GeneratedResponsePart and RetrievedReferences for citation event. API deprecated since 2024-12-17")
         public var citation: BedrockAgentRuntimeClientTypes.Citation?
+        /// The generated response to the citation event.
+        public var generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart?
+        /// The retrieved references of the citation event.
+        public var retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]?
 
         public init(
-            citation: BedrockAgentRuntimeClientTypes.Citation? = nil
+            citation: BedrockAgentRuntimeClientTypes.Citation? = nil,
+            generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart? = nil,
+            retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]? = nil
         ) {
             self.citation = citation
+            self.generatedResponsePart = generatedResponsePart
+            self.retrievedReferences = retrievedReferences
         }
     }
 }
@@ -7786,6 +7799,7 @@ extension InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8356,6 +8370,7 @@ extension InternalServerException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         return value
     }
 }
@@ -9783,6 +9798,8 @@ extension BedrockAgentRuntimeClientTypes.CitationEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.CitationEvent()
         value.citation = try reader["citation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Citation.read(from:))
+        value.generatedResponsePart = try reader["generatedResponsePart"].readIfPresent(with: BedrockAgentRuntimeClientTypes.GeneratedResponsePart.read(from:))
+        value.retrievedReferences = try reader["retrievedReferences"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.RetrievedReference.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
