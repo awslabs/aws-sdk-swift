@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ACMClient: ClientRuntime.Client {
     public static let clientName = "ACMClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: ACMClient.ACMClientConfiguration
     let serviceName = "ACM"
@@ -337,6 +337,14 @@ extension ACMClient {
 
         public var partitionID: String? {
             return "\(ACMClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

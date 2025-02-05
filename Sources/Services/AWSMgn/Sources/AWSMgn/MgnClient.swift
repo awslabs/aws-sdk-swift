@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MgnClient: ClientRuntime.Client {
     public static let clientName = "MgnClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: MgnClient.MgnClientConfiguration
     let serviceName = "mgn"
@@ -337,6 +337,14 @@ extension MgnClient {
 
         public var partitionID: String? {
             return "\(MgnClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

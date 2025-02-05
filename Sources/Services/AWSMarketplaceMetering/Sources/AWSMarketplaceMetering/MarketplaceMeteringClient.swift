@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceMeteringClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceMeteringClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceMeteringClient.MarketplaceMeteringClientConfiguration
     let serviceName = "Marketplace Metering"
@@ -337,6 +337,14 @@ extension MarketplaceMeteringClient {
 
         public var partitionID: String? {
             return "\(MarketplaceMeteringClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RolesAnywhereClient: ClientRuntime.Client {
     public static let clientName = "RolesAnywhereClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: RolesAnywhereClient.RolesAnywhereClientConfiguration
     let serviceName = "RolesAnywhere"
@@ -337,6 +337,14 @@ extension RolesAnywhereClient {
 
         public var partitionID: String? {
             return "\(RolesAnywhereClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

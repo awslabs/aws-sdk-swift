@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeClient.PersonalizeClientConfiguration
     let serviceName = "Personalize"
@@ -336,6 +336,14 @@ extension PersonalizeClient {
 
         public var partitionID: String? {
             return "\(PersonalizeClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

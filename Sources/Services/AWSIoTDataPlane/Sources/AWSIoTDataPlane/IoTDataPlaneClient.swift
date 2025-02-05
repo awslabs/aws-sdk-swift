@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTDataPlaneClient: ClientRuntime.Client {
     public static let clientName = "IoTDataPlaneClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTDataPlaneClient.IoTDataPlaneClientConfiguration
     let serviceName = "IoT Data Plane"
@@ -337,6 +337,14 @@ extension IoTDataPlaneClient {
 
         public var partitionID: String? {
             return "\(IoTDataPlaneClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamQueryClient: ClientRuntime.Client {
     public static let clientName = "TimestreamQueryClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamQueryClient.TimestreamQueryClientConfiguration
     let serviceName = "Timestream Query"
@@ -338,6 +338,14 @@ extension TimestreamQueryClient {
 
         public var partitionID: String? {
             return "\(TimestreamQueryClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

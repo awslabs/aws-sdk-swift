@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKVoiceClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKVoiceClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration
     let serviceName = "Chime SDK Voice"
@@ -337,6 +337,14 @@ extension ChimeSDKVoiceClient {
 
         public var partitionID: String? {
             return "\(ChimeSDKVoiceClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

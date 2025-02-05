@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CustomerProfilesClient: ClientRuntime.Client {
     public static let clientName = "CustomerProfilesClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: CustomerProfilesClient.CustomerProfilesClientConfiguration
     let serviceName = "Customer Profiles"
@@ -337,6 +337,14 @@ extension CustomerProfilesClient {
 
         public var partitionID: String? {
             return "\(CustomerProfilesClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

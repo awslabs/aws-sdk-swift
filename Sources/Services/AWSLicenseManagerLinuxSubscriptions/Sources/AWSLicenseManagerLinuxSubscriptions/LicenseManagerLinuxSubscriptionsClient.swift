@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerLinuxSubscriptionsClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerLinuxSubscriptionsClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerLinuxSubscriptionsClient.LicenseManagerLinuxSubscriptionsClientConfiguration
     let serviceName = "License Manager Linux Subscriptions"
@@ -336,6 +336,14 @@ extension LicenseManagerLinuxSubscriptionsClient {
 
         public var partitionID: String? {
             return "\(LicenseManagerLinuxSubscriptionsClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

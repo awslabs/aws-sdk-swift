@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexModelsV2Client: ClientRuntime.Client {
     public static let clientName = "LexModelsV2Client"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: LexModelsV2Client.LexModelsV2ClientConfiguration
     let serviceName = "Lex Models V2"
@@ -337,6 +337,14 @@ extension LexModelsV2Client {
 
         public var partitionID: String? {
             return "\(LexModelsV2Client.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

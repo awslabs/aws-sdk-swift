@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTThingsGraphClient: ClientRuntime.Client {
     public static let clientName = "IoTThingsGraphClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTThingsGraphClient.IoTThingsGraphClientConfiguration
     let serviceName = "IoTThingsGraph"
@@ -337,6 +337,14 @@ extension IoTThingsGraphClient {
 
         public var partitionID: String? {
             return "\(IoTThingsGraphClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53RecoveryControlConfigClient: ClientRuntime.Client {
     public static let clientName = "Route53RecoveryControlConfigClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfiguration
     let serviceName = "Route53 Recovery Control Config"
@@ -337,6 +337,14 @@ extension Route53RecoveryControlConfigClient {
 
         public var partitionID: String? {
             return "\(Route53RecoveryControlConfigClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

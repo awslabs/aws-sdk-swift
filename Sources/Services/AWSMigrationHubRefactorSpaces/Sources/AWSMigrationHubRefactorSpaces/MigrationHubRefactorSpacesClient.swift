@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubRefactorSpacesClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubRefactorSpacesClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubRefactorSpacesClient.MigrationHubRefactorSpacesClientConfiguration
     let serviceName = "Migration Hub Refactor Spaces"
@@ -338,6 +338,14 @@ extension MigrationHubRefactorSpacesClient {
 
         public var partitionID: String? {
             return "\(MigrationHubRefactorSpacesClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

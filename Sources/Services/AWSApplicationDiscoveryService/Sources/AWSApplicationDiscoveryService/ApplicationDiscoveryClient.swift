@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ApplicationDiscoveryClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationDiscoveryClient.ApplicationDiscoveryClientConfiguration
     let serviceName = "Application Discovery"
@@ -338,6 +338,14 @@ extension ApplicationDiscoveryClient {
 
         public var partitionID: String? {
             return "\(ApplicationDiscoveryClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

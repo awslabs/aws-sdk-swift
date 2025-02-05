@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisAnalyticsV2Client: ClientRuntime.Client {
     public static let clientName = "KinesisAnalyticsV2Client"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration
     let serviceName = "Kinesis Analytics V2"
@@ -337,6 +337,14 @@ extension KinesisAnalyticsV2Client {
 
         public var partitionID: String? {
             return "\(KinesisAnalyticsV2Client.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

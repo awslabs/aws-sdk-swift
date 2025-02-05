@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerA2IRuntimeClient: ClientRuntime.Client {
     public static let clientName = "SageMakerA2IRuntimeClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerA2IRuntimeClient.SageMakerA2IRuntimeClientConfiguration
     let serviceName = "SageMaker A2I Runtime"
@@ -337,6 +337,14 @@ extension SageMakerA2IRuntimeClient {
 
         public var partitionID: String? {
             return "\(SageMakerA2IRuntimeClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

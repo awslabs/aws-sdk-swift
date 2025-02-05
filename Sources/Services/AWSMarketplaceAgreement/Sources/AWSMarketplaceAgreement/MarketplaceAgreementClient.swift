@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceAgreementClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceAgreementClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceAgreementClient.MarketplaceAgreementClientConfiguration
     let serviceName = "Marketplace Agreement"
@@ -337,6 +337,14 @@ extension MarketplaceAgreementClient {
 
         public var partitionID: String? {
             return "\(MarketplaceAgreementClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

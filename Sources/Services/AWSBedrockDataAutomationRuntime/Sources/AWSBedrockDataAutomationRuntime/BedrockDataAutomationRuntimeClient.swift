@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockDataAutomationRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockDataAutomationRuntimeClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockDataAutomationRuntimeClient.BedrockDataAutomationRuntimeClientConfiguration
     let serviceName = "Bedrock Data Automation Runtime"
@@ -337,6 +337,14 @@ extension BedrockDataAutomationRuntimeClient {
 
         public var partitionID: String? {
             return "\(BedrockDataAutomationRuntimeClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RepostspaceClient: ClientRuntime.Client {
     public static let clientName = "RepostspaceClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: RepostspaceClient.RepostspaceClientConfiguration
     let serviceName = "repostspace"
@@ -337,6 +337,14 @@ extension RepostspaceClient {
 
         public var partitionID: String? {
             return "\(RepostspaceClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

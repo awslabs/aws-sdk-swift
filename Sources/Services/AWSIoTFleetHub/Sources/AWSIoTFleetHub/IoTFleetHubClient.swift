@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetHubClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetHubClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetHubClient.IoTFleetHubClientConfiguration
     let serviceName = "IoTFleetHub"
@@ -337,6 +337,14 @@ extension IoTFleetHubClient {
 
         public var partitionID: String? {
             return "\(IoTFleetHubClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

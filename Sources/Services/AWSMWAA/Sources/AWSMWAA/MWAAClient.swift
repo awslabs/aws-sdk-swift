@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MWAAClient: ClientRuntime.Client {
     public static let clientName = "MWAAClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: MWAAClient.MWAAClientConfiguration
     let serviceName = "MWAA"
@@ -337,6 +337,14 @@ extension MWAAClient {
 
         public var partitionID: String? {
             return "\(MWAAClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

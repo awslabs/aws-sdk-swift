@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PanoramaClient: ClientRuntime.Client {
     public static let clientName = "PanoramaClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: PanoramaClient.PanoramaClientConfiguration
     let serviceName = "Panorama"
@@ -337,6 +337,14 @@ extension PanoramaClient {
 
         public var partitionID: String? {
             return "\(PanoramaClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

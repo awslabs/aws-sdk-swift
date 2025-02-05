@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeGuruReviewerClient: ClientRuntime.Client {
     public static let clientName = "CodeGuruReviewerClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration
     let serviceName = "CodeGuru Reviewer"
@@ -337,6 +337,14 @@ extension CodeGuruReviewerClient {
 
         public var partitionID: String? {
             return "\(CodeGuruReviewerClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

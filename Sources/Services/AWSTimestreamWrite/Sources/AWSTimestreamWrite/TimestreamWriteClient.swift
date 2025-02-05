@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamWriteClient: ClientRuntime.Client {
     public static let clientName = "TimestreamWriteClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamWriteClient.TimestreamWriteClientConfiguration
     let serviceName = "Timestream Write"
@@ -337,6 +337,14 @@ extension TimestreamWriteClient {
 
         public var partitionID: String? {
             return "\(TimestreamWriteClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

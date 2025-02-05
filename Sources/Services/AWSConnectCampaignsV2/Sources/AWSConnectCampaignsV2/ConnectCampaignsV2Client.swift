@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCampaignsV2Client: ClientRuntime.Client {
     public static let clientName = "ConnectCampaignsV2Client"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfiguration
     let serviceName = "ConnectCampaignsV2"
@@ -336,6 +336,14 @@ extension ConnectCampaignsV2Client {
 
         public var partitionID: String? {
             return "\(ConnectCampaignsV2Client.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

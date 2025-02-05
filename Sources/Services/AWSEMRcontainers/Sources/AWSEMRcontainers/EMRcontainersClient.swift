@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRcontainersClient: ClientRuntime.Client {
     public static let clientName = "EMRcontainersClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRcontainersClient.EMRcontainersClientConfiguration
     let serviceName = "EMR containers"
@@ -338,6 +338,14 @@ extension EMRcontainersClient {
 
         public var partitionID: String? {
             return "\(EMRcontainersClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

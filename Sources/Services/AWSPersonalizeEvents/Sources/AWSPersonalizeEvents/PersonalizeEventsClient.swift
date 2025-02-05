@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeEventsClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeEventsClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeEventsClient.PersonalizeEventsClientConfiguration
     let serviceName = "Personalize Events"
@@ -335,6 +335,14 @@ extension PersonalizeEventsClient {
 
         public var partitionID: String? {
             return "\(PersonalizeEventsClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

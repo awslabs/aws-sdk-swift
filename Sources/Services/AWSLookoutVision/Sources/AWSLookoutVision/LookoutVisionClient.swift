@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutVisionClient: ClientRuntime.Client {
     public static let clientName = "LookoutVisionClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutVisionClient.LookoutVisionClientConfiguration
     let serviceName = "LookoutVision"
@@ -342,6 +342,14 @@ extension LookoutVisionClient {
 
         public var partitionID: String? {
             return "\(LookoutVisionClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

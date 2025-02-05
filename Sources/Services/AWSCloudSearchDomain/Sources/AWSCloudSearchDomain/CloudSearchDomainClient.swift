@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudSearchDomainClient: ClientRuntime.Client {
     public static let clientName = "CloudSearchDomainClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudSearchDomainClient.CloudSearchDomainClientConfiguration
     let serviceName = "CloudSearch Domain"
@@ -337,6 +337,14 @@ extension CloudSearchDomainClient {
 
         public var partitionID: String? {
             return "\(CloudSearchDomainClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

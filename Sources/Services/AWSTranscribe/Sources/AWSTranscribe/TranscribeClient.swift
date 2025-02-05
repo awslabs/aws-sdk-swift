@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeClient: ClientRuntime.Client {
     public static let clientName = "TranscribeClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeClient.TranscribeClientConfiguration
     let serviceName = "Transcribe"
@@ -338,6 +338,14 @@ extension TranscribeClient {
 
         public var partitionID: String? {
             return "\(TranscribeClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

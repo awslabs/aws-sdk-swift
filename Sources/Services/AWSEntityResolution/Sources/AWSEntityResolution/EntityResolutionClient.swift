@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EntityResolutionClient: ClientRuntime.Client {
     public static let clientName = "EntityResolutionClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration
     let serviceName = "EntityResolution"
@@ -339,6 +339,14 @@ extension EntityResolutionClient {
 
         public var partitionID: String? {
             return "\(EntityResolutionClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

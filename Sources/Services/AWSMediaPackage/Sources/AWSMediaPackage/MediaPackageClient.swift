@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageClient: ClientRuntime.Client {
     public static let clientName = "MediaPackageClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageClient.MediaPackageClientConfiguration
     let serviceName = "MediaPackage"
@@ -336,6 +336,14 @@ extension MediaPackageClient {
 
         public var partitionID: String? {
             return "\(MediaPackageClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmplifyClient: ClientRuntime.Client {
     public static let clientName = "AmplifyClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyClient.AmplifyClientConfiguration
     let serviceName = "Amplify"
@@ -337,6 +337,14 @@ extension AmplifyClient {
 
         public var partitionID: String? {
             return "\(AmplifyClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

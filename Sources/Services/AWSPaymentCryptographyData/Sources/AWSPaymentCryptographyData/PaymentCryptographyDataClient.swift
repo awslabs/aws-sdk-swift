@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PaymentCryptographyDataClient: ClientRuntime.Client {
     public static let clientName = "PaymentCryptographyDataClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration
     let serviceName = "Payment Cryptography Data"
@@ -335,6 +335,14 @@ extension PaymentCryptographyDataClient {
 
         public var partitionID: String? {
             return "\(PaymentCryptographyDataClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

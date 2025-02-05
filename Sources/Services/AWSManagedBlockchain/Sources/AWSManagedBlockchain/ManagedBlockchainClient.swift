@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ManagedBlockchainClient: ClientRuntime.Client {
     public static let clientName = "ManagedBlockchainClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainClient.ManagedBlockchainClientConfiguration
     let serviceName = "ManagedBlockchain"
@@ -337,6 +337,14 @@ extension ManagedBlockchainClient {
 
         public var partitionID: String? {
             return "\(ManagedBlockchainClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

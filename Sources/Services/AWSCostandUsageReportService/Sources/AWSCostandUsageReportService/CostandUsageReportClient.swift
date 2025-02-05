@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostandUsageReportClient: ClientRuntime.Client {
     public static let clientName = "CostandUsageReportClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: CostandUsageReportClient.CostandUsageReportClientConfiguration
     let serviceName = "Cost and Usage Report"
@@ -336,6 +336,14 @@ extension CostandUsageReportClient {
 
         public var partitionID: String? {
             return "\(CostandUsageReportClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

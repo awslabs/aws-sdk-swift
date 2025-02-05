@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudDirectoryClient: ClientRuntime.Client {
     public static let clientName = "CloudDirectoryClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudDirectoryClient.CloudDirectoryClientConfiguration
     let serviceName = "CloudDirectory"
@@ -336,6 +336,14 @@ extension CloudDirectoryClient {
 
         public var partitionID: String? {
             return "\(CloudDirectoryClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppStreamClient: ClientRuntime.Client {
     public static let clientName = "AppStreamClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
     let config: AppStreamClient.AppStreamClientConfiguration
     let serviceName = "AppStream"
@@ -337,6 +337,14 @@ extension AppStreamClient {
 
         public var partitionID: String? {
             return "\(AppStreamClient.clientName) - \(region ?? "")"
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
         }
 
     }
