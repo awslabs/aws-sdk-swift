@@ -4742,7 +4742,7 @@ extension RDSClientTypes {
         public var activityStreamMode: RDSClientTypes.ActivityStreamMode?
         /// The status of the database activity stream.
         public var activityStreamStatus: RDSClientTypes.ActivityStreamStatus?
-        /// For all database engines except Amazon Aurora, AllocatedStorage specifies the allocated storage size in gibibytes (GiB). For Aurora, AllocatedStorage always returns 1, because Aurora DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
+        /// AllocatedStorage specifies the allocated storage size in gibibytes (GiB). For Aurora, AllocatedStorage can vary because Aurora DB cluster storage size adjusts as needed.
         public var allocatedStorage: Swift.Int?
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         public var associatedRoles: [RDSClientTypes.DBClusterRole]?
@@ -9063,7 +9063,7 @@ public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 public struct CreateIntegrationInput: Swift.Sendable {
     /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
     public var additionalEncryptionContext: [Swift.String: Swift.String]?
-    /// Data filtering options for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.filtering.html). Valid for: Integrations with Aurora MySQL source DB clusters only
+    /// Data filtering options for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.filtering.html) or [Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/zero-etl.filtering.html).
     public var dataFilter: Swift.String?
     /// A description of the integration.
     public var description: Swift.String?
@@ -9776,7 +9776,7 @@ public struct DeleteDBClusterInput: Swift.Sendable {
     /// * Must match an existing DBClusterIdentifier.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
-    /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB cluster is deleted.
+    /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB cluster is deleted, unless the Amazon Web Services Backup policy specifies a point-in-time restore rule.
     public var deleteAutomatedBackups: Swift.Bool?
     /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled. If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error. Constraints:
     ///
@@ -17757,7 +17757,7 @@ public struct ModifyDBProxyTargetGroupInput: Swift.Sendable {
     /// The name of the proxy.
     /// This member is required.
     public var dbProxyName: Swift.String?
-    /// The new name for the modified DBProxyTarget. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+    /// The new name for the modified DBProxyTarget. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. You can't rename the default target group.
     public var newName: Swift.String?
     /// The name of the target group to modify.
     /// This member is required.
@@ -18166,7 +18166,7 @@ public struct ModifyGlobalClusterOutput: Swift.Sendable {
 }
 
 public struct ModifyIntegrationInput: Swift.Sendable {
-    /// A new data filter for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Zero_ETL_Filtering.html).
+    /// A new data filter for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Zero_ETL_Filtering.html) or [Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/zero-etl.filtering.html).
     public var dataFilter: Swift.String?
     /// A new description for the integration.
     public var description: Swift.String?
