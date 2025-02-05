@@ -617,6 +617,12 @@ private var runtimeTestTargets: [Target] {
             path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
             resources: [.process("Resources")]
         ),
+        .testTarget(
+            name: "S3TransferManagerTests",
+            dependencies: ["AWSS3", "AWSServiceExtensions"],
+            path: "Sources/Core/AWSServiceExtensions/Tests/S3TransferManagerTests",
+            resources: [.copy("Resources")]
+        )
     ]
 }
 

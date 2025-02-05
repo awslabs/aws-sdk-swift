@@ -144,16 +144,16 @@ public struct UploadObjectInput: TransferInput {
         }
         // Otherwise, check for any checksum value was provided; return mataching algorithm if present.
         // Follow the algorithm priority in smithy-swift/Sources/SmithyChecksums/ChecksumAlgorithm.swift.
-        if let crc32cChecksum = putObjectInput.checksumCRC32C {
+        if putObjectInput.checksumCRC32C != nil {
             return .crc32c
         }
-        if let crc32Checksum = putObjectInput.checksumCRC32 {
+        if putObjectInput.checksumCRC32 != nil {
             return .crc32
         }
-        if let sha1Checksum = putObjectInput.checksumSHA1 {
+        if putObjectInput.checksumSHA1 != nil {
             return .sha1
         }
-        if let sha256Checksum = putObjectInput.checksumSHA256 {
+        if putObjectInput.checksumSHA256 != nil {
             return .sha256
         }
         // If no checksum nor checksum algorithm was configured, return CRC32.
@@ -168,7 +168,7 @@ public struct UploadObjectInput: TransferInput {
         _ input: PutObjectInput
     ) -> S3ClientTypes.ChecksumType? {
         let providedChecksum = input.checksumCRC32 ?? input.checksumCRC32C ?? input.checksumSHA1 ?? input.checksumSHA256 ?? input.checksumCRC64NVME
-        if let providedChecksum {
+        if providedChecksum != nil {
             return .fullObject
         } else {
             return .composite

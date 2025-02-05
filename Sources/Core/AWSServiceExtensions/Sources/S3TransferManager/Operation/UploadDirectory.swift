@@ -77,66 +77,93 @@ public extension S3TransferManager {
         }
     }
 
-    private func getNestedFileURLs(
+    internal func getNestedFileURLs(
         in source: URL,
         recursive: Bool,
         followSymbolicLinks: Bool
     ) throws -> [URL] {
         var nestedFileURLs: [URL] = []
-        var visitedCanonicalPaths = Set<String>()
-        var nestedURLs = try getDirectlyNestedURLs(in: source)
+        var visitedURLs = Set<String>()
+        visitedURLs.insert(source.resolvingSymlinksInPath().absoluteString)
 
-        // BFS for processing URLs fetched from source directory.
-        while !nestedURLs.isEmpty {
-            var url = nestedURLs.removeFirst()
-            let urlProperties = try url.resourceValues(
-                forKeys: [.canonicalPathKey, .isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey]
+        // Start BFS with files directly nested below source directory.
+        var bfsQueue = try getDirectlyNestedURLs(
+            in: source,
+            isSymlink: source.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink ?? false
+        )
+
+        // BFS for processing URLs contained in source directory.
+        while !bfsQueue.isEmpty {
+            let originalURL = bfsQueue.removeFirst()
+            let originalURLProperties = try originalURL.resourceValues(
+                forKeys: [.isSymbolicLinkKey]
             )
-
-            // Skip symlink URL if configured to skip.
-            if urlProperties.isSymbolicLink ?? false {
-                if followSymbolicLinks {
-                    // Resolve symlink URL to the actual file or directory.
-                    url = url.resolvingSymlinksInPath()
-                } else {
-                    continue
-                }
-            }
-
-            // Skip URL if it's already visited. Prevents symlink loop.
-            guard let canonicalPath = urlProperties.canonicalPath else {
-                throw S3TMUploadDirectoryError.FailedToGetCanonicalPathForURL(url: url)
-            }
-            if visitedCanonicalPaths.contains(canonicalPath) {
-                logger.debug("Skipping a duplicate URL: \(url).")
+            let originalURLIsSymlink = originalURLProperties.isSymbolicLink ?? false
+            if originalURLIsSymlink && !followSymbolicLinks {
                 continue
             }
 
-            // "Mark" URL as "visited".
-            visitedCanonicalPaths.insert(canonicalPath)
+            // URL without "./", "../", and symlinks.
+            let resolvedURL = originalURL.resolvingSymlinksInPath()
 
-            if urlProperties.isDirectory ?? false {
-                if recursive {
-                    nestedURLs.append(contentsOf: try getDirectlyNestedURLs(in: url))
-                }
-            } else if urlProperties.isRegularFile ?? false {
-                nestedFileURLs.append(url)
-            } else {
-                logger.debug("Skipped URL because it's neither directory nor a regular file: \(url)")
+            // Skip if current URL has already been looked at.
+            if visitedURLs.contains(resolvedURL.absoluteString) {
+                logger.debug("Skipping a duplicate URL: \(originalURL).")
                 continue
+            }
+
+            // Add resolved URL to visited set.
+            visitedURLs.insert(resolvedURL.absoluteString)
+
+            let resolvedURLProperties = try resolvedURL.resourceValues(
+                forKeys: [.isDirectoryKey, .isRegularFileKey]
+            )
+            // If current URL is / points to a directory URL & TM is configured to be recursive:
+            if resolvedURLProperties.isDirectory ?? false && recursive {
+                // Process the directly nested URLs and add them to BFS queue.
+                let directlyNestedURLs = try getDirectlyNestedURLs(in: originalURL, isSymlink: originalURLIsSymlink)
+                bfsQueue.append(contentsOf: directlyNestedURLs)
+            } else if resolvedURLProperties.isRegularFile ?? false {
+                nestedFileURLs.append(originalURL)
             }
         }
+
         return nestedFileURLs
     }
 
-    private func getDirectlyNestedURLs(in directory: URL) throws -> [URL] {
-        return try FileManager.default.contentsOfDirectory(
-            at: directory,
-            includingPropertiesForKeys: [.canonicalPathKey, .isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey]
+    /*
+        Q: Why are we using resolvedDirURL to retrieve files nested by it, and prefixing returned URLs with originalDirURL?
+
+        A: Because we want to keep symlink names in the paths of nested URLs.
+
+        If originalDirURL is a _symlink_ to a directory, we need to resolve it to resolvedDirURL because FileManager's contentsOfDirectory() doesn't work with symlink URL that points to a dir.
+        The URLs fetched using resolvedDirURL therefore have resolvedDirURL as their base URL. Say the filesystem is structured like below:
+
+                |- dir
+                    |- symlinkToDir2
+                |- dir2
+                    |- file.txt
+
+        If dir/ is the directory being uploaded and TM is configured to follow symlinks and subdirectories, we need file.txt to have the path "dir/symlinkToDir2/file.txt" (notice the name of symlink in path leading to file.txt), rather than "dir2/file.txt". We use that path to resolve the object key to upload the file with.
+     */
+    internal func getDirectlyNestedURLs(
+        in originalDirURL: URL,
+        isSymlink: Bool
+    ) throws -> [URL] {
+        let resolvedDirURL = isSymlink ? originalDirURL.resolvingSymlinksInPath() : originalDirURL
+        // Gets file URLs (files, symlinks, directories, etc.) exactly one level below provided directory URL.
+        let directlyNestedURLs = try FileManager.default.contentsOfDirectory(
+            at: resolvedDirURL,
+            includingPropertiesForKeys: [.isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey],
+            options: [.producesRelativePathURLs]
         )
+        return isSymlink ? directlyNestedURLs.map {
+            // Use original directory URL as base URL (prefix) to the relative path of newly fetched nested URL.
+            URL(string: originalDirURL.absoluteString.appendingPathComponent($0.relativePath))!
+        } : directlyNestedURLs // Return without changing base URL if original URL wasn't a symlink.
     }
 
-    private func uploadObjectFromURL(url: URL, input: UploadDirectoryInput) async throws {
+    internal func uploadObjectFromURL(url: URL, input: UploadDirectoryInput) async throws {
         let resolvedObjectKey = try getResolvedObjectKey(
             of: url,
             inDir: input.source,
@@ -171,7 +198,7 @@ public extension S3TransferManager {
         }
     }
 
-    private func getResolvedObjectKey(of url: URL, inDir dir: URL, input: UploadDirectoryInput) throws -> String {
+    internal func getResolvedObjectKey(of url: URL, inDir dir: URL, input: UploadDirectoryInput) throws -> String {
         // Step 1: if given a non-default s3Delimter, throw validation exception if the file name contains s3Delimiter.
         if (input.s3Delimiter != defaultPathSeparator()) {
             guard !url.lastPathComponent.contains(input.s3Delimiter) else {
@@ -188,7 +215,7 @@ public extension S3TransferManager {
         // Step 3: retrieve the relative path of the file URL.
         // Get canonical path of file URL & dir URL; remove canonical path of dir URL from file URL to get relative path.
         let dirCanonicalPath = try dir.resourceValues(forKeys: [.canonicalPathKey]).canonicalPath
-        var fileCanonicalPath = try url.resourceValues(forKeys: [.canonicalPathKey]).canonicalPath
+        let fileCanonicalPath = try url.resourceValues(forKeys: [.canonicalPathKey]).canonicalPath
         guard let dirCanonicalPath else {
             throw S3TMUploadDirectoryError.FailedToGetCanonicalPathForURL(url: dir)
         }
