@@ -16,13 +16,6 @@ import class SmithyStreams.BufferedStream
 
 /// Tests toggle unsigned payload using S3.
 class S3ToggleUnsignedPayloadTests: S3XCTestCase {
-    private var s3Config: S3Client.S3ClientConfiguration!
-
-    override func setUp() async throws {
-        try await super.setUp()
-        s3Config = try await S3Client.S3ClientConfiguration(region: region)
-        s3Config.authSchemes = [SigV4AuthScheme(requestUnsignedBody: true)]
-    }
 
     class CheckUnsignedPayloadHeader<InputType, OutputType>: Interceptor {
         typealias RequestType = HTTPRequest
@@ -68,7 +61,11 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
         )
 
         // Upload
-        s3Config.addInterceptorProvider(CheckUnsignedPayloadHeaderProvider())
+        let s3Config = try await S3Client.S3ClientConfiguration(
+            region: region,
+            authSchemes: [SigV4AuthScheme(requestUnsignedBody: true)],
+            httpInterceptorProviders: [CheckUnsignedPayloadHeaderProvider()]
+        )
         let s3Client = S3Client(config: s3Config)
         _ = try await s3Client.putObject(input: putObjectInput)
 
@@ -93,7 +90,11 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
         )
 
         // Upload
-        s3Config.addInterceptorProvider(CheckStreamingUnsignedPayloadHeaderProvider())
+        let s3Config = try await S3Client.S3ClientConfiguration(
+            region: region,
+            authSchemes: [SigV4AuthScheme(requestUnsignedBody: true)],
+            httpInterceptorProviders: [CheckStreamingUnsignedPayloadHeaderProvider()]
+        )
         let s3Client = S3Client(config: s3Config)
         _ = try await s3Client.putObject(input: putObjectInput)
 

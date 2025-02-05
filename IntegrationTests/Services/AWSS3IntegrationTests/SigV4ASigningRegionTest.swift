@@ -20,10 +20,12 @@ class SigV4ASigningRegionTest: XCTestCase {
     private var sigv4aConfig: S3Client.S3ClientConfiguration!
 
     override func setUp() async throws {
-        sigv4aConfig = try await S3Client.S3ClientConfiguration(region: "dummy-region")
+        sigv4aConfig = try await S3Client.S3ClientConfiguration(
+            region: "dummy-region",
+            httpInterceptorProviders: [SigningRegionAssertInterceptorProvider()]
+        )
         sigv4aConfig.authSchemes = [SigV4AAuthScheme()]
         sigv4aConfig.httpClientEngine = ProtocolTestClient() // Mock HTTP client that doesn't actually send a request
-        sigv4aConfig.addInterceptorProvider(SigningRegionAssertInterceptorProvider())
         sigv4aClient = S3Client(config: sigv4aConfig)
     }
 
