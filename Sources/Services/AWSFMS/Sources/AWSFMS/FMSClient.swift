@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FMSClient: ClientRuntime.Client {
     public static let clientName = "FMSClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.12"
     let client: ClientRuntime.SdkHttpClient
     let config: FMSClient.FMSClientConfiguration
     let serviceName = "FMS"
