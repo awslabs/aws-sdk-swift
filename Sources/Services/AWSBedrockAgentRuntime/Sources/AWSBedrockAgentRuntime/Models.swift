@@ -6428,12 +6428,21 @@ extension BedrockAgentRuntimeClientTypes {
     /// A citation event.
     public struct CitationEvent: Swift.Sendable {
         /// The citation.
+        @available(*, deprecated, message: "Citation is deprecated. Please use GeneratedResponsePart and RetrievedReferences for citation event. API deprecated since 2024-12-17")
         public var citation: BedrockAgentRuntimeClientTypes.Citation?
+        /// The generated response to the citation event.
+        public var generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart?
+        /// The retrieved references of the citation event.
+        public var retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]?
 
         public init(
-            citation: BedrockAgentRuntimeClientTypes.Citation? = nil
+            citation: BedrockAgentRuntimeClientTypes.Citation? = nil,
+            generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart? = nil,
+            retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]? = nil
         ) {
             self.citation = citation
+            self.generatedResponsePart = generatedResponsePart
+            self.retrievedReferences = retrievedReferences
         }
     }
 }
@@ -9789,6 +9798,8 @@ extension BedrockAgentRuntimeClientTypes.CitationEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.CitationEvent()
         value.citation = try reader["citation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Citation.read(from:))
+        value.generatedResponsePart = try reader["generatedResponsePart"].readIfPresent(with: BedrockAgentRuntimeClientTypes.GeneratedResponsePart.read(from:))
+        value.retrievedReferences = try reader["retrievedReferences"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.RetrievedReference.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
