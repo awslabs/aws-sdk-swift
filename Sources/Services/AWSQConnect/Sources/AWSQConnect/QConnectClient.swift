@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.2.10"
+    public static let version = "1.2.13"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"

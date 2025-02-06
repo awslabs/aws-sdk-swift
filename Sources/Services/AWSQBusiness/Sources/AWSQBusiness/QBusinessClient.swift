@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QBusinessClient: ClientRuntime.Client {
     public static let clientName = "QBusinessClient"
-    public static let version = "1.2.10"
+    public static let version = "1.2.13"
     let client: ClientRuntime.SdkHttpClient
     let config: QBusinessClient.QBusinessClientConfiguration
     let serviceName = "QBusiness"
@@ -2571,7 +2571,7 @@ extension QBusinessClient {
 
     /// Performs the `GetChatControlsConfiguration` operation on the `QBusiness` service.
     ///
-    /// Gets information about an chat controls configured for an existing Amazon Q Business application.
+    /// Gets information about chat controls configured for an existing Amazon Q Business application.
     ///
     /// - Parameter GetChatControlsConfigurationInput : [no documentation found]
     ///
@@ -5397,7 +5397,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateChatControlsConfiguration` operation on the `QBusiness` service.
     ///
-    /// Updates an set of chat controls configured for an existing Amazon Q Business application.
+    /// Updates a set of chat controls configured for an existing Amazon Q Business application.
     ///
     /// - Parameter UpdateChatControlsConfigurationInput : [no documentation found]
     ///

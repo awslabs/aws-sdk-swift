@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IAMClient: ClientRuntime.Client {
     public static let clientName = "IAMClient"
-    public static let version = "1.2.10"
+    public static let version = "1.2.13"
     let client: ClientRuntime.SdkHttpClient
     let config: IAMClient.IAMClientConfiguration
     let serviceName = "IAM"
@@ -437,7 +437,7 @@ extension IAMClient {
 
     /// Performs the `AddRoleToInstanceProfile` operation on the `IAM` service.
     ///
-    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency). To force the change, you must [disassociate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html) and then [associate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateIamInstanceProfile.html), or you can stop your instance and then restart it. The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
+    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency). To force the change, you must [disassociate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html) and then [associate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateIamInstanceProfile.html), or you can stop your instance and then restart it. The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy. When using the [iam:AssociatedResourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#available-keys-for-iam) condition in a policy to restrict the [PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) IAM action, special considerations apply if the policy is intended to define access for the AddRoleToInstanceProfile action. In this case, you cannot specify a Region or instance ID in the EC2 instance ARN. The ARN value must be arn:aws:ec2:*:CallerAccountId:instance/*. Using any other ARN value may lead to unexpected evaluation results. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
     /// - Parameter AddRoleToInstanceProfileInput : [no documentation found]
     ///
@@ -4115,7 +4115,7 @@ extension IAMClient {
 
     /// Performs the `DisableOrganizationsRootCredentialsManagement` operation on the `IAM` service.
     ///
-    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer manage root user credentials for member accounts in your organization.
+    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organization.
     ///
     /// - Parameter DisableOrganizationsRootCredentialsManagementInput : [no documentation found]
     ///
@@ -4192,7 +4192,7 @@ extension IAMClient {
 
     /// Performs the `DisableOrganizationsRootSessions` operation on the `IAM` service.
     ///
-    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer perform privileged tasks on member accounts in your organization.
+    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization.
     ///
     /// - Parameter DisableOrganizationsRootSessionsInput : [no documentation found]
     ///
@@ -4349,11 +4349,11 @@ extension IAMClient {
 
     /// Performs the `EnableOrganizationsRootCredentialsManagement` operation on the `IAM` service.
     ///
-    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management), the management account and the delegated admininstrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:
+    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management), the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:
     ///
     /// * You must manage your Amazon Web Services accounts in [Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html).
     ///
-    /// * Enable trusted access for Identity and Access Management in Organizations. For details, see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ra.html) in the Organizations User Guide.
+    /// * Enable trusted access for Identity and Access Management in Organizations. For details, see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-iam.html) in the Organizations User Guide.
     ///
     /// - Parameter EnableOrganizationsRootCredentialsManagementInput : [no documentation found]
     ///
@@ -6806,7 +6806,7 @@ extension IAMClient {
 
     /// Performs the `ListAccountAliases` operation on the `IAM` service.
     ///
-    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html) in the Amazon Web Services Sign-In User Guide.
+    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#CreateAccountAlias) in the IAM User Guide.
     ///
     /// - Parameter ListAccountAliasesInput : [no documentation found]
     ///
@@ -12398,7 +12398,7 @@ extension IAMClient {
 
     /// Performs the `UpdateSAMLProvider` operation on the `IAM` service.
     ///
-    /// Updates the metadata document for an existing SAML provider resource object. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
+    /// Updates the metadata document, SAML encryption settings, and private keys for an existing SAML provider. To rotate private keys, add your new private key and then remove the old key in a separate request.
     ///
     /// - Parameter UpdateSAMLProviderInput : [no documentation found]
     ///
