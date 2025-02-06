@@ -113,6 +113,7 @@ extension CostOptimizationHubClientTypes {
         case purchaseReservedInstances
         case purchaseSavingsPlans
         case rightsize
+        case scaleIn
         case stop
         case upgrade
         case sdkUnknown(Swift.String)
@@ -124,6 +125,7 @@ extension CostOptimizationHubClientTypes {
                 .purchaseReservedInstances,
                 .purchaseSavingsPlans,
                 .rightsize,
+                .scaleIn,
                 .stop,
                 .upgrade
             ]
@@ -141,8 +143,38 @@ extension CostOptimizationHubClientTypes {
             case .purchaseReservedInstances: return "PurchaseReservedInstances"
             case .purchaseSavingsPlans: return "PurchaseSavingsPlans"
             case .rightsize: return "Rightsize"
+            case .scaleIn: return "ScaleIn"
             case .stop: return "Stop"
             case .upgrade: return "Upgrade"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    public enum AllocationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lowestPrice
+        case prioritized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllocationStrategy] {
+            return [
+                .lowestPrice,
+                .prioritized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lowestPrice: return "LowestPrice"
+            case .prioritized: return "Prioritized"
             case let .sdkUnknown(s): return s
             }
         }
@@ -694,9 +726,9 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// The Instance configuration used for recommendations.
+    /// The instance configuration used for recommendations.
     public struct InstanceConfiguration: Swift.Sendable {
-        /// Details about the type.
+        /// The instance type of the configuration.
         public var type: Swift.String?
 
         public init(
@@ -709,15 +741,71 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// The EC2 auto scaling group configuration used for recommendations.
-    public struct Ec2AutoScalingGroupConfiguration: Swift.Sendable {
-        /// Details about the instance.
-        public var instance: CostOptimizationHubClientTypes.InstanceConfiguration?
+    /// The configuration for the EC2 Auto Scaling group with mixed instance types.
+    public struct MixedInstanceConfiguration: Swift.Sendable {
+        /// The instance type of the configuration.
+        public var type: Swift.String?
 
         public init(
-            instance: CostOptimizationHubClientTypes.InstanceConfiguration? = nil
+            type: Swift.String? = nil
         ) {
+            self.type = type
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    public enum Ec2AutoScalingGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mixedInstanceTypes
+        case singleInstanceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ec2AutoScalingGroupType] {
+            return [
+                .mixedInstanceTypes,
+                .singleInstanceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixedInstanceTypes: return "MixedInstanceTypes"
+            case .singleInstanceType: return "SingleInstanceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The EC2 Auto Scaling group configuration used for recommendations.
+    public struct Ec2AutoScalingGroupConfiguration: Swift.Sendable {
+        /// The strategy used for allocating instances, based on a predefined priority order or based on the lowest available price.
+        public var allocationStrategy: CostOptimizationHubClientTypes.AllocationStrategy?
+        /// Details about the instance for the EC2 Auto Scaling group with a single instance type.
+        public var instance: CostOptimizationHubClientTypes.InstanceConfiguration?
+        /// A list of instance types for an EC2 Auto Scaling group with mixed instance types.
+        public var mixedInstances: [CostOptimizationHubClientTypes.MixedInstanceConfiguration]?
+        /// The type of EC2 Auto Scaling group, showing whether it consists of a single instance type or mixed instance types.
+        public var type: CostOptimizationHubClientTypes.Ec2AutoScalingGroupType?
+
+        public init(
+            allocationStrategy: CostOptimizationHubClientTypes.AllocationStrategy? = nil,
+            instance: CostOptimizationHubClientTypes.InstanceConfiguration? = nil,
+            mixedInstances: [CostOptimizationHubClientTypes.MixedInstanceConfiguration]? = nil,
+            type: CostOptimizationHubClientTypes.Ec2AutoScalingGroupType? = nil
+        ) {
+            self.allocationStrategy = allocationStrategy
             self.instance = instance
+            self.mixedInstances = mixedInstances
+            self.type = type
         }
     }
 }
@@ -1542,7 +1630,7 @@ extension CostOptimizationHubClientTypes {
         case ec2instancesavingsplans(CostOptimizationHubClientTypes.Ec2InstanceSavingsPlans)
         /// The Compute Savings Plans recommendation details.
         case computesavingsplans(CostOptimizationHubClientTypes.ComputeSavingsPlans)
-        /// The SageMaker Savings Plans recommendation details.
+        /// The SageMaker AI Savings Plans recommendation details.
         case sagemakersavingsplans(CostOptimizationHubClientTypes.SageMakerSavingsPlans)
         /// The DB instance recommendation details.
         case rdsdbinstance(CostOptimizationHubClientTypes.RdsDbInstance)
@@ -3144,6 +3232,19 @@ extension CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration()
         value.instance = try reader["instance"].readIfPresent(with: CostOptimizationHubClientTypes.InstanceConfiguration.read(from:))
+        value.mixedInstances = try reader["mixedInstances"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.MixedInstanceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["type"].readIfPresent()
+        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.MixedInstanceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.MixedInstanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.MixedInstanceConfiguration()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

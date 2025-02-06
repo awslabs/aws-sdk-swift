@@ -58,6 +58,98 @@ extension CloudFormationClient {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func stackRefactorCreateCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeStackRefactorInput, DescribeStackRefactorOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeStackRefactorInput, DescribeStackRefactorOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStackRefactorInput, result: Swift.Result<DescribeStackRefactorOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "CREATE_COMPLETE")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeStackRefactorInput, result: Swift.Result<DescribeStackRefactorOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "CREATE_FAILED")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeStackRefactorInput, result: Swift.Result<DescribeStackRefactorOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationError"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeStackRefactorInput, DescribeStackRefactorOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the StackRefactorCreateComplete event on the describeStackRefactor operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeStackRefactorInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilStackRefactorCreateComplete(options: SmithyWaitersAPI.WaiterOptions, input: DescribeStackRefactorInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeStackRefactorOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.stackRefactorCreateCompleteWaiterConfig(), operation: self.describeStackRefactor(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func stackRefactorExecuteCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeStackRefactorInput, DescribeStackRefactorOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeStackRefactorInput, DescribeStackRefactorOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeStackRefactorInput, result: Swift.Result<DescribeStackRefactorOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ExecutionStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "EXECUTE_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let executionStatus = output.executionStatus
+                return SmithyWaitersAPI.JMESUtils.compare(executionStatus, ==, "EXECUTE_COMPLETE")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeStackRefactorInput, result: Swift.Result<DescribeStackRefactorOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ExecutionStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "EXECUTE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let executionStatus = output.executionStatus
+                return SmithyWaitersAPI.JMESUtils.compare(executionStatus, ==, "EXECUTE_FAILED")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeStackRefactorInput, result: Swift.Result<DescribeStackRefactorOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "ExecutionStatus"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "ROLLBACK_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let executionStatus = output.executionStatus
+                return SmithyWaitersAPI.JMESUtils.compare(executionStatus, ==, "ROLLBACK_COMPLETE")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeStackRefactorInput, result: Swift.Result<DescribeStackRefactorOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationError"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeStackRefactorInput, DescribeStackRefactorOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the StackRefactorExecuteComplete event on the describeStackRefactor operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeStackRefactorInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilStackRefactorExecuteComplete(options: SmithyWaitersAPI.WaiterOptions, input: DescribeStackRefactorInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeStackRefactorOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.stackRefactorExecuteCompleteWaiterConfig(), operation: self.describeStackRefactor(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func stackCreateCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeStacksInput, DescribeStacksOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
