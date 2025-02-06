@@ -131,7 +131,7 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         return resolvedMaxAttempts!
     }
 
-    public static func retryStrategyOptions(
+    override static func retryStrategyOptions(
         _ retryMode: AWSRetryMode? = nil,
         _ maxAttempts: Int? = nil
     ) throws -> RetryStrategyOptions {
