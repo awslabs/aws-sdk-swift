@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppMeshClient: ClientRuntime.Client {
     public static let clientName = "AppMeshClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.13"
     let client: ClientRuntime.SdkHttpClient
     let config: AppMeshClient.AppMeshClientConfiguration
     let serviceName = "App Mesh"
