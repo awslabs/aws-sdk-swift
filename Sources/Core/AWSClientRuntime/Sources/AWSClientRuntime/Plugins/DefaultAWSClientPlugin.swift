@@ -8,7 +8,9 @@
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.Plugin
 
-public class DefaultAWSClientPlugin<Config: DefaultClientConfiguration & AWSDefaultClientConfiguration & AWSRegionClientConfiguration>: Plugin {
+public class DefaultAWSClientPlugin<
+    Config: DefaultClientConfiguration & AWSDefaultClientConfiguration & AWSRegionClientConfiguration
+>: Plugin {
     private var clientName: String
 
     public init(clientName: String) {
@@ -20,6 +22,7 @@ public class DefaultAWSClientPlugin<Config: DefaultClientConfiguration & AWSDefa
             clientConfiguration.awsRetryMode,
             clientConfiguration.maxAttempts
         )
-        clientConfiguration.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
+        clientConfiguration.awsCredentialIdentityResolver =
+            try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
     }
 }
