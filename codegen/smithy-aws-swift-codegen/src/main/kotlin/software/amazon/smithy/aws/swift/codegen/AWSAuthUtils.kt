@@ -21,7 +21,7 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.utils.AuthUtils
 
 open class AWSAuthUtils(
-    private val ctx: ProtocolGenerator.GenerationContext
+    private val ctx: ProtocolGenerator.GenerationContext,
 ) : AuthUtils(ctx) {
     companion object {
         /**
@@ -31,12 +31,16 @@ open class AWSAuthUtils(
          * @param serviceShape service shape for the API
          * @return if the SigV4 trait is used by the service.
          */
-        fun isSupportedAuthentication(model: Model, serviceShape: ServiceShape): Boolean =
+        fun isSupportedAuthentication(
+            model: Model,
+            serviceShape: ServiceShape,
+        ): Boolean =
             ServiceIndex
                 .of(model)
                 .getAuthSchemes(serviceShape)
                 .values
                 .any { it.javaClass == SigV4Trait::class.java }
+
         /**
          * Get the SigV4Trait auth name to sign request for
          *
@@ -56,13 +60,20 @@ open class AWSAuthUtils(
          * @param operation operation shape
          * @return if SigV4Trait is an auth scheme for the operation and service.
          */
-        fun hasSigV4AuthScheme(model: Model, service: ServiceShape, operation: OperationShape): Boolean {
+        fun hasSigV4AuthScheme(
+            model: Model,
+            service: ServiceShape,
+            operation: OperationShape,
+        ): Boolean {
             val auth = ServiceIndex.of(model).getEffectiveAuthSchemes(service.id, operation.id)
             return auth.containsKey(SigV4Trait.ID) && !operation.hasTrait<OptionalAuthTrait>()
         }
     }
 
-    override fun addAdditionalSchemes(writer: SwiftWriter, authSchemeList: MutableList<String>): List<String> {
+    override fun addAdditionalSchemes(
+        writer: SwiftWriter,
+        authSchemeList: MutableList<String>,
+    ): List<String> {
         val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
 
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)

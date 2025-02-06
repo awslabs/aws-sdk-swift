@@ -5,6 +5,5 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 class AWSRpcV2CborCustomizations : AWSHTTPProtocolCustomizations() {
-
     override val baseErrorSymbol: Symbol = ClientRuntimeTypes.RpcV2Cbor.RpcV2CborError
 }

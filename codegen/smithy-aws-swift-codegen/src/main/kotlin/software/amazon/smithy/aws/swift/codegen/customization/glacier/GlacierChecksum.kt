@@ -18,13 +18,15 @@ import java.util.Locale
  * See also: https://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
  */
 class GlacierChecksum : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings) =
-        model.expectShape<ServiceShape>(settings.service).sdkId.lowercase(Locale.getDefault()) == "glacier"
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ) = model.expectShape<ServiceShape>(settings.service).sdkId.lowercase(Locale.getDefault()) == "glacier"
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
         operationShape: OperationShape,
-        operationMiddleware: OperationMiddleware
+        operationMiddleware: OperationMiddleware,
     ) {
         operationMiddleware.appendMiddleware(operationShape, Sha256TreeHashMiddleware(ctx.symbolProvider, ctx.model))
     }

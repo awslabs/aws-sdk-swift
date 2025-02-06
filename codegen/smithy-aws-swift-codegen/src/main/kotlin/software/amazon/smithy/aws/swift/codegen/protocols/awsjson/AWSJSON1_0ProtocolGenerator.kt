@@ -15,20 +15,28 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 
+@Suppress("ktlint:standard:class-naming")
 class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCustomizations()) {
     override val defaultContentType = "application/x-amz-json-1.0"
     override val protocol: ShapeId = AwsJson1_0Trait.ID
     override val shouldRenderEncodableConformance: Boolean = true
-    override val protocolTestsToIgnore = setOf(
-        "SDKAppliedContentEncoding_awsJson1_0",
-        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0",
-        "AwsJson10ClientPopulatesDefaultValuesInInput", // TODO: broken in Smithy 1.53.0
-        "AwsJson10ClientPopulatesDefaultsValuesWhenMissingInResponse", // TODO: broken in Smithy 1.53.0
-    )
-    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
-        HttpBindingResolver = AWSJSONHttpBindingResolver(ctx, defaultContentType)
+    override val protocolTestsToIgnore =
+        setOf(
+            "SDKAppliedContentEncoding_awsJson1_0",
+            "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0",
+            "AwsJson10ClientPopulatesDefaultValuesInInput", // TODO: broken in Smithy 1.53.0
+            "AwsJson10ClientPopulatesDefaultsValuesWhenMissingInResponse", // TODO: broken in Smithy 1.53.0
+        )
 
-    override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
+    override fun getProtocolHttpBindingResolver(
+        ctx: ProtocolGenerator.GenerationContext,
+        defaultContentType: String,
+    ): HttpBindingResolver = AWSJSONHttpBindingResolver(ctx, defaultContentType)
+
+    override fun addProtocolSpecificMiddleware(
+        ctx: ProtocolGenerator.GenerationContext,
+        operation: OperationShape,
+    ) {
         super.addProtocolSpecificMiddleware(ctx, operation)
 
         operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service))
@@ -39,6 +47,9 @@ class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
 
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.removeMiddleware(operation, "ContentTypeMiddleware")
-        operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
+        operationMiddleware.appendMiddleware(
+            operation,
+            ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true),
+        )
     }
 }
