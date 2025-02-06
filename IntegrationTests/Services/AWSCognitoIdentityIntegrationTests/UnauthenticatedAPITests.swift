@@ -32,7 +32,7 @@ class UnauthenticatedAPITests: XCTestCase {
         cognitoIdentityClient = try CognitoIdentityClient(region: region)
 
         // CognitoIdentity client for calling unauthenticated API against an identity pool.
-        let config = try await CognitoIdentityClient.CognitoIdentityClientConfiguration(region: region)
+        var config = try await CognitoIdentityClient.CognitoIdentityClientConfiguration(region: region)
         config.addInterceptorProvider(GetHeadersBeforeTransmitProvider())
         cognitoIdentityUnauthenticatedCheckClient = CognitoIdentityClient(config: config)
 

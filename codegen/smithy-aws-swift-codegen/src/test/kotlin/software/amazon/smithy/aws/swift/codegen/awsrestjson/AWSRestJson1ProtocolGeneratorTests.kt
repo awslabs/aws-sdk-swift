@@ -84,7 +84,7 @@ public class ExampleClient: ClientRuntime.Client {
 
 extension ExampleClient {
 
-    public class ExampleClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public struct ExampleClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -164,7 +164,7 @@ extension ExampleClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: ExampleClient.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -218,7 +218,7 @@ extension ExampleClient {
             )
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -272,7 +272,7 @@ extension ExampleClient {
             )
         }
 
-        public convenience required init() async throws {
+        public init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -301,7 +301,7 @@ extension ExampleClient {
             )
         }
 
-        public convenience init(region: Swift.String) throws {
+        public init(region: Swift.String) throws {
             self.init(
                 nil,
                 nil,
@@ -334,22 +334,21 @@ extension ExampleClient {
             return "\(ExampleClient.clientName) - \(region ?? "")"
         }
 
-        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
 
-        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
             self.httpInterceptorProviders.append(provider)
         }
 
     }
 
     public static func builder() -> ClientRuntime.ClientBuilder<ExampleClient> {
-        return ClientRuntime.ClientBuilder<ExampleClient>(defaultPlugins: [
-            ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
-            DefaultAWSAuthSchemePlugin()
-        ])
+        return ClientRuntime.ClientBuilder<ExampleClient>()
+            .withPlugin(ClientRuntime.DefaultClientPlugin())
+            .withPlugin(AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName))
+            .withPlugin(DefaultAWSAuthSchemePlugin())
     }
 }
 """
