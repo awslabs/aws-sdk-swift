@@ -44,21 +44,25 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
                 writer.write("self.bearerTokenIdentityResolver = bearerTokenIdentityResolver")
             }
             writer.write("")
-            writer.openBlock("public func configureClient(clientConfiguration: \$N) throws {", "}", ClientRuntimeTypes.Core.ClientConfiguration) {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
-                    writer.openBlock("if (self.authSchemes != nil) {", "}") {
-                        writer.write("config.authSchemes = self.authSchemes")
-                    }
-                    writer.openBlock("if (self.authSchemeResolver != nil) {", "}") {
-                        writer.write("config.authSchemeResolver = self.authSchemeResolver!")
-                    }
-                    writer.openBlock("if (self.awsCredentialIdentityResolver != nil) {", "}") {
-                        writer.write("config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
-                    }
-                    writer.openBlock("if (self.bearerTokenIdentityResolver != nil) {", "}") {
-                        writer.write("config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
-                    }
+            writer.openBlock(
+                "public func configureClient(clientConfiguration: \$1L) throws -> \$1L {",
+                "}",
+                serviceConfig.typeName,
+            ) {
+                writer.write("var copy = clientConfiguration")
+                writer.openBlock("if self.authSchemes != nil {", "}") {
+                    writer.write("copy.authSchemes = self.authSchemes")
                 }
+                writer.openBlock("if self.authSchemeResolver != nil {", "}") {
+                    writer.write("copy.authSchemeResolver = self.authSchemeResolver!")
+                }
+                writer.openBlock("if self.awsCredentialIdentityResolver != nil {", "}") {
+                    writer.write("copy.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
+                }
+                writer.openBlock("if self.bearerTokenIdentityResolver != nil {", "}") {
+                    writer.write("copy.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
+                }
+                writer.write("return copy")
             }
         }
         writer.write("")

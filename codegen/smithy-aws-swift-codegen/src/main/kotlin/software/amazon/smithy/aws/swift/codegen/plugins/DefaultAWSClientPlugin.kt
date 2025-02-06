@@ -16,7 +16,7 @@ class DefaultAWSClientPlugin : Plugin {
     override val isDefault: Boolean
         get() = true
 
-    override fun customInitialization(writer: SwiftWriter) {
-        writer.writeInline("\$N(clientName: self.clientName)", className)
+    override fun customInitialization(writer: SwiftWriter): String {
+        return writer.format("\$N(clientName: self.clientName)", className)
     }
 }
