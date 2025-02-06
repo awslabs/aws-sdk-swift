@@ -15,13 +15,11 @@ public class DefaultAWSClientPlugin<Config: DefaultClientConfiguration & AWSDefa
         self.clientName = clientName
     }
 
-    public func configureClient(clientConfiguration: Config) async throws -> Config {
-        var copy = clientConfiguration
-        copy.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
-            copy.awsRetryMode,
-            copy.maxAttempts
+    public func configureClient(clientConfiguration: inout Config) async throws {
+        clientConfiguration.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
+            clientConfiguration.awsRetryMode,
+            clientConfiguration.maxAttempts
         )
-        copy.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
-        return copy
+        clientConfiguration.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
     }
 }

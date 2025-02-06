@@ -32,13 +32,11 @@ class EndpointPlugin(private val serviceConfig: ServiceConfig) : Plugin {
             }
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$1L) -> \$1L {",
+                "public func configureClient(clientConfiguration: inout \$L) {",
                 "}",
                 serviceConfig.typeName,
             ) {
-                writer.write("var copy = clientConfiguration")
-                writer.write("copy.endpointResolver = self.endpointResolver")
-                writer.write("return copy")
+                writer.write("clientConfiguration.endpointResolver = self.endpointResolver")
             }
         }
         writer.write("")

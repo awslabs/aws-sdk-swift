@@ -14,10 +14,8 @@ public class RegionPlugin<Config: AWSRegionClientConfiguration>: Plugin {
         self.region = region
     }
 
-    public func configureClient(clientConfiguration: Config) -> Config {
-        var copy = clientConfiguration
-        copy.region = self.region
-        copy.signingRegion = self.region
-        return copy
+    public func configureClient(clientConfiguration: inout Config) {
+        clientConfiguration.region = self.region
+        clientConfiguration.signingRegion = self.region
     }
 }

@@ -30,27 +30,25 @@ class DefaultAWSAuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plu
             writer.write("public init() {}")
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$1L) throws -> \$1L {",
+                "public func configureClient(clientConfiguration: inout \$L) throws {",
                 "}",
                 serviceConfig.typeName
             ) {
-                writer.write("var copy = clientConfiguration")
-                writer.write("copy.authSchemeResolver = \$L", "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()")
-                writer.write("copy.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
-                writer.write("copy.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider)
+                writer.write("clientConfiguration.authSchemeResolver = \$L", "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()")
+                writer.write("clientConfiguration.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
+                writer.write("clientConfiguration.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider)
                 if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                     writer.write(
-                        "copy.bearerTokenIdentityResolver = try \$N()",
+                        "clientConfiguration.bearerTokenIdentityResolver = try \$N()",
                         AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain
                     )
                 } else {
                     writer.write(
-                        "copy.bearerTokenIdentityResolver = \$N(token: \$N(token: \"\"))",
+                        "clientConfiguration.bearerTokenIdentityResolver = \$N(token: \$N(token: \"\"))",
                         SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
                         SmithyIdentityTypes.BearerTokenIdentity
                     )
                 }
-                writer.write("return copy")
             }
         }
         writer.write("")

@@ -45,24 +45,22 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
             }
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$1L) throws -> \$1L {",
+                "public func configureClient(clientConfiguration: inout \$L) throws {",
                 "}",
                 serviceConfig.typeName,
             ) {
-                writer.write("var copy = clientConfiguration")
                 writer.openBlock("if self.authSchemes != nil {", "}") {
-                    writer.write("copy.authSchemes = self.authSchemes")
+                    writer.write("clientConfiguration.authSchemes = self.authSchemes")
                 }
                 writer.openBlock("if self.authSchemeResolver != nil {", "}") {
-                    writer.write("copy.authSchemeResolver = self.authSchemeResolver!")
+                    writer.write("clientConfiguration.authSchemeResolver = self.authSchemeResolver!")
                 }
                 writer.openBlock("if self.awsCredentialIdentityResolver != nil {", "}") {
-                    writer.write("copy.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
+                    writer.write("clientConfiguration.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
                 }
                 writer.openBlock("if self.bearerTokenIdentityResolver != nil {", "}") {
-                    writer.write("copy.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
+                    writer.write("clientConfiguration.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
                 }
-                writer.write("return copy")
             }
         }
         writer.write("")
