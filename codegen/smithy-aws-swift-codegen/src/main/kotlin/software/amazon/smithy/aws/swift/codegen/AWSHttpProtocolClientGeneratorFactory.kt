@@ -21,9 +21,17 @@ class AWSHttpProtocolClientGeneratorFactory : HttpProtocolClientGeneratorFactory
         serviceName: String,
         defaultContentType: String,
         httpProtocolCustomizable: HTTPProtocolCustomizable,
-        operationMiddleware: OperationMiddleware
+        operationMiddleware: OperationMiddleware,
     ): HttpProtocolClientGenerator {
         val config = AWSServiceConfig(writer, ctx)
-        return HttpProtocolClientGenerator(ctx, writer, config, httpBindingResolver, defaultContentType, httpProtocolCustomizable, operationMiddleware)
+        return HttpProtocolClientGenerator(
+            ctx,
+            writer,
+            config,
+            httpBindingResolver,
+            defaultContentType,
+            httpProtocolCustomizable,
+            operationMiddleware,
+        )
     }
 }

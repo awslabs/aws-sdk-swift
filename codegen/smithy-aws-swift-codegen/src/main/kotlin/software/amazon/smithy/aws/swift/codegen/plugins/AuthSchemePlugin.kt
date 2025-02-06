@@ -14,29 +14,41 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
-class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
-
+class AuthSchemePlugin(
+    private val serviceConfig: ServiceConfig,
+) : Plugin {
     private val pluginName: String = "${serviceConfig.clientName.toUpperCamelCase()}AuthSchemePlugin"
 
     override val className: Symbol
-        get() = buildSymbol {
-            this.name = pluginName
-        }
+        get() =
+            buildSymbol {
+                this.name = pluginName
+            }
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+    override fun render(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+    ) {
         writer.openBlock("public class $pluginName: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("private var authSchemes: \$N", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional())
             writer.write("private var authSchemeResolver: \$N", SmithyHTTPAuthAPITypes.AuthSchemeResolver.toOptional())
-            writer.write("private var awsCredentialIdentityResolver: \$N", SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional())
-            writer.write("private var bearerTokenIdentityResolver: \$N", SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional())
+            writer.write(
+                "private var awsCredentialIdentityResolver: \$N",
+                SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional(),
+            )
+            writer.write(
+                "private var bearerTokenIdentityResolver: \$N",
+                SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional(),
+            )
 
             writer.write("")
             writer.openBlock(
-                "public init(authSchemes: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {", "}",
+                "public init(authSchemes: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {",
+                "}",
                 SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
                 AuthSchemeResolverGenerator.getServiceSpecificAuthSchemeResolverName(ctx).toOptional(),
                 SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional(),
-                SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional()
+                SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional(),
             ) {
                 writer.write("self.authSchemeResolver = authSchemeResolver")
                 writer.write("self.authSchemes = authSchemes")
@@ -44,7 +56,11 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
                 writer.write("self.bearerTokenIdentityResolver = bearerTokenIdentityResolver")
             }
             writer.write("")
-            writer.openBlock("public func configureClient(clientConfiguration: \$N) throws {", "}", ClientRuntimeTypes.Core.ClientConfiguration) {
+            writer.openBlock(
+                "public func configureClient(clientConfiguration: \$N) throws {",
+                "}",
+                ClientRuntimeTypes.Core.ClientConfiguration,
+            ) {
                 writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
                     writer.openBlock("if (self.authSchemes != nil) {", "}") {
                         writer.write("config.authSchemes = self.authSchemes")

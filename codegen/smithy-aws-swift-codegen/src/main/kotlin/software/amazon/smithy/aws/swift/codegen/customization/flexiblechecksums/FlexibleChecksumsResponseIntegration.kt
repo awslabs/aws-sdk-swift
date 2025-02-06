@@ -16,9 +16,13 @@ import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.shapes
 
 class FlexibleChecksumsResponseIntegration : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean = model
-        .shapes<OperationShape>()
-        .any { it.hasTrait(HttpChecksumTrait::class.java) }
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean =
+        model
+            .shapes<OperationShape>()
+            .any { it.hasTrait(HttpChecksumTrait::class.java) }
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
@@ -28,9 +32,10 @@ class FlexibleChecksumsResponseIntegration : SwiftIntegration {
         val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val input = operationShape.input.orElse(null)?.let { ctx.model.expectShape<StructureShape>(it) }
 
-        val useFlexibleChecksum = (httpChecksumTrait != null) &&
-            (httpChecksumTrait.requestValidationModeMember?.orElse(null) != null) &&
-            (input?.memberNames?.any { it == httpChecksumTrait.requestValidationModeMember.get() } == true)
+        val useFlexibleChecksum =
+            (httpChecksumTrait != null) &&
+                (httpChecksumTrait.requestValidationModeMember?.orElse(null) != null) &&
+                (input?.memberNames?.any { it == httpChecksumTrait.requestValidationModeMember.get() } == true)
 
         if (useFlexibleChecksum) {
             operationMiddleware.appendMiddleware(operationShape, FlexibleChecksumResponseMiddleware)
@@ -44,22 +49,25 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
-
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val validationModeMemberName = httpChecksumTrait?.requestValidationModeMember?.get()?.lowercaseFirstLetter()
-        val checksumAlgosSupportedByResponse = httpChecksumTrait?.responseAlgorithms?.let {
-            if (it.isEmpty()) { "" } else {
-                ", algosSupportedByOperation: " + it.joinToString(
-                    prefix = "[\"",
-                    postfix = "\"]",
-                    separator = "\", \""
-                )
-            }
-        } ?: ""
+        val checksumAlgosSupportedByResponse =
+            httpChecksumTrait?.responseAlgorithms?.let {
+                if (it.isEmpty()) {
+                    ""
+                } else {
+                    ", algosSupportedByOperation: " +
+                        it.joinToString(
+                            prefix = "[\"",
+                            postfix = "\"]",
+                            separator = "\", \"",
+                        )
+                }
+            } ?: ""
 
         writer.write(
             "\$N<\$L, \$L>(validationMode: input.\$L?.rawValue ?? \"unset\"\$L)",
@@ -67,7 +75,7 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
             inputShapeName,
             outputShapeName,
             validationModeMemberName,
-            checksumAlgosSupportedByResponse
+            checksumAlgosSupportedByResponse,
         )
     }
 }

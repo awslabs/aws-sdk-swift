@@ -18,15 +18,14 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 class AWSXAmzTargetMiddleware(
     val model: Model,
     val symbolProvider: SymbolProvider,
-    val serviceShape: ServiceShape
+    val serviceShape: ServiceShape,
 ) : MiddlewareRenderable {
-
     override val name = "AWSXAmzTargetMiddleware"
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op).name
@@ -38,7 +37,8 @@ class AWSXAmzTargetMiddleware(
         return "xAmzTarget: \"${xAmzTargetValue}\""
     }
 
-    private fun xAmzTargetValue(serviceShape: ServiceShape, op: OperationShape): String {
-        return "${serviceShape.id.name}.${op.id.name}"
-    }
+    private fun xAmzTargetValue(
+        serviceShape: ServiceShape,
+        op: OperationShape,
+    ): String = "${serviceShape.id.name}.${op.id.name}"
 }

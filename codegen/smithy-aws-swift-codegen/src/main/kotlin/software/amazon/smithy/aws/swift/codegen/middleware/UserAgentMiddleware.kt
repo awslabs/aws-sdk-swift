@@ -13,14 +13,15 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 
-class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
-
+class UserAgentMiddleware(
+    val settings: SwiftSettings,
+) : MiddlewareRenderable {
     override val name = "UserAgentMiddleware"
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         val input = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op)
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)

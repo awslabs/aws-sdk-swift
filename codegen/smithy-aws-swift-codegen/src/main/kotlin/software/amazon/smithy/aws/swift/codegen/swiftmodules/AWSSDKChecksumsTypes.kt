@@ -9,10 +9,14 @@ object AWSSDKChecksumsTypes {
     val AWSChecksumCalculationMode = runtimeSymbol("AWSChecksumCalculationMode", SwiftDeclaration.ENUM)
 }
 
-private fun runtimeSymbol(name: String, declaration: SwiftDeclaration? = null): Symbol = SwiftSymbol.make(
-    name,
-    declaration,
-    AWSSwiftDependency.AWS_SDK_CHECKSUMS,
-    emptyList(),
-    emptyList(),
-)
+private fun runtimeSymbol(
+    name: String,
+    declaration: SwiftDeclaration? = null,
+): Symbol =
+    SwiftSymbol.make(
+        name,
+        declaration,
+        AWSSwiftDependency.AWS_SDK_CHECKSUMS,
+        emptyList(),
+        emptyList(),
+    )

@@ -12,15 +12,15 @@ import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHtt
 
 class FormURLHttpBindingResolver(
     context: ProtocolGenerator.GenerationContext,
-    contentType: String
+    contentType: String,
 ) : StaticHttpBindingResolver(context, httpTrait, contentType) {
-
     companion object {
-        private val httpTrait: HttpTrait = HttpTrait
-            .builder()
-            .code(200)
-            .method("POST")
-            .uri(UriPattern.parse("/"))
-            .build()
+        private val httpTrait: HttpTrait =
+            HttpTrait
+                .builder()
+                .code(200)
+                .method("POST")
+                .uri(UriPattern.parse("/"))
+                .build()
     }
 }

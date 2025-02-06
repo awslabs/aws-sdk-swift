@@ -11,7 +11,7 @@ class PredictInputEndpointURLHostMiddlewareRenderable : MiddlewareRenderable {
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         writer.write("PredictInputEndpointURLHostMiddleware()")
     }

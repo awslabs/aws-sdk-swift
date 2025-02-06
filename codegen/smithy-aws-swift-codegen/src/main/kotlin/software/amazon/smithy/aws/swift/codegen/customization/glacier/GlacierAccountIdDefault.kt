@@ -17,20 +17,22 @@ import software.amazon.smithy.swift.codegen.model.expectShape
  * See: https://github.com/awslabs/aws-sdk-swift/issues/207
  */
 class GlacierAccountIdDefault : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean =
-        model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean = model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
         operationShape: OperationShape,
-        operationMiddleware: OperationMiddleware
+        operationMiddleware: OperationMiddleware,
     ) {
         val input = operationShape.input.orElse(null)?.let { ctx.model.expectShape<StructureShape>(it) }
         val needsAccountIdMiddleware = input?.memberNames?.any { it.lowercase() == "accountid" } ?: false
         if (needsAccountIdMiddleware) {
             operationMiddleware.prependMiddleware(
                 operationShape,
-                GlacierAccountIdMiddleware(ctx.model, ctx.symbolProvider)
+                GlacierAccountIdMiddleware(ctx.model, ctx.symbolProvider),
             )
         }
     }

@@ -30,13 +30,13 @@ class AmzSdkRequestMiddleware(
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         writer.write(
             "\$N<\$N, \$N>(maxRetries: config.retryStrategyOptions.maxRetriesBase)",
             AWSClientRuntimeTypes.Core.AmzSdkRequestMiddleware,
             MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op),
-            MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
+            MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op),
         )
     }
 }

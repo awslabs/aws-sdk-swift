@@ -16,22 +16,24 @@ import software.amazon.smithy.swift.codegen.model.expectShape
  * See https://docs.aws.amazon.com/amazonglacier/latest/dev/api-common-request-headers.html
  */
 class GlacierAddVersionHeader : SwiftIntegration {
-
-    override fun enabledForService(model: Model, settings: SwiftSettings) =
-        model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ) = model.expectShape<ServiceShape>(settings.service).sdkId.equals("Glacier", ignoreCase = true)
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
         operationShape: OperationShape,
-        operationMiddleware: OperationMiddleware
+        operationMiddleware: OperationMiddleware,
     ) {
         operationMiddleware.appendMiddleware(
             operationShape,
             MutateHeadersMiddleware(
-                extraHeaders = mapOf(
-                    "X-Amz-Glacier-Version" to ctx.model.expectShape<ServiceShape>(ctx.settings.service).version
-                )
-            )
+                extraHeaders =
+                    mapOf(
+                        "X-Amz-Glacier-Version" to ctx.model.expectShape<ServiceShape>(ctx.settings.service).version,
+                    ),
+            ),
         )
     }
 }

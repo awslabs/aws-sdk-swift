@@ -30,7 +30,10 @@ extension GetBucketLocationOutput {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
         val generator = RestXMLProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)

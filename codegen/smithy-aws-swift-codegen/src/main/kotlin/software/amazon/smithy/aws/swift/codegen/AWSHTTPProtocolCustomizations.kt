@@ -23,8 +23,12 @@ import software.amazon.smithy.swift.codegen.model.isInputEventStream
 import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 
 abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations() {
-
-    override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
+    override fun renderContextAttributes(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        serviceShape: ServiceShape,
+        op: OperationShape,
+    ) {
         // FIXME handle indentation properly or do swift formatting after the fact
         val config = AWSServiceConfig(writer, ctx)
         if (config.serviceSpecificConfigProperties().any { it.memberName == "accountIdEndpointMode" }) {
@@ -45,7 +49,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     override fun renderEventStreamAttributes(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
             writer.write("\$N(context: context)", AWSSDKEventStreamsAuthTypes.setupBidirectionalStreaming)
@@ -67,10 +71,8 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     override fun serviceClient(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        serviceConfig: ServiceConfig
-    ): HttpProtocolServiceClient {
-        return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
-    }
+        serviceConfig: ServiceConfig,
+    ): HttpProtocolServiceClient = AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
 
     override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware
 
