@@ -19,20 +19,26 @@ class AWSAuthUtilsTests {
         val sigV4Trait = SigV4Trait.builder().name("ExampleService").build()
         val authList = listOf(HttpBasicAuthTrait().toShapeId(), sigV4Trait.toShapeId())
 
-        val serviceShape = ServiceShape.builder()
-            .id("com.test#Example")
-            .version("1.0")
-            .addTrait(sigV4Trait)
-            .build()
-        val operationShape = OperationShape.builder()
-            .id("com.test#ExampleOperation")
-            .addTrait(UnsignedPayloadTrait())
-            .addTrait(AuthTrait(authList))
-            .build()
-        val model = Model.builder()
-            .addShape(serviceShape)
-            .addShape(operationShape)
-            .build()
+        val serviceShape =
+            ServiceShape
+                .builder()
+                .id("com.test#Example")
+                .version("1.0")
+                .addTrait(sigV4Trait)
+                .build()
+        val operationShape =
+            OperationShape
+                .builder()
+                .id("com.test#ExampleOperation")
+                .addTrait(UnsignedPayloadTrait())
+                .addTrait(AuthTrait(authList))
+                .build()
+        val model =
+            Model
+                .builder()
+                .addShape(serviceShape)
+                .addShape(operationShape)
+                .build()
 
         val hasAuthScheme = AWSAuthUtils.hasSigV4AuthScheme(model, serviceShape, operationShape)
         assertTrue(hasAuthScheme)
@@ -40,23 +46,31 @@ class AWSAuthUtilsTests {
 
     @Test
     fun `service has SigV4trait but operation does not have auth`() {
-        val serviceShape = ServiceShape.builder()
-            .id("com.test#Example")
-            .version("1.0")
-            .addTrait(SigV4Trait.builder().name("ExampleService").build())
-            .build()
-        val outputShape = StructureShape.builder()
-            .id("com.test#ExampleOutput")
-            .build()
-        val operationShape = OperationShape.builder()
-            .id("com.test#ExampleOperation")
-            .output { ShapeId.from("com.test#ExampleOutput") }
-            .build()
-        val model = Model.builder()
-            .addShape(serviceShape)
-            .addShape(operationShape)
-            .addShape(outputShape)
-            .build()
+        val serviceShape =
+            ServiceShape
+                .builder()
+                .id("com.test#Example")
+                .version("1.0")
+                .addTrait(SigV4Trait.builder().name("ExampleService").build())
+                .build()
+        val outputShape =
+            StructureShape
+                .builder()
+                .id("com.test#ExampleOutput")
+                .build()
+        val operationShape =
+            OperationShape
+                .builder()
+                .id("com.test#ExampleOperation")
+                .output { ShapeId.from("com.test#ExampleOutput") }
+                .build()
+        val model =
+            Model
+                .builder()
+                .addShape(serviceShape)
+                .addShape(operationShape)
+                .addShape(outputShape)
+                .build()
 
         val hasAuthScheme = AWSAuthUtils.hasSigV4AuthScheme(model, serviceShape, operationShape)
         assertFalse(hasAuthScheme)

@@ -20,7 +20,7 @@ class InputTypeGETQueryItemMiddleware(
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol,
     val inputShape: Shape,
-    private val writer: SwiftWriter
+    private val writer: SwiftWriter,
 ) : Middleware(writer, inputSymbol) {
     override val typeName = "${inputSymbol.name}GETQueryItemMiddleware"
 
@@ -73,11 +73,12 @@ class InputTypeGETQueryItemMiddleware(
         }
     }
 
-    private fun rawValueIfNeeded(shapeId: ShapeId): String {
-        return if (ctx.model.expectShape(shapeId).isEnum) ".rawValue" else ""
-    }
+    private fun rawValueIfNeeded(shapeId: ShapeId): String = if (ctx.model.expectShape(shapeId).isEnum) ".rawValue" else ""
 
-    private fun writeRenderItem(queryKey: String, queryValue: String) {
+    private fun writeRenderItem(
+        queryKey: String,
+        queryValue: String,
+    ) {
         writer.write(
             "let queryItem = \$N(name: \$S.urlPercentEncoding(), value: \$N(\$L).urlPercentEncoding())",
             SmithyTypes.URIQueryItem,

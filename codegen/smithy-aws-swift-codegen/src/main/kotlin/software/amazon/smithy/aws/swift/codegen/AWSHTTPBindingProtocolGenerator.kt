@@ -26,7 +26,6 @@ import software.amazon.smithy.swift.codegen.testModuleName
 abstract class AWSHTTPBindingProtocolGenerator(
     customizations: HTTPProtocolCustomizable,
 ) : HTTPBindingProtocolGenerator(customizations) {
-
     override var serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSServiceError
 
     override val retryErrorInfoProviderSymbol: Symbol
@@ -41,8 +40,9 @@ abstract class AWSHTTPBindingProtocolGenerator(
     open val protocolTestTagsToIgnore: Set<String> = setOf()
 
     override val shouldRenderEncodableConformance = false
-    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
-        return HttpProtocolTestGenerator(
+
+    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int =
+        HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
             responseTestBuilder,
@@ -52,11 +52,8 @@ abstract class AWSHTTPBindingProtocolGenerator(
             protocolTestsToIgnore,
             protocolTestTagsToIgnore,
         ).generateProtocolTests() + renderEndpointsTests(ctx)
-    }
 
-    override fun generateSmokeTests(ctx: ProtocolGenerator.GenerationContext) {
-        return AWSSmokeTestGenerator(ctx).generateSmokeTests()
-    }
+    override fun generateSmokeTests(ctx: ProtocolGenerator.GenerationContext) = AWSSmokeTestGenerator(ctx).generateSmokeTests()
 
     fun renderEndpointsTests(ctx: ProtocolGenerator.GenerationContext): Int {
         val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
@@ -69,21 +66,27 @@ abstract class AWSHTTPBindingProtocolGenerator(
             }
 
             ctx.delegator.useFileWriter("Tests/${ctx.settings.testModuleName}/EndpointResolverTest.swift") { swiftWriter ->
-                testCount = + EndpointTestGenerator(testsTrait, ruleSet, ctx).render(swiftWriter)
+                testCount = +EndpointTestGenerator(testsTrait, ruleSet, ctx).render(swiftWriter)
             }
         }
 
         return testCount
     }
 
-    override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
+    override fun addProtocolSpecificMiddleware(
+        ctx: ProtocolGenerator.GenerationContext,
+        operation: OperationShape,
+    ) {
         operationMiddleware.appendMiddleware(
             operation,
-            AWSOperationEndpointResolverMiddleware(ctx, customizations.endpointMiddlewareSymbol)
+            AWSOperationEndpointResolverMiddleware(ctx, customizations.endpointMiddlewareSymbol),
         )
     }
 
-    override fun addUserAgentMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
+    override fun addUserAgentMiddleware(
+        ctx: ProtocolGenerator.GenerationContext,
+        operation: OperationShape,
+    ) {
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
     }
 }

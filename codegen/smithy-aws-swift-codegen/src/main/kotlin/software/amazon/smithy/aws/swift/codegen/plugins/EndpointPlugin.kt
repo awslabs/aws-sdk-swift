@@ -10,14 +10,16 @@ import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
-class EndpointPlugin(private val serviceConfig: ServiceConfig) : Plugin {
-
+class EndpointPlugin(
+    private val serviceConfig: ServiceConfig,
+) : Plugin {
     private val pluginName: String = "${serviceConfig.clientName.toUpperCamelCase()}EndpointPlugin"
 
     override val className: Symbol
-        get() = buildSymbol {
-            this.name = pluginName
-        }
+        get() =
+            buildSymbol {
+                this.name = pluginName
+            }
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         writer.openBlock("public class \$L: \$N {", "}", pluginName, ClientRuntimeTypes.Core.Plugin) {

@@ -15,16 +15,22 @@ import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.utils.AuthUtils
 
-class DefaultAWSAuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
+class DefaultAWSAuthSchemePlugin(
+    private val serviceConfig: ServiceConfig,
+) : Plugin {
     override val className: Symbol
-        get() = buildSymbol {
-            this.name = "DefaultAWSAuthSchemePlugin"
-        }
+        get() =
+            buildSymbol {
+                this.name = "DefaultAWSAuthSchemePlugin"
+            }
 
     override val isDefault: Boolean
         get() = true
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+    override fun render(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+    ) {
         writer.openBlock("public class DefaultAWSAuthSchemePlugin: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("")
             writer.write("public init() {}")
