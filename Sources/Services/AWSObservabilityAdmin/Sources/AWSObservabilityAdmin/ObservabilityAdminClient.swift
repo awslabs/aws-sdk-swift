@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ObservabilityAdminClient: ClientRuntime.Client {
     public static let clientName = "ObservabilityAdminClient"
-    public static let version = "1.2.12"
+    public static let version = "1.2.13"
     let client: ClientRuntime.SdkHttpClient
     let config: ObservabilityAdminClient.ObservabilityAdminClientConfiguration
     let serviceName = "ObservabilityAdmin"
