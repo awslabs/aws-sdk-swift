@@ -21,7 +21,10 @@ class EndpointPlugin(
                 this.name = pluginName
             }
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+    override fun render(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+    ) {
         writer.openBlock("public class \$L: \$N {", "}", pluginName, ClientRuntimeTypes.Core.Plugin) {
             writer.write("private var endpointResolver: \$L", EndpointTypes.EndpointResolver)
             writer.write("")

@@ -38,21 +38,27 @@ class DefaultAWSAuthSchemePlugin(
             writer.openBlock(
                 "public func configureClient(clientConfiguration: inout \$L) throws {",
                 "}",
-                serviceConfig.typeName
+                serviceConfig.typeName,
             ) {
-                writer.write("clientConfiguration.authSchemeResolver = \$L", "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()")
+                writer.write(
+                    "clientConfiguration.authSchemeResolver = \$L",
+                    "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+                )
                 writer.write("clientConfiguration.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
-                writer.write("clientConfiguration.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider)
+                writer.write(
+                    "clientConfiguration.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()",
+                    AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                )
                 if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                     writer.write(
                         "clientConfiguration.bearerTokenIdentityResolver = try \$N()",
-                        AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain
+                        AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
                     )
                 } else {
                     writer.write(
                         "clientConfiguration.bearerTokenIdentityResolver = \$N(token: \$N(token: \"\"))",
                         SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
-                        SmithyIdentityTypes.BearerTokenIdentity
+                        SmithyIdentityTypes.BearerTokenIdentity,
                     )
                 }
             }
