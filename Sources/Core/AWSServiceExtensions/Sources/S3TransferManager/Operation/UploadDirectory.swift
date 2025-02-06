@@ -155,7 +155,7 @@ public extension S3TransferManager {
         let directlyNestedURLs = try FileManager.default.contentsOfDirectory(
             at: resolvedDirURL,
             includingPropertiesForKeys: [.isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey],
-            options: [.producesRelativePathURLs]
+            options: isSymlink ? [.producesRelativePathURLs] : []
         )
         return isSymlink ? directlyNestedURLs.map {
             // Use original directory URL as base URL (prefix) to the relative path of newly fetched nested URL.
@@ -223,6 +223,7 @@ public extension S3TransferManager {
             throw S3TMUploadDirectoryError.FailedToGetCanonicalPathForURL(url: url)
         }
         var relativePath = fileCanonicalPath.removePrefix(dirCanonicalPath)
+        if relativePath.hasPrefix("/") { relativePath = relativePath.removePrefix("/") }
         // Step 4: if the s3Delimiter isn't the system default file separator, replace default with the s3Delimiter in the relative path from step 3.
         if (input.s3Delimiter != defaultPathSeparator()) {
             relativePath = relativePath.replacingOccurrences(of: defaultPathSeparator(), with: input.s3Delimiter)
