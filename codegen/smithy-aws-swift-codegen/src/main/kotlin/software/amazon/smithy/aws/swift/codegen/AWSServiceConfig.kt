@@ -22,9 +22,10 @@ import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 const val ENDPOINT_RESOLVER = "endpointResolver"
 const val AUTH_SCHEME_RESOLVER = "authSchemeResolver"
 
-class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.GenerationContext) :
-    ServiceConfig(writer, ctx.symbolProvider.toSymbol(ctx.service).name, ctx.service.sdkId) {
-
+class AWSServiceConfig(
+    writer: SwiftWriter,
+    val ctx: ProtocolGenerator.GenerationContext,
+) : ServiceConfig(writer, ctx.symbolProvider.toSymbol(ctx.service).name, ctx.service.sdkId) {
     override fun serviceSpecificConfigProperties(): List<ConfigField> {
         var configs = mutableListOf<ConfigField>()
 
@@ -41,10 +42,9 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
     }
 }
 
-fun ShapeType.toSwiftType(): Symbol {
-    return when (this) {
+fun ShapeType.toSwiftType(): Symbol =
+    when (this) {
         ShapeType.STRING -> SwiftTypes.String
         ShapeType.BOOLEAN -> SwiftTypes.Bool
         else -> throw IllegalArgumentException("Unsupported shape type: $this")
     }
-}

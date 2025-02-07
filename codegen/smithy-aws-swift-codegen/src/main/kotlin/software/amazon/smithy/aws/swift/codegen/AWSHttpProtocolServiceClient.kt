@@ -30,7 +30,7 @@ import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 class AWSHttpProtocolServiceClient(
     private val ctx: ProtocolGenerator.GenerationContext,
     private val writer: SwiftWriter,
-    private val serviceConfig: ServiceConfig
+    private val serviceConfig: ServiceConfig,
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
         writer.openBlock("public convenience init(region: \$N) throws {", "}", SwiftTypes.String) {
@@ -44,14 +44,18 @@ class AWSHttpProtocolServiceClient(
         }
     }
 
-    override fun overrideConfigProperties(properties: List<ConfigProperty>): List<ConfigProperty> {
-        return properties.mapNotNull { property ->
+    override fun overrideConfigProperties(properties: List<ConfigProperty>): List<ConfigProperty> =
+        properties.mapNotNull { property ->
             when (property.name) {
                 "authSchemeResolver" -> {
                     ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
                 "authSchemes" -> {
-                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), AWSAuthUtils(ctx).authSchemesDefaultProvider)
+                    ConfigProperty(
+                        "authSchemes",
+                        SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
+                        AWSAuthUtils(ctx).authSchemesDefaultProvider,
+                    )
                 }
                 "bearerTokenIdentityResolver" -> {
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
@@ -59,7 +63,7 @@ class AWSHttpProtocolServiceClient(
                             "bearerTokenIdentityResolver",
                             SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
                             { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
-                            true
+                            true,
                         )
                     } else {
                         property
@@ -70,7 +74,7 @@ class AWSHttpProtocolServiceClient(
                         "retryStrategyOptions",
                         SmithyRetriesAPITypes.RetryStrategyOptions,
                         { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)") },
-                        true
+                        true,
                     )
                 }
                 "clientLogMode" -> {
@@ -112,13 +116,12 @@ class AWSHttpProtocolServiceClient(
                                 AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
                             )
                         },
-                        true
+                        true,
                     )
                 }
                 else -> property
             }
         }
-    }
 
     override fun renderCustomConfigInitializer(properties: List<ConfigProperty>) {
         renderRegionConfigInitializer(properties)
@@ -173,9 +176,10 @@ class AWSHttpProtocolServiceClient(
         writer.write("")
     }
 
-    private val authSchemeResolverDefaultProvider = DefaultProvider(
-        { writer.format("Default\$LAuthSchemeResolver()", AuthSchemeResolverGenerator.getSdkId(ctx)) },
-        false,
-        false
-    )
+    private val authSchemeResolverDefaultProvider =
+        DefaultProvider(
+            { writer.format("Default\$LAuthSchemeResolver()", AuthSchemeResolverGenerator.getSdkId(ctx)) },
+            false,
+            false,
+        )
 }

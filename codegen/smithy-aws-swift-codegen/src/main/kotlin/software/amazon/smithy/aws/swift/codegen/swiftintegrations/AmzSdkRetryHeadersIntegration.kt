@@ -19,7 +19,7 @@ class AmzSdkRetryHeadersIntegration : SwiftIntegration {
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
         operationShape: OperationShape,
-        operationMiddleware: OperationMiddleware
+        operationMiddleware: OperationMiddleware,
     ) {
         operationMiddleware.appendMiddleware(operationShape, AmzSdkInvocationIdMiddleware(ctx.model, ctx.symbolProvider))
         operationMiddleware.appendMiddleware(operationShape, AmzSdkRequestMiddleware(ctx.model, ctx.symbolProvider))

@@ -839,15 +839,52 @@ extension TranscribeStreamingClientTypes {
 
 extension TranscribeStreamingClientTypes {
 
+    public enum MedicalScribeNoteTemplate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case girpp
+        case historyAndPhysical
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MedicalScribeNoteTemplate] {
+            return [
+                .girpp,
+                .historyAndPhysical
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .girpp: return "GIRPP"
+            case .historyAndPhysical: return "HISTORY_AND_PHYSICAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+
     /// The output configuration for aggregated transcript and clinical note generation.
     public struct ClinicalNoteGenerationSettings: Swift.Sendable {
+        /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.
+        ///
+        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
+        ///
+        /// * GIRPP: Provides summaries based on the patients progress toward goals. Sections include Goal, Intervention, Response, Progress, and Plan.
+        public var noteTemplate: TranscribeStreamingClientTypes.MedicalScribeNoteTemplate?
         /// The name of the Amazon S3 bucket where you want the output of Amazon Web Services HealthScribe post-stream analytics stored. Don't include the S3:// prefix of the specified bucket. HealthScribe outputs transcript and clinical note files under the prefix: S3://$output-bucket-name/healthscribe-streaming/session-id/post-stream-analytics/clinical-notes The role ResourceAccessRoleArn specified in the MedicalScribeConfigurationEvent must have permission to use the specified location. You can change Amazon S3 permissions using the [ Amazon Web Services Management Console ](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles ](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user) .
         /// This member is required.
         public var outputBucketName: Swift.String?
 
         public init(
+            noteTemplate: TranscribeStreamingClientTypes.MedicalScribeNoteTemplate? = nil,
             outputBucketName: Swift.String? = nil
         ) {
+            self.noteTemplate = noteTemplate
             self.outputBucketName = outputBucketName
         }
     }
@@ -3650,6 +3687,7 @@ extension TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings {
 
     static func write(value: TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["NoteTemplate"].write(value.noteTemplate)
         try writer["OutputBucketName"].write(value.outputBucketName)
     }
 
@@ -3657,6 +3695,7 @@ extension TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TranscribeStreamingClientTypes.ClinicalNoteGenerationSettings()
         value.outputBucketName = try reader["OutputBucketName"].readIfPresent() ?? ""
+        value.noteTemplate = try reader["NoteTemplate"].readIfPresent()
         return value
     }
 }

@@ -3475,7 +3475,7 @@ extension EKSClientTypes {
         public var maxUnavailable: Swift.Int?
         /// The maximum percentage of nodes unavailable during a version update. This percentage of nodes are updated in parallel, up to 100 nodes at once. This value or maxUnavailable is required to have a value.
         public var maxUnavailablePercentage: Swift.Int?
-        /// The configuration for the behavior to follow during a node group version update of this managed node group. You choose between two possible strategies for replacing nodes during an [UpdateNodegroupVersion](https://docs.aws.amazon.com/latest/APIReference/API_UpdateNodegroupVersion.html) action. An Amazon EKS managed node group updates by replacing nodes with new nodes of newer AMI versions in parallel. The update strategy changes the managed node update behavior of the managed node group for each quantity. The default strategy has guardrails to protect you from misconfiguration and launches the new instances first, before terminating the old instances. The minimal strategy removes the guardrails and terminates the old instances before launching the new instances. This minimal strategy is useful in scenarios where you are constrained to resources or costs (for example, with hardware accelerators such as GPUs).
+        /// The configuration for the behavior to follow during a node group version update of this managed node group. You choose between two possible strategies for replacing nodes during an [UpdateNodegroupVersion](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateNodegroupVersion.html) action. An Amazon EKS managed node group updates by replacing nodes with new nodes of newer AMI versions in parallel. The update strategy changes the managed node update behavior of the managed node group for each quantity. The default strategy has guardrails to protect you from misconfiguration and launches the new instances first, before terminating the old instances. The minimal strategy removes the guardrails and terminates the old instances before launching the new instances. This minimal strategy is useful in scenarios where you are constrained to resources or costs (for example, with hardware accelerators such as GPUs).
         public var updateStrategy: EKSClientTypes.NodegroupUpdateStrategies?
 
         public init(
@@ -4492,6 +4492,38 @@ extension EKSClientTypes {
     }
 }
 
+extension EKSClientTypes {
+
+    public enum VersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extendedSupport
+        case standardSupport
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VersionStatus] {
+            return [
+                .extendedSupport,
+                .standardSupport,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .extendedSupport: return "EXTENDED_SUPPORT"
+            case .standardSupport: return "STANDARD_SUPPORT"
+            case .unsupported: return "UNSUPPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeClusterVersionsInput: Swift.Sendable {
     /// The type of cluster to filter versions by.
     public var clusterType: Swift.String?
@@ -4505,8 +4537,11 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Pagination token for the next set of results.
     public var nextToken: Swift.String?
-    /// Filter versions by their current status.
+    /// This field is deprecated. Use versionStatus instead, as that field matches for input and output of this action. Filter versions by their current status.
+    @available(*, deprecated, message: "status has been replaced by versionStatus API deprecated since 2025-02-15")
     public var status: EKSClientTypes.ClusterVersionStatus?
+    /// Filter versions by their current status.
+    public var versionStatus: EKSClientTypes.VersionStatus?
 
     public init(
         clusterType: Swift.String? = nil,
@@ -4515,7 +4550,8 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
         includeAll: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        status: EKSClientTypes.ClusterVersionStatus? = nil
+        status: EKSClientTypes.ClusterVersionStatus? = nil,
+        versionStatus: EKSClientTypes.VersionStatus? = nil
     ) {
         self.clusterType = clusterType
         self.clusterVersions = clusterVersions
@@ -4524,6 +4560,7 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
+        self.versionStatus = versionStatus
     }
 }
 
@@ -4547,8 +4584,10 @@ extension EKSClientTypes {
         public var kubernetesPatchVersion: Swift.String?
         /// The release date of this cluster version.
         public var releaseDate: Foundation.Date?
-        /// Current status of this cluster version.
+        /// This field is deprecated. Use versionStatus instead, as that field matches for input and output of this action. Current status of this cluster version.
         public var status: EKSClientTypes.ClusterVersionStatus?
+        /// Current status of this cluster version.
+        public var versionStatus: EKSClientTypes.VersionStatus?
 
         public init(
             clusterType: Swift.String? = nil,
@@ -4559,7 +4598,8 @@ extension EKSClientTypes {
             endOfStandardSupportDate: Foundation.Date? = nil,
             kubernetesPatchVersion: Swift.String? = nil,
             releaseDate: Foundation.Date? = nil,
-            status: EKSClientTypes.ClusterVersionStatus? = nil
+            status: EKSClientTypes.ClusterVersionStatus? = nil,
+            versionStatus: EKSClientTypes.VersionStatus? = nil
         ) {
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
@@ -4570,6 +4610,7 @@ extension EKSClientTypes {
             self.kubernetesPatchVersion = kubernetesPatchVersion
             self.releaseDate = releaseDate
             self.status = status
+            self.versionStatus = versionStatus
         }
     }
 }
@@ -5711,7 +5752,7 @@ public struct ListPodIdentityAssociationsInput: Swift.Sendable {
 
 extension EKSClientTypes {
 
-    /// The summarized description of the association. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation]:
+    /// The summarized description of the association. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation](https://docs.aws.amazon.com/eks/latest/APIReference/API_PodIdentityAssociation.html):
     ///
     /// * The IAM role: roleArn
     ///
@@ -5753,7 +5794,7 @@ extension EKSClientTypes {
 }
 
 public struct ListPodIdentityAssociationsOutput: Swift.Sendable {
-    /// The list of summarized descriptions of the associations that are in the cluster and match any filters that you provided. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation]:
+    /// The list of summarized descriptions of the associations that are in the cluster and match any filters that you provided. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation](https://docs.aws.amazon.com/eks/latest/APIReference/API_PodIdentityAssociation.html):
     ///
     /// * The IAM role: roleArn
     ///
@@ -6822,6 +6863,10 @@ extension DescribeClusterVersionsInput {
         if let includeAll = value.includeAll {
             let includeAllQueryItem = Smithy.URIQueryItem(name: "includeAll".urlPercentEncoding(), value: Swift.String(includeAll).urlPercentEncoding())
             items.append(includeAllQueryItem)
+        }
+        if let versionStatus = value.versionStatus {
+            let versionStatusQueryItem = Smithy.URIQueryItem(name: "versionStatus".urlPercentEncoding(), value: Swift.String(versionStatus.rawValue).urlPercentEncoding())
+            items.append(versionStatusQueryItem)
         }
         if let defaultOnly = value.defaultOnly {
             let defaultOnlyQueryItem = Smithy.URIQueryItem(name: "defaultOnly".urlPercentEncoding(), value: Swift.String(defaultOnly).urlPercentEncoding())
@@ -10448,6 +10493,7 @@ extension EKSClientTypes.ClusterVersionInformation {
         value.endOfStandardSupportDate = try reader["endOfStandardSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endOfExtendedSupportDate = try reader["endOfExtendedSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["status"].readIfPresent()
+        value.versionStatus = try reader["versionStatus"].readIfPresent()
         value.kubernetesPatchVersion = try reader["kubernetesPatchVersion"].readIfPresent()
         return value
     }

@@ -20,9 +20,13 @@ import software.amazon.smithy.swift.codegen.model.shapes
 import kotlin.jvm.optionals.getOrNull
 
 class FlexibleChecksumsRequestIntegration : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean = model
-        .shapes<OperationShape>()
-        .any { it.hasTrait(HttpChecksumTrait::class.java) }
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean =
+        model
+            .shapes<OperationShape>()
+            .any { it.hasTrait(HttpChecksumTrait::class.java) }
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
@@ -41,12 +45,15 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
             In the case that `requestAlgorithmMember` is not modeled but `requestChecksumRequired` is `true`,
               SDK clients use default checksum algorithm: CRC32.
          */
-        val useFlexibleChecksum = httpChecksumTrait != null && (
-            (
-                (httpChecksumTrait.requestAlgorithmMember?.isPresent ?: false) &&
-                    (input?.memberNames?.any { it == httpChecksumTrait.requestAlgorithmMember.get() } == true)
-                ) || (httpChecksumTrait.isRequestChecksumRequired)
-            )
+        val useFlexibleChecksum =
+            httpChecksumTrait != null &&
+                (
+                    (
+                        (httpChecksumTrait.requestAlgorithmMember?.isPresent ?: false) &&
+                            (input?.memberNames?.any { it == httpChecksumTrait.requestAlgorithmMember.get() } == true)
+                    ) ||
+                        (httpChecksumTrait.isRequestChecksumRequired)
+                )
 
         if (useFlexibleChecksum) {
             operationMiddleware.appendMiddleware(operationShape, FlexibleChecksumRequestMiddleware)
@@ -54,8 +61,7 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
     }
 }
 
-fun String.lowercaseFirstLetter(): String =
-    takeIf { it.isNotEmpty() }?.let { it.first().lowercase() + it.substring(1) } ?: this
+fun String.lowercaseFirstLetter(): String = takeIf { it.isNotEmpty() }?.let { it.first().lowercase() + it.substring(1) } ?: this
 
 private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
     override val name = "FlexibleChecksumRequestMiddleware"
@@ -63,20 +69,31 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
-        val algorithmMemberName = httpChecksumTrait?.requestAlgorithmMember?.getOrNull()?.lowercaseFirstLetter()?.let {
-            "input.$it?.rawValue"
-        } ?: "nil"
-        val requestChecksumIsRequired = httpChecksumTrait?.isRequestChecksumRequired
-        val algoHeaderName = if (httpChecksumTrait?.requestAlgorithmMember?.getOrNull() != null) {
-            ctx.model.expectShape(op.inputShape).getMember(httpChecksumTrait.requestAlgorithmMember.get())?.getOrNull()?.getTrait<HttpHeaderTrait>()?.value?.let {
-                "\"$it\""
+        val algorithmMemberName =
+            httpChecksumTrait?.requestAlgorithmMember?.getOrNull()?.lowercaseFirstLetter()?.let {
+                "input.$it?.rawValue"
             } ?: "nil"
-        } else { "nil" }
+        val requestChecksumIsRequired = httpChecksumTrait?.isRequestChecksumRequired
+        val algoHeaderName =
+            if (httpChecksumTrait?.requestAlgorithmMember?.getOrNull() != null) {
+                ctx.model
+                    .expectShape(
+                        op.inputShape,
+                    ).getMember(httpChecksumTrait.requestAlgorithmMember.get())
+                    ?.getOrNull()
+                    ?.getTrait<HttpHeaderTrait>()
+                    ?.value
+                    ?.let {
+                        "\"$it\""
+                    } ?: "nil"
+            } else {
+                "nil"
+            }
 
         writer.write(
             "\$N<\$L, \$L>(requestChecksumRequired: \$L, checksumAlgorithm: \$L, checksumAlgoHeaderName: \$L)",
@@ -85,7 +102,7 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
             outputShapeName,
             requestChecksumIsRequired,
             algorithmMemberName,
-            algoHeaderName
+            algoHeaderName,
         )
     }
 }

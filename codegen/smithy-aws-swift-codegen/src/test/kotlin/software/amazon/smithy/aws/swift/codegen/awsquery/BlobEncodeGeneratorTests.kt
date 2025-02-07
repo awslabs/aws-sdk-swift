@@ -38,7 +38,10 @@ extension BlobInputParamsInput {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AWSQueryProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)

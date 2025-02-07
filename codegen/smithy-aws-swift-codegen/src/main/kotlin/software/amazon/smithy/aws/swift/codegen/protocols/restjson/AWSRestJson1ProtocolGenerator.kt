@@ -11,10 +11,11 @@ import software.amazon.smithy.model.shapes.ShapeId
 class AWSRestJson1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestJSONCustomizations()) {
     override val defaultContentType = "application/json"
     override val protocol: ShapeId = RestJson1Trait.ID
-    override val protocolTestsToIgnore = setOf(
-        "SDKAppliedContentEncoding_restJson1",
-        "SDKAppendedGzipAfterProvidedEncoding_restJson1",
-        "RestJsonClientPopulatesDefaultValuesInInput", // TODO: broken in Smithy 1.53.0
-        "RestJsonClientPopulatesDefaultsValuesWhenMissingInResponse", // TODO: broken in Smithy 1.53.0
-    )
+    override val protocolTestsToIgnore =
+        setOf(
+            "SDKAppliedContentEncoding_restJson1",
+            "SDKAppendedGzipAfterProvidedEncoding_restJson1",
+            "RestJsonClientPopulatesDefaultValuesInInput", // TODO: broken in Smithy 1.53.0
+            "RestJsonClientPopulatesDefaultsValuesWhenMissingInResponse", // TODO: broken in Smithy 1.53.0
+        )
 }

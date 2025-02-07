@@ -13,7 +13,10 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 class Route53InvalidBatchErrorIntegration : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean {
 //        return model.expectShape<ServiceShape>(settings.service).isRoute53
         return false
     }
@@ -21,20 +24,25 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     override val sectionWriters: List<SectionWriterBinding>
         get() = emptyList()
 
-    private val httpResponseBindingErrorGenerator = SectionWriter { writer, previousCode ->
-        val operationErrorName = writer.getContext("operationErrorName") as String
-        if (operationErrorName == "ChangeResourceRecordSetsOutputError") {
-            writer.openBlock("if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {", "}") {
-                writer.openBlock("return InvalidChangeBatch(", ")") {
-                    writer.write("customError: customBatchError,")
-                    writer.write("httpResponse: httpResponse")
+    private val httpResponseBindingErrorGenerator =
+        SectionWriter { writer, previousCode ->
+            val operationErrorName = writer.getContext("operationErrorName") as String
+            if (operationErrorName == "ChangeResourceRecordSetsOutputError") {
+                writer.openBlock("if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {", "}") {
+                    writer.openBlock("return InvalidChangeBatch(", ")") {
+                        writer.write("customError: customBatchError,")
+                        writer.write("httpResponse: httpResponse")
+                    }
                 }
             }
+            writer.write(previousCode)
         }
-        writer.write(previousCode)
-    }
 
-    override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(
+        ctx: SwiftCodegenContext,
+        protocolGenerationContext: ProtocolGenerator.GenerationContext,
+        delegator: SwiftDelegator,
+    ) {
         val filename = ModelFileUtils.filename(ctx.settings, "ChangeResourceRecordSetsOutputError+Customization")
         delegator.useFileWriter(filename) { writer ->
             renderCustomInvalidBatchError(writer)
@@ -77,11 +85,16 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
                 writer.write("var value = CustomInvalidBatchError()")
                 writer.write("value.requestID = try reader[\"RequestId\"].readIfPresent()")
                 writer.write("value.message = try reader[\"Message\"].readIfPresent()")
-                writer.write("value.messages = try reader[\"Messages\"].readListIfPresent(memberReadingClosure: Message.readingClosure(from:), memberNodeInfo: \"Message\", isFlattened: false)?.compactMap(\\.message)")
+                writer.write(
+                    "value.messages = try reader[\"Messages\"].readListIfPresent(memberReadingClosure: Message.readingClosure(from:), memberNodeInfo: \"Message\", isFlattened: false)?.compactMap(\\.message)",
+                )
                 writer.write("return value")
             }
             writer.write("")
-            writer.openBlock("static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HTTPResponse) async throws -> CustomInvalidBatchError? {", "}") {
+            writer.openBlock(
+                "static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HTTPResponse) async throws -> CustomInvalidBatchError? {",
+                "}",
+            ) {
                 writer.write("guard let data = try await httpResponse.body.readData() else { return nil }")
                 writer.write("let reader = try \$N.from(data: data)", SmithyXMLTypes.Reader)
                 writer.write("return try Self.readingClosure(from: reader)")
