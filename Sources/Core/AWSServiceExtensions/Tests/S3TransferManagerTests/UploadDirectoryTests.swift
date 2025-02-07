@@ -18,12 +18,14 @@ class UploadDirectoryTests: S3TMTestCase {
                     |- d.txt
                 |- b.txt
             |- a.txt
+            |- symlinkToFileF
             |- symlinkToOutsideSourceDir
             |- symlinkToSourceDir
          |- outsideSource/
             |- c.txt
             |- e.txt
             |- symlinkToOutsideSourceDir
+         |- f.txt
      */
 
     // MARK: - getDirectlyNestedURLs tests.
@@ -37,16 +39,14 @@ class UploadDirectoryTests: S3TMTestCase {
      */
 
     func testGetDirectlyNestedURLsWithDirectoryURL() throws {
-        let bundleURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source")
-        let fetchedURLs = try UploadDirectoryTests.tm.getDirectlyNestedURLs(in: bundleURL, isSymlink: false)
-        // .standardizedFileURL for "nested" just adds a trailing slash at the end.
-        // For some reason FileManager:contentsOfDirectory returns trailing slash for directory URL when accessed via
-        //  concrete directory URL. The next test case that uses symlink URL doesn't need .standardizedFileURL call.
+        let sourceURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source")
+        let fetchedURLs = try UploadDirectoryTests.tm.getDirectlyNestedURLs(in: sourceURL, isSymlink: false)
         let expectedURLs: Set<URL> = [
-            URL(string: bundleURL.absoluteString.appendingPathComponent("nested"))!.standardizedFileURL,
-            URL(string: bundleURL.absoluteString.appendingPathComponent("a.txt"))!,
-            URL(string: bundleURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir"))!,
-            URL(string: bundleURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!
+            // .standardizedFileURL here just adds a trailing slash.
+            URL(string: sourceURL.absoluteString.appendingPathComponent("nested"))!.standardizedFileURL,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!
         ]
         // Ensure no duplicate URL was returned.
         guard fetchedURLs.count == Set(fetchedURLs).count else {
@@ -55,14 +55,16 @@ class UploadDirectoryTests: S3TMTestCase {
         XCTAssertEqual(Set(fetchedURLs), expectedURLs)
     }
 
-    func testGetDirectlyNestedURLsWithSymlinkURLThatPointsToDirectory() throws {
-        let bundleURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source/symlinkToSourceDir")
-        let fetchedURLs = try UploadDirectoryTests.tm.getDirectlyNestedURLs(in: bundleURL, isSymlink: true)
+    func testGetDirectlyNestedURLsWithSymlinkURLThatPointsToSourceDir() throws {
+        let sourceURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source/symlinkToSourceDir")
+        let fetchedURLs = try UploadDirectoryTests.tm.getDirectlyNestedURLs(in: sourceURL, isSymlink: true)
         let expectedURLs: Set<URL> = [
-            URL(string: bundleURL.absoluteString.appendingPathComponent("nested"))!,
-            URL(string: bundleURL.absoluteString.appendingPathComponent("a.txt"))!,
-            URL(string: bundleURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir"))!,
-            URL(string: bundleURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!
+            // .standardizedFileURL not needed for "nested" because sourceURL is symlink to a directory.
+            //  which makes returned URL not have trailing slash.
+            URL(string: sourceURL.absoluteString.appendingPathComponent("nested"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!
         ]
         // Ensure no duplicate URL was returned.
         guard fetchedURLs.count == Set(fetchedURLs).count else {
@@ -74,7 +76,7 @@ class UploadDirectoryTests: S3TMTestCase {
     // MARK: - getNestedFileURLs tests.
 
     /*
-         Expected results for getNestedFileURLs on source/ :
+         Expected results for getNestedFileURLs on source/ with recursive & followSymbolicLinks set to true :
          - source/nested/nested2/d.txt
          - source/nested/b.txt
          - source/a.txt
@@ -87,21 +89,91 @@ class UploadDirectoryTests: S3TMTestCase {
          - Nested regular file
          - Nested directory
          - Symlink to directory outside of source
-         - Symlink that causes infinite loop
+         - Symlink to file outside of source
+         - Symlinks that causes infinite loops
      */
-    func testGetNestedFileURLs() {
-        
+    func testGetNestedFileURLsRecursiveAndFollowSymlinks() throws {
+        let sourceURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source")
+        let fetchedURLs = try UploadDirectoryTests.tm.getNestedFileURLs(in: sourceURL, recursive: true, followSymbolicLinks: true)
+        let expectedURLs: Set<URL> = [
+            URL(string: sourceURL.absoluteString.appendingPathComponent("nested/nested2/d.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("nested/b.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir/c.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir/e.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToFileF"))!
+        ]
+        // Ensure no duplicate URL was returned.
+        guard fetchedURLs.count == Set(fetchedURLs).count else {
+            throw UploadDirectoryTestError.DuplicateFileURLsReturned
+        }
+        XCTAssertEqual(Set(fetchedURLs), expectedURLs)
+    }
+
+    /*
+         Expected results for getNestedFileURLs on source/ with only recursive set to true :
+         - source/nested/nested2/d.txt
+         - source/nested/b.txt
+         - source/a.txt
+     */
+    func testGetNestedFileURLsRecursiveOnly() throws {
+        let sourceURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source")
+        let fetchedURLs = try UploadDirectoryTests.tm.getNestedFileURLs(in: sourceURL, recursive: true, followSymbolicLinks: false)
+        let expectedURLs: Set<URL> = [
+            URL(string: sourceURL.absoluteString.appendingPathComponent("nested/nested2/d.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("nested/b.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!
+        ]
+        // Ensure no duplicate URL was returned.
+        guard fetchedURLs.count == Set(fetchedURLs).count else {
+            throw UploadDirectoryTestError.DuplicateFileURLsReturned
+        }
+        XCTAssertEqual(Set(fetchedURLs), expectedURLs)
+    }
+
+    /*
+         Expected results for getNestedFileURLs on source/ with only followSymbolicLinks set to true :
+         - source/a.txt
+         - source/symlinkToFileD
+     */
+    func testGetNestedFileURLsFollowSymlinksOnly() throws {
+        let sourceURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source")
+        let fetchedURLs = try UploadDirectoryTests.tm.getNestedFileURLs(in: sourceURL, recursive: false, followSymbolicLinks: true)
+        let expectedURLs: Set<URL> = [
+            URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToFileF"))!
+        ]
+        // Ensure no duplicate URL was returned.
+        guard fetchedURLs.count == Set(fetchedURLs).count else {
+            throw UploadDirectoryTestError.DuplicateFileURLsReturned
+        }
+        XCTAssertEqual(Set(fetchedURLs), expectedURLs)
+    }
+
+    /*
+         Expected results for getNestedFileURLs on source/ with neither option set to true :
+         - source/a.txt
+     */
+    func testGetNestedFileURLsNeitherOptionsSet() throws {
+        let sourceURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources/source")
+        let fetchedURLs = try UploadDirectoryTests.tm.getNestedFileURLs(in: sourceURL, recursive: false, followSymbolicLinks: false)
+        let expectedURLs: Set<URL> = [
+            URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!
+        ]
+        // Ensure no duplicate URL was returned.
+        guard fetchedURLs.count == Set(fetchedURLs).count else {
+            throw UploadDirectoryTestError.DuplicateFileURLsReturned
+        }
+        XCTAssertEqual(Set(fetchedURLs), expectedURLs)
     }
 
     // MARK: - getResolvedObjectKey tests.
 
     /*
-        Using:
-        - source/nested/nested2/d.txt (file URL)
-        - source/ (directory URL)
+        getResolvedObjectKey tests use 2 URLs below:
+        - File URL      :   source/nested/nested2/d.txt
+        - Directory URL :   source/
      */
-
-    // getResolvedObjectKey success cases.
 
     func testGetResolvedObjectKeyDefaultS3DelimiterNilPrefix() throws {
         let (fileURL, dirURL) = try getResolvedObjectKeyTestURLs()
@@ -136,8 +208,6 @@ class UploadDirectoryTests: S3TMTestCase {
         XCTAssertEqual(resolvedKey, expectedKey)
     }
 
-    // getResolvedObjectKey error cases.
-
     func testGetResolvedObjectKeyThrowsInvalidFileNameError() throws {
         let (fileURL, dirURL) = try getResolvedObjectKeyTestURLs()
         do {
@@ -148,7 +218,7 @@ class UploadDirectoryTests: S3TMTestCase {
         }
     }
 
-    // getResolvedObjectKey tests' helpers.
+    // Helpers for getResolvedObjectKey tests.
 
     private func getResolvedObjectKeyTestURLs() throws -> (fileURL: URL, dirURL: URL) {
         let bundleURL = Bundle.module.resourceURL!.appendingPathComponent("Resources/UploadDirectoryTestsResources")
