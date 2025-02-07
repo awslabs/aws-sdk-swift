@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PIClient: ClientRuntime.Client {
     public static let clientName = "PIClient"
-    public static let version = "1.2.13"
+    public static let version = "1.2.14"
     let client: ClientRuntime.SdkHttpClient
     let config: PIClient.PIClientConfiguration
     let serviceName = "PI"
@@ -592,7 +592,7 @@ extension PIClient {
 
     /// Performs the `GetDimensionKeyDetails` operation on the `PI` service.
     ///
-    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
+    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans.
     ///
     /// - Parameter GetDimensionKeyDetailsInput : [no documentation found]
     ///
