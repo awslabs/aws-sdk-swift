@@ -46,7 +46,8 @@ class UploadDirectoryTests: S3TMTestCase {
             URL(string: sourceURL.absoluteString.appendingPathComponent("nested"))!.standardizedFileURL,
             URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!,
             URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir"))!,
-            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToFileF"))!
         ]
         // Ensure no duplicate URL was returned.
         guard fetchedURLs.count == Set(fetchedURLs).count else {
@@ -64,7 +65,8 @@ class UploadDirectoryTests: S3TMTestCase {
             URL(string: sourceURL.absoluteString.appendingPathComponent("nested"))!,
             URL(string: sourceURL.absoluteString.appendingPathComponent("a.txt"))!,
             URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToOutsideSourceDir"))!,
-            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToSourceDir"))!,
+            URL(string: sourceURL.absoluteString.appendingPathComponent("symlinkToFileF"))!
         ]
         // Ensure no duplicate URL was returned.
         guard fetchedURLs.count == Set(fetchedURLs).count else {

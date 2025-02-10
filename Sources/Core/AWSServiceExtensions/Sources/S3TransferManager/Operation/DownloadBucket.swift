@@ -22,7 +22,7 @@ public extension S3TransferManager {
     func downloadBucket(input: DownloadBucketInput) throws -> Task<DownloadBucketOutput, Error> {
         return Task {
             let s3 = config.s3Client
-            try await validateOrCreateDestinationDirectory(input: input)
+            try validateOrCreateDestinationDirectory(input: input)
 
             let objects = try await fetchS3ObjectsUsingListObjectsV2Paginated(s3: s3, input: input)
             let objectKeyToURLMapping = try resolveAndCreateDestinationFileURLs(of: objects, input: input)
@@ -76,7 +76,7 @@ public extension S3TransferManager {
         }
     }
 
-    private func validateOrCreateDestinationDirectory(input: DownloadBucketInput) async throws {
+    internal func validateOrCreateDestinationDirectory(input: DownloadBucketInput) throws {
         if FileManager.default.fileExists(atPath: input.destination.path) {
             guard try input.destination.resourceValues(forKeys: [.isDirectoryKey]).isDirectory ?? false else {
                 throw S3TMDownloadBucketError.ProvidedDestinationIsNotADirectory
@@ -91,7 +91,7 @@ public extension S3TransferManager {
         }
     }
 
-    private func fetchS3ObjectsUsingListObjectsV2Paginated(
+    internal func fetchS3ObjectsUsingListObjectsV2Paginated(
         s3: S3Client,
         input: DownloadBucketInput
     ) async throws -> [S3ClientTypes.Object] {
@@ -109,7 +109,7 @@ public extension S3TransferManager {
         return objects
     }
 
-    private func resolveAndCreateDestinationFileURLs(
+    internal func resolveAndCreateDestinationFileURLs(
         of objects: [S3ClientTypes.Object],
         input: DownloadBucketInput
     ) throws -> [String: URL] {
@@ -135,7 +135,7 @@ public extension S3TransferManager {
             }
 
             // Create destination URL for the object.
-            let destinationURL = input.destination.appendingPathComponent(keyWithSystemPathSeparator)
+            let destinationURL = URL(string: input.destination.absoluteString.appendingPathComponent(keyWithSystemPathSeparator))!
             let destinationPath = destinationURL.absoluteString.replacingOccurrences(
                 of: "file://", with: ""
             )
@@ -156,7 +156,7 @@ public extension S3TransferManager {
         return objectKeyToURLMapping
     }
 
-    private func downloadSingleObject(
+    internal func downloadSingleObject(
         objectKeyToURL pair: (key: String, value: URL),
         input: DownloadBucketInput
     ) async throws {
@@ -184,9 +184,9 @@ public extension S3TransferManager {
         }
     }
 
-    private func filePathIsInsideDirectory(directoryURL: URL, filePath: String) -> Bool {
+    internal func filePathIsInsideDirectory(directoryURL: URL, filePath: String) -> Bool {
         // Get the file URL by appending the path to the directory URL.
-        let fileURL = directoryURL.appendingPathComponent(filePath)
+        let fileURL = URL(string: directoryURL.absoluteString.appendingPathComponent(filePath))!
 
         // Resolve the standardized paths for both the directory and file.
         let standardizedDirectoryPath = directoryURL.standardizedFileURL.path
@@ -196,7 +196,7 @@ public extension S3TransferManager {
         return standardizedFilePath.hasPrefix(standardizedDirectoryPath)
     }
 
-    private func createFile(at url: URL) throws {
+    internal func createFile(at url: URL) throws {
         let fileManager = FileManager.default
 
         // Get the directory path by deleting the last path component (the file name)
