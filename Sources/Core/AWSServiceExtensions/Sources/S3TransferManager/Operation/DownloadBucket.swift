@@ -25,7 +25,16 @@ public extension S3TransferManager {
             try validateOrCreateDestinationDirectory(input: input)
 
             let objects = try await fetchS3ObjectsUsingListObjectsV2Paginated(s3: s3, input: input)
-            let objectKeyToURLMapping = try resolveAndCreateDestinationFileURLs(of: objects, input: input)
+            let objectKeyToResolvedFileURLMap: [String: URL] = getFileURLsResolvedFromObjectKeys(
+                objects: objects,
+                destination: input.destination,
+                s3Prefix: input.s3Prefix,
+                s3Delimiter: input.s3Delimiter,
+                filter: input.filter
+            )
+            let objectKeyToCreatedFileURLMap: [String: URL] = try createDestinationFiles(
+                keyToResolvedURLMapping: objectKeyToResolvedFileURLMap
+            )
 
             let (successfulDownloadCount, failedDownloadCount) = try await withThrowingTaskGroup(
                 // Each child task returns the result of a single download object call.
@@ -34,7 +43,7 @@ public extension S3TransferManager {
                 returning: (successfulDownloadCount: Int, failedDownloadCount: Int).self
             ) { group in
                 // Add download object child tasks.
-                for pair in objectKeyToURLMapping {
+                for pair in objectKeyToCreatedFileURLMap {
                     group.addTask {
                         do {
                             try Task.checkCancellation()
@@ -109,51 +118,56 @@ public extension S3TransferManager {
         return objects
     }
 
-    internal func resolveAndCreateDestinationFileURLs(
-        of objects: [S3ClientTypes.Object],
-        input: DownloadBucketInput
-    ) throws -> [String: URL] {
-        var objectKeyToURLMapping: [String: URL] = [:]
-        // For each fetched object, resolve the destination URL, create file, & save the mapping.
-        for object in objects {
+    internal func getFileURLsResolvedFromObjectKeys(
+        objects: [S3ClientTypes.Object],
+        destination: URL,
+        s3Prefix: String? = nil,
+        s3Delimiter: String,
+        filter: (S3ClientTypes.Object) -> Bool
+    ) -> [String: URL] {
+        return Dictionary(uniqueKeysWithValues: objects.compactMap { object -> (String, URL)? in
             let originalKey = object.key!
-            // USe user-provided filter to skip objects.
-            // If key ends with "/" it's a 0-byte file used by S3 to simulate directory structure; skip that too.
-            if input.filter(object) || originalKey.hasSuffix("/") {
-               continue
+
+            // Use user-provided filter to skip objects.
+            // If key ends with delimiter it's a 0-byte file used by S3 to simulate directory structure; skip that too.
+            if filter(object) || originalKey.hasSuffix(s3Delimiter) {
+               return nil
             }
 
-            let keyWithoutPrefix = originalKey.removePrefix(input.s3Prefix ?? "")
+            let keyWithoutPrefix = originalKey.removePrefix(s3Prefix ?? "")
 
-            // Replace instances of input.s3Delimiter in keyWithoutPrefix with Mac/Linux system default
-            //      path separtor "/" if input.s3Delimiter isn't "/".
-            let keyWithSystemPathSeparator = input.s3Delimiter == defaultPathSeparator() ? keyWithoutPrefix : keyWithoutPrefix.replacingOccurrences(of: input.s3Delimiter, with: defaultPathSeparator())
+            // Replace instances of s3Delimiter in keyWithoutPrefix with Mac/Linux system default
+            //      path separtor "/" if s3Delimiter isn't "/".
+            let relativeFilePath = s3Delimiter == defaultPathSeparator() ? keyWithoutPrefix : keyWithoutPrefix.replacingOccurrences(of: s3Delimiter, with: defaultPathSeparator())
 
-            // If key escapes to parent directory, skip the object.
-            if (filePathIsInsideDirectory(directoryURL: input.destination, filePath: keyWithoutPrefix)) {
-                continue
+            // If relativeFilePath escapes destination directory, skip the object.
+            if (filePathEscapesDestination(filePath: relativeFilePath)) {
+                return nil
             }
 
-            // Create destination URL for the object.
-            let destinationURL = URL(string: input.destination.absoluteString.appendingPathComponent(keyWithSystemPathSeparator))!
-            let destinationPath = destinationURL.absoluteString.replacingOccurrences(
-                of: "file://", with: ""
-            )
+            // Return the mapping of original key to resolved file URL.
+            return (originalKey, URL(string: destination.absoluteString.appendingPathComponent(relativeFilePath))!)
+        })
+    }
 
+    // Returns mapping of original object keys to created file URLs.
+    internal func createDestinationFiles(keyToResolvedURLMapping: [String: URL]) throws -> [String: URL] {
+        var objectKeyToCreatedURLMapping: [String: URL] = [:]
+        for pair in keyToResolvedURLMapping {
+            let destinationPath = pair.value.standardizedFileURL.path
             // Check if a file already exists at destinationURL
             if FileManager.default.fileExists(atPath: destinationPath) {
                 // Skip this object if there's duplicate.
-                logger.debug("Skipping object with key \(originalKey) that resolves to location previously processed.")
+                logger.debug("Skipping object with key \(pair.key) that resolves to location previously processed.")
                 continue
             } else {
-                try createFile(at: destinationURL)
+                try createFile(at: URL(fileURLWithPath: destinationPath))
             }
 
             // Save the resolved file URL mapping.
-            objectKeyToURLMapping[originalKey] = destinationURL
+            objectKeyToCreatedURLMapping[pair.key] = pair.value
         }
-
-        return objectKeyToURLMapping
+        return objectKeyToCreatedURLMapping
     }
 
     internal func downloadSingleObject(
@@ -184,16 +198,21 @@ public extension S3TransferManager {
         }
     }
 
-    internal func filePathIsInsideDirectory(directoryURL: URL, filePath: String) -> Bool {
-        // Get the file URL by appending the path to the directory URL.
-        let fileURL = URL(string: directoryURL.absoluteString.appendingPathComponent(filePath))!
-
-        // Resolve the standardized paths for both the directory and file.
-        let standardizedDirectoryPath = directoryURL.standardizedFileURL.path
-        let standardizedFilePath = fileURL.standardizedFileURL.path
-
-        // Check if the standardized file path starts with the standardized directory path.
-        return standardizedFilePath.hasPrefix(standardizedDirectoryPath)
+    internal func filePathEscapesDestination(filePath: String) -> Bool {
+        let pathComponents = filePath.components(separatedBy: defaultPathSeparator())
+        var nestedLevel = 0
+        for component in pathComponents {
+            if component == ".." {
+                nestedLevel -= 1
+            } else {
+                nestedLevel += 1
+            }
+            // If at any point we go outside of destination directory (negative level), return true.
+            if nestedLevel < 0 {
+                return true
+            }
+        }
+        return false
     }
 
     internal func createFile(at url: URL) throws {
