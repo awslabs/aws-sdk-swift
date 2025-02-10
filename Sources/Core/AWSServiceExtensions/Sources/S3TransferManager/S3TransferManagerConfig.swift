@@ -21,7 +21,7 @@ public class S3TransferManagerConfig {
     /// - Parameters:
     ///    - s3Client: The S3 client instance to use for the transfer manager. If not provided, a default client is created for use.
     ///    - targetPartSizeBytes: The part size used by multipart operations. The last part can be shorter. Default value is 8MB.
-    ///    - multipartUploadThresholdBytes:The threshold at which multipart operations get used instead of single putObject. Default value is 16MB.
+    ///    - multipartUploadThresholdBytes:The threshold at which multipart operations get used instead of single putObject for uploadObject operation. Default value is 16MB.
     ///    - checksumValidationEnabled: Specifies whether checksum should be validated for the DownloadBucket operation. Checksum of each downloaded object is validated only if part GET was used for downloads. Your checksum behavior configuration on the S3 client influences this behavior as well. To turn off response checksum validation, you must set both `checksumValidationEnabled`(this config)  and `responseChecksumValidation` (config on S3 client) to `false`. Default value is `true`.
     ///    - checksumAlgorithm: Specifies the checksum algorithm to use for the UploadDirectory operation. Default algorithm is CRC32.
     ///    - multipartDownloadType: Specifies the behavior of multipart download operations. Default value is `.part`, which configures individual getObject calls to use part numbers for multipart download. The other option is `.range`, which uses the byte range of the S3 object for multipart download. If what you want to download was uploaded without using multipart upload (therefore there's no part number available), then you must use `.range`.
