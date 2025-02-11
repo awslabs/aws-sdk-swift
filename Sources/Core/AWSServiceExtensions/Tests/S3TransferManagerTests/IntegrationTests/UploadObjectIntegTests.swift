@@ -10,6 +10,7 @@ import AWSS3
 import AWSServiceExtensions
 import Smithy
 import SmithyStreams
+import class ClientRuntime.SDKLoggingSystem
 
 class UploadObjectIntegTests: XCTestCase {
     // The shared transfer manager for tests.
@@ -133,7 +134,7 @@ class UploadObjectIntegTests: XCTestCase {
             putObjectInput: PutObjectInput(
                 body: ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: testFileURL))),
                 bucket: bucketName,
-                key: size.description
+                key: size.s3ObjectKey
             )
         ))
         _ = try await uploadObjectTask.value
@@ -141,12 +142,12 @@ class UploadObjectIntegTests: XCTestCase {
         // GetObject on the object.
         let getObjectOutput = try await s3.getObject(input: GetObjectInput(
             bucket: bucketName,
-            key: size.description
+            key: size.s3ObjectKey
         ))
 
         // Validate fetched body.
-        let result = try await validatePatternResponse(in: getObjectOutput, size: size)
-        XCTAssertTrue(result)
+        let validated = try await validatePatternResponse(in: getObjectOutput, size: size)
+        XCTAssertTrue(validated)
     }
 
     func testUploadObject8MB() async throws {
@@ -166,7 +167,27 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     func testUploadObject100MB() async throws {
+        await SDKLoggingSystem().initialize(logLevel: .debug)
+        // Create file and get its URL.
+        let size = TestFileSize.mb100
+        let testFileURL = createTestFile(size: size)
 
+        // Delete file before finishing the test case.
+        defer { deleteTestFile(at: testFileURL) }
+
+        // UploadObject with file that was just created.
+        let uploadObjectTask = try tm.uploadObject(input: UploadObjectInput(
+            putObjectInput: PutObjectInput(
+                body: ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: testFileURL))),
+                bucket: bucketName,
+                key: size.s3ObjectKey
+            )
+        ))
+        _ = try await uploadObjectTask.value
+
+        // Verify uploaded object has expected size.
+        let validated = try await validateUploadedObject(size: size)
+        XCTAssertTrue(validated)
     }
 
     func testUploadObject500MB() async throws {
@@ -282,6 +303,15 @@ class UploadObjectIntegTests: XCTestCase {
         return body == expectedBody
     }
 
+    // Used to verify sparse data file uploads with sizes > 50MB.
+    private func validateUploadedObject(size: TestFileSize) async throws -> Bool {
+        let objectSize = try await s3.headObject(input: HeadObjectInput(
+            bucket: bucketName,
+            key: size.s3ObjectKey
+        )).contentLength!
+        return objectSize == size.bytes
+    }
+
     private func deleteTestFile(at url: URL) {
         try? FileManager.default.removeItem(at: url)
     }
@@ -327,6 +357,10 @@ private enum TestFileSize {
             case .tb1: return "1TB"
             case .tb5: return "5TB"
         }
+    }
+
+    var s3ObjectKey: String {
+        return self.description
     }
 
     var fileName: String {
