@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DeviceFarmClient: ClientRuntime.Client {
     public static let clientName = "DeviceFarmClient"
-    public static let version = "1.2.14"
+    public static let version = "1.2.16"
     let client: ClientRuntime.SdkHttpClient
     let config: DeviceFarmClient.DeviceFarmClientConfiguration
     let serviceName = "Device Farm"

@@ -5947,7 +5947,7 @@ extension ConnectClientTypes {
 
     /// The type of notification recipient.
     public struct NotificationRecipientType: Swift.Sendable {
-        /// A list of user IDs.
+        /// A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for OnContactEvaluationSubmit event source.
         public var userIds: [Swift.String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
         public var userTags: [Swift.String: Swift.String]?
@@ -6307,7 +6307,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     /// The name of the security profile.
     /// This member is required.
     public var securityProfileName: Swift.String?
-    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. Following are acceptable ResourceNames: User | SecurityProfile | Queue | RoutingProfile
+    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. For a list of Amazon Connect resources that you can tag, see [Add tags to resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html) in the Amazon Connect Administrator Guide.
     public var tagRestrictedResources: [Swift.String]?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
@@ -19286,23 +19286,27 @@ public struct SearchResourceTagsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Supported resource types
+    /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required. Supported resource types
     ///
-    /// * AGENT
+    /// * agent
     ///
-    /// * ROUTING_PROFILE
+    /// * agent-state
     ///
-    /// * STANDARD_QUEUE
+    /// * routing-profile
     ///
-    /// * SECURITY_PROFILE
+    /// * standard-queue
     ///
-    /// * OPERATING_HOURS
+    /// * security-profile
     ///
-    /// * PROMPT
+    /// * operating-hours
     ///
-    /// * CONTACT_FLOW
+    /// * prompt
     ///
-    /// * FLOW_MODULE
+    /// * contact-flow
+    ///
+    /// * flow- module
+    ///
+    /// * transfer-destination (also known as quick connect)
     public var resourceTypes: [Swift.String]?
     /// The search criteria to be used to return tags.
     public var searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria?
@@ -21861,7 +21865,7 @@ public struct UpdateContactOutput: Swift.Sendable {
 }
 
 public struct UpdateContactAttributesInput: Swift.Sendable {
-    /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. When the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:
+    /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the [Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html) block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:
     ///
     /// * Remove unnecessary attributes by setting their values to empty.
     ///
@@ -24070,7 +24074,7 @@ extension ConnectClientTypes {
 public struct CreateContactInput: Swift.Sendable {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
-    /// The channel for the contact
+    /// The channel for the contact CreateContact only supports the EMAIL channel. The following information that states other channels are supported is incorrect. We are working to update this topic.
     /// This member is required.
     public var channel: ConnectClientTypes.Channel?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -24081,7 +24085,7 @@ public struct CreateContactInput: Swift.Sendable {
     public var expiryDurationInMinutes: Swift.Int?
     /// Initial state of the contact when it's created
     public var initiateAs: ConnectClientTypes.InitiateAs?
-    /// Indicates how the contact was initiated.
+    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods: OUTBOUND, AGENT_REPLY, and FLOW. The following information that states other initiation methods are supported is incorrect. We are working to update this topic.
     /// This member is required.
     public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -24986,7 +24990,7 @@ public struct SearchUserHierarchyGroupsInput: Swift.Sendable {
 }
 
 public struct SearchUsersInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. InstanceID is a required field. The "Required: No" below is incorrect.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.

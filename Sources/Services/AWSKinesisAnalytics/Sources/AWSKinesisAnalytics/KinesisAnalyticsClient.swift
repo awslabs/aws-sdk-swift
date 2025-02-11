@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisAnalyticsClient: ClientRuntime.Client {
     public static let clientName = "KinesisAnalyticsClient"
-    public static let version = "1.2.14"
+    public static let version = "1.2.16"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisAnalyticsClient.KinesisAnalyticsClientConfiguration
     let serviceName = "Kinesis Analytics"
