@@ -8,7 +8,7 @@
 import XCTest
 @testable import AWSServiceExtensions
 
-class S3TMTestCase: XCTestCase {
+class S3TMUnitTestCase: XCTestCase {
     // The shared transfer manager for tests.
     static var tm: S3TransferManager!
 

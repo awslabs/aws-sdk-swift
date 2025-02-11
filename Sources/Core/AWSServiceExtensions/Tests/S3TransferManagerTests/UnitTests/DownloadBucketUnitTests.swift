@@ -10,7 +10,7 @@ import enum AWSS3.S3ClientTypes
 import class Foundation.FileManager
 @testable import AWSServiceExtensions
 
-class DownloadBucketTests: S3TMTestCase {
+class DownloadBucketUnitTests: S3TMUnitTestCase {
     // MARK: - createDestinationFiles test.
 
     /*
@@ -34,7 +34,7 @@ class DownloadBucketTests: S3TMTestCase {
             "dir1/key2.txt": URL(string: testDir.absoluteString.appendingPathComponent("dir1/key2.txt"))!,
             "dir1/../key1.txt": URL(string: testDir.absoluteString.appendingPathComponent("dir1/../key1.txt"))!
         ]
-        let actualKeyToCreatedURLsMap = try DownloadBucketTests.tm.createDestinationFiles(keyToResolvedURLMapping: keyToURLInput)
+        let actualKeyToCreatedURLsMap = try DownloadBucketUnitTests.tm.createDestinationFiles(keyToResolvedURLMapping: keyToURLInput)
         XCTAssertEqual(actualKeyToCreatedURLsMap.count, 2)
         try FileManager.default.removeItem(at: testDir)
     }
@@ -44,7 +44,7 @@ class DownloadBucketTests: S3TMTestCase {
     func testResolveFileURLsFromObjectKeysWithCustomFilter() {
         let objects = s3ObjectsForFileURLsResolvedFromObjectKeysTests()
         let destination = URL(string: "dest/")!
-        let objectKeyToResolvedURL = DownloadBucketTests.tm.getFileURLsResolvedFromObjectKeys(
+        let objectKeyToResolvedURL = DownloadBucketUnitTests.tm.getFileURLsResolvedFromObjectKeys(
             objects: objects,
             destination: destination,
             s3Prefix: nil,
@@ -64,7 +64,7 @@ class DownloadBucketTests: S3TMTestCase {
             prefix: prefix
         )
         let destination = URL(string: "dest/")!
-        let objectKeyToResolvedURL = DownloadBucketTests.tm.getFileURLsResolvedFromObjectKeys(
+        let objectKeyToResolvedURL = DownloadBucketUnitTests.tm.getFileURLsResolvedFromObjectKeys(
             objects: objects,
             destination: destination,
             s3Prefix: prefix,
@@ -85,7 +85,7 @@ class DownloadBucketTests: S3TMTestCase {
             delimiter: "-"
         )
         let destination = URL(string: "dest/")!
-        let objectKeyToResolvedURL = DownloadBucketTests.tm.getFileURLsResolvedFromObjectKeys(
+        let objectKeyToResolvedURL = DownloadBucketUnitTests.tm.getFileURLsResolvedFromObjectKeys(
             objects: objects,
             destination: destination,
             s3Prefix: nil,
@@ -132,7 +132,7 @@ class DownloadBucketTests: S3TMTestCase {
         let destinationURL = URL(string: Bundle.module.resourceURL!.absoluteString.appendingPathComponent(
             "Resources/DownloadDirectoryTestsResources/destination"
         ))!
-        try DownloadBucketTests.tm.validateOrCreateDestinationDirectory(input: DownloadBucketInput(
+        try DownloadBucketUnitTests.tm.validateOrCreateDestinationDirectory(input: DownloadBucketInput(
             bucket: "dummy",
             destination: destinationURL
         ))
@@ -143,7 +143,7 @@ class DownloadBucketTests: S3TMTestCase {
             "Resources/DownloadBucketTestsResources/file.txt"
         ))!
         do {
-            try DownloadBucketTests.tm.validateOrCreateDestinationDirectory(input: DownloadBucketInput(
+            try DownloadBucketUnitTests.tm.validateOrCreateDestinationDirectory(input: DownloadBucketInput(
                 bucket: "dummy",
                 destination: destinationURL
             ))
@@ -157,7 +157,7 @@ class DownloadBucketTests: S3TMTestCase {
         let tempDir = FileManager.default.temporaryDirectory
         let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
         let destinationURL = URL(string: tempDir.absoluteString.appendingPathComponent("\(uuid)/dir2/dir3"))!
-        try DownloadBucketTests.tm.validateOrCreateDestinationDirectory(input: DownloadBucketInput(
+        try DownloadBucketUnitTests.tm.validateOrCreateDestinationDirectory(input: DownloadBucketInput(
             bucket: "dummy",
             destination: destinationURL
         ))
@@ -170,32 +170,32 @@ class DownloadBucketTests: S3TMTestCase {
 
     func testFilePathEscapesDestinationFalse1() {
         let filePath = "a.txt"
-        XCTAssertFalse(DownloadBucketTests.tm.filePathEscapesDestination(filePath: filePath))
+        XCTAssertFalse(DownloadBucketUnitTests.tm.filePathEscapesDestination(filePath: filePath))
     }
 
     func testFilePathEscapesDestinationFalse2() {
         let filePath = "dir1/../dir2/../a.txt"
-        XCTAssertFalse(DownloadBucketTests.tm.filePathEscapesDestination(filePath: filePath))
+        XCTAssertFalse(DownloadBucketUnitTests.tm.filePathEscapesDestination(filePath: filePath))
     }
 
     func testFilePathEscapesDestinationFalse3() {
         let filePath = "dir1/dir2/../../dir3/a.txt"
-        XCTAssertFalse(DownloadBucketTests.tm.filePathEscapesDestination(filePath: filePath))
+        XCTAssertFalse(DownloadBucketUnitTests.tm.filePathEscapesDestination(filePath: filePath))
     }
 
     func testFilePathEscapesDestinationTrue1() {
         let filePath = "../a.txt"
-        XCTAssertTrue(DownloadBucketTests.tm.filePathEscapesDestination(filePath: filePath))
+        XCTAssertTrue(DownloadBucketUnitTests.tm.filePathEscapesDestination(filePath: filePath))
     }
 
     func testFilePathEscapesDestinationTrue2() {
         let filePath = "dir1/../../a.txt"
-        XCTAssertTrue(DownloadBucketTests.tm.filePathEscapesDestination(filePath: filePath))
+        XCTAssertTrue(DownloadBucketUnitTests.tm.filePathEscapesDestination(filePath: filePath))
     }
 
     func testFilePathEscapesDestinationTrue3() {
         let filePath = "dir1/dir2/../dir3/../../../a.txt"
-        XCTAssertTrue(DownloadBucketTests.tm.filePathEscapesDestination(filePath: filePath))
+        XCTAssertTrue(DownloadBucketUnitTests.tm.filePathEscapesDestination(filePath: filePath))
     }
 
     // MARK: - createFile tests.
@@ -204,7 +204,7 @@ class DownloadBucketTests: S3TMTestCase {
         let tempDir = FileManager.default.temporaryDirectory
         let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
         let fileURL = URL(string: tempDir.absoluteString.appendingPathComponent("\(uuid).txt"))!
-        try DownloadBucketTests.tm.createFile(at: fileURL)
+        try DownloadBucketUnitTests.tm.createFile(at: fileURL)
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
         XCTAssertTrue(try fileURL.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile ?? false)
         try FileManager.default.removeItem(at: fileURL)
@@ -214,7 +214,7 @@ class DownloadBucketTests: S3TMTestCase {
         let tempDir = FileManager.default.temporaryDirectory
         let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
         let fileURL = URL(string: tempDir.absoluteString.appendingPathComponent("\(uuid)/dir1/dir2/dir3/file.txt"))!
-        try DownloadBucketTests.tm.createFile(at: fileURL)
+        try DownloadBucketUnitTests.tm.createFile(at: fileURL)
         XCTAssertTrue(FileManager.default.fileExists(atPath: fileURL.path))
         XCTAssertTrue(try fileURL.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile ?? false)
         try FileManager.default.removeItem(at: tempDir.appendingPathComponent("\(uuid)/"))

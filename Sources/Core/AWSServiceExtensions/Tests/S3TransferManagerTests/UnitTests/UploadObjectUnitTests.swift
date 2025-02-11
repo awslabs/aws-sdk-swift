@@ -11,12 +11,12 @@ import SmithyStreams
 import XCTest
 @testable import AWSServiceExtensions
 
-class UploadObjectTests: S3TMTestCase {
+class UploadObjectUnitTests: S3TMUnitTestCase {
     // MARK: - resolvePayloadSize tests.
 
     func testResolvePayloadSizeWithDataBody() async throws {
         let body = ByteStream.data(Data("abcde".utf8))
-        let resolvedPayloadSize = try await UploadObjectTests.tm.resolvePayloadSize(of: body)
+        let resolvedPayloadSize = try await UploadObjectUnitTests.tm.resolvePayloadSize(of: body)
         let expectedPayloadSize = 5
         XCTAssertEqual(resolvedPayloadSize, expectedPayloadSize)
     }
@@ -24,7 +24,7 @@ class UploadObjectTests: S3TMTestCase {
     func testResolvePayloadSizeWithKnownLengthStreamBody() async throws {
         let tempFileURL = try generateTempFile(sizeInMB: 1)
         let body = try ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: tempFileURL)))
-        let resolvedPayloadSize = try await UploadObjectTests.tm.resolvePayloadSize(of: body)
+        let resolvedPayloadSize = try await UploadObjectUnitTests.tm.resolvePayloadSize(of: body)
         let expectedPayloadSize = 1024 * 1024
         XCTAssertEqual(resolvedPayloadSize, expectedPayloadSize)
         try deleteTempFile(tempFileURL: tempFileURL)
@@ -33,7 +33,7 @@ class UploadObjectTests: S3TMTestCase {
     func testResolvePayloadSizeWithUnknownLengthStreamBody() async throws {
         let body = ByteStream.stream(BufferedStream(data: Data("abcde".utf8)))
         do {
-            _ = try await UploadObjectTests.tm.resolvePayloadSize(of: body)
+            _ = try await UploadObjectUnitTests.tm.resolvePayloadSize(of: body)
             XCTFail("S3TMUploadObjectError.streamPayloadOfUnknownLength should have been thrown.")
         } catch let error as S3TMUploadObjectError {
             if case .streamPayloadOfUnknownLength = error {
@@ -52,7 +52,7 @@ class UploadObjectTests: S3TMTestCase {
         let input = UploadObjectInput(putObjectInput: PutObjectInput(
             body: ByteStream.data(Data("0123456789".utf8))
         ))
-        let readPartData = try await UploadObjectTests.tm.readPartData(input: input, partSize: 4, partOffset: 6)
+        let readPartData = try await UploadObjectUnitTests.tm.readPartData(input: input, partSize: 4, partOffset: 6)
         let expectedPartData = Data("6789".utf8)
         XCTAssertEqual(readPartData, expectedPartData)
     }
@@ -63,7 +63,7 @@ class UploadObjectTests: S3TMTestCase {
         let input = UploadObjectInput(putObjectInput: PutObjectInput(
             body: body
         ))
-        let readPartData = try await UploadObjectTests.tm.readPartData(input: input, partSize: 4)
+        let readPartData = try await UploadObjectUnitTests.tm.readPartData(input: input, partSize: 4)
         let expectedPartData = Data("0123".utf8)
         XCTAssertEqual(readPartData, expectedPartData)
     }
