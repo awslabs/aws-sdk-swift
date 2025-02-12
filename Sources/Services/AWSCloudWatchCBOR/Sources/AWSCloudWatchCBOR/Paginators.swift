@@ -11,7 +11,7 @@ import Foundation
 import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
-extension CloudWatchClient {
+extension CloudWatchCBORClient {
     /// Paginate over `[DescribeAlarmHistoryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -41,13 +41,13 @@ extension DescribeAlarmHistoryInput: ClientRuntime.PaginateToken {
 
 extension PaginatorSequence where OperationStackInput == DescribeAlarmHistoryInput, OperationStackOutput == DescribeAlarmHistoryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAlarmHistoryPaginated`
-    /// to access the nested member `[CloudWatchClientTypes.AlarmHistoryItem]`
-    /// - Returns: `[CloudWatchClientTypes.AlarmHistoryItem]`
-    public func alarmHistoryItems() async throws -> [CloudWatchClientTypes.AlarmHistoryItem] {
+    /// to access the nested member `[CloudWatchCBORClientTypes.AlarmHistoryItem]`
+    /// - Returns: `[CloudWatchCBORClientTypes.AlarmHistoryItem]`
+    public func alarmHistoryItems() async throws -> [CloudWatchCBORClientTypes.AlarmHistoryItem] {
         return try await self.asyncCompactMap { item in item.alarmHistoryItems }
     }
 }
-extension CloudWatchClient {
+extension CloudWatchCBORClient {
     /// Paginate over `[DescribeAlarmsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -75,7 +75,7 @@ extension DescribeAlarmsInput: ClientRuntime.PaginateToken {
             stateValue: self.stateValue
         )}
 }
-extension CloudWatchClient {
+extension CloudWatchCBORClient {
     /// Paginate over `[DescribeAnomalyDetectorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -103,13 +103,13 @@ extension DescribeAnomalyDetectorsInput: ClientRuntime.PaginateToken {
 
 extension PaginatorSequence where OperationStackInput == DescribeAnomalyDetectorsInput, OperationStackOutput == DescribeAnomalyDetectorsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeAnomalyDetectorsPaginated`
-    /// to access the nested member `[CloudWatchClientTypes.AnomalyDetector]`
-    /// - Returns: `[CloudWatchClientTypes.AnomalyDetector]`
-    public func anomalyDetectors() async throws -> [CloudWatchClientTypes.AnomalyDetector] {
+    /// to access the nested member `[CloudWatchCBORClientTypes.AnomalyDetector]`
+    /// - Returns: `[CloudWatchCBORClientTypes.AnomalyDetector]`
+    public func anomalyDetectors() async throws -> [CloudWatchCBORClientTypes.AnomalyDetector] {
         return try await self.asyncCompactMap { item in item.anomalyDetectors }
     }
 }
-extension CloudWatchClient {
+extension CloudWatchCBORClient {
     /// Paginate over `[DescribeInsightRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -143,7 +143,7 @@ extension GetMetricDataInput: ClientRuntime.PaginateToken {
             startTime: self.startTime
         )}
 }
-extension CloudWatchClient {
+extension CloudWatchCBORClient {
     /// Paginate over `[ListDashboardsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -167,13 +167,13 @@ extension ListDashboardsInput: ClientRuntime.PaginateToken {
 
 extension PaginatorSequence where OperationStackInput == ListDashboardsInput, OperationStackOutput == ListDashboardsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
-    /// to access the nested member `[CloudWatchClientTypes.DashboardEntry]`
-    /// - Returns: `[CloudWatchClientTypes.DashboardEntry]`
-    public func dashboardEntries() async throws -> [CloudWatchClientTypes.DashboardEntry] {
+    /// to access the nested member `[CloudWatchCBORClientTypes.DashboardEntry]`
+    /// - Returns: `[CloudWatchCBORClientTypes.DashboardEntry]`
+    public func dashboardEntries() async throws -> [CloudWatchCBORClientTypes.DashboardEntry] {
         return try await self.asyncCompactMap { item in item.dashboardEntries }
     }
 }
-extension CloudWatchClient {
+extension CloudWatchCBORClient {
     /// Paginate over `[ListManagedInsightRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -207,6 +207,19 @@ extension ListMetricsInput: ClientRuntime.PaginateToken {
             owningAccount: self.owningAccount,
             recentlyActive: self.recentlyActive
         )}
+}
+extension CloudWatchCBORClient {
+    /// Paginate over `[ListMetricStreamsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMetricStreamsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMetricStreamsOutput`
+    public func listMetricStreamsPaginated(input: ListMetricStreamsInput) -> ClientRuntime.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetricStreams(input:))
+    }
 }
 
 extension ListMetricStreamsInput: ClientRuntime.PaginateToken {

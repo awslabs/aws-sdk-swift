@@ -19,9 +19,9 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
+@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -45,8 +45,8 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.CborValidateResponseHeaderMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -55,6 +55,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -65,32 +66,32 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SecretsManagerClient: ClientRuntime.Client {
-    public static let clientName = "SecretsManagerClient"
+public class SecretsManagerCBORClient: ClientRuntime.Client {
+    public static let clientName = "SecretsManagerCBORClient"
     public static let version = "1.2.11"
     let client: ClientRuntime.SdkHttpClient
-    let config: SecretsManagerClient.SecretsManagerClientConfiguration
-    let serviceName = "Secrets Manager"
+    let config: SecretsManagerCBORClient.SecretsManagerCBORClientConfiguration
+    let serviceName = "Secrets Manager CBOR"
 
-    public required init(config: SecretsManagerClient.SecretsManagerClientConfiguration) {
+    public required init(config: SecretsManagerCBORClient.SecretsManagerCBORClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try SecretsManagerClient.SecretsManagerClientConfiguration(region: region)
+        let config = try SecretsManagerCBORClient.SecretsManagerCBORClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience required init() async throws {
-        let config = try await SecretsManagerClient.SecretsManagerClientConfiguration()
+        let config = try await SecretsManagerCBORClient.SecretsManagerCBORClientConfiguration()
         self.init(config: config)
     }
 }
 
-extension SecretsManagerClient {
+extension SecretsManagerCBORClient {
 
-    public class SecretsManagerClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class SecretsManagerCBORClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -167,7 +168,7 @@ extension SecretsManagerClient {
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
             self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: SecretsManagerClient.clientName)
+            self.logger = telemetryProvider.loggerProvider.getLogger(name: SecretsManagerCBORClient.clientName)
         }
 
         public convenience init(
@@ -217,7 +218,7 @@ extension SecretsManagerClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemeResolver ?? DefaultSecretsManagerAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultSecretsManagerCBORAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -271,7 +272,7 @@ extension SecretsManagerClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemeResolver ?? DefaultSecretsManagerAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultSecretsManagerCBORAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -329,7 +330,7 @@ extension SecretsManagerClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                DefaultSecretsManagerAuthSchemeResolver(),
+                DefaultSecretsManagerCBORAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
                 []
@@ -337,7 +338,7 @@ extension SecretsManagerClient {
         }
 
         public var partitionID: String? {
-            return "\(SecretsManagerClient.clientName) - \(region ?? "")"
+            return "\(SecretsManagerCBORClient.clientName) - \(region ?? "")"
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
@@ -350,8 +351,8 @@ extension SecretsManagerClient {
 
     }
 
-    public static func builder() -> ClientRuntime.ClientBuilder<SecretsManagerClient> {
-        return ClientRuntime.ClientBuilder<SecretsManagerClient>(defaultPlugins: [
+    public static func builder() -> ClientRuntime.ClientBuilder<SecretsManagerCBORClient> {
+        return ClientRuntime.ClientBuilder<SecretsManagerCBORClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
             AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
             DefaultAWSAuthSchemePlugin()
@@ -359,8 +360,8 @@ extension SecretsManagerClient {
     }
 }
 
-extension SecretsManagerClient {
-    /// Performs the `BatchGetSecretValue` operation on the `SecretsManager` service.
+extension SecretsManagerCBORClient {
+    /// Performs the `BatchGetSecretValue` operation on the `SecretsManagerCBOR` service.
     ///
     /// Retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20 secrets. To retrieve a single secret, call [GetSecretValue]. To choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response. Secrets Manager generates CloudTrail GetSecretValue log entries for each secret you request when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:BatchGetSecretValue, and you must have secretsmanager:GetSecretValue for each secret. If you use filters, you must also have secretsmanager:ListSecrets. If the secrets are encrypted using customer-managed keys instead of the Amazon Web Services managed key aws/secretsmanager, then you also need kms:Decrypt permissions for the keys. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -413,26 +414,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(BatchGetSecretValueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSecretValueOutput>(BatchGetSecretValueOutput.httpOutput(from:), BatchGetSecretValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSecretValueOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(xAmzTarget: "secretsmanager.BatchGetSecretValue"))
-        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSecretValueInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSecretValueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetSecretValue")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -446,7 +450,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelRotateSecret` operation on the `SecretsManager` service.
+    /// Performs the `CancelRotateSecret` operation on the `SecretsManagerCBOR` service.
     ///
     /// Turns off automatic rotation, and if a rotation is currently in progress, cancels the rotation. If you cancel a rotation in progress, it can leave the VersionStage labels in an unexpected state. You might need to remove the staging label AWSPENDING from the partially created version. You also need to determine whether to roll back to the previous version of the secret by moving the staging label AWSCURRENT to the version that has AWSPENDING. To determine which version has a specific staging label, call [ListSecretVersionIds]. Then use [UpdateSecretVersionStage] to change staging labels. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html). To turn on automatic rotation again, call [RotateSecret]. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:CancelRotateSecret. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -497,26 +501,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(CancelRotateSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelRotateSecretOutput>(CancelRotateSecretOutput.httpOutput(from:), CancelRotateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelRotateSecretOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelRotateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(xAmzTarget: "secretsmanager.CancelRotateSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelRotateSecretInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CancelRotateSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelRotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelRotateSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -530,7 +537,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateSecret` operation on the `SecretsManager` service.
+    /// Performs the `CreateSecret` operation on the `SecretsManagerCBOR` service.
     ///
     /// Creates a new secret. A secret can be a password, a set of credentials such as a user name and password, an OAuth token, or other secret information that you store in an encrypted form in Secrets Manager. The secret also includes the connection information to access a database or other service, which Secrets Manager doesn't encrypt. A secret in Secrets Manager consists of both the protected secret data and the important information needed to manage the secret. For secrets that use managed rotation, you need to create the secret through the managing service. For more information, see [Secrets Manager secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html). For information about creating a secret in the console, see [Create a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_create-basic-secret.html). To create a secret, you can provide the secret value to be encrypted in either the SecretString parameter or the SecretBinary parameter, but not both. If you include SecretString or SecretBinary then Secrets Manager creates an initial secret version and automatically attaches the staging label AWSCURRENT to it. For database credentials you want to rotate, for Secrets Manager to be able to rotate the secret, you must make sure the JSON you store in the SecretString matches the [JSON structure of a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html). If you don't specify an KMS encryption key, Secrets Manager uses the Amazon Web Services managed key aws/secretsmanager. If this key doesn't already exist in your account, then Secrets Manager creates it for you automatically. All users and roles in the Amazon Web Services account automatically have access to use aws/secretsmanager. Creating aws/secretsmanager can result in a one-time significant delay in returning the result. If the secret is in a different Amazon Web Services account from the credentials calling the API, then you can't use aws/secretsmanager to encrypt the secret, and you must create and use a customer managed KMS key. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters except SecretBinary or SecretString because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:CreateSecret. If you include tags in the secret, you also need secretsmanager:TagResource. To add replica Regions, you must also have secretsmanager:ReplicateSecretToRegions. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html). To encrypt the secret with a KMS key other than aws/secretsmanager, you need kms:GenerateDataKey and kms:Decrypt permission to the key. When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
     ///
@@ -588,26 +595,29 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSecretInput, CreateSecretOutput>(keyPath: \.clientRequestToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSecretInput, CreateSecretOutput>(CreateSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSecretInput, CreateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecretInput, CreateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecretInput, CreateSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecretOutput>(CreateSecretOutput.httpOutput(from:), CreateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecretInput, CreateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecretOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSecretInput, CreateSecretOutput>(xAmzTarget: "secretsmanager.CreateSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateSecretInput, CreateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSecretInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecretInput, CreateSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateSecretInput, CreateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSecretInput, CreateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<CreateSecretInput, CreateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecretInput, CreateSecretOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecretInput, CreateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSecretInput, CreateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSecretInput, CreateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSecretInput, CreateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSecretInput, CreateSecretOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -621,7 +631,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `SecretsManager` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `SecretsManagerCBOR` service.
     ///
     /// Deletes the resource-based permission policy attached to the secret. To attach a policy to a secret, use [PutResourcePolicy]. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:DeleteResourcePolicy. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -672,26 +682,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "secretsmanager.DeleteResourcePolicy"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -705,7 +718,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteSecret` operation on the `SecretsManager` service.
+    /// Performs the `DeleteSecret` operation on the `SecretsManagerCBOR` service.
     ///
     /// Deletes a secret and all of its versions. You can specify a recovery window during which you can restore the secret. The minimum recovery window is 7 days. The default recovery window is 30 days. Secrets Manager attaches a DeletionDate stamp to the secret that specifies the end of the recovery window. At the end of the recovery window, Secrets Manager deletes the secret permanently. You can't delete a primary secret that is replicated to other Regions. You must first delete the replicas using [RemoveRegionsFromReplication], and then delete the primary secret. When you delete a replica, it is deleted immediately. You can't directly delete a version of a secret. Instead, you remove all staging labels from the version using [UpdateSecretVersionStage]. This marks the version as deprecated, and then Secrets Manager can automatically delete the version in the background. To determine whether an application still uses a secret, you can create an Amazon CloudWatch alarm to alert you to any attempts to access a secret during the recovery window. For more information, see [ Monitor secrets scheduled for deletion](https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring_cloudwatch_deleted-secrets.html). Secrets Manager performs the permanent secret deletion at the end of the waiting period as a background task with low priority. There is no guarantee of a specific time after the recovery window for the permanent delete to occur. At any time before recovery window ends, you can use [RestoreSecret] to remove the DeletionDate and cancel the deletion of the secret. When a secret is scheduled for deletion, you cannot retrieve the secret value. You must first cancel the deletion with [RestoreSecret] and then you can retrieve the secret. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:DeleteSecret. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -756,26 +769,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSecretInput, DeleteSecretOutput>(DeleteSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSecretInput, DeleteSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecretInput, DeleteSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecretInput, DeleteSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecretOutput>(DeleteSecretOutput.httpOutput(from:), DeleteSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecretInput, DeleteSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecretOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSecretInput, DeleteSecretOutput>(xAmzTarget: "secretsmanager.DeleteSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSecretInput, DeleteSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSecretInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecretInput, DeleteSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteSecretInput, DeleteSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSecretInput, DeleteSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteSecretInput, DeleteSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecretInput, DeleteSecretOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecretInput, DeleteSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSecretInput, DeleteSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSecretInput, DeleteSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSecretInput, DeleteSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSecretInput, DeleteSecretOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -789,7 +805,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeSecret` operation on the `SecretsManager` service.
+    /// Performs the `DescribeSecret` operation on the `SecretsManagerCBOR` service.
     ///
     /// Retrieves the details of a secret. It does not include the encrypted secret value. Secrets Manager only returns fields that have a value in the response. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:DescribeSecret. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -833,26 +849,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSecretInput, DescribeSecretOutput>(DescribeSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecretInput, DescribeSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecretInput, DescribeSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecretOutput>(DescribeSecretOutput.httpOutput(from:), DescribeSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecretInput, DescribeSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecretOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSecretInput, DescribeSecretOutput>(xAmzTarget: "secretsmanager.DescribeSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecretInput, DescribeSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecretInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecretInput, DescribeSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecretInput, DescribeSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSecretInput, DescribeSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DescribeSecretInput, DescribeSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecretInput, DescribeSecretOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSecretInput, DescribeSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSecretInput, DescribeSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSecretInput, DescribeSecretOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -866,7 +885,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRandomPassword` operation on the `SecretsManager` service.
+    /// Performs the `GetRandomPassword` operation on the `SecretsManagerCBOR` service.
     ///
     /// Generates a random password. We recommend that you specify the maximum length and include every character type that the system you are generating a password for can support. By default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following characters in passwords: !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ Secrets Manager generates a CloudTrail log entry when you call this action. Required permissions: secretsmanager:GetRandomPassword. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -916,26 +935,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(GetRandomPasswordInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRandomPasswordOutput>(GetRandomPasswordOutput.httpOutput(from:), GetRandomPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRandomPasswordOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRandomPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(xAmzTarget: "secretsmanager.GetRandomPassword"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRandomPasswordInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetRandomPasswordInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRandomPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRandomPassword")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -949,7 +971,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `SecretsManager` service.
+    /// Performs the `GetResourcePolicy` operation on the `SecretsManagerCBOR` service.
     ///
     /// Retrieves the JSON text of the resource-based policy document attached to the secret. For more information about permissions policies attached to a secret, see [Permissions policies attached to a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_resource-policies.html). Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:GetResourcePolicy. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1000,26 +1022,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "secretsmanager.GetResourcePolicy"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1033,7 +1058,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSecretValue` operation on the `SecretsManager` service.
+    /// Performs the `GetSecretValue` operation on the `SecretsManagerCBOR` service.
     ///
     /// Retrieves the contents of the encrypted fields SecretString or SecretBinary from the specified version of a secret, whichever contains content. To retrieve the values for a group of secrets, call [BatchGetSecretValue]. We recommend that you cache your secret values by using client-side caching. Caching secrets improves speed and reduces your costs. For more information, see [Cache secrets for your applications](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets.html). To retrieve the previous version of a secret, use VersionStage and specify AWSPREVIOUS. To revert to the previous version of a secret, call [UpdateSecretVersionStage](https://docs.aws.amazon.com/cli/latest/reference/secretsmanager/update-secret-version-stage.html). Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:GetSecretValue. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key aws/secretsmanager, then you also need kms:Decrypt permissions for that key. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1085,26 +1110,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSecretValueInput, GetSecretValueOutput>(GetSecretValueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSecretValueInput, GetSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecretValueInput, GetSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecretValueOutput>(GetSecretValueOutput.httpOutput(from:), GetSecretValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecretValueInput, GetSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecretValueOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSecretValueInput, GetSecretValueOutput>(xAmzTarget: "secretsmanager.GetSecretValue"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSecretValueInput, GetSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecretValueInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecretValueInput, GetSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSecretValueInput, GetSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecretValueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSecretValueInput, GetSecretValueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetSecretValueInput, GetSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecretValueInput, GetSecretValueOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSecretValueInput, GetSecretValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecretValueInput, GetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSecretValueInput, GetSecretValueOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSecretValue")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1118,7 +1146,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecretVersionIds` operation on the `SecretsManager` service.
+    /// Performs the `ListSecretVersionIds` operation on the `SecretsManagerCBOR` service.
     ///
     /// Lists the versions of a secret. Secrets Manager uses staging labels to indicate the different versions of a secret. For more information, see [ Secrets Manager concepts: Versions](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version). To list the secrets in the account, use [ListSecrets]. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:ListSecretVersionIds. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1163,26 +1191,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(ListSecretVersionIdsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecretVersionIdsOutput>(ListSecretVersionIdsOutput.httpOutput(from:), ListSecretVersionIdsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecretVersionIdsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecretVersionIdsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(xAmzTarget: "secretsmanager.ListSecretVersionIds"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretVersionIdsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretVersionIdsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecretVersionIdsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSecretVersionIds")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1196,7 +1227,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListSecrets` operation on the `SecretsManager` service.
+    /// Performs the `ListSecrets` operation on the `SecretsManagerCBOR` service.
     ///
     /// Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. All Secrets Manager operations are eventually consistent. ListSecrets might not reflect changes from the last five minutes. You can get more recent information for a specific secret by calling [DescribeSecret]. To list the versions of a secret, use [ListSecretVersionIds]. To retrieve the values for the secrets, call [BatchGetSecretValue] or [GetSecretValue]. For information about finding secrets in the console, see [Find secrets in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html). Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:ListSecrets. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1247,26 +1278,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSecretsInput, ListSecretsOutput>(ListSecretsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecretsInput, ListSecretsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretsInput, ListSecretsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecretsOutput>(ListSecretsOutput.httpOutput(from:), ListSecretsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecretsInput, ListSecretsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecretsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecretsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSecretsInput, ListSecretsOutput>(xAmzTarget: "secretsmanager.ListSecrets"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretsInput, ListSecretsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretsInput, ListSecretsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretsInput, ListSecretsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSecretsInput, ListSecretsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListSecretsInput, ListSecretsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretsInput, ListSecretsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecretsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecretsInput, ListSecretsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretsInput, ListSecretsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecretsInput, ListSecretsOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSecrets")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1280,7 +1314,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `SecretsManager` service.
+    /// Performs the `PutResourcePolicy` operation on the `SecretsManagerCBOR` service.
     ///
     /// Attaches a resource-based permission policy to a secret. A resource-based policy is optional. For more information, see [Authentication and access control for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html) For information about attaching a policy in the console, see [Attach a permissions policy to a secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_resource-based-policies.html). Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:PutResourcePolicy. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1333,26 +1367,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(PutResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "secretsmanager.PutResourcePolicy"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1366,7 +1403,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutSecretValue` operation on the `SecretsManager` service.
+    /// Performs the `PutSecretValue` operation on the `SecretsManagerCBOR` service.
     ///
     /// Creates a new version with a new encrypted secret value and attaches it to the secret. The version can contain a new SecretString value or a new SecretBinary value. We recommend you avoid calling PutSecretValue at a sustained rate of more than once every 10 minutes. When you update the secret value, Secrets Manager creates a new version of the secret. Secrets Manager removes outdated versions when there are more than 100, but it does not remove versions created less than 24 hours ago. If you call PutSecretValue more than once every 10 minutes, you create more versions than Secrets Manager removes, and you will reach the quota for secret versions. You can specify the staging labels to attach to the new version in VersionStages. If you don't include VersionStages, then Secrets Manager automatically moves the staging label AWSCURRENT to this version. If this operation creates the first version for the secret, then Secrets Manager automatically attaches the staging label AWSCURRENT to it. If this operation moves the staging label AWSCURRENT from another version to this version, then Secrets Manager also automatically moves the staging label AWSPREVIOUS to the version that AWSCURRENT was removed from. This operation is idempotent. If you call this operation with a ClientRequestToken that matches an existing version's VersionId, and you specify the same secret data, the operation succeeds but does nothing. However, if the secret data is different, then the operation fails because you can't modify an existing version; you can only create new ones. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters except SecretBinary, SecretString, or RotationToken because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:PutSecretValue. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html). When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
     ///
@@ -1422,26 +1459,29 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutSecretValueInput, PutSecretValueOutput>(keyPath: \.clientRequestToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutSecretValueInput, PutSecretValueOutput>(PutSecretValueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutSecretValueInput, PutSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSecretValueInput, PutSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSecretValueOutput>(PutSecretValueOutput.httpOutput(from:), PutSecretValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSecretValueInput, PutSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSecretValueOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutSecretValueInput, PutSecretValueOutput>(xAmzTarget: "secretsmanager.PutSecretValue"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutSecretValueInput, PutSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutSecretValueInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSecretValueInput, PutSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutSecretValueInput, PutSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutSecretValueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutSecretValueInput, PutSecretValueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutSecretValueInput, PutSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSecretValueInput, PutSecretValueOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutSecretValueInput, PutSecretValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSecretValueInput, PutSecretValueOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutSecretValueInput, PutSecretValueOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSecretValue")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1455,7 +1495,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemoveRegionsFromReplication` operation on the `SecretsManager` service.
+    /// Performs the `RemoveRegionsFromReplication` operation on the `SecretsManagerCBOR` service.
     ///
     /// For a secret that is replicated to other Regions, deletes the secret replicas from the Regions you specify. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:RemoveRegionsFromReplication. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1506,26 +1546,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(RemoveRegionsFromReplicationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveRegionsFromReplicationOutput>(RemoveRegionsFromReplicationOutput.httpOutput(from:), RemoveRegionsFromReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRegionsFromReplicationOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveRegionsFromReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(xAmzTarget: "secretsmanager.RemoveRegionsFromReplication"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveRegionsFromReplicationInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveRegionsFromReplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveRegionsFromReplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveRegionsFromReplication")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1539,7 +1582,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReplicateSecretToRegions` operation on the `SecretsManager` service.
+    /// Performs the `ReplicateSecretToRegions` operation on the `SecretsManagerCBOR` service.
     ///
     /// Replicates the secret to a new Regions. See [Multi-Region secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create-manage-multi-region-secrets.html). Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:ReplicateSecretToRegions. If the primary secret is encrypted with a KMS key other than aws/secretsmanager, you also need kms:Decrypt permission to the key. To encrypt the replicated secret with a KMS key other than aws/secretsmanager, you need kms:GenerateDataKey and kms:Encrypt to the key. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1590,26 +1633,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(ReplicateSecretToRegionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplicateSecretToRegionsOutput>(ReplicateSecretToRegionsOutput.httpOutput(from:), ReplicateSecretToRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplicateSecretToRegionsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReplicateSecretToRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(xAmzTarget: "secretsmanager.ReplicateSecretToRegions"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReplicateSecretToRegionsInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ReplicateSecretToRegionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReplicateSecretToRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplicateSecretToRegions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1623,7 +1669,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreSecret` operation on the `SecretsManager` service.
+    /// Performs the `RestoreSecret` operation on the `SecretsManagerCBOR` service.
     ///
     /// Cancels the scheduled deletion of a secret by removing the DeletedDate time stamp. You can access a secret again after it has been restored. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:RestoreSecret. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1674,26 +1720,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestoreSecretInput, RestoreSecretOutput>(RestoreSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreSecretInput, RestoreSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreSecretInput, RestoreSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreSecretInput, RestoreSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreSecretOutput>(RestoreSecretOutput.httpOutput(from:), RestoreSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreSecretInput, RestoreSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreSecretOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RestoreSecretInput, RestoreSecretOutput>(xAmzTarget: "secretsmanager.RestoreSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RestoreSecretInput, RestoreSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreSecretInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreSecretInput, RestoreSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RestoreSecretInput, RestoreSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreSecretInput, RestoreSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<RestoreSecretInput, RestoreSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreSecretInput, RestoreSecretOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreSecretInput, RestoreSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreSecretInput, RestoreSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreSecretInput, RestoreSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreSecretInput, RestoreSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreSecretInput, RestoreSecretOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1707,7 +1756,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RotateSecret` operation on the `SecretsManager` service.
+    /// Performs the `RotateSecret` operation on the `SecretsManagerCBOR` service.
     ///
     /// Configures and starts the asynchronous process of rotating the secret. For information about rotation, see [Rotate secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html) in the Secrets Manager User Guide. If you include the configuration parameters, the operation sets the values for the secret and then immediately starts a rotation. If you don't include the configuration parameters, the operation starts a rotation with the values already stored in the secret. When rotation is successful, the AWSPENDING staging label might be attached to the same version as the AWSCURRENT version, or it might not be attached to any version. If the AWSPENDING staging label is present but not attached to the same version as AWSCURRENT, then any later invocation of RotateSecret assumes that a previous rotation request is still in progress and returns an error. When rotation is unsuccessful, the AWSPENDING staging label might be attached to an empty secret version. For more information, see [Troubleshoot rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot_rotation.html) in the Secrets Manager User Guide. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:RotateSecret. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html). You also need lambda:InvokeFunction permissions on the rotation function. For more information, see [ Permissions for rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets-required-permissions-function.html).
     ///
@@ -1759,26 +1808,29 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RotateSecretInput, RotateSecretOutput>(keyPath: \.clientRequestToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<RotateSecretInput, RotateSecretOutput>(RotateSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotateSecretInput, RotateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateSecretInput, RotateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateSecretInput, RotateSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateSecretOutput>(RotateSecretOutput.httpOutput(from:), RotateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateSecretInput, RotateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateSecretOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RotateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RotateSecretInput, RotateSecretOutput>(xAmzTarget: "secretsmanager.RotateSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<RotateSecretInput, RotateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RotateSecretInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateSecretInput, RotateSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RotateSecretInput, RotateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RotateSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RotateSecretInput, RotateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<RotateSecretInput, RotateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateSecretInput, RotateSecretOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateSecretInput, RotateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RotateSecretInput, RotateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RotateSecretInput, RotateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotateSecretInput, RotateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotateSecretInput, RotateSecretOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RotateSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1792,7 +1844,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopReplicationToReplica` operation on the `SecretsManager` service.
+    /// Performs the `StopReplicationToReplica` operation on the `SecretsManagerCBOR` service.
     ///
     /// Removes the link between the replica secret and the primary secret and promotes the replica to a primary secret in the replica Region. You must call this operation from the Region in which you want to promote the replica to a primary secret. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:StopReplicationToReplica. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1843,26 +1895,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(StopReplicationToReplicaInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopReplicationToReplicaOutput>(StopReplicationToReplicaOutput.httpOutput(from:), StopReplicationToReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopReplicationToReplicaOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopReplicationToReplicaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(xAmzTarget: "secretsmanager.StopReplicationToReplica"))
-        builder.serialize(ClientRuntime.BodyMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopReplicationToReplicaInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopReplicationToReplicaInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopReplicationToReplicaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopReplicationToReplica")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1876,7 +1931,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `SecretsManager` service.
+    /// Performs the `TagResource` operation on the `SecretsManagerCBOR` service.
     ///
     /// Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the secret's metadata. They are not associated with specific versions of the secret. This operation appends tags to the existing list of tags. For tag quotas and naming restrictions, see [Service quotas for Tagging](https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas) in the Amazon Web Services General Reference guide. If you use tags as part of your security strategy, then adding or removing a tag can change permissions. If successfully completing this operation would result in you losing your permissions for this secret, then the operation is blocked and returns an Access Denied error. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:TagResource. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -1927,26 +1982,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "secretsmanager.TagResource"))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -1960,7 +2018,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `SecretsManager` service.
+    /// Performs the `UntagResource` operation on the `SecretsManagerCBOR` service.
     ///
     /// Removes specific tags from a secret. This operation is idempotent. If a requested tag is not attached to the secret, no error is returned and the secret metadata is unchanged. If you use tags as part of your security strategy, then removing a tag can change permissions. If successfully completing this operation would result in you losing your permissions for this secret, then the operation is blocked and returns an Access Denied error. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:UntagResource. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -2011,26 +2069,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "secretsmanager.UntagResource"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -2044,7 +2105,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecret` operation on the `SecretsManager` service.
+    /// Performs the `UpdateSecret` operation on the `SecretsManagerCBOR` service.
     ///
     /// Modifies the details of a secret, including metadata and the secret value. To change the secret value, you can also use [PutSecretValue]. To change the rotation configuration of a secret, use [RotateSecret] instead. To change a secret so that it is managed by another service, you need to recreate the secret in that service. See [Secrets Manager secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html). We recommend you avoid calling UpdateSecret at a sustained rate of more than once every 10 minutes. When you call UpdateSecret to update the secret value, Secrets Manager creates a new version of the secret. Secrets Manager removes outdated versions when there are more than 100, but it does not remove versions created less than 24 hours ago. If you update the secret value more than once every 10 minutes, you create more versions than Secrets Manager removes, and you will reach the quota for secret versions. If you include SecretString or SecretBinary to create a new secret version, Secrets Manager automatically moves the staging label AWSCURRENT to the new version. Then it attaches the label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you call this operation with a ClientRequestToken that matches an existing version's VersionId, the operation results in an error. You can't modify an existing version, you can only create a new version. To remove a version, remove all staging labels from it. See [UpdateSecretVersionStage]. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters except SecretBinary or SecretString because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:UpdateSecret. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html). If you use a customer managed key, you must also have kms:GenerateDataKey, kms:Encrypt, and kms:Decrypt permissions on the key. If you change the KMS key and you don't have kms:Encrypt permission to the new key, Secrets Manager does not re-encrypt existing secret versions with the new key. For more information, see [ Secret encryption and decryption](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html). When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to [Mitigate the risks of using command-line tools to store Secrets Manager secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html).
     ///
@@ -2102,26 +2163,29 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateSecretInput, UpdateSecretOutput>(keyPath: \.clientRequestToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSecretInput, UpdateSecretOutput>(UpdateSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSecretInput, UpdateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretInput, UpdateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecretInput, UpdateSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecretOutput>(UpdateSecretOutput.httpOutput(from:), UpdateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecretInput, UpdateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecretOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSecretInput, UpdateSecretOutput>(xAmzTarget: "secretsmanager.UpdateSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretInput, UpdateSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretInput, UpdateSecretOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretInput, UpdateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSecretInput, UpdateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<UpdateSecretInput, UpdateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretInput, UpdateSecretOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecretInput, UpdateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSecretInput, UpdateSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSecretInput, UpdateSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretInput, UpdateSecretOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretInput, UpdateSecretOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSecret")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -2135,7 +2199,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateSecretVersionStage` operation on the `SecretsManager` service.
+    /// Performs the `UpdateSecretVersionStage` operation on the `SecretsManagerCBOR` service.
     ///
     /// Modifies the staging labels attached to a version of a secret. Secrets Manager uses staging labels to track a version as it progresses through the secret rotation process. Each staging label can be attached to only one version at a time. To add a staging label to a version when it is already attached to another version, Secrets Manager first removes it from the other version first and then attaches it to this one. For more information about versions and staging labels, see [Concepts: Version](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version). The staging labels that you specify in the VersionStage parameter are added to the existing list of staging labels for the version. You can move the AWSCURRENT staging label to this version by including it in this call. Whenever you move AWSCURRENT, Secrets Manager automatically moves the label AWSPREVIOUS to the version that AWSCURRENT was removed from. If this action results in the last label being removed from a version, then the version is considered to be 'deprecated' and can be deleted by Secrets Manager. Secrets Manager generates a CloudTrail log entry when you call this action. Do not include sensitive information in request parameters because it might be logged. For more information, see [Logging Secrets Manager events with CloudTrail](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html). Required permissions: secretsmanager:UpdateSecretVersionStage. For more information, see [ IAM policy actions for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions) and [Authentication and access control in Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     ///
@@ -2187,26 +2251,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(UpdateSecretVersionStageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecretVersionStageOutput>(UpdateSecretVersionStageOutput.httpOutput(from:), UpdateSecretVersionStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecretVersionStageOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSecretVersionStageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(xAmzTarget: "secretsmanager.UpdateSecretVersionStage"))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretVersionStageInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretVersionStageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecretVersionStageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSecretVersionStage")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
@@ -2220,7 +2287,7 @@ extension SecretsManagerClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ValidateResourcePolicy` operation on the `SecretsManager` service.
+    /// Performs the `ValidateResourcePolicy` operation on the `SecretsManagerCBOR` service.
     ///
     /// Validates that a resource policy does not grant a wide range of principals access to your secret. A resource-based policy is optional for secrets. The API performs three checks when validating the policy:
     ///
@@ -2281,26 +2348,29 @@ extension SecretsManagerClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(ValidateResourcePolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateResourcePolicyOutput>(ValidateResourcePolicyOutput.httpOutput(from:), ValidateResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateResourcePolicyOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager", config.ignoreConfiguredEndpointURLs)
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidateResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(xAmzTarget: "secretsmanager.ValidateResourcePolicy"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateResourcePolicyInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateResourcePolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(serviceID: serviceName, version: SecretsManagerCBORClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecretsManagerCBOR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateResourcePolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
