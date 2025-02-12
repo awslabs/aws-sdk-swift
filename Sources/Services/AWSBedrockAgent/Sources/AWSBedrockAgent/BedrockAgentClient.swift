@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentClient"
-    public static let version = "1.2.16"
+    public static let version = "1.2.17"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentClient.BedrockAgentClientConfiguration
     let serviceName = "Bedrock Agent"
@@ -2052,7 +2052,7 @@ extension BedrockAgentClient {
 
     /// Performs the `DeleteKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
-    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see [Ingest changes directly into a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter DeleteKnowledgeBaseDocumentsInput : [no documentation found]
     ///
@@ -3261,7 +3261,7 @@ extension BedrockAgentClient {
 
     /// Performs the `GetKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
-    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see [Ingest changes directly into a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter GetKnowledgeBaseDocumentsInput : [no documentation found]
     ///
@@ -3416,7 +3416,7 @@ extension BedrockAgentClient {
 
     /// Performs the `IngestKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
-    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see [Ingest changes directly into a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter IngestKnowledgeBaseDocumentsInput : [no documentation found]
     ///
@@ -4346,7 +4346,7 @@ extension BedrockAgentClient {
 
     /// Performs the `ListKnowledgeBaseDocuments` operation on the `BedrockAgent` service.
     ///
-    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see [Ingest changes directly into a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter ListKnowledgeBaseDocumentsInput : [no documentation found]
     ///

@@ -195,6 +195,7 @@ extension PollyClientTypes {
         case enIe
         case enIn
         case enNz
+        case enSg
         case enUs
         case enZa
         case esEs
@@ -240,6 +241,7 @@ extension PollyClientTypes {
                 .enIe,
                 .enIn,
                 .enNz,
+                .enSg,
                 .enUs,
                 .enZa,
                 .esEs,
@@ -291,6 +293,7 @@ extension PollyClientTypes {
             case .enIe: return "en-IE"
             case .enIn: return "en-IN"
             case .enNz: return "en-NZ"
+            case .enSg: return "en-SG"
             case .enUs: return "en-US"
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
@@ -419,6 +422,7 @@ extension PollyClientTypes {
         case ivy
         case jacek
         case jan
+        case jasmine
         case jitka
         case joanna
         case joey
@@ -521,6 +525,7 @@ extension PollyClientTypes {
                 .ivy,
                 .jacek,
                 .jan,
+                .jasmine,
                 .jitka,
                 .joanna,
                 .joey,
@@ -629,6 +634,7 @@ extension PollyClientTypes {
             case .ivy: return "Ivy"
             case .jacek: return "Jacek"
             case .jan: return "Jan"
+            case .jasmine: return "Jasmine"
             case .jitka: return "Jitka"
             case .joanna: return "Joanna"
             case .joey: return "Joey"
