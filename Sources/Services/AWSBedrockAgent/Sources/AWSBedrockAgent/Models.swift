@@ -1188,6 +1188,8 @@ extension BedrockAgentClientTypes {
 
     /// Contains configurations to override a prompt template in one part of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
     public struct PromptConfiguration: Swift.Sendable {
+        /// If the Converse or ConverseStream operations support the model, additionalModelRequestFields contains additional inference parameters, beyond the base set of inference parameters in the inferenceConfiguration field. For more information, see Inference request parameters and response fields for foundation models in the Amazon Bedrock user guide.
+        public var additionalModelRequestFields: Smithy.Document?
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html). For more information, see [Configure the prompt templates](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts-configure.html).
         public var basePromptTemplate: Swift.String?
         /// The agent's foundation model.
@@ -1212,6 +1214,7 @@ extension BedrockAgentClientTypes {
         public var promptType: BedrockAgentClientTypes.PromptType?
 
         public init(
+            additionalModelRequestFields: Smithy.Document? = nil,
             basePromptTemplate: Swift.String? = nil,
             foundationModel: Swift.String? = nil,
             inferenceConfiguration: BedrockAgentClientTypes.InferenceConfiguration? = nil,
@@ -1220,6 +1223,7 @@ extension BedrockAgentClientTypes {
             promptState: BedrockAgentClientTypes.PromptState? = nil,
             promptType: BedrockAgentClientTypes.PromptType? = nil
         ) {
+            self.additionalModelRequestFields = additionalModelRequestFields
             self.basePromptTemplate = basePromptTemplate
             self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
@@ -1233,7 +1237,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.PromptConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PromptConfiguration(foundationModel: \(Swift.String(describing: foundationModel)), inferenceConfiguration: \(Swift.String(describing: inferenceConfiguration)), parserMode: \(Swift.String(describing: parserMode)), promptCreationMode: \(Swift.String(describing: promptCreationMode)), promptState: \(Swift.String(describing: promptState)), promptType: \(Swift.String(describing: promptType)), basePromptTemplate: \"CONTENT_REDACTED\")"}
+        "PromptConfiguration(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), foundationModel: \(Swift.String(describing: foundationModel)), inferenceConfiguration: \(Swift.String(describing: inferenceConfiguration)), parserMode: \(Swift.String(describing: parserMode)), promptCreationMode: \(Swift.String(describing: promptCreationMode)), promptState: \(Swift.String(describing: promptState)), promptType: \(Swift.String(describing: promptType)), basePromptTemplate: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -14887,6 +14891,7 @@ extension BedrockAgentClientTypes.PromptConfiguration {
 
     static func write(value: BedrockAgentClientTypes.PromptConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalModelRequestFields"].write(value.additionalModelRequestFields)
         try writer["basePromptTemplate"].write(value.basePromptTemplate)
         try writer["foundationModel"].write(value.foundationModel)
         try writer["inferenceConfiguration"].write(value.inferenceConfiguration, with: BedrockAgentClientTypes.InferenceConfiguration.write(value:to:))
@@ -14906,6 +14911,7 @@ extension BedrockAgentClientTypes.PromptConfiguration {
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.InferenceConfiguration.read(from:))
         value.parserMode = try reader["parserMode"].readIfPresent()
         value.foundationModel = try reader["foundationModel"].readIfPresent()
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readIfPresent()
         return value
     }
 }

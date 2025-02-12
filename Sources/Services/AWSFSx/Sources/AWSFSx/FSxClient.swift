@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FSxClient: ClientRuntime.Client {
     public static let clientName = "FSxClient"
-    public static let version = "1.2.16"
+    public static let version = "1.2.17"
     let client: ClientRuntime.SdkHttpClient
     let config: FSxClient.FSxClientConfiguration
     let serviceName = "FSx"
@@ -439,7 +439,7 @@ extension FSxClient {
 
     /// Performs the `CancelDataRepositoryTask` operation on the `FSx` service.
     ///
-    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel am export task, Amazon FSx does the following.
+    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel an export task, Amazon FSx does the following.
     ///
     /// * Any files that FSx has already exported are not reverted.
     ///
@@ -968,7 +968,7 @@ extension FSxClient {
     ///
     /// Creates a new Amazon File Cache resource. You can use this operation with a client request token in the request that Amazon File Cache uses to ensure idempotent creation. If a cache with the specified client request token exists and the parameters match, CreateFileCache returns the description of the existing cache. If a cache with the specified client request token exists and the parameters don't match, this call returns IncompatibleParameterError. If a file cache with the specified client request token doesn't exist, CreateFileCache does the following:
     ///
-    /// * Creates a new, empty Amazon File Cache resourcewith an assigned ID, and an initial lifecycle state of CREATING.
+    /// * Creates a new, empty Amazon File Cache resource with an assigned ID, and an initial lifecycle state of CREATING.
     ///
     /// * Returns the description of the cache in JSON format.
     ///
@@ -3680,6 +3680,8 @@ extension FSxClient {
     /// * DailyAutomaticBackupStartTime
     ///
     /// * DataCompressionType
+    ///
+    /// * FileSystemTypeVersion
     ///
     /// * LogConfiguration
     ///

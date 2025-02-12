@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaLiveClient: ClientRuntime.Client {
     public static let clientName = "MediaLiveClient"
-    public static let version = "1.2.16"
+    public static let version = "1.2.17"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaLiveClient.MediaLiveClientConfiguration
     let serviceName = "MediaLive"
@@ -1133,6 +1133,7 @@ extension MediaLiveClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>(keyPath: \.requestId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>(CreateCloudWatchAlarmTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>(contentType: "application/json"))
@@ -1212,6 +1213,7 @@ extension MediaLiveClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>(keyPath: \.requestId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>(CreateCloudWatchAlarmTemplateGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>(contentType: "application/json"))
@@ -1372,6 +1374,7 @@ extension MediaLiveClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>(keyPath: \.requestId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>(CreateEventBridgeRuleTemplateInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>(contentType: "application/json"))
@@ -1451,6 +1454,7 @@ extension MediaLiveClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>(keyPath: \.requestId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>(CreateEventBridgeRuleTemplateGroupInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>(contentType: "application/json"))
@@ -2176,6 +2180,7 @@ extension MediaLiveClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSignalMapInput, CreateSignalMapOutput>(keyPath: \.requestId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSignalMapInput, CreateSignalMapOutput>(CreateSignalMapInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSignalMapInput, CreateSignalMapOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSignalMapInput, CreateSignalMapOutput>(contentType: "application/json"))
@@ -7421,6 +7426,7 @@ extension MediaLiveClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(keyPath: \.requestId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(StartMonitorDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(contentType: "application/json"))
