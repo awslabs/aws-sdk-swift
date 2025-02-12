@@ -119,95 +119,53 @@ class UploadObjectIntegTests: XCTestCase {
             - 50 GB
             - 1 TB
             - 5 TB
+
+        Size <= 50MB will upload file, then donwload object, and verify actual data contents.
+        Size > 50MB will upload file, get uploaded object size using headObject, and verify uploaded object size.
      */
 
     func testUploadObject4MB() async throws {
-        // Create file and get its URL.
-        let size = TestFileSize.mb4
-        let testFileURL = createTestFile(size: size)
-
-        // Delete file before finishing the test case.
-        defer { deleteTestFile(at: testFileURL) }
-
-        // UploadObject with file that was just created.
-        let uploadObjectTask = try tm.uploadObject(input: UploadObjectInput(
-            putObjectInput: PutObjectInput(
-                body: ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: testFileURL))),
-                bucket: bucketName,
-                key: size.s3ObjectKey
-            )
-        ))
-        _ = try await uploadObjectTask.value
-
-        // GetObject on the object.
-        let getObjectOutput = try await s3.getObject(input: GetObjectInput(
-            bucket: bucketName,
-            key: size.s3ObjectKey
-        ))
-
-        // Validate fetched body.
-        let validated = try await validatePatternResponse(in: getObjectOutput, size: size)
-        XCTAssertTrue(validated)
+        try await runPatternedDataFileTest(withSize: .mb4)
     }
 
     func testUploadObject8MB() async throws {
-
+        try await runPatternedDataFileTest(withSize: .mb8)
     }
 
     func testUploadObject12MB() async throws {
-
+        try await runPatternedDataFileTest(withSize: .mb12)
     }
 
     func testUploadObject16MB() async throws {
-
+        try await runPatternedDataFileTest(withSize: .mb16)
     }
 
     func testUploadObject50MB() async throws {
-
+        try await runPatternedDataFileTest(withSize: .mb50)
     }
 
     func testUploadObject100MB() async throws {
-        await SDKLoggingSystem().initialize(logLevel: .debug)
-        // Create file and get its URL.
-        let size = TestFileSize.mb100
-        let testFileURL = createTestFile(size: size)
-
-        // Delete file before finishing the test case.
-        defer { deleteTestFile(at: testFileURL) }
-
-        // UploadObject with file that was just created.
-        let uploadObjectTask = try tm.uploadObject(input: UploadObjectInput(
-            putObjectInput: PutObjectInput(
-                body: ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: testFileURL))),
-                bucket: bucketName,
-                key: size.s3ObjectKey
-            )
-        ))
-        _ = try await uploadObjectTask.value
-
-        // Verify uploaded object has expected size.
-        let validated = try await validateUploadedObject(size: size)
-        XCTAssertTrue(validated)
+        try await runSparseDataFileTest(withSize: .mb100)
     }
 
     func testUploadObject500MB() async throws {
-
+        try await runSparseDataFileTest(withSize: .mb500)
     }
 
     func testUploadObject5GB() async throws {
-
+        try await runSparseDataFileTest(withSize: .gb5)
     }
 
     func testUploadObject50GB() async throws {
-
+        try await runSparseDataFileTest(withSize: .gb50)
     }
 
     func testUploadObject1TB() async throws {
-
+        try await runSparseDataFileTest(withSize: .tb1)
     }
 
     func testUploadObject5TB() async throws {
-
+        try await runSparseDataFileTest(withSize: .tb5)
     }
 
     // MARK: - Helper functions for tests.
@@ -314,6 +272,48 @@ class UploadObjectIntegTests: XCTestCase {
 
     private func deleteTestFile(at url: URL) {
         try? FileManager.default.removeItem(at: url)
+    }
+
+    // Test runner for files sized <= 50MB.
+    private func runPatternedDataFileTest(withSize size: TestFileSize) async throws {
+        try await runUploadObject(withSize: size)
+
+        // GetObject on the object.
+        let getObjectOutput = try await s3.getObject(input: GetObjectInput(
+            bucket: bucketName,
+            key: size.s3ObjectKey
+        ))
+
+        // Validate fetched body.
+        let validated = try await validatePatternResponse(in: getObjectOutput, size: size)
+        XCTAssertTrue(validated)
+    }
+
+    // Test runner for files sized > 50MB.
+    private func runSparseDataFileTest(withSize size: TestFileSize) async throws {
+        try await runUploadObject(withSize: size)
+
+        // Verify uploaded object has expected size.
+        let validated = try await validateUploadedObject(size: size)
+        XCTAssertTrue(validated)
+    }
+
+    private func runUploadObject(withSize size: TestFileSize) async throws {
+        // Create file and get its URL.
+        let testFileURL = createTestFile(size: size)
+
+        // Delete file before finishing the test case.
+        defer { deleteTestFile(at: testFileURL) }
+
+        // UploadObject with file that was just created.
+        let uploadObjectTask = try tm.uploadObject(input: UploadObjectInput(
+            putObjectInput: PutObjectInput(
+                body: ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: testFileURL))),
+                bucket: bucketName,
+                key: size.s3ObjectKey
+            )
+        ))
+        _ = try await uploadObjectTask.value
     }
 }
 

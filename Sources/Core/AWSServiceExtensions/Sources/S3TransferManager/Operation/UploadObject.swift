@@ -6,7 +6,9 @@
 //
 
 import AWSS3
+import class Foundation.DispatchSemaphore
 import enum Smithy.ByteStream
+import func CoreFoundation.autoreleasepool
 import struct Foundation.Data
 
 public extension S3TransferManager {
@@ -115,23 +117,47 @@ public extension S3TransferManager {
         partSize: Int,
         payloadSize: Int
     ) async throws -> [S3ClientTypes.CompletedPart] {
-        try await withThrowingTaskGroup(
+        // Semaphore used to set maximum number of concurrent child tasks (requests).
+        let maxConcurrentUploads = 10
+        let semaphore = DispatchSemaphore(value: maxConcurrentUploads)
+
+        // Helper function to make semaphore.wait() async and non-blocking.
+        func wait() async {
+            await withUnsafeContinuation { continuation in
+                semaphore.wait()
+                continuation.resume()
+            }
+        }
+
+        return try await withThrowingTaskGroup(
             // Child task returns a completed part that contains S3's checksum & part number.
             of: S3ClientTypes.CompletedPart.self,
             // Task group returns completed parts sorted by part number.
             returning: [S3ClientTypes.CompletedPart].self
         ) { group in
             for partNumber in 1...numParts {
-                try Task.checkCancellation()
-                group.addTask {
+                // Wait & acquire semaphore before reading part data & adding a new uploadPart task for it.
+                await wait()
+
+                // Using async autorelease to read and return part data ensures temporary things that were created to
+                //   read the part data gets released as expected.
+                let partData = try await autoreleasepoolAsync {
                     let partOffset = (partNumber - 1) * partSize
                     // Either take full part size or remainder (only for last part).
                     let resolvedPartSize = min(partSize, payloadSize - partOffset)
-                    let partData = try await self.readPartData(
+                    return try await self.readPartData(
                         input: input,
                         partSize: resolvedPartSize,
                         partOffset: partOffset
                     )
+                }
+
+                try Task.checkCancellation()
+                group.addTask {
+                    // Free a semaphore it was using before returning from task.
+                    defer {
+                        semaphore.signal()
+                    }
 
                     let uploadPartInput = input.getUploadPartInput(
                         body: ByteStream.data(partData),
@@ -212,6 +238,23 @@ public extension S3TransferManager {
                 errorFromMPUOperation: originalError,
                 errorFromFailedAbortMPUOperation: abortError
             )
+        }
+    }
+
+    // Async wrapper for autoreleasepool.
+    // Regular autoreleasepool doesn't allow async operations, hence this wrapper.
+    private func autoreleasepoolAsync<T>(_ operation: @escaping () async throws -> T) async throws -> T {
+        return try await withCheckedThrowingContinuation { continuation in
+            autoreleasepool {
+                let _: Task<Void, Never> = Task {
+                    do {
+                        let result = try await operation()
+                        continuation.resume(returning: result)
+                    } catch {
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
         }
     }
 }
