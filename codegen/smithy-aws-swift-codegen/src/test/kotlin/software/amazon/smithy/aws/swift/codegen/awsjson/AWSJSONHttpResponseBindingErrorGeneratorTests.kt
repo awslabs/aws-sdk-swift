@@ -15,10 +15,11 @@ class AWSJSONHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `001 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("awsjson/json-error.smithy", "aws.protocoltests.json10#AwsJson10")
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift"
-        )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
@@ -43,10 +44,11 @@ enum GreetingWithErrorsOutputError {
     @Test
     fun `002 AWSJson+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("awsjson/json-error.smithy", "aws.protocoltests.json10#AwsJson10")
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/AwsJson10+HTTPServiceError.swift"
-        )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/AwsJson10+HTTPServiceError.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 func httpServiceError(baseError: AWSClientRuntime.AWSJSONError) throws -> Swift.Error? {
@@ -59,7 +61,10 @@ func httpServiceError(baseError: AWSClientRuntime.AWSJSONError) throws -> Swift.
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
 
         AWSJSON1_0ProtocolGenerator().run {

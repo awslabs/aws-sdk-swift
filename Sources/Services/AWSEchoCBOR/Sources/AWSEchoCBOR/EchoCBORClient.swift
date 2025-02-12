@@ -65,9 +65,15 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
+<<<<<<< HEAD:Sources/Services/AWSEchoCBOR/Sources/AWSEchoCBOR/EchoCBORClient.swift
 public class EchoCBORClient: ClientRuntime.Client {
     public static let clientName = "EchoCBORClient"
     public static let version = "1.2.11"
+=======
+public class FreeTierClient: ClientRuntime.Client {
+    public static let clientName = "FreeTierClient"
+    public static let version = "1.2.17"
+>>>>>>> main:Sources/Services/AWSFreeTier/Sources/AWSFreeTier/FreeTierClient.swift
     let client: ClientRuntime.SdkHttpClient
     let config: EchoCBORClient.EchoCBORClientConfiguration
     let serviceName = "EchoCBOR"

@@ -20,8 +20,11 @@ import software.amazon.smithy.swift.codegen.model.getTrait
  *      within the EndpointResolver
  */
 class AWSEndpointTraitTransformer : SwiftIntegration {
-    override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
-        return when (settings.service.namespace) {
+    override fun preprocessModel(
+        model: Model,
+        settings: SwiftSettings,
+    ): Model =
+        when (settings.service.namespace) {
             "com.amazonaws.s3control" -> {
                 ModelTransformer.create().mapShapes(model) { shape ->
                     when (shape) {
@@ -29,7 +32,8 @@ class AWSEndpointTraitTransformer : SwiftIntegration {
                             val shapeBuilder = shape.toBuilder()
                             shape.getTrait<StaticContextParamsTrait>()?.let { staticContextParamsTrait ->
                                 val requiresAccountId =
-                                    staticContextParamsTrait.parameters["RequiresAccountId"]?.value
+                                    staticContextParamsTrait.parameters["RequiresAccountId"]
+                                        ?.value
                                         .toString()
                                         .toBoolean()
                                 if (requiresAccountId) {
@@ -52,5 +56,4 @@ class AWSEndpointTraitTransformer : SwiftIntegration {
 
             else -> model
         }
-    }
 }

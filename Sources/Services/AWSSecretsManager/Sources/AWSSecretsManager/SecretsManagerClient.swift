@@ -67,7 +67,11 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecretsManagerClient: ClientRuntime.Client {
     public static let clientName = "SecretsManagerClient"
+<<<<<<< HEAD
     public static let version = "1.2.11"
+=======
+    public static let version = "1.2.17"
+>>>>>>> main
     let client: ClientRuntime.SdkHttpClient
     let config: SecretsManagerClient.SecretsManagerClientConfiguration
     let serviceName = "Secrets Manager"

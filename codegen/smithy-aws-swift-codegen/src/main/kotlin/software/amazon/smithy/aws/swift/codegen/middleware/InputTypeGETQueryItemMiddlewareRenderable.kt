@@ -6,15 +6,16 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 
-class InputTypeGETQueryItemMiddlewareRenderable(inputSymbol: Symbol) : MiddlewareRenderable {
-
+class InputTypeGETQueryItemMiddlewareRenderable(
+    inputSymbol: Symbol,
+) : MiddlewareRenderable {
     override val name = "${inputSymbol.name}GETQueryItemMiddleware"
 
     override fun render(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         op: OperationShape,
-        operationStackName: String
+        operationStackName: String,
     ) {
         super.renderSpecific(ctx, writer, op, operationStackName, "serialize")
     }
@@ -22,7 +23,7 @@ class InputTypeGETQueryItemMiddlewareRenderable(inputSymbol: Symbol) : Middlewar
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         writer.write("$name()")
     }

@@ -64,9 +64,15 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
+<<<<<<< HEAD:Sources/Services/AWSEcho/Sources/AWSEcho/EchoClient.swift
 public class EchoClient: ClientRuntime.Client {
     public static let clientName = "EchoClient"
     public static let version = "1.2.11"
+=======
+public class InspectorScanClient: ClientRuntime.Client {
+    public static let clientName = "InspectorScanClient"
+    public static let version = "1.2.17"
+>>>>>>> main:Sources/Services/AWSInspectorScan/Sources/AWSInspectorScan/InspectorScanClient.swift
     let client: ClientRuntime.SdkHttpClient
     let config: EchoClient.EchoClientConfiguration
     let serviceName = "Echo"

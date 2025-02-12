@@ -12,15 +12,15 @@ import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHtt
 
 class AWSJSONHttpBindingResolver(
     context: ProtocolGenerator.GenerationContext,
-    defaultContentType: String
+    defaultContentType: String,
 ) : StaticHttpBindingResolver(context, awsJsonHttpTrait, defaultContentType) {
-
     companion object {
-        private val awsJsonHttpTrait: HttpTrait = HttpTrait
-            .builder()
-            .code(200)
-            .method("POST")
-            .uri(UriPattern.parse("/"))
-            .build()
+        private val awsJsonHttpTrait: HttpTrait =
+            HttpTrait
+                .builder()
+                .code(200)
+                .method("POST")
+                .uri(UriPattern.parse("/"))
+                .build()
     }
 }

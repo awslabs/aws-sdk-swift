@@ -9,13 +9,16 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 
-class Sha256TreeHashMiddleware(private val symbolProvider: SymbolProvider, private val model: Model) : MiddlewareRenderable {
+class Sha256TreeHashMiddleware(
+    private val symbolProvider: SymbolProvider,
+    private val model: Model,
+) : MiddlewareRenderable {
     override val name = "Sha256TreeHashMiddleware"
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         val inputShape = MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op)
         val outputShape = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
@@ -23,7 +26,7 @@ class Sha256TreeHashMiddleware(private val symbolProvider: SymbolProvider, priva
             "\$N<\$N, \$N>()",
             AWSClientRuntimeTypes.Core.Sha256TreeHashMiddleware,
             inputShape,
-            outputShape
+            outputShape,
         )
     }
 }

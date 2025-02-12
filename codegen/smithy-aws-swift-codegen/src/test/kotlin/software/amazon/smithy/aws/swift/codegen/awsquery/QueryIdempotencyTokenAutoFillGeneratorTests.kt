@@ -15,7 +15,6 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 
 class QueryIdempotencyTokenAutoFillGeneratorTests {
-
     @Test
     fun `001 hardcodes action and version into input type`() {
         val context = setupTests("awsquery/query-idempotency-token.smithy", "aws.protocoltests.query#AwsQuery")
@@ -35,7 +34,10 @@ extension QueryIdempotencyTokenAutoFillInput {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AWSQueryProtocolGenerator()

@@ -65,9 +65,15 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
+<<<<<<< HEAD:Sources/Services/AWSCloudWatchCBOR/Sources/AWSCloudWatchCBOR/CloudWatchCBORClient.swift
 public class CloudWatchCBORClient: ClientRuntime.Client {
     public static let clientName = "CloudWatchCBORClient"
     public static let version = "1.2.11"
+=======
+public class SSMContactsClient: ClientRuntime.Client {
+    public static let clientName = "SSMContactsClient"
+    public static let version = "1.2.17"
+>>>>>>> main:Sources/Services/AWSSSMContacts/Sources/AWSSSMContacts/SSMContactsClient.swift
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchCBORClient.CloudWatchCBORClientConfiguration
     let serviceName = "CloudWatchCBOR"
