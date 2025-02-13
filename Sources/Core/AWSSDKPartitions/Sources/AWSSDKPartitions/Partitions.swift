@@ -8,6 +8,9 @@
 // Code is auto-generated. DO NOT EDIT!
 
 public let partitions = #"""
+
+
+
 {
   "partitions" : [ {
     "id" : "aws",
