@@ -46,7 +46,20 @@ public class S3TransferManager {
     }
 
     // Helper function used by UploadDirectory & DownloadBucket.
-    func defaultPathSeparator() -> String {
+    internal func defaultPathSeparator() -> String {
         return "/" // Default path separator for all apple platforms & Linux distros.
+    }
+
+    // Optimizations & configurability are additive work.
+    internal enum Device {
+        static let maximumConcurrentTasks: Int = {
+            #if os(macOS) || os(Linux)
+                return 6 // Default maximum connections per host for URLSession.
+            #elseif os(watchOS)
+                return 2
+            #else  // iOS, iPadOS, tvOS
+                return 4
+            #endif
+        }()
     }
 }

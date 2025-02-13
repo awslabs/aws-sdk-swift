@@ -11,7 +11,7 @@ import enum Smithy.ByteStream
 import struct Foundation.Data
 
 public extension S3TransferManager {
-    /// Downloads a single object to S3.
+    /// Downloads a single object from S3.
     ///
     /// Returns a `Task` immediately after function call; download is handled in the background using asynchronous child tasks.
     /// If the `Task` returned by the function is cancelled, all child tasks are cancelled automatically.

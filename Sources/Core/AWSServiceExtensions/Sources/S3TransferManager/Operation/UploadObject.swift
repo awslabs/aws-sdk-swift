@@ -118,7 +118,7 @@ public extension S3TransferManager {
         payloadSize: Int
     ) async throws -> [S3ClientTypes.CompletedPart] {
         // Semaphore used to set maximum number of concurrent uploadPart child tasks.
-        let maxConcurrentUploads = Device.maximumConcurrentUploadPartTasks
+        let maxConcurrentUploads = Device.maximumConcurrentTasks
         let semaphore = DispatchSemaphore(value: maxConcurrentUploads)
 
         // Helper function to make semaphore.wait() async and non-blocking.
@@ -256,19 +256,6 @@ public extension S3TransferManager {
                 }
             }
         }
-    }
-
-    // Optimizations & configurability are additive work.
-    private enum Device {
-        static let maximumConcurrentUploadPartTasks: Int = {
-            #if os(macOS) || os(Linux)
-                return 6 // Default maximum connections per host for URLSession.
-            #elseif os(watchOS)
-                return 2
-            #else  // iOS, iPadOS, tvOS
-                return 4
-            #endif
-        }()
     }
 }
 
