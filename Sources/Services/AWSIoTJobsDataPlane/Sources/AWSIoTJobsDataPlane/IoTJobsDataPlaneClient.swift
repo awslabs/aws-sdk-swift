@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTJobsDataPlaneClient: ClientRuntime.Client {
     public static let clientName = "IoTJobsDataPlaneClient"
-    public static let version = "1.2.17"
+    public static let version = "1.2.18"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTJobsDataPlaneClient.IoTJobsDataPlaneClientConfiguration
     let serviceName = "IoT Jobs Data Plane"

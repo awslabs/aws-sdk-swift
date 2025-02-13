@@ -682,9 +682,9 @@ extension ECSClientTypes {
 
     /// The managed storage configuration for the cluster.
     public struct ManagedStorageConfiguration: Swift.Sendable {
-        /// Specify the Key Management Service key ID for the Fargate ephemeral storage.
+        /// Specify the Key Management Service key ID for the Fargate ephemeral storage. The key must be a single Region key.
         public var fargateEphemeralStorageKmsKeyId: Swift.String?
-        /// Specify a Key Management Service key ID to encrypt the managed storage.
+        /// Specify a Key Management Service key ID to encrypt the managed storage. The key must be a single Region key.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -2072,7 +2072,7 @@ extension ECSClientTypes {
 }
 
 public struct CreateServiceInput: Swift.Sendable {
-    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide .
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
     /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy can contain a maximum of 20 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -2599,7 +2599,7 @@ extension ECSClientTypes {
 
     /// Details on a service within a cluster.
     public struct Service: Swift.Sendable {
-        /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide.
+        /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide .
         public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
         /// The capacity provider strategy the service uses. When using the DescribeServices API, this field is omitted if the service was created using a launch type.
         public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -3608,17 +3608,20 @@ extension ECSClientTypes {
     /// * Container health checks are supported for Fargate tasks if you're using platform version 1.1.0 or greater. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html).
     ///
     /// * Container health checks aren't supported for tasks that are part of a service that's configured to use a Classic Load Balancer.
+    ///
+    ///
+    /// For an example of how to specify a task definition with multiple containers where container dependency is specified, see [Container dependency](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency) in the Amazon Elastic Container Service Developer Guide.
     public struct HealthCheck: Swift.Sendable {
         /// A string array representing the command that the container runs to determine if it is healthy. The string array must start with CMD to run the command arguments directly, or CMD-SHELL to run the command with the container's default shell. When you use the Amazon Web Services Management Console JSON panel, the Command Line Interface, or the APIs, enclose the list of commands in double quotes and brackets. [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ] You don't include the double quotes and brackets when you use the Amazon Web Services Management Console.  CMD-SHELL, curl -f http://localhost/ || exit 1 An exit code of 0 indicates success, and non-zero exit code indicates failure. For more information, see HealthCheck in the docker container create command.
         /// This member is required.
         public var command: [Swift.String]?
-        /// The time period in seconds between each health check execution. You may specify between 5 and 300 seconds. The default value is 30 seconds.
+        /// The time period in seconds between each health check execution. You may specify between 5 and 300 seconds. The default value is 30 seconds. This value applies only when you specify a command.
         public var interval: Swift.Int?
-        /// The number of times to retry a failed health check before the container is considered unhealthy. You may specify between 1 and 10 retries. The default value is 3.
+        /// The number of times to retry a failed health check before the container is considered unhealthy. You may specify between 1 and 10 retries. The default value is 3. This value applies only when you specify a command.
         public var retries: Swift.Int?
-        /// The optional grace period to provide containers time to bootstrap before failed health checks count towards the maximum number of retries. You can specify between 0 and 300 seconds. By default, the startPeriod is off. If a health check succeeds within the startPeriod, then the container is considered healthy and any subsequent failures count toward the maximum number of retries.
+        /// The optional grace period to provide containers time to bootstrap before failed health checks count towards the maximum number of retries. You can specify between 0 and 300 seconds. By default, the startPeriod is off. This value applies only when you specify a command. If a health check succeeds within the startPeriod, then the container is considered healthy and any subsequent failures count toward the maximum number of retries.
         public var startPeriod: Swift.Int?
-        /// The time period in seconds to wait for a health check to succeed before it is considered a failure. You may specify between 2 and 60 seconds. The default value is 5.
+        /// The time period in seconds to wait for a health check to succeed before it is considered a failure. You may specify between 2 and 60 seconds. The default value is 5. This value applies only when you specify a command.
         public var timeout: Swift.Int?
 
         public init(
@@ -3639,7 +3642,17 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The Linux capabilities to add or remove from the default Docker configuration for a container defined in the task definition. For more detailed information about these Linux capabilities, see the [capabilities(7)](http://man7.org/linux/man-pages/man7/capabilities.7.html) Linux manual page.
+    /// The Linux capabilities to add or remove from the default Docker configuration for a container defined in the task definition. For more detailed information about these Linux capabilities, see the [capabilities(7)](http://man7.org/linux/man-pages/man7/capabilities.7.html) Linux manual page. The following describes how Docker processes the Linux capabilities specified in the add and drop request parameters. For information about the latest behavior, see [Docker Compose: order of cap_drop and cap_add](https://forums.docker.com/t/docker-compose-order-of-cap-drop-and-cap-add/97136/1) in the Docker Community Forum.
+    ///
+    /// * When the container is a privleged container, the container capabilities are all of the default Docker capabilities. The capabilities specified in the add request parameter, and the drop request parameter are ignored.
+    ///
+    /// * When the add request parameter is set to ALL, the container capabilities are all of the default Docker capabilities, excluding those specified in the drop request parameter.
+    ///
+    /// * When the drop request parameter is set to ALL, the container capabilities are the capabilities specified in the add request parameter.
+    ///
+    /// * When the add request parameter and the drop request parameter are both empty, the capabilities the container capabilities are all of the default Docker capabilities.
+    ///
+    /// * The default is to first drop the capabilities specified in the drop request parameter, and then add the capabilities specified in the add request parameter.
     public struct KernelCapabilities: Swift.Sendable {
         /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the docker container create command and the --cap-add option to docker run. Tasks launched on Fargate only support adding the SYS_PTRACE kernel capability. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM"
         public var add: [Swift.String]?
@@ -8902,7 +8915,7 @@ public struct StopTaskInput: Swift.Sendable {
     public var cluster: Swift.String?
     /// An optional message specified when a task is stopped. For example, if you're using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message appears in subsequent [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html)> API operations on this task.
     public var reason: Swift.String?
-    /// The task ID of the task to stop.
+    /// Thefull Amazon Resource Name (ARN) of the task.
     /// This member is required.
     public var task: Swift.String?
 
@@ -9154,7 +9167,7 @@ public struct SubmitTaskStateChangeOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to add tags to. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances.
+    /// The Amazon Resource Name (ARN) of the resource to add tags to. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances. In order to tag a service that has the following ARN format, you need to migrate the service to the long ARN. For more information, see [Migrate an Amazon ECS short service ARN to a long ARN](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-arn-migration.html) in the Amazon Elastic Container Service Developer Guide. arn:aws:ecs:region:aws_account_id:service/service-name After the migration is complete, the service has the long ARN format, as shown below. Use this ARN to tag the service. arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name If you try to tag a service with a short ARN, you receive an InvalidParameterException error.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:
@@ -9437,7 +9450,7 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
 }
 
 public struct UpdateServiceInput: Swift.Sendable {
-    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide .
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
     /// The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the service can be updated to use one or more capacity providers as opposed to the default capacity provider strategy. However, when a service is using a capacity provider strategy that's not the default capacity provider strategy, the service can't be updated to use the cluster's default capacity provider strategy. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateClusterCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateClusterCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
