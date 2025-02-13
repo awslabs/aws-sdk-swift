@@ -88,7 +88,7 @@ public extension S3TransferManager {
         }
     }
 
-    internal func prepareMPU(
+    private func prepareMPU(
         s3: S3Client,
         payloadSize: Int,
         input: UploadObjectInput
@@ -109,7 +109,7 @@ public extension S3TransferManager {
     }
 
     // Returns completed parts used to complete MPU.
-    internal func uploadPartsConcurrently(
+    private func uploadPartsConcurrently(
         s3: S3Client,
         input: UploadObjectInput,
         uploadID: String,
@@ -117,8 +117,8 @@ public extension S3TransferManager {
         partSize: Int,
         payloadSize: Int
     ) async throws -> [S3ClientTypes.CompletedPart] {
-        // Semaphore used to set maximum number of concurrent child tasks (requests).
-        let maxConcurrentUploads = 10
+        // Semaphore used to set maximum number of concurrent uploadPart child tasks.
+        let maxConcurrentUploads = Device.maximumConcurrentUploadPartTasks
         let semaphore = DispatchSemaphore(value: maxConcurrentUploads)
 
         // Helper function to make semaphore.wait() async and non-blocking.
@@ -205,7 +205,7 @@ public extension S3TransferManager {
         return resolvedPartData
     }
 
-    internal func completeMPU(
+    private func completeMPU(
         s3: S3Client,
         input: UploadObjectInput,
         uploadID: String,
@@ -223,7 +223,7 @@ public extension S3TransferManager {
         return completeMPUOutput
     }
 
-    internal func abortMPU(
+    private func abortMPU(
         s3: S3Client,
         input: UploadObjectInput,
         uploadID: String,
@@ -256,6 +256,19 @@ public extension S3TransferManager {
                 }
             }
         }
+    }
+
+    // Optimizations & configurability are additive work.
+    private enum Device {
+        static let maximumConcurrentUploadPartTasks: Int = {
+            #if os(macOS) || os(Linux)
+                return 6 // Default maximum connections per host for URLSession.
+            #elseif os(watchOS)
+                return 2
+            #else  // iOS, iPadOS, tvOS
+                return 4
+            #endif
+        }()
     }
 }
 

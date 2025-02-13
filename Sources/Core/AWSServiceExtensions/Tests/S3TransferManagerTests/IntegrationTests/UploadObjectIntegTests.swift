@@ -153,18 +153,22 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     func testUploadObject5GB() async throws {
+        try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .gb5)
     }
 
     func testUploadObject50GB() async throws {
+        try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .gb50)
     }
 
     func testUploadObject1TB() async throws {
+        try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .tb1)
     }
 
     func testUploadObject5TB() async throws {
+        try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .tb5)
     }
 
@@ -314,6 +318,15 @@ class UploadObjectIntegTests: XCTestCase {
             )
         ))
         _ = try await uploadObjectTask.value
+    }
+
+    private func skip5GBAndUpIfNotConfiguredToRun() throws {
+        guard ProcessInfo.processInfo.environment["RUN_LARGE_S3TM_UPLOAD_OBJECT_TESTS"] == "YES" else {
+            // Creates a "skip" result, not a failure.
+            throw XCTSkip(
+                "Skipping large upload (>= 5GB) test. Set RUN_LARGE_S3TM_UPLOAD_OBJECT_TESTS env var to \"YES\" to run."
+            )
+        }
     }
 }
 
