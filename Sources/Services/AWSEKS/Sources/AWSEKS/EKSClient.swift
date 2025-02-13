@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSClient: ClientRuntime.Client {
     public static let clientName = "EKSClient"
-    public static let version = "1.2.17"
+    public static let version = "1.2.18"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSClient.EKSClientConfiguration
     let serviceName = "EKS"

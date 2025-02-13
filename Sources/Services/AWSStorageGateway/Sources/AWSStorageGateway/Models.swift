@@ -989,6 +989,153 @@ extension StorageGatewayClientTypes {
     }
 }
 
+extension StorageGatewayClientTypes {
+
+    public enum CacheReportFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case uploadfailurereason
+        case uploadstate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CacheReportFilterName] {
+            return [
+                .uploadfailurereason,
+                .uploadstate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .uploadfailurereason: return "UploadFailureReason"
+            case .uploadstate: return "UploadState"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension StorageGatewayClientTypes {
+
+    /// A list of filter parameters and associated values that determine which files are included or excluded from a cache report created by a StartCacheReport request. Multiple instances of the same filter parameter are combined with an OR operation, while different parameters are combined with an AND operation.
+    public struct CacheReportFilter: Swift.Sendable {
+        /// The parameter name for a filter that determines which files are included or excluded from a cache report. Valid Names: UploadFailureReason | UploadState
+        /// This member is required.
+        public var name: StorageGatewayClientTypes.CacheReportFilterName?
+        /// The parameter value for a filter that determines which files are included or excluded from a cache report. Valid UploadFailureReason Values: InaccessibleStorageClass | InvalidObjectState | ObjectMissing | S3AccessDenied Valid UploadState Values: FailingUpload
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: StorageGatewayClientTypes.CacheReportFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension StorageGatewayClientTypes {
+
+    public enum CacheReportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case completed
+        case error
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CacheReportStatus] {
+            return [
+                .canceled,
+                .completed,
+                .error,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .completed: return "COMPLETED"
+            case .error: return "ERROR"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension StorageGatewayClientTypes {
+
+    /// Contains all informational fields associated with a cache report. Includes name, ARN, tags, status, progress, filters, start time, and end time.
+    public struct CacheReportInfo: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the cache report you want to describe.
+        public var cacheReportARN: Swift.String?
+        /// The status of the specified cache report.
+        public var cacheReportStatus: StorageGatewayClientTypes.CacheReportStatus?
+        /// The time at which the gateway stopped generating the cache report.
+        public var endTime: Foundation.Date?
+        /// The list of filters and parameters that determine which files are excluded from the report.
+        public var exclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]?
+        /// The Amazon Resource Name (ARN) of the file share.
+        public var fileShareARN: Swift.String?
+        /// The list of filters and parameters that determine which files are included in the report.
+        public var inclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]?
+        /// The ARN of the Amazon S3 bucket location where the cache report is saved.
+        public var locationARN: Swift.String?
+        /// The percentage of the report generation process that has been completed at time of inquiry.
+        public var reportCompletionPercent: Swift.Int?
+        /// The file name of the completed cache report object stored in Amazon S3.
+        public var reportName: Swift.String?
+        /// The ARN of the IAM role that an S3 File Gateway assumes when it accesses the underlying storage.
+        public var role: Swift.String?
+        /// The time at which the gateway started generating the cache report.
+        public var startTime: Foundation.Date?
+        /// The list of key/value tags associated with the report.
+        public var tags: [StorageGatewayClientTypes.Tag]?
+
+        public init(
+            cacheReportARN: Swift.String? = nil,
+            cacheReportStatus: StorageGatewayClientTypes.CacheReportStatus? = nil,
+            endTime: Foundation.Date? = nil,
+            exclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]? = nil,
+            fileShareARN: Swift.String? = nil,
+            inclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]? = nil,
+            locationARN: Swift.String? = nil,
+            reportCompletionPercent: Swift.Int? = nil,
+            reportName: Swift.String? = nil,
+            role: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            tags: [StorageGatewayClientTypes.Tag]? = nil
+        ) {
+            self.cacheReportARN = cacheReportARN
+            self.cacheReportStatus = cacheReportStatus
+            self.endTime = endTime
+            self.exclusionFilters = exclusionFilters
+            self.fileShareARN = fileShareARN
+            self.inclusionFilters = inclusionFilters
+            self.locationARN = locationARN
+            self.reportCompletionPercent = reportCompletionPercent
+            self.reportName = reportName
+            self.role = role
+            self.startTime = startTime
+            self.tags = tags
+        }
+    }
+}
+
 /// CancelArchivalInput
 public struct CancelArchivalInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
@@ -1016,6 +1163,29 @@ public struct CancelArchivalOutput: Swift.Sendable {
         tapeARN: Swift.String? = nil
     ) {
         self.tapeARN = tapeARN
+    }
+}
+
+public struct CancelCacheReportInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cache report you want to cancel.
+    /// This member is required.
+    public var cacheReportARN: Swift.String?
+
+    public init(
+        cacheReportARN: Swift.String? = nil
+    ) {
+        self.cacheReportARN = cacheReportARN
+    }
+}
+
+public struct CancelCacheReportOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cache report you want to cancel.
+    public var cacheReportARN: Swift.String?
+
+    public init(
+        cacheReportARN: Swift.String? = nil
+    ) {
+        self.cacheReportARN = cacheReportARN
     }
 }
 
@@ -1998,6 +2168,29 @@ public struct DeleteBandwidthRateLimitOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCacheReportInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cache report you want to delete.
+    /// This member is required.
+    public var cacheReportARN: Swift.String?
+
+    public init(
+        cacheReportARN: Swift.String? = nil
+    ) {
+        self.cacheReportARN = cacheReportARN
+    }
+}
+
+public struct DeleteCacheReportOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cache report you want to delete.
+    public var cacheReportARN: Swift.String?
+
+    public init(
+        cacheReportARN: Swift.String? = nil
+    ) {
+        self.cacheReportARN = cacheReportARN
+    }
+}
+
 /// A JSON object containing one or more of the following fields:
 ///
 /// * [DeleteChapCredentialsInput$InitiatorName]
@@ -2383,6 +2576,29 @@ public struct DescribeCachediSCSIVolumesOutput: Swift.Sendable {
         cachediSCSIVolumes: [StorageGatewayClientTypes.CachediSCSIVolume]? = nil
     ) {
         self.cachediSCSIVolumes = cachediSCSIVolumes
+    }
+}
+
+public struct DescribeCacheReportInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cache report you want to describe.
+    /// This member is required.
+    public var cacheReportARN: Swift.String?
+
+    public init(
+        cacheReportARN: Swift.String? = nil
+    ) {
+        self.cacheReportARN = cacheReportARN
+    }
+}
+
+public struct DescribeCacheReportOutput: Swift.Sendable {
+    /// Contains all informational fields associated with a cache report. Includes name, ARN, tags, status, progress, filters, start time, and end time.
+    public var cacheReportInfo: StorageGatewayClientTypes.CacheReportInfo?
+
+    public init(
+        cacheReportInfo: StorageGatewayClientTypes.CacheReportInfo? = nil
+    ) {
+        self.cacheReportInfo = cacheReportInfo
     }
 }
 
@@ -3159,7 +3375,7 @@ extension StorageGatewayClientTypes {
 }
 
 public struct DescribeSMBSettingsOutput: Swift.Sendable {
-    /// Indicates the status of a gateway that is a member of the Active Directory domain.
+    /// Indicates the status of a gateway that is a member of the Active Directory domain. This field is only used as part of a JoinDomain request. It is not affected by Active Directory connectivity changes that occur after the JoinDomain request succeeds.
     ///
     /// * ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.
     ///
@@ -4146,7 +4362,7 @@ extension JoinDomainInput: Swift.CustomDebugStringConvertible {
 
 /// JoinDomainOutput
 public struct JoinDomainOutput: Swift.Sendable {
-    /// Indicates the status of the gateway as a member of the Active Directory domain.
+    /// Indicates the status of the gateway as a member of the Active Directory domain. This field is only used as part of a JoinDomain request. It is not affected by Active Directory connectivity changes that occur after the JoinDomain request succeeds.
     ///
     /// * ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.
     ///
@@ -4193,6 +4409,32 @@ public struct ListAutomaticTapeCreationPoliciesOutput: Swift.Sendable {
         automaticTapeCreationPolicyInfos: [StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo]? = nil
     ) {
         self.automaticTapeCreationPolicyInfos = automaticTapeCreationPolicyInfos
+    }
+}
+
+public struct ListCacheReportsInput: Swift.Sendable {
+    /// Opaque pagination token returned from a previous ListCacheReports operation. If present, Marker specifies where to continue the list from after a previous call to ListCacheReports. Optional.
+    public var marker: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil
+    ) {
+        self.marker = marker
+    }
+}
+
+public struct ListCacheReportsOutput: Swift.Sendable {
+    /// A list of existing cache reports for all file shares associated with your Amazon Web Services account. This list includes all information provided by the DescribeCacheReport action, such as report status, completion progress, start time, end time, filters, and tags.
+    public var cacheReportList: [StorageGatewayClientTypes.CacheReportInfo]?
+    /// If the request includes Marker, the response returns that value in this field.
+    public var marker: Swift.String?
+
+    public init(
+        cacheReportList: [StorageGatewayClientTypes.CacheReportInfo]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.cacheReportList = cacheReportList
+        self.marker = marker
     }
 }
 
@@ -5026,6 +5268,65 @@ public struct StartAvailabilityMonitorTestOutput: Swift.Sendable {
     }
 }
 
+public struct StartCacheReportInput: Swift.Sendable {
+    /// The Amazon Web Services Region of the Amazon S3 bucket associated with the file share for which you want to generate the cache report.
+    /// This member is required.
+    public var bucketRegion: Swift.String?
+    /// A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The list of filters and parameters that determine which files are excluded from the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
+    public var exclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]?
+    /// The Amazon Resource Name (ARN) of the file share.
+    /// This member is required.
+    public var fileShareARN: Swift.String?
+    /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
+    public var inclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]?
+    /// The ARN of the Amazon S3 bucket where the cache report will be saved. We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
+    /// This member is required.
+    public var locationARN: Swift.String?
+    /// The ARN of the IAM role used when saving the cache report to Amazon S3.
+    /// This member is required.
+    public var role: Swift.String?
+    /// A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results.
+    public var tags: [StorageGatewayClientTypes.Tag]?
+    /// The DNS name of the VPC endpoint associated with the Amazon S3 where you want to save the cache report. Optional.
+    public var vpcEndpointDNSName: Swift.String?
+
+    public init(
+        bucketRegion: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        exclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]? = nil,
+        fileShareARN: Swift.String? = nil,
+        inclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]? = nil,
+        locationARN: Swift.String? = nil,
+        role: Swift.String? = nil,
+        tags: [StorageGatewayClientTypes.Tag]? = nil,
+        vpcEndpointDNSName: Swift.String? = nil
+    ) {
+        self.bucketRegion = bucketRegion
+        self.clientToken = clientToken
+        self.exclusionFilters = exclusionFilters
+        self.fileShareARN = fileShareARN
+        self.inclusionFilters = inclusionFilters
+        self.locationARN = locationARN
+        self.role = role
+        self.tags = tags
+        self.vpcEndpointDNSName = vpcEndpointDNSName
+    }
+}
+
+public struct StartCacheReportOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cache report generated by the StartCacheReport request.
+    public var cacheReportARN: Swift.String?
+
+    public init(
+        cacheReportARN: Swift.String? = nil
+    ) {
+        self.cacheReportARN = cacheReportARN
+    }
+}
+
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway to start.
 public struct StartGatewayInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
@@ -5789,6 +6090,13 @@ extension CancelArchivalInput {
     }
 }
 
+extension CancelCacheReportInput {
+
+    static func urlPathProvider(_ value: CancelCacheReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CancelRetrievalInput {
 
     static func urlPathProvider(_ value: CancelRetrievalInput) -> Swift.String? {
@@ -5869,6 +6177,13 @@ extension DeleteAutomaticTapeCreationPolicyInput {
 extension DeleteBandwidthRateLimitInput {
 
     static func urlPathProvider(_ value: DeleteBandwidthRateLimitInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteCacheReportInput {
+
+    static func urlPathProvider(_ value: DeleteCacheReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5960,6 +6275,13 @@ extension DescribeCacheInput {
 extension DescribeCachediSCSIVolumesInput {
 
     static func urlPathProvider(_ value: DescribeCachediSCSIVolumesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeCacheReportInput {
+
+    static func urlPathProvider(_ value: DescribeCacheReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6104,6 +6426,13 @@ extension ListAutomaticTapeCreationPoliciesInput {
     }
 }
 
+extension ListCacheReportsInput {
+
+    static func urlPathProvider(_ value: ListCacheReportsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListFileSharesInput {
 
     static func urlPathProvider(_ value: ListFileSharesInput) -> Swift.String? {
@@ -6240,6 +6569,13 @@ extension ShutdownGatewayInput {
 extension StartAvailabilityMonitorTestInput {
 
     static func urlPathProvider(_ value: StartAvailabilityMonitorTestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartCacheReportInput {
+
+    static func urlPathProvider(_ value: StartCacheReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6454,6 +6790,14 @@ extension CancelArchivalInput {
     }
 }
 
+extension CancelCacheReportInput {
+
+    static func write(value: CancelCacheReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CacheReportARN"].write(value.cacheReportARN)
+    }
+}
+
 extension CancelRetrievalInput {
 
     static func write(value: CancelRetrievalInput?, to writer: SmithyJSON.Writer) throws {
@@ -6640,6 +6984,14 @@ extension DeleteBandwidthRateLimitInput {
     }
 }
 
+extension DeleteCacheReportInput {
+
+    static func write(value: DeleteCacheReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CacheReportARN"].write(value.cacheReportARN)
+    }
+}
+
 extension DeleteChapCredentialsInput {
 
     static func write(value: DeleteChapCredentialsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6746,6 +7098,14 @@ extension DescribeCachediSCSIVolumesInput {
     static func write(value: DescribeCachediSCSIVolumesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["VolumeARNs"].writeList(value.volumeARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeCacheReportInput {
+
+    static func write(value: DescribeCacheReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CacheReportARN"].write(value.cacheReportARN)
     }
 }
 
@@ -6927,6 +7287,14 @@ extension ListAutomaticTapeCreationPoliciesInput {
     }
 }
 
+extension ListCacheReportsInput {
+
+    static func write(value: ListCacheReportsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Marker"].write(value.marker)
+    }
+}
+
 extension ListFileSharesInput {
 
     static func write(value: ListFileSharesInput?, to writer: SmithyJSON.Writer) throws {
@@ -7104,6 +7472,22 @@ extension StartAvailabilityMonitorTestInput {
     static func write(value: StartAvailabilityMonitorTestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["GatewayARN"].write(value.gatewayARN)
+    }
+}
+
+extension StartCacheReportInput {
+
+    static func write(value: StartCacheReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketRegion"].write(value.bucketRegion)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ExclusionFilters"].writeList(value.exclusionFilters, memberWritingClosure: StorageGatewayClientTypes.CacheReportFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FileShareARN"].write(value.fileShareARN)
+        try writer["InclusionFilters"].writeList(value.inclusionFilters, memberWritingClosure: StorageGatewayClientTypes.CacheReportFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LocationARN"].write(value.locationARN)
+        try writer["Role"].write(value.role)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: StorageGatewayClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VPCEndpointDNSName"].write(value.vpcEndpointDNSName)
     }
 }
 
@@ -7406,6 +7790,18 @@ extension CancelArchivalOutput {
     }
 }
 
+extension CancelCacheReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelCacheReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelCacheReportOutput()
+        value.cacheReportARN = try reader["CacheReportARN"].readIfPresent()
+        return value
+    }
+}
+
 extension CancelRetrievalOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelRetrievalOutput {
@@ -7552,6 +7948,18 @@ extension DeleteBandwidthRateLimitOutput {
         let reader = responseReader
         var value = DeleteBandwidthRateLimitOutput()
         value.gatewayARN = try reader["GatewayARN"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteCacheReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCacheReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCacheReportOutput()
+        value.cacheReportARN = try reader["CacheReportARN"].readIfPresent()
         return value
     }
 }
@@ -7720,6 +8128,18 @@ extension DescribeCachediSCSIVolumesOutput {
         let reader = responseReader
         var value = DescribeCachediSCSIVolumesOutput()
         value.cachediSCSIVolumes = try reader["CachediSCSIVolumes"].readListIfPresent(memberReadingClosure: StorageGatewayClientTypes.CachediSCSIVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeCacheReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCacheReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCacheReportOutput()
+        value.cacheReportInfo = try reader["CacheReportInfo"].readIfPresent(with: StorageGatewayClientTypes.CacheReportInfo.read(from:))
         return value
     }
 }
@@ -8015,6 +8435,19 @@ extension ListAutomaticTapeCreationPoliciesOutput {
     }
 }
 
+extension ListCacheReportsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCacheReportsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCacheReportsOutput()
+        value.cacheReportList = try reader["CacheReportList"].readListIfPresent(memberReadingClosure: StorageGatewayClientTypes.CacheReportInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
 extension ListFileSharesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFileSharesOutput {
@@ -8266,6 +8699,18 @@ extension StartAvailabilityMonitorTestOutput {
         let reader = responseReader
         var value = StartAvailabilityMonitorTestOutput()
         value.gatewayARN = try reader["GatewayARN"].readIfPresent()
+        return value
+    }
+}
+
+extension StartCacheReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCacheReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartCacheReportOutput()
+        value.cacheReportARN = try reader["CacheReportARN"].readIfPresent()
         return value
     }
 }
@@ -8599,6 +9044,21 @@ enum CancelArchivalOutputError {
     }
 }
 
+enum CancelCacheReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidGatewayRequestException": return try InvalidGatewayRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CancelRetrievalOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8767,6 +9227,21 @@ enum DeleteAutomaticTapeCreationPolicyOutputError {
 }
 
 enum DeleteBandwidthRateLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidGatewayRequestException": return try InvalidGatewayRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCacheReportOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8962,6 +9437,21 @@ enum DescribeCacheOutputError {
 }
 
 enum DescribeCachediSCSIVolumesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidGatewayRequestException": return try InvalidGatewayRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeCacheReportOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9276,6 +9766,21 @@ enum ListAutomaticTapeCreationPoliciesOutputError {
     }
 }
 
+enum ListCacheReportsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidGatewayRequestException": return try InvalidGatewayRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListFileSharesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9562,6 +10067,21 @@ enum ShutdownGatewayOutputError {
 }
 
 enum StartAvailabilityMonitorTestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidGatewayRequestException": return try InvalidGatewayRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartCacheReportOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9921,6 +10441,61 @@ extension StorageGatewayClientTypes.VolumeiSCSIAttributes {
     }
 }
 
+extension StorageGatewayClientTypes.CacheReportInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CacheReportInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.CacheReportInfo()
+        value.cacheReportARN = try reader["CacheReportARN"].readIfPresent()
+        value.cacheReportStatus = try reader["CacheReportStatus"].readIfPresent()
+        value.reportCompletionPercent = try reader["ReportCompletionPercent"].readIfPresent()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.role = try reader["Role"].readIfPresent()
+        value.fileShareARN = try reader["FileShareARN"].readIfPresent()
+        value.locationARN = try reader["LocationARN"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inclusionFilters = try reader["InclusionFilters"].readListIfPresent(memberReadingClosure: StorageGatewayClientTypes.CacheReportFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionFilters = try reader["ExclusionFilters"].readListIfPresent(memberReadingClosure: StorageGatewayClientTypes.CacheReportFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportName = try reader["ReportName"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: StorageGatewayClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.Tag {
+
+    static func write(value: StorageGatewayClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.CacheReportFilter {
+
+    static func write(value: StorageGatewayClientTypes.CacheReportFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.CacheReportFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.CacheReportFilter()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension StorageGatewayClientTypes.ChapInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.ChapInfo {
@@ -9988,23 +10563,6 @@ extension StorageGatewayClientTypes.CacheAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = StorageGatewayClientTypes.CacheAttributes()
         value.cacheStaleTimeoutInSeconds = try reader["CacheStaleTimeoutInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension StorageGatewayClientTypes.Tag {
-
-    static func write(value: StorageGatewayClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = StorageGatewayClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
