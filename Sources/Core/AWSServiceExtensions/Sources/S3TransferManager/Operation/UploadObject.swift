@@ -6,7 +6,6 @@
 //
 
 import AWSS3
-import class Foundation.DispatchSemaphore
 import enum Smithy.ByteStream
 import func CoreFoundation.autoreleasepool
 import struct Foundation.Data
@@ -117,27 +116,17 @@ public extension S3TransferManager {
         partSize: Int,
         payloadSize: Int
     ) async throws -> [S3ClientTypes.CompletedPart] {
-        // Semaphore used to set maximum number of concurrent uploadPart child tasks.
-        let maxConcurrentUploads = Device.maximumConcurrentTasks
-        let semaphore = DispatchSemaphore(value: maxConcurrentUploads)
-
-        // Helper function to make semaphore.wait() async and non-blocking.
-        func wait() async {
-            await withUnsafeContinuation { continuation in
-                semaphore.wait()
-                continuation.resume()
-            }
-        }
-
         return try await withThrowingTaskGroup(
             // Child task returns a completed part that contains S3's checksum & part number.
             of: S3ClientTypes.CompletedPart.self,
             // Task group returns completed parts sorted by part number.
             returning: [S3ClientTypes.CompletedPart].self
         ) { group in
+            // Get semaphore for bucket using SemaphoreManager.
+            let semaphore = await semaphoreManager.getSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
             for partNumber in 1...numParts {
                 // Wait & acquire semaphore before reading part data & adding a new uploadPart task for it.
-                await wait()
+                await wait(semaphore)
 
                 // Using async autorelease to read and return part data ensures temporary things that were created to
                 //   read the part data gets released as expected.
@@ -154,27 +143,35 @@ public extension S3TransferManager {
 
                 try Task.checkCancellation()
                 group.addTask {
-                    // Free a semaphore it was using before returning from task.
-                    defer {
-                        semaphore.signal()
+                    do {
+                        defer {
+                            // Free semaphore task was using before returning.
+                            semaphore.signal()
+                        }
+
+                        let uploadPartInput = input.getUploadPartInput(
+                            body: ByteStream.data(partData),
+                            partNumber: partNumber,
+                            uploadID: uploadID
+                        )
+
+                        try Task.checkCancellation()
+                        let uploadPartOutput = try await s3.uploadPart(input: uploadPartInput)
+                        // Release semaphore usage.
+                        await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
+                        return S3ClientTypes.CompletedPart(
+                            checksumCRC32: uploadPartOutput.checksumCRC32,
+                            checksumCRC32C: uploadPartOutput.checksumCRC32C,
+                            checksumSHA1: uploadPartOutput.checksumSHA1,
+                            checksumSHA256: uploadPartOutput.checksumSHA256,
+                            eTag: uploadPartOutput.eTag,
+                            partNumber: partNumber
+                        )
+                    } catch {
+                        // Release semaphore usage.
+                        await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
+                        throw error
                     }
-
-                    let uploadPartInput = input.getUploadPartInput(
-                        body: ByteStream.data(partData),
-                        partNumber: partNumber,
-                        uploadID: uploadID
-                    )
-
-                    try Task.checkCancellation()
-                    let uploadPartOutput = try await s3.uploadPart(input: uploadPartInput)
-                    return S3ClientTypes.CompletedPart(
-                        checksumCRC32: uploadPartOutput.checksumCRC32,
-                        checksumCRC32C: uploadPartOutput.checksumCRC32C,
-                        checksumSHA1: uploadPartOutput.checksumSHA1,
-                        checksumSHA256: uploadPartOutput.checksumSHA256,
-                        eTag: uploadPartOutput.eTag,
-                        partNumber: partNumber
-                    )
                 }
             }
 

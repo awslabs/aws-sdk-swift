@@ -6,6 +6,7 @@
 //
 
 import AWSS3
+import class Foundation.DispatchSemaphore
 import struct Foundation.URL
 import struct Smithy.SwiftLogger
 
@@ -28,6 +29,7 @@ import struct Smithy.SwiftLogger
 public class S3TransferManager {
     let config: S3TransferManagerConfig
     let logger: SwiftLogger
+    internal let semaphoreManager = S3TMSemaphoreManager()
 
     /// Creates the S3 Transfer Manager.
     ///
@@ -50,16 +52,11 @@ public class S3TransferManager {
         return "/" // Default path separator for all apple platforms & Linux distros.
     }
 
-    // Optimizations & configurability are additive work.
-    internal enum Device {
-        static let maximumConcurrentTasks: Int = {
-            #if os(macOS) || os(Linux)
-                return 6 // Default maximum connections per host for URLSession.
-            #elseif os(watchOS)
-                return 2
-            #else  // iOS, iPadOS, tvOS
-                return 4
-            #endif
-        }()
+    // Helper function to make semaphore.wait() async.
+    internal func wait(_ semaphore: DispatchSemaphore) async {
+        await withUnsafeContinuation { continuation in
+            semaphore.wait()
+            continuation.resume()
+        }
     }
 }

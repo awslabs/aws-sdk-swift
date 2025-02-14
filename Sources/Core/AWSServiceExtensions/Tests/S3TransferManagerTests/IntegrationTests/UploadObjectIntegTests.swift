@@ -10,7 +10,6 @@ import AWSS3
 import AWSServiceExtensions
 import Smithy
 import SmithyStreams
-import class ClientRuntime.SDKLoggingSystem
 
 class UploadObjectIntegTests: XCTestCase {
     static var tm: S3TransferManager! // The shared transfer manager for tests.
