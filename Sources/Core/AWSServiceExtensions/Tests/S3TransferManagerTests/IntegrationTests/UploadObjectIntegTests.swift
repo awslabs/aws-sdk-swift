@@ -99,15 +99,15 @@ class UploadObjectIntegTests: XCTestCase {
         bucketName = Self.bucketName
     }
 
-    // MARK: - uploadObject tests.
+    // MARK: - uploadObject tests with files (FileStream payload).
 
     /*
-        - Object size <= single part size
+        - Object size <= single part size (8MB default)
             - 4MB
             - 8MB
-        - single part size < Object size < MPU threshold
+        - single part size (8MB default) < Object size < MPU threshold (16MB default)
             - 12MB
-        - Object size >= MPU threshold
+        - Object size >= MPU threshold (16MB default)
             - 16 MB
             - 50 MB
             - 100 MB
@@ -121,52 +121,88 @@ class UploadObjectIntegTests: XCTestCase {
         Size > 50MB will upload file, get uploaded object size using headObject, and verify uploaded object size.
      */
 
-    func testUploadObject4MB() async throws {
+    func testUploadObject4MBFile() async throws {
         try await runPatternedDataFileTest(withSize: .mb4)
     }
 
-    func testUploadObject8MB() async throws {
+    func testUploadObject8MBFile() async throws {
         try await runPatternedDataFileTest(withSize: .mb8)
     }
 
-    func testUploadObject12MB() async throws {
+    func testUploadObject12MBFile() async throws {
         try await runPatternedDataFileTest(withSize: .mb12)
     }
 
-    func testUploadObject16MB() async throws {
+    func testUploadObject16MBFile() async throws {
         try await runPatternedDataFileTest(withSize: .mb16)
     }
 
-    func testUploadObject50MB() async throws {
+    func testUploadObject50MBFile() async throws {
         try await runPatternedDataFileTest(withSize: .mb50)
     }
 
-    func testUploadObject100MB() async throws {
+    func testUploadObject100MBFile() async throws {
         try await runSparseDataFileTest(withSize: .mb100)
     }
 
-    func testUploadObject500MB() async throws {
+    func testUploadObject500MBFile() async throws {
         try await runSparseDataFileTest(withSize: .mb500)
     }
 
-    func testUploadObject5GB() async throws {
+    func testUploadObject5GBFile() async throws {
         try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .gb5)
     }
 
-    func testUploadObject50GB() async throws {
+    func testUploadObject50GBFile() async throws {
         try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .gb50)
     }
 
-    func testUploadObject1TB() async throws {
+    func testUploadObject1TBFile() async throws {
         try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .tb1)
     }
 
-    func testUploadObject5TB() async throws {
+    func testUploadObject5TBFile() async throws {
         try skip5GBAndUpIfNotConfiguredToRun()
         try await runSparseDataFileTest(withSize: .tb5)
+    }
+
+    // MARK: - uploadObject tests with in-memory Data (Data payload)
+
+    /*
+         - Object size <= single part size (8MB default)
+             - 4MB
+             - 8MB
+         - single part size (8MB default) < Object size < MPU threshold (16MB default)
+             - 12MB
+         - Object size >= MPU threshold (16MB default)
+             - 16 MB
+             - 50 MB
+
+        No large upload tests bc these tests us in-memory Data payload.
+        All tests upload data, then donwload object, and verify actual data contents.
+     */
+
+    func testUploadObjectWith4MBInMemoryData() async throws {
+        try await runPatternedInMemoryDataTest(withSize: .mb4)
+    }
+
+    func testUploadObjectWith8MBInMemoryData() async throws {
+        try await runPatternedInMemoryDataTest(withSize: .mb8)
+    }
+
+    func testUploadObjectWith12MBInMemoryData() async throws {
+        try await runPatternedInMemoryDataTest(withSize: .mb12)
+    }
+
+    func testUploadObjectWith16MBInMemoryData() async throws {
+        try await runPatternedInMemoryDataTest(withSize: .mb16)
+    }
+
+    func testUploadObjectWith50MBInMemoryData() async throws {
+        try await runPatternedInMemoryDataTest(withSize: .mb50)
     }
 
     // MARK: - Helper functions for tests.
@@ -186,7 +222,21 @@ class UploadObjectIntegTests: XCTestCase {
     // 8-byte patterned data, used for creating & validating patterned data files.
     let dataPattern: [UInt8] = [0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22]
 
-    // Used to generate patterned data file for sizes <= 50MB.
+    // Used to generate pattnered in-memory data.
+    private func createPatternedInMemoryData(size: TestFileSize) -> Data {
+        let patterned8ByteData = Data(dataPattern)
+        var remainingSize = size.bytes
+        var inMemoryData = Data(capacity: size.bytes)
+
+        while remainingSize > 0 {
+            inMemoryData.append(patterned8ByteData)
+            remainingSize -= patterned8ByteData.count
+        }
+
+        return inMemoryData
+    }
+
+    // Used to generate patterned data file.
     private func createPatternedDataTestFile(size: TestFileSize) -> URL {
         let fileName = size.fileName
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
@@ -217,7 +267,7 @@ class UploadObjectIntegTests: XCTestCase {
         return fileURL
     }
 
-    // Used to generate sparse data file for sizes > 50MB.
+    // Used to generate sparse data file.
     // Writing a single 1-byte at the end of desired length makes file have desired size very efficiently.
     // All bytes that come before the 1-byte at the end becomes 0-bytes.
     private func createSparseTestFile(size: TestFileSize) -> URL {
@@ -238,7 +288,7 @@ class UploadObjectIntegTests: XCTestCase {
         return fileURL
     }
 
-    // Used to verify bytes of patterned data files with sizes <= 50 MB.
+    // Validates uploaded object contents using getObject.
     private func validatePatternResponse(in output: GetObjectOutput, size: TestFileSize) async throws -> Bool {
         guard size.shouldUsePatternedData else { return true } // Skip verification for sparse files.
 
@@ -248,7 +298,7 @@ class UploadObjectIntegTests: XCTestCase {
         let mbSize = 1024 * 1024 // 1MB.
         var remainingSize = size.bytes
 
-        // Build expected data using same logic in createPatternedDataTestFile function.
+        // Build expected data using same logic used to create payload for uplaod.
         var expectedBody = Data()
         while remainingSize > 0 {
             var mb1Chunk = Data()
@@ -262,11 +312,11 @@ class UploadObjectIntegTests: XCTestCase {
         return body == expectedBody
     }
 
-    // Used to verify sparse data file uploads with sizes > 50MB.
+    // Validates sparse data file upload by checking its size using headObject.
     private func validateUploadedObject(size: TestFileSize) async throws -> Bool {
         let objectSize = try await s3.headObject(input: HeadObjectInput(
             bucket: bucketName,
-            key: size.s3ObjectKey
+            key: size.s3ObjectKey + "-from-file"
         )).contentLength!
         return objectSize == size.bytes
     }
@@ -275,14 +325,14 @@ class UploadObjectIntegTests: XCTestCase {
         try? FileManager.default.removeItem(at: url)
     }
 
-    // Test runner for files sized <= 50MB.
-    private func runPatternedDataFileTest(withSize size: TestFileSize) async throws {
-        try await runUploadObject(withSize: size)
+    // Test runner for in-memory data payload.
+    private func runPatternedInMemoryDataTest(withSize size: TestFileSize) async throws {
+        try await runUploadObjectWithInMemoryData(withSize: size)
 
         // GetObject on the object.
         let getObjectOutput = try await s3.getObject(input: GetObjectInput(
             bucket: bucketName,
-            key: size.s3ObjectKey
+            key: size.s3ObjectKey + "-from-in-memory-data"
         ))
 
         // Validate fetched body.
@@ -290,16 +340,46 @@ class UploadObjectIntegTests: XCTestCase {
         XCTAssertTrue(validated)
     }
 
-    // Test runner for files sized > 50MB.
+    // Test runner for file payload with patterned data.
+    private func runPatternedDataFileTest(withSize size: TestFileSize) async throws {
+        try await runUploadObjectWithFile(withSize: size)
+
+        // GetObject on the object.
+        let getObjectOutput = try await s3.getObject(input: GetObjectInput(
+            bucket: bucketName,
+            key: size.s3ObjectKey + "-from-file"
+        ))
+
+        // Validate fetched body.
+        let validated = try await validatePatternResponse(in: getObjectOutput, size: size)
+        XCTAssertTrue(validated)
+    }
+
+    // Test runner for file payload with sparse data.
     private func runSparseDataFileTest(withSize size: TestFileSize) async throws {
-        try await runUploadObject(withSize: size)
+        try await runUploadObjectWithFile(withSize: size)
 
         // Verify uploaded object has expected size.
         let validated = try await validateUploadedObject(size: size)
         XCTAssertTrue(validated)
     }
 
-    private func runUploadObject(withSize size: TestFileSize) async throws {
+    private func runUploadObjectWithInMemoryData(withSize size: TestFileSize) async throws {
+        // Create patterned in-memory data to upload.
+        let inMemoryData = createPatternedInMemoryData(size: size)
+
+        // UploadObject with data that was just created.
+        let uploadObjectTask = try tm.uploadObject(input: UploadObjectInput(
+            putObjectInput: PutObjectInput(
+                body: ByteStream.data(inMemoryData),
+                bucket: bucketName,
+                key: size.s3ObjectKey + "-from-in-memory-data"
+            )
+        ))
+        _ = try await uploadObjectTask.value
+    }
+
+    private func runUploadObjectWithFile(withSize size: TestFileSize) async throws {
         // Create file and get its URL.
         let testFileURL = createTestFile(size: size)
 
@@ -311,7 +391,7 @@ class UploadObjectIntegTests: XCTestCase {
             putObjectInput: PutObjectInput(
                 body: ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: testFileURL))),
                 bucket: bucketName,
-                key: size.s3ObjectKey
+                key: size.s3ObjectKey + "-from-file"
             )
         ))
         _ = try await uploadObjectTask.value
