@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutVisionClient: ClientRuntime.Client {
     public static let clientName = "LookoutVisionClient"
-    public static let version = "1.2.18"
+    public static let version = "1.2.19"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutVisionClient.LookoutVisionClientConfiguration
     let serviceName = "LookoutVision"

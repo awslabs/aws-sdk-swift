@@ -4748,6 +4748,8 @@ extension CodeBuildClientTypes {
         public var status: Swift.String?
         /// The path to the raw data file that contains the test result.
         public var testRawDataPath: Swift.String?
+        /// The name of the test suite that the test case is a part of.
+        public var testSuiteName: Swift.String?
 
         public init(
             durationInNanoSeconds: Swift.Int? = nil,
@@ -4757,7 +4759,8 @@ extension CodeBuildClientTypes {
             `prefix`: Swift.String? = nil,
             reportArn: Swift.String? = nil,
             status: Swift.String? = nil,
-            testRawDataPath: Swift.String? = nil
+            testRawDataPath: Swift.String? = nil,
+            testSuiteName: Swift.String? = nil
         ) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.expired = expired
@@ -4767,6 +4770,7 @@ extension CodeBuildClientTypes {
             self.reportArn = reportArn
             self.status = status
             self.testRawDataPath = testRawDataPath
+            self.testSuiteName = testSuiteName
         }
     }
 }
@@ -10052,6 +10056,7 @@ extension CodeBuildClientTypes.TestCase {
         value.durationInNanoSeconds = try reader["durationInNanoSeconds"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         value.expired = try reader["expired"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.testSuiteName = try reader["testSuiteName"].readIfPresent()
         return value
     }
 }
