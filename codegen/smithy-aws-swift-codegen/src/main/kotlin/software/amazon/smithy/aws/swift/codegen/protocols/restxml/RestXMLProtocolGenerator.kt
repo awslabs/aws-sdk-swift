@@ -40,10 +40,12 @@ class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomiz
         }
     }
 
-    override fun httpBodyMembers(ctx: ProtocolGenerator.GenerationContext, shape: Shape): List<MemberShape> {
-        return shape
+    override fun httpBodyMembers(
+        ctx: ProtocolGenerator.GenerationContext,
+        shape: Shape,
+    ): List<MemberShape> =
+        shape
             .members()
             .filter { it.isInHttpBody() }
             .toList()
-    }
 }
