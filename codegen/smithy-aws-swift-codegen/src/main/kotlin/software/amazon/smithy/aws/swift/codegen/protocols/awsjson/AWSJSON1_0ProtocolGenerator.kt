@@ -12,13 +12,11 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.model.traits.HostLabelTrait
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.isEventStreaming
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
-import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.model.targetOrSelf
 
 @Suppress("ktlint:standard:class-naming")
@@ -65,9 +63,6 @@ class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
     ): List<MemberShape> =
         shape
             .members()
-            // The only place an input member can be bound to in AWS JSON other than the body
-            // is the host prefix, using the host label trait.
-            .filter { !it.hasTrait<HostLabelTrait>() }
             // For RPC protocols that support event streaming, we need to send initial request
             // with streaming member excluded during encoding the input struct.
             .filter { !it.targetOrSelf(ctx.model).isEventStreaming }

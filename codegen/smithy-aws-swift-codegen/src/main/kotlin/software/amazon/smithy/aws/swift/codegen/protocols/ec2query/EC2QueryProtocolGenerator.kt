@@ -12,12 +12,10 @@ import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.model.traits.HostLabelTrait
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
-import software.amazon.smithy.swift.codegen.model.hasTrait
 
 class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustomizations()) {
     override val defaultContentType = "application/x-www-form-urlencoded"
@@ -56,11 +54,5 @@ class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustom
     override fun httpBodyMembers(
         ctx: ProtocolGenerator.GenerationContext,
         shape: Shape,
-    ): List<MemberShape> =
-        shape
-            .members()
-            // The only place an input member can be bound to in EC2Query other than the body
-            // is the host prefix, using the host label trait.
-            .filter { !it.hasTrait<HostLabelTrait>() }
-            .toList()
+    ): List<MemberShape> = shape.members().toList()
 }
