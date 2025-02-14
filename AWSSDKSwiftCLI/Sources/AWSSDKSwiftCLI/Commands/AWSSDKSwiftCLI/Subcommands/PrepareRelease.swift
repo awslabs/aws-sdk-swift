@@ -207,7 +207,8 @@ struct PrepareRelease {
                 "Package.version.next",
                 "packageDependencies.plist",
                 "Sources/Services",
-                "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
+                "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md",
+                "Sources/Core/AWSSDKPartitions/Source/AWSSDKPartitions/Partitions.swift",
             ]
         case .smithySwift:
             files = ["Package.version", "Package.version.next"]
