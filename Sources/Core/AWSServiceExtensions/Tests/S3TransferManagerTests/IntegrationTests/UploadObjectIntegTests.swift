@@ -13,11 +13,8 @@ import SmithyStreams
 import class ClientRuntime.SDKLoggingSystem
 
 class UploadObjectIntegTests: XCTestCase {
-    // The shared transfer manager for tests.
-    static var tm: S3TransferManager!
-    // The shared S3 client for tests.
-    static var s3: S3Client!
-
+    static var tm: S3TransferManager! // The shared transfer manager for tests.
+    static var s3: S3Client! // The shared S3 client for tests.
     static let region = "us-west-2"
     static let bucketName = "s3tm-upload-object-integ-test-" + UUID().uuidString.split(separator: "-").first!.lowercased()
 
@@ -53,7 +50,7 @@ class UploadObjectIntegTests: XCTestCase {
             }
         }
 
-        _ = XCTWaiter().wait(for: [tmSetupExpectation, bucketSetupExpectation], timeout: 5)
+        _ = XCTWaiter().wait(for: [tmSetupExpectation, bucketSetupExpectation], timeout: 60)
     }
 
     // This tearDown runs just once for the test class, after all tests finish execution.
@@ -87,11 +84,11 @@ class UploadObjectIntegTests: XCTestCase {
             _ = try await s3.deleteBucket(input: input)
         }
 
-        _ = XCTWaiter().wait(for: [bucketTearDownExpectation], timeout: 10)
+        _ = XCTWaiter().wait(for: [bucketTearDownExpectation], timeout: 60)
     }
 
     // Instance variables that point to same things as static variables.
-    // Added for convenience, so you don't have to do UploadObjectIntegTests.tm every time to access it.
+    // Added for convenience, so you don't have to do UploadObjectIntegTests.tm every time to access static vars.
     var tm: S3TransferManager!
     var s3: S3Client!
     var bucketName: String!
@@ -306,7 +303,7 @@ class UploadObjectIntegTests: XCTestCase {
         // Create file and get its URL.
         let testFileURL = createTestFile(size: size)
 
-        // Delete file before finishing the test case.
+        // Delete the local file before returning.
         defer { deleteTestFile(at: testFileURL) }
 
         // UploadObject with file that was just created.
