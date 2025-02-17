@@ -32,9 +32,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var docs: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -55,8 +55,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         docs: Swift.String? = nil,
         message: Swift.String? = nil,
         tip: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.docs = docs
         self.properties.message = message
@@ -108,8 +107,7 @@ extension LightsailClientTypes {
             lastUsedDate: Foundation.Date? = nil,
             region: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUsedDate = lastUsedDate
             self.region = region
             self.serviceName = serviceName
@@ -167,8 +165,7 @@ extension LightsailClientTypes {
             lastUsed: LightsailClientTypes.AccessKeyLastUsed? = nil,
             secretAccessKey: Swift.String? = nil,
             status: LightsailClientTypes.StatusType? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.createdAt = createdAt
             self.lastUsed = lastUsed
@@ -195,8 +192,7 @@ extension LightsailClientTypes {
         public init(
             name: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.resourceType = resourceType
         }
@@ -248,8 +244,7 @@ extension LightsailClientTypes {
         public init(
             allowPublicOverrides: Swift.Bool? = nil,
             getObject: LightsailClientTypes.AccessType? = nil
-        )
-        {
+        ) {
             self.allowPublicOverrides = allowPublicOverrides
             self.getObject = getObject
         }
@@ -363,8 +358,7 @@ extension LightsailClientTypes {
             lastSyncedAt: Foundation.Date? = nil,
             message: LightsailClientTypes.BPAStatusMessage? = nil,
             status: LightsailClientTypes.AccountLevelBpaSyncStatus? = nil
-        )
-        {
+        ) {
             self.bpaImpactsLightsail = bpaImpactsLightsail
             self.lastSyncedAt = lastSyncedAt
             self.message = message
@@ -374,9 +368,9 @@ extension LightsailClientTypes {
 }
 
 /// Lightsail throws this exception when an account is still in the setup in progress state.
-public struct AccountSetupInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountSetupInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var docs: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -397,8 +391,7 @@ public struct AccountSetupInProgressException: ClientRuntime.ModeledError, AWSCl
         docs: Swift.String? = nil,
         message: Swift.String? = nil,
         tip: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.docs = docs
         self.properties.message = message
@@ -430,8 +423,7 @@ extension LightsailClientTypes {
             snapshotTimeOfDay: Swift.String? = nil,
             status: Swift.String? = nil,
             threshold: Swift.String? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.name = name
             self.nextSnapshotTimeOfDay = nextSnapshotTimeOfDay
@@ -494,8 +486,7 @@ extension LightsailClientTypes {
 
         public init(
             snapshotTimeOfDay: Swift.String? = nil
-        )
-        {
+        ) {
             self.snapshotTimeOfDay = snapshotTimeOfDay
         }
     }
@@ -513,8 +504,7 @@ extension LightsailClientTypes {
         public init(
             duration: Swift.String? = nil,
             threshold: Swift.String? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.threshold = threshold
         }
@@ -537,8 +527,7 @@ extension LightsailClientTypes {
             addOnType: LightsailClientTypes.AddOnType? = nil,
             autoSnapshotAddOnRequest: LightsailClientTypes.AutoSnapshotAddOnRequest? = nil,
             stopInstanceOnIdleRequest: LightsailClientTypes.StopInstanceOnIdleRequest? = nil
-        )
-        {
+        ) {
             self.addOnType = addOnType
             self.autoSnapshotAddOnRequest = autoSnapshotAddOnRequest
             self.stopInstanceOnIdleRequest = stopInstanceOnIdleRequest
@@ -690,8 +679,7 @@ extension LightsailClientTypes {
         public init(
             availabilityZone: Swift.String? = nil,
             regionName: LightsailClientTypes.RegionName? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.regionName = regionName
         }
@@ -894,8 +882,7 @@ extension LightsailClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.resourceType = resourceType
@@ -1202,8 +1189,7 @@ extension LightsailClientTypes {
             threshold: Swift.Double? = nil,
             treatMissingData: LightsailClientTypes.TreatMissingData? = nil,
             unit: LightsailClientTypes.MetricUnit? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.comparisonOperator = comparisonOperator
             self.contactProtocols = contactProtocols
@@ -1229,9 +1215,9 @@ extension LightsailClientTypes {
 }
 
 /// Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var docs: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1252,8 +1238,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
         docs: Swift.String? = nil,
         message: Swift.String? = nil,
         tip: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.docs = docs
         self.properties.message = message
@@ -1262,9 +1247,9 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Lightsail throws this exception when it cannot find a resource.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var docs: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1285,8 +1270,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         docs: Swift.String? = nil,
         message: Swift.String? = nil,
         tip: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.docs = docs
         self.properties.message = message
@@ -1295,9 +1279,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Lightsail throws this exception when an operation fails to execute.
-public struct OperationFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var docs: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1318,8 +1302,7 @@ public struct OperationFailureException: ClientRuntime.ModeledError, AWSClientRu
         docs: Swift.String? = nil,
         message: Swift.String? = nil,
         tip: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.docs = docs
         self.properties.message = message
@@ -1328,9 +1311,9 @@ public struct OperationFailureException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// A general service exception.
-public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var docs: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1351,8 +1334,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
         docs: Swift.String? = nil,
         message: Swift.String? = nil,
         tip: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.docs = docs
         self.properties.message = message
@@ -1361,9 +1343,9 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// Lightsail throws this exception when the user has not been authenticated.
-public struct UnauthenticatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthenticatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var docs: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1384,8 +1366,7 @@ public struct UnauthenticatedException: ClientRuntime.ModeledError, AWSClientRun
         docs: Swift.String? = nil,
         message: Swift.String? = nil,
         tip: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.docs = docs
         self.properties.message = message
@@ -1400,8 +1381,7 @@ public struct AllocateStaticIpInput: Swift.Sendable {
 
     public init(
         staticIpName: Swift.String? = nil
-    )
-    {
+    ) {
         self.staticIpName = staticIpName
     }
 }
@@ -1758,8 +1738,7 @@ extension LightsailClientTypes {
             resourceType: LightsailClientTypes.ResourceType? = nil,
             status: LightsailClientTypes.OperationStatus? = nil,
             statusChangedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.errorCode = errorCode
             self.errorDetails = errorDetails
@@ -1782,8 +1761,7 @@ public struct AllocateStaticIpOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -1825,8 +1803,7 @@ public struct AttachCertificateToDistributionInput: Swift.Sendable {
     public init(
         certificateName: Swift.String? = nil,
         distributionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateName = certificateName
         self.distributionName = distributionName
     }
@@ -1838,8 +1815,7 @@ public struct AttachCertificateToDistributionOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -1862,8 +1838,7 @@ public struct AttachDiskInput: Swift.Sendable {
         diskName: Swift.String? = nil,
         diskPath: Swift.String? = nil,
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMounting = autoMounting
         self.diskName = diskName
         self.diskPath = diskPath
@@ -1877,8 +1852,7 @@ public struct AttachDiskOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -1895,8 +1869,7 @@ extension LightsailClientTypes {
         public init(
             path: Swift.String? = nil,
             sizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.path = path
             self.sizeInGb = sizeInGb
         }
@@ -1915,8 +1888,7 @@ extension LightsailClientTypes {
         public init(
             newDiskName: Swift.String? = nil,
             originalDiskPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.newDiskName = newDiskName
             self.originalDiskPath = originalDiskPath
         }
@@ -1934,8 +1906,7 @@ public struct AttachInstancesToLoadBalancerInput: Swift.Sendable {
     public init(
         instanceNames: [Swift.String]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceNames = instanceNames
         self.loadBalancerName = loadBalancerName
     }
@@ -1947,8 +1918,7 @@ public struct AttachInstancesToLoadBalancerOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -1964,8 +1934,7 @@ public struct AttachLoadBalancerTlsCertificateInput: Swift.Sendable {
     public init(
         certificateName: Swift.String? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateName = certificateName
         self.loadBalancerName = loadBalancerName
     }
@@ -1977,8 +1946,7 @@ public struct AttachLoadBalancerTlsCertificateOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -1994,8 +1962,7 @@ public struct AttachStaticIpInput: Swift.Sendable {
     public init(
         instanceName: Swift.String? = nil,
         staticIpName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
         self.staticIpName = staticIpName
     }
@@ -2007,8 +1974,7 @@ public struct AttachStaticIpOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -2101,8 +2067,7 @@ extension LightsailClientTypes {
             date: Swift.String? = nil,
             fromAttachedDisks: [LightsailClientTypes.AttachedDisk]? = nil,
             status: LightsailClientTypes.AutoSnapshotStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.date = date
             self.fromAttachedDisks = fromAttachedDisks
@@ -2123,8 +2088,7 @@ extension LightsailClientTypes {
         public init(
             state: Swift.String? = nil,
             zoneName: Swift.String? = nil
-        )
-        {
+        ) {
             self.state = state
             self.zoneName = zoneName
         }
@@ -2263,8 +2227,7 @@ extension LightsailClientTypes {
             type: LightsailClientTypes.BlueprintType? = nil,
             version: Swift.String? = nil,
             versionCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.appCategory = appCategory
             self.blueprintId = blueprintId
             self.description = description
@@ -2298,8 +2261,7 @@ extension LightsailClientTypes {
             destination: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.enabled = enabled
             self.`prefix` = `prefix`
@@ -2323,8 +2285,7 @@ extension LightsailClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2343,8 +2304,7 @@ extension LightsailClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2411,8 +2371,7 @@ extension LightsailClientTypes {
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.accessLogConfig = accessLogConfig
             self.accessRules = accessRules
@@ -2457,8 +2416,7 @@ extension LightsailClientTypes {
             price: Swift.Float? = nil,
             storagePerMonthInGb: Swift.Int? = nil,
             transferPerMonthInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.isActive = isActive
             self.name = name
@@ -2543,8 +2501,7 @@ extension LightsailClientTypes {
             supportedAppCategories: [LightsailClientTypes.AppCategory]? = nil,
             supportedPlatforms: [LightsailClientTypes.InstancePlatform]? = nil,
             transferPerMonthInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
@@ -2575,8 +2532,7 @@ extension LightsailClientTypes {
 
         public init(
             behavior: LightsailClientTypes.BehaviorEnum? = nil
-        )
-        {
+        ) {
             self.behavior = behavior
         }
     }
@@ -2606,8 +2562,7 @@ extension LightsailClientTypes {
         public init(
             behavior: LightsailClientTypes.BehaviorEnum? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.behavior = behavior
             self.path = path
         }
@@ -2658,8 +2613,7 @@ extension LightsailClientTypes {
         public init(
             cookiesAllowList: [Swift.String]? = nil,
             option: LightsailClientTypes.ForwardValues? = nil
-        )
-        {
+        ) {
             self.cookiesAllowList = cookiesAllowList
             self.option = option
         }
@@ -2752,8 +2706,7 @@ extension LightsailClientTypes {
         public init(
             headersAllowList: [LightsailClientTypes.HeaderEnum]? = nil,
             option: LightsailClientTypes.ForwardValues? = nil
-        )
-        {
+        ) {
             self.headersAllowList = headersAllowList
             self.option = option
         }
@@ -2772,8 +2725,7 @@ extension LightsailClientTypes {
         public init(
             option: Swift.Bool? = nil,
             queryStringsAllowList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.option = option
             self.queryStringsAllowList = queryStringsAllowList
         }
@@ -2823,8 +2775,7 @@ extension LightsailClientTypes {
             forwardedQueryStrings: LightsailClientTypes.QueryStringObject? = nil,
             maximumTTL: Swift.Int? = nil,
             minimumTTL: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowedHTTPMethods = allowedHTTPMethods
             self.cachedHTTPMethods = cachedHTTPMethods
             self.defaultTTL = defaultTTL
@@ -2887,8 +2838,7 @@ extension LightsailClientTypes {
         public init(
             code: LightsailClientTypes.DnsRecordCreationStateCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2910,8 +2860,7 @@ extension LightsailClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -2969,8 +2918,7 @@ extension LightsailClientTypes {
             domainName: Swift.String? = nil,
             resourceRecord: LightsailClientTypes.ResourceRecord? = nil,
             validationStatus: LightsailClientTypes.CertificateDomainValidationStatus? = nil
-        )
-        {
+        ) {
             self.dnsRecordCreationState = dnsRecordCreationState
             self.domainName = domainName
             self.resourceRecord = resourceRecord
@@ -3040,8 +2988,7 @@ extension LightsailClientTypes {
             renewalStatus: LightsailClientTypes.RenewalStatus? = nil,
             renewalStatusReason: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.domainValidationRecords = domainValidationRecords
             self.renewalStatus = renewalStatus
             self.renewalStatusReason = renewalStatusReason
@@ -3173,8 +3120,7 @@ extension LightsailClientTypes {
             subjectAlternativeNames: [Swift.String]? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.domainName = domainName
@@ -3247,8 +3193,7 @@ extension LightsailClientTypes {
             certificateName: Swift.String? = nil,
             domainName: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateDetail = certificateDetail
             self.certificateName = certificateName
@@ -3349,8 +3294,7 @@ extension LightsailClientTypes {
             ipv6Cidrs: [Swift.String]? = nil,
             `protocol`: LightsailClientTypes.NetworkProtocol? = nil,
             toPort: Swift.Int = 0
-        )
-        {
+        ) {
             self.cidrListAliases = cidrListAliases
             self.cidrs = cidrs
             self.fromPort = fromPort
@@ -3372,8 +3316,7 @@ public struct CloseInstancePublicPortsInput: Swift.Sendable {
     public init(
         instanceName: Swift.String? = nil,
         portInfo: LightsailClientTypes.PortInfo? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
         self.portInfo = portInfo
     }
@@ -3385,8 +3328,7 @@ public struct CloseInstancePublicPortsOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -3403,8 +3345,7 @@ extension LightsailClientTypes {
         public init(
             id: Swift.String? = nil,
             service: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.service = service
         }
@@ -3452,8 +3393,7 @@ extension LightsailClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             resourceType: LightsailClientTypes.CloudFormationStackRecordSourceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.resourceType = resourceType
@@ -3523,8 +3463,7 @@ extension LightsailClientTypes {
             resourceType: LightsailClientTypes.ResourceType? = nil,
             sourceInfo: [LightsailClientTypes.CloudFormationStackRecordSourceInfo]? = nil,
             state: LightsailClientTypes.RecordState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationInfo = destinationInfo
@@ -3608,8 +3547,7 @@ extension LightsailClientTypes {
             resourceType: LightsailClientTypes.ResourceType? = nil,
             status: LightsailClientTypes.ContactMethodStatus? = nil,
             supportCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.contactEndpoint = contactEndpoint
             self.createdAt = createdAt
@@ -3702,8 +3640,7 @@ extension LightsailClientTypes {
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil,
             ports: [Swift.String: LightsailClientTypes.ContainerServiceProtocol]? = nil
-        )
-        {
+        ) {
             self.command = command
             self.environment = environment
             self.image = image
@@ -3727,8 +3664,7 @@ extension LightsailClientTypes {
             createdAt: Foundation.Date? = nil,
             digest: Swift.String? = nil,
             image: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.digest = digest
             self.image = image
@@ -3760,8 +3696,7 @@ extension LightsailClientTypes {
             successCodes: Swift.String? = nil,
             timeoutSeconds: Swift.Int? = nil,
             unhealthyThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.healthyThreshold = healthyThreshold
             self.intervalSeconds = intervalSeconds
             self.path = path
@@ -3787,8 +3722,7 @@ extension LightsailClientTypes {
             containerName: Swift.String? = nil,
             containerPort: Swift.Int? = nil,
             healthCheck: LightsailClientTypes.ContainerServiceHealthCheckConfig? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.healthCheck = healthCheck
@@ -3860,8 +3794,7 @@ extension LightsailClientTypes {
             publicEndpoint: LightsailClientTypes.ContainerServiceEndpoint? = nil,
             state: LightsailClientTypes.ContainerServiceDeploymentState? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.createdAt = createdAt
             self.publicEndpoint = publicEndpoint
@@ -3924,8 +3857,7 @@ extension LightsailClientTypes {
         public init(
             isActive: Swift.Bool? = nil,
             principalArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.isActive = isActive
             self.principalArn = principalArn
         }
@@ -3941,8 +3873,7 @@ extension LightsailClientTypes {
 
         public init(
             ecrImagePullerRole: LightsailClientTypes.ContainerServiceECRImagePullerRole? = nil
-        )
-        {
+        ) {
             self.ecrImagePullerRole = ecrImagePullerRole
         }
     }
@@ -4079,8 +4010,7 @@ extension LightsailClientTypes {
         public init(
             code: LightsailClientTypes.ContainerServiceStateDetailCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4164,8 +4094,7 @@ extension LightsailClientTypes {
             stateDetail: LightsailClientTypes.ContainerServiceStateDetail? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.containerServiceName = containerServiceName
             self.createdAt = createdAt
@@ -4206,8 +4135,7 @@ extension LightsailClientTypes {
             containerName: Swift.String? = nil,
             containerPort: Swift.Int? = nil,
             healthCheck: LightsailClientTypes.ContainerServiceHealthCheckConfig? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.containerPort = containerPort
             self.healthCheck = healthCheck
@@ -4227,8 +4155,7 @@ extension LightsailClientTypes {
         public init(
             containers: [Swift.String: LightsailClientTypes.Container]? = nil,
             publicEndpoint: LightsailClientTypes.EndpointRequest? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.publicEndpoint = publicEndpoint
         }
@@ -4244,8 +4171,7 @@ extension LightsailClientTypes {
 
         public init(
             isActive: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isActive = isActive
         }
     }
@@ -4263,8 +4189,7 @@ extension LightsailClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.message = message
         }
@@ -4324,8 +4249,7 @@ extension LightsailClientTypes {
             powerId: Swift.String? = nil,
             price: Swift.Float? = nil,
             ramSizeInGb: Swift.Float? = nil
-        )
-        {
+        ) {
             self.cpuCount = cpuCount
             self.isActive = isActive
             self.name = name
@@ -4354,8 +4278,7 @@ extension LightsailClientTypes {
             password: Swift.String? = nil,
             registry: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.expiresAt = expiresAt
             self.password = password
             self.registry = registry
@@ -4401,8 +4324,7 @@ public struct CopySnapshotInput: Swift.Sendable {
         sourceSnapshotName: Swift.String? = nil,
         targetSnapshotName: Swift.String? = nil,
         useLatestRestorableAutoSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.restoreDate = restoreDate
         self.sourceRegion = sourceRegion
         self.sourceResourceName = sourceResourceName
@@ -4418,8 +4340,7 @@ public struct CopySnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -4500,8 +4421,7 @@ extension LightsailClientTypes {
         public init(
             end: Foundation.Date? = nil,
             start: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -4529,8 +4449,7 @@ extension LightsailClientTypes {
             timePeriod: LightsailClientTypes.TimePeriod? = nil,
             unit: Swift.Double? = nil,
             usageCost: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.pricingUnit = pricingUnit
             self.timePeriod = timePeriod
@@ -4552,8 +4471,7 @@ extension LightsailClientTypes {
         public init(
             resultsByTime: [LightsailClientTypes.EstimateByTime]? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resultsByTime = resultsByTime
             self.usageType = usageType
         }
@@ -4577,8 +4495,7 @@ public struct CreateBucketInput: Swift.Sendable {
         bundleId: Swift.String? = nil,
         enableObjectVersioning: Swift.Bool? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.bundleId = bundleId
         self.enableObjectVersioning = enableObjectVersioning
@@ -4595,8 +4512,7 @@ public struct CreateBucketOutput: Swift.Sendable {
     public init(
         bucket: LightsailClientTypes.Bucket? = nil,
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.operations = operations
     }
@@ -4609,8 +4525,7 @@ public struct CreateBucketAccessKeyInput: Swift.Sendable {
 
     public init(
         bucketName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
     }
 }
@@ -4624,8 +4539,7 @@ public struct CreateBucketAccessKeyOutput: Swift.Sendable {
     public init(
         accessKey: LightsailClientTypes.AccessKey? = nil,
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.accessKey = accessKey
         self.operations = operations
     }
@@ -4648,8 +4562,7 @@ public struct CreateCertificateInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         subjectAlternativeNames: [Swift.String]? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateName = certificateName
         self.domainName = domainName
         self.subjectAlternativeNames = subjectAlternativeNames
@@ -4666,8 +4579,7 @@ public struct CreateCertificateOutput: Swift.Sendable {
     public init(
         certificate: LightsailClientTypes.CertificateSummary? = nil,
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.operations = operations
     }
@@ -4744,8 +4656,7 @@ extension LightsailClientTypes {
             portInfoSource: LightsailClientTypes.PortInfoSourceType? = nil,
             sourceName: Swift.String? = nil,
             userData: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
             self.portInfoSource = portInfoSource
@@ -4762,8 +4673,7 @@ public struct CreateCloudFormationStackInput: Swift.Sendable {
 
     public init(
         instances: [LightsailClientTypes.InstanceEntry]? = nil
-    )
-    {
+    ) {
         self.instances = instances
     }
 }
@@ -4774,8 +4684,7 @@ public struct CreateCloudFormationStackOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -4806,8 +4715,7 @@ public struct CreateContactMethodInput: Swift.Sendable {
     public init(
         contactEndpoint: Swift.String? = nil,
         `protocol`: LightsailClientTypes.ContactProtocol? = nil
-    )
-    {
+    ) {
         self.contactEndpoint = contactEndpoint
         self.`protocol` = `protocol`
     }
@@ -4819,8 +4727,7 @@ public struct CreateContactMethodOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -4834,8 +4741,7 @@ extension LightsailClientTypes {
 
         public init(
             ecrImagePullerRole: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest? = nil
-        )
-        {
+        ) {
             self.ecrImagePullerRole = ecrImagePullerRole
         }
     }
@@ -4876,8 +4782,7 @@ public struct CreateContainerServiceInput: Swift.Sendable {
         scale: Swift.Int? = nil,
         serviceName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deployment = deployment
         self.power = power
         self.privateRegistryAccess = privateRegistryAccess
@@ -4894,8 +4799,7 @@ public struct CreateContainerServiceOutput: Swift.Sendable {
 
     public init(
         containerService: LightsailClientTypes.ContainerService? = nil
-    )
-    {
+    ) {
         self.containerService = containerService
     }
 }
@@ -4913,8 +4817,7 @@ public struct CreateContainerServiceDeploymentInput: Swift.Sendable {
         containers: [Swift.String: LightsailClientTypes.Container]? = nil,
         publicEndpoint: LightsailClientTypes.EndpointRequest? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containers = containers
         self.publicEndpoint = publicEndpoint
         self.serviceName = serviceName
@@ -4927,8 +4830,7 @@ public struct CreateContainerServiceDeploymentOutput: Swift.Sendable {
 
     public init(
         containerService: LightsailClientTypes.ContainerService? = nil
-    )
-    {
+    ) {
         self.containerService = containerService
     }
 }
@@ -4944,8 +4846,7 @@ public struct CreateContainerServiceRegistryLoginOutput: Swift.Sendable {
 
     public init(
         registryLogin: LightsailClientTypes.ContainerServiceRegistryLogin? = nil
-    )
-    {
+    ) {
         self.registryLogin = registryLogin
     }
 }
@@ -4971,8 +4872,7 @@ public struct CreateDiskInput: Swift.Sendable {
         diskName: Swift.String? = nil,
         sizeInGb: Swift.Int? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addOns = addOns
         self.availabilityZone = availabilityZone
         self.diskName = diskName
@@ -4987,8 +4887,7 @@ public struct CreateDiskOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -5042,8 +4941,7 @@ public struct CreateDiskFromSnapshotInput: Swift.Sendable {
         sourceDiskName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
         useLatestRestorableAutoSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.addOns = addOns
         self.availabilityZone = availabilityZone
         self.diskName = diskName
@@ -5062,8 +4960,7 @@ public struct CreateDiskFromSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -5084,8 +4981,7 @@ public struct CreateDiskSnapshotInput: Swift.Sendable {
         diskSnapshotName: Swift.String? = nil,
         instanceName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.diskName = diskName
         self.diskSnapshotName = diskSnapshotName
         self.instanceName = instanceName
@@ -5099,8 +4995,7 @@ public struct CreateDiskSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -5184,8 +5079,7 @@ extension LightsailClientTypes {
             protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum? = nil,
             regionName: LightsailClientTypes.RegionName? = nil,
             responseTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -5266,8 +5160,7 @@ public struct CreateDistributionInput: Swift.Sendable {
         origin: LightsailClientTypes.InputOrigin? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
         viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
-    )
-    {
+    ) {
         self.bundleId = bundleId
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
@@ -5302,8 +5195,7 @@ extension LightsailClientTypes {
             regionName: LightsailClientTypes.RegionName? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil,
             responseTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -5382,8 +5274,7 @@ extension LightsailClientTypes {
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
             viewerMinimumTlsProtocolVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.alternativeDomainNames = alternativeDomainNames
             self.arn = arn
@@ -5418,8 +5309,7 @@ public struct CreateDistributionOutput: Swift.Sendable {
     public init(
         distribution: LightsailClientTypes.LightsailDistribution? = nil,
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.distribution = distribution
         self.operation = operation
     }
@@ -5435,8 +5325,7 @@ public struct CreateDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.tags = tags
     }
@@ -5448,8 +5337,7 @@ public struct CreateDomainOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -5495,8 +5383,7 @@ extension LightsailClientTypes {
             options: [Swift.String: Swift.String]? = nil,
             target: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.isAlias = isAlias
             self.name = name
@@ -5518,8 +5405,7 @@ public struct CreateDomainEntryInput: Swift.Sendable {
     public init(
         domainEntry: LightsailClientTypes.DomainEntry? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainEntry = domainEntry
         self.domainName = domainName
     }
@@ -5531,8 +5417,7 @@ public struct CreateDomainEntryOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -5544,8 +5429,7 @@ public struct CreateGUISessionAccessDetailsInput: Swift.Sendable {
 
     public init(
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
     }
 }
@@ -5565,8 +5449,7 @@ extension LightsailClientTypes {
             isPrimary: Swift.Bool? = nil,
             name: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.isPrimary = isPrimary
             self.name = name
             self.url = url
@@ -5650,8 +5533,7 @@ public struct CreateGUISessionAccessDetailsOutput: Swift.Sendable {
         resourceName: Swift.String? = nil,
         sessions: [LightsailClientTypes.Session]? = nil,
         status: LightsailClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.percentageComplete = percentageComplete
         self.resourceName = resourceName
@@ -5698,8 +5580,7 @@ public struct CreateInstancesInput: Swift.Sendable {
         keyPairName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
         userData: Swift.String? = nil
-    )
-    {
+    ) {
         self.addOns = addOns
         self.availabilityZone = availabilityZone
         self.blueprintId = blueprintId
@@ -5719,8 +5600,7 @@ public struct CreateInstancesOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -5786,8 +5666,7 @@ public struct CreateInstancesFromSnapshotInput: Swift.Sendable {
         tags: [LightsailClientTypes.Tag]? = nil,
         useLatestRestorableAutoSnapshot: Swift.Bool? = nil,
         userData: Swift.String? = nil
-    )
-    {
+    ) {
         self.addOns = addOns
         self.attachedDiskMapping = attachedDiskMapping
         self.availabilityZone = availabilityZone
@@ -5810,8 +5689,7 @@ public struct CreateInstancesFromSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -5830,8 +5708,7 @@ public struct CreateInstanceSnapshotInput: Swift.Sendable {
         instanceName: Swift.String? = nil,
         instanceSnapshotName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
         self.instanceSnapshotName = instanceSnapshotName
         self.tags = tags
@@ -5844,8 +5721,7 @@ public struct CreateInstanceSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -5860,8 +5736,7 @@ public struct CreateKeyPairInput: Swift.Sendable {
     public init(
         keyPairName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.keyPairName = keyPairName
         self.tags = tags
     }
@@ -5897,8 +5772,7 @@ extension LightsailClientTypes {
             resourceType: LightsailClientTypes.ResourceType? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.fingerprint = fingerprint
@@ -5926,8 +5800,7 @@ public struct CreateKeyPairOutput: Swift.Sendable {
         operation: LightsailClientTypes.Operation? = nil,
         privateKeyBase64: Swift.String? = nil,
         publicKeyBase64: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyPair = keyPair
         self.operation = operation
         self.privateKeyBase64 = privateKeyBase64
@@ -5967,8 +5840,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
         loadBalancerName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
         tlsPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAlternativeNames = certificateAlternativeNames
         self.certificateDomainName = certificateDomainName
         self.certificateName = certificateName
@@ -5987,8 +5859,7 @@ public struct CreateLoadBalancerOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6014,8 +5885,7 @@ public struct CreateLoadBalancerTlsCertificateInput: Swift.Sendable {
         certificateName: Swift.String? = nil,
         loadBalancerName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateAlternativeNames = certificateAlternativeNames
         self.certificateDomainName = certificateDomainName
         self.certificateName = certificateName
@@ -6030,8 +5900,7 @@ public struct CreateLoadBalancerTlsCertificateOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6133,8 +6002,7 @@ public struct CreateRelationalDatabaseInput: Swift.Sendable {
         relationalDatabaseBundleId: Swift.String? = nil,
         relationalDatabaseName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.masterDatabaseName = masterDatabaseName
         self.masterUserPassword = masterUserPassword
@@ -6160,8 +6028,7 @@ public struct CreateRelationalDatabaseOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6209,8 +6076,7 @@ public struct CreateRelationalDatabaseFromSnapshotInput: Swift.Sendable {
         sourceRelationalDatabaseName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.publiclyAccessible = publiclyAccessible
         self.relationalDatabaseBundleId = relationalDatabaseBundleId
@@ -6229,8 +6095,7 @@ public struct CreateRelationalDatabaseFromSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6253,8 +6118,7 @@ public struct CreateRelationalDatabaseSnapshotInput: Swift.Sendable {
         relationalDatabaseName: Swift.String? = nil,
         relationalDatabaseSnapshotName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseName = relationalDatabaseName
         self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
         self.tags = tags
@@ -6267,8 +6131,7 @@ public struct CreateRelationalDatabaseSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6280,8 +6143,7 @@ public struct DeleteAlarmInput: Swift.Sendable {
 
     public init(
         alarmName: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmName = alarmName
     }
 }
@@ -6292,8 +6154,7 @@ public struct DeleteAlarmOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6309,8 +6170,7 @@ public struct DeleteAutoSnapshotInput: Swift.Sendable {
     public init(
         date: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.date = date
         self.resourceName = resourceName
     }
@@ -6322,8 +6182,7 @@ public struct DeleteAutoSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6349,8 +6208,7 @@ public struct DeleteBucketInput: Swift.Sendable {
     public init(
         bucketName: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.forceDelete = forceDelete
     }
@@ -6362,8 +6220,7 @@ public struct DeleteBucketOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6379,8 +6236,7 @@ public struct DeleteBucketAccessKeyInput: Swift.Sendable {
     public init(
         accessKeyId: Swift.String? = nil,
         bucketName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
         self.bucketName = bucketName
     }
@@ -6392,8 +6248,7 @@ public struct DeleteBucketAccessKeyOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6405,8 +6260,7 @@ public struct DeleteCertificateInput: Swift.Sendable {
 
     public init(
         certificateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateName = certificateName
     }
 }
@@ -6417,8 +6271,7 @@ public struct DeleteCertificateOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6430,8 +6283,7 @@ public struct DeleteContactMethodInput: Swift.Sendable {
 
     public init(
         `protocol`: LightsailClientTypes.ContactProtocol? = nil
-    )
-    {
+    ) {
         self.`protocol` = `protocol`
     }
 }
@@ -6442,8 +6294,7 @@ public struct DeleteContactMethodOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6459,8 +6310,7 @@ public struct DeleteContainerImageInput: Swift.Sendable {
     public init(
         image: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.image = image
         self.serviceName = serviceName
     }
@@ -6478,8 +6328,7 @@ public struct DeleteContainerServiceInput: Swift.Sendable {
 
     public init(
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
     }
 }
@@ -6499,8 +6348,7 @@ public struct DeleteDiskInput: Swift.Sendable {
     public init(
         diskName: Swift.String? = nil,
         forceDeleteAddOns: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.diskName = diskName
         self.forceDeleteAddOns = forceDeleteAddOns
     }
@@ -6512,8 +6360,7 @@ public struct DeleteDiskOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6525,8 +6372,7 @@ public struct DeleteDiskSnapshotInput: Swift.Sendable {
 
     public init(
         diskSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskSnapshotName = diskSnapshotName
     }
 }
@@ -6537,8 +6383,7 @@ public struct DeleteDiskSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6549,8 +6394,7 @@ public struct DeleteDistributionInput: Swift.Sendable {
 
     public init(
         distributionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionName = distributionName
     }
 }
@@ -6561,8 +6405,7 @@ public struct DeleteDistributionOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -6574,8 +6417,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -6586,8 +6428,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -6603,8 +6444,7 @@ public struct DeleteDomainEntryInput: Swift.Sendable {
     public init(
         domainEntry: LightsailClientTypes.DomainEntry? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainEntry = domainEntry
         self.domainName = domainName
     }
@@ -6616,8 +6456,7 @@ public struct DeleteDomainEntryOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -6632,8 +6471,7 @@ public struct DeleteInstanceInput: Swift.Sendable {
     public init(
         forceDeleteAddOns: Swift.Bool? = nil,
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.forceDeleteAddOns = forceDeleteAddOns
         self.instanceName = instanceName
     }
@@ -6645,8 +6483,7 @@ public struct DeleteInstanceOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6658,8 +6495,7 @@ public struct DeleteInstanceSnapshotInput: Swift.Sendable {
 
     public init(
         instanceSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceSnapshotName = instanceSnapshotName
     }
 }
@@ -6670,8 +6506,7 @@ public struct DeleteInstanceSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6686,8 +6521,7 @@ public struct DeleteKeyPairInput: Swift.Sendable {
     public init(
         expectedFingerprint: Swift.String? = nil,
         keyPairName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedFingerprint = expectedFingerprint
         self.keyPairName = keyPairName
     }
@@ -6699,8 +6533,7 @@ public struct DeleteKeyPairOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -6712,8 +6545,7 @@ public struct DeleteKnownHostKeysInput: Swift.Sendable {
 
     public init(
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
     }
 }
@@ -6724,8 +6556,7 @@ public struct DeleteKnownHostKeysOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6737,8 +6568,7 @@ public struct DeleteLoadBalancerInput: Swift.Sendable {
 
     public init(
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
     }
 }
@@ -6749,8 +6579,7 @@ public struct DeleteLoadBalancerOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6769,8 +6598,7 @@ public struct DeleteLoadBalancerTlsCertificateInput: Swift.Sendable {
         certificateName: Swift.String? = nil,
         force: Swift.Bool? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateName = certificateName
         self.force = force
         self.loadBalancerName = loadBalancerName
@@ -6783,8 +6611,7 @@ public struct DeleteLoadBalancerTlsCertificateOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6806,8 +6633,7 @@ public struct DeleteRelationalDatabaseInput: Swift.Sendable {
         finalRelationalDatabaseSnapshotName: Swift.String? = nil,
         relationalDatabaseName: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.finalRelationalDatabaseSnapshotName = finalRelationalDatabaseSnapshotName
         self.relationalDatabaseName = relationalDatabaseName
         self.skipFinalSnapshot = skipFinalSnapshot
@@ -6820,8 +6646,7 @@ public struct DeleteRelationalDatabaseOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6833,8 +6658,7 @@ public struct DeleteRelationalDatabaseSnapshotInput: Swift.Sendable {
 
     public init(
         relationalDatabaseSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
     }
 }
@@ -6845,8 +6669,7 @@ public struct DeleteRelationalDatabaseSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6858,8 +6681,7 @@ public struct DetachCertificateFromDistributionInput: Swift.Sendable {
 
     public init(
         distributionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionName = distributionName
     }
 }
@@ -6870,8 +6692,7 @@ public struct DetachCertificateFromDistributionOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -6883,8 +6704,7 @@ public struct DetachDiskInput: Swift.Sendable {
 
     public init(
         diskName: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskName = diskName
     }
 }
@@ -6895,8 +6715,7 @@ public struct DetachDiskOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6912,8 +6731,7 @@ public struct DetachInstancesFromLoadBalancerInput: Swift.Sendable {
     public init(
         instanceNames: [Swift.String]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceNames = instanceNames
         self.loadBalancerName = loadBalancerName
     }
@@ -6925,8 +6743,7 @@ public struct DetachInstancesFromLoadBalancerOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6938,8 +6755,7 @@ public struct DetachStaticIpInput: Swift.Sendable {
 
     public init(
         staticIpName: Swift.String? = nil
-    )
-    {
+    ) {
         self.staticIpName = staticIpName
     }
 }
@@ -6950,8 +6766,7 @@ public struct DetachStaticIpOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -6967,8 +6782,7 @@ public struct DisableAddOnInput: Swift.Sendable {
     public init(
         addOnType: LightsailClientTypes.AddOnType? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.addOnType = addOnType
         self.resourceName = resourceName
     }
@@ -6980,8 +6794,7 @@ public struct DisableAddOnOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -7086,8 +6899,7 @@ extension LightsailClientTypes {
             state: LightsailClientTypes.DiskState? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.addOns = addOns
             self.arn = arn
             self.attachedTo = attachedTo
@@ -7128,8 +6940,7 @@ extension LightsailClientTypes {
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             sizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isSystemDisk = isSystemDisk
             self.name = name
             self.path = path
@@ -7224,8 +7035,7 @@ extension LightsailClientTypes {
             state: LightsailClientTypes.DiskSnapshotState? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromDiskArn = fromDiskArn
@@ -7254,8 +7064,7 @@ extension LightsailClientTypes {
 
         public init(
             sizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.sizeInGb = sizeInGb
         }
     }
@@ -7282,8 +7091,7 @@ extension LightsailClientTypes {
             name: Swift.String? = nil,
             price: Swift.Float? = nil,
             transferPerMonthInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.isActive = isActive
             self.name = name
@@ -7389,8 +7197,7 @@ extension LightsailClientTypes {
         public init(
             code: LightsailClientTypes.NameServersUpdateStateCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -7452,8 +7259,7 @@ extension LightsailClientTypes {
         public init(
             code: LightsailClientTypes.R53HostedZoneDeletionStateCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -7481,8 +7287,7 @@ extension LightsailClientTypes {
         public init(
             nameServersUpdateState: LightsailClientTypes.NameServersUpdateState? = nil,
             r53HostedZoneDeletionState: LightsailClientTypes.R53HostedZoneDeletionState? = nil
-        )
-        {
+        ) {
             self.nameServersUpdateState = nameServersUpdateState
             self.r53HostedZoneDeletionState = r53HostedZoneDeletionState
         }
@@ -7522,8 +7327,7 @@ extension LightsailClientTypes {
             resourceType: LightsailClientTypes.ResourceType? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.domainEntries = domainEntries
@@ -7554,8 +7358,7 @@ public struct DownloadDefaultKeyPairOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         privateKeyBase64: Swift.String? = nil,
         publicKeyBase64: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.privateKeyBase64 = privateKeyBase64
         self.publicKeyBase64 = publicKeyBase64
@@ -7573,8 +7376,7 @@ public struct EnableAddOnInput: Swift.Sendable {
     public init(
         addOnRequest: LightsailClientTypes.AddOnRequest? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.addOnRequest = addOnRequest
         self.resourceName = resourceName
     }
@@ -7586,8 +7388,7 @@ public struct EnableAddOnOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -7599,8 +7400,7 @@ public struct ExportSnapshotInput: Swift.Sendable {
 
     public init(
         sourceSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceSnapshotName = sourceSnapshotName
     }
 }
@@ -7611,8 +7411,7 @@ public struct ExportSnapshotOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -7632,8 +7431,7 @@ extension LightsailClientTypes {
             fromBlueprintId: Swift.String? = nil,
             fromBundleId: Swift.String? = nil,
             fromDiskInfo: [LightsailClientTypes.DiskInfo]? = nil
-        )
-        {
+        ) {
             self.fromBlueprintId = fromBlueprintId
             self.fromBundleId = fromBundleId
             self.fromDiskInfo = fromDiskInfo
@@ -7700,8 +7498,7 @@ extension LightsailClientTypes {
             instanceSnapshotInfo: LightsailClientTypes.InstanceSnapshotInfo? = nil,
             name: Swift.String? = nil,
             resourceType: LightsailClientTypes.ExportSnapshotRecordSourceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.diskSnapshotInfo = diskSnapshotInfo
@@ -7744,8 +7541,7 @@ extension LightsailClientTypes {
             resourceType: LightsailClientTypes.ResourceType? = nil,
             sourceInfo: LightsailClientTypes.ExportSnapshotRecordSourceInfo? = nil,
             state: LightsailClientTypes.RecordState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationInfo = destinationInfo
@@ -7764,8 +7560,7 @@ public struct GetActiveNamesInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -7779,8 +7574,7 @@ public struct GetActiveNamesOutput: Swift.Sendable {
     public init(
         activeNames: [Swift.String]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeNames = activeNames
         self.nextPageToken = nextPageToken
     }
@@ -7798,8 +7592,7 @@ public struct GetAlarmsInput: Swift.Sendable {
         alarmName: Swift.String? = nil,
         monitoredResourceName: Swift.String? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmName = alarmName
         self.monitoredResourceName = monitoredResourceName
         self.pageToken = pageToken
@@ -7815,8 +7608,7 @@ public struct GetAlarmsOutput: Swift.Sendable {
     public init(
         alarms: [LightsailClientTypes.Alarm]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarms = alarms
         self.nextPageToken = nextPageToken
     }
@@ -7829,8 +7621,7 @@ public struct GetAutoSnapshotsInput: Swift.Sendable {
 
     public init(
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
     }
 }
@@ -7847,8 +7638,7 @@ public struct GetAutoSnapshotsOutput: Swift.Sendable {
         autoSnapshots: [LightsailClientTypes.AutoSnapshotDetails]? = nil,
         resourceName: Swift.String? = nil,
         resourceType: LightsailClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.autoSnapshots = autoSnapshots
         self.resourceName = resourceName
         self.resourceType = resourceType
@@ -7867,8 +7657,7 @@ public struct GetBlueprintsInput: Swift.Sendable {
         appCategory: LightsailClientTypes.AppCategory? = nil,
         includeInactive: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appCategory = appCategory
         self.includeInactive = includeInactive
         self.pageToken = pageToken
@@ -7884,8 +7673,7 @@ public struct GetBlueprintsOutput: Swift.Sendable {
     public init(
         blueprints: [LightsailClientTypes.Blueprint]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.nextPageToken = nextPageToken
     }
@@ -7898,8 +7686,7 @@ public struct GetBucketAccessKeysInput: Swift.Sendable {
 
     public init(
         bucketName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
     }
 }
@@ -7910,8 +7697,7 @@ public struct GetBucketAccessKeysOutput: Swift.Sendable {
 
     public init(
         accessKeys: [LightsailClientTypes.AccessKey]? = nil
-    )
-    {
+    ) {
         self.accessKeys = accessKeys
     }
 }
@@ -7922,8 +7708,7 @@ public struct GetBucketBundlesInput: Swift.Sendable {
 
     public init(
         includeInactive: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.includeInactive = includeInactive
     }
 }
@@ -7934,8 +7719,7 @@ public struct GetBucketBundlesOutput: Swift.Sendable {
 
     public init(
         bundles: [LightsailClientTypes.BucketBundle]? = nil
-    )
-    {
+    ) {
         self.bundles = bundles
     }
 }
@@ -7985,8 +7769,7 @@ public struct GetBucketMetricDataInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.endTime = endTime
         self.metricName = metricName
@@ -8024,8 +7807,7 @@ extension LightsailClientTypes {
             sum: Swift.Double? = nil,
             timestamp: Foundation.Date? = nil,
             unit: LightsailClientTypes.MetricUnit? = nil
-        )
-        {
+        ) {
             self.average = average
             self.maximum = maximum
             self.minimum = minimum
@@ -8046,8 +7828,7 @@ public struct GetBucketMetricDataOutput: Swift.Sendable {
     public init(
         metricData: [LightsailClientTypes.MetricDatapoint]? = nil,
         metricName: LightsailClientTypes.BucketMetricName? = nil
-    )
-    {
+    ) {
         self.metricData = metricData
         self.metricName = metricName
     }
@@ -8065,8 +7846,7 @@ public struct GetBucketsInput: Swift.Sendable {
         bucketName: Swift.String? = nil,
         includeConnectedResources: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.includeConnectedResources = includeConnectedResources
         self.pageToken = pageToken
@@ -8085,8 +7865,7 @@ public struct GetBucketsOutput: Swift.Sendable {
         accountLevelBpaSync: LightsailClientTypes.AccountLevelBpaSync? = nil,
         buckets: [LightsailClientTypes.Bucket]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountLevelBpaSync = accountLevelBpaSync
         self.buckets = buckets
         self.nextPageToken = nextPageToken
@@ -8105,8 +7884,7 @@ public struct GetBundlesInput: Swift.Sendable {
         appCategory: LightsailClientTypes.AppCategory? = nil,
         includeInactive: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appCategory = appCategory
         self.includeInactive = includeInactive
         self.pageToken = pageToken
@@ -8122,8 +7900,7 @@ public struct GetBundlesOutput: Swift.Sendable {
     public init(
         bundles: [LightsailClientTypes.Bundle]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundles = bundles
         self.nextPageToken = nextPageToken
     }
@@ -8144,8 +7921,7 @@ public struct GetCertificatesInput: Swift.Sendable {
         certificateStatuses: [LightsailClientTypes.CertificateStatus]? = nil,
         includeCertificateDetails: Swift.Bool? = false,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateName = certificateName
         self.certificateStatuses = certificateStatuses
         self.includeCertificateDetails = includeCertificateDetails
@@ -8162,8 +7938,7 @@ public struct GetCertificatesOutput: Swift.Sendable {
     public init(
         certificates: [LightsailClientTypes.CertificateSummary]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.nextPageToken = nextPageToken
     }
@@ -8175,8 +7950,7 @@ public struct GetCloudFormationStackRecordsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -8190,8 +7964,7 @@ public struct GetCloudFormationStackRecordsOutput: Swift.Sendable {
     public init(
         cloudFormationStackRecords: [LightsailClientTypes.CloudFormationStackRecord]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudFormationStackRecords = cloudFormationStackRecords
         self.nextPageToken = nextPageToken
     }
@@ -8203,8 +7976,7 @@ public struct GetContactMethodsInput: Swift.Sendable {
 
     public init(
         protocols: [LightsailClientTypes.ContactProtocol]? = nil
-    )
-    {
+    ) {
         self.protocols = protocols
     }
 }
@@ -8215,8 +7987,7 @@ public struct GetContactMethodsOutput: Swift.Sendable {
 
     public init(
         contactMethods: [LightsailClientTypes.ContactMethod]? = nil
-    )
-    {
+    ) {
         self.contactMethods = contactMethods
     }
 }
@@ -8232,8 +8003,7 @@ public struct GetContainerAPIMetadataOutput: Swift.Sendable {
 
     public init(
         metadata: [[Swift.String: Swift.String]]? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
     }
 }
@@ -8245,8 +8015,7 @@ public struct GetContainerImagesInput: Swift.Sendable {
 
     public init(
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
     }
 }
@@ -8257,8 +8026,7 @@ public struct GetContainerImagesOutput: Swift.Sendable {
 
     public init(
         containerImages: [LightsailClientTypes.ContainerImage]? = nil
-    )
-    {
+    ) {
         self.containerImages = containerImages
     }
 }
@@ -8310,8 +8078,7 @@ public struct GetContainerLogInput: Swift.Sendable {
         pageToken: Swift.String? = nil,
         serviceName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
         self.endTime = endTime
         self.filterPattern = filterPattern
@@ -8330,8 +8097,7 @@ public struct GetContainerLogOutput: Swift.Sendable {
     public init(
         logEvents: [LightsailClientTypes.ContainerServiceLogEvent]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logEvents = logEvents
         self.nextPageToken = nextPageToken
     }
@@ -8344,8 +8110,7 @@ public struct GetContainerServiceDeploymentsInput: Swift.Sendable {
 
     public init(
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
     }
 }
@@ -8356,8 +8121,7 @@ public struct GetContainerServiceDeploymentsOutput: Swift.Sendable {
 
     public init(
         deployments: [LightsailClientTypes.ContainerServiceDeployment]? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
     }
 }
@@ -8403,8 +8167,7 @@ public struct GetContainerServiceMetricDataInput: Swift.Sendable {
         serviceName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.metricName = metricName
         self.period = period
@@ -8423,8 +8186,7 @@ public struct GetContainerServiceMetricDataOutput: Swift.Sendable {
     public init(
         metricData: [LightsailClientTypes.MetricDatapoint]? = nil,
         metricName: LightsailClientTypes.ContainerServiceMetricName? = nil
-    )
-    {
+    ) {
         self.metricData = metricData
         self.metricName = metricName
     }
@@ -8441,8 +8203,7 @@ public struct GetContainerServicePowersOutput: Swift.Sendable {
 
     public init(
         powers: [LightsailClientTypes.ContainerServicePower]? = nil
-    )
-    {
+    ) {
         self.powers = powers
     }
 }
@@ -8453,8 +8214,7 @@ public struct GetContainerServicesInput: Swift.Sendable {
 
     public init(
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
     }
 }
@@ -8465,8 +8225,7 @@ public struct GetContainerServicesOutput: Swift.Sendable {
 
     public init(
         containerServices: [LightsailClientTypes.ContainerService]? = nil
-    )
-    {
+    ) {
         self.containerServices = containerServices
     }
 }
@@ -8500,8 +8259,7 @@ public struct GetCostEstimateInput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         resourceName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.resourceName = resourceName
         self.startTime = startTime
@@ -8529,8 +8287,7 @@ extension LightsailClientTypes {
             resourceName: Swift.String? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.costEstimates = costEstimates
             self.endTime = endTime
             self.resourceName = resourceName
@@ -8546,8 +8303,7 @@ public struct GetCostEstimateOutput: Swift.Sendable {
 
     public init(
         resourcesBudgetEstimate: [LightsailClientTypes.ResourceBudgetEstimate]? = nil
-    )
-    {
+    ) {
         self.resourcesBudgetEstimate = resourcesBudgetEstimate
     }
 }
@@ -8559,8 +8315,7 @@ public struct GetDiskInput: Swift.Sendable {
 
     public init(
         diskName: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskName = diskName
     }
 }
@@ -8571,8 +8326,7 @@ public struct GetDiskOutput: Swift.Sendable {
 
     public init(
         disk: LightsailClientTypes.Disk? = nil
-    )
-    {
+    ) {
         self.disk = disk
     }
 }
@@ -8583,8 +8337,7 @@ public struct GetDisksInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -8598,8 +8351,7 @@ public struct GetDisksOutput: Swift.Sendable {
     public init(
         disks: [LightsailClientTypes.Disk]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.disks = disks
         self.nextPageToken = nextPageToken
     }
@@ -8612,8 +8364,7 @@ public struct GetDiskSnapshotInput: Swift.Sendable {
 
     public init(
         diskSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskSnapshotName = diskSnapshotName
     }
 }
@@ -8624,8 +8375,7 @@ public struct GetDiskSnapshotOutput: Swift.Sendable {
 
     public init(
         diskSnapshot: LightsailClientTypes.DiskSnapshot? = nil
-    )
-    {
+    ) {
         self.diskSnapshot = diskSnapshot
     }
 }
@@ -8636,8 +8386,7 @@ public struct GetDiskSnapshotsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -8651,8 +8400,7 @@ public struct GetDiskSnapshotsOutput: Swift.Sendable {
     public init(
         diskSnapshots: [LightsailClientTypes.DiskSnapshot]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.diskSnapshots = diskSnapshots
         self.nextPageToken = nextPageToken
     }
@@ -8669,8 +8417,7 @@ public struct GetDistributionBundlesOutput: Swift.Sendable {
 
     public init(
         bundles: [LightsailClientTypes.DistributionBundle]? = nil
-    )
-    {
+    ) {
         self.bundles = bundles
     }
 }
@@ -8681,8 +8428,7 @@ public struct GetDistributionLatestCacheResetInput: Swift.Sendable {
 
     public init(
         distributionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionName = distributionName
     }
 }
@@ -8696,8 +8442,7 @@ public struct GetDistributionLatestCacheResetOutput: Swift.Sendable {
     public init(
         createTime: Foundation.Date? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.status = status
     }
@@ -8770,8 +8515,7 @@ public struct GetDistributionMetricDataInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
-    )
-    {
+    ) {
         self.distributionName = distributionName
         self.endTime = endTime
         self.metricName = metricName
@@ -8791,8 +8535,7 @@ public struct GetDistributionMetricDataOutput: Swift.Sendable {
     public init(
         metricData: [LightsailClientTypes.MetricDatapoint]? = nil,
         metricName: LightsailClientTypes.DistributionMetricName? = nil
-    )
-    {
+    ) {
         self.metricData = metricData
         self.metricName = metricName
     }
@@ -8807,8 +8550,7 @@ public struct GetDistributionsInput: Swift.Sendable {
     public init(
         distributionName: Swift.String? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionName = distributionName
         self.pageToken = pageToken
     }
@@ -8823,8 +8565,7 @@ public struct GetDistributionsOutput: Swift.Sendable {
     public init(
         distributions: [LightsailClientTypes.LightsailDistribution]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributions = distributions
         self.nextPageToken = nextPageToken
     }
@@ -8837,8 +8578,7 @@ public struct GetDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -8849,8 +8589,7 @@ public struct GetDomainOutput: Swift.Sendable {
 
     public init(
         domain: LightsailClientTypes.Domain? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -8861,8 +8600,7 @@ public struct GetDomainsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -8876,8 +8614,7 @@ public struct GetDomainsOutput: Swift.Sendable {
     public init(
         domains: [LightsailClientTypes.Domain]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextPageToken = nextPageToken
     }
@@ -8889,8 +8626,7 @@ public struct GetExportSnapshotRecordsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -8904,8 +8640,7 @@ public struct GetExportSnapshotRecordsOutput: Swift.Sendable {
     public init(
         exportSnapshotRecords: [LightsailClientTypes.ExportSnapshotRecord]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportSnapshotRecords = exportSnapshotRecords
         self.nextPageToken = nextPageToken
     }
@@ -8918,8 +8653,7 @@ public struct GetInstanceInput: Swift.Sendable {
 
     public init(
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
     }
 }
@@ -8939,8 +8673,7 @@ extension LightsailClientTypes {
             cpuCount: Swift.Int? = nil,
             disks: [LightsailClientTypes.Disk]? = nil,
             ramSizeInGb: Swift.Float? = nil
-        )
-        {
+        ) {
             self.cpuCount = cpuCount
             self.disks = disks
             self.ramSizeInGb = ramSizeInGb
@@ -9089,8 +8822,7 @@ extension LightsailClientTypes {
             httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: LightsailClientTypes.HttpTokens? = nil,
             state: LightsailClientTypes.InstanceMetadataState? = nil
-        )
-        {
+        ) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
@@ -9109,8 +8841,7 @@ extension LightsailClientTypes {
 
         public init(
             gbPerMonthAllocated: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gbPerMonthAllocated = gbPerMonthAllocated
         }
     }
@@ -9203,8 +8934,7 @@ extension LightsailClientTypes {
             ipv6Cidrs: [Swift.String]? = nil,
             `protocol`: LightsailClientTypes.NetworkProtocol? = nil,
             toPort: Swift.Int = 0
-        )
-        {
+        ) {
             self.accessDirection = accessDirection
             self.accessFrom = accessFrom
             self.accessType = accessType
@@ -9231,8 +8961,7 @@ extension LightsailClientTypes {
         public init(
             monthlyTransfer: LightsailClientTypes.MonthlyTransfer? = nil,
             ports: [LightsailClientTypes.InstancePortInfo]? = nil
-        )
-        {
+        ) {
             self.monthlyTransfer = monthlyTransfer
             self.ports = ports
         }
@@ -9251,8 +8980,7 @@ extension LightsailClientTypes {
         public init(
             code: Swift.Int? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -9331,8 +9059,7 @@ extension LightsailClientTypes {
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.addOns = addOns
             self.arn = arn
             self.blueprintId = blueprintId
@@ -9365,8 +9092,7 @@ public struct GetInstanceOutput: Swift.Sendable {
 
     public init(
         instance: LightsailClientTypes.Instance? = nil
-    )
-    {
+    ) {
         self.instance = instance
     }
 }
@@ -9410,8 +9136,7 @@ public struct GetInstanceAccessDetailsInput: Swift.Sendable {
     public init(
         instanceName: Swift.String? = nil,
         `protocol`: LightsailClientTypes.InstanceAccessProtocol? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
         self.`protocol` = `protocol`
     }
@@ -9452,8 +9177,7 @@ extension LightsailClientTypes {
             notValidBefore: Foundation.Date? = nil,
             publicKey: Swift.String? = nil,
             witnessedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.fingerprintSHA1 = fingerprintSHA1
             self.fingerprintSHA256 = fingerprintSHA256
@@ -9477,8 +9201,7 @@ extension LightsailClientTypes {
         public init(
             ciphertext: Swift.String? = nil,
             keyPairName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ciphertext = ciphertext
             self.keyPairName = keyPairName
         }
@@ -9524,8 +9247,7 @@ extension LightsailClientTypes {
             privateKey: Swift.String? = nil,
             `protocol`: LightsailClientTypes.InstanceAccessProtocol? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.certKey = certKey
             self.expiresAt = expiresAt
             self.hostKeys = hostKeys
@@ -9547,8 +9269,7 @@ public struct GetInstanceAccessDetailsOutput: Swift.Sendable {
 
     public init(
         accessDetails: LightsailClientTypes.InstanceAccessDetails? = nil
-    )
-    {
+    ) {
         self.accessDetails = accessDetails
     }
 }
@@ -9662,8 +9383,7 @@ public struct GetInstanceMetricDataInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.instanceName = instanceName
         self.metricName = metricName
@@ -9683,8 +9403,7 @@ public struct GetInstanceMetricDataOutput: Swift.Sendable {
     public init(
         metricData: [LightsailClientTypes.MetricDatapoint]? = nil,
         metricName: LightsailClientTypes.InstanceMetricName? = nil
-    )
-    {
+    ) {
         self.metricData = metricData
         self.metricName = metricName
     }
@@ -9697,8 +9416,7 @@ public struct GetInstancePortStatesInput: Swift.Sendable {
 
     public init(
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
     }
 }
@@ -9781,8 +9499,7 @@ extension LightsailClientTypes {
             `protocol`: LightsailClientTypes.NetworkProtocol? = nil,
             state: LightsailClientTypes.PortState? = nil,
             toPort: Swift.Int = 0
-        )
-        {
+        ) {
             self.cidrListAliases = cidrListAliases
             self.cidrs = cidrs
             self.fromPort = fromPort
@@ -9800,8 +9517,7 @@ public struct GetInstancePortStatesOutput: Swift.Sendable {
 
     public init(
         portStates: [LightsailClientTypes.InstancePortState]? = nil
-    )
-    {
+    ) {
         self.portStates = portStates
     }
 }
@@ -9812,8 +9528,7 @@ public struct GetInstancesInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -9827,8 +9542,7 @@ public struct GetInstancesOutput: Swift.Sendable {
     public init(
         instances: [LightsailClientTypes.Instance]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextPageToken = nextPageToken
     }
@@ -9841,8 +9555,7 @@ public struct GetInstanceSnapshotInput: Swift.Sendable {
 
     public init(
         instanceSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceSnapshotName = instanceSnapshotName
     }
 }
@@ -9933,8 +9646,7 @@ extension LightsailClientTypes {
             state: LightsailClientTypes.InstanceSnapshotState? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.fromAttachedDisks = fromAttachedDisks
@@ -9961,8 +9673,7 @@ public struct GetInstanceSnapshotOutput: Swift.Sendable {
 
     public init(
         instanceSnapshot: LightsailClientTypes.InstanceSnapshot? = nil
-    )
-    {
+    ) {
         self.instanceSnapshot = instanceSnapshot
     }
 }
@@ -9973,8 +9684,7 @@ public struct GetInstanceSnapshotsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -9988,8 +9698,7 @@ public struct GetInstanceSnapshotsOutput: Swift.Sendable {
     public init(
         instanceSnapshots: [LightsailClientTypes.InstanceSnapshot]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceSnapshots = instanceSnapshots
         self.nextPageToken = nextPageToken
     }
@@ -10002,8 +9711,7 @@ public struct GetInstanceStateInput: Swift.Sendable {
 
     public init(
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
     }
 }
@@ -10014,8 +9722,7 @@ public struct GetInstanceStateOutput: Swift.Sendable {
 
     public init(
         state: LightsailClientTypes.InstanceState? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -10027,8 +9734,7 @@ public struct GetKeyPairInput: Swift.Sendable {
 
     public init(
         keyPairName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyPairName = keyPairName
     }
 }
@@ -10039,8 +9745,7 @@ public struct GetKeyPairOutput: Swift.Sendable {
 
     public init(
         keyPair: LightsailClientTypes.KeyPair? = nil
-    )
-    {
+    ) {
         self.keyPair = keyPair
     }
 }
@@ -10054,8 +9759,7 @@ public struct GetKeyPairsInput: Swift.Sendable {
     public init(
         includeDefaultKeyPair: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeDefaultKeyPair = includeDefaultKeyPair
         self.pageToken = pageToken
     }
@@ -10070,8 +9774,7 @@ public struct GetKeyPairsOutput: Swift.Sendable {
     public init(
         keyPairs: [LightsailClientTypes.KeyPair]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyPairs = keyPairs
         self.nextPageToken = nextPageToken
     }
@@ -10084,8 +9787,7 @@ public struct GetLoadBalancerInput: Swift.Sendable {
 
     public init(
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
     }
 }
@@ -10271,8 +9973,7 @@ extension LightsailClientTypes {
             instanceHealth: LightsailClientTypes.InstanceHealthState? = nil,
             instanceHealthReason: LightsailClientTypes.InstanceHealthReason? = nil,
             instanceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceHealth = instanceHealth
             self.instanceHealthReason = instanceHealthReason
             self.instanceName = instanceName
@@ -10359,8 +10060,7 @@ extension LightsailClientTypes {
         public init(
             isAttached: Swift.Bool? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.isAttached = isAttached
             self.name = name
         }
@@ -10430,8 +10130,7 @@ extension LightsailClientTypes {
             tags: [LightsailClientTypes.Tag]? = nil,
             tlsCertificateSummaries: [LightsailClientTypes.LoadBalancerTlsCertificateSummary]? = nil,
             tlsPolicyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.configurationOptions = configurationOptions
             self.createdAt = createdAt
@@ -10461,8 +10160,7 @@ public struct GetLoadBalancerOutput: Swift.Sendable {
 
     public init(
         loadBalancer: LightsailClientTypes.LoadBalancer? = nil
-    )
-    {
+    ) {
         self.loadBalancer = loadBalancer
     }
 }
@@ -10591,8 +10289,7 @@ public struct GetLoadBalancerMetricDataInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.loadBalancerName = loadBalancerName
         self.metricName = metricName
@@ -10612,8 +10309,7 @@ public struct GetLoadBalancerMetricDataOutput: Swift.Sendable {
     public init(
         metricData: [LightsailClientTypes.MetricDatapoint]? = nil,
         metricName: LightsailClientTypes.LoadBalancerMetricName? = nil
-    )
-    {
+    ) {
         self.metricData = metricData
         self.metricName = metricName
     }
@@ -10625,8 +10321,7 @@ public struct GetLoadBalancersInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -10640,8 +10335,7 @@ public struct GetLoadBalancersOutput: Swift.Sendable {
     public init(
         loadBalancers: [LightsailClientTypes.LoadBalancer]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancers = loadBalancers
         self.nextPageToken = nextPageToken
     }
@@ -10654,8 +10348,7 @@ public struct GetLoadBalancerTlsCertificatesInput: Swift.Sendable {
 
     public init(
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
     }
 }
@@ -10710,8 +10403,7 @@ extension LightsailClientTypes {
         public init(
             code: LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationStateCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -10774,8 +10466,7 @@ extension LightsailClientTypes {
             type: Swift.String? = nil,
             validationStatus: LightsailClientTypes.LoadBalancerTlsCertificateDomainStatus? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.dnsRecordCreationState = dnsRecordCreationState
             self.domainName = domainName
             self.name = name
@@ -10836,8 +10527,7 @@ extension LightsailClientTypes {
         public init(
             domainName: Swift.String? = nil,
             validationStatus: LightsailClientTypes.LoadBalancerTlsCertificateDomainStatus? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.validationStatus = validationStatus
         }
@@ -10907,8 +10597,7 @@ extension LightsailClientTypes {
         public init(
             domainValidationOptions: [LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption]? = nil,
             renewalStatus: LightsailClientTypes.LoadBalancerTlsCertificateRenewalStatus? = nil
-        )
-        {
+        ) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
         }
@@ -11126,8 +10815,7 @@ extension LightsailClientTypes {
             subjectAlternativeNames: [Swift.String]? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.domainName = domainName
@@ -11163,8 +10851,7 @@ public struct GetLoadBalancerTlsCertificatesOutput: Swift.Sendable {
 
     public init(
         tlsCertificates: [LightsailClientTypes.LoadBalancerTlsCertificate]? = nil
-    )
-    {
+    ) {
         self.tlsCertificates = tlsCertificates
     }
 }
@@ -11175,8 +10862,7 @@ public struct GetLoadBalancerTlsPoliciesInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -11202,8 +10888,7 @@ extension LightsailClientTypes {
             isDefault: Swift.Bool? = nil,
             name: Swift.String? = nil,
             protocols: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.ciphers = ciphers
             self.description = description
             self.isDefault = isDefault
@@ -11222,8 +10907,7 @@ public struct GetLoadBalancerTlsPoliciesOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         tlsPolicies: [LightsailClientTypes.LoadBalancerTlsPolicy]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.tlsPolicies = tlsPolicies
     }
@@ -11236,8 +10920,7 @@ public struct GetOperationInput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -11248,8 +10931,7 @@ public struct GetOperationOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -11260,8 +10942,7 @@ public struct GetOperationsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -11275,8 +10956,7 @@ public struct GetOperationsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.operations = operations
     }
@@ -11292,8 +10972,7 @@ public struct GetOperationsForResourceInput: Swift.Sendable {
     public init(
         pageToken: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
         self.resourceName = resourceName
     }
@@ -11312,8 +10991,7 @@ public struct GetOperationsForResourceOutput: Swift.Sendable {
         nextPageCount: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.nextPageCount = nextPageCount
         self.nextPageToken = nextPageToken
         self.operations = operations
@@ -11329,8 +11007,7 @@ public struct GetRegionsInput: Swift.Sendable {
     public init(
         includeAvailabilityZones: Swift.Bool? = nil,
         includeRelationalDatabaseAvailabilityZones: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.includeAvailabilityZones = includeAvailabilityZones
         self.includeRelationalDatabaseAvailabilityZones = includeRelationalDatabaseAvailabilityZones
     }
@@ -11360,8 +11037,7 @@ extension LightsailClientTypes {
             displayName: Swift.String? = nil,
             name: LightsailClientTypes.RegionName? = nil,
             relationalDatabaseAvailabilityZones: [LightsailClientTypes.AvailabilityZone]? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.continentCode = continentCode
             self.description = description
@@ -11378,8 +11054,7 @@ public struct GetRegionsOutput: Swift.Sendable {
 
     public init(
         regions: [LightsailClientTypes.Region]? = nil
-    )
-    {
+    ) {
         self.regions = regions
     }
 }
@@ -11391,8 +11066,7 @@ public struct GetRelationalDatabaseInput: Swift.Sendable {
 
     public init(
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseName = relationalDatabaseName
     }
 }
@@ -11412,8 +11086,7 @@ extension LightsailClientTypes {
             cpuCount: Swift.Int? = nil,
             diskSizeInGb: Swift.Int? = nil,
             ramSizeInGb: Swift.Float? = nil
-        )
-        {
+        ) {
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
             self.ramSizeInGb = ramSizeInGb
@@ -11433,8 +11106,7 @@ extension LightsailClientTypes {
         public init(
             address: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.port = port
         }
@@ -11456,8 +11128,7 @@ extension LightsailClientTypes {
             action: Swift.String? = nil,
             currentApplyDate: Foundation.Date? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.currentApplyDate = currentApplyDate
             self.description = description
@@ -11480,8 +11151,7 @@ extension LightsailClientTypes {
             backupRetentionEnabled: Swift.Bool? = nil,
             engineVersion: Swift.String? = nil,
             masterUserPassword: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupRetentionEnabled = backupRetentionEnabled
             self.engineVersion = engineVersion
             self.masterUserPassword = masterUserPassword
@@ -11573,8 +11243,7 @@ extension LightsailClientTypes {
             state: Swift.String? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.backupRetentionEnabled = backupRetentionEnabled
             self.caCertificateIdentifier = caCertificateIdentifier
@@ -11611,8 +11280,7 @@ public struct GetRelationalDatabaseOutput: Swift.Sendable {
 
     public init(
         relationalDatabase: LightsailClientTypes.RelationalDatabase? = nil
-    )
-    {
+    ) {
         self.relationalDatabase = relationalDatabase
     }
 }
@@ -11623,8 +11291,7 @@ public struct GetRelationalDatabaseBlueprintsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -11679,8 +11346,7 @@ extension LightsailClientTypes {
             engineVersion: Swift.String? = nil,
             engineVersionDescription: Swift.String? = nil,
             isEngineDefault: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.blueprintId = blueprintId
             self.engine = engine
             self.engineDescription = engineDescription
@@ -11700,8 +11366,7 @@ public struct GetRelationalDatabaseBlueprintsOutput: Swift.Sendable {
     public init(
         blueprints: [LightsailClientTypes.RelationalDatabaseBlueprint]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.nextPageToken = nextPageToken
     }
@@ -11716,8 +11381,7 @@ public struct GetRelationalDatabaseBundlesInput: Swift.Sendable {
     public init(
         includeInactive: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeInactive = includeInactive
         self.pageToken = pageToken
     }
@@ -11756,8 +11420,7 @@ extension LightsailClientTypes {
             price: Swift.Float? = nil,
             ramSizeInGb: Swift.Float? = nil,
             transferPerMonthInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.cpuCount = cpuCount
             self.diskSizeInGb = diskSizeInGb
@@ -11780,8 +11443,7 @@ public struct GetRelationalDatabaseBundlesOutput: Swift.Sendable {
     public init(
         bundles: [LightsailClientTypes.RelationalDatabaseBundle]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundles = bundles
         self.nextPageToken = nextPageToken
     }
@@ -11800,8 +11462,7 @@ public struct GetRelationalDatabaseEventsInput: Swift.Sendable {
         durationInMinutes: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationInMinutes = durationInMinutes
         self.pageToken = pageToken
         self.relationalDatabaseName = relationalDatabaseName
@@ -11826,8 +11487,7 @@ extension LightsailClientTypes {
             eventCategories: [Swift.String]? = nil,
             message: Swift.String? = nil,
             resource: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.eventCategories = eventCategories
             self.message = message
@@ -11845,8 +11505,7 @@ public struct GetRelationalDatabaseEventsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         relationalDatabaseEvents: [LightsailClientTypes.RelationalDatabaseEvent]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.relationalDatabaseEvents = relationalDatabaseEvents
     }
@@ -11883,8 +11542,7 @@ public struct GetRelationalDatabaseLogEventsInput: Swift.Sendable {
         relationalDatabaseName: Swift.String? = nil,
         startFromHead: Swift.Bool? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.logStreamName = logStreamName
         self.pageToken = pageToken
@@ -11906,8 +11564,7 @@ extension LightsailClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.message = message
         }
@@ -11926,8 +11583,7 @@ public struct GetRelationalDatabaseLogEventsOutput: Swift.Sendable {
         nextBackwardToken: Swift.String? = nil,
         nextForwardToken: Swift.String? = nil,
         resourceLogEvents: [LightsailClientTypes.LogEvent]? = nil
-    )
-    {
+    ) {
         self.nextBackwardToken = nextBackwardToken
         self.nextForwardToken = nextForwardToken
         self.resourceLogEvents = resourceLogEvents
@@ -11941,8 +11597,7 @@ public struct GetRelationalDatabaseLogStreamsInput: Swift.Sendable {
 
     public init(
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseName = relationalDatabaseName
     }
 }
@@ -11953,8 +11608,7 @@ public struct GetRelationalDatabaseLogStreamsOutput: Swift.Sendable {
 
     public init(
         logStreams: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.logStreams = logStreams
     }
 }
@@ -12001,8 +11655,7 @@ public struct GetRelationalDatabaseMasterUserPasswordInput: Swift.Sendable {
     public init(
         passwordVersion: LightsailClientTypes.RelationalDatabasePasswordVersion? = nil,
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.passwordVersion = passwordVersion
         self.relationalDatabaseName = relationalDatabaseName
     }
@@ -12017,8 +11670,7 @@ public struct GetRelationalDatabaseMasterUserPasswordOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         masterUserPassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.masterUserPassword = masterUserPassword
     }
@@ -12131,8 +11783,7 @@ public struct GetRelationalDatabaseMetricDataInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.metricName = metricName
         self.period = period
@@ -12152,8 +11803,7 @@ public struct GetRelationalDatabaseMetricDataOutput: Swift.Sendable {
     public init(
         metricData: [LightsailClientTypes.MetricDatapoint]? = nil,
         metricName: LightsailClientTypes.RelationalDatabaseMetricName? = nil
-    )
-    {
+    ) {
         self.metricData = metricData
         self.metricName = metricName
     }
@@ -12169,8 +11819,7 @@ public struct GetRelationalDatabaseParametersInput: Swift.Sendable {
     public init(
         pageToken: Swift.String? = nil,
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
         self.relationalDatabaseName = relationalDatabaseName
     }
@@ -12206,8 +11855,7 @@ extension LightsailClientTypes {
             isModifiable: Swift.Bool? = nil,
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
             self.applyType = applyType
@@ -12229,8 +11877,7 @@ public struct GetRelationalDatabaseParametersOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         parameters: [LightsailClientTypes.RelationalDatabaseParameter]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.parameters = parameters
     }
@@ -12242,8 +11889,7 @@ public struct GetRelationalDatabasesInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -12257,8 +11903,7 @@ public struct GetRelationalDatabasesOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         relationalDatabases: [LightsailClientTypes.RelationalDatabase]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.relationalDatabases = relationalDatabases
     }
@@ -12271,8 +11916,7 @@ public struct GetRelationalDatabaseSnapshotInput: Swift.Sendable {
 
     public init(
         relationalDatabaseSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
     }
 }
@@ -12328,8 +11972,7 @@ extension LightsailClientTypes {
             state: Swift.String? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.engine = engine
@@ -12355,8 +11998,7 @@ public struct GetRelationalDatabaseSnapshotOutput: Swift.Sendable {
 
     public init(
         relationalDatabaseSnapshot: LightsailClientTypes.RelationalDatabaseSnapshot? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseSnapshot = relationalDatabaseSnapshot
     }
 }
@@ -12367,8 +12009,7 @@ public struct GetRelationalDatabaseSnapshotsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -12382,8 +12023,7 @@ public struct GetRelationalDatabaseSnapshotsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         relationalDatabaseSnapshots: [LightsailClientTypes.RelationalDatabaseSnapshot]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.relationalDatabaseSnapshots = relationalDatabaseSnapshots
     }
@@ -12399,8 +12039,7 @@ public struct GetSetupHistoryInput: Swift.Sendable {
     public init(
         pageToken: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
         self.resourceName = resourceName
     }
@@ -12465,8 +12104,7 @@ extension LightsailClientTypes {
             standardOutput: Swift.String? = nil,
             status: LightsailClientTypes.SetupStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.command = command
             self.dateTime = dateTime
             self.name = name
@@ -12493,8 +12131,7 @@ extension LightsailClientTypes {
             certificateProvider: LightsailClientTypes.CertificateProvider? = nil,
             domainNames: [Swift.String]? = nil,
             instanceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateProvider = certificateProvider
             self.domainNames = domainNames
             self.instanceName = instanceName
@@ -12523,8 +12160,7 @@ extension LightsailClientTypes {
             location: LightsailClientTypes.ResourceLocation? = nil,
             name: Swift.String? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.location = location
@@ -12555,8 +12191,7 @@ extension LightsailClientTypes {
             request: LightsailClientTypes.SetupRequest? = nil,
             resource: LightsailClientTypes.SetupHistoryResource? = nil,
             status: LightsailClientTypes.SetupStatus? = nil
-        )
-        {
+        ) {
             self.executionDetails = executionDetails
             self.operationId = operationId
             self.request = request
@@ -12575,8 +12210,7 @@ public struct GetSetupHistoryOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         setupHistory: [LightsailClientTypes.SetupHistory]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.setupHistory = setupHistory
     }
@@ -12589,8 +12223,7 @@ public struct GetStaticIpInput: Swift.Sendable {
 
     public init(
         staticIpName: Swift.String? = nil
-    )
-    {
+    ) {
         self.staticIpName = staticIpName
     }
 }
@@ -12628,8 +12261,7 @@ extension LightsailClientTypes {
             name: Swift.String? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil,
             supportCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attachedTo = attachedTo
             self.createdAt = createdAt
@@ -12649,8 +12281,7 @@ public struct GetStaticIpOutput: Swift.Sendable {
 
     public init(
         staticIp: LightsailClientTypes.StaticIp? = nil
-    )
-    {
+    ) {
         self.staticIp = staticIp
     }
 }
@@ -12661,8 +12292,7 @@ public struct GetStaticIpsInput: Swift.Sendable {
 
     public init(
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageToken = pageToken
     }
 }
@@ -12676,8 +12306,7 @@ public struct GetStaticIpsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         staticIps: [LightsailClientTypes.StaticIp]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.staticIps = staticIps
     }
@@ -12694,8 +12323,7 @@ public struct ImportKeyPairInput: Swift.Sendable {
     public init(
         keyPairName: Swift.String? = nil,
         publicKeyBase64: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyPairName = keyPairName
         self.publicKeyBase64 = publicKeyBase64
     }
@@ -12707,8 +12335,7 @@ public struct ImportKeyPairOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -12724,8 +12351,7 @@ public struct IsVpcPeeredOutput: Swift.Sendable {
 
     public init(
         isPeered: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.isPeered = isPeered
     }
 }
@@ -12741,8 +12367,7 @@ public struct OpenInstancePublicPortsInput: Swift.Sendable {
     public init(
         instanceName: Swift.String? = nil,
         portInfo: LightsailClientTypes.PortInfo? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
         self.portInfo = portInfo
     }
@@ -12754,8 +12379,7 @@ public struct OpenInstancePublicPortsOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -12771,8 +12395,7 @@ public struct PeerVpcOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -12855,8 +12478,7 @@ public struct PutAlarmInput: Swift.Sendable {
         notificationTriggers: [LightsailClientTypes.AlarmState]? = nil,
         threshold: Swift.Double? = nil,
         treatMissingData: LightsailClientTypes.TreatMissingData? = nil
-    )
-    {
+    ) {
         self.alarmName = alarmName
         self.comparisonOperator = comparisonOperator
         self.contactProtocols = contactProtocols
@@ -12877,8 +12499,7 @@ public struct PutAlarmOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -12894,8 +12515,7 @@ public struct PutInstancePublicPortsInput: Swift.Sendable {
     public init(
         instanceName: Swift.String? = nil,
         portInfos: [LightsailClientTypes.PortInfo]? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
         self.portInfos = portInfos
     }
@@ -12907,8 +12527,7 @@ public struct PutInstancePublicPortsOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -12920,8 +12539,7 @@ public struct RebootInstanceInput: Swift.Sendable {
 
     public init(
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
     }
 }
@@ -12932,8 +12550,7 @@ public struct RebootInstanceOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -12945,8 +12562,7 @@ public struct RebootRelationalDatabaseInput: Swift.Sendable {
 
     public init(
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseName = relationalDatabaseName
     }
 }
@@ -12957,8 +12573,7 @@ public struct RebootRelationalDatabaseOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -12983,8 +12598,7 @@ public struct RegisterContainerImageInput: Swift.Sendable {
         digest: Swift.String? = nil,
         label: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.digest = digest
         self.label = label
         self.serviceName = serviceName
@@ -12997,8 +12611,7 @@ public struct RegisterContainerImageOutput: Swift.Sendable {
 
     public init(
         containerImage: LightsailClientTypes.ContainerImage? = nil
-    )
-    {
+    ) {
         self.containerImage = containerImage
     }
 }
@@ -13010,8 +12623,7 @@ public struct ReleaseStaticIpInput: Swift.Sendable {
 
     public init(
         staticIpName: Swift.String? = nil
-    )
-    {
+    ) {
         self.staticIpName = staticIpName
     }
 }
@@ -13022,8 +12634,7 @@ public struct ReleaseStaticIpOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13034,8 +12645,7 @@ public struct ResetDistributionCacheInput: Swift.Sendable {
 
     public init(
         distributionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.distributionName = distributionName
     }
 }
@@ -13052,8 +12662,7 @@ public struct ResetDistributionCacheOutput: Swift.Sendable {
         createTime: Foundation.Date? = nil,
         operation: LightsailClientTypes.Operation? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.operation = operation
         self.status = status
@@ -13067,8 +12676,7 @@ public struct SendContactMethodVerificationInput: Swift.Sendable {
 
     public init(
         `protocol`: LightsailClientTypes.ContactMethodVerificationProtocol? = nil
-    )
-    {
+    ) {
         self.`protocol` = `protocol`
     }
 }
@@ -13079,8 +12687,7 @@ public struct SendContactMethodVerificationOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13103,8 +12710,7 @@ public struct SetIpAddressTypeInput: Swift.Sendable {
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         resourceName: Swift.String? = nil,
         resourceType: LightsailClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.acceptBundleUpdate = acceptBundleUpdate
         self.ipAddressType = ipAddressType
         self.resourceName = resourceName
@@ -13118,8 +12724,7 @@ public struct SetIpAddressTypeOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13172,8 +12777,7 @@ public struct SetResourceAccessForBucketInput: Swift.Sendable {
         access: LightsailClientTypes.ResourceBucketAccess? = nil,
         bucketName: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.access = access
         self.bucketName = bucketName
         self.resourceName = resourceName
@@ -13186,8 +12790,7 @@ public struct SetResourceAccessForBucketOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13211,8 +12814,7 @@ public struct SetupInstanceHttpsInput: Swift.Sendable {
         domainNames: [Swift.String]? = nil,
         emailAddress: Swift.String? = nil,
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateProvider = certificateProvider
         self.domainNames = domainNames
         self.emailAddress = emailAddress
@@ -13231,8 +12833,7 @@ public struct SetupInstanceHttpsOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13244,8 +12845,7 @@ public struct StartGUISessionInput: Swift.Sendable {
 
     public init(
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
     }
 }
@@ -13256,8 +12856,7 @@ public struct StartGUISessionOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13269,8 +12868,7 @@ public struct StartInstanceInput: Swift.Sendable {
 
     public init(
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceName = instanceName
     }
 }
@@ -13281,8 +12879,7 @@ public struct StartInstanceOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13294,8 +12891,7 @@ public struct StartRelationalDatabaseInput: Swift.Sendable {
 
     public init(
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseName = relationalDatabaseName
     }
 }
@@ -13306,8 +12902,7 @@ public struct StartRelationalDatabaseOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13319,8 +12914,7 @@ public struct StopGUISessionInput: Swift.Sendable {
 
     public init(
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
     }
 }
@@ -13331,8 +12925,7 @@ public struct StopGUISessionOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13347,8 +12940,7 @@ public struct StopInstanceInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = nil,
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.instanceName = instanceName
     }
@@ -13360,8 +12952,7 @@ public struct StopInstanceOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13376,8 +12967,7 @@ public struct StopRelationalDatabaseInput: Swift.Sendable {
     public init(
         relationalDatabaseName: Swift.String? = nil,
         relationalDatabaseSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.relationalDatabaseName = relationalDatabaseName
         self.relationalDatabaseSnapshotName = relationalDatabaseSnapshotName
     }
@@ -13389,8 +12979,7 @@ public struct StopRelationalDatabaseOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13409,8 +12998,7 @@ public struct TagResourceInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceName = resourceName
         self.tags = tags
@@ -13423,8 +13011,7 @@ public struct TagResourceOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13446,8 +13033,7 @@ public struct TestAlarmInput: Swift.Sendable {
     public init(
         alarmName: Swift.String? = nil,
         state: LightsailClientTypes.AlarmState? = nil
-    )
-    {
+    ) {
         self.alarmName = alarmName
         self.state = state
     }
@@ -13459,8 +13045,7 @@ public struct TestAlarmOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13476,8 +13061,7 @@ public struct UnpeerVpcOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -13496,8 +13080,7 @@ public struct UntagResourceInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceName = resourceName
         self.tagKeys = tagKeys
@@ -13510,8 +13093,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13539,8 +13121,7 @@ public struct UpdateBucketInput: Swift.Sendable {
         bucketName: Swift.String? = nil,
         readonlyAccessAccounts: [Swift.String]? = nil,
         versioning: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogConfig = accessLogConfig
         self.accessRules = accessRules
         self.bucketName = bucketName
@@ -13558,8 +13139,7 @@ public struct UpdateBucketOutput: Swift.Sendable {
     public init(
         bucket: LightsailClientTypes.Bucket? = nil,
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.bucket = bucket
         self.operations = operations
     }
@@ -13576,8 +13156,7 @@ public struct UpdateBucketBundleInput: Swift.Sendable {
     public init(
         bucketName: Swift.String? = nil,
         bundleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.bundleId = bundleId
     }
@@ -13589,8 +13168,7 @@ public struct UpdateBucketBundleOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13617,8 +13195,7 @@ public struct UpdateContainerServiceInput: Swift.Sendable {
         publicDomainNames: [Swift.String: [Swift.String]]? = nil,
         scale: Swift.Int? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.isDisabled = isDisabled
         self.power = power
         self.privateRegistryAccess = privateRegistryAccess
@@ -13634,8 +13211,7 @@ public struct UpdateContainerServiceOutput: Swift.Sendable {
 
     public init(
         containerService: LightsailClientTypes.ContainerService? = nil
-    )
-    {
+    ) {
         self.containerService = containerService
     }
 }
@@ -13671,8 +13247,7 @@ public struct UpdateDistributionInput: Swift.Sendable {
         origin: LightsailClientTypes.InputOrigin? = nil,
         useDefaultCertificate: Swift.Bool? = nil,
         viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
-    )
-    {
+    ) {
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
         self.certificateName = certificateName
@@ -13691,8 +13266,7 @@ public struct UpdateDistributionOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -13706,8 +13280,7 @@ public struct UpdateDistributionBundleInput: Swift.Sendable {
     public init(
         bundleId: Swift.String? = nil,
         distributionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bundleId = bundleId
         self.distributionName = distributionName
     }
@@ -13719,8 +13292,7 @@ public struct UpdateDistributionBundleOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -13736,8 +13308,7 @@ public struct UpdateDomainEntryInput: Swift.Sendable {
     public init(
         domainEntry: LightsailClientTypes.DomainEntry? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainEntry = domainEntry
         self.domainName = domainName
     }
@@ -13749,8 +13320,7 @@ public struct UpdateDomainEntryOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13774,8 +13344,7 @@ public struct UpdateInstanceMetadataOptionsInput: Swift.Sendable {
         httpPutResponseHopLimit: Swift.Int? = nil,
         httpTokens: LightsailClientTypes.HttpTokens? = nil,
         instanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpEndpoint = httpEndpoint
         self.httpProtocolIpv6 = httpProtocolIpv6
         self.httpPutResponseHopLimit = httpPutResponseHopLimit
@@ -13790,8 +13359,7 @@ public struct UpdateInstanceMetadataOptionsOutput: Swift.Sendable {
 
     public init(
         operation: LightsailClientTypes.Operation? = nil
-    )
-    {
+    ) {
         self.operation = operation
     }
 }
@@ -13821,8 +13389,7 @@ public struct UpdateLoadBalancerAttributeInput: Swift.Sendable {
         attributeName: LightsailClientTypes.LoadBalancerAttributeName? = nil,
         attributeValue: Swift.String? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.attributeValue = attributeValue
         self.loadBalancerName = loadBalancerName
@@ -13835,8 +13402,7 @@ public struct UpdateLoadBalancerAttributeOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13896,8 +13462,7 @@ public struct UpdateRelationalDatabaseInput: Swift.Sendable {
         relationalDatabaseBlueprintId: Swift.String? = nil,
         relationalDatabaseName: Swift.String? = nil,
         rotateMasterUserPassword: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.caCertificateIdentifier = caCertificateIdentifier
         self.disableBackupRetention = disableBackupRetention
@@ -13923,8 +13488,7 @@ public struct UpdateRelationalDatabaseOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -13940,8 +13504,7 @@ public struct UpdateRelationalDatabaseParametersInput: Swift.Sendable {
     public init(
         parameters: [LightsailClientTypes.RelationalDatabaseParameter]? = nil,
         relationalDatabaseName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameters = parameters
         self.relationalDatabaseName = relationalDatabaseName
     }
@@ -13953,8 +13516,7 @@ public struct UpdateRelationalDatabaseParametersOutput: Swift.Sendable {
 
     public init(
         operations: [LightsailClientTypes.Operation]? = nil
-    )
-    {
+    ) {
         self.operations = operations
     }
 }
@@ -15251,6 +14813,7 @@ extension CreateContainerServiceDeploymentInput {
         guard let value else { return }
         try writer["containers"].writeMap(value.containers, valueWritingClosure: LightsailClientTypes.Container.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["publicEndpoint"].write(value.publicEndpoint, with: LightsailClientTypes.EndpointRequest.write(value:to:))
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -15526,16 +15089,17 @@ extension DeleteContactMethodInput {
 extension DeleteContainerImageInput {
 
     static func write(value: DeleteContainerImageInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["image"].write(value.image)
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
 extension DeleteContainerServiceInput {
 
     static func write(value: DeleteContainerServiceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -15842,32 +15406,42 @@ extension GetContainerAPIMetadataInput {
 extension GetContainerImagesInput {
 
     static func write(value: GetContainerImagesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
 extension GetContainerLogInput {
 
     static func write(value: GetContainerLogInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["containerName"].write(value.containerName)
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["filterPattern"].write(value.filterPattern)
+        try writer["pageToken"].write(value.pageToken)
+        try writer["serviceName"].write(value.serviceName)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
 extension GetContainerServiceDeploymentsInput {
 
     static func write(value: GetContainerServiceDeploymentsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
 extension GetContainerServiceMetricDataInput {
 
     static func write(value: GetContainerServiceMetricDataInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["metricName"].write(value.metricName)
+        try writer["period"].write(value.period)
+        try writer["serviceName"].write(value.serviceName)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LightsailClientTypes.MetricStatistic>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -15882,8 +15456,8 @@ extension GetContainerServicePowersInput {
 extension GetContainerServicesInput {
 
     static func write(value: GetContainerServicesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -16380,6 +15954,7 @@ extension RegisterContainerImageInput {
         guard let value else { return }
         try writer["digest"].write(value.digest)
         try writer["label"].write(value.label)
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -16556,6 +16131,7 @@ extension UpdateContainerServiceInput {
         try writer["privateRegistryAccess"].write(value.privateRegistryAccess, with: LightsailClientTypes.PrivateRegistryAccessRequest.write(value:to:))
         try writer["publicDomainNames"].writeMap(value.publicDomainNames, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["scale"].write(value.scale)
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 

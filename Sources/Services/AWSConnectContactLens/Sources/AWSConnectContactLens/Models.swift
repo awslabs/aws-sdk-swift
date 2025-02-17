@@ -23,9 +23,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -41,16 +41,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request processing failed due to an error or failure with the service.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -65,16 +64,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request is not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -89,16 +87,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -113,16 +110,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The throttling limit has been exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -138,8 +134,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +156,7 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -184,8 +178,7 @@ extension ConnectContactLensClientTypes {
         public init(
             beginOffsetMillis: Swift.Int? = nil,
             endOffsetMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginOffsetMillis = beginOffsetMillis
             self.endOffsetMillis = endOffsetMillis
         }
@@ -202,8 +195,7 @@ extension ConnectContactLensClientTypes {
 
         public init(
             pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]? = nil
-        )
-        {
+        ) {
             self.pointsOfInterest = pointsOfInterest
         }
     }
@@ -223,8 +215,7 @@ extension ConnectContactLensClientTypes {
         public init(
             matchedCategories: [Swift.String]? = nil,
             matchedDetails: [Swift.String: ConnectContactLensClientTypes.CategoryDetails]? = nil
-        )
-        {
+        ) {
             self.matchedCategories = matchedCategories
             self.matchedDetails = matchedDetails
         }
@@ -324,8 +315,7 @@ extension ConnectContactLensClientTypes {
             content: Swift.String? = nil,
             failureCode: ConnectContactLensClientTypes.PostContactSummaryFailureCode? = nil,
             status: ConnectContactLensClientTypes.PostContactSummaryStatus? = nil
-        )
-        {
+        ) {
             self.content = content
             self.failureCode = failureCode
             self.status = status
@@ -347,8 +337,7 @@ extension ConnectContactLensClientTypes {
         public init(
             beginOffsetChar: Swift.Int? = nil,
             endOffsetChar: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginOffsetChar = beginOffsetChar
             self.endOffsetChar = endOffsetChar
         }
@@ -365,8 +354,7 @@ extension ConnectContactLensClientTypes {
 
         public init(
             characterOffsets: ConnectContactLensClientTypes.CharacterOffsets? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
         }
     }
@@ -441,8 +429,7 @@ extension ConnectContactLensClientTypes {
             participantId: Swift.String? = nil,
             participantRole: Swift.String? = nil,
             sentiment: ConnectContactLensClientTypes.SentimentValue? = nil
-        )
-        {
+        ) {
             self.beginOffsetMillis = beginOffsetMillis
             self.content = content
             self.endOffsetMillis = endOffsetMillis
@@ -470,8 +457,7 @@ extension ConnectContactLensClientTypes {
             categories: ConnectContactLensClientTypes.Categories? = nil,
             postContactSummary: ConnectContactLensClientTypes.PostContactSummary? = nil,
             transcript: ConnectContactLensClientTypes.Transcript? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.postContactSummary = postContactSummary
             self.transcript = transcript
@@ -496,8 +482,7 @@ public struct ListRealtimeContactAnalysisSegmentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         segments: [ConnectContactLensClientTypes.RealtimeContactAnalysisSegment]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.segments = segments
     }

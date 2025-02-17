@@ -14,11 +14,14 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
 
 class Ec2QueryHttpResponseBindingErrorGeneratorTests {
-
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding has with correct cases`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
@@ -69,9 +72,9 @@ extension ComplexError {
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/ComplexError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil
         public internal(set) var topLevel: Swift.String? = nil
     }
@@ -88,8 +91,7 @@ public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     public init(
         nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil,
         topLevel: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.nested = nested
         self.properties.topLevel = topLevel
     }
@@ -114,7 +116,10 @@ func httpServiceError(baseError: AWSClientRuntime.EC2QueryError) throws -> Swift
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
 

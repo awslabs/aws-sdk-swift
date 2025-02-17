@@ -33,9 +33,9 @@ public struct ListDomainNamesInput: Swift.Sendable {
 }
 
 /// An error occurred while processing the request.
-public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -54,17 +54,16 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -83,17 +82,16 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The request was rejected because it attempted to reference a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -112,17 +110,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The request was rejected because it has invalid parameters.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -141,8 +138,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -156,8 +152,7 @@ public struct BuildSuggestersInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -169,16 +164,15 @@ public struct BuildSuggestersOutput: Swift.Sendable {
 
     public init(
         fieldNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fieldNames = fieldNames
     }
 }
 
 /// The request was rejected because a resource limit has already been met.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -197,17 +191,16 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The request was rejected because it attempted to create a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -226,8 +219,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -241,8 +233,7 @@ public struct CreateDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -256,8 +247,7 @@ extension CloudSearchClientTypes {
 
         public init(
             endpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
         }
     }
@@ -274,8 +264,7 @@ extension CloudSearchClientTypes {
         public init(
             maximumPartitionCount: Swift.Int? = nil,
             maximumReplicationCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumPartitionCount = maximumPartitionCount
             self.maximumReplicationCount = maximumReplicationCount
         }
@@ -329,8 +318,7 @@ extension CloudSearchClientTypes {
             searchInstanceType: Swift.String? = nil,
             searchPartitionCount: Swift.Int? = nil,
             searchService: CloudSearchClientTypes.ServiceEndpoint? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.created = created
             self.deleted = deleted
@@ -355,16 +343,15 @@ public struct CreateDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: CloudSearchClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
 
 /// The request was rejected because it specified an invalid type definition.
-public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -383,8 +370,7 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -446,8 +432,7 @@ extension CloudSearchClientTypes {
             stemmingDictionary: Swift.String? = nil,
             stopwords: Swift.String? = nil,
             synonyms: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithmicStemming = algorithmicStemming
             self.japaneseTokenizationDictionary = japaneseTokenizationDictionary
             self.stemmingDictionary = stemmingDictionary
@@ -603,8 +588,7 @@ extension CloudSearchClientTypes {
             analysisOptions: CloudSearchClientTypes.AnalysisOptions? = nil,
             analysisSchemeLanguage: CloudSearchClientTypes.AnalysisSchemeLanguage? = nil,
             analysisSchemeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisOptions = analysisOptions
             self.analysisSchemeLanguage = analysisSchemeLanguage
             self.analysisSchemeName = analysisSchemeName
@@ -624,8 +608,7 @@ public struct DefineAnalysisSchemeInput: Swift.Sendable {
     public init(
         analysisScheme: CloudSearchClientTypes.AnalysisScheme? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisScheme = analysisScheme
         self.domainName = domainName
     }
@@ -707,8 +690,7 @@ extension CloudSearchClientTypes {
             state: CloudSearchClientTypes.OptionState? = nil,
             updateDate: Foundation.Date? = nil,
             updateVersion: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
             self.state = state
@@ -732,8 +714,7 @@ extension CloudSearchClientTypes {
         public init(
             options: CloudSearchClientTypes.AnalysisScheme? = nil,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -748,8 +729,7 @@ public struct DefineAnalysisSchemeOutput: Swift.Sendable {
 
     public init(
         analysisScheme: CloudSearchClientTypes.AnalysisSchemeStatus? = nil
-    )
-    {
+    ) {
         self.analysisScheme = analysisScheme
     }
 }
@@ -768,8 +748,7 @@ extension CloudSearchClientTypes {
         public init(
             expressionName: Swift.String? = nil,
             expressionValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.expressionName = expressionName
             self.expressionValue = expressionValue
         }
@@ -788,8 +767,7 @@ public struct DefineExpressionInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         expression: CloudSearchClientTypes.Expression? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.expression = expression
     }
@@ -809,8 +787,7 @@ extension CloudSearchClientTypes {
         public init(
             options: CloudSearchClientTypes.Expression? = nil,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -825,8 +802,7 @@ public struct DefineExpressionOutput: Swift.Sendable {
 
     public init(
         expression: CloudSearchClientTypes.ExpressionStatus? = nil
-    )
-    {
+    ) {
         self.expression = expression
     }
 }
@@ -852,8 +828,7 @@ extension CloudSearchClientTypes {
             returnEnabled: Swift.Bool? = nil,
             searchEnabled: Swift.Bool? = nil,
             sourceFields: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -887,8 +862,7 @@ extension CloudSearchClientTypes {
             searchEnabled: Swift.Bool? = nil,
             sortEnabled: Swift.Bool? = nil,
             sourceField: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -920,8 +894,7 @@ extension CloudSearchClientTypes {
             returnEnabled: Swift.Bool? = nil,
             searchEnabled: Swift.Bool? = nil,
             sourceFields: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -955,8 +928,7 @@ extension CloudSearchClientTypes {
             searchEnabled: Swift.Bool? = nil,
             sortEnabled: Swift.Bool? = nil,
             sourceField: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -1045,8 +1017,7 @@ extension CloudSearchClientTypes {
             returnEnabled: Swift.Bool? = nil,
             searchEnabled: Swift.Bool? = nil,
             sourceFields: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -1080,8 +1051,7 @@ extension CloudSearchClientTypes {
             searchEnabled: Swift.Bool? = nil,
             sortEnabled: Swift.Bool? = nil,
             sourceField: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -1116,8 +1086,7 @@ extension CloudSearchClientTypes {
             searchEnabled: Swift.Bool? = nil,
             sortEnabled: Swift.Bool? = nil,
             sourceField: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -1149,8 +1118,7 @@ extension CloudSearchClientTypes {
             returnEnabled: Swift.Bool? = nil,
             searchEnabled: Swift.Bool? = nil,
             sourceFields: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -1184,8 +1152,7 @@ extension CloudSearchClientTypes {
             searchEnabled: Swift.Bool? = nil,
             sortEnabled: Swift.Bool? = nil,
             sourceField: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.facetEnabled = facetEnabled
             self.returnEnabled = returnEnabled
@@ -1217,8 +1184,7 @@ extension CloudSearchClientTypes {
             highlightEnabled: Swift.Bool? = nil,
             returnEnabled: Swift.Bool? = nil,
             sourceFields: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisScheme = analysisScheme
             self.defaultValue = defaultValue
             self.highlightEnabled = highlightEnabled
@@ -1252,8 +1218,7 @@ extension CloudSearchClientTypes {
             returnEnabled: Swift.Bool? = nil,
             sortEnabled: Swift.Bool? = nil,
             sourceField: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisScheme = analysisScheme
             self.defaultValue = defaultValue
             self.highlightEnabled = highlightEnabled
@@ -1311,8 +1276,7 @@ extension CloudSearchClientTypes {
             literalOptions: CloudSearchClientTypes.LiteralOptions? = nil,
             textArrayOptions: CloudSearchClientTypes.TextArrayOptions? = nil,
             textOptions: CloudSearchClientTypes.TextOptions? = nil
-        )
-        {
+        ) {
             self.dateArrayOptions = dateArrayOptions
             self.dateOptions = dateOptions
             self.doubleArrayOptions = doubleArrayOptions
@@ -1342,8 +1306,7 @@ public struct DefineIndexFieldInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         indexField: CloudSearchClientTypes.IndexField? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.indexField = indexField
     }
@@ -1363,8 +1326,7 @@ extension CloudSearchClientTypes {
         public init(
             options: CloudSearchClientTypes.IndexField? = nil,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -1379,8 +1341,7 @@ public struct DefineIndexFieldOutput: Swift.Sendable {
 
     public init(
         indexField: CloudSearchClientTypes.IndexFieldStatus? = nil
-    )
-    {
+    ) {
         self.indexField = indexField
     }
 }
@@ -1433,8 +1394,7 @@ extension CloudSearchClientTypes {
             fuzzyMatching: CloudSearchClientTypes.SuggesterFuzzyMatching? = nil,
             sortExpression: Swift.String? = nil,
             sourceField: Swift.String? = nil
-        )
-        {
+        ) {
             self.fuzzyMatching = fuzzyMatching
             self.sortExpression = sortExpression
             self.sourceField = sourceField
@@ -1456,8 +1416,7 @@ extension CloudSearchClientTypes {
         public init(
             documentSuggesterOptions: CloudSearchClientTypes.DocumentSuggesterOptions? = nil,
             suggesterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentSuggesterOptions = documentSuggesterOptions
             self.suggesterName = suggesterName
         }
@@ -1476,8 +1435,7 @@ public struct DefineSuggesterInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         suggester: CloudSearchClientTypes.Suggester? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.suggester = suggester
     }
@@ -1497,8 +1455,7 @@ extension CloudSearchClientTypes {
         public init(
             options: CloudSearchClientTypes.Suggester? = nil,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -1513,8 +1470,7 @@ public struct DefineSuggesterOutput: Swift.Sendable {
 
     public init(
         suggester: CloudSearchClientTypes.SuggesterStatus? = nil
-    )
-    {
+    ) {
         self.suggester = suggester
     }
 }
@@ -1531,8 +1487,7 @@ public struct DeleteAnalysisSchemeInput: Swift.Sendable {
     public init(
         analysisSchemeName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisSchemeName = analysisSchemeName
         self.domainName = domainName
     }
@@ -1546,8 +1501,7 @@ public struct DeleteAnalysisSchemeOutput: Swift.Sendable {
 
     public init(
         analysisScheme: CloudSearchClientTypes.AnalysisSchemeStatus? = nil
-    )
-    {
+    ) {
         self.analysisScheme = analysisScheme
     }
 }
@@ -1560,8 +1514,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -1573,8 +1526,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: CloudSearchClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
@@ -1591,8 +1543,7 @@ public struct DeleteExpressionInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         expressionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.expressionName = expressionName
     }
@@ -1606,8 +1557,7 @@ public struct DeleteExpressionOutput: Swift.Sendable {
 
     public init(
         expression: CloudSearchClientTypes.ExpressionStatus? = nil
-    )
-    {
+    ) {
         self.expression = expression
     }
 }
@@ -1624,8 +1574,7 @@ public struct DeleteIndexFieldInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         indexFieldName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.indexFieldName = indexFieldName
     }
@@ -1639,8 +1588,7 @@ public struct DeleteIndexFieldOutput: Swift.Sendable {
 
     public init(
         indexField: CloudSearchClientTypes.IndexFieldStatus? = nil
-    )
-    {
+    ) {
         self.indexField = indexField
     }
 }
@@ -1657,8 +1605,7 @@ public struct DeleteSuggesterInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         suggesterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.suggesterName = suggesterName
     }
@@ -1672,8 +1619,7 @@ public struct DeleteSuggesterOutput: Swift.Sendable {
 
     public init(
         suggester: CloudSearchClientTypes.SuggesterStatus? = nil
-    )
-    {
+    ) {
         self.suggester = suggester
     }
 }
@@ -1692,8 +1638,7 @@ public struct DescribeAnalysisSchemesInput: Swift.Sendable {
         analysisSchemeNames: [Swift.String]? = nil,
         deployed: Swift.Bool? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisSchemeNames = analysisSchemeNames
         self.deployed = deployed
         self.domainName = domainName
@@ -1708,16 +1653,15 @@ public struct DescribeAnalysisSchemesOutput: Swift.Sendable {
 
     public init(
         analysisSchemes: [CloudSearchClientTypes.AnalysisSchemeStatus]? = nil
-    )
-    {
+    ) {
         self.analysisSchemes = analysisSchemes
     }
 }
 
 /// The request was rejected because it attempted an operation which is not enabled.
-public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A machine-parsable string error or warning code.
         public internal(set) var code: Swift.String? = nil
         /// A human-readable string error or warning message.
@@ -1736,8 +1680,7 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1754,8 +1697,7 @@ public struct DescribeAvailabilityOptionsInput: Swift.Sendable {
     public init(
         deployed: Swift.Bool? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployed = deployed
         self.domainName = domainName
     }
@@ -1775,8 +1717,7 @@ extension CloudSearchClientTypes {
         public init(
             options: Swift.Bool = false,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -1790,8 +1731,7 @@ public struct DescribeAvailabilityOptionsOutput: Swift.Sendable {
 
     public init(
         availabilityOptions: CloudSearchClientTypes.AvailabilityOptionsStatus? = nil
-    )
-    {
+    ) {
         self.availabilityOptions = availabilityOptions
     }
 }
@@ -1807,8 +1747,7 @@ public struct DescribeDomainEndpointOptionsInput: Swift.Sendable {
     public init(
         deployed: Swift.Bool? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployed = deployed
         self.domainName = domainName
     }
@@ -1856,8 +1795,7 @@ extension CloudSearchClientTypes {
         public init(
             enforceHTTPS: Swift.Bool? = nil,
             tlsSecurityPolicy: CloudSearchClientTypes.TLSSecurityPolicy? = nil
-        )
-        {
+        ) {
             self.enforceHTTPS = enforceHTTPS
             self.tlsSecurityPolicy = tlsSecurityPolicy
         }
@@ -1878,8 +1816,7 @@ extension CloudSearchClientTypes {
         public init(
             options: CloudSearchClientTypes.DomainEndpointOptions? = nil,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -1893,8 +1830,7 @@ public struct DescribeDomainEndpointOptionsOutput: Swift.Sendable {
 
     public init(
         domainEndpointOptions: CloudSearchClientTypes.DomainEndpointOptionsStatus? = nil
-    )
-    {
+    ) {
         self.domainEndpointOptions = domainEndpointOptions
     }
 }
@@ -1906,8 +1842,7 @@ public struct DescribeDomainsInput: Swift.Sendable {
 
     public init(
         domainNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainNames = domainNames
     }
 }
@@ -1920,8 +1855,7 @@ public struct DescribeDomainsOutput: Swift.Sendable {
 
     public init(
         domainStatusList: [CloudSearchClientTypes.DomainStatus]? = nil
-    )
-    {
+    ) {
         self.domainStatusList = domainStatusList
     }
 }
@@ -1940,8 +1874,7 @@ public struct DescribeExpressionsInput: Swift.Sendable {
         deployed: Swift.Bool? = nil,
         domainName: Swift.String? = nil,
         expressionNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deployed = deployed
         self.domainName = domainName
         self.expressionNames = expressionNames
@@ -1956,8 +1889,7 @@ public struct DescribeExpressionsOutput: Swift.Sendable {
 
     public init(
         expressions: [CloudSearchClientTypes.ExpressionStatus]? = nil
-    )
-    {
+    ) {
         self.expressions = expressions
     }
 }
@@ -1976,8 +1908,7 @@ public struct DescribeIndexFieldsInput: Swift.Sendable {
         deployed: Swift.Bool? = nil,
         domainName: Swift.String? = nil,
         fieldNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deployed = deployed
         self.domainName = domainName
         self.fieldNames = fieldNames
@@ -1992,8 +1923,7 @@ public struct DescribeIndexFieldsOutput: Swift.Sendable {
 
     public init(
         indexFields: [CloudSearchClientTypes.IndexFieldStatus]? = nil
-    )
-    {
+    ) {
         self.indexFields = indexFields
     }
 }
@@ -2006,8 +1936,7 @@ public struct DescribeScalingParametersInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2102,8 +2031,7 @@ extension CloudSearchClientTypes {
             desiredInstanceType: CloudSearchClientTypes.PartitionInstanceType? = nil,
             desiredPartitionCount: Swift.Int = 0,
             desiredReplicationCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.desiredInstanceType = desiredInstanceType
             self.desiredPartitionCount = desiredPartitionCount
             self.desiredReplicationCount = desiredReplicationCount
@@ -2125,8 +2053,7 @@ extension CloudSearchClientTypes {
         public init(
             options: CloudSearchClientTypes.ScalingParameters? = nil,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -2141,8 +2068,7 @@ public struct DescribeScalingParametersOutput: Swift.Sendable {
 
     public init(
         scalingParameters: CloudSearchClientTypes.ScalingParametersStatus? = nil
-    )
-    {
+    ) {
         self.scalingParameters = scalingParameters
     }
 }
@@ -2158,8 +2084,7 @@ public struct DescribeServiceAccessPoliciesInput: Swift.Sendable {
     public init(
         deployed: Swift.Bool? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployed = deployed
         self.domainName = domainName
     }
@@ -2179,8 +2104,7 @@ extension CloudSearchClientTypes {
         public init(
             options: Swift.String? = nil,
             status: CloudSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -2195,8 +2119,7 @@ public struct DescribeServiceAccessPoliciesOutput: Swift.Sendable {
 
     public init(
         accessPolicies: CloudSearchClientTypes.AccessPoliciesStatus? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
     }
 }
@@ -2215,8 +2138,7 @@ public struct DescribeSuggestersInput: Swift.Sendable {
         deployed: Swift.Bool? = nil,
         domainName: Swift.String? = nil,
         suggesterNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deployed = deployed
         self.domainName = domainName
         self.suggesterNames = suggesterNames
@@ -2231,8 +2153,7 @@ public struct DescribeSuggestersOutput: Swift.Sendable {
 
     public init(
         suggesters: [CloudSearchClientTypes.SuggesterStatus]? = nil
-    )
-    {
+    ) {
         self.suggesters = suggesters
     }
 }
@@ -2245,8 +2166,7 @@ public struct IndexDocumentsInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2258,8 +2178,7 @@ public struct IndexDocumentsOutput: Swift.Sendable {
 
     public init(
         fieldNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fieldNames = fieldNames
     }
 }
@@ -2271,8 +2190,7 @@ public struct ListDomainNamesOutput: Swift.Sendable {
 
     public init(
         domainNames: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainNames = domainNames
     }
 }
@@ -2289,8 +2207,7 @@ public struct UpdateAvailabilityOptionsInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.multiAZ = multiAZ
     }
@@ -2303,8 +2220,7 @@ public struct UpdateAvailabilityOptionsOutput: Swift.Sendable {
 
     public init(
         availabilityOptions: CloudSearchClientTypes.AvailabilityOptionsStatus? = nil
-    )
-    {
+    ) {
         self.availabilityOptions = availabilityOptions
     }
 }
@@ -2321,8 +2237,7 @@ public struct UpdateDomainEndpointOptionsInput: Swift.Sendable {
     public init(
         domainEndpointOptions: CloudSearchClientTypes.DomainEndpointOptions? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainEndpointOptions = domainEndpointOptions
         self.domainName = domainName
     }
@@ -2335,8 +2250,7 @@ public struct UpdateDomainEndpointOptionsOutput: Swift.Sendable {
 
     public init(
         domainEndpointOptions: CloudSearchClientTypes.DomainEndpointOptionsStatus? = nil
-    )
-    {
+    ) {
         self.domainEndpointOptions = domainEndpointOptions
     }
 }
@@ -2353,8 +2267,7 @@ public struct UpdateScalingParametersInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         scalingParameters: CloudSearchClientTypes.ScalingParameters? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.scalingParameters = scalingParameters
     }
@@ -2368,8 +2281,7 @@ public struct UpdateScalingParametersOutput: Swift.Sendable {
 
     public init(
         scalingParameters: CloudSearchClientTypes.ScalingParametersStatus? = nil
-    )
-    {
+    ) {
         self.scalingParameters = scalingParameters
     }
 }
@@ -2386,8 +2298,7 @@ public struct UpdateServiceAccessPoliciesInput: Swift.Sendable {
     public init(
         accessPolicies: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
         self.domainName = domainName
     }
@@ -2401,8 +2312,7 @@ public struct UpdateServiceAccessPoliciesOutput: Swift.Sendable {
 
     public init(
         accessPolicies: CloudSearchClientTypes.AccessPoliciesStatus? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
     }
 }

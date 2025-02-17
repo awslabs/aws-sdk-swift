@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Activity already exists. EncryptionConfiguration may not be updated.
-public struct ActivityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActivityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct ActivityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified activity does not exist.
-public struct ActivityDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActivityDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,8 +68,7 @@ public struct ActivityDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -87,8 +85,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -101,9 +98,9 @@ extension SFNClientTypes.ActivityFailedEventDetails: Swift.CustomDebugStringConv
 }
 
 /// The maximum number of activities has been reached. Existing activities must be deleted before a new activity can be created.
-public struct ActivityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActivityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -118,8 +115,7 @@ public struct ActivityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -155,8 +151,7 @@ extension SFNClientTypes {
             activityArn: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.activityArn = activityArn
             self.creationDate = creationDate
             self.name = name
@@ -173,8 +168,7 @@ extension SFNClientTypes {
 
         public init(
             truncated: Swift.Bool = false
-        )
-        {
+        ) {
             self.truncated = truncated
         }
     }
@@ -202,8 +196,7 @@ extension SFNClientTypes {
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
             timeoutInSeconds: Swift.Int? = 0
-        )
-        {
+        ) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.input = input
             self.inputDetails = inputDetails
@@ -230,8 +223,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -252,8 +244,7 @@ extension SFNClientTypes {
 
         public init(
             workerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.workerName = workerName
         }
     }
@@ -271,8 +262,7 @@ extension SFNClientTypes {
         public init(
             output: Swift.String? = nil,
             outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil
-        )
-        {
+        ) {
             self.output = output
             self.outputDetails = outputDetails
         }
@@ -296,8 +286,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -310,9 +299,9 @@ extension SFNClientTypes.ActivityTimedOutEventDetails: Swift.CustomDebugStringCo
 }
 
 /// The maximum number of workers concurrently polling for activity tasks has been reached.
-public struct ActivityWorkerLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActivityWorkerLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -327,8 +316,7 @@ public struct ActivityWorkerLimitExceeded: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -342,17 +330,16 @@ extension SFNClientTypes {
 
         public init(
             truncated: Swift.Bool = false
-        )
-        {
+        ) {
             self.truncated = truncated
         }
     }
 }
 
 /// Received when encryptionConfiguration is specified but various conditions exist which make the configuration invalid. For example, if type is set to CUSTOMER_MANAGED_KMS_KEY, but kmsKeyId is null, or kmsDataKeyReusePeriodSeconds is not between 60 and 900, or the KMS key is not symmetric or inactive.
-public struct InvalidEncryptionConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEncryptionConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -367,16 +354,15 @@ public struct InvalidEncryptionConfiguration: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided name is not valid.
-public struct InvalidName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -391,16 +377,15 @@ public struct InvalidName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Either your KMS key policy or API caller does not have the required permissions.
-public struct KmsAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -415,16 +400,15 @@ public struct KmsAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Received when KMS returns ThrottlingException for a KMS call that Step Functions makes on behalf of the caller.
-public struct KmsThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -439,16 +423,15 @@ public struct KmsThrottlingException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You've exceeded the number of tags allowed for a resource. See the [ Limits Topic](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html) in the Step Functions Developer Guide.
-public struct TooManyTags: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTags: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -465,8 +448,7 @@ public struct TooManyTags: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -517,8 +499,7 @@ extension SFNClientTypes {
             kmsDataKeyReusePeriodSeconds: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             type: SFNClientTypes.EncryptionType? = nil
-        )
-        {
+        ) {
             self.kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSeconds
             self.kmsKeyId = kmsKeyId
             self.type = type
@@ -538,8 +519,7 @@ extension SFNClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -572,8 +552,7 @@ public struct CreateActivityInput: Swift.Sendable {
         encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil,
         tags: [SFNClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.name = name
         self.tags = tags
@@ -591,17 +570,16 @@ public struct CreateActivityOutput: Swift.Sendable {
     public init(
         activityArn: Swift.String? = nil,
         creationDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.activityArn = activityArn
         self.creationDate = creationDate
     }
 }
 
 /// Updating or deleting a resource can cause an inconsistent state. This error occurs when there're concurrent requests for [DeleteStateMachineVersion], [PublishStateMachineVersion], or [UpdateStateMachine] with the publish parameter set to true. HTTP Status Code: 409
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -616,16 +594,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided Amazon Resource Name (ARN) is not valid.
-public struct InvalidArn: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArn: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -640,16 +617,15 @@ public struct InvalidArn: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided Amazon States Language definition is not valid.
-public struct InvalidDefinition: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDefinition: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -664,16 +640,15 @@ public struct InvalidDefinition: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Configuration is not valid.
-public struct InvalidLoggingConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLoggingConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -688,16 +663,15 @@ public struct InvalidLoggingConfiguration: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your tracingConfiguration key does not match, or enabled has not been set to true or false.
-public struct InvalidTracingConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTracingConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -712,16 +686,15 @@ public struct InvalidTracingConfiguration: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A state machine with the same name but a different definition or role ARN already exists.
-public struct StateMachineAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StateMachineAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -736,16 +709,15 @@ public struct StateMachineAlreadyExists: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified state machine is being deleted.
-public struct StateMachineDeleting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StateMachineDeleting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -760,16 +732,15 @@ public struct StateMachineDeleting: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of state machines has been reached. Existing state machines must be deleted before a new state machine can be created.
-public struct StateMachineLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StateMachineLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -784,16 +755,15 @@ public struct StateMachineLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// State machine type is not supported.
-public struct StateMachineTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StateMachineTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -808,8 +778,7 @@ public struct StateMachineTypeNotSupported: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -850,9 +819,9 @@ extension SFNClientTypes {
 }
 
 /// The input does not satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The input does not satisfy the constraints specified by an Amazon Web Services service.
         public internal(set) var reason: SFNClientTypes.ValidationExceptionReason? = nil
@@ -870,8 +839,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: SFNClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -886,8 +854,7 @@ extension SFNClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -902,8 +869,7 @@ extension SFNClientTypes {
 
         public init(
             cloudWatchLogsLogGroup: SFNClientTypes.CloudWatchLogsLogGroup? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
         }
     }
@@ -959,8 +925,7 @@ extension SFNClientTypes {
             destinations: [SFNClientTypes.LogDestination]? = nil,
             includeExecutionData: Swift.Bool = false,
             level: SFNClientTypes.LogLevel? = nil
-        )
-        {
+        ) {
             self.destinations = destinations
             self.includeExecutionData = includeExecutionData
             self.level = level
@@ -977,8 +942,7 @@ extension SFNClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1062,8 +1026,7 @@ public struct CreateStateMachineInput: Swift.Sendable {
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
         type: SFNClientTypes.StateMachineType? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.encryptionConfiguration = encryptionConfiguration
         self.loggingConfiguration = loggingConfiguration
@@ -1096,8 +1059,7 @@ public struct CreateStateMachineOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         stateMachineArn: Swift.String? = nil,
         stateMachineVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.stateMachineArn = stateMachineArn
         self.stateMachineVersionArn = stateMachineVersionArn
@@ -1105,9 +1067,9 @@ public struct CreateStateMachineOutput: Swift.Sendable {
 }
 
 /// Could not find the referenced resource.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -1124,17 +1086,16 @@ public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
 }
 
 /// The request would cause a service quota to be exceeded. HTTP Status Code: 402
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1149,8 +1110,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1169,8 +1129,7 @@ extension SFNClientTypes {
         public init(
             stateMachineVersionArn: Swift.String? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.stateMachineVersionArn = stateMachineVersionArn
             self.weight = weight
         }
@@ -1191,8 +1150,7 @@ public struct CreateStateMachineAliasInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.routingConfiguration = routingConfiguration
@@ -1215,8 +1173,7 @@ public struct CreateStateMachineAliasOutput: Swift.Sendable {
     public init(
         creationDate: Foundation.Date? = nil,
         stateMachineAliasArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.stateMachineAliasArn = stateMachineAliasArn
     }
@@ -1229,8 +1186,7 @@ public struct DeleteActivityInput: Swift.Sendable {
 
     public init(
         activityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityArn = activityArn
     }
 }
@@ -1247,8 +1203,7 @@ public struct DeleteStateMachineInput: Swift.Sendable {
 
     public init(
         stateMachineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.stateMachineArn = stateMachineArn
     }
 }
@@ -1265,8 +1220,7 @@ public struct DeleteStateMachineAliasInput: Swift.Sendable {
 
     public init(
         stateMachineAliasArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.stateMachineAliasArn = stateMachineAliasArn
     }
 }
@@ -1283,8 +1237,7 @@ public struct DeleteStateMachineVersionInput: Swift.Sendable {
 
     public init(
         stateMachineVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.stateMachineVersionArn = stateMachineVersionArn
     }
 }
@@ -1301,8 +1254,7 @@ public struct DescribeActivityInput: Swift.Sendable {
 
     public init(
         activityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityArn = activityArn
     }
 }
@@ -1338,8 +1290,7 @@ public struct DescribeActivityOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         encryptionConfiguration: SFNClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityArn = activityArn
         self.creationDate = creationDate
         self.encryptionConfiguration = encryptionConfiguration
@@ -1348,9 +1299,9 @@ public struct DescribeActivityOutput: Swift.Sendable {
 }
 
 /// The specified execution does not exist.
-public struct ExecutionDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExecutionDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1365,8 +1316,7 @@ public struct ExecutionDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1410,9 +1360,9 @@ extension SFNClientTypes {
 }
 
 /// The KMS key is not in valid state, for example: Disabled or Deleted.
-public struct KmsInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Current status of the KMS; key. For example: DISABLED, PENDING_DELETION, PENDING_IMPORT, UNAVAILABLE, CREATING.
         public internal(set) var kmsKeyState: SFNClientTypes.KmsKeyState? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1430,8 +1380,7 @@ public struct KmsInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         kmsKeyState: SFNClientTypes.KmsKeyState? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.kmsKeyState = kmsKeyState
         self.properties.message = message
     }
@@ -1476,8 +1425,7 @@ public struct DescribeExecutionInput: Swift.Sendable {
     public init(
         executionArn: Swift.String? = nil,
         includedData: SFNClientTypes.IncludedData? = nil
-    )
-    {
+    ) {
         self.executionArn = executionArn
         self.includedData = includedData
     }
@@ -1492,8 +1440,7 @@ extension SFNClientTypes {
 
         public init(
             included: Swift.Bool = false
-        )
-        {
+        ) {
             self.included = included
         }
     }
@@ -1679,8 +1626,7 @@ public struct DescribeExecutionOutput: Swift.Sendable {
         status: SFNClientTypes.ExecutionStatus? = nil,
         stopDate: Foundation.Date? = nil,
         traceHeader: Swift.String? = nil
-    )
-    {
+    ) {
         self.cause = cause
         self.error = error
         self.executionArn = executionArn
@@ -1716,8 +1662,7 @@ public struct DescribeMapRunInput: Swift.Sendable {
 
     public init(
         mapRunArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.mapRunArn = mapRunArn
     }
 }
@@ -1766,8 +1711,7 @@ extension SFNClientTypes {
             succeeded: Swift.Int = 0,
             timedOut: Swift.Int = 0,
             total: Swift.Int = 0
-        )
-        {
+        ) {
             self.aborted = aborted
             self.failed = failed
             self.failuresNotRedrivable = failuresNotRedrivable
@@ -1826,8 +1770,7 @@ extension SFNClientTypes {
             succeeded: Swift.Int = 0,
             timedOut: Swift.Int = 0,
             total: Swift.Int = 0
-        )
-        {
+        ) {
             self.aborted = aborted
             self.failed = failed
             self.failuresNotRedrivable = failuresNotRedrivable
@@ -1925,8 +1868,7 @@ public struct DescribeMapRunOutput: Swift.Sendable {
         stopDate: Foundation.Date? = nil,
         toleratedFailureCount: Swift.Int = 0,
         toleratedFailurePercentage: Swift.Float = 0.0
-    )
-    {
+    ) {
         self.executionArn = executionArn
         self.executionCounts = executionCounts
         self.itemCounts = itemCounts
@@ -1943,9 +1885,9 @@ public struct DescribeMapRunOutput: Swift.Sendable {
 }
 
 /// The specified state machine does not exist.
-public struct StateMachineDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StateMachineDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1960,8 +1902,7 @@ public struct StateMachineDoesNotExist: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1976,8 +1917,7 @@ public struct DescribeStateMachineInput: Swift.Sendable {
     public init(
         includedData: SFNClientTypes.IncludedData? = nil,
         stateMachineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.includedData = includedData
         self.stateMachineArn = stateMachineArn
     }
@@ -2076,8 +2016,7 @@ public struct DescribeStateMachineOutput: Swift.Sendable {
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
         type: SFNClientTypes.StateMachineType? = nil,
         variableReferences: [Swift.String: [Swift.String]]? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.definition = definition
         self.description = description
@@ -2107,8 +2046,7 @@ public struct DescribeStateMachineAliasInput: Swift.Sendable {
 
     public init(
         stateMachineAliasArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.stateMachineAliasArn = stateMachineAliasArn
     }
 }
@@ -2134,8 +2072,7 @@ public struct DescribeStateMachineAliasOutput: Swift.Sendable {
         routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]? = nil,
         stateMachineAliasArn: Swift.String? = nil,
         updateDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.description = description
         self.name = name
@@ -2160,8 +2097,7 @@ public struct DescribeStateMachineForExecutionInput: Swift.Sendable {
     public init(
         executionArn: Swift.String? = nil,
         includedData: SFNClientTypes.IncludedData? = nil
-    )
-    {
+    ) {
         self.executionArn = executionArn
         self.includedData = includedData
     }
@@ -2211,8 +2147,7 @@ public struct DescribeStateMachineForExecutionOutput: Swift.Sendable {
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
         updateDate: Foundation.Date? = nil,
         variableReferences: [Swift.String: [Swift.String]]? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.encryptionConfiguration = encryptionConfiguration
         self.label = label
@@ -2243,8 +2178,7 @@ public struct GetActivityTaskInput: Swift.Sendable {
     public init(
         activityArn: Swift.String? = nil,
         workerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityArn = activityArn
         self.workerName = workerName
     }
@@ -2259,8 +2193,7 @@ public struct GetActivityTaskOutput: Swift.Sendable {
     public init(
         input: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.input = input
         self.taskToken = taskToken
     }
@@ -2272,9 +2205,9 @@ extension GetActivityTaskOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The provided token is not valid.
-public struct InvalidToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2289,8 +2222,7 @@ public struct InvalidToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2314,8 +2246,7 @@ public struct GetExecutionHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         reverseOrder: Swift.Bool? = false
-    )
-    {
+    ) {
         self.executionArn = executionArn
         self.includeExecutionData = includeExecutionData
         self.maxResults = maxResults
@@ -2343,8 +2274,7 @@ extension SFNClientTypes {
             error: Swift.String? = nil,
             location: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
             self.location = location
@@ -2370,8 +2300,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2395,8 +2324,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2417,8 +2345,7 @@ extension SFNClientTypes {
 
         public init(
             redriveCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.redriveCount = redriveCount
         }
     }
@@ -2445,8 +2372,7 @@ extension SFNClientTypes {
             roleArn: Swift.String? = nil,
             stateMachineAliasArn: Swift.String? = nil,
             stateMachineVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
             self.inputDetails = inputDetails
             self.roleArn = roleArn
@@ -2473,8 +2399,7 @@ extension SFNClientTypes {
         public init(
             output: Swift.String? = nil,
             outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil
-        )
-        {
+        ) {
             self.output = output
             self.outputDetails = outputDetails
         }
@@ -2498,8 +2423,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2523,8 +2447,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2545,8 +2468,7 @@ extension SFNClientTypes {
 
         public init(
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
         }
     }
@@ -2574,8 +2496,7 @@ extension SFNClientTypes {
             resource: Swift.String? = nil,
             taskCredentials: SFNClientTypes.TaskCredentials? = nil,
             timeoutInSeconds: Swift.Int? = 0
-        )
-        {
+        ) {
             self.input = input
             self.inputDetails = inputDetails
             self.resource = resource
@@ -2602,8 +2523,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2627,8 +2547,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2652,8 +2571,7 @@ extension SFNClientTypes {
         public init(
             output: Swift.String? = nil,
             outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil
-        )
-        {
+        ) {
             self.output = output
             self.outputDetails = outputDetails
         }
@@ -2677,8 +2595,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2702,8 +2619,7 @@ extension SFNClientTypes {
         public init(
             index: Swift.Int = 0,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.index = index
             self.name = name
         }
@@ -2722,8 +2638,7 @@ extension SFNClientTypes {
         public init(
             cause: Swift.String? = nil,
             error: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
         }
@@ -2747,8 +2662,7 @@ extension SFNClientTypes {
         public init(
             mapRunArn: Swift.String? = nil,
             redriveCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.mapRunArn = mapRunArn
             self.redriveCount = redriveCount
         }
@@ -2764,8 +2678,7 @@ extension SFNClientTypes {
 
         public init(
             mapRunArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.mapRunArn = mapRunArn
         }
     }
@@ -2780,8 +2693,7 @@ extension SFNClientTypes {
 
         public init(
             length: Swift.Int = 0
-        )
-        {
+        ) {
             self.length = length
         }
     }
@@ -2803,8 +2715,7 @@ extension SFNClientTypes {
             input: Swift.String? = nil,
             inputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
             self.inputDetails = inputDetails
             self.name = name
@@ -2852,8 +2763,7 @@ extension SFNClientTypes {
             name: Swift.String? = nil,
             output: Swift.String? = nil,
             outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil
-        )
-        {
+        ) {
             self.assignedVariables = assignedVariables
             self.assignedVariablesDetails = assignedVariablesDetails
             self.name = name
@@ -2888,8 +2798,7 @@ extension SFNClientTypes {
             error: Swift.String? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
             self.resource = resource
@@ -2934,8 +2843,7 @@ extension SFNClientTypes {
             resourceType: Swift.String? = nil,
             taskCredentials: SFNClientTypes.TaskCredentials? = nil,
             timeoutInSeconds: Swift.Int? = 0
-        )
-        {
+        ) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.parameters = parameters
             self.region = region
@@ -2966,8 +2874,7 @@ extension SFNClientTypes {
         public init(
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resource = resource
             self.resourceType = resourceType
         }
@@ -2994,8 +2901,7 @@ extension SFNClientTypes {
             error: Swift.String? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
             self.resource = resource
@@ -3029,8 +2935,7 @@ extension SFNClientTypes {
             error: Swift.String? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
             self.resource = resource
@@ -3064,8 +2969,7 @@ extension SFNClientTypes {
             outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.output = output
             self.outputDetails = outputDetails
             self.resource = resource
@@ -3099,8 +3003,7 @@ extension SFNClientTypes {
             outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.output = output
             self.outputDetails = outputDetails
             self.resource = resource
@@ -3134,8 +3037,7 @@ extension SFNClientTypes {
             error: Swift.String? = nil,
             resource: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.error = error
             self.resource = resource
@@ -3490,8 +3392,7 @@ extension SFNClientTypes {
             taskTimedOutEventDetails: SFNClientTypes.TaskTimedOutEventDetails? = nil,
             timestamp: Foundation.Date? = nil,
             type: SFNClientTypes.HistoryEventType? = nil
-        )
-        {
+        ) {
             self.activityFailedEventDetails = activityFailedEventDetails
             self.activityScheduleFailedEventDetails = activityScheduleFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
@@ -3547,8 +3448,7 @@ public struct GetExecutionHistoryOutput: Swift.Sendable {
     public init(
         events: [SFNClientTypes.HistoryEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -3563,8 +3463,7 @@ public struct ListActivitiesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3580,8 +3479,7 @@ public struct ListActivitiesOutput: Swift.Sendable {
     public init(
         activities: [SFNClientTypes.ActivityListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.activities = activities
         self.nextToken = nextToken
     }
@@ -3637,8 +3535,7 @@ public struct ListExecutionsInput: Swift.Sendable {
         redriveFilter: SFNClientTypes.ExecutionRedriveFilter? = nil,
         stateMachineArn: Swift.String? = nil,
         statusFilter: SFNClientTypes.ExecutionStatus? = nil
-    )
-    {
+    ) {
         self.mapRunArn = mapRunArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3708,8 +3605,7 @@ extension SFNClientTypes {
             stateMachineVersionArn: Swift.String? = nil,
             status: SFNClientTypes.ExecutionStatus? = nil,
             stopDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.executionArn = executionArn
             self.itemCount = itemCount
             self.mapRunArn = mapRunArn
@@ -3736,8 +3632,7 @@ public struct ListExecutionsOutput: Swift.Sendable {
     public init(
         executions: [SFNClientTypes.ExecutionListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executions = executions
         self.nextToken = nextToken
     }
@@ -3756,8 +3651,7 @@ public struct ListMapRunsInput: Swift.Sendable {
         executionArn: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionArn = executionArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3789,8 +3683,7 @@ extension SFNClientTypes {
             startDate: Foundation.Date? = nil,
             stateMachineArn: Swift.String? = nil,
             stopDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.executionArn = executionArn
             self.mapRunArn = mapRunArn
             self.startDate = startDate
@@ -3810,8 +3703,7 @@ public struct ListMapRunsOutput: Swift.Sendable {
     public init(
         mapRuns: [SFNClientTypes.MapRunListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mapRuns = mapRuns
         self.nextToken = nextToken
     }
@@ -3830,8 +3722,7 @@ public struct ListStateMachineAliasesInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stateMachineArn = stateMachineArn
@@ -3852,8 +3743,7 @@ extension SFNClientTypes {
         public init(
             creationDate: Foundation.Date? = nil,
             stateMachineAliasArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.stateMachineAliasArn = stateMachineAliasArn
         }
@@ -3870,8 +3760,7 @@ public struct ListStateMachineAliasesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stateMachineAliases: [SFNClientTypes.StateMachineAliasListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stateMachineAliases = stateMachineAliases
     }
@@ -3886,8 +3775,7 @@ public struct ListStateMachinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3928,8 +3816,7 @@ extension SFNClientTypes {
             name: Swift.String? = nil,
             stateMachineArn: Swift.String? = nil,
             type: SFNClientTypes.StateMachineType? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -3947,8 +3834,7 @@ public struct ListStateMachinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stateMachines: [SFNClientTypes.StateMachineListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stateMachines = stateMachines
     }
@@ -3967,8 +3853,7 @@ public struct ListStateMachineVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stateMachineArn = stateMachineArn
@@ -3989,8 +3874,7 @@ extension SFNClientTypes {
         public init(
             creationDate: Foundation.Date? = nil,
             stateMachineVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.stateMachineVersionArn = stateMachineVersionArn
         }
@@ -4007,8 +3891,7 @@ public struct ListStateMachineVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stateMachineVersions: [SFNClientTypes.StateMachineVersionListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stateMachineVersions = stateMachineVersions
     }
@@ -4021,8 +3904,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4033,8 +3915,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [SFNClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4052,8 +3933,7 @@ public struct PublishStateMachineVersionInput: Swift.Sendable {
         description: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.revisionId = revisionId
         self.stateMachineArn = stateMachineArn
@@ -4076,17 +3956,16 @@ public struct PublishStateMachineVersionOutput: Swift.Sendable {
     public init(
         creationDate: Foundation.Date? = nil,
         stateMachineVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.stateMachineVersionArn = stateMachineVersionArn
     }
 }
 
 /// The maximum number of running executions has been reached. Running executions must end or be stopped before a new execution can be started.
-public struct ExecutionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExecutionLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4101,16 +3980,15 @@ public struct ExecutionLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The execution Amazon Resource Name (ARN) that you specified for executionArn cannot be redriven.
-public struct ExecutionNotRedrivable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExecutionNotRedrivable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4125,8 +4003,7 @@ public struct ExecutionNotRedrivable: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4141,8 +4018,7 @@ public struct RedriveExecutionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         executionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.executionArn = executionArn
     }
@@ -4155,16 +4031,15 @@ public struct RedriveExecutionOutput: Swift.Sendable {
 
     public init(
         redriveDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.redriveDate = redriveDate
     }
 }
 
 /// The activity does not exist.
-public struct TaskDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TaskDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4179,16 +4054,15 @@ public struct TaskDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The task token has either expired or the task associated with the token has already been closed.
-public struct TaskTimedOut: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TaskTimedOut: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4203,8 +4077,7 @@ public struct TaskTimedOut: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4222,8 +4095,7 @@ public struct SendTaskFailureInput: Swift.Sendable {
         cause: Swift.String? = nil,
         error: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cause = cause
         self.error = error
         self.taskToken = taskToken
@@ -4247,8 +4119,7 @@ public struct SendTaskHeartbeatInput: Swift.Sendable {
 
     public init(
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskToken = taskToken
     }
 }
@@ -4259,9 +4130,9 @@ public struct SendTaskHeartbeatOutput: Swift.Sendable {
 }
 
 /// The provided JSON output data is not valid.
-public struct InvalidOutput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOutput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4276,8 +4147,7 @@ public struct InvalidOutput: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4293,8 +4163,7 @@ public struct SendTaskSuccessInput: Swift.Sendable {
     public init(
         output: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.output = output
         self.taskToken = taskToken
     }
@@ -4311,9 +4180,9 @@ public struct SendTaskSuccessOutput: Swift.Sendable {
 }
 
 /// The execution has the same name as another execution (but a different input). Executions with the same name and input are considered idempotent.
-public struct ExecutionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExecutionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4328,16 +4197,15 @@ public struct ExecutionAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided JSON input data is not valid.
-public struct InvalidExecutionInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExecutionInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4352,8 +4220,7 @@ public struct InvalidExecutionInput: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4393,8 +4260,7 @@ public struct StartExecutionInput: Swift.Sendable {
         name: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         traceHeader: Swift.String? = nil
-    )
-    {
+    ) {
         self.input = input
         self.name = name
         self.stateMachineArn = stateMachineArn
@@ -4418,8 +4284,7 @@ public struct StartExecutionOutput: Swift.Sendable {
     public init(
         executionArn: Swift.String? = nil,
         startDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.executionArn = executionArn
         self.startDate = startDate
     }
@@ -4444,8 +4309,7 @@ public struct StartSyncExecutionInput: Swift.Sendable {
         name: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         traceHeader: Swift.String? = nil
-    )
-    {
+    ) {
         self.includedData = includedData
         self.input = input
         self.name = name
@@ -4471,8 +4335,7 @@ extension SFNClientTypes {
         public init(
             billedDurationInMilliseconds: Swift.Int = 0,
             billedMemoryUsedInMB: Swift.Int = 0
-        )
-        {
+        ) {
             self.billedDurationInMilliseconds = billedDurationInMilliseconds
             self.billedMemoryUsedInMB = billedMemoryUsedInMB
         }
@@ -4560,8 +4423,7 @@ public struct StartSyncExecutionOutput: Swift.Sendable {
         status: SFNClientTypes.SyncExecutionStatus? = nil,
         stopDate: Foundation.Date? = nil,
         traceHeader: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingDetails = billingDetails
         self.cause = cause
         self.error = error
@@ -4597,8 +4459,7 @@ public struct StopExecutionInput: Swift.Sendable {
         cause: Swift.String? = nil,
         error: Swift.String? = nil,
         executionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.cause = cause
         self.error = error
         self.executionArn = executionArn
@@ -4617,8 +4478,7 @@ public struct StopExecutionOutput: Swift.Sendable {
 
     public init(
         stopDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.stopDate = stopDate
     }
 }
@@ -4634,8 +4494,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SFNClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4709,8 +4568,7 @@ public struct TestStateInput: Swift.Sendable {
         revealSecrets: Swift.Bool? = false,
         roleArn: Swift.String? = nil,
         variables: Swift.String? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.input = input
         self.inspectionLevel = inspectionLevel
@@ -4746,8 +4604,7 @@ extension SFNClientTypes {
             method: Swift.String? = nil,
             `protocol`: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.headers = headers
             self.method = method
@@ -4778,8 +4635,7 @@ extension SFNClientTypes {
             `protocol`: Swift.String? = nil,
             statusCode: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.headers = headers
             self.`protocol` = `protocol`
@@ -4825,8 +4681,7 @@ extension SFNClientTypes {
             response: SFNClientTypes.InspectionDataResponse? = nil,
             result: Swift.String? = nil,
             variables: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterArguments = afterArguments
             self.afterInputPath = afterInputPath
             self.afterParameters = afterParameters
@@ -4903,8 +4758,7 @@ public struct TestStateOutput: Swift.Sendable {
         nextState: Swift.String? = nil,
         output: Swift.String? = nil,
         status: SFNClientTypes.TestExecutionStatus? = nil
-    )
-    {
+    ) {
         self.cause = cause
         self.error = error
         self.inspectionData = inspectionData
@@ -4930,8 +4784,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4958,8 +4811,7 @@ public struct UpdateMapRunInput: Swift.Sendable {
         maxConcurrency: Swift.Int? = 0,
         toleratedFailureCount: Swift.Int? = 0,
         toleratedFailurePercentage: Swift.Float? = 0.0
-    )
-    {
+    ) {
         self.mapRunArn = mapRunArn
         self.maxConcurrency = maxConcurrency
         self.toleratedFailureCount = toleratedFailureCount
@@ -4973,9 +4825,9 @@ public struct UpdateMapRunOutput: Swift.Sendable {
 }
 
 /// Request is missing a required parameter. This error occurs if both definition and roleArn are not specified.
-public struct MissingRequiredParameter: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingRequiredParameter: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4990,8 +4842,7 @@ public struct MissingRequiredParameter: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5024,8 +4875,7 @@ public struct UpdateStateMachineInput: Swift.Sendable {
         stateMachineArn: Swift.String? = nil,
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
         versionDescription: Swift.String? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.encryptionConfiguration = encryptionConfiguration
         self.loggingConfiguration = loggingConfiguration
@@ -5055,8 +4905,7 @@ public struct UpdateStateMachineOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         stateMachineVersionArn: Swift.String? = nil,
         updateDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.revisionId = revisionId
         self.stateMachineVersionArn = stateMachineVersionArn
         self.updateDate = updateDate
@@ -5076,8 +4925,7 @@ public struct UpdateStateMachineAliasInput: Swift.Sendable {
         description: Swift.String? = nil,
         routingConfiguration: [SFNClientTypes.RoutingConfigurationListItem]? = nil,
         stateMachineAliasArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.routingConfiguration = routingConfiguration
         self.stateMachineAliasArn = stateMachineAliasArn
@@ -5096,8 +4944,7 @@ public struct UpdateStateMachineAliasOutput: Swift.Sendable {
 
     public init(
         updateDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.updateDate = updateDate
     }
 }
@@ -5147,8 +4994,7 @@ public struct ValidateStateMachineDefinitionInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity? = nil,
         type: SFNClientTypes.StateMachineType? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.maxResults = maxResults
         self.severity = severity
@@ -5182,8 +5028,7 @@ extension SFNClientTypes {
             location: Swift.String? = nil,
             message: Swift.String? = nil,
             severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity? = nil
-        )
-        {
+        ) {
             self.code = code
             self.location = location
             self.message = message
@@ -5240,8 +5085,7 @@ public struct ValidateStateMachineDefinitionOutput: Swift.Sendable {
         diagnostics: [SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]? = nil,
         result: SFNClientTypes.ValidateStateMachineDefinitionResultCode? = nil,
         truncated: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.diagnostics = diagnostics
         self.result = result
         self.truncated = truncated

@@ -26,9 +26,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The resource specified in your request already exists.
-public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -43,16 +43,15 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input you provided is invalid.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -67,8 +66,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -82,8 +80,7 @@ extension PinpointSMSVoiceClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -101,8 +98,7 @@ extension PinpointSMSVoiceClientTypes {
         public init(
             iamRoleArn: Swift.String? = nil,
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.iamRoleArn = iamRoleArn
             self.logGroupArn = logGroupArn
         }
@@ -110,9 +106,9 @@ extension PinpointSMSVoiceClientTypes {
 }
 
 /// The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -127,16 +123,15 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There are too many instances of the specified resource type.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -151,16 +146,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You've issued too many requests to the resource. Wait a few minutes, and then try again.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -175,8 +169,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -188,8 +181,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -201,9 +193,9 @@ public struct CreateConfigurationSetOutput: Swift.Sendable {
 }
 
 /// The resource you attempted to access doesn't exist.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -218,8 +210,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -236,8 +227,7 @@ extension PinpointSMSVoiceClientTypes {
         public init(
             deliveryStreamArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
         }
@@ -298,8 +288,7 @@ extension PinpointSMSVoiceClientTypes {
 
         public init(
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
         }
     }
@@ -326,8 +315,7 @@ extension PinpointSMSVoiceClientTypes {
             kinesisFirehoseDestination: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination? = nil,
             matchingEventTypes: [PinpointSMSVoiceClientTypes.EventType]? = nil,
             snsDestination: PinpointSMSVoiceClientTypes.SnsDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
@@ -351,8 +339,7 @@ public struct CreateConfigurationSetEventDestinationInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         eventDestination: PinpointSMSVoiceClientTypes.EventDestinationDefinition? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
         self.eventDestinationName = eventDestinationName
@@ -372,8 +359,7 @@ public struct DeleteConfigurationSetInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -395,8 +381,7 @@ public struct DeleteConfigurationSetEventDestinationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestinationName = eventDestinationName
     }
@@ -432,8 +417,7 @@ extension PinpointSMSVoiceClientTypes {
             matchingEventTypes: [PinpointSMSVoiceClientTypes.EventType]? = nil,
             name: Swift.String? = nil,
             snsDestination: PinpointSMSVoiceClientTypes.SnsDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
@@ -451,8 +435,7 @@ public struct GetConfigurationSetEventDestinationsInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -464,8 +447,7 @@ public struct GetConfigurationSetEventDestinationsOutput: Swift.Sendable {
 
     public init(
         eventDestinations: [PinpointSMSVoiceClientTypes.EventDestination]? = nil
-    )
-    {
+    ) {
         self.eventDestinations = eventDestinations
     }
 }
@@ -479,8 +461,7 @@ public struct ListConfigurationSetsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -496,8 +477,7 @@ public struct ListConfigurationSetsOutput: Swift.Sendable {
     public init(
         configurationSets: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSets = configurationSets
         self.nextToken = nextToken
     }
@@ -518,8 +498,7 @@ extension PinpointSMSVoiceClientTypes {
             languageCode: Swift.String? = nil,
             text: Swift.String? = nil,
             voiceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.languageCode = languageCode
             self.text = text
             self.voiceId = voiceId
@@ -542,8 +521,7 @@ extension PinpointSMSVoiceClientTypes {
             languageCode: Swift.String? = nil,
             text: Swift.String? = nil,
             voiceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.languageCode = languageCode
             self.text = text
             self.voiceId = voiceId
@@ -566,8 +544,7 @@ extension PinpointSMSVoiceClientTypes {
             callInstructionsMessage: PinpointSMSVoiceClientTypes.CallInstructionsMessageType? = nil,
             plainTextMessage: PinpointSMSVoiceClientTypes.PlainTextMessageType? = nil,
             ssmlMessage: PinpointSMSVoiceClientTypes.SSMLMessageType? = nil
-        )
-        {
+        ) {
             self.callInstructionsMessage = callInstructionsMessage
             self.plainTextMessage = plainTextMessage
             self.ssmlMessage = ssmlMessage
@@ -594,8 +571,7 @@ public struct SendVoiceMessageInput: Swift.Sendable {
         content: PinpointSMSVoiceClientTypes.VoiceMessageContent? = nil,
         destinationPhoneNumber: Swift.String? = nil,
         originationPhoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.callerId = callerId
         self.configurationSetName = configurationSetName
         self.content = content
@@ -611,8 +587,7 @@ public struct SendVoiceMessageOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -632,8 +607,7 @@ public struct UpdateConfigurationSetEventDestinationInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         eventDestination: PinpointSMSVoiceClientTypes.EventDestinationDefinition? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
         self.eventDestinationName = eventDestinationName

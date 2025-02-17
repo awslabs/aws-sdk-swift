@@ -40,8 +40,7 @@ extension QLDBSessionClientTypes {
 
         public init(
             processingTimeMilliseconds: Swift.Int = 0
-        )
-        {
+        ) {
             self.processingTimeMilliseconds = processingTimeMilliseconds
         }
     }
@@ -56,17 +55,16 @@ extension QLDBSessionClientTypes {
 
         public init(
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
-        )
-        {
+        ) {
             self.timingInformation = timingInformation
         }
     }
 }
 
 /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -83,17 +81,16 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// Returned when the request exceeds the processing capacity of the ledger.
-public struct CapacityExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CapacityExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -108,8 +105,7 @@ public struct CapacityExceededException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -128,8 +124,7 @@ extension QLDBSessionClientTypes {
         public init(
             commitDigest: Foundation.Data? = nil,
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitDigest = commitDigest
             self.transactionId = transactionId
         }
@@ -148,8 +143,7 @@ extension QLDBSessionClientTypes {
         public init(
             readIOs: Swift.Int = 0,
             writeIOs: Swift.Int = 0
-        )
-        {
+        ) {
             self.readIOs = readIOs
             self.writeIOs = writeIOs
         }
@@ -174,8 +168,7 @@ extension QLDBSessionClientTypes {
             consumedIOs: QLDBSessionClientTypes.IOUsage? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil,
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitDigest = commitDigest
             self.consumedIOs = consumedIOs
             self.timingInformation = timingInformation
@@ -202,8 +195,7 @@ extension QLDBSessionClientTypes {
 
         public init(
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
-        )
-        {
+        ) {
             self.timingInformation = timingInformation
         }
     }
@@ -221,8 +213,7 @@ extension QLDBSessionClientTypes {
         public init(
             ionBinary: Foundation.Data? = nil,
             ionText: Swift.String? = nil
-        )
-        {
+        ) {
             self.ionBinary = ionBinary
             self.ionText = ionText
         }
@@ -246,8 +237,7 @@ extension QLDBSessionClientTypes {
             parameters: [QLDBSessionClientTypes.ValueHolder]? = nil,
             statement: Swift.String? = nil,
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.statement = statement
             self.transactionId = transactionId
@@ -267,8 +257,7 @@ extension QLDBSessionClientTypes {
         public init(
             nextPageToken: Swift.String? = nil,
             values: [QLDBSessionClientTypes.ValueHolder]? = nil
-        )
-        {
+        ) {
             self.nextPageToken = nextPageToken
             self.values = values
         }
@@ -290,8 +279,7 @@ extension QLDBSessionClientTypes {
             consumedIOs: QLDBSessionClientTypes.IOUsage? = nil,
             firstPage: QLDBSessionClientTypes.Page? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
-        )
-        {
+        ) {
             self.consumedIOs = consumedIOs
             self.firstPage = firstPage
             self.timingInformation = timingInformation
@@ -313,8 +301,7 @@ extension QLDBSessionClientTypes {
         public init(
             nextPageToken: Swift.String? = nil,
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.nextPageToken = nextPageToken
             self.transactionId = transactionId
         }
@@ -336,8 +323,7 @@ extension QLDBSessionClientTypes {
             consumedIOs: QLDBSessionClientTypes.IOUsage? = nil,
             page: QLDBSessionClientTypes.Page? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
-        )
-        {
+        ) {
             self.consumedIOs = consumedIOs
             self.page = page
             self.timingInformation = timingInformation
@@ -346,9 +332,9 @@ extension QLDBSessionClientTypes {
 }
 
 /// Returned if the session doesn't exist anymore because it timed out or expired.
-public struct InvalidSessionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSessionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -365,17 +351,16 @@ public struct InvalidSessionException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// Returned if a resource limit such as number of active sessions is exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -390,16 +375,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Returned when a transaction cannot be written to the journal due to a failure in the verification phase of optimistic concurrency control (OCC).
-public struct OccConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OccConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -414,16 +398,15 @@ public struct OccConflictException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Returned when the rate of requests exceeds the allowed throughput.
-public struct RateExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RateExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -438,8 +421,7 @@ public struct RateExceededException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -454,8 +436,7 @@ extension QLDBSessionClientTypes {
 
         public init(
             ledgerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ledgerName = ledgerName
         }
     }
@@ -497,8 +478,7 @@ public struct SendCommandInput: Swift.Sendable {
         sessionToken: Swift.String? = nil,
         startSession: QLDBSessionClientTypes.StartSessionRequest? = nil,
         startTransaction: QLDBSessionClientTypes.StartTransactionRequest? = nil
-    )
-    {
+    ) {
         self.abortTransaction = abortTransaction
         self.commitTransaction = commitTransaction
         self.endSession = endSession
@@ -522,8 +502,7 @@ extension QLDBSessionClientTypes {
         public init(
             sessionToken: Swift.String? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil
-        )
-        {
+        ) {
             self.sessionToken = sessionToken
             self.timingInformation = timingInformation
         }
@@ -542,8 +521,7 @@ extension QLDBSessionClientTypes {
         public init(
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil,
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.timingInformation = timingInformation
             self.transactionId = transactionId
         }
@@ -574,8 +552,7 @@ public struct SendCommandOutput: Swift.Sendable {
         fetchPage: QLDBSessionClientTypes.FetchPageResult? = nil,
         startSession: QLDBSessionClientTypes.StartSessionResult? = nil,
         startTransaction: QLDBSessionClientTypes.StartTransactionResult? = nil
-    )
-    {
+    ) {
         self.abortTransaction = abortTransaction
         self.commitTransaction = commitTransaction
         self.endSession = endSession

@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You are not authorized to use this operation with the given parameters.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -44,8 +44,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +96,7 @@ extension CostOptimizationHubClientTypes {
             createdTimestamp: Foundation.Date? = nil,
             lastUpdatedTimestamp: Foundation.Date? = nil,
             status: CostOptimizationHubClientTypes.EnrollmentStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.createdTimestamp = createdTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -115,6 +113,7 @@ extension CostOptimizationHubClientTypes {
         case purchaseReservedInstances
         case purchaseSavingsPlans
         case rightsize
+        case scaleIn
         case stop
         case upgrade
         case sdkUnknown(Swift.String)
@@ -126,6 +125,7 @@ extension CostOptimizationHubClientTypes {
                 .purchaseReservedInstances,
                 .purchaseSavingsPlans,
                 .rightsize,
+                .scaleIn,
                 .stop,
                 .upgrade
             ]
@@ -143,8 +143,38 @@ extension CostOptimizationHubClientTypes {
             case .purchaseReservedInstances: return "PurchaseReservedInstances"
             case .purchaseSavingsPlans: return "PurchaseSavingsPlans"
             case .rightsize: return "Rightsize"
+            case .scaleIn: return "ScaleIn"
             case .stop: return "Stop"
             case .upgrade: return "Upgrade"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    public enum AllocationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lowestPrice
+        case prioritized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllocationStrategy] {
+            return [
+                .lowestPrice,
+                .prioritized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lowestPrice: return "LowestPrice"
+            case .prioritized: return "Prioritized"
             case let .sdkUnknown(s): return s
             }
         }
@@ -163,8 +193,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             iops: Swift.Double? = nil,
             throughput: Swift.Double? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.throughput = throughput
         }
@@ -189,8 +218,7 @@ extension CostOptimizationHubClientTypes {
             memorySizeInMB: Swift.Int? = nil,
             platform: Swift.String? = nil,
             vCpu: Swift.Double? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.memorySizeInMB = memorySizeInMB
             self.platform = platform
@@ -217,8 +245,7 @@ extension CostOptimizationHubClientTypes {
             hourlyCommitment: Swift.String? = nil,
             paymentOption: Swift.String? = nil,
             term: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.hourlyCommitment = hourlyCommitment
             self.paymentOption = paymentOption
@@ -245,8 +272,7 @@ extension CostOptimizationHubClientTypes {
             estimatedOnDemandCost: Swift.Double? = nil,
             monthlySavingsPlansEligibleCost: Swift.Double? = nil,
             savingsPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.estimatedMonthlyCommitment = estimatedMonthlyCommitment
             self.estimatedOnDemandCost = estimatedOnDemandCost
             self.monthlySavingsPlansEligibleCost = monthlySavingsPlansEligibleCost
@@ -264,8 +290,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             pricing: CostOptimizationHubClientTypes.SavingsPlansPricing? = nil
-        )
-        {
+        ) {
             self.pricing = pricing
         }
     }
@@ -283,8 +308,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.ComputeSavingsPlansConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.SavingsPlansCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -292,9 +316,9 @@ extension CostOptimizationHubClientTypes {
 }
 
 /// An error on the server occurred during the processing of your request. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -310,16 +334,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -334,8 +357,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -354,8 +376,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.message = message
         }
@@ -392,9 +413,9 @@ extension CostOptimizationHubClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The list of fields that are invalid.
         public internal(set) var fields: [CostOptimizationHubClientTypes.ValidationExceptionDetail]? = nil
         /// This member is required.
@@ -416,8 +437,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [CostOptimizationHubClientTypes.ValidationExceptionDetail]? = nil,
         message: Swift.String? = nil,
         reason: CostOptimizationHubClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -496,17 +516,16 @@ public struct GetPreferencesOutput: Swift.Sendable {
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
-    )
-    {
+    ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
         self.savingsEstimationMode = savingsEstimationMode
     }
 }
 
 /// The specified Amazon Resource Name (ARN) in the request doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that was not found.
@@ -526,8 +545,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -540,8 +558,7 @@ public struct GetRecommendationInput: Swift.Sendable {
 
     public init(
         recommendationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommendationId = recommendationId
     }
 }
@@ -558,8 +575,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             sizeInGb: Swift.Double? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.sizeInGb = sizeInGb
             self.type = type
         }
@@ -581,8 +597,7 @@ extension CostOptimizationHubClientTypes {
             attachmentState: Swift.String? = nil,
             performance: CostOptimizationHubClientTypes.BlockStoragePerformanceConfiguration? = nil,
             storage: CostOptimizationHubClientTypes.StorageConfiguration? = nil
-        )
-        {
+        ) {
             self.attachmentState = attachmentState
             self.performance = performance
             self.storage = storage
@@ -605,8 +620,7 @@ extension CostOptimizationHubClientTypes {
             otherDiscount: Swift.Double? = nil,
             reservedInstancesDiscount: Swift.Double? = nil,
             savingsPlansDiscount: Swift.Double? = nil
-        )
-        {
+        ) {
             self.otherDiscount = otherDiscount
             self.reservedInstancesDiscount = reservedInstancesDiscount
             self.savingsPlansDiscount = savingsPlansDiscount
@@ -632,8 +646,7 @@ extension CostOptimizationHubClientTypes {
             estimatedCostBeforeDiscounts: Swift.Double? = nil,
             estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts? = nil,
             estimatedNetUnusedAmortizedCommitments: Swift.Double? = nil
-        )
-        {
+        ) {
             self.estimatedCostAfterDiscounts = estimatedCostAfterDiscounts
             self.estimatedCostBeforeDiscounts = estimatedCostBeforeDiscounts
             self.estimatedDiscounts = estimatedDiscounts
@@ -663,8 +676,7 @@ extension CostOptimizationHubClientTypes {
             unit: Swift.String? = nil,
             usageAmount: Swift.Double? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.operation = operation
             self.productCode = productCode
             self.unit = unit
@@ -686,8 +698,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             pricing: CostOptimizationHubClientTypes.ResourcePricing? = nil,
             usages: [CostOptimizationHubClientTypes.Usage]? = nil
-        )
-        {
+        ) {
             self.pricing = pricing
             self.usages = usages
         }
@@ -706,8 +717,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.EbsVolumeConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -716,15 +726,14 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// The Instance configuration used for recommendations.
+    /// The instance configuration used for recommendations.
     public struct InstanceConfiguration: Swift.Sendable {
-        /// Details about the type.
+        /// The instance type of the configuration.
         public var type: Swift.String?
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -732,16 +741,71 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// The EC2 auto scaling group configuration used for recommendations.
-    public struct Ec2AutoScalingGroupConfiguration: Swift.Sendable {
-        /// Details about the instance.
-        public var instance: CostOptimizationHubClientTypes.InstanceConfiguration?
+    /// The configuration for the EC2 Auto Scaling group with mixed instance types.
+    public struct MixedInstanceConfiguration: Swift.Sendable {
+        /// The instance type of the configuration.
+        public var type: Swift.String?
 
         public init(
-            instance: CostOptimizationHubClientTypes.InstanceConfiguration? = nil
-        )
-        {
+            type: Swift.String? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    public enum Ec2AutoScalingGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mixedInstanceTypes
+        case singleInstanceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ec2AutoScalingGroupType] {
+            return [
+                .mixedInstanceTypes,
+                .singleInstanceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixedInstanceTypes: return "MixedInstanceTypes"
+            case .singleInstanceType: return "SingleInstanceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The EC2 Auto Scaling group configuration used for recommendations.
+    public struct Ec2AutoScalingGroupConfiguration: Swift.Sendable {
+        /// The strategy used for allocating instances, based on a predefined priority order or based on the lowest available price.
+        public var allocationStrategy: CostOptimizationHubClientTypes.AllocationStrategy?
+        /// Details about the instance for the EC2 Auto Scaling group with a single instance type.
+        public var instance: CostOptimizationHubClientTypes.InstanceConfiguration?
+        /// A list of instance types for an EC2 Auto Scaling group with mixed instance types.
+        public var mixedInstances: [CostOptimizationHubClientTypes.MixedInstanceConfiguration]?
+        /// The type of EC2 Auto Scaling group, showing whether it consists of a single instance type or mixed instance types.
+        public var type: CostOptimizationHubClientTypes.Ec2AutoScalingGroupType?
+
+        public init(
+            allocationStrategy: CostOptimizationHubClientTypes.AllocationStrategy? = nil,
+            instance: CostOptimizationHubClientTypes.InstanceConfiguration? = nil,
+            mixedInstances: [CostOptimizationHubClientTypes.MixedInstanceConfiguration]? = nil,
+            type: CostOptimizationHubClientTypes.Ec2AutoScalingGroupType? = nil
+        ) {
+            self.allocationStrategy = allocationStrategy
             self.instance = instance
+            self.mixedInstances = mixedInstances
+            self.type = type
         }
     }
 }
@@ -758,8 +822,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -775,8 +838,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             instance: CostOptimizationHubClientTypes.InstanceConfiguration? = nil
-        )
-        {
+        ) {
             self.instance = instance
         }
     }
@@ -794,8 +856,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.Ec2InstanceConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -826,8 +887,7 @@ extension CostOptimizationHubClientTypes {
             paymentOption: Swift.String? = nil,
             savingsPlansRegion: Swift.String? = nil,
             term: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.hourlyCommitment = hourlyCommitment
             self.instanceFamily = instanceFamily
@@ -850,8 +910,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.Ec2InstanceSavingsPlansConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.SavingsPlansCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -912,8 +971,7 @@ extension CostOptimizationHubClientTypes {
             tenancy: Swift.String? = nil,
             term: Swift.String? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
             self.instanceFamily = instanceFamily
@@ -952,8 +1010,7 @@ extension CostOptimizationHubClientTypes {
             estimatedOnDemandCost: Swift.Double? = nil,
             monthlyReservationEligibleCost: Swift.Double? = nil,
             savingsPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.estimatedMonthlyAmortizedReservationCost = estimatedMonthlyAmortizedReservationCost
             self.estimatedOnDemandCost = estimatedOnDemandCost
             self.monthlyReservationEligibleCost = monthlyReservationEligibleCost
@@ -971,8 +1028,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             pricing: CostOptimizationHubClientTypes.ReservedInstancesPricing? = nil
-        )
-        {
+        ) {
             self.pricing = pricing
         }
     }
@@ -990,8 +1046,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.Ec2ReservedInstancesConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1007,8 +1062,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             compute: CostOptimizationHubClientTypes.ComputeConfiguration? = nil
-        )
-        {
+        ) {
             self.compute = compute
         }
     }
@@ -1026,8 +1080,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.EcsServiceConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1079,8 +1132,7 @@ extension CostOptimizationHubClientTypes {
             sizeFlexEligible: Swift.Bool? = nil,
             term: Swift.String? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
             self.instanceFamily = instanceFamily
@@ -1110,8 +1162,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.ElastiCacheReservedInstancesConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1127,8 +1178,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             compute: CostOptimizationHubClientTypes.ComputeConfiguration? = nil
-        )
-        {
+        ) {
             self.compute = compute
         }
     }
@@ -1146,8 +1196,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.LambdaFunctionConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1196,8 +1245,7 @@ extension CostOptimizationHubClientTypes {
             sizeFlexEligible: Swift.Bool? = nil,
             term: Swift.String? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
             self.instanceType = instanceType
@@ -1226,8 +1274,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.OpenSearchReservedInstancesConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1243,8 +1290,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             dbInstanceClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbInstanceClass = dbInstanceClass
         }
     }
@@ -1259,8 +1305,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             instance: CostOptimizationHubClientTypes.DbInstanceConfiguration? = nil
-        )
-        {
+        ) {
             self.instance = instance
         }
     }
@@ -1278,8 +1323,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.RdsDbInstanceConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1304,8 +1348,7 @@ extension CostOptimizationHubClientTypes {
             iops: Swift.Double? = nil,
             storageThroughput: Swift.Double? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorageInGb = allocatedStorageInGb
             self.iops = iops
             self.storageThroughput = storageThroughput
@@ -1326,8 +1369,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1391,8 +1433,7 @@ extension CostOptimizationHubClientTypes {
             sizeFlexEligible: Swift.Bool? = nil,
             term: Swift.String? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
             self.databaseEdition = databaseEdition
@@ -1426,8 +1467,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.RdsReservedInstancesConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1479,8 +1519,7 @@ extension CostOptimizationHubClientTypes {
             sizeFlexEligible: Swift.Bool? = nil,
             term: Swift.String? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
             self.instanceFamily = instanceFamily
@@ -1510,8 +1549,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.RedshiftReservedInstancesConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1536,8 +1574,7 @@ extension CostOptimizationHubClientTypes {
             hourlyCommitment: Swift.String? = nil,
             paymentOption: Swift.String? = nil,
             term: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.hourlyCommitment = hourlyCommitment
             self.paymentOption = paymentOption
@@ -1558,8 +1595,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.SageMakerSavingsPlansConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.SavingsPlansCostCalculation? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
         }
@@ -1594,7 +1630,7 @@ extension CostOptimizationHubClientTypes {
         case ec2instancesavingsplans(CostOptimizationHubClientTypes.Ec2InstanceSavingsPlans)
         /// The Compute Savings Plans recommendation details.
         case computesavingsplans(CostOptimizationHubClientTypes.ComputeSavingsPlans)
-        /// The SageMaker Savings Plans recommendation details.
+        /// The SageMaker AI Savings Plans recommendation details.
         case sagemakersavingsplans(CostOptimizationHubClientTypes.SageMakerSavingsPlans)
         /// The DB instance recommendation details.
         case rdsdbinstance(CostOptimizationHubClientTypes.RdsDbInstance)
@@ -1751,8 +1787,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1831,8 +1866,7 @@ public struct GetRecommendationOutput: Swift.Sendable {
         rollbackPossible: Swift.Bool? = nil,
         source: CostOptimizationHubClientTypes.Source? = nil,
         tags: [CostOptimizationHubClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.actionType = actionType
         self.costCalculationLookbackPeriodInDays = costCalculationLookbackPeriodInDays
@@ -1874,8 +1908,7 @@ public struct ListEnrollmentStatusesInput: Swift.Sendable {
         includeOrganizationInfo: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.includeOrganizationInfo = includeOrganizationInfo
         self.maxResults = maxResults
@@ -1895,8 +1928,7 @@ public struct ListEnrollmentStatusesOutput: Swift.Sendable {
         includeMemberAccounts: Swift.Bool? = nil,
         items: [CostOptimizationHubClientTypes.AccountEnrollmentStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeMemberAccounts = includeMemberAccounts
         self.items = items
         self.nextToken = nextToken
@@ -1942,8 +1974,7 @@ extension CostOptimizationHubClientTypes {
             restartNeeded: Swift.Bool? = nil,
             rollbackPossible: Swift.Bool? = nil,
             tags: [CostOptimizationHubClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.actionTypes = actionTypes
             self.implementationEfforts = implementationEfforts
@@ -2000,8 +2031,7 @@ extension CostOptimizationHubClientTypes {
         public init(
             dimension: Swift.String? = nil,
             order: CostOptimizationHubClientTypes.Order? = nil
-        )
-        {
+        ) {
             self.dimension = dimension
             self.order = order
         }
@@ -2026,8 +2056,7 @@ public struct ListRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         orderBy: CostOptimizationHubClientTypes.OrderBy? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.includeAllRecommendations = includeAllRecommendations
         self.maxResults = maxResults
@@ -2105,8 +2134,7 @@ extension CostOptimizationHubClientTypes {
             rollbackPossible: Swift.Bool? = nil,
             source: CostOptimizationHubClientTypes.Source? = nil,
             tags: [CostOptimizationHubClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.actionType = actionType
             self.currencyCode = currencyCode
@@ -2141,8 +2169,7 @@ public struct ListRecommendationsOutput: Swift.Sendable {
     public init(
         items: [CostOptimizationHubClientTypes.Recommendation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2193,8 +2220,7 @@ public struct ListRecommendationSummariesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         metrics: [CostOptimizationHubClientTypes.SummaryMetrics]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.groupBy = groupBy
         self.maxResults = maxResults
@@ -2218,8 +2244,7 @@ extension CostOptimizationHubClientTypes {
             estimatedMonthlySavings: Swift.Double? = nil,
             group: Swift.String? = nil,
             recommendationCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.group = group
             self.recommendationCount = recommendationCount
@@ -2236,8 +2261,7 @@ extension CostOptimizationHubClientTypes {
 
         public init(
             savingsPercentage: Swift.String? = nil
-        )
-        {
+        ) {
             self.savingsPercentage = savingsPercentage
         }
     }
@@ -2264,8 +2288,7 @@ public struct ListRecommendationSummariesOutput: Swift.Sendable {
         items: [CostOptimizationHubClientTypes.RecommendationSummary]? = nil,
         metrics: CostOptimizationHubClientTypes.SummaryMetricsResult? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.currencyCode = currencyCode
         self.estimatedTotalDedupedSavings = estimatedTotalDedupedSavings
         self.groupBy = groupBy
@@ -2285,8 +2308,7 @@ public struct UpdateEnrollmentStatusInput: Swift.Sendable {
     public init(
         includeMemberAccounts: Swift.Bool? = nil,
         status: CostOptimizationHubClientTypes.EnrollmentStatus? = nil
-    )
-    {
+    ) {
         self.includeMemberAccounts = includeMemberAccounts
         self.status = status
     }
@@ -2298,8 +2320,7 @@ public struct UpdateEnrollmentStatusOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -2313,8 +2334,7 @@ public struct UpdatePreferencesInput: Swift.Sendable {
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
-    )
-    {
+    ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
         self.savingsEstimationMode = savingsEstimationMode
     }
@@ -2329,8 +2349,7 @@ public struct UpdatePreferencesOutput: Swift.Sendable {
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
-    )
-    {
+    ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
         self.savingsEstimationMode = savingsEstimationMode
     }
@@ -3213,6 +3232,19 @@ extension CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration()
         value.instance = try reader["instance"].readIfPresent(with: CostOptimizationHubClientTypes.InstanceConfiguration.read(from:))
+        value.mixedInstances = try reader["mixedInstances"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.MixedInstanceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["type"].readIfPresent()
+        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.MixedInstanceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.MixedInstanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.MixedInstanceConfiguration()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

@@ -26,9 +26,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have permission to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -43,16 +43,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal server error occurred. Retry your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -67,16 +66,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The calls to AWS Application Cost Profiler API are throttled. The request was denied.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -91,16 +89,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints for the API.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -115,8 +112,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -128,8 +124,7 @@ public struct DeleteReportDefinitionInput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -140,8 +135,7 @@ public struct DeleteReportDefinitionOutput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -153,8 +147,7 @@ public struct GetReportDefinitionInput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -173,8 +166,7 @@ extension ApplicationCostProfilerClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -273,8 +265,7 @@ public struct GetReportDefinitionOutput: Swift.Sendable {
         reportDescription: Swift.String? = nil,
         reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency? = nil,
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.destinationS3Location = destinationS3Location
         self.format = format
@@ -337,8 +328,7 @@ extension ApplicationCostProfilerClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             region: ApplicationCostProfilerClientTypes.S3BucketRegion? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.region = region
@@ -353,8 +343,7 @@ public struct ImportApplicationUsageInput: Swift.Sendable {
 
     public init(
         sourceS3Location: ApplicationCostProfilerClientTypes.SourceS3Location? = nil
-    )
-    {
+    ) {
         self.sourceS3Location = sourceS3Location
     }
 }
@@ -366,8 +355,7 @@ public struct ImportApplicationUsageOutput: Swift.Sendable {
 
     public init(
         importId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importId = importId
     }
 }
@@ -381,8 +369,7 @@ public struct ListReportDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -415,8 +402,7 @@ extension ApplicationCostProfilerClientTypes {
             reportDescription: Swift.String? = nil,
             reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency? = nil,
             reportId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.destinationS3Location = destinationS3Location
             self.format = format
@@ -437,17 +423,16 @@ public struct ListReportDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportDefinitions: [ApplicationCostProfilerClientTypes.ReportDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportDefinitions = reportDefinitions
     }
 }
 
 /// Your request exceeds one or more of the service quotas.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -462,8 +447,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -491,8 +475,7 @@ public struct PutReportDefinitionInput: Swift.Sendable {
         reportDescription: Swift.String? = nil,
         reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency? = nil,
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationS3Location = destinationS3Location
         self.format = format
         self.reportDescription = reportDescription
@@ -507,8 +490,7 @@ public struct PutReportDefinitionOutput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -536,8 +518,7 @@ public struct UpdateReportDefinitionInput: Swift.Sendable {
         reportDescription: Swift.String? = nil,
         reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency? = nil,
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationS3Location = destinationS3Location
         self.format = format
         self.reportDescription = reportDescription
@@ -552,8 +533,7 @@ public struct UpdateReportDefinitionOutput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }

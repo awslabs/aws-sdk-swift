@@ -72,8 +72,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             status: Macie2ClientTypes.AdminStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.status = status
         }
@@ -104,8 +103,7 @@ extension Macie2ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -158,8 +156,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             status: Macie2ClientTypes.AutomatedDiscoveryAccountStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.status = status
         }
@@ -178,8 +175,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             status: Macie2ClientTypes.AutomatedDiscoveryAccountStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.status = status
         }
@@ -228,8 +224,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             errorCode: Macie2ClientTypes.AutomatedDiscoveryAccountUpdateErrorCode? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.errorCode = errorCode
         }
@@ -260,8 +255,7 @@ extension Macie2ClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.deleted = deleted
@@ -336,14 +330,16 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// The error code for an error that prevented Amazon Macie from retrieving and processing information about an S3 bucket and the bucket's objects.
+    /// The code for an error or issue that prevented Amazon Macie from retrieving and processing information about an S3 bucket and the bucket's objects.
     public enum BucketMetadataErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
+        case bucketCountExceedsQuota
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BucketMetadataErrorCode] {
             return [
-                .accessDenied
+                .accessDenied,
+                .bucketCountExceedsQuota
             ]
         }
 
@@ -355,6 +351,7 @@ extension Macie2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
+            case .bucketCountExceedsQuota: return "BUCKET_COUNT_EXCEEDS_QUOTA"
             case let .sdkUnknown(s): return s
             }
         }
@@ -455,8 +452,7 @@ extension Macie2ClientTypes {
             isMonitoredByJob: Macie2ClientTypes.IsMonitoredByJob? = nil,
             lastJobId: Swift.String? = nil,
             lastJobRunTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.isDefinedInJob = isDefinedInJob
             self.isMonitoredByJob = isMonitoredByJob
             self.lastJobId = lastJobId
@@ -486,8 +482,7 @@ extension Macie2ClientTypes {
             s3Managed: Swift.Int? = nil,
             unencrypted: Swift.Int? = nil,
             unknown: Swift.Int? = nil
-        )
-        {
+        ) {
             self.customerManaged = customerManaged
             self.kmsManaged = kmsManaged
             self.s3Managed = s3Managed
@@ -547,8 +542,7 @@ extension Macie2ClientTypes {
             blockPublicPolicy: Swift.Bool? = nil,
             ignorePublicAcls: Swift.Bool? = nil,
             restrictPublicBuckets: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
             self.ignorePublicAcls = ignorePublicAcls
@@ -566,8 +560,7 @@ extension Macie2ClientTypes {
 
         public init(
             blockPublicAccess: Macie2ClientTypes.BlockPublicAccess? = nil
-        )
-        {
+        ) {
             self.blockPublicAccess = blockPublicAccess
         }
     }
@@ -585,8 +578,7 @@ extension Macie2ClientTypes {
         public init(
             allowsPublicReadAccess: Swift.Bool? = nil,
             allowsPublicWriteAccess: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
         }
@@ -605,8 +597,7 @@ extension Macie2ClientTypes {
         public init(
             allowsPublicReadAccess: Swift.Bool? = nil,
             allowsPublicWriteAccess: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowsPublicReadAccess = allowsPublicReadAccess
             self.allowsPublicWriteAccess = allowsPublicWriteAccess
         }
@@ -628,8 +619,7 @@ extension Macie2ClientTypes {
             accessControlList: Macie2ClientTypes.AccessControlList? = nil,
             blockPublicAccess: Macie2ClientTypes.BlockPublicAccess? = nil,
             bucketPolicy: Macie2ClientTypes.BucketPolicy? = nil
-        )
-        {
+        ) {
             self.accessControlList = accessControlList
             self.blockPublicAccess = blockPublicAccess
             self.bucketPolicy = bucketPolicy
@@ -649,8 +639,7 @@ extension Macie2ClientTypes {
         public init(
             accountLevelPermissions: Macie2ClientTypes.AccountLevelPermissions? = nil,
             bucketLevelPermissions: Macie2ClientTypes.BucketLevelPermissions? = nil
-        )
-        {
+        ) {
             self.accountLevelPermissions = accountLevelPermissions
             self.bucketLevelPermissions = bucketLevelPermissions
         }
@@ -675,8 +664,7 @@ extension Macie2ClientTypes {
         public init(
             effectivePermission: Macie2ClientTypes.EffectivePermission? = nil,
             permissionConfiguration: Macie2ClientTypes.BucketPermissionConfiguration? = nil
-        )
-        {
+        ) {
             self.effectivePermission = effectivePermission
             self.permissionConfiguration = permissionConfiguration
         }
@@ -698,8 +686,7 @@ extension Macie2ClientTypes {
             replicated: Swift.Bool? = nil,
             replicatedExternally: Swift.Bool? = nil,
             replicationAccounts: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.replicated = replicated
             self.replicatedExternally = replicatedExternally
             self.replicationAccounts = replicationAccounts
@@ -762,8 +749,7 @@ extension Macie2ClientTypes {
         public init(
             kmsMasterKeyId: Swift.String? = nil,
             type: Macie2ClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.kmsMasterKeyId = kmsMasterKeyId
             self.type = type
         }
@@ -817,8 +803,7 @@ extension Macie2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -840,8 +825,7 @@ extension Macie2ClientTypes {
             fileType: Swift.Int? = nil,
             storageClass: Swift.Int? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fileType = fileType
             self.storageClass = storageClass
             self.total = total
@@ -851,7 +835,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error occurs when Macie attempts to retrieve and process metadata from Amazon S3 for the bucket or the bucket's objects, the value for the versioning property is false and the value for most other properties is null. Key exceptions are accountId, bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify the cause of the error, refer to the errorCode and errorMessage values.
+    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error or issue prevents Macie from retrieving and processing metadata from Amazon S3 for the bucket or the bucket's objects, the value for the versioning property is false and the value for most other properties is null or UNKNOWN. Key exceptions are accountId, bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify the cause, refer to the errorCode and errorMessage values.
     public struct BucketMetadata: Swift.Sendable {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
@@ -878,13 +862,20 @@ extension Macie2ClientTypes {
         public var classifiableObjectCount: Swift.Int?
         /// The total storage size, in bytes, of the objects that Amazon Macie can analyze in the bucket. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for the bucket, Macie calculates this value based on the size of the latest version of each applicable object in the bucket. This value doesn't reflect the storage size of all versions of each applicable object in the bucket.
         public var classifiableSizeInBytes: Swift.Int?
-        /// The error code for an error that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. If this value is ACCESS_DENIED, Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request. If this value is null, Macie was able to retrieve and process the information.
+        /// The code for an error or issue that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. Possible values are:
+        ///
+        /// * ACCESS_DENIED - Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request.
+        ///
+        /// * BUCKET_COUNT_EXCEEDS_QUOTA - Retrieving and processing the information would exceed the quota for the number of buckets that Macie monitors for an account (10,000).
+        ///
+        ///
+        /// If this value is null, Macie was able to retrieve and process the information.
         public var errorCode: Macie2ClientTypes.BucketMetadataErrorCode?
-        /// A brief description of the error (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
+        /// A brief description of the error or issue (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
         public var errorMessage: Swift.String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if this analysis hasn't occurred.
         public var lastAutomatedDiscoveryTime: Foundation.Date?
         /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently retrieved bucket or object metadata from Amazon S3 for the bucket.
         public var lastUpdated: Foundation.Date?
@@ -898,7 +889,7 @@ extension Macie2ClientTypes {
         public var region: Swift.String?
         /// Specifies whether the bucket is configured to replicate one or more objects to buckets for other Amazon Web Services accounts and, if so, which accounts.
         public var replicationDetails: Macie2ClientTypes.ReplicationDetails?
-        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it's been disabled for your organization or standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it's been excluded from recent analyses.
         public var sensitivityScore: Swift.Int?
         /// The default server-side encryption settings for the bucket.
         public var serverSideEncryption: Macie2ClientTypes.BucketServerSideEncryption?
@@ -956,8 +947,7 @@ extension Macie2ClientTypes {
             unclassifiableObjectCount: Macie2ClientTypes.ObjectLevelStatistics? = nil,
             unclassifiableObjectSizeInBytes: Macie2ClientTypes.ObjectLevelStatistics? = nil,
             versioning: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.automatedDiscoveryMonitoringStatus = automatedDiscoveryMonitoringStatus
@@ -1001,8 +991,7 @@ extension Macie2ClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -1119,8 +1108,7 @@ extension Macie2ClientTypes {
             comparator: Macie2ClientTypes.JobComparator? = nil,
             key: Macie2ClientTypes.SimpleCriterionKeyForJob? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.values = values
@@ -1140,8 +1128,7 @@ extension Macie2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1160,8 +1147,7 @@ extension Macie2ClientTypes {
         public init(
             comparator: Macie2ClientTypes.JobComparator? = nil,
             tagValues: [Macie2ClientTypes.TagCriterionPairForJob]? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.tagValues = tagValues
         }
@@ -1180,8 +1166,7 @@ extension Macie2ClientTypes {
         public init(
             simpleCriterion: Macie2ClientTypes.SimpleCriterionForJob? = nil,
             tagCriterion: Macie2ClientTypes.TagCriterionForJob? = nil
-        )
-        {
+        ) {
             self.simpleCriterion = simpleCriterion
             self.tagCriterion = tagCriterion
         }
@@ -1209,8 +1194,7 @@ extension Macie2ClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -1230,8 +1214,7 @@ extension Macie2ClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -1279,7 +1262,7 @@ extension Macie2ClientTypes {
         public var id: Swift.String?
         /// The name of the custom data identifier or managed data identifier that detected the sensitive data. For a managed data identifier, this value is the same as the unique identifier (id).
         public var name: Swift.String?
-        /// Specifies whether occurrences of this type of sensitive data are excluded (true) or included (false) in the bucket's sensitivity score.
+        /// Specifies whether occurrences of this type of sensitive data are excluded (true) or included (false) in the bucket's sensitivity score, if the score is calculated by Amazon Macie.
         public var suppressed: Swift.Bool?
         /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
         public var type: Macie2ClientTypes.DataIdentifierType?
@@ -1291,8 +1274,7 @@ extension Macie2ClientTypes {
             name: Swift.String? = nil,
             suppressed: Swift.Bool? = nil,
             type: Macie2ClientTypes.DataIdentifierType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.count = count
             self.id = id
@@ -1381,8 +1363,7 @@ extension Macie2ClientTypes {
             column: Swift.Int? = nil,
             columnName: Swift.String? = nil,
             row: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cellReference = cellReference
             self.column = column
             self.columnName = columnName
@@ -1406,8 +1387,7 @@ extension Macie2ClientTypes {
             end: Swift.Int? = nil,
             start: Swift.Int? = nil,
             startColumn: Swift.Int? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
             self.startColumn = startColumn
@@ -1430,8 +1410,7 @@ extension Macie2ClientTypes {
             lineRange: Macie2ClientTypes.Range? = nil,
             offsetRange: Macie2ClientTypes.Range? = nil,
             pageNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lineRange = lineRange
             self.offsetRange = offsetRange
             self.pageNumber = pageNumber
@@ -1451,8 +1430,7 @@ extension Macie2ClientTypes {
         public init(
             jsonPath: Swift.String? = nil,
             recordIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.jsonPath = jsonPath
             self.recordIndex = recordIndex
         }
@@ -1480,8 +1458,7 @@ extension Macie2ClientTypes {
             offsetRanges: [Macie2ClientTypes.Range]? = nil,
             pages: [Macie2ClientTypes.Page]? = nil,
             records: [Macie2ClientTypes.Record]? = nil
-        )
-        {
+        ) {
             self.cells = cells
             self.lineRanges = lineRanges
             self.offsetRanges = offsetRanges
@@ -1509,8 +1486,7 @@ extension Macie2ClientTypes {
             count: Swift.Int? = nil,
             name: Swift.String? = nil,
             occurrences: Macie2ClientTypes.Occurrences? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.count = count
             self.name = name
@@ -1531,8 +1507,7 @@ extension Macie2ClientTypes {
         public init(
             detections: [Macie2ClientTypes.CustomDetection]? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.detections = detections
             self.totalCount = totalCount
         }
@@ -1590,8 +1565,7 @@ extension Macie2ClientTypes {
             count: Swift.Int? = nil,
             occurrences: Macie2ClientTypes.Occurrences? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.occurrences = occurrences
             self.type = type
@@ -1614,8 +1588,7 @@ extension Macie2ClientTypes {
             category: Macie2ClientTypes.SensitiveDataItemCategory? = nil,
             detections: [Macie2ClientTypes.DefaultDetection]? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.category = category
             self.detections = detections
             self.totalCount = totalCount
@@ -1686,8 +1659,7 @@ extension Macie2ClientTypes {
         public init(
             code: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.reason = reason
         }
@@ -1718,8 +1690,7 @@ extension Macie2ClientTypes {
             sensitiveData: [Macie2ClientTypes.SensitiveDataItem]? = nil,
             sizeClassified: Swift.Int? = nil,
             status: Macie2ClientTypes.ClassificationResultStatus? = nil
-        )
-        {
+        ) {
             self.additionalOccurrences = additionalOccurrences
             self.customDataIdentifiers = customDataIdentifiers
             self.mimeType = mimeType
@@ -1751,8 +1722,7 @@ extension Macie2ClientTypes {
             jobId: Swift.String? = nil,
             originType: Macie2ClientTypes.OriginType? = nil,
             result: Macie2ClientTypes.ClassificationResult? = nil
-        )
-        {
+        ) {
             self.detailedResultsLocation = detailedResultsLocation
             self.jobArn = jobArn
             self.jobId = jobId
@@ -1795,7 +1765,7 @@ extension Macie2ClientTypes {
     public struct ApiCallDetails: Swift.Sendable {
         /// The name of the operation that was invoked most recently and produced the finding.
         public var api: Swift.String?
-        /// The URL of the Amazon Web Service that provides the operation, for example: s3.amazonaws.com.
+        /// The URL of the Amazon Web Services service that provides the operation, for example: s3.amazonaws.com.
         public var apiServiceName: Swift.String?
         /// The first date and time, in UTC and extended ISO 8601 format, when any operation was invoked and produced the finding.
         public var firstSeen: Foundation.Date?
@@ -1807,8 +1777,7 @@ extension Macie2ClientTypes {
             apiServiceName: Swift.String? = nil,
             firstSeen: Foundation.Date? = nil,
             lastSeen: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.api = api
             self.apiServiceName = apiServiceName
             self.firstSeen = firstSeen
@@ -1829,8 +1798,7 @@ extension Macie2ClientTypes {
         public init(
             actionType: Macie2ClientTypes.FindingActionType? = nil,
             apiCallDetails: Macie2ClientTypes.ApiCallDetails? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.apiCallDetails = apiCallDetails
         }
@@ -1846,8 +1814,7 @@ extension Macie2ClientTypes {
 
         public init(
             domainName: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
         }
     }
@@ -1862,8 +1829,7 @@ extension Macie2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1881,8 +1847,7 @@ extension Macie2ClientTypes {
         public init(
             code: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -1901,8 +1866,7 @@ extension Macie2ClientTypes {
         public init(
             lat: Swift.Double? = nil,
             lon: Swift.Double? = nil
-        )
-        {
+        ) {
             self.lat = lat
             self.lon = lon
         }
@@ -1927,8 +1891,7 @@ extension Macie2ClientTypes {
             asnOrg: Swift.String? = nil,
             isp: Swift.String? = nil,
             org: Swift.String? = nil
-        )
-        {
+        ) {
             self.asn = asn
             self.asnOrg = asnOrg
             self.isp = isp
@@ -1958,8 +1921,7 @@ extension Macie2ClientTypes {
             ipCountry: Macie2ClientTypes.IpCountry? = nil,
             ipGeoLocation: Macie2ClientTypes.IpGeoLocation? = nil,
             ipOwner: Macie2ClientTypes.IpOwner? = nil
-        )
-        {
+        ) {
             self.ipAddressV4 = ipAddressV4
             self.ipCity = ipCity
             self.ipCountry = ipCountry
@@ -1981,8 +1943,7 @@ extension Macie2ClientTypes {
         public init(
             creationDate: Foundation.Date? = nil,
             mfaAuthenticated: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.mfaAuthenticated = mfaAuthenticated
         }
@@ -2010,8 +1971,7 @@ extension Macie2ClientTypes {
             principalId: Swift.String? = nil,
             type: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.principalId = principalId
@@ -2033,8 +1993,7 @@ extension Macie2ClientTypes {
         public init(
             attributes: Macie2ClientTypes.SessionContextAttributes? = nil,
             sessionIssuer: Macie2ClientTypes.SessionIssuer? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.sessionIssuer = sessionIssuer
         }
@@ -2062,8 +2021,7 @@ extension Macie2ClientTypes {
             arn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             sessionContext: Macie2ClientTypes.SessionContext? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
             self.arn = arn
@@ -2085,8 +2043,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             principalId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.principalId = principalId
         }
@@ -2102,8 +2059,7 @@ extension Macie2ClientTypes {
 
         public init(
             invokedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.invokedBy = invokedBy
         }
     }
@@ -2130,8 +2086,7 @@ extension Macie2ClientTypes {
             arn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             sessionContext: Macie2ClientTypes.SessionContext? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
             self.arn = arn
@@ -2159,8 +2114,7 @@ extension Macie2ClientTypes {
             arn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.principalId = principalId
@@ -2184,8 +2138,7 @@ extension Macie2ClientTypes {
             accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             principalId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.principalId = principalId
@@ -2243,7 +2196,7 @@ extension Macie2ClientTypes {
         public var assumedRole: Macie2ClientTypes.AssumedRole?
         /// If the action was performed using the credentials for another Amazon Web Services account, the details of that account.
         public var awsAccount: Macie2ClientTypes.AwsAccount?
-        /// If the action was performed by an Amazon Web Services account that belongs to an Amazon Web Service, the name of the service.
+        /// If the action was performed by an Amazon Web Services account that belongs to an Amazon Web Services service, the name of the service.
         public var awsService: Macie2ClientTypes.AwsService?
         /// If the action was performed with temporary security credentials that were obtained using the GetFederationToken operation of the Security Token Service (STS) API, the identifiers, session context, and other details about the identity.
         public var federatedUser: Macie2ClientTypes.FederatedUser?
@@ -2262,8 +2215,7 @@ extension Macie2ClientTypes {
             iamUser: Macie2ClientTypes.IamUser? = nil,
             root: Macie2ClientTypes.UserIdentityRoot? = nil,
             type: Macie2ClientTypes.UserIdentityType? = nil
-        )
-        {
+        ) {
             self.assumedRole = assumedRole
             self.awsAccount = awsAccount
             self.awsService = awsService
@@ -2290,8 +2242,7 @@ extension Macie2ClientTypes {
             domainDetails: Macie2ClientTypes.DomainDetails? = nil,
             ipAddressDetails: Macie2ClientTypes.IpAddressDetails? = nil,
             userIdentity: Macie2ClientTypes.UserIdentity? = nil
-        )
-        {
+        ) {
             self.domainDetails = domainDetails
             self.ipAddressDetails = ipAddressDetails
             self.userIdentity = userIdentity
@@ -2311,8 +2262,7 @@ extension Macie2ClientTypes {
         public init(
             action: Macie2ClientTypes.FindingAction? = nil,
             actor: Macie2ClientTypes.FindingActor? = nil
-        )
-        {
+        ) {
             self.action = action
             self.actor = actor
         }
@@ -2370,8 +2320,7 @@ extension Macie2ClientTypes {
         public init(
             encryptionType: Macie2ClientTypes.EncryptionType? = nil,
             kmsMasterKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.kmsMasterKeyId = kmsMasterKeyId
         }
@@ -2390,8 +2339,7 @@ extension Macie2ClientTypes {
         public init(
             displayName: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.id = id
         }
@@ -2400,7 +2348,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides information about the S3 bucket that a finding applies to.
+    /// Provides information about the S3 bucket that a finding applies to. If a quota prevented Amazon Macie from retrieving and processing all the bucket's information prior to generating the finding, the following values are UNKNOWN or null: allowsUnencryptedObjectUploads, defaultServerSideEncryption, publicAccess, and tags.
     public struct S3Bucket: Swift.Sendable {
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are added to the bucket. Possible values are:
         ///
@@ -2437,8 +2385,7 @@ extension Macie2ClientTypes {
             owner: Macie2ClientTypes.S3BucketOwner? = nil,
             publicAccess: Macie2ClientTypes.BucketPublicAccess? = nil,
             tags: [Macie2ClientTypes.KeyValuePair]? = nil
-        )
-        {
+        ) {
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.arn = arn
             self.createdAt = createdAt
@@ -2544,8 +2491,7 @@ extension Macie2ClientTypes {
             storageClass: Macie2ClientTypes.StorageClass? = nil,
             tags: [Macie2ClientTypes.KeyValuePair]? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
             self.eTag = eTag
             self.`extension` = `extension`
@@ -2574,8 +2520,7 @@ extension Macie2ClientTypes {
         public init(
             s3Bucket: Macie2ClientTypes.S3Bucket? = nil,
             s3Object: Macie2ClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Object = s3Object
         }
@@ -2627,8 +2572,7 @@ extension Macie2ClientTypes {
         public init(
             description: Macie2ClientTypes.SeverityDescription? = nil,
             score: Swift.Int? = nil
-        )
-        {
+        ) {
             self.description = description
             self.score = score
         }
@@ -2637,7 +2581,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// The type of finding. For details about each type, see [Types of Amazon Macie findings](https://docs.aws.amazon.com/macie/latest/user/findings-types.html) in the Amazon Macie User Guide. Possible values are:
+    /// The type of finding. For details about each type, see [Types of findings](https://docs.aws.amazon.com/macie/latest/user/findings-types.html) in the Amazon Macie User Guide. Possible values are:
     public enum FindingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyIamuserS3blockpublicaccessdisabled
         case policyIamuserS3bucketencryptiondisabled
@@ -2752,8 +2696,7 @@ extension Macie2ClientTypes {
             title: Swift.String? = nil,
             type: Macie2ClientTypes.FindingType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.archived = archived
             self.category = category
@@ -2827,8 +2770,7 @@ extension Macie2ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.arn = arn
             self.id = id
@@ -2850,8 +2792,7 @@ extension Macie2ClientTypes {
         public init(
             count: Swift.Int? = nil,
             groupKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.groupKey = groupKey
         }
@@ -2930,8 +2871,7 @@ extension Macie2ClientTypes {
             invitationId: Swift.String? = nil,
             invitedAt: Foundation.Date? = nil,
             relationshipStatus: Macie2ClientTypes.RelationshipStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.invitationId = invitationId
             self.invitedAt = invitedAt
@@ -3010,8 +2950,7 @@ extension Macie2ClientTypes {
             comparator: Macie2ClientTypes.JobComparator? = nil,
             key: Macie2ClientTypes.ScopeFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.values = values
@@ -3031,8 +2970,7 @@ extension Macie2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3084,8 +3022,7 @@ extension Macie2ClientTypes {
             key: Swift.String? = nil,
             tagValues: [Macie2ClientTypes.TagValuePair]? = nil,
             target: Macie2ClientTypes.TagTarget? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.tagValues = tagValues
@@ -3106,8 +3043,7 @@ extension Macie2ClientTypes {
         public init(
             simpleScopeTerm: Macie2ClientTypes.SimpleScopeTerm? = nil,
             tagScopeTerm: Macie2ClientTypes.TagScopeTerm? = nil
-        )
-        {
+        ) {
             self.simpleScopeTerm = simpleScopeTerm
             self.tagScopeTerm = tagScopeTerm
         }
@@ -3123,8 +3059,7 @@ extension Macie2ClientTypes {
 
         public init(
             and: [Macie2ClientTypes.CriteriaForJob]? = nil
-        )
-        {
+        ) {
             self.and = and
         }
     }
@@ -3142,8 +3077,7 @@ extension Macie2ClientTypes {
         public init(
             excludes: Macie2ClientTypes.CriteriaBlockForJob? = nil,
             includes: Macie2ClientTypes.CriteriaBlockForJob? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
             self.includes = includes
         }
@@ -3164,8 +3098,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             buckets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.buckets = buckets
         }
@@ -3287,8 +3220,7 @@ extension Macie2ClientTypes {
 
         public init(
             code: Macie2ClientTypes.LastRunErrorStatusCode? = nil
-        )
-        {
+        ) {
             self.code = code
         }
     }
@@ -3309,8 +3241,7 @@ extension Macie2ClientTypes {
             jobExpiresAt: Foundation.Date? = nil,
             jobImminentExpirationHealthEventArn: Swift.String? = nil,
             jobPausedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobExpiresAt = jobExpiresAt
             self.jobImminentExpirationHealthEventArn = jobImminentExpirationHealthEventArn
             self.jobPausedAt = jobPausedAt
@@ -3367,8 +3298,7 @@ extension Macie2ClientTypes {
             lastRunErrorStatus: Macie2ClientTypes.LastRunErrorStatus? = nil,
             name: Swift.String? = nil,
             userPausedDetails: Macie2ClientTypes.UserPausedDetails? = nil
-        )
-        {
+        ) {
             self.bucketCriteria = bucketCriteria
             self.bucketDefinitions = bucketDefinitions
             self.createdAt = createdAt
@@ -3433,8 +3363,7 @@ extension Macie2ClientTypes {
             comparator: Macie2ClientTypes.JobComparator? = nil,
             key: Macie2ClientTypes.ListJobsFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.values = values
@@ -3454,8 +3383,7 @@ extension Macie2ClientTypes {
         public init(
             category: Macie2ClientTypes.SensitiveDataItemCategory? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.id = id
         }
@@ -3464,7 +3392,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error occurs when Macie attempts to retrieve and process information about the bucket or the bucket's objects, the value for most of these properties is null. Key exceptions are accountId and bucketName. To identify the cause of the error, refer to the errorCode and errorMessage values.
+    /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error or issue prevents Macie from retrieving and processing information about the bucket or the bucket's objects, the value for many of these properties is null. Key exceptions are accountId and bucketName. To identify the cause, refer to the errorCode and errorMessage values.
     public struct MatchingBucket: Swift.Sendable {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
@@ -3476,19 +3404,26 @@ extension Macie2ClientTypes {
         public var classifiableObjectCount: Swift.Int?
         /// The total storage size, in bytes, of the objects that Amazon Macie can analyze in the bucket. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for the bucket, Macie calculates this value based on the size of the latest version of each applicable object in the bucket. This value doesn't reflect the storage size of all versions of each applicable object in the bucket.
         public var classifiableSizeInBytes: Swift.Int?
-        /// The error code for an error that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. If this value is ACCESS_DENIED, Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request. If this value is null, Macie was able to retrieve and process the information.
+        /// The code for an error or issue that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. Possible values are:
+        ///
+        /// * ACCESS_DENIED - Macie doesn't have permission to retrieve the information. For example, the bucket has a restrictive bucket policy and Amazon S3 denied the request.
+        ///
+        /// * BUCKET_COUNT_EXCEEDS_QUOTA - Retrieving and processing the information would exceed the quota for the number of buckets that Macie monitors for an account (10,000).
+        ///
+        ///
+        /// If this value is null, Macie was able to retrieve and process the information.
         public var errorCode: Macie2ClientTypes.BucketMetadataErrorCode?
-        /// A brief description of the error (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
+        /// A brief description of the error or issue (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
         public var errorMessage: Swift.String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if this analysis hasn't occurred.
         public var lastAutomatedDiscoveryTime: Foundation.Date?
         /// The total number of objects in the bucket.
         public var objectCount: Swift.Int?
         /// The total number of objects in the bucket, grouped by server-side encryption type. This includes a grouping that reports the total number of objects that aren't encrypted or use client-side encryption.
         public var objectCountByEncryptionType: Macie2ClientTypes.ObjectCountByEncryptionType?
-        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it's been disabled for your organization or standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it's been excluded from recent analyses.
         public var sensitivityScore: Swift.Int?
         /// The total storage size, in bytes, of the bucket. If versioning is enabled for the bucket, Amazon Macie calculates this value based on the size of the latest version of each object in the bucket. This value doesn't reflect the storage size of all versions of each object in the bucket.
         public var sizeInBytes: Swift.Int?
@@ -3516,8 +3451,7 @@ extension Macie2ClientTypes {
             sizeInBytesCompressed: Swift.Int? = nil,
             unclassifiableObjectCount: Macie2ClientTypes.ObjectLevelStatistics? = nil,
             unclassifiableObjectSizeInBytes: Macie2ClientTypes.ObjectLevelStatistics? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.automatedDiscoveryMonitoringStatus = automatedDiscoveryMonitoringStatus
             self.bucketName = bucketName
@@ -3542,13 +3476,12 @@ extension Macie2ClientTypes {
 
     /// Provides statistical data and other information about an Amazon Web Services resource that Amazon Macie monitors and analyzes for your account.
     public struct MatchingResource: Swift.Sendable {
-        /// The details of an S3 bucket that Amazon Macie monitors and analyzes.
+        /// The details of an S3 bucket that Amazon Macie monitors and analyzes for your account.
         public var matchingBucket: Macie2ClientTypes.MatchingBucket?
 
         public init(
             matchingBucket: Macie2ClientTypes.MatchingBucket? = nil
-        )
-        {
+        ) {
             self.matchingBucket = matchingBucket
         }
     }
@@ -3587,8 +3520,7 @@ extension Macie2ClientTypes {
             relationshipStatus: Macie2ClientTypes.RelationshipStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.administratorAccountId = administratorAccountId
             self.arn = arn
@@ -3625,8 +3557,7 @@ extension Macie2ClientTypes {
             arn: Swift.String? = nil,
             classificationResultStatus: Swift.String? = nil,
             sensitive: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.classificationResultStatus = classificationResultStatus
             self.sensitive = sensitive
@@ -3731,8 +3662,7 @@ extension Macie2ClientTypes {
             comparator: Macie2ClientTypes.SearchResourcesComparator? = nil,
             key: Macie2ClientTypes.SearchResourcesSimpleCriterionKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.values = values
@@ -3752,8 +3682,7 @@ extension Macie2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3772,8 +3701,7 @@ extension Macie2ClientTypes {
         public init(
             comparator: Macie2ClientTypes.SearchResourcesComparator? = nil,
             tagValues: [Macie2ClientTypes.SearchResourcesTagCriterionPair]? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.tagValues = tagValues
         }
@@ -3792,8 +3720,7 @@ extension Macie2ClientTypes {
         public init(
             simpleCriterion: Macie2ClientTypes.SearchResourcesSimpleCriterion? = nil,
             tagCriterion: Macie2ClientTypes.SearchResourcesTagCriterion? = nil
-        )
-        {
+        ) {
             self.simpleCriterion = simpleCriterion
             self.tagCriterion = tagCriterion
         }
@@ -3812,8 +3739,7 @@ extension Macie2ClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -3822,9 +3748,9 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to start excluding or including in an S3 bucket's sensitivity score.
+    /// Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to exclude from an S3 bucket's sensitivity score.
     public struct SuppressDataIdentifier: Swift.Sendable {
-        /// The unique identifier for the custom data identifier or managed data identifier that detected the type of sensitive data to exclude or include in the score.
+        /// The unique identifier for the custom data identifier or managed data identifier that detected the type of sensitive data to exclude from the score.
         public var id: Swift.String?
         /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
         public var type: Macie2ClientTypes.DataIdentifierType?
@@ -3832,8 +3758,7 @@ extension Macie2ClientTypes {
         public init(
             id: Swift.String? = nil,
             type: Macie2ClientTypes.DataIdentifierType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -3942,8 +3867,7 @@ extension Macie2ClientTypes {
             accountId: Swift.String? = nil,
             errorCode: Macie2ClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4019,8 +3943,7 @@ extension Macie2ClientTypes {
             isServiceLimited: Swift.Bool? = nil,
             unit: Macie2ClientTypes.Unit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.isServiceLimited = isServiceLimited
             self.unit = unit
             self.value = value
@@ -4082,8 +4005,7 @@ extension Macie2ClientTypes {
             estimatedCost: Swift.String? = nil,
             serviceLimit: Macie2ClientTypes.ServiceLimit? = nil,
             type: Macie2ClientTypes.UsageType? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.estimatedCost = estimatedCost
             self.serviceLimit = serviceLimit
@@ -4110,8 +4032,7 @@ extension Macie2ClientTypes {
             automatedDiscoveryFreeTrialStartDate: Foundation.Date? = nil,
             freeTrialStartDate: Foundation.Date? = nil,
             usage: [Macie2ClientTypes.UsageByAccount]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.automatedDiscoveryFreeTrialStartDate = automatedDiscoveryFreeTrialStartDate
             self.freeTrialStartDate = freeTrialStartDate
@@ -4224,8 +4145,7 @@ extension Macie2ClientTypes {
             comparator: Macie2ClientTypes.UsageStatisticsFilterComparator? = nil,
             key: Macie2ClientTypes.UsageStatisticsFilterKey? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.values = values
@@ -4248,8 +4168,7 @@ extension Macie2ClientTypes {
             currency: Macie2ClientTypes.Currency? = nil,
             estimatedCost: Swift.String? = nil,
             type: Macie2ClientTypes.UsageType? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.estimatedCost = estimatedCost
             self.type = type
@@ -4258,9 +4177,9 @@ extension Macie2ClientTypes {
 }
 
 /// Provides information about an error that occurred due to insufficient access to a specified resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The explanation of the error that occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4276,16 +4195,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provides information about an error that occurred due to a versioning conflict for a specified resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The explanation of the error that occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4301,16 +4219,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The explanation of the error that occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4326,16 +4243,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provides information about an error that occurred because a specified resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The explanation of the error that occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4351,16 +4267,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provides information about an error that occurred due to one or more service quotas for an account.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The explanation of the error that occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4376,16 +4291,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provides information about an error that occurred because too many requests were sent during a certain amount of time.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The explanation of the error that occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4401,16 +4315,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provides information about an error that occurred due to a syntax error in a request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The explanation of the error that occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4426,8 +4339,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4445,8 +4357,7 @@ public struct AcceptInvitationInput: Swift.Sendable {
         administratorAccountId: Swift.String? = nil,
         invitationId: Swift.String? = nil,
         masterAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.administratorAccountId = administratorAccountId
         self.invitationId = invitationId
         self.masterAccount = masterAccount
@@ -4472,8 +4383,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             email: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.email = email
         }
@@ -4494,8 +4404,7 @@ extension Macie2ClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -4514,8 +4423,7 @@ extension Macie2ClientTypes {
         public init(
             regex: Swift.String? = nil,
             s3WordsList: Macie2ClientTypes.S3WordsList? = nil
-        )
-        {
+        ) {
             self.regex = regex
             self.s3WordsList = s3WordsList
         }
@@ -4599,8 +4507,7 @@ extension Macie2ClientTypes {
         public init(
             code: Macie2ClientTypes.AllowListStatusCode? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.description = description
         }
@@ -4706,8 +4613,7 @@ public struct BatchGetCustomDataIdentifiersInput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -4721,8 +4627,7 @@ public struct BatchGetCustomDataIdentifiersOutput: Swift.Sendable {
     public init(
         customDataIdentifiers: [Macie2ClientTypes.BatchGetCustomDataIdentifierSummary]? = nil,
         notFoundIdentifierIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.customDataIdentifiers = customDataIdentifiers
         self.notFoundIdentifierIds = notFoundIdentifierIds
     }
@@ -4734,8 +4639,7 @@ public struct BatchUpdateAutomatedDiscoveryAccountsInput: Swift.Sendable {
 
     public init(
         accounts: [Macie2ClientTypes.AutomatedDiscoveryAccountUpdate]? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
     }
 }
@@ -4746,8 +4650,7 @@ public struct BatchUpdateAutomatedDiscoveryAccountsOutput: Swift.Sendable {
 
     public init(
         errors: [Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -4762,7 +4665,7 @@ extension Macie2ClientTypes {
         public var publiclyReadable: Swift.Int?
         /// The total number of buckets that allow the general public to have write access to the bucket.
         public var publiclyWritable: Swift.Int?
-        /// The total number of buckets that Amazon Macie wasn't able to evaluate permissions settings for. Macie can't determine whether these buckets are publicly accessible.
+        /// The total number of buckets that Amazon Macie wasn't able to evaluate permissions settings for. For example, the buckets' policies or a quota prevented Macie from retrieving the requisite data. Macie can't determine whether the buckets are publicly accessible.
         public var unknown: Swift.Int?
 
         public init(
@@ -4770,8 +4673,7 @@ extension Macie2ClientTypes {
             publiclyReadable: Swift.Int? = nil,
             publiclyWritable: Swift.Int? = nil,
             unknown: Swift.Int? = nil
-        )
-        {
+        ) {
             self.publiclyAccessible = publiclyAccessible
             self.publiclyReadable = publiclyReadable
             self.publiclyWritable = publiclyWritable
@@ -4790,7 +4692,7 @@ extension Macie2ClientTypes {
         public var s3Managed: Swift.Int?
         /// The total number of buckets that don't specify default server-side encryption behavior for new objects. Default encryption settings aren't configured for these buckets.
         public var unencrypted: Swift.Int?
-        /// The total number of buckets that Amazon Macie doesn't have current encryption metadata for. Macie can't provide current data about the default encryption settings for these buckets.
+        /// The total number of buckets that Amazon Macie doesn't have current encryption metadata for. For example, the buckets' permissions settings or a quota prevented Macie from retrieving the default encryption settings for the buckets.
         public var unknown: Swift.Int?
 
         public init(
@@ -4798,8 +4700,7 @@ extension Macie2ClientTypes {
             s3Managed: Swift.Int? = nil,
             unencrypted: Swift.Int? = nil,
             unknown: Swift.Int? = nil
-        )
-        {
+        ) {
             self.kmsManaged = kmsManaged
             self.s3Managed = s3Managed
             self.unencrypted = unencrypted
@@ -4818,7 +4719,7 @@ extension Macie2ClientTypes {
         public var `internal`: Swift.Int?
         /// The total number of buckets that aren't shared with other Amazon Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
         public var notShared: Swift.Int?
-        /// The total number of buckets that Amazon Macie wasn't able to evaluate shared access settings for. Macie can't determine whether these buckets are shared with other Amazon Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
+        /// The total number of buckets that Amazon Macie wasn't able to evaluate shared access settings for. For example, the buckets' permissions settings or a quota prevented Macie from retrieving the requisite data. Macie can't determine whether the buckets are shared with other Amazon Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
         public var unknown: Swift.Int?
 
         public init(
@@ -4826,8 +4727,7 @@ extension Macie2ClientTypes {
             `internal`: Swift.Int? = nil,
             notShared: Swift.Int? = nil,
             unknown: Swift.Int? = nil
-        )
-        {
+        ) {
             self.external = external
             self.`internal` = `internal`
             self.notShared = notShared
@@ -4844,15 +4744,14 @@ extension Macie2ClientTypes {
         public var allowsUnencryptedObjectUploads: Swift.Int?
         /// The total number of buckets whose bucket policies require server-side encryption of new objects. PutObject requests for these buckets must include a valid server-side encryption header: the x-amz-server-side-encryption header with a value of AES256 or aws:kms, or the x-amz-server-side-encryption-customer-algorithm header with a value of AES256.
         public var deniesUnencryptedObjectUploads: Swift.Int?
-        /// The total number of buckets that Amazon Macie wasn't able to evaluate server-side encryption requirements for. Macie can't determine whether the bucket policies for these buckets require server-side encryption of new objects.
+        /// The total number of buckets that Amazon Macie wasn't able to evaluate server-side encryption requirements for. For example, the buckets' permissions settings or a quota prevented Macie from retrieving the requisite data. Macie can't determine whether bucket policies for the buckets require server-side encryption of new objects.
         public var unknown: Swift.Int?
 
         public init(
             allowsUnencryptedObjectUploads: Swift.Int? = nil,
             deniesUnencryptedObjectUploads: Swift.Int? = nil,
             unknown: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.deniesUnencryptedObjectUploads = deniesUnencryptedObjectUploads
             self.unknown = unknown
@@ -4887,8 +4786,7 @@ extension Macie2ClientTypes {
             lte: Swift.Int? = nil,
             neq: [Swift.String]? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.eq = eq
             self.gt = gt
             self.gte = gte
@@ -4941,8 +4839,7 @@ extension Macie2ClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             orderBy: Macie2ClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -4951,7 +4848,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets. Each field contains aggregated data for all the buckets that have a sensitivity score (sensitivityScore) of a specified value or within a specified range (BucketStatisticsBySensitivity). If automated sensitive data discovery is currently disabled for your account, the value for each field is 0.
+    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets. Each field contains aggregated data for all the buckets that have a sensitivity score (sensitivityScore) of a specified value or within a specified range (BucketStatisticsBySensitivity). If automated sensitive data discovery is currently disabled for your account, the value for most fields is 0.
     public struct SensitivityAggregations: Swift.Sendable {
         /// The total storage size, in bytes, of all the objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each applicable object in the buckets. This value doesn't reflect the storage size of all versions of all applicable objects in the buckets.
         public var classifiableSizeInBytes: Swift.Int?
@@ -4967,8 +4864,7 @@ extension Macie2ClientTypes {
             publiclyAccessibleCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil,
             totalSizeInBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.classifiableSizeInBytes = classifiableSizeInBytes
             self.publiclyAccessibleCount = publiclyAccessibleCount
             self.totalCount = totalCount
@@ -4979,7 +4875,7 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets, grouped by bucket sensitivity score (sensitivityScore). If automated sensitive data discovery is currently disabled for your account, the value for each metric is 0.
+    /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets, grouped by bucket sensitivity score (sensitivityScore). If automated sensitive data discovery is currently disabled for your account, the value for most of these metrics is 0.
     public struct BucketStatisticsBySensitivity: Swift.Sendable {
         /// The aggregated statistical data for all buckets that have a sensitivity score of -1.
         public var classificationError: Macie2ClientTypes.SensitivityAggregations?
@@ -4995,8 +4891,7 @@ extension Macie2ClientTypes {
             notClassified: Macie2ClientTypes.SensitivityAggregations? = nil,
             notSensitive: Macie2ClientTypes.SensitivityAggregations? = nil,
             sensitive: Macie2ClientTypes.SensitivityAggregations? = nil
-        )
-        {
+        ) {
             self.classificationError = classificationError
             self.notClassified = notClassified
             self.notSensitive = notSensitive
@@ -5022,8 +4917,7 @@ extension Macie2ClientTypes {
             bucketName: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.keyPrefix = keyPrefix
             self.kmsKeyArn = kmsKeyArn
@@ -5040,8 +4934,7 @@ extension Macie2ClientTypes {
 
         public init(
             s3Destination: Macie2ClientTypes.S3Destination? = nil
-        )
-        {
+        ) {
             self.s3Destination = s3Destination
         }
     }
@@ -5101,8 +4994,7 @@ public struct CreateAllowListInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.criteria = criteria
         self.description = description
@@ -5120,8 +5012,7 @@ public struct CreateAllowListOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -5175,8 +5066,7 @@ extension Macie2ClientTypes {
 
         public init(
             and: [Macie2ClientTypes.JobScopeTerm]? = nil
-        )
-        {
+        ) {
             self.and = and
         }
     }
@@ -5194,8 +5084,7 @@ extension Macie2ClientTypes {
         public init(
             excludes: Macie2ClientTypes.JobScopingBlock? = nil,
             includes: Macie2ClientTypes.JobScopingBlock? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
             self.includes = includes
         }
@@ -5217,8 +5106,7 @@ extension Macie2ClientTypes {
             bucketCriteria: Macie2ClientTypes.S3BucketCriteriaForJob? = nil,
             bucketDefinitions: [Macie2ClientTypes.S3BucketDefinitionForJob]? = nil,
             scoping: Macie2ClientTypes.Scoping? = nil
-        )
-        {
+        ) {
             self.bucketCriteria = bucketCriteria
             self.bucketDefinitions = bucketDefinitions
             self.scoping = scoping
@@ -5244,8 +5132,7 @@ extension Macie2ClientTypes {
 
         public init(
             dayOfMonth: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dayOfMonth = dayOfMonth
         }
     }
@@ -5304,8 +5191,7 @@ extension Macie2ClientTypes {
 
         public init(
             dayOfWeek: Macie2ClientTypes.DayOfWeek? = nil
-        )
-        {
+        ) {
             self.dayOfWeek = dayOfWeek
         }
     }
@@ -5326,8 +5212,7 @@ extension Macie2ClientTypes {
             dailySchedule: Macie2ClientTypes.DailySchedule? = nil,
             monthlySchedule: Macie2ClientTypes.MonthlySchedule? = nil,
             weeklySchedule: Macie2ClientTypes.WeeklySchedule? = nil
-        )
-        {
+        ) {
             self.dailySchedule = dailySchedule
             self.monthlySchedule = monthlySchedule
             self.weeklySchedule = weeklySchedule
@@ -5398,8 +5283,7 @@ public struct CreateClassificationJobInput: Swift.Sendable {
         samplingPercentage: Swift.Int? = nil,
         scheduleFrequency: Macie2ClientTypes.JobScheduleFrequency? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowListIds = allowListIds
         self.clientToken = clientToken
         self.customDataIdentifierIds = customDataIdentifierIds
@@ -5425,8 +5309,7 @@ public struct CreateClassificationJobOutput: Swift.Sendable {
     public init(
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
     }
@@ -5479,8 +5362,7 @@ extension Macie2ClientTypes {
         public init(
             occurrencesThreshold: Swift.Int? = nil,
             severity: Macie2ClientTypes.DataIdentifierSeverity? = nil
-        )
-        {
+        ) {
             self.occurrencesThreshold = occurrencesThreshold
             self.severity = severity
         }
@@ -5519,8 +5401,7 @@ public struct CreateCustomDataIdentifierInput: Swift.Sendable {
         regex: Swift.String? = nil,
         severityLevels: [Macie2ClientTypes.SeverityLevel]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.ignoreWords = ignoreWords
@@ -5539,8 +5420,7 @@ public struct CreateCustomDataIdentifierOutput: Swift.Sendable {
 
     public init(
         customDataIdentifierId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDataIdentifierId = customDataIdentifierId
     }
 }
@@ -5572,8 +5452,7 @@ extension Macie2ClientTypes {
             lt: Swift.Int? = nil,
             lte: Swift.Int? = nil,
             neq: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.eq = eq
             self.eqExactMatch = eqExactMatch
             self.gt = gt
@@ -5594,8 +5473,7 @@ extension Macie2ClientTypes {
 
         public init(
             criterion: [Swift.String: Macie2ClientTypes.CriterionAdditionalProperties]? = nil
-        )
-        {
+        ) {
             self.criterion = criterion
         }
     }
@@ -5628,8 +5506,7 @@ public struct CreateFindingsFilterInput: Swift.Sendable {
         name: Swift.String? = nil,
         position: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.description = description
@@ -5649,8 +5526,7 @@ public struct CreateFindingsFilterOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -5669,8 +5545,7 @@ public struct CreateInvitationsInput: Swift.Sendable {
         accountIds: [Swift.String]? = nil,
         disableEmailNotification: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.disableEmailNotification = disableEmailNotification
         self.message = message
@@ -5683,8 +5558,7 @@ public struct CreateInvitationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -5699,8 +5573,7 @@ public struct CreateMemberInput: Swift.Sendable {
     public init(
         account: Macie2ClientTypes.AccountDetail? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.account = account
         self.tags = tags
     }
@@ -5712,8 +5585,7 @@ public struct CreateMemberOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -5724,8 +5596,7 @@ public struct CreateSampleFindingsInput: Swift.Sendable {
 
     public init(
         findingTypes: [Macie2ClientTypes.FindingType]? = nil
-    )
-    {
+    ) {
         self.findingTypes = findingTypes
     }
 }
@@ -5742,8 +5613,7 @@ public struct DeclineInvitationsInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -5754,8 +5624,7 @@ public struct DeclineInvitationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -5770,8 +5639,7 @@ public struct DeleteAllowListInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         ignoreJobChecks: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.ignoreJobChecks = ignoreJobChecks
     }
@@ -5789,8 +5657,7 @@ public struct DeleteCustomDataIdentifierInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5807,8 +5674,7 @@ public struct DeleteFindingsFilterInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5825,8 +5691,7 @@ public struct DeleteInvitationsInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -5837,8 +5702,7 @@ public struct DeleteInvitationsOutput: Swift.Sendable {
 
     public init(
         unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]? = nil
-    )
-    {
+    ) {
         self.unprocessedAccounts = unprocessedAccounts
     }
 }
@@ -5850,8 +5714,7 @@ public struct DeleteMemberInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5876,8 +5739,7 @@ public struct DescribeBucketsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: Macie2ClientTypes.BucketSortCriteria? = nil
-    )
-    {
+    ) {
         self.criteria = criteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5894,8 +5756,7 @@ public struct DescribeBucketsOutput: Swift.Sendable {
     public init(
         buckets: [Macie2ClientTypes.BucketMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.buckets = buckets
         self.nextToken = nextToken
     }
@@ -5908,8 +5769,7 @@ public struct DescribeClassificationJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5926,8 +5786,7 @@ extension Macie2ClientTypes {
         public init(
             approximateNumberOfObjectsToProcess: Swift.Double? = nil,
             numberOfRuns: Swift.Double? = nil
-        )
-        {
+        ) {
             self.approximateNumberOfObjectsToProcess = approximateNumberOfObjectsToProcess
             self.numberOfRuns = numberOfRuns
         }
@@ -6029,8 +5888,7 @@ public struct DescribeClassificationJobOutput: Swift.Sendable {
         statistics: Macie2ClientTypes.Statistics? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         userPausedDetails: Macie2ClientTypes.UserPausedDetails? = nil
-    )
-    {
+    ) {
         self.allowListIds = allowListIds
         self.clientToken = clientToken
         self.createdAt = createdAt
@@ -6069,8 +5927,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Sendable {
     public init(
         autoEnable: Swift.Bool? = nil,
         maxAccountLimitReached: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
         self.maxAccountLimitReached = maxAccountLimitReached
     }
@@ -6093,8 +5950,7 @@ public struct DisableOrganizationAdminAccountInput: Swift.Sendable {
 
     public init(
         adminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
     }
 }
@@ -6131,8 +5987,7 @@ public struct DisassociateMemberInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6217,8 +6072,7 @@ public struct EnableMacieInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         findingPublishingFrequency: Macie2ClientTypes.FindingPublishingFrequency? = nil,
         status: Macie2ClientTypes.MacieStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.findingPublishingFrequency = findingPublishingFrequency
         self.status = status
@@ -6240,8 +6094,7 @@ public struct EnableOrganizationAdminAccountInput: Swift.Sendable {
     public init(
         adminAccountId: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccountId = adminAccountId
         self.clientToken = clientToken
     }
@@ -6294,8 +6147,7 @@ extension Macie2ClientTypes {
         public init(
             attributeName: Macie2ClientTypes.FindingStatisticsSortAttributeName? = nil,
             orderBy: Macie2ClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -6313,8 +6165,7 @@ public struct GetAdministratorAccountOutput: Swift.Sendable {
 
     public init(
         administrator: Macie2ClientTypes.Invitation? = nil
-    )
-    {
+    ) {
         self.administrator = administrator
     }
 }
@@ -6326,8 +6177,7 @@ public struct GetAllowListInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6362,8 +6212,7 @@ public struct GetAllowListOutput: Swift.Sendable {
         status: Macie2ClientTypes.AllowListStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.criteria = criteria
@@ -6405,8 +6254,7 @@ public struct GetAutomatedDiscoveryConfigurationOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         sensitivityInspectionTemplateId: Swift.String? = nil,
         status: Macie2ClientTypes.AutomatedDiscoveryStatus? = nil
-    )
-    {
+    ) {
         self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.classificationScopeId = classificationScopeId
         self.disabledAt = disabledAt
@@ -6423,8 +6271,7 @@ public struct GetBucketStatisticsInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -6440,7 +6287,7 @@ public struct GetBucketStatisticsOutput: Swift.Sendable {
     public var bucketCountByObjectEncryptionRequirement: Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads?
     /// The total number of buckets that are or aren't shared with other Amazon Web Services accounts, Amazon CloudFront origin access identities (OAIs), or CloudFront origin access controls (OACs).
     public var bucketCountBySharedAccessType: Macie2ClientTypes.BucketCountBySharedAccessType?
-    /// The aggregated sensitive data discovery statistics for the buckets. If automated sensitive data discovery is currently disabled for your account, the value for each statistic is 0.
+    /// The aggregated sensitive data discovery statistics for the buckets. If automated sensitive data discovery is currently disabled for your account, the value for most statistics is 0.
     public var bucketStatisticsBySensitivity: Macie2ClientTypes.BucketStatisticsBySensitivity?
     /// The total number of objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format.
     public var classifiableObjectCount: Swift.Int?
@@ -6474,8 +6321,7 @@ public struct GetBucketStatisticsOutput: Swift.Sendable {
         sizeInBytesCompressed: Swift.Int? = nil,
         unclassifiableObjectCount: Macie2ClientTypes.ObjectLevelStatistics? = nil,
         unclassifiableObjectSizeInBytes: Macie2ClientTypes.ObjectLevelStatistics? = nil
-    )
-    {
+    ) {
         self.bucketCount = bucketCount
         self.bucketCountByEffectivePermission = bucketCountByEffectivePermission
         self.bucketCountByEncryptionType = bucketCountByEncryptionType
@@ -6504,8 +6350,7 @@ public struct GetClassificationExportConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: Macie2ClientTypes.ClassificationExportConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -6517,8 +6362,7 @@ public struct GetClassificationScopeInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6533,8 +6377,7 @@ extension Macie2ClientTypes {
 
         public init(
             bucketNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.bucketNames = bucketNames
         }
     }
@@ -6550,8 +6393,7 @@ extension Macie2ClientTypes {
 
         public init(
             excludes: Macie2ClientTypes.S3ClassificationScopeExclusion? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
         }
     }
@@ -6569,8 +6411,7 @@ public struct GetClassificationScopeOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         s3: Macie2ClientTypes.S3ClassificationScope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.s3 = s3
@@ -6584,8 +6425,7 @@ public struct GetCustomDataIdentifierInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6629,8 +6469,7 @@ public struct GetCustomDataIdentifierOutput: Swift.Sendable {
         regex: Swift.String? = nil,
         severityLevels: [Macie2ClientTypes.SeverityLevel]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.deleted = deleted
@@ -6658,8 +6497,7 @@ extension Macie2ClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             orderBy: Macie2ClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -6676,8 +6514,7 @@ public struct GetFindingsInput: Swift.Sendable {
     public init(
         findingIds: [Swift.String]? = nil,
         sortCriteria: Macie2ClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.findingIds = findingIds
         self.sortCriteria = sortCriteria
     }
@@ -6689,8 +6526,7 @@ public struct GetFindingsOutput: Swift.Sendable {
 
     public init(
         findings: [Macie2ClientTypes.Finding]? = nil
-    )
-    {
+    ) {
         self.findings = findings
     }
 }
@@ -6702,8 +6538,7 @@ public struct GetFindingsFilterInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6735,8 +6570,7 @@ public struct GetFindingsFilterOutput: Swift.Sendable {
         name: Swift.String? = nil,
         position: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.description = description
@@ -6755,7 +6589,7 @@ public struct GetFindingsPublicationConfigurationInput: Swift.Sendable {
 
 extension Macie2ClientTypes {
 
-    /// Specifies configuration settings that determine which findings are published to Security Hub automatically. For information about how Macie publishes findings to Security Hub, see [Amazon Macie integration with Security Hub](https://docs.aws.amazon.com/macie/latest/user/securityhub-integration.html) in the Amazon Macie User Guide.
+    /// Specifies configuration settings that determine which findings are published to Security Hub automatically. For information about how Macie publishes findings to Security Hub, see [Evaluating findings with Security Hub](https://docs.aws.amazon.com/macie/latest/user/securityhub-integration.html) in the Amazon Macie User Guide.
     public struct SecurityHubConfiguration: Swift.Sendable {
         /// Specifies whether to publish sensitive data findings to Security Hub. If you set this value to true, Amazon Macie automatically publishes all sensitive data findings that weren't suppressed by a findings filter. The default value is false.
         /// This member is required.
@@ -6767,8 +6601,7 @@ extension Macie2ClientTypes {
         public init(
             publishClassificationFindings: Swift.Bool? = nil,
             publishPolicyFindings: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.publishClassificationFindings = publishClassificationFindings
             self.publishPolicyFindings = publishPolicyFindings
         }
@@ -6781,8 +6614,7 @@ public struct GetFindingsPublicationConfigurationOutput: Swift.Sendable {
 
     public init(
         securityHubConfiguration: Macie2ClientTypes.SecurityHubConfiguration? = nil
-    )
-    {
+    ) {
         self.securityHubConfiguration = securityHubConfiguration
     }
 }
@@ -6846,8 +6678,7 @@ public struct GetFindingStatisticsInput: Swift.Sendable {
         groupBy: Macie2ClientTypes.GroupBy? = nil,
         size: Swift.Int? = nil,
         sortCriteria: Macie2ClientTypes.FindingStatisticsSortCriteria? = nil
-    )
-    {
+    ) {
         self.findingCriteria = findingCriteria
         self.groupBy = groupBy
         self.size = size
@@ -6861,8 +6692,7 @@ public struct GetFindingStatisticsOutput: Swift.Sendable {
 
     public init(
         countsByGroup: [Macie2ClientTypes.GroupCount]? = nil
-    )
-    {
+    ) {
         self.countsByGroup = countsByGroup
     }
 }
@@ -6878,8 +6708,7 @@ public struct GetInvitationsCountOutput: Swift.Sendable {
 
     public init(
         invitationsCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.invitationsCount = invitationsCount
     }
 }
@@ -6907,8 +6736,7 @@ public struct GetMacieSessionOutput: Swift.Sendable {
         serviceRole: Swift.String? = nil,
         status: Macie2ClientTypes.MacieStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.findingPublishingFrequency = findingPublishingFrequency
         self.serviceRole = serviceRole
@@ -6928,8 +6756,7 @@ public struct GetMasterAccountOutput: Swift.Sendable {
 
     public init(
         master: Macie2ClientTypes.Invitation? = nil
-    )
-    {
+    ) {
         self.master = master
     }
 }
@@ -6941,8 +6768,7 @@ public struct GetMemberInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6977,8 +6803,7 @@ public struct GetMemberOutput: Swift.Sendable {
         relationshipStatus: Macie2ClientTypes.RelationshipStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.administratorAccountId = administratorAccountId
         self.arn = arn
@@ -6998,8 +6823,7 @@ public struct GetResourceProfileInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7037,8 +6861,7 @@ extension Macie2ClientTypes {
             totalItemsSkippedInvalidEncryption: Swift.Int? = nil,
             totalItemsSkippedInvalidKms: Swift.Int? = nil,
             totalItemsSkippedPermissionDenied: Swift.Int? = nil
-        )
-        {
+        ) {
             self.totalBytesClassified = totalBytesClassified
             self.totalDetections = totalDetections
             self.totalDetectionsSuppressed = totalDetectionsSuppressed
@@ -7067,8 +6890,7 @@ public struct GetResourceProfileOutput: Swift.Sendable {
         sensitivityScore: Swift.Int? = nil,
         sensitivityScoreOverridden: Swift.Bool? = nil,
         statistics: Macie2ClientTypes.ResourceStatistics? = nil
-    )
-    {
+    ) {
         self.profileUpdatedAt = profileUpdatedAt
         self.sensitivityScore = sensitivityScore
         self.sensitivityScoreOverridden = sensitivityScoreOverridden
@@ -7124,8 +6946,7 @@ extension Macie2ClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             status: Macie2ClientTypes.RevealStatus? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.status = status
         }
@@ -7178,8 +6999,7 @@ extension Macie2ClientTypes {
             externalId: Swift.String? = nil,
             retrievalMode: Macie2ClientTypes.RetrievalMode? = nil,
             roleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalId = externalId
             self.retrievalMode = retrievalMode
             self.roleName = roleName
@@ -7196,17 +7016,16 @@ public struct GetRevealConfigurationOutput: Swift.Sendable {
     public init(
         configuration: Macie2ClientTypes.RevealConfiguration? = nil,
         retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.retrievalConfiguration = retrievalConfiguration
     }
 }
 
 /// Provides information about an error that occurred due to an unprocessable entity.
-public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The type of error that occurred and prevented Amazon Macie from retrieving occurrences of sensitive data reported by the finding. Possible values are:
         ///
         /// * ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie.
@@ -7221,7 +7040,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
         ///
         /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
         ///
-        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
+        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that isn’t available. For example, the key is disabled, is scheduled for deletion, or was deleted.
         ///
         /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
@@ -7245,8 +7064,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7258,8 +7076,7 @@ public struct GetSensitiveDataOccurrencesInput: Swift.Sendable {
 
     public init(
         findingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingId = findingId
     }
 }
@@ -7315,8 +7132,7 @@ public struct GetSensitiveDataOccurrencesOutput: Swift.Sendable {
         error: Swift.String? = nil,
         sensitiveDataOccurrences: [Swift.String: [Macie2ClientTypes.DetectedDataDetails]]? = nil,
         status: Macie2ClientTypes.RevealRequestStatus? = nil
-    )
-    {
+    ) {
         self.error = error
         self.sensitiveDataOccurrences = sensitiveDataOccurrences
         self.status = status
@@ -7330,8 +7146,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityInput: Swift.Sendable {
 
     public init(
         findingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingId = findingId
     }
 }
@@ -7353,7 +7168,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Sendable {
     ///
     /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
     ///
-    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
+    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that isn’t available. For example, the key is disabled, is scheduled for deletion, or was deleted.
     ///
     /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
@@ -7370,8 +7185,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Sendable {
     public init(
         code: Macie2ClientTypes.AvailabilityCode? = nil,
         reasons: [Macie2ClientTypes.UnavailabilityReasonCode]? = nil
-    )
-    {
+    ) {
         self.code = code
         self.reasons = reasons
     }
@@ -7384,8 +7198,7 @@ public struct GetSensitivityInspectionTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -7399,8 +7212,7 @@ extension Macie2ClientTypes {
 
         public init(
             managedDataIdentifierIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.managedDataIdentifierIds = managedDataIdentifierIds
         }
     }
@@ -7421,8 +7233,7 @@ extension Macie2ClientTypes {
             allowListIds: [Swift.String]? = nil,
             customDataIdentifierIds: [Swift.String]? = nil,
             managedDataIdentifierIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowListIds = allowListIds
             self.customDataIdentifierIds = customDataIdentifierIds
             self.managedDataIdentifierIds = managedDataIdentifierIds
@@ -7448,8 +7259,7 @@ public struct GetSensitivityInspectionTemplateOutput: Swift.Sendable {
         includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes? = nil,
         name: Swift.String? = nil,
         sensitivityInspectionTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludes = excludes
         self.includes = includes
@@ -7506,8 +7316,7 @@ extension Macie2ClientTypes {
         public init(
             key: Macie2ClientTypes.UsageStatisticsSortKey? = nil,
             orderBy: Macie2ClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.key = key
             self.orderBy = orderBy
         }
@@ -7562,8 +7371,7 @@ public struct GetUsageStatisticsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: Macie2ClientTypes.UsageStatisticsSortBy? = nil,
         timeRange: Macie2ClientTypes.TimeRange? = nil
-    )
-    {
+    ) {
         self.filterBy = filterBy
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7584,8 +7392,7 @@ public struct GetUsageStatisticsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         records: [Macie2ClientTypes.UsageRecord]? = nil,
         timeRange: Macie2ClientTypes.TimeRange? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.records = records
         self.timeRange = timeRange
@@ -7598,8 +7405,7 @@ public struct GetUsageTotalsInput: Swift.Sendable {
 
     public init(
         timeRange: Swift.String? = nil
-    )
-    {
+    ) {
         self.timeRange = timeRange
     }
 }
@@ -7613,8 +7419,7 @@ public struct GetUsageTotalsOutput: Swift.Sendable {
     public init(
         timeRange: Macie2ClientTypes.TimeRange? = nil,
         usageTotals: [Macie2ClientTypes.UsageTotal]? = nil
-    )
-    {
+    ) {
         self.timeRange = timeRange
         self.usageTotals = usageTotals
     }
@@ -7629,8 +7434,7 @@ public struct ListAllowListsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7645,8 +7449,7 @@ public struct ListAllowListsOutput: Swift.Sendable {
     public init(
         allowLists: [Macie2ClientTypes.AllowListSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowLists = allowLists
         self.nextToken = nextToken
     }
@@ -7664,8 +7467,7 @@ public struct ListAutomatedDiscoveryAccountsInput: Swift.Sendable {
         accountIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7681,8 +7483,7 @@ public struct ListAutomatedDiscoveryAccountsOutput: Swift.Sendable {
     public init(
         items: [Macie2ClientTypes.AutomatedDiscoveryAccount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7700,8 +7501,7 @@ extension Macie2ClientTypes {
         public init(
             excludes: [Macie2ClientTypes.ListJobsFilterTerm]? = nil,
             includes: [Macie2ClientTypes.ListJobsFilterTerm]? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
             self.includes = includes
         }
@@ -7756,8 +7556,7 @@ extension Macie2ClientTypes {
         public init(
             attributeName: Macie2ClientTypes.ListJobsSortAttributeName? = nil,
             orderBy: Macie2ClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -7779,8 +7578,7 @@ public struct ListClassificationJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: Macie2ClientTypes.ListJobsSortCriteria? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7797,8 +7595,7 @@ public struct ListClassificationJobsOutput: Swift.Sendable {
     public init(
         items: [Macie2ClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7813,8 +7610,7 @@ public struct ListClassificationScopesInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.nextToken = nextToken
     }
@@ -7829,8 +7625,7 @@ public struct ListClassificationScopesOutput: Swift.Sendable {
     public init(
         classificationScopes: [Macie2ClientTypes.ClassificationScopeSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.classificationScopes = classificationScopes
         self.nextToken = nextToken
     }
@@ -7845,8 +7640,7 @@ public struct ListCustomDataIdentifiersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7861,8 +7655,7 @@ public struct ListCustomDataIdentifiersOutput: Swift.Sendable {
     public init(
         items: [Macie2ClientTypes.CustomDataIdentifierSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7883,8 +7676,7 @@ public struct ListFindingsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: Macie2ClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.findingCriteria = findingCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7901,8 +7693,7 @@ public struct ListFindingsOutput: Swift.Sendable {
     public init(
         findingIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingIds = findingIds
         self.nextToken = nextToken
     }
@@ -7917,8 +7708,7 @@ public struct ListFindingsFiltersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7933,8 +7723,7 @@ public struct ListFindingsFiltersOutput: Swift.Sendable {
     public init(
         findingsFilterListItems: [Macie2ClientTypes.FindingsFilterListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingsFilterListItems = findingsFilterListItems
         self.nextToken = nextToken
     }
@@ -7949,8 +7738,7 @@ public struct ListInvitationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7965,8 +7753,7 @@ public struct ListInvitationsOutput: Swift.Sendable {
     public init(
         invitations: [Macie2ClientTypes.Invitation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.invitations = invitations
         self.nextToken = nextToken
     }
@@ -7978,8 +7765,7 @@ public struct ListManagedDataIdentifiersInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -7993,8 +7779,7 @@ public struct ListManagedDataIdentifiersOutput: Swift.Sendable {
     public init(
         items: [Macie2ClientTypes.ManagedDataIdentifierSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -8012,8 +7797,7 @@ public struct ListMembersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         onlyAssociated: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.onlyAssociated = onlyAssociated
@@ -8029,8 +7813,7 @@ public struct ListMembersOutput: Swift.Sendable {
     public init(
         members: [Macie2ClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -8045,8 +7828,7 @@ public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8061,8 +7843,7 @@ public struct ListOrganizationAdminAccountsOutput: Swift.Sendable {
     public init(
         adminAccounts: [Macie2ClientTypes.AdminAccount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminAccounts = adminAccounts
         self.nextToken = nextToken
     }
@@ -8078,8 +7859,7 @@ public struct ListResourceProfileArtifactsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceArn = resourceArn
     }
@@ -8094,8 +7874,7 @@ public struct ListResourceProfileArtifactsOutput: Swift.Sendable {
     public init(
         artifacts: [Macie2ClientTypes.ResourceProfileArtifact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifacts = artifacts
         self.nextToken = nextToken
     }
@@ -8114,8 +7893,7 @@ public struct ListResourceProfileDetectionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -8131,8 +7909,7 @@ public struct ListResourceProfileDetectionsOutput: Swift.Sendable {
     public init(
         detections: [Macie2ClientTypes.Detection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.detections = detections
         self.nextToken = nextToken
     }
@@ -8147,8 +7924,7 @@ public struct ListSensitivityInspectionTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8163,8 +7939,7 @@ public struct ListSensitivityInspectionTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sensitivityInspectionTemplates: [Macie2ClientTypes.SensitivityInspectionTemplatesEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sensitivityInspectionTemplates = sensitivityInspectionTemplates
     }
@@ -8177,8 +7952,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -8189,8 +7963,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -8202,8 +7975,7 @@ public struct PutClassificationExportConfigurationInput: Swift.Sendable {
 
     public init(
         configuration: Macie2ClientTypes.ClassificationExportConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -8214,8 +7986,7 @@ public struct PutClassificationExportConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: Macie2ClientTypes.ClassificationExportConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -8229,8 +8000,7 @@ public struct PutFindingsPublicationConfigurationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         securityHubConfiguration: Macie2ClientTypes.SecurityHubConfiguration? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.securityHubConfiguration = securityHubConfiguration
     }
@@ -8250,8 +8020,7 @@ extension Macie2ClientTypes {
 
         public init(
             and: [Macie2ClientTypes.SearchResourcesCriteria]? = nil
-        )
-        {
+        ) {
             self.and = and
         }
     }
@@ -8269,8 +8038,7 @@ extension Macie2ClientTypes {
         public init(
             excludes: Macie2ClientTypes.SearchResourcesCriteriaBlock? = nil,
             includes: Macie2ClientTypes.SearchResourcesCriteriaBlock? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
             self.includes = includes
         }
@@ -8325,8 +8093,7 @@ extension Macie2ClientTypes {
         public init(
             attributeName: Macie2ClientTypes.SearchResourcesSortAttributeName? = nil,
             orderBy: Macie2ClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -8348,8 +8115,7 @@ public struct SearchResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: Macie2ClientTypes.SearchResourcesSortCriteria? = nil
-    )
-    {
+    ) {
         self.bucketCriteria = bucketCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8366,8 +8132,7 @@ public struct SearchResourcesOutput: Swift.Sendable {
     public init(
         matchingResources: [Macie2ClientTypes.MatchingResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.matchingResources = matchingResources
         self.nextToken = nextToken
     }
@@ -8384,8 +8149,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8416,8 +8180,7 @@ public struct TestCustomDataIdentifierInput: Swift.Sendable {
         maximumMatchDistance: Swift.Int? = nil,
         regex: Swift.String? = nil,
         sampleText: Swift.String? = nil
-    )
-    {
+    ) {
         self.ignoreWords = ignoreWords
         self.keywords = keywords
         self.maximumMatchDistance = maximumMatchDistance
@@ -8432,8 +8195,7 @@ public struct TestCustomDataIdentifierOutput: Swift.Sendable {
 
     public init(
         matchCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.matchCount = matchCount
     }
 }
@@ -8449,8 +8211,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8479,8 +8240,7 @@ public struct UpdateAllowListInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.criteria = criteria
         self.description = description
         self.id = id
@@ -8497,8 +8257,7 @@ public struct UpdateAllowListOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -8514,8 +8273,7 @@ public struct UpdateAutomatedDiscoveryConfigurationInput: Swift.Sendable {
     public init(
         autoEnableOrganizationMembers: Macie2ClientTypes.AutoEnableMode? = nil,
         status: Macie2ClientTypes.AutomatedDiscoveryStatus? = nil
-    )
-    {
+    ) {
         self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.status = status
     }
@@ -8543,8 +8301,7 @@ public struct UpdateClassificationJobInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: Macie2ClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8559,7 +8316,7 @@ extension Macie2ClientTypes {
 
     /// Specifies S3 buckets to add or remove from the exclusion list defined by the classification scope for an Amazon Macie account.
     public struct S3ClassificationScopeExclusionUpdate: Swift.Sendable {
-        /// Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an S3 bucket. Values are case sensitive.
+        /// Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an existing S3 bucket. Values are case sensitive.
         /// This member is required.
         public var bucketNames: [Swift.String]?
         /// Specifies how to apply the changes to the exclusion list. Valid values are:
@@ -8575,8 +8332,7 @@ extension Macie2ClientTypes {
         public init(
             bucketNames: [Swift.String]? = nil,
             operation: Macie2ClientTypes.ClassificationScopeUpdateOperation? = nil
-        )
-        {
+        ) {
             self.bucketNames = bucketNames
             self.operation = operation
         }
@@ -8593,8 +8349,7 @@ extension Macie2ClientTypes {
 
         public init(
             excludes: Macie2ClientTypes.S3ClassificationScopeExclusionUpdate? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
         }
     }
@@ -8610,8 +8365,7 @@ public struct UpdateClassificationScopeInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         s3: Macie2ClientTypes.S3ClassificationScopeUpdate? = nil
-    )
-    {
+    ) {
         self.id = id
         self.s3 = s3
     }
@@ -8647,8 +8401,7 @@ public struct UpdateFindingsFilterInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         position: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.description = description
@@ -8668,8 +8421,7 @@ public struct UpdateFindingsFilterOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -8684,8 +8436,7 @@ public struct UpdateMacieSessionInput: Swift.Sendable {
     public init(
         findingPublishingFrequency: Macie2ClientTypes.FindingPublishingFrequency? = nil,
         status: Macie2ClientTypes.MacieStatus? = nil
-    )
-    {
+    ) {
         self.findingPublishingFrequency = findingPublishingFrequency
         self.status = status
     }
@@ -8707,8 +8458,7 @@ public struct UpdateMemberSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         status: Macie2ClientTypes.MacieStatus? = nil
-    )
-    {
+    ) {
         self.id = id
         self.status = status
     }
@@ -8726,8 +8476,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
 
     public init(
         autoEnable: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
     }
 }
@@ -8747,8 +8496,7 @@ public struct UpdateResourceProfileInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         sensitivityScoreOverride: Swift.Int? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.sensitivityScoreOverride = sensitivityScoreOverride
     }
@@ -8763,14 +8511,13 @@ public struct UpdateResourceProfileDetectionsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// An array of objects, one for each custom data identifier or managed data identifier that detected the type of sensitive data to start excluding or including in the bucket's score. To start including all sensitive data types in the score, don't specify any values for this array.
+    /// An array of objects, one for each custom data identifier or managed data identifier that detected a type of sensitive data to exclude from the bucket's score. To include all sensitive data types in the score, don't specify any values for this array.
     public var suppressDataIdentifiers: [Macie2ClientTypes.SuppressDataIdentifier]?
 
     public init(
         resourceArn: Swift.String? = nil,
         suppressDataIdentifiers: [Macie2ClientTypes.SuppressDataIdentifier]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.suppressDataIdentifiers = suppressDataIdentifiers
     }
@@ -8783,7 +8530,7 @@ public struct UpdateResourceProfileDetectionsOutput: Swift.Sendable {
 
 extension Macie2ClientTypes {
 
-    /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options and requirements for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
+    /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
     public struct UpdateRetrievalConfiguration: Swift.Sendable {
         /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         /// This member is required.
@@ -8794,8 +8541,7 @@ extension Macie2ClientTypes {
         public init(
             retrievalMode: Macie2ClientTypes.RetrievalMode? = nil,
             roleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.retrievalMode = retrievalMode
             self.roleName = roleName
         }
@@ -8812,8 +8558,7 @@ public struct UpdateRevealConfigurationInput: Swift.Sendable {
     public init(
         configuration: Macie2ClientTypes.RevealConfiguration? = nil,
         retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.retrievalConfiguration = retrievalConfiguration
     }
@@ -8828,8 +8573,7 @@ public struct UpdateRevealConfigurationOutput: Swift.Sendable {
     public init(
         configuration: Macie2ClientTypes.RevealConfiguration? = nil,
         retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.retrievalConfiguration = retrievalConfiguration
     }
@@ -8851,8 +8595,7 @@ public struct UpdateSensitivityInspectionTemplateInput: Swift.Sendable {
         excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes? = nil,
         id: Swift.String? = nil,
         includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludes = excludes
         self.id = id

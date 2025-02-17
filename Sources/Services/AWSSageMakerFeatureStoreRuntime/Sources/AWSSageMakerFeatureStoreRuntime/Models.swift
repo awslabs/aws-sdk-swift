@@ -38,9 +38,9 @@ public struct PutRecordOutput: Swift.Sendable {
 }
 
 /// You do not have permission to perform an action.
-public struct AccessForbidden: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessForbidden: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -55,16 +55,15 @@ public struct AccessForbidden: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
-public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -79,16 +78,15 @@ public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -103,16 +101,15 @@ public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was an error validating your request.
-public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -127,8 +124,7 @@ public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -179,8 +175,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
             featureGroupName: Swift.String? = nil,
             featureNames: [Swift.String]? = nil,
             recordIdentifiersValueAsString: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.featureGroupName = featureGroupName
             self.featureNames = featureNames
             self.recordIdentifiersValueAsString = recordIdentifiersValueAsString
@@ -198,8 +193,7 @@ public struct BatchGetRecordInput: Swift.Sendable {
     public init(
         expirationTimeResponse: SageMakerFeatureStoreRuntimeClientTypes.ExpirationTimeResponse? = nil,
         identifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]? = nil
-    )
-    {
+    ) {
         self.expirationTimeResponse = expirationTimeResponse
         self.identifiers = identifiers
     }
@@ -227,8 +221,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
             errorMessage: Swift.String? = nil,
             featureGroupName: Swift.String? = nil,
             recordIdentifierValueAsString: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.featureGroupName = featureGroupName
@@ -253,8 +246,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
             featureName: Swift.String? = nil,
             valueAsString: Swift.String? = nil,
             valueAsStringList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.featureName = featureName
             self.valueAsString = valueAsString
             self.valueAsStringList = valueAsStringList
@@ -283,8 +275,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
             featureGroupName: Swift.String? = nil,
             record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
             recordIdentifierValueAsString: Swift.String? = nil
-        )
-        {
+        ) {
             self.expiresAt = expiresAt
             self.featureGroupName = featureGroupName
             self.record = record
@@ -308,8 +299,7 @@ public struct BatchGetRecordOutput: Swift.Sendable {
         errors: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError]? = nil,
         records: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail]? = nil,
         unprocessedIdentifiers: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.records = records
         self.unprocessedIdentifiers = unprocessedIdentifiers
@@ -395,8 +385,7 @@ public struct DeleteRecordInput: Swift.Sendable {
         featureGroupName: Swift.String? = nil,
         recordIdentifierValueAsString: Swift.String? = nil,
         targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
-    )
-    {
+    ) {
         self.deletionMode = deletionMode
         self.eventTime = eventTime
         self.featureGroupName = featureGroupName
@@ -406,9 +395,9 @@ public struct DeleteRecordInput: Swift.Sendable {
 }
 
 /// A resource that is required to perform an action was not found.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -423,8 +412,7 @@ public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -446,8 +434,7 @@ public struct GetRecordInput: Swift.Sendable {
         featureGroupName: Swift.String? = nil,
         featureNames: [Swift.String]? = nil,
         recordIdentifierValueAsString: Swift.String? = nil
-    )
-    {
+    ) {
         self.expirationTimeResponse = expirationTimeResponse
         self.featureGroupName = featureGroupName
         self.featureNames = featureNames
@@ -464,8 +451,7 @@ public struct GetRecordOutput: Swift.Sendable {
     public init(
         expiresAt: Swift.String? = nil,
         record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
-    )
-    {
+    ) {
         self.expiresAt = expiresAt
         self.record = record
     }
@@ -523,8 +509,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         public init(
             unit: SageMakerFeatureStoreRuntimeClientTypes.TtlDurationUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -554,8 +539,7 @@ public struct PutRecordInput: Swift.Sendable {
         record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
         targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil,
         ttlDuration: SageMakerFeatureStoreRuntimeClientTypes.TtlDuration? = nil
-    )
-    {
+    ) {
         self.featureGroupName = featureGroupName
         self.record = record
         self.targetStores = targetStores

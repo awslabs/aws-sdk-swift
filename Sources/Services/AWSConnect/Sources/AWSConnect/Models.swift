@@ -91,6 +91,11 @@ public struct DeleteHoursOfOperationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteHoursOfOperationOverrideOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteInstanceOutput: Swift.Sendable {
 
     public init() { }
@@ -236,6 +241,11 @@ public struct UpdateHoursOfOperationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateHoursOfOperationOverrideOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateInstanceAttributeOutput: Swift.Sendable {
 
     public init() { }
@@ -372,9 +382,9 @@ public struct UpdateUserSecurityProfilesOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -389,8 +399,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -452,17 +461,16 @@ extension ConnectClientTypes {
 
         public init(
             actionType: ConnectClientTypes.ActionType? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
         }
     }
 }
 
 /// Request processing failed because of an error or failure with the service.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -478,16 +486,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more of the specified parameters are not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the parameters.
         public internal(set) var message: Swift.String? = nil
     }
@@ -503,16 +510,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A resource already has that name.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -527,16 +533,15 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the resource.
         public internal(set) var message: Swift.String? = nil
     }
@@ -552,16 +557,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The throttling limit has been exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -576,8 +580,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -597,8 +600,7 @@ public struct ActivateEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -620,8 +622,7 @@ public struct ActivateEvaluationFormOutput: Swift.Sendable {
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int = 0
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
@@ -630,18 +631,17 @@ public struct ActivateEvaluationFormOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the email recipient
     public struct EmailRecipient: Swift.Sendable {
-        ///
+        /// Address of the email recipient. Type: String Length Constraints: Minimum length of 1. Maximum length of 256.
         public var address: Swift.String?
-        ///
+        /// Display name of the email recipient. Type: String Length Constraints: Minimum length of 1. Maximum length of 256.
         public var displayName: Swift.String?
 
         public init(
             address: Swift.String? = nil,
             displayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.displayName = displayName
         }
@@ -650,18 +650,17 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// List of additional email addresses for an email contact.
     public struct AdditionalEmailRecipients: Swift.Sendable {
-        ///
+        /// List of additional CC email recipients for an email contact.
         public var ccList: [ConnectClientTypes.EmailRecipient]?
-        ///
+        /// List of additional TO email recipients for an email contact.
         public var toList: [ConnectClientTypes.EmailRecipient]?
 
         public init(
             ccList: [ConnectClientTypes.EmailRecipient]? = nil,
             toList: [ConnectClientTypes.EmailRecipient]? = nil
-        )
-        {
+        ) {
             self.ccList = ccList
             self.toList = toList
         }
@@ -711,8 +710,7 @@ extension ConnectClientTypes {
         public init(
             percentage: Swift.Int = 0,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.percentage = percentage
             self.region = region
         }
@@ -729,8 +727,7 @@ extension ConnectClientTypes {
 
         public init(
             distributions: [ConnectClientTypes.Distribution]? = nil
-        )
-        {
+        ) {
             self.distributions = distributions
         }
     }
@@ -892,8 +889,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -927,8 +923,7 @@ extension ConnectClientTypes {
             initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
             queue: ConnectClientTypes.QueueReference? = nil,
             stateStartTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.agentContactState = agentContactState
             self.channel = channel
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
@@ -949,8 +944,7 @@ extension ConnectClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -977,8 +971,7 @@ extension ConnectClientTypes {
             l3Ids: [Swift.String]? = nil,
             l4Ids: [Swift.String]? = nil,
             l5Ids: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.l1Ids = l1Ids
             self.l2Ids = l2Ids
             self.l3Ids = l3Ids
@@ -1052,8 +1045,7 @@ extension ConnectClientTypes {
         public init(
             screenShare: ConnectClientTypes.ScreenShareCapability? = nil,
             video: ConnectClientTypes.VideoCapability? = nil
-        )
-        {
+        ) {
             self.screenShare = screenShare
             self.video = video
         }
@@ -1075,8 +1067,7 @@ extension ConnectClientTypes {
             operatingSystem: Swift.String? = nil,
             platformName: Swift.String? = nil,
             platformVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.operatingSystem = operatingSystem
             self.platformName = platformName
             self.platformVersion = platformVersion
@@ -1105,8 +1096,7 @@ extension ConnectClientTypes {
             level3: ConnectClientTypes.AgentHierarchyGroup? = nil,
             level4: ConnectClientTypes.AgentHierarchyGroup? = nil,
             level5: ConnectClientTypes.AgentHierarchyGroup? = nil
-        )
-        {
+        ) {
             self.level1 = level1
             self.level2 = level2
             self.level3 = level3
@@ -1140,8 +1130,7 @@ extension ConnectClientTypes {
             deviceInfo: ConnectClientTypes.DeviceInfo? = nil,
             hierarchyGroups: ConnectClientTypes.HierarchyGroups? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentPauseDurationInSeconds = agentPauseDurationInSeconds
             self.capabilities = capabilities
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
@@ -1164,8 +1153,7 @@ extension ConnectClientTypes {
         public init(
             potentialQualityIssues: [Swift.String]? = nil,
             qualityScore: Swift.Float = 0.0
-        )
-        {
+        ) {
             self.potentialQualityIssues = potentialQualityIssues
             self.qualityScore = qualityScore
         }
@@ -1181,8 +1169,7 @@ extension ConnectClientTypes {
 
         public init(
             audio: ConnectClientTypes.AudioQualityMetricsInfo? = nil
-        )
-        {
+        ) {
             self.audio = audio
         }
     }
@@ -1197,8 +1184,7 @@ extension ConnectClientTypes {
 
         public init(
             agentIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.agentIds = agentIds
         }
     }
@@ -1301,8 +1287,7 @@ extension ConnectClientTypes {
             state: ConnectClientTypes.AgentStatusState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: ConnectClientTypes.AgentStatusType? = nil
-        )
-        {
+        ) {
             self.agentStatusARN = agentStatusARN
             self.agentStatusId = agentStatusId
             self.description = description
@@ -1332,8 +1317,7 @@ extension ConnectClientTypes {
             statusArn: Swift.String? = nil,
             statusName: Swift.String? = nil,
             statusStartTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.statusArn = statusArn
             self.statusName = statusName
             self.statusStartTimestamp = statusStartTimestamp
@@ -1388,8 +1372,7 @@ extension ConnectClientTypes {
             comparisonType: ConnectClientTypes.StringComparisonType? = nil,
             fieldName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonType = comparisonType
             self.fieldName = fieldName
             self.value = value
@@ -1409,8 +1392,7 @@ extension ConnectClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -1426,8 +1408,7 @@ extension ConnectClientTypes {
 
         public init(
             tagConditions: [ConnectClientTypes.TagCondition]? = nil
-        )
-        {
+        ) {
             self.tagConditions = tagConditions
         }
     }
@@ -1452,8 +1433,7 @@ extension ConnectClientTypes {
             andCondition: ConnectClientTypes.CommonAttributeAndCondition? = nil,
             orConditions: [ConnectClientTypes.CommonAttributeAndCondition]? = nil,
             tagCondition: ConnectClientTypes.TagCondition? = nil
-        )
-        {
+        ) {
             self.andCondition = andCondition
             self.orConditions = orConditions
             self.tagCondition = tagCondition
@@ -1474,8 +1454,7 @@ extension ConnectClientTypes {
 
         public init(
             attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
-        )
-        {
+        ) {
             self.attributeFilter = attributeFilter
         }
     }
@@ -1505,8 +1484,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: ConnectClientTypes.AgentStatusType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -1529,8 +1507,7 @@ extension ConnectClientTypes {
         public init(
             agent: ConnectClientTypes.ParticipantCapabilities? = nil,
             customer: ConnectClientTypes.ParticipantCapabilities? = nil
-        )
-        {
+        ) {
             self.agent = agent
             self.customer = customer
         }
@@ -1609,9 +1586,9 @@ extension ConnectClientTypes {
 }
 
 /// The request is not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the request.
         public internal(set) var message: Swift.String? = nil
         /// Reason why the request was invalid.
@@ -1630,8 +1607,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         reason: ConnectClientTypes.InvalidRequestExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -1651,8 +1627,7 @@ public struct AssociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -1674,8 +1649,7 @@ public struct AssociateAnalyticsDataSetOutput: Swift.Sendable {
         resourceShareArn: Swift.String? = nil,
         resourceShareId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.resourceShareArn = resourceShareArn
         self.resourceShareId = resourceShareId
@@ -1714,20 +1688,20 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// The reason for the exception.
     public enum ServiceQuotaExceededExceptionReason: Swift.Sendable {
-        ///
+        /// Total file size of all files or total number of files exceeds the service quota
         case attachedfileservicequotaexceededexceptionreason(ConnectClientTypes.AttachedFileServiceQuotaExceededExceptionReason)
         case sdkUnknown(Swift.String)
     }
 }
 
 /// The service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
-        ///
+        /// The reason for the exception.
         public internal(set) var reason: ConnectClientTypes.ServiceQuotaExceededExceptionReason? = nil
     }
 
@@ -1743,14 +1717,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         reason: ConnectClientTypes.ServiceQuotaExceededExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
 }
 
 public struct AssociateApprovedOriginInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1759,19 +1734,20 @@ public struct AssociateApprovedOriginInput: Swift.Sendable {
     public var origin: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         origin: Swift.String? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.origin = origin
     }
 }
 
 /// The allowed limit for the resource has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the limit.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1787,8 +1763,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1807,8 +1782,7 @@ extension ConnectClientTypes {
         public init(
             lexRegion: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lexRegion = lexRegion
             self.name = name
         }
@@ -1824,14 +1798,15 @@ extension ConnectClientTypes {
 
         public init(
             aliasArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.aliasArn = aliasArn
         }
     }
 }
 
 public struct AssociateBotInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -1841,11 +1816,12 @@ public struct AssociateBotInput: Swift.Sendable {
     public var lexV2Bot: ConnectClientTypes.LexV2Bot?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lexBot: ConnectClientTypes.LexBot? = nil,
         lexV2Bot: ConnectClientTypes.LexV2Bot? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.lexBot = lexBot
         self.lexV2Bot = lexV2Bot
@@ -1988,8 +1964,7 @@ public struct AssociateDefaultVocabularyInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.languageCode = languageCode
         self.vocabularyId = vocabularyId
@@ -2004,16 +1979,20 @@ public struct AssociateDefaultVocabularyOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum FlowAssociationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case analyticsConnector
         case inboundEmail
         case outboundEmail
         case smsPhoneNumber
+        case whatsappMessagingPhoneNumber
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FlowAssociationResourceType] {
             return [
+                .analyticsConnector,
                 .inboundEmail,
                 .outboundEmail,
-                .smsPhoneNumber
+                .smsPhoneNumber,
+                .whatsappMessagingPhoneNumber
             ]
         }
 
@@ -2024,9 +2003,11 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .analyticsConnector: return "ANALYTICS_CONNECTOR"
             case .inboundEmail: return "INBOUND_EMAIL"
             case .outboundEmail: return "OUTBOUND_EMAIL"
             case .smsPhoneNumber: return "SMS_PHONE_NUMBER"
+            case .whatsappMessagingPhoneNumber: return "WHATSAPP_MESSAGING_PHONE_NUMBER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2041,6 +2022,10 @@ public struct AssociateFlowInput: Swift.Sendable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the resource.
+    ///
+    /// * Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER
+    ///
+    /// * Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     /// This member is required.
     public var resourceId: Swift.String?
     /// A valid resource type.
@@ -2052,8 +2037,7 @@ public struct AssociateFlowInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.flowId = flowId
         self.instanceId = instanceId
         self.resourceId = resourceId
@@ -2138,8 +2122,7 @@ extension ConnectClientTypes {
 
         public init(
             firehoseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.firehoseArn = firehoseArn
         }
     }
@@ -2155,8 +2138,7 @@ extension ConnectClientTypes {
 
         public init(
             streamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamArn = streamArn
         }
     }
@@ -2202,8 +2184,7 @@ extension ConnectClientTypes {
         public init(
             encryptionType: ConnectClientTypes.EncryptionType? = nil,
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.keyId = keyId
         }
@@ -2228,8 +2209,7 @@ extension ConnectClientTypes {
             encryptionConfig: ConnectClientTypes.EncryptionConfig? = nil,
             `prefix`: Swift.String? = nil,
             retentionPeriodHours: Swift.Int = 0
-        )
-        {
+        ) {
             self.encryptionConfig = encryptionConfig
             self.`prefix` = `prefix`
             self.retentionPeriodHours = retentionPeriodHours
@@ -2254,8 +2234,7 @@ extension ConnectClientTypes {
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil,
             encryptionConfig: ConnectClientTypes.EncryptionConfig? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
             self.encryptionConfig = encryptionConfig
@@ -2323,8 +2302,7 @@ extension ConnectClientTypes {
             kinesisVideoStreamConfig: ConnectClientTypes.KinesisVideoStreamConfig? = nil,
             s3Config: ConnectClientTypes.S3Config? = nil,
             storageType: ConnectClientTypes.StorageType? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.kinesisFirehoseConfig = kinesisFirehoseConfig
             self.kinesisStreamConfig = kinesisStreamConfig
@@ -2336,6 +2314,8 @@ extension ConnectClientTypes {
 }
 
 public struct AssociateInstanceStorageConfigInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2354,11 +2334,12 @@ public struct AssociateInstanceStorageConfigInput: Swift.Sendable {
     public var storageConfig: ConnectClientTypes.InstanceStorageConfig?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil,
         storageConfig: ConnectClientTypes.InstanceStorageConfig? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.resourceType = resourceType
         self.storageConfig = storageConfig
@@ -2371,13 +2352,14 @@ public struct AssociateInstanceStorageConfigOutput: Swift.Sendable {
 
     public init(
         associationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
     }
 }
 
 public struct AssociateLambdaFunctionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
     /// This member is required.
     public var functionArn: Swift.String?
@@ -2386,16 +2368,19 @@ public struct AssociateLambdaFunctionInput: Swift.Sendable {
     public var instanceId: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         functionArn: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.functionArn = functionArn
         self.instanceId = instanceId
     }
 }
 
 public struct AssociateLexBotInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2404,10 +2389,11 @@ public struct AssociateLexBotInput: Swift.Sendable {
     public var lexBot: ConnectClientTypes.LexBot?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lexBot: ConnectClientTypes.LexBot? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.lexBot = lexBot
     }
@@ -2428,8 +2414,7 @@ public struct AssociatePhoneNumberContactFlowInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
@@ -2451,8 +2436,7 @@ public struct AssociateQueueQuickConnectsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         quickConnectIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
         self.quickConnectIds = quickConnectIds
@@ -2473,8 +2457,7 @@ extension ConnectClientTypes {
         public init(
             channel: ConnectClientTypes.Channel? = nil,
             queueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.queueId = queueId
         }
@@ -2499,8 +2482,7 @@ extension ConnectClientTypes {
             delay: Swift.Int? = 0,
             priority: Swift.Int? = nil,
             queueReference: ConnectClientTypes.RoutingProfileQueueReference? = nil
-        )
-        {
+        ) {
             self.delay = delay
             self.priority = priority
             self.queueReference = queueReference
@@ -2523,8 +2505,7 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueConfigs = queueConfigs
         self.routingProfileId = routingProfileId
@@ -2532,6 +2513,8 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
 }
 
 public struct AssociateSecurityKeyInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -2540,10 +2523,11 @@ public struct AssociateSecurityKeyInput: Swift.Sendable {
     public var key: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         key: Swift.String? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.key = key
     }
@@ -2555,8 +2539,7 @@ public struct AssociateSecurityKeyOutput: Swift.Sendable {
 
     public init(
         associationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
     }
 }
@@ -2576,8 +2559,7 @@ public struct AssociateTrafficDistributionGroupUserInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         trafficDistributionGroupId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.trafficDistributionGroupId = trafficDistributionGroupId
         self.userId = userId
@@ -2607,8 +2589,7 @@ extension ConnectClientTypes {
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil,
             level: Swift.Float? = 1.0
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
             self.level = level
@@ -2631,8 +2612,7 @@ public struct AssociateUserProficienciesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil,
         userProficiencies: [ConnectClientTypes.UserProficiency]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
         self.userProficiencies = userProficiencies
@@ -2653,8 +2633,7 @@ public struct BatchAssociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetIds: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetIds = dataSetIds
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -2671,6 +2650,8 @@ extension ConnectClientTypes {
         public var resourceShareArn: Swift.String?
         /// The Resource Access Manager share ID.
         public var resourceShareId: Swift.String?
+        /// The Amazon Web Services Resource Access Manager status of association.
+        public var resourceShareStatus: Swift.String?
         /// The identifier of the target account.
         public var targetAccountId: Swift.String?
 
@@ -2678,12 +2659,13 @@ extension ConnectClientTypes {
             dataSetId: Swift.String? = nil,
             resourceShareArn: Swift.String? = nil,
             resourceShareId: Swift.String? = nil,
+            resourceShareStatus: Swift.String? = nil,
             targetAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSetId = dataSetId
             self.resourceShareArn = resourceShareArn
             self.resourceShareId = resourceShareId
+            self.resourceShareStatus = resourceShareStatus
             self.targetAccountId = targetAccountId
         }
     }
@@ -2701,8 +2683,7 @@ extension ConnectClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -2718,8 +2699,7 @@ public struct BatchAssociateAnalyticsDataSetOutput: Swift.Sendable {
     public init(
         created: [ConnectClientTypes.AnalyticsDataAssociationResult]? = nil,
         errors: [ConnectClientTypes.ErrorResult]? = nil
-    )
-    {
+    ) {
         self.created = created
         self.errors = errors
     }
@@ -2739,8 +2719,7 @@ public struct BatchDisassociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetIds: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetIds = dataSetIds
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -2756,15 +2735,14 @@ public struct BatchDisassociateAnalyticsDataSetOutput: Swift.Sendable {
     public init(
         deleted: [Swift.String]? = nil,
         errors: [ConnectClientTypes.ErrorResult]? = nil
-    )
-    {
+    ) {
         self.deleted = deleted
         self.errors = errors
     }
 }
 
 public struct BatchGetAttachedFileMetadataInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// The unique identifiers of the attached file resource.
@@ -2778,8 +2756,7 @@ public struct BatchGetAttachedFileMetadataInput: Swift.Sendable {
         associatedResourceArn: Swift.String? = nil,
         fileIds: [Swift.String]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileIds = fileIds
         self.instanceId = instanceId
@@ -2801,8 +2778,7 @@ extension ConnectClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             fileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.fileId = fileId
@@ -2928,8 +2904,7 @@ extension ConnectClientTypes {
             fileStatus: ConnectClientTypes.FileStatusType? = nil,
             fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.associatedResourceArn = associatedResourceArn
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -2953,8 +2928,7 @@ public struct BatchGetAttachedFileMetadataOutput: Swift.Sendable {
     public init(
         errors: [ConnectClientTypes.AttachedFileError]? = nil,
         files: [ConnectClientTypes.AttachedFile]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.files = files
     }
@@ -2963,16 +2937,20 @@ public struct BatchGetAttachedFileMetadataOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum ListFlowAssociationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case analyticsConnector
         case inboundEmail
         case outboundEmail
         case voicePhoneNumber
+        case whatsappMessagingPhoneNumber
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ListFlowAssociationResourceType] {
             return [
+                .analyticsConnector,
                 .inboundEmail,
                 .outboundEmail,
-                .voicePhoneNumber
+                .voicePhoneNumber,
+                .whatsappMessagingPhoneNumber
             ]
         }
 
@@ -2983,9 +2961,11 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .analyticsConnector: return "ANALYTICS_CONNECTOR"
             case .inboundEmail: return "INBOUND_EMAIL"
             case .outboundEmail: return "OUTBOUND_EMAIL"
             case .voicePhoneNumber: return "VOICE_PHONE_NUMBER"
+            case .whatsappMessagingPhoneNumber: return "WHATSAPP_MESSAGING_PHONE_NUMBER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2997,6 +2977,10 @@ public struct BatchGetFlowAssociationInput: Swift.Sendable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// A list of resource identifiers to retrieve flow associations.
+    ///
+    /// * Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER
+    ///
+    /// * Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     /// This member is required.
     public var resourceIds: [Swift.String]?
     /// The type of resource association.
@@ -3006,8 +2990,7 @@ public struct BatchGetFlowAssociationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.resourceIds = resourceIds
         self.resourceType = resourceType
@@ -3029,8 +3012,7 @@ extension ConnectClientTypes {
             flowId: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
-        )
-        {
+        ) {
             self.flowId = flowId
             self.resourceId = resourceId
             self.resourceType = resourceType
@@ -3044,16 +3026,15 @@ public struct BatchGetFlowAssociationOutput: Swift.Sendable {
 
     public init(
         flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]? = nil
-    )
-    {
+    ) {
         self.flowAssociationSummaryList = flowAssociationSummaryList
     }
 }
 
 /// An entity with the same name already exists.
-public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3068,8 +3049,7 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3083,8 +3063,7 @@ extension ConnectClientTypes {
 
         public init(
             campaignId: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
         }
     }
@@ -3140,8 +3119,7 @@ extension ConnectClientTypes {
         public init(
             address: Swift.String? = nil,
             type: ConnectClientTypes.EndpointType? = nil
-        )
-        {
+        ) {
             self.address = address
             self.type = type
         }
@@ -3172,8 +3150,7 @@ extension ConnectClientTypes {
             queueId: Swift.String? = nil,
             requestIdentifier: Swift.String? = nil,
             systemEndpoint: ConnectClientTypes.Endpoint? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.campaign = campaign
             self.customerEndpoint = customerEndpoint
@@ -3198,8 +3175,7 @@ public struct BatchPutContactInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contactDataRequestList: [ConnectClientTypes.ContactDataRequest]? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactDataRequestList = contactDataRequestList
         self.instanceId = instanceId
@@ -3274,8 +3250,7 @@ extension ConnectClientTypes {
             failureReasonCode: ConnectClientTypes.FailureReasonCode? = nil,
             failureReasonMessage: Swift.String? = nil,
             requestIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureReasonCode = failureReasonCode
             self.failureReasonMessage = failureReasonMessage
             self.requestIdentifier = requestIdentifier
@@ -3295,8 +3270,7 @@ extension ConnectClientTypes {
         public init(
             contactId: Swift.String? = nil,
             requestIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactId = contactId
             self.requestIdentifier = requestIdentifier
         }
@@ -3312,8 +3286,7 @@ public struct BatchPutContactOutput: Swift.Sendable {
     public init(
         failedRequestList: [ConnectClientTypes.FailedRequest]? = nil,
         successfulRequestList: [ConnectClientTypes.SuccessfulRequest]? = nil
-    )
-    {
+    ) {
         self.failedRequestList = failedRequestList
         self.successfulRequestList = successfulRequestList
     }
@@ -3341,8 +3314,7 @@ public struct ClaimPhoneNumberInput: Swift.Sendable {
         phoneNumberDescription: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.phoneNumber = phoneNumber
@@ -3361,8 +3333,7 @@ public struct ClaimPhoneNumberOutput: Swift.Sendable {
     public init(
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
     }
@@ -3370,7 +3341,7 @@ public struct ClaimPhoneNumberOutput: Swift.Sendable {
 
 /// Request to CompleteAttachedFileUpload API
 public struct CompleteAttachedFileUploadInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// The unique identifier of the attached file resource.
@@ -3384,8 +3355,7 @@ public struct CompleteAttachedFileUploadInput: Swift.Sendable {
         associatedResourceArn: Swift.String? = nil,
         fileId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileId = fileId
         self.instanceId = instanceId
@@ -3399,9 +3369,9 @@ public struct CompleteAttachedFileUploadOutput: Swift.Sendable {
 }
 
 /// A resource with the specified name already exists.
-public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3416,8 +3386,7 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3446,8 +3415,7 @@ public struct CreateAgentStatusInput: Swift.Sendable {
         name: Swift.String? = nil,
         state: ConnectClientTypes.AgentStatusState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayOrder = displayOrder
         self.instanceId = instanceId
@@ -3466,17 +3434,16 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
     public init(
         agentStatusARN: Swift.String? = nil,
         agentStatusId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusARN = agentStatusARN
         self.agentStatusId = agentStatusId
     }
 }
 
 /// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3491,8 +3458,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3615,11 +3581,11 @@ extension ConnectClientTypes {
 
     /// Well-formed data on a contact, used by agents to complete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact.
     public struct Reference: Swift.Sendable {
-        ///
+        /// The Amazon Resource Name (ARN) of the reference
         public var arn: Swift.String?
-        ///
+        /// Status of the attachment reference type.
         public var status: ConnectClientTypes.ReferenceStatus?
-        ///
+        /// Relevant details why the reference was not successfully created.
         public var statusReason: Swift.String?
         /// The type of the reference. DATE must be of type Epoch timestamp.
         /// This member is required.
@@ -3633,8 +3599,7 @@ extension ConnectClientTypes {
             statusReason: Swift.String? = nil,
             type: ConnectClientTypes.ReferenceType? = nil,
             value: Swift.String? = ""
-        )
-        {
+        ) {
             self.arn = arn
             self.status = status
             self.statusReason = statusReason
@@ -3646,115 +3611,29 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string.
-    public struct SegmentAttributeValue: Swift.Sendable {
-        /// The value of a segment attribute.
-        public var valueString: Swift.String?
-
-        public init(
-            valueString: Swift.String? = nil
-        )
-        {
-            self.valueString = valueString
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    ///
+    /// The user details for the contact.
     public struct UserInfo: Swift.Sendable {
-        ///
+        /// The user identifier for the contact.
         public var userId: Swift.String?
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
 }
 
-public struct CreateContactInput: Swift.Sendable {
-    ///
-    public var attributes: [Swift.String: Swift.String]?
-    ///
-    /// This member is required.
-    public var channel: ConnectClientTypes.Channel?
-    ///
-    public var clientToken: Swift.String?
-    ///
-    public var description: Swift.String?
-    ///
-    public var expiryDurationInMinutes: Swift.Int?
-    ///
-    public var initiateAs: ConnectClientTypes.InitiateAs?
-    ///
-    /// This member is required.
-    public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
-    ///
-    /// This member is required.
-    public var instanceId: Swift.String?
-    ///
-    public var name: Swift.String?
-    ///
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    ///
-    public var relatedContactId: Swift.String?
-    ///
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    ///
-    public var userInfo: ConnectClientTypes.UserInfo?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        channel: ConnectClientTypes.Channel? = nil,
-        clientToken: Swift.String? = nil,
-        description: Swift.String? = nil,
-        expiryDurationInMinutes: Swift.Int? = nil,
-        initiateAs: ConnectClientTypes.InitiateAs? = nil,
-        initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        userInfo: ConnectClientTypes.UserInfo? = nil
-    )
-    {
-        self.attributes = attributes
-        self.channel = channel
-        self.clientToken = clientToken
-        self.description = description
-        self.expiryDurationInMinutes = expiryDurationInMinutes
-        self.initiateAs = initiateAs
-        self.initiationMethod = initiationMethod
-        self.instanceId = instanceId
-        self.name = name
-        self.references = references
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-        self.userInfo = userInfo
-    }
-}
-
-extension CreateContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateContactInput(attributes: \(Swift.String(describing: attributes)), channel: \(Swift.String(describing: channel)), clientToken: \(Swift.String(describing: clientToken)), expiryDurationInMinutes: \(Swift.String(describing: expiryDurationInMinutes)), initiateAs: \(Swift.String(describing: initiateAs)), initiationMethod: \(Swift.String(describing: initiationMethod)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
 public struct CreateContactOutput: Swift.Sendable {
-    ///
+    /// The Amazon Resource Name (ARN) of the created contact.
     public var contactArn: Swift.String?
-    ///
+    /// The identifier of the contact in this instance of Amazon Connect.
     public var contactId: Swift.String?
 
     public init(
         contactArn: Swift.String? = nil,
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.contactId = contactId
     }
@@ -3769,17 +3648,16 @@ extension ConnectClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
 }
 
 /// The flow is not valid.
-public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The problems with the flow. Please fix before trying again.
         public internal(set) var problems: [ConnectClientTypes.ProblemDetail]? = nil
     }
@@ -3795,8 +3673,7 @@ public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         problems: [ConnectClientTypes.ProblemDetail]? = nil
-    )
-    {
+    ) {
         self.properties.problems = problems
     }
 }
@@ -3836,6 +3713,7 @@ extension ConnectClientTypes {
         case agentHold
         case agentTransfer
         case agentWhisper
+        case campaign
         case contactFlow
         case customerHold
         case customerQueue
@@ -3849,6 +3727,7 @@ extension ConnectClientTypes {
                 .agentHold,
                 .agentTransfer,
                 .agentWhisper,
+                .campaign,
                 .contactFlow,
                 .customerHold,
                 .customerQueue,
@@ -3868,6 +3747,7 @@ extension ConnectClientTypes {
             case .agentHold: return "AGENT_HOLD"
             case .agentTransfer: return "AGENT_TRANSFER"
             case .agentWhisper: return "AGENT_WHISPER"
+            case .campaign: return "CAMPAIGN"
             case .contactFlow: return "CONTACT_FLOW"
             case .customerHold: return "CUSTOMER_HOLD"
             case .customerQueue: return "CUSTOMER_QUEUE"
@@ -3908,8 +3788,7 @@ public struct CreateContactFlowInput: Swift.Sendable {
         status: ConnectClientTypes.ContactFlowStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: ConnectClientTypes.ContactFlowType? = nil
-    )
-    {
+    ) {
         self.content = content
         self.description = description
         self.instanceId = instanceId
@@ -3925,15 +3804,14 @@ public struct CreateContactFlowOutput: Swift.Sendable {
     public var contactFlowArn: Swift.String?
     /// The identifier of the flow.
     public var contactFlowId: Swift.String?
-    /// Indicates the checksum value of the flow content.
+    /// Indicates the checksum value of the latest published flow content.
     public var flowContentSha256: Swift.String?
 
     public init(
         contactFlowArn: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
         flowContentSha256: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowArn = contactFlowArn
         self.contactFlowId = contactFlowId
         self.flowContentSha256 = flowContentSha256
@@ -3941,9 +3819,9 @@ public struct CreateContactFlowOutput: Swift.Sendable {
 }
 
 /// The problems with the module. Please fix before trying again.
-public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var problems: [ConnectClientTypes.ProblemDetail]? = nil
     }
 
@@ -3958,8 +3836,7 @@ public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWS
 
     public init(
         problems: [ConnectClientTypes.ProblemDetail]? = nil
-    )
-    {
+    ) {
         self.properties.problems = problems
     }
 }
@@ -3988,8 +3865,7 @@ public struct CreateContactFlowModuleInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.content = content
         self.description = description
@@ -4008,8 +3884,7 @@ public struct CreateContactFlowModuleOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -4019,6 +3894,8 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
+    /// The identifier of the flow version.
+    public var contactFlowVersion: Swift.Int?
     /// The description of the flow version.
     public var description: Swift.String?
     /// Indicates the checksum value of the flow content.
@@ -4033,14 +3910,15 @@ public struct CreateContactFlowVersionInput: Swift.Sendable {
 
     public init(
         contactFlowId: Swift.String? = nil,
+        contactFlowVersion: Swift.Int? = nil,
         description: Swift.String? = nil,
         flowContentSha256: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
+        self.contactFlowVersion = contactFlowVersion
         self.description = description
         self.flowContentSha256 = flowContentSha256
         self.instanceId = instanceId
@@ -4058,27 +3936,26 @@ public struct CreateContactFlowVersionOutput: Swift.Sendable {
     public init(
         contactFlowArn: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.contactFlowArn = contactFlowArn
         self.version = version
     }
 }
 
 public struct CreateEmailAddressInput: Swift.Sendable {
-    ///
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    ///
+    /// The description of the email address.
     public var description: Swift.String?
-    ///
+    /// The display name of email address
     public var displayName: Swift.String?
-    ///
+    /// The email address with the instance, in [^\s@]+@[^\s@]+\.[^\s@]+ format.
     /// This member is required.
     public var emailAddress: Swift.String?
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    ///
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -4088,8 +3965,7 @@ public struct CreateEmailAddressInput: Swift.Sendable {
         emailAddress: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
@@ -4105,16 +3981,15 @@ extension CreateEmailAddressInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct CreateEmailAddressOutput: Swift.Sendable {
-    ///
+    /// The Amazon Resource Name (ARN) of the email address.
     public var emailAddressArn: Swift.String?
-    ///
+    /// The identifier of the email address.
     public var emailAddressId: Swift.String?
 
     public init(
         emailAddressArn: Swift.String? = nil,
         emailAddressId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressArn = emailAddressArn
         self.emailAddressId = emailAddressId
     }
@@ -4217,8 +4092,7 @@ extension ConnectClientTypes {
 
         public init(
             label: ConnectClientTypes.NumericQuestionPropertyAutomationLabel? = nil
-        )
-        {
+        ) {
             self.label = label
         }
     }
@@ -4254,8 +4128,7 @@ extension ConnectClientTypes {
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
             score: Swift.Int = 0
-        )
-        {
+        ) {
             self.automaticFail = automaticFail
             self.maxValue = maxValue
             self.minValue = minValue
@@ -4284,8 +4157,7 @@ extension ConnectClientTypes {
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
             options: [ConnectClientTypes.EvaluationFormNumericQuestionOption]? = nil
-        )
-        {
+        ) {
             self.automation = automation
             self.maxValue = maxValue
             self.minValue = minValue
@@ -4341,8 +4213,7 @@ extension ConnectClientTypes {
             category: Swift.String? = nil,
             condition: ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomationCondition? = nil,
             optionRefId: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.condition = condition
             self.optionRefId = optionRefId
@@ -4373,8 +4244,7 @@ extension ConnectClientTypes {
         public init(
             defaultOptionRefId: Swift.String? = nil,
             options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomationOption]? = nil
-        )
-        {
+        ) {
             self.defaultOptionRefId = defaultOptionRefId
             self.options = options
         }
@@ -4430,8 +4300,7 @@ extension ConnectClientTypes {
             refId: Swift.String? = nil,
             score: Swift.Int = 0,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticFail = automaticFail
             self.refId = refId
             self.score = score
@@ -4456,8 +4325,7 @@ extension ConnectClientTypes {
             automation: ConnectClientTypes.EvaluationFormSingleSelectQuestionAutomation? = nil,
             displayAs: ConnectClientTypes.EvaluationFormSingleSelectQuestionDisplayMode? = nil,
             options: [ConnectClientTypes.EvaluationFormSingleSelectQuestionOption]? = nil
-        )
-        {
+        ) {
             self.automation = automation
             self.displayAs = displayAs
             self.options = options
@@ -4507,8 +4375,7 @@ extension ConnectClientTypes {
             refId: Swift.String? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.instructions = instructions
             self.notApplicableEnabled = notApplicableEnabled
             self.questionType = questionType
@@ -4592,8 +4459,7 @@ extension ConnectClientTypes {
         public init(
             mode: ConnectClientTypes.EvaluationFormScoringMode? = nil,
             status: ConnectClientTypes.EvaluationFormScoringStatus? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.status = status
         }
@@ -4611,8 +4477,7 @@ public struct CreateEvaluationFormOutput: Swift.Sendable {
     public init(
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
     }
@@ -4676,8 +4541,7 @@ extension ConnectClientTypes {
         public init(
             hours: Swift.Int? = 0,
             minutes: Swift.Int? = 0
-        )
-        {
+        ) {
             self.hours = hours
             self.minutes = minutes
         }
@@ -4702,8 +4566,7 @@ extension ConnectClientTypes {
             day: ConnectClientTypes.HoursOfOperationDays? = nil,
             endTime: ConnectClientTypes.HoursOfOperationTimeSlice? = nil,
             startTime: ConnectClientTypes.HoursOfOperationTimeSlice? = nil
-        )
-        {
+        ) {
             self.day = day
             self.endTime = endTime
             self.startTime = startTime
@@ -4736,8 +4599,7 @@ public struct CreateHoursOfOperationInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         timeZone: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.description = description
         self.instanceId = instanceId
@@ -4756,10 +4618,149 @@ public struct CreateHoursOfOperationOutput: Swift.Sendable {
     public init(
         hoursOfOperationArn: Swift.String? = nil,
         hoursOfOperationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationArn = hoursOfOperationArn
         self.hoursOfOperationId = hoursOfOperationId
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum OverrideDays: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OverrideDays] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The start time or end time for an hours of operation override.
+    public struct OverrideTimeSlice: Swift.Sendable {
+        /// The hours.
+        /// This member is required.
+        public var hours: Swift.Int?
+        /// The minutes.
+        /// This member is required.
+        public var minutes: Swift.Int?
+
+        public init(
+            hours: Swift.Int? = 0,
+            minutes: Swift.Int? = 0
+        ) {
+            self.hours = hours
+            self.minutes = minutes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operation override config: day, start time, and end time.
+    public struct HoursOfOperationOverrideConfig: Swift.Sendable {
+        /// The day that the hours of operation override applies to.
+        public var day: ConnectClientTypes.OverrideDays?
+        /// The end time that your contact center closes if overrides are applied.
+        public var endTime: ConnectClientTypes.OverrideTimeSlice?
+        /// The start time when your contact center opens if overrides are applied.
+        public var startTime: ConnectClientTypes.OverrideTimeSlice?
+
+        public init(
+            day: ConnectClientTypes.OverrideDays? = nil,
+            endTime: ConnectClientTypes.OverrideTimeSlice? = nil,
+            startTime: ConnectClientTypes.OverrideTimeSlice? = nil
+        ) {
+            self.day = day
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
+    /// Configuration information for the hours of operation override: day, start time, and end time.
+    /// This member is required.
+    public var config: [ConnectClientTypes.HoursOfOperationOverrideConfig]?
+    /// The description of the hours of operation override.
+    public var description: Swift.String?
+    /// The date from when the hours of operation override would be effective.
+    /// This member is required.
+    public var effectiveFrom: Swift.String?
+    /// The date until when the hours of operation override would be effective.
+    /// This member is required.
+    public var effectiveTill: Swift.String?
+    /// The identifier for the hours of operation
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the hours of operation override.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
+        description: Swift.String? = nil,
+        effectiveFrom: Swift.String? = nil,
+        effectiveTill: Swift.String? = nil,
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.config = config
+        self.description = description
+        self.effectiveFrom = effectiveFrom
+        self.effectiveTill = effectiveTill
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+public struct CreateHoursOfOperationOverrideOutput: Swift.Sendable {
+    /// The identifier for the hours of operation override.
+    public var hoursOfOperationOverrideId: Swift.String?
+
+    public init(
+        hoursOfOperationOverrideId: Swift.String? = nil
+    ) {
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
     }
 }
 
@@ -4822,8 +4823,7 @@ public struct CreateInstanceInput: Swift.Sendable {
         instanceAlias: Swift.String? = nil,
         outboundCallsEnabled: Swift.Bool? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.identityManagementType = identityManagementType
@@ -4848,8 +4848,7 @@ public struct CreateInstanceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -4858,8 +4857,11 @@ public struct CreateInstanceOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum IntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case analyticsConnector
         case application
+        case callTransferConnector
         case casesDomain
+        case cognitoUserPool
         case event
         case fileScanner
         case pinpointApp
@@ -4873,8 +4875,11 @@ extension ConnectClientTypes {
 
         public static var allCases: [IntegrationType] {
             return [
+                .analyticsConnector,
                 .application,
+                .callTransferConnector,
                 .casesDomain,
+                .cognitoUserPool,
                 .event,
                 .fileScanner,
                 .pinpointApp,
@@ -4894,8 +4899,11 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .analyticsConnector: return "ANALYTICS_CONNECTOR"
             case .application: return "APPLICATION"
+            case .callTransferConnector: return "CALL_TRANSFER_CONNECTOR"
             case .casesDomain: return "CASES_DOMAIN"
+            case .cognitoUserPool: return "COGNITO_USER_POOL"
             case .event: return "EVENT"
             case .fileScanner: return "FILE_SCANNER"
             case .pinpointApp: return "PINPOINT_APP"
@@ -4947,7 +4955,7 @@ public struct CreateIntegrationAssociationInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the integration. When integrating with Amazon Pinpoint, the Amazon Connect and Amazon Pinpoint instances must be in the same account.
+    /// The Amazon Resource Name (ARN) of the integration. When integrating with Amazon Web Services End User Messaging, the Amazon Connect and Amazon Web Services End User Messaging instances must be in the same account.
     /// This member is required.
     public var integrationArn: Swift.String?
     /// The type of information to be ingested.
@@ -4970,8 +4978,7 @@ public struct CreateIntegrationAssociationInput: Swift.Sendable {
         sourceApplicationUrl: Swift.String? = nil,
         sourceType: ConnectClientTypes.SourceType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationArn = integrationArn
         self.integrationType = integrationType
@@ -4991,8 +4998,7 @@ public struct CreateIntegrationAssociationOutput: Swift.Sendable {
     public init(
         integrationAssociationArn: Swift.String? = nil,
         integrationAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationAssociationArn = integrationAssociationArn
         self.integrationAssociationId = integrationAssociationId
     }
@@ -5048,8 +5054,7 @@ extension ConnectClientTypes {
         public init(
             displayName: Swift.String? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.participantRole = participantRole
         }
@@ -5074,8 +5079,7 @@ public struct CreateParticipantInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetailsToAdd? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactId = contactId
         self.instanceId = instanceId
@@ -5095,8 +5099,7 @@ extension ConnectClientTypes {
         public init(
             expiry: Swift.String? = nil,
             participantToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.expiry = expiry
             self.participantToken = participantToken
         }
@@ -5112,8 +5115,7 @@ public struct CreateParticipantOutput: Swift.Sendable {
     public init(
         participantCredentials: ConnectClientTypes.ParticipantTokenCredentials? = nil,
         participantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.participantCredentials = participantCredentials
         self.participantId = participantId
     }
@@ -5213,8 +5215,7 @@ public struct CreatePersistentContactAssociationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         rehydrationType: ConnectClientTypes.RehydrationType? = nil,
         sourceContactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.initialContactId = initialContactId
         self.instanceId = instanceId
@@ -5229,8 +5230,7 @@ public struct CreatePersistentContactAssociationOutput: Swift.Sendable {
 
     public init(
         continuedFromContactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.continuedFromContactId = continuedFromContactId
     }
 }
@@ -5260,8 +5260,7 @@ public struct CreatePredefinedAttributeInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         values: ConnectClientTypes.PredefinedAttributeValues? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.values = values
@@ -5289,8 +5288,7 @@ public struct CreatePromptInput: Swift.Sendable {
         name: Swift.String? = nil,
         s3Uri: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -5308,10 +5306,113 @@ public struct CreatePromptOutput: Swift.Sendable {
     public init(
         promptARN: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.promptARN = promptARN
         self.promptId = promptId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The contact configuration for push notification registration.
+    public struct ContactConfiguration: Swift.Sendable {
+        /// The identifier of the contact within the Amazon Connect instance.
+        /// This member is required.
+        public var contactId: Swift.String?
+        /// Whether to include raw connect message in the push notification payload. Default is False.
+        public var includeRawMessage: Swift.Bool
+        /// The role of the participant in the chat conversation. Only CUSTOMER is currently supported. Any other values other than CUSTOMER will result in an exception (4xx error).
+        public var participantRole: ConnectClientTypes.ParticipantRole?
+
+        public init(
+            contactId: Swift.String? = nil,
+            includeRawMessage: Swift.Bool = false,
+            participantRole: ConnectClientTypes.ParticipantRole? = nil
+        ) {
+            self.contactId = contactId
+            self.includeRawMessage = includeRawMessage
+            self.participantRole = participantRole
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum DeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apns
+        case apnsSandbox
+        case gcm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeviceType] {
+            return [
+                .apns,
+                .apnsSandbox,
+                .gcm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apns: return "APNS"
+            case .apnsSandbox: return "APNS_SANDBOX"
+            case .gcm: return "GCM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePushNotificationRegistrationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The contact configuration for push notification registration.
+    /// This member is required.
+    public var contactConfiguration: ConnectClientTypes.ContactConfiguration?
+    /// The push notification token issued by the Apple or Google gateways.
+    /// This member is required.
+    public var deviceToken: Swift.String?
+    /// The device type to use when sending the message.
+    /// This member is required.
+    public var deviceType: ConnectClientTypes.DeviceType?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Pinpoint application.
+    /// This member is required.
+    public var pinpointAppArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        contactConfiguration: ConnectClientTypes.ContactConfiguration? = nil,
+        deviceToken: Swift.String? = nil,
+        deviceType: ConnectClientTypes.DeviceType? = nil,
+        instanceId: Swift.String? = nil,
+        pinpointAppArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.contactConfiguration = contactConfiguration
+        self.deviceToken = deviceToken
+        self.deviceType = deviceType
+        self.instanceId = instanceId
+        self.pinpointAppArn = pinpointAppArn
+    }
+}
+
+public struct CreatePushNotificationRegistrationOutput: Swift.Sendable {
+    /// The identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil
+    ) {
+        self.registrationId = registrationId
     }
 }
 
@@ -5330,8 +5431,7 @@ extension ConnectClientTypes {
             outboundCallerIdName: Swift.String? = nil,
             outboundCallerIdNumberId: Swift.String? = nil,
             outboundFlowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.outboundCallerIdName = outboundCallerIdName
             self.outboundCallerIdNumberId = outboundCallerIdNumberId
             self.outboundFlowId = outboundFlowId
@@ -5341,15 +5441,14 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// The outbound email address Id.
     public struct OutboundEmailConfig: Swift.Sendable {
-        ///
+        /// The identifier of the email address.
         public var outboundEmailAddressId: Swift.String?
 
         public init(
             outboundEmailAddressId: Swift.String? = nil
-        )
-        {
+        ) {
             self.outboundEmailAddressId = outboundEmailAddressId
         }
     }
@@ -5371,7 +5470,7 @@ public struct CreateQueueInput: Swift.Sendable {
     public var name: Swift.String?
     /// The outbound caller ID name, number, and outbound whisper flow.
     public var outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig?
-    ///
+    /// The outbound email address ID for a specified queue.
     public var outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig?
     /// The quick connects available to agents who are working the queue.
     public var quickConnectIds: [Swift.String]?
@@ -5388,8 +5487,7 @@ public struct CreateQueueInput: Swift.Sendable {
         outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
         quickConnectIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
@@ -5411,8 +5509,7 @@ public struct CreateQueueOutput: Swift.Sendable {
     public init(
         queueArn: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueArn = queueArn
         self.queueId = queueId
     }
@@ -5428,8 +5525,7 @@ extension ConnectClientTypes {
 
         public init(
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.phoneNumber = phoneNumber
         }
     }
@@ -5449,8 +5545,7 @@ extension ConnectClientTypes {
         public init(
             contactFlowId: Swift.String? = nil,
             queueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactFlowId = contactFlowId
             self.queueId = queueId
         }
@@ -5503,8 +5598,7 @@ extension ConnectClientTypes {
         public init(
             contactFlowId: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactFlowId = contactFlowId
             self.userId = userId
         }
@@ -5530,8 +5624,7 @@ extension ConnectClientTypes {
             queueConfig: ConnectClientTypes.QueueQuickConnectConfig? = nil,
             quickConnectType: ConnectClientTypes.QuickConnectType? = nil,
             userConfig: ConnectClientTypes.UserQuickConnectConfig? = nil
-        )
-        {
+        ) {
             self.phoneConfig = phoneConfig
             self.queueConfig = queueConfig
             self.quickConnectType = quickConnectType
@@ -5561,8 +5654,7 @@ public struct CreateQuickConnectInput: Swift.Sendable {
         name: Swift.String? = nil,
         quickConnectConfig: ConnectClientTypes.QuickConnectConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -5580,8 +5672,7 @@ public struct CreateQuickConnectOutput: Swift.Sendable {
     public init(
         quickConnectARN: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.quickConnectARN = quickConnectARN
         self.quickConnectId = quickConnectId
     }
@@ -5626,8 +5717,7 @@ extension ConnectClientTypes {
 
         public init(
             behaviorType: ConnectClientTypes.BehaviorType? = nil
-        )
-        {
+        ) {
             self.behaviorType = behaviorType
         }
     }
@@ -5650,8 +5740,7 @@ extension ConnectClientTypes {
             channel: ConnectClientTypes.Channel? = nil,
             concurrency: Swift.Int? = nil,
             crossChannelBehavior: ConnectClientTypes.CrossChannelBehavior? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.concurrency = concurrency
             self.crossChannelBehavior = crossChannelBehavior
@@ -5691,8 +5780,7 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentAvailabilityTimer = agentAvailabilityTimer
         self.defaultOutboundQueueId = defaultOutboundQueueId
         self.description = description
@@ -5713,8 +5801,7 @@ public struct CreateRoutingProfileOutput: Swift.Sendable {
     public init(
         routingProfileArn: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.routingProfileArn = routingProfileArn
         self.routingProfileId = routingProfileId
     }
@@ -5756,8 +5843,7 @@ extension ConnectClientTypes {
             doubleValue: Swift.Double? = nil,
             emptyValue: ConnectClientTypes.EmptyFieldValue? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.emptyValue = emptyValue
@@ -5780,8 +5866,7 @@ extension ConnectClientTypes {
         public init(
             id: Swift.String? = nil,
             value: ConnectClientTypes.FieldValueUnion? = nil
-        )
-        {
+        ) {
             self.id = id
             self.value = value
         }
@@ -5802,8 +5887,7 @@ extension ConnectClientTypes {
         public init(
             fields: [ConnectClientTypes.FieldValue]? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.templateId = templateId
         }
@@ -5829,8 +5913,7 @@ extension ConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -5892,7 +5975,7 @@ extension ConnectClientTypes {
 
     /// The type of notification recipient.
     public struct NotificationRecipientType: Swift.Sendable {
-        /// A list of user IDs.
+        /// A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for OnContactEvaluationSubmit event source.
         public var userIds: [Swift.String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
         public var userTags: [Swift.String: Swift.String]?
@@ -5900,8 +5983,7 @@ extension ConnectClientTypes {
         public init(
             userIds: [Swift.String]? = nil,
             userTags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.userIds = userIds
             self.userTags = userTags
         }
@@ -5933,8 +6015,7 @@ extension ConnectClientTypes {
             deliveryMethod: ConnectClientTypes.NotificationDeliveryType? = nil,
             recipient: ConnectClientTypes.NotificationRecipientType? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.deliveryMethod = deliveryMethod
@@ -5954,8 +6035,7 @@ extension ConnectClientTypes {
 
         public init(
             evaluationFormId: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluationFormId = evaluationFormId
         }
     }
@@ -5981,8 +6061,7 @@ extension ConnectClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             references: [Swift.String: ConnectClientTypes.Reference]? = nil
-        )
-        {
+        ) {
             self.contactFlowId = contactFlowId
             self.description = description
             self.name = name
@@ -6001,8 +6080,7 @@ extension ConnectClientTypes {
 
         public init(
             fields: [ConnectClientTypes.FieldValue]? = nil
-        )
-        {
+        ) {
             self.fields = fields
         }
     }
@@ -6042,8 +6120,7 @@ extension ConnectClientTypes {
             submitAutoEvaluationAction: ConnectClientTypes.SubmitAutoEvaluationActionDefinition? = nil,
             taskAction: ConnectClientTypes.TaskActionDefinition? = nil,
             updateCaseAction: ConnectClientTypes.UpdateCaseActionDefinition? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.assignContactCategoryAction = assignContactCategoryAction
             self.createCaseAction = createCaseAction
@@ -6155,8 +6232,7 @@ extension ConnectClientTypes {
         public init(
             eventSourceName: ConnectClientTypes.EventSourceName? = nil,
             integrationAssociationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventSourceName = eventSourceName
             self.integrationAssociationId = integrationAssociationId
         }
@@ -6193,8 +6269,7 @@ public struct CreateRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
         triggerEventSource: ConnectClientTypes.RuleTriggerEventSource? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.clientToken = clientToken
         self.function = function
@@ -6216,8 +6291,7 @@ public struct CreateRuleOutput: Swift.Sendable {
     public init(
         ruleArn: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleArn = ruleArn
         self.ruleId = ruleId
     }
@@ -6235,8 +6309,7 @@ extension ConnectClientTypes {
         public init(
             applicationPermissions: [Swift.String]? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationPermissions = applicationPermissions
             self.namespace = namespace
         }
@@ -6262,7 +6335,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
     /// The name of the security profile.
     /// This member is required.
     public var securityProfileName: Swift.String?
-    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. Following are acceptable ResourceNames: User | SecurityProfile | Queue | RoutingProfile
+    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. For a list of Amazon Connect resources that you can tag, see [Add tags to resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html) in the Amazon Connect Administrator Guide.
     public var tagRestrictedResources: [Swift.String]?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
@@ -6278,8 +6351,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
         securityProfileName: Swift.String? = nil,
         tagRestrictedResources: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.applications = applications
@@ -6302,8 +6374,7 @@ public struct CreateSecurityProfileOutput: Swift.Sendable {
     public init(
         securityProfileArn: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityProfileArn = securityProfileArn
         self.securityProfileId = securityProfileId
     }
@@ -6368,8 +6439,7 @@ extension ConnectClientTypes {
             message: Swift.String? = nil,
             propertyPath: Swift.String? = nil,
             reason: ConnectClientTypes.PropertyValidationExceptionReason? = nil
-        )
-        {
+        ) {
             self.message = message
             self.propertyPath = propertyPath
             self.reason = reason
@@ -6378,9 +6448,9 @@ extension ConnectClientTypes {
 }
 
 /// The property is not valid.
-public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         public internal(set) var propertyList: [ConnectClientTypes.PropertyValidationExceptionProperty]? = nil
@@ -6398,8 +6468,7 @@ public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         propertyList: [ConnectClientTypes.PropertyValidationExceptionProperty]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.propertyList = propertyList
     }
@@ -6414,8 +6483,7 @@ extension ConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -6430,8 +6498,7 @@ extension ConnectClientTypes {
 
         public init(
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -6446,8 +6513,7 @@ extension ConnectClientTypes {
 
         public init(
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -6462,8 +6528,7 @@ extension ConnectClientTypes {
 
         public init(
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -6484,8 +6549,7 @@ extension ConnectClientTypes {
             invisibleFields: [ConnectClientTypes.InvisibleFieldInfo]? = nil,
             readOnlyFields: [ConnectClientTypes.ReadOnlyFieldInfo]? = nil,
             requiredFields: [ConnectClientTypes.RequiredFieldInfo]? = nil
-        )
-        {
+        ) {
             self.invisibleFields = invisibleFields
             self.readOnlyFields = readOnlyFields
             self.requiredFields = requiredFields
@@ -6505,8 +6569,7 @@ extension ConnectClientTypes {
         public init(
             defaultValue: Swift.String? = nil,
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.id = id
         }
@@ -6522,8 +6585,7 @@ extension ConnectClientTypes {
 
         public init(
             defaultFieldValues: [ConnectClientTypes.TaskTemplateDefaultFieldValue]? = nil
-        )
-        {
+        ) {
             self.defaultFieldValues = defaultFieldValues
         }
     }
@@ -6613,8 +6675,7 @@ extension ConnectClientTypes {
             id: ConnectClientTypes.TaskTemplateFieldIdentifier? = nil,
             singleSelectOptions: [Swift.String]? = nil,
             type: ConnectClientTypes.TaskTemplateFieldType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.singleSelectOptions = singleSelectOptions
@@ -6672,7 +6733,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
     /// The name of the task template.
     /// This member is required.
     public var name: Swift.String?
-    ///
+    /// The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task.
     public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
@@ -6688,8 +6749,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.constraints = constraints
         self.contactFlowId = contactFlowId
@@ -6714,17 +6774,16 @@ public struct CreateTaskTemplateOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
 }
 
 /// The resource is not ready.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6739,8 +6798,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6765,8 +6823,7 @@ public struct CreateTrafficDistributionGroupInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.instanceId = instanceId
@@ -6784,8 +6841,7 @@ public struct CreateTrafficDistributionGroupOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -6838,8 +6894,7 @@ public struct CreateUseCaseInput: Swift.Sendable {
         integrationAssociationId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         useCaseType: ConnectClientTypes.UseCaseType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
         self.tags = tags
@@ -6856,8 +6911,7 @@ public struct CreateUseCaseOutput: Swift.Sendable {
     public init(
         useCaseArn: Swift.String? = nil,
         useCaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.useCaseArn = useCaseArn
         self.useCaseId = useCaseId
     }
@@ -6869,9 +6923,9 @@ extension ConnectClientTypes {
     public struct UserIdentityInfo: Swift.Sendable {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public var email: Swift.String?
-        /// The first name. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The first name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public var firstName: Swift.String?
-        /// The last name. This is required if you are using Amazon Connect or SAML for identity management.
+        /// The last name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public var lastName: Swift.String?
         /// The user's mobile number.
         public var mobile: Swift.String?
@@ -6884,8 +6938,7 @@ extension ConnectClientTypes {
             lastName: Swift.String? = nil,
             mobile: Swift.String? = nil,
             secondaryEmail: Swift.String? = nil
-        )
-        {
+        ) {
             self.email = email
             self.firstName = firstName
             self.lastName = lastName
@@ -6948,8 +7001,7 @@ extension ConnectClientTypes {
             autoAccept: Swift.Bool = false,
             deskPhoneNumber: Swift.String? = nil,
             phoneType: ConnectClientTypes.PhoneType? = nil
-        )
-        {
+        ) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
             self.autoAccept = autoAccept
             self.deskPhoneNumber = deskPhoneNumber
@@ -7002,8 +7054,7 @@ public struct CreateUserInput: Swift.Sendable {
         securityProfileIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryUserId = directoryUserId
         self.hierarchyGroupId = hierarchyGroupId
         self.identityInfo = identityInfo
@@ -7031,8 +7082,7 @@ public struct CreateUserOutput: Swift.Sendable {
     public init(
         userArn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userArn = userArn
         self.userId = userId
     }
@@ -7055,8 +7105,7 @@ public struct CreateUserHierarchyGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         parentGroupId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.parentGroupId = parentGroupId
@@ -7073,8 +7122,7 @@ public struct CreateUserHierarchyGroupOutput: Swift.Sendable {
     public init(
         hierarchyGroupArn: Swift.String? = nil,
         hierarchyGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupArn = hierarchyGroupArn
         self.hierarchyGroupId = hierarchyGroupId
     }
@@ -7128,9 +7176,9 @@ extension ConnectClientTypes {
 }
 
 /// That resource is already in use. Please try another.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier for the resource.
         public internal(set) var resourceId: Swift.String? = nil
@@ -7151,8 +7199,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -7160,9 +7207,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Displayed when rate-related API limits are exceeded.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7177,8 +7224,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7195,8 +7241,7 @@ extension ConnectClientTypes {
         public init(
             actions: [Swift.String]? = nil,
             template: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.template = template
         }
@@ -7265,8 +7310,7 @@ public struct CreateViewInput: Swift.Sendable {
         name: Swift.String? = nil,
         status: ConnectClientTypes.ViewStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.content = content
         self.description = description
@@ -7297,8 +7341,7 @@ extension ConnectClientTypes {
             actions: [Swift.String]? = nil,
             inputSchema: Swift.String? = nil,
             template: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.inputSchema = inputSchema
             self.template = template
@@ -7385,8 +7428,7 @@ extension ConnectClientTypes {
             version: Swift.Int = 0,
             versionDescription: Swift.String? = nil,
             viewContentSha256: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.createdTime = createdTime
@@ -7415,8 +7457,7 @@ public struct CreateViewOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -7438,8 +7479,7 @@ public struct CreateViewVersionInput: Swift.Sendable {
         versionDescription: Swift.String? = nil,
         viewContentSha256: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.versionDescription = versionDescription
         self.viewContentSha256 = viewContentSha256
@@ -7453,8 +7493,7 @@ public struct CreateViewVersionOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -7484,8 +7523,7 @@ public struct CreateVocabularyInput: Swift.Sendable {
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vocabularyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.content = content
         self.instanceId = instanceId
@@ -7545,8 +7583,7 @@ public struct CreateVocabularyOutput: Swift.Sendable {
         state: ConnectClientTypes.VocabularyState? = nil,
         vocabularyArn: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.state = state
         self.vocabularyArn = vocabularyArn
         self.vocabularyId = vocabularyId
@@ -7568,8 +7605,7 @@ public struct DeactivateEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -7591,8 +7627,7 @@ public struct DeactivateEvaluationFormOutput: Swift.Sendable {
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int = 0
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
@@ -7615,8 +7650,7 @@ public struct DeleteAttachedFileInput: Swift.Sendable {
         associatedResourceArn: Swift.String? = nil,
         fileId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileId = fileId
         self.instanceId = instanceId
@@ -7640,8 +7674,7 @@ public struct DeleteContactEvaluationInput: Swift.Sendable {
     public init(
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
         self.instanceId = instanceId
     }
@@ -7658,8 +7691,7 @@ public struct DeleteContactFlowInput: Swift.Sendable {
     public init(
         contactFlowId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
     }
@@ -7681,8 +7713,7 @@ public struct DeleteContactFlowModuleInput: Swift.Sendable {
     public init(
         contactFlowModuleId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.instanceId = instanceId
     }
@@ -7693,19 +7724,45 @@ public struct DeleteContactFlowModuleOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteContactFlowVersionInput: Swift.Sendable {
+    /// The identifier of the flow.
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// The identifier of the flow version.
+    /// This member is required.
+    public var contactFlowVersion: Swift.Int?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFlowId: Swift.String? = nil,
+        contactFlowVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactFlowId = contactFlowId
+        self.contactFlowVersion = contactFlowVersion
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteContactFlowVersionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteEmailAddressInput: Swift.Sendable {
-    ///
+    /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
     public init(
         emailAddressId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressId = emailAddressId
         self.instanceId = instanceId
     }
@@ -7730,8 +7787,7 @@ public struct DeleteEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -7749,22 +7805,46 @@ public struct DeleteHoursOfOperationInput: Swift.Sendable {
     public init(
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
     }
 }
 
+public struct DeleteHoursOfOperationOverrideInput: Swift.Sendable {
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier for the hours of operation override.
+    /// This member is required.
+    public var hoursOfOperationOverrideId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        hoursOfOperationOverrideId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+        self.instanceId = instanceId
+    }
+}
+
 public struct DeleteInstanceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
     }
 }
@@ -7780,8 +7860,7 @@ public struct DeleteIntegrationAssociationInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         integrationAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
     }
@@ -7798,8 +7877,7 @@ public struct DeletePredefinedAttributeInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -7816,11 +7894,37 @@ public struct DeletePromptInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.promptId = promptId
     }
+}
+
+public struct DeletePushNotificationRegistrationInput: Swift.Sendable {
+    /// The identifier of the contact within the Amazon Connect instance.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        registrationId: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.registrationId = registrationId
+    }
+}
+
+public struct DeletePushNotificationRegistrationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteQueueInput: Swift.Sendable {
@@ -7834,8 +7938,7 @@ public struct DeleteQueueInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
     }
@@ -7852,8 +7955,7 @@ public struct DeleteQuickConnectInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.quickConnectId = quickConnectId
     }
@@ -7870,8 +7972,7 @@ public struct DeleteRoutingProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
     }
@@ -7888,8 +7989,7 @@ public struct DeleteRuleInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.ruleId = ruleId
     }
@@ -7906,8 +8006,7 @@ public struct DeleteSecurityProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.securityProfileId = securityProfileId
     }
@@ -7924,8 +8023,7 @@ public struct DeleteTaskTemplateInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         taskTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.taskTemplateId = taskTemplateId
     }
@@ -7943,8 +8041,7 @@ public struct DeleteTrafficDistributionGroupInput: Swift.Sendable {
 
     public init(
         trafficDistributionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficDistributionGroupId = trafficDistributionGroupId
     }
 }
@@ -7969,8 +8066,7 @@ public struct DeleteUseCaseInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         integrationAssociationId: Swift.String? = nil,
         useCaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
         self.useCaseId = useCaseId
@@ -7988,8 +8084,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
     }
@@ -8006,8 +8101,7 @@ public struct DeleteUserHierarchyGroupInput: Swift.Sendable {
     public init(
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
     }
@@ -8024,8 +8118,7 @@ public struct DeleteViewInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.viewId = viewId
     }
@@ -8051,8 +8144,7 @@ public struct DeleteViewVersionInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil,
         viewVersion: Swift.Int? = 0
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.viewId = viewId
         self.viewVersion = viewVersion
@@ -8075,8 +8167,7 @@ public struct DeleteVocabularyInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.vocabularyId = vocabularyId
     }
@@ -8097,8 +8188,7 @@ public struct DeleteVocabularyOutput: Swift.Sendable {
         state: ConnectClientTypes.VocabularyState? = nil,
         vocabularyArn: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.state = state
         self.vocabularyArn = vocabularyArn
         self.vocabularyId = vocabularyId
@@ -8116,8 +8206,7 @@ public struct DescribeAgentStatusInput: Swift.Sendable {
     public init(
         agentStatusId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusId = agentStatusId
         self.instanceId = instanceId
     }
@@ -8129,8 +8218,7 @@ public struct DescribeAgentStatusOutput: Swift.Sendable {
 
     public init(
         agentStatus: ConnectClientTypes.AgentStatus? = nil
-    )
-    {
+    ) {
         self.agentStatus = agentStatus
     }
 }
@@ -8146,8 +8234,7 @@ public struct DescribeAuthenticationProfileInput: Swift.Sendable {
     public init(
         authenticationProfileId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileId = authenticationProfileId
         self.instanceId = instanceId
     }
@@ -8155,7 +8242,7 @@ public struct DescribeAuthenticationProfileInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
     public struct AuthenticationProfile: Swift.Sendable {
         /// A list of IP address range strings that are allowed to access the Amazon Connect instance. For more information about how to configure IP addresses, see [Configure IP address based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Amazon Connect Administrator Guide.
         public var allowedIps: [Swift.String]?
@@ -8195,8 +8282,7 @@ extension ConnectClientTypes {
             maxSessionDuration: Swift.Int? = nil,
             name: Swift.String? = nil,
             periodicSessionDuration: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowedIps = allowedIps
             self.arn = arn
             self.blockedIps = blockedIps
@@ -8219,8 +8305,7 @@ public struct DescribeAuthenticationProfileOutput: Swift.Sendable {
 
     public init(
         authenticationProfile: ConnectClientTypes.AuthenticationProfile? = nil
-    )
-    {
+    ) {
         self.authenticationProfile = authenticationProfile
     }
 }
@@ -8236,8 +8321,7 @@ public struct DescribeContactInput: Swift.Sendable {
     public init(
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
     }
@@ -8320,8 +8404,7 @@ extension ConnectClientTypes {
         public init(
             capabilities: ConnectClientTypes.ParticipantCapabilities? = nil,
             deviceInfo: ConnectClientTypes.DeviceInfo? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.deviceInfo = deviceInfo
         }
@@ -8330,21 +8413,20 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the endpoint.
     public struct EndpointInfo: Swift.Sendable {
-        ///
+        /// Address of the endpoint.
         public var address: Swift.String?
-        ///
+        /// Display name of the endpoint.
         public var displayName: Swift.String?
-        ///
+        /// Type of endpoint.
         public var type: ConnectClientTypes.EndpointType?
 
         public init(
             address: Swift.String? = nil,
             displayName: Swift.String? = nil,
             type: ConnectClientTypes.EndpointType? = nil
-        )
-        {
+        ) {
             self.address = address
             self.displayName = displayName
             self.type = type
@@ -8364,8 +8446,7 @@ extension ConnectClientTypes {
         public init(
             greetingEndTimestamp: Foundation.Date? = nil,
             greetingStartTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.greetingEndTimestamp = greetingEndTimestamp
             self.greetingStartTimestamp = greetingStartTimestamp
         }
@@ -8381,8 +8462,7 @@ extension ConnectClientTypes {
 
         public init(
             potentialDisconnectIssue: Swift.String? = nil
-        )
-        {
+        ) {
             self.potentialDisconnectIssue = potentialDisconnectIssue
         }
     }
@@ -8397,8 +8477,7 @@ extension ConnectClientTypes {
 
         public init(
             audio: ConnectClientTypes.AudioQualityMetricsInfo? = nil
-        )
-        {
+        ) {
             self.audio = audio
         }
     }
@@ -8416,8 +8495,7 @@ extension ConnectClientTypes {
         public init(
             agent: ConnectClientTypes.AgentQualityMetrics? = nil,
             customer: ConnectClientTypes.CustomerQualityMetrics? = nil
-        )
-        {
+        ) {
             self.agent = agent
             self.customer = customer
         }
@@ -8436,8 +8514,7 @@ extension ConnectClientTypes {
         public init(
             enqueueTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.enqueueTimestamp = enqueueTimestamp
             self.id = id
         }
@@ -8456,8 +8533,7 @@ extension ConnectClientTypes {
         public init(
             durationInSeconds: Swift.Int? = nil,
             expiryTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.expiryTimestamp = expiryTimestamp
         }
@@ -8473,9 +8549,27 @@ extension ConnectClientTypes {
 
         public init(
             agentsCriteria: ConnectClientTypes.AgentsCriteria? = nil
-        )
-        {
+        ) {
             self.agentsCriteria = agentsCriteria
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An Object to define the minimum and maximum proficiency levels.
+    public struct Range: Swift.Sendable {
+        /// The maximum proficiency level of the range.
+        public var maxProficiencyLevel: Swift.Float?
+        /// The minimum proficiency level of the range.
+        public var minProficiencyLevel: Swift.Float?
+
+        public init(
+            maxProficiencyLevel: Swift.Float? = nil,
+            minProficiencyLevel: Swift.Float? = nil
+        ) {
+            self.maxProficiencyLevel = maxProficiencyLevel
+            self.minProficiencyLevel = minProficiencyLevel
         }
     }
 }
@@ -8492,6 +8586,8 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// The proficiency level of the condition.
         public var proficiencyLevel: Swift.Float?
+        /// An Object to define the minimum and maximum proficiency levels.
+        public var range: ConnectClientTypes.Range?
         /// The value of predefined attribute.
         public var value: Swift.String?
 
@@ -8500,13 +8596,14 @@ extension ConnectClientTypes {
             matchCriteria: ConnectClientTypes.MatchCriteria? = nil,
             name: Swift.String? = nil,
             proficiencyLevel: Swift.Float? = nil,
+            range: ConnectClientTypes.Range? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.matchCriteria = matchCriteria
             self.name = name
             self.proficiencyLevel = proficiencyLevel
+            self.range = range
             self.value = value
         }
     }
@@ -8556,8 +8653,7 @@ extension ConnectClientTypes {
 
         public init(
             sessionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sessionArn = sessionArn
         }
     }
@@ -8574,8 +8670,7 @@ public struct DescribeContactEvaluationInput: Swift.Sendable {
     public init(
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
         self.instanceId = instanceId
     }
@@ -8607,8 +8702,7 @@ extension ConnectClientTypes {
         public init(
             systemSuggestedValue: ConnectClientTypes.EvaluationAnswerData? = nil,
             value: ConnectClientTypes.EvaluationAnswerData? = nil
-        )
-        {
+        ) {
             self.systemSuggestedValue = systemSuggestedValue
             self.value = value
         }
@@ -8630,8 +8724,7 @@ extension ConnectClientTypes {
             automaticFail: Swift.Bool = false,
             notApplicable: Swift.Bool = false,
             percentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.automaticFail = automaticFail
             self.notApplicable = notApplicable
             self.percentage = percentage
@@ -8659,8 +8752,7 @@ extension ConnectClientTypes {
             contactId: Swift.String? = nil,
             evaluatorArn: Swift.String? = nil,
             score: ConnectClientTypes.EvaluationScore? = nil
-        )
-        {
+        ) {
             self.contactAgentId = contactAgentId
             self.contactId = contactId
             self.evaluatorArn = evaluatorArn
@@ -8678,8 +8770,7 @@ extension ConnectClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -8758,8 +8849,7 @@ extension ConnectClientTypes {
             scores: [Swift.String: ConnectClientTypes.EvaluationScore]? = nil,
             status: ConnectClientTypes.EvaluationStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.answers = answers
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
@@ -8775,9 +8865,9 @@ extension ConnectClientTypes {
 }
 
 /// The flow has not been published.
-public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8792,8 +8882,7 @@ public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8809,8 +8898,7 @@ public struct DescribeContactFlowInput: Swift.Sendable {
     public init(
         contactFlowId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
     }
@@ -8859,17 +8947,15 @@ extension ConnectClientTypes {
         public var flowContentSha256: Swift.String?
         /// The identifier of the flow.
         public var id: Swift.String?
-        /// Amazon Connect includes a set of default flows that have already been published. It uses them to power your contact center.
-        public var isDefault: Swift.Bool
-        /// The region in which the contact flow was last modified
+        /// The region in which the flow was last modified
         public var lastModifiedRegion: Swift.String?
-        /// The time at which the contact flow was last modified.
+        /// The time at which the flow was last modified.
         public var lastModifiedTime: Foundation.Date?
         /// The name of the flow.
         public var name: Swift.String?
         /// The type of flow.
         public var state: ConnectClientTypes.ContactFlowState?
-        /// The status of the contact flow.
+        /// The status of the flow.
         public var status: ConnectClientTypes.ContactFlowStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
@@ -8886,7 +8972,6 @@ extension ConnectClientTypes {
             description: Swift.String? = nil,
             flowContentSha256: Swift.String? = nil,
             id: Swift.String? = nil,
-            isDefault: Swift.Bool = false,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -8896,14 +8981,12 @@ extension ConnectClientTypes {
             type: ConnectClientTypes.ContactFlowType? = nil,
             version: Swift.Int? = nil,
             versionDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.description = description
             self.flowContentSha256 = flowContentSha256
             self.id = id
-            self.isDefault = isDefault
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -8923,8 +9006,7 @@ public struct DescribeContactFlowOutput: Swift.Sendable {
 
     public init(
         contactFlow: ConnectClientTypes.ContactFlow? = nil
-    )
-    {
+    ) {
         self.contactFlow = contactFlow
     }
 }
@@ -8940,8 +9022,7 @@ public struct DescribeContactFlowModuleInput: Swift.Sendable {
     public init(
         contactFlowModuleId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.instanceId = instanceId
     }
@@ -9035,8 +9116,7 @@ extension ConnectClientTypes {
             state: ConnectClientTypes.ContactFlowModuleState? = nil,
             status: ConnectClientTypes.ContactFlowModuleStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.description = description
@@ -9055,46 +9135,44 @@ public struct DescribeContactFlowModuleOutput: Swift.Sendable {
 
     public init(
         contactFlowModule: ConnectClientTypes.ContactFlowModule? = nil
-    )
-    {
+    ) {
         self.contactFlowModule = contactFlowModule
     }
 }
 
 public struct DescribeEmailAddressInput: Swift.Sendable {
-    ///
+    /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
     public init(
         emailAddressId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressId = emailAddressId
         self.instanceId = instanceId
     }
 }
 
 public struct DescribeEmailAddressOutput: Swift.Sendable {
-    ///
+    /// The email address creation timestamp in ISO 8601 Datetime.
     public var createTimestamp: Swift.String?
-    ///
+    /// The description of the email address.
     public var description: Swift.String?
-    ///
+    /// The display name of email address
     public var displayName: Swift.String?
-    ///
+    /// The email address with the instance, in [^\s@]+@[^\s@]+\.[^\s@]+ format.
     public var emailAddress: Swift.String?
-    ///
+    /// The Amazon Resource Name (ARN) of the email address.
     public var emailAddressArn: Swift.String?
-    ///
+    /// The identifier of the email address.
     public var emailAddressId: Swift.String?
-    ///
+    /// The email address last modification timestamp in ISO 8601 Datetime.
     public var modifiedTimestamp: Swift.String?
-    ///
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -9106,8 +9184,7 @@ public struct DescribeEmailAddressOutput: Swift.Sendable {
         emailAddressId: Swift.String? = nil,
         modifiedTimestamp: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createTimestamp = createTimestamp
         self.description = description
         self.displayName = displayName
@@ -9138,8 +9215,7 @@ public struct DescribeEvaluationFormInput: Swift.Sendable {
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
@@ -9186,8 +9262,7 @@ public struct DescribeHoursOfOperationInput: Swift.Sendable {
     public init(
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
     }
@@ -9226,8 +9301,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.config = config
             self.description = description
             self.hoursOfOperationArn = hoursOfOperationArn
@@ -9247,9 +9321,84 @@ public struct DescribeHoursOfOperationOutput: Swift.Sendable {
 
     public init(
         hoursOfOperation: ConnectClientTypes.HoursOfOperation? = nil
-    )
-    {
+    ) {
         self.hoursOfOperation = hoursOfOperation
+    }
+}
+
+public struct DescribeHoursOfOperationOverrideInput: Swift.Sendable {
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier for the hours of operation override.
+    /// This member is required.
+    public var hoursOfOperationOverrideId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        hoursOfOperationOverrideId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operations override.
+    public struct HoursOfOperationOverride: Swift.Sendable {
+        /// Configuration information for the hours of operation override: day, start time, and end time.
+        public var config: [ConnectClientTypes.HoursOfOperationOverrideConfig]?
+        /// The description of the hours of operation override.
+        public var description: Swift.String?
+        /// The date from which the hours of operation override would be effective.
+        public var effectiveFrom: Swift.String?
+        /// The date till which the hours of operation override would be effective.
+        public var effectiveTill: Swift.String?
+        /// The Amazon Resource Name (ARN) for the hours of operation.
+        public var hoursOfOperationArn: Swift.String?
+        /// The identifier for the hours of operation.
+        public var hoursOfOperationId: Swift.String?
+        /// The identifier for the hours of operation override.
+        public var hoursOfOperationOverrideId: Swift.String?
+        /// The name of the hours of operation override.
+        public var name: Swift.String?
+
+        public init(
+            config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
+            description: Swift.String? = nil,
+            effectiveFrom: Swift.String? = nil,
+            effectiveTill: Swift.String? = nil,
+            hoursOfOperationArn: Swift.String? = nil,
+            hoursOfOperationId: Swift.String? = nil,
+            hoursOfOperationOverrideId: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.config = config
+            self.description = description
+            self.effectiveFrom = effectiveFrom
+            self.effectiveTill = effectiveTill
+            self.hoursOfOperationArn = hoursOfOperationArn
+            self.hoursOfOperationId = hoursOfOperationId
+            self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+            self.name = name
+        }
+    }
+}
+
+public struct DescribeHoursOfOperationOverrideOutput: Swift.Sendable {
+    /// Information about the hours of operations override.
+    public var hoursOfOperationOverride: ConnectClientTypes.HoursOfOperationOverride?
+
+    public init(
+        hoursOfOperationOverride: ConnectClientTypes.HoursOfOperationOverride? = nil
+    ) {
+        self.hoursOfOperationOverride = hoursOfOperationOverride
     }
 }
 
@@ -9260,8 +9409,7 @@ public struct DescribeInstanceInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -9307,8 +9455,7 @@ extension ConnectClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -9356,8 +9503,7 @@ extension ConnectClientTypes {
             serviceRole: Swift.String? = nil,
             statusReason: ConnectClientTypes.InstanceStatusReason? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -9435,8 +9581,7 @@ extension ConnectClientTypes {
             region: Swift.String? = nil,
             replicationStatus: ConnectClientTypes.InstanceReplicationStatus? = nil,
             replicationStatusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.region = region
             self.replicationStatus = replicationStatus
             self.replicationStatusReason = replicationStatusReason
@@ -9459,8 +9604,7 @@ extension ConnectClientTypes {
             globalSignInEndpoint: Swift.String? = nil,
             replicationStatusSummaryList: [ConnectClientTypes.ReplicationStatusSummary]? = nil,
             sourceRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.globalSignInEndpoint = globalSignInEndpoint
             self.replicationStatusSummaryList = replicationStatusSummaryList
             self.sourceRegion = sourceRegion
@@ -9477,8 +9621,7 @@ public struct DescribeInstanceOutput: Swift.Sendable {
     public init(
         instance: ConnectClientTypes.Instance? = nil,
         replicationConfiguration: ConnectClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.instance = instance
         self.replicationConfiguration = replicationConfiguration
     }
@@ -9495,6 +9638,7 @@ extension ConnectClientTypes {
         case enhancedContactMonitoring
         case highVolumeOutbound
         case inboundCalls
+        case multiPartyChatConference
         case multiPartyConference
         case outboundCalls
         case useCustomTtsVoices
@@ -9510,6 +9654,7 @@ extension ConnectClientTypes {
                 .enhancedContactMonitoring,
                 .highVolumeOutbound,
                 .inboundCalls,
+                .multiPartyChatConference,
                 .multiPartyConference,
                 .outboundCalls,
                 .useCustomTtsVoices
@@ -9531,6 +9676,7 @@ extension ConnectClientTypes {
             case .enhancedContactMonitoring: return "ENHANCED_CONTACT_MONITORING"
             case .highVolumeOutbound: return "HIGH_VOLUME_OUTBOUND"
             case .inboundCalls: return "INBOUND_CALLS"
+            case .multiPartyChatConference: return "MULTI_PARTY_CHAT_CONFERENCE"
             case .multiPartyConference: return "MULTI_PARTY_CONFERENCE"
             case .outboundCalls: return "OUTBOUND_CALLS"
             case .useCustomTtsVoices: return "USE_CUSTOM_TTS_VOICES"
@@ -9551,8 +9697,7 @@ public struct DescribeInstanceAttributeInput: Swift.Sendable {
     public init(
         attributeType: ConnectClientTypes.InstanceAttributeType? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeType = attributeType
         self.instanceId = instanceId
     }
@@ -9570,8 +9715,7 @@ extension ConnectClientTypes {
         public init(
             attributeType: ConnectClientTypes.InstanceAttributeType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeType = attributeType
             self.value = value
         }
@@ -9584,8 +9728,7 @@ public struct DescribeInstanceAttributeOutput: Swift.Sendable {
 
     public init(
         attribute: ConnectClientTypes.Attribute? = nil
-    )
-    {
+    ) {
         self.attribute = attribute
     }
 }
@@ -9605,8 +9748,7 @@ public struct DescribeInstanceStorageConfigInput: Swift.Sendable {
         associationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.instanceId = instanceId
         self.resourceType = resourceType
@@ -9619,8 +9761,7 @@ public struct DescribeInstanceStorageConfigOutput: Swift.Sendable {
 
     public init(
         storageConfig: ConnectClientTypes.InstanceStorageConfig? = nil
-    )
-    {
+    ) {
         self.storageConfig = storageConfig
     }
 }
@@ -9632,8 +9773,7 @@ public struct DescribePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -10422,8 +10562,7 @@ extension ConnectClientTypes {
         public init(
             message: Swift.String? = nil,
             status: ConnectClientTypes.PhoneNumberWorkflowStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.status = status
         }
@@ -10503,7 +10642,7 @@ extension ConnectClientTypes {
         public var phoneNumberStatus: ConnectClientTypes.PhoneNumberStatus?
         /// The type of phone number.
         public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
-        /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN of the phone number that was imported from Amazon Pinpoint.
+        /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Web Services End User Messaging. If it is from Amazon Web Services End User Messaging, it looks like the ARN of the phone number that was imported from Amazon Web Services End User Messaging.
         public var sourcePhoneNumberArn: Swift.String?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
@@ -10522,8 +10661,7 @@ extension ConnectClientTypes {
             sourcePhoneNumberArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
@@ -10545,8 +10683,7 @@ public struct DescribePhoneNumberOutput: Swift.Sendable {
 
     public init(
         claimedPhoneNumberSummary: ConnectClientTypes.ClaimedPhoneNumberSummary? = nil
-    )
-    {
+    ) {
         self.claimedPhoneNumberSummary = claimedPhoneNumberSummary
     }
 }
@@ -10562,8 +10699,7 @@ public struct DescribePredefinedAttributeInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
     }
@@ -10587,8 +10723,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             values: ConnectClientTypes.PredefinedAttributeValues? = nil
-        )
-        {
+        ) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -10603,8 +10738,7 @@ public struct DescribePredefinedAttributeOutput: Swift.Sendable {
 
     public init(
         predefinedAttribute: ConnectClientTypes.PredefinedAttribute? = nil
-    )
-    {
+    ) {
         self.predefinedAttribute = predefinedAttribute
     }
 }
@@ -10620,8 +10754,7 @@ public struct DescribePromptInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.promptId = promptId
     }
@@ -10654,8 +10787,7 @@ extension ConnectClientTypes {
             promptARN: Swift.String? = nil,
             promptId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -10673,8 +10805,7 @@ public struct DescribePromptOutput: Swift.Sendable {
 
     public init(
         prompt: ConnectClientTypes.Prompt? = nil
-    )
-    {
+    ) {
         self.prompt = prompt
     }
 }
@@ -10690,8 +10821,7 @@ public struct DescribeQueueInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
     }
@@ -10744,7 +10874,7 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// The outbound caller ID name, number, and outbound whisper flow.
         public var outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig?
-        ///
+        /// The outbound email address ID for a specified queue.
         public var outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig?
         /// The Amazon Resource Name (ARN) for the queue.
         public var queueArn: Swift.String?
@@ -10768,8 +10898,7 @@ extension ConnectClientTypes {
             queueId: Swift.String? = nil,
             status: ConnectClientTypes.QueueStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.hoursOfOperationId = hoursOfOperationId
             self.lastModifiedRegion = lastModifiedRegion
@@ -10792,8 +10921,7 @@ public struct DescribeQueueOutput: Swift.Sendable {
 
     public init(
         queue: ConnectClientTypes.Queue? = nil
-    )
-    {
+    ) {
         self.queue = queue
     }
 }
@@ -10809,8 +10937,7 @@ public struct DescribeQuickConnectInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.quickConnectId = quickConnectId
     }
@@ -10846,8 +10973,7 @@ extension ConnectClientTypes {
             quickConnectConfig: ConnectClientTypes.QuickConnectConfig? = nil,
             quickConnectId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -10866,8 +10992,7 @@ public struct DescribeQuickConnectOutput: Swift.Sendable {
 
     public init(
         quickConnect: ConnectClientTypes.QuickConnect? = nil
-    )
-    {
+    ) {
         self.quickConnect = quickConnect
     }
 }
@@ -10883,8 +11008,7 @@ public struct DescribeRoutingProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
     }
@@ -10941,8 +11065,7 @@ extension ConnectClientTypes {
             routingProfileArn: Swift.String? = nil,
             routingProfileId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.agentAvailabilityTimer = agentAvailabilityTimer
             self.associatedQueueIds = associatedQueueIds
             self.defaultOutboundQueueId = defaultOutboundQueueId
@@ -10968,8 +11091,7 @@ public struct DescribeRoutingProfileOutput: Swift.Sendable {
 
     public init(
         routingProfile: ConnectClientTypes.RoutingProfile? = nil
-    )
-    {
+    ) {
         self.routingProfile = routingProfile
     }
 }
@@ -10985,8 +11107,7 @@ public struct DescribeRuleInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.ruleId = ruleId
     }
@@ -11041,8 +11162,7 @@ extension ConnectClientTypes {
             ruleId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             triggerEventSource: ConnectClientTypes.RuleTriggerEventSource? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.createdTime = createdTime
             self.function = function
@@ -11065,8 +11185,7 @@ public struct DescribeRuleOutput: Swift.Sendable {
 
     public init(
         rule: ConnectClientTypes.Rule? = nil
-    )
-    {
+    ) {
         self.rule = rule
     }
 }
@@ -11082,8 +11201,7 @@ public struct DescribeSecurityProfileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.securityProfileId = securityProfileId
     }
@@ -11097,7 +11215,7 @@ extension ConnectClientTypes {
         public var allowedAccessControlHierarchyGroupId: Swift.String?
         /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
         public var allowedAccessControlTags: [Swift.String: Swift.String]?
-        /// The Amazon Resource Name (ARN) for the secruity profile.
+        /// The Amazon Resource Name (ARN) for the security profile.
         public var arn: Swift.String?
         /// The description of the security profile.
         public var description: Swift.String?
@@ -11131,8 +11249,7 @@ extension ConnectClientTypes {
             securityProfileName: Swift.String? = nil,
             tagRestrictedResources: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
             self.arn = arn
@@ -11155,8 +11272,7 @@ public struct DescribeSecurityProfileOutput: Swift.Sendable {
 
     public init(
         securityProfile: ConnectClientTypes.SecurityProfile? = nil
-    )
-    {
+    ) {
         self.securityProfile = securityProfile
     }
 }
@@ -11168,8 +11284,7 @@ public struct DescribeTrafficDistributionGroupInput: Swift.Sendable {
 
     public init(
         trafficDistributionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficDistributionGroupId = trafficDistributionGroupId
     }
 }
@@ -11257,8 +11372,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             status: ConnectClientTypes.TrafficDistributionGroupStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -11277,8 +11391,7 @@ public struct DescribeTrafficDistributionGroupOutput: Swift.Sendable {
 
     public init(
         trafficDistributionGroup: ConnectClientTypes.TrafficDistributionGroup? = nil
-    )
-    {
+    ) {
         self.trafficDistributionGroup = trafficDistributionGroup
     }
 }
@@ -11294,8 +11407,7 @@ public struct DescribeUserInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
     }
@@ -11343,8 +11455,7 @@ extension ConnectClientTypes {
             securityProfileIds: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
@@ -11367,8 +11478,7 @@ public struct DescribeUserOutput: Swift.Sendable {
 
     public init(
         user: ConnectClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -11384,8 +11494,7 @@ public struct DescribeUserHierarchyGroupInput: Swift.Sendable {
     public init(
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
     }
@@ -11412,8 +11521,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -11444,8 +11552,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyGroupSummary? = nil,
             levelThree: ConnectClientTypes.HierarchyGroupSummary? = nil,
             levelTwo: ConnectClientTypes.HierarchyGroupSummary? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -11485,8 +11592,7 @@ extension ConnectClientTypes {
             levelId: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.hierarchyPath = hierarchyPath
             self.id = id
@@ -11505,8 +11611,7 @@ public struct DescribeUserHierarchyGroupOutput: Swift.Sendable {
 
     public init(
         hierarchyGroup: ConnectClientTypes.HierarchyGroup? = nil
-    )
-    {
+    ) {
         self.hierarchyGroup = hierarchyGroup
     }
 }
@@ -11518,8 +11623,7 @@ public struct DescribeUserHierarchyStructureInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -11545,8 +11649,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -11577,8 +11680,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyLevel? = nil,
             levelThree: ConnectClientTypes.HierarchyLevel? = nil,
             levelTwo: ConnectClientTypes.HierarchyLevel? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -11594,8 +11696,7 @@ public struct DescribeUserHierarchyStructureOutput: Swift.Sendable {
 
     public init(
         hierarchyStructure: ConnectClientTypes.HierarchyStructure? = nil
-    )
-    {
+    ) {
         self.hierarchyStructure = hierarchyStructure
     }
 }
@@ -11611,8 +11712,7 @@ public struct DescribeViewInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.viewId = viewId
     }
@@ -11624,8 +11724,7 @@ public struct DescribeViewOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -11641,8 +11740,7 @@ public struct DescribeVocabularyInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         vocabularyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.vocabularyId = vocabularyId
     }
@@ -11687,8 +11785,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             state: ConnectClientTypes.VocabularyState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.failureReason = failureReason
@@ -11709,8 +11806,7 @@ public struct DescribeVocabularyOutput: Swift.Sendable {
 
     public init(
         vocabulary: ConnectClientTypes.Vocabulary? = nil
-    )
-    {
+    ) {
         self.vocabulary = vocabulary
     }
 }
@@ -11729,8 +11825,7 @@ public struct DisassociateAnalyticsDataSetInput: Swift.Sendable {
         dataSetId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         targetAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.instanceId = instanceId
         self.targetAccountId = targetAccountId
@@ -11738,6 +11833,8 @@ public struct DisassociateAnalyticsDataSetInput: Swift.Sendable {
 }
 
 public struct DisassociateApprovedOriginInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11746,16 +11843,19 @@ public struct DisassociateApprovedOriginInput: Swift.Sendable {
     public var origin: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         origin: Swift.String? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.origin = origin
     }
 }
 
 public struct DisassociateBotInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11765,11 +11865,12 @@ public struct DisassociateBotInput: Swift.Sendable {
     public var lexV2Bot: ConnectClientTypes.LexV2Bot?
 
     public init(
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lexBot: ConnectClientTypes.LexBot? = nil,
         lexV2Bot: ConnectClientTypes.LexV2Bot? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.lexBot = lexBot
         self.lexV2Bot = lexV2Bot
@@ -11781,6 +11882,10 @@ public struct DisassociateFlowInput: Swift.Sendable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the resource.
+    ///
+    /// * Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER
+    ///
+    /// * Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     /// This member is required.
     public var resourceId: Swift.String?
     /// A valid resource type.
@@ -11791,8 +11896,7 @@ public struct DisassociateFlowInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -11808,6 +11912,8 @@ public struct DisassociateInstanceStorageConfigInput: Swift.Sendable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11817,17 +11923,20 @@ public struct DisassociateInstanceStorageConfigInput: Swift.Sendable {
 
     public init(
         associationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.resourceType = resourceType
     }
 }
 
 public struct DisassociateLambdaFunctionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
     /// This member is required.
     public var functionArn: Swift.String?
@@ -11836,10 +11945,11 @@ public struct DisassociateLambdaFunctionInput: Swift.Sendable {
     public var instanceId: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         functionArn: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
+        self.clientToken = clientToken
         self.functionArn = functionArn
         self.instanceId = instanceId
     }
@@ -11849,6 +11959,8 @@ public struct DisassociateLexBotInput: Swift.Sendable {
     /// The name of the Amazon Lex bot. Maximum character limit of 50.
     /// This member is required.
     public var botName: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -11858,11 +11970,12 @@ public struct DisassociateLexBotInput: Swift.Sendable {
 
     public init(
         botName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         lexRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botName = botName
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.lexRegion = lexRegion
     }
@@ -11879,8 +11992,7 @@ public struct DisassociatePhoneNumberContactFlowInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
     }
@@ -11901,8 +12013,7 @@ public struct DisassociateQueueQuickConnectsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         quickConnectIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
         self.quickConnectIds = quickConnectIds
@@ -11924,8 +12035,7 @@ public struct DisassociateRoutingProfileQueuesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueReferences: [ConnectClientTypes.RoutingProfileQueueReference]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueReferences = queueReferences
         self.routingProfileId = routingProfileId
@@ -11936,16 +12046,19 @@ public struct DisassociateSecurityKeyInput: Swift.Sendable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
     public init(
         associationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
+        self.clientToken = clientToken
         self.instanceId = instanceId
     }
 }
@@ -11965,8 +12078,7 @@ public struct DisassociateTrafficDistributionGroupUserInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         trafficDistributionGroupId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.trafficDistributionGroupId = trafficDistributionGroupId
         self.userId = userId
@@ -11992,8 +12104,7 @@ extension ConnectClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
         }
@@ -12015,8 +12126,7 @@ public struct DisassociateUserProficienciesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil,
         userProficiencies: [ConnectClientTypes.UserProficiencyDisassociate]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
         self.userProficiencies = userProficiencies
@@ -12038,8 +12148,7 @@ public struct DismissUserContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.userId = userId
@@ -12053,13 +12162,13 @@ public struct DismissUserContactOutput: Swift.Sendable {
 
 /// Request to GetAttachedFile API.
 public struct GetAttachedFileInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// The unique identifier of the attached file resource.
     /// This member is required.
     public var fileId: Swift.String?
-    /// The unique identifier of the Connect instance.
+    /// The unique identifier of the Amazon Connect instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
@@ -12070,8 +12179,7 @@ public struct GetAttachedFileInput: Swift.Sendable {
         fileId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         urlExpiryInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileId = fileId
         self.instanceId = instanceId
@@ -12091,8 +12199,7 @@ extension ConnectClientTypes {
         public init(
             url: Swift.String? = nil,
             urlExpiry: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
             self.urlExpiry = urlExpiry
         }
@@ -12137,8 +12244,7 @@ public struct GetAttachedFileOutput: Swift.Sendable {
         fileStatus: ConnectClientTypes.FileStatusType? = nil,
         fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -12164,8 +12270,7 @@ public struct GetContactAttributesInput: Swift.Sendable {
     public init(
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.initialContactId = initialContactId
         self.instanceId = instanceId
     }
@@ -12177,8 +12282,7 @@ public struct GetContactAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
@@ -12290,8 +12394,7 @@ extension ConnectClientTypes {
         public init(
             name: ConnectClientTypes.CurrentMetricName? = nil,
             unit: ConnectClientTypes.Unit? = nil
-        )
-        {
+        ) {
             self.name = name
             self.unit = unit
         }
@@ -12316,8 +12419,7 @@ extension ConnectClientTypes {
             queues: [Swift.String]? = nil,
             routingProfiles: [Swift.String]? = nil,
             routingStepExpressions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.queues = queues
             self.routingProfiles = routingProfiles
@@ -12402,8 +12504,7 @@ extension ConnectClientTypes {
         public init(
             sortByMetric: ConnectClientTypes.CurrentMetricName? = nil,
             sortOrder: ConnectClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortByMetric = sortByMetric
             self.sortOrder = sortOrder
         }
@@ -12458,8 +12559,7 @@ public struct GetCurrentMetricDataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: [ConnectClientTypes.CurrentMetricSortCriteria]? = nil
-    )
-    {
+    ) {
         self.currentMetrics = currentMetrics
         self.filters = filters
         self.groupings = groupings
@@ -12482,8 +12582,7 @@ extension ConnectClientTypes {
         public init(
             metric: ConnectClientTypes.CurrentMetric? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.value = value
         }
@@ -12502,8 +12601,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -12528,8 +12626,7 @@ extension ConnectClientTypes {
             queue: ConnectClientTypes.QueueReference? = nil,
             routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
             routingStepExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.queue = queue
             self.routingProfile = routingProfile
@@ -12550,8 +12647,7 @@ extension ConnectClientTypes {
         public init(
             collections: [ConnectClientTypes.CurrentMetricData]? = nil,
             dimensions: ConnectClientTypes.Dimensions? = nil
-        )
-        {
+        ) {
             self.collections = collections
             self.dimensions = dimensions
         }
@@ -12573,8 +12669,7 @@ public struct GetCurrentMetricDataOutput: Swift.Sendable {
         dataSnapshotTime: Foundation.Date? = nil,
         metricResults: [ConnectClientTypes.CurrentMetricResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.dataSnapshotTime = dataSnapshotTime
         self.metricResults = metricResults
@@ -12591,8 +12686,7 @@ extension ConnectClientTypes {
 
         public init(
             contactStates: [ConnectClientTypes.ContactState]? = nil
-        )
-        {
+        ) {
             self.contactStates = contactStates
         }
     }
@@ -12619,8 +12713,7 @@ extension ConnectClientTypes {
             queues: [Swift.String]? = nil,
             routingProfiles: [Swift.String]? = nil,
             userHierarchyGroups: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.agents = agents
             self.contactFilter = contactFilter
             self.queues = queues
@@ -12660,8 +12753,7 @@ public struct GetCurrentUserDataInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -12681,8 +12773,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -12710,8 +12801,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyGroupSummaryReference? = nil,
             levelThree: ConnectClientTypes.HierarchyGroupSummaryReference? = nil,
             levelTwo: ConnectClientTypes.HierarchyGroupSummaryReference? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -12733,8 +12823,7 @@ extension ConnectClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
         }
@@ -12774,8 +12863,7 @@ extension ConnectClientTypes {
             routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
             status: ConnectClientTypes.AgentStatusReference? = nil,
             user: ConnectClientTypes.UserReference? = nil
-        )
-        {
+        ) {
             self.activeSlotsByChannel = activeSlotsByChannel
             self.availableSlotsByChannel = availableSlotsByChannel
             self.contacts = contacts
@@ -12801,18 +12889,97 @@ public struct GetCurrentUserDataOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userDataList: [ConnectClientTypes.UserData]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.userDataList = userDataList
     }
 }
 
-/// No user with the specified credentials was found in the Amazon Connect instance.
-public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GetEffectiveHoursOfOperationsInput: Swift.Sendable {
+    /// The Date from when the hours of operation are listed.
+    /// This member is required.
+    public var fromDate: Swift.String?
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Date until when the hours of operation are listed.
+    /// This member is required.
+    public var toDate: Swift.String?
 
-    public struct Properties {
+    public init(
+        fromDate: Swift.String? = nil,
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        toDate: Swift.String? = nil
+    ) {
+        self.fromDate = fromDate
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.toDate = toDate
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operations with the effective override applied.
+    public struct OperationalHour: Swift.Sendable {
+        /// The end time that your contact center closes.
+        public var end: ConnectClientTypes.OverrideTimeSlice?
+        /// The start time that your contact center opens.
+        public var start: ConnectClientTypes.OverrideTimeSlice?
+
+        public init(
+            end: ConnectClientTypes.OverrideTimeSlice? = nil,
+            start: ConnectClientTypes.OverrideTimeSlice? = nil
+        ) {
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operations with the effective override applied.
+    public struct EffectiveHoursOfOperations: Swift.Sendable {
+        /// The date that the hours of operation or overrides applies to.
+        public var date: Swift.String?
+        /// Information about the hours of operations with the effective override applied.
+        public var operationalHours: [ConnectClientTypes.OperationalHour]?
+
+        public init(
+            date: Swift.String? = nil,
+            operationalHours: [ConnectClientTypes.OperationalHour]? = nil
+        ) {
+            self.date = date
+            self.operationalHours = operationalHours
+        }
+    }
+}
+
+public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
+    /// Information about the effective hours of operations
+    public var effectiveHoursOfOperationList: [ConnectClientTypes.EffectiveHoursOfOperations]?
+    /// The time zone for the hours of operation.
+    public var timeZone: Swift.String?
+
+    public init(
+        effectiveHoursOfOperationList: [ConnectClientTypes.EffectiveHoursOfOperations]? = nil,
+        timeZone: Swift.String? = nil
+    ) {
+        self.effectiveHoursOfOperationList = effectiveHoursOfOperationList
+        self.timeZone = timeZone
+    }
+}
+
+/// No user with the specified credentials was found in the Amazon Connect instance.
+public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12827,8 +12994,7 @@ public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12840,8 +13006,7 @@ public struct GetFederationTokenInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
     }
 }
@@ -12864,8 +13029,7 @@ extension ConnectClientTypes {
             accessTokenExpiration: Foundation.Date? = nil,
             refreshToken: Swift.String? = nil,
             refreshTokenExpiration: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.accessTokenExpiration = accessTokenExpiration
             self.refreshToken = refreshToken
@@ -12895,8 +13059,7 @@ public struct GetFederationTokenOutput: Swift.Sendable {
         signInUrl: Swift.String? = nil,
         userArn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.signInUrl = signInUrl
         self.userArn = userArn
@@ -12914,6 +13077,10 @@ public struct GetFlowAssociationInput: Swift.Sendable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the resource.
+    ///
+    /// * Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER
+    ///
+    /// * Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     /// This member is required.
     public var resourceId: Swift.String?
     /// A valid resource type.
@@ -12924,8 +13091,7 @@ public struct GetFlowAssociationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -12944,8 +13110,7 @@ public struct GetFlowAssociationOutput: Swift.Sendable {
         flowId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.FlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.flowId = flowId
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -13121,8 +13286,7 @@ extension ConnectClientTypes {
         public init(
             comparison: ConnectClientTypes.Comparison? = nil,
             thresholdValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.thresholdValue = thresholdValue
         }
@@ -13147,8 +13311,7 @@ extension ConnectClientTypes {
             statistic: ConnectClientTypes.Statistic? = nil,
             threshold: ConnectClientTypes.Threshold? = nil,
             unit: ConnectClientTypes.Unit? = nil
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.threshold = threshold
@@ -13189,8 +13352,7 @@ public struct GetMetricDataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.filters = filters
         self.groupings = groupings
@@ -13214,8 +13376,7 @@ extension ConnectClientTypes {
         public init(
             metric: ConnectClientTypes.HistoricalMetric? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.value = value
         }
@@ -13234,8 +13395,7 @@ extension ConnectClientTypes {
         public init(
             collections: [ConnectClientTypes.HistoricalMetricData]? = nil,
             dimensions: ConnectClientTypes.Dimensions? = nil
-        )
-        {
+        ) {
             self.collections = collections
             self.dimensions = dimensions
         }
@@ -13251,8 +13411,7 @@ public struct GetMetricDataOutput: Swift.Sendable {
     public init(
         metricResults: [ConnectClientTypes.HistoricalMetricResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricResults = metricResults
         self.nextToken = nextToken
     }
@@ -13270,8 +13429,7 @@ extension ConnectClientTypes {
         public init(
             filterKey: Swift.String? = nil,
             filterValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.filterKey = filterKey
             self.filterValues = filterValues
         }
@@ -13343,8 +13501,7 @@ extension ConnectClientTypes {
         public init(
             intervalPeriod: ConnectClientTypes.IntervalPeriod? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.intervalPeriod = intervalPeriod
             self.timeZone = timeZone
         }
@@ -13373,7 +13530,7 @@ extension ConnectClientTypes {
         ///
         /// * INITIATION_METHOD
         public var metricFilterKey: Swift.String?
-        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Amazon Connect Administrator Guide. For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the [Flow outcome](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-historical) metric in the Amazon Connect Administrator Guide.
+        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) in the Amazon Connect Administrator Guide. For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the [Flow outcome](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-historical) metric in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_CONVERSATION_OUTCOME_TYPE, see the description for the [Bot conversations completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed-metric) in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_INTENT_OUTCOME_TYPE, see the description for the [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed-metric) metric in the Amazon Connect Administrator Guide.
         public var metricFilterValues: [Swift.String]?
         /// If set to true, the API response contains results that filter out the results matched by the metric-level filters condition. By default, Negate is set to false.
         public var negate: Swift.Bool
@@ -13382,8 +13539,7 @@ extension ConnectClientTypes {
             metricFilterKey: Swift.String? = nil,
             metricFilterValues: [Swift.String]? = nil,
             negate: Swift.Bool = false
-        )
-        {
+        ) {
             self.metricFilterKey = metricFilterKey
             self.metricFilterValues = metricFilterValues
             self.negate = negate
@@ -13403,8 +13559,7 @@ extension ConnectClientTypes {
         public init(
             comparison: Swift.String? = nil,
             thresholdValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.thresholdValue = thresholdValue
         }
@@ -13426,8 +13581,7 @@ extension ConnectClientTypes {
             metricFilters: [ConnectClientTypes.MetricFilterV2]? = nil,
             name: Swift.String? = nil,
             threshold: [ConnectClientTypes.ThresholdV2]? = nil
-        )
-        {
+        ) {
             self.metricFilters = metricFilters
             self.name = name
             self.threshold = threshold
@@ -13460,7 +13614,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     ///
     /// At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see [Create a historical metrics report](https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html) in the Amazon Connect Administrator Guide. Note the following limits:
     ///
-    /// * Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | FEATURE | FLOW_TYPE | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | INITIATION_METHOD | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |
+    /// * Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS |  BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |
     ///
     /// * Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters. contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics. connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key. ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is. Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.
     ///
@@ -13472,7 +13626,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     /// This filter is available only for contact record-driven metrics. [Campaign](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-outbound-campaigns_Campaign.html) ARNs are valid filterValues for the CAMPAIGN filter key.
     /// This member is required.
     public var filters: [ConnectClientTypes.FilterV2]?
-    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | INITIATION_METHOD | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION
+    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION Type: Array of strings Array Members: Maximum number of 4 items Required: No
     public var groupings: [Swift.String]?
     /// The interval period and timezone to apply to returned metrics.
     ///
@@ -13497,7 +13651,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#abandonment-rate-historical) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherent-time-historical) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-answer-rate-historical) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-nonresponse-no-abandon-historical) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#occupancy-historical) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherence-historical) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#scheduled-time-historical) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-abandon-time-historical) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-active-time-historical) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-acw-time-historical) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-avg-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-pause-time-historical) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contacts-case-historical) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-case-resolution-time-historical) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contact-duration-historical) Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-conversation-duration-historical) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-dials-historical) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-flow-time-historical) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-greeting-time-agent-historical) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-handle-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-customer-hold-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#avg-customer-hold-time-all-contacts-historical) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-holds-historical) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-customer-hold-time-historical) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-time-historical) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-agent-historical) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-time-agent-historical) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##average-non-talk-time-historical) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-answer-time-historical) Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-resolution-time-historical) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-historical) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-agent-historical) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-customer-historical) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-wait-time-historical) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-historical) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-rate-historical) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-interactions-historical) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-send-attempts-historical) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-created-historical) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-created-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#api-contacts-handled-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-agent-disconnect-historical) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-external-historical) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-internal-historical) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-historical) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-by-enqueue-historical) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-removed-historical) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-resolved-historical) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-historical) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#current-cases-historical) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#delivery-attempts-historical) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#delivery-attempt-disposition-rate-historical) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-historical) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-started-historical) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#human-answered-historical) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-flow-time-historical) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-queued-time-historical) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#minimum-flow-time-historical) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-first-contact-historical) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-percentage-historical). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ntt-historical) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#tt-historical) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttagent-historical) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttcustomer-historical) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-reopened-historical) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-historical) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#service-level-historical) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#acw-historical) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
+    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Abandonment rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#abandonment-rate-historical) AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherent-time-historical) AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent answer rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-answer-rate-historical) AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Non-adherent time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#non-adherent-time) AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent non-response](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-non-response) AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: [Agent non-response without customer abandons](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#agent-nonresponse-no-abandon-historical) AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: [Occupancy](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#occupancy-historical) AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Adherence](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#adherence-historical) AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Scheduled time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#scheduled-time-historical) AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue abandon time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-abandon-time-historical) AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average active time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-active-time-historical) AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average after contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-acw-time-historical) Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Average agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-avg-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Average agent pause time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-pause-time-historical) AVG_BOT_CONVERSATION_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation time](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-time-metric) AVG_BOT_CONVERSATION_TURNS Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Average bot conversation turns](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#average-bot-conversation-turns-metric) AVG_CASE_RELATED_CONTACTS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average contacts per case](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contacts-case-historical) AVG_CASE_RESOLUTION_TIME Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Average case resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-case-resolution-time-historical) AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average contact duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-contact-duration-historical) Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average conversation duration](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-conversation-duration-historical) AVG_DIALS_PER_MINUTE This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: [Average dials per minute](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-dials-historical) AVG_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average agent evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-evaluation-score-historical) AVG_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Average flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-flow-time-historical) AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent greeting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-greeting-time-agent-historical) AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: [Average handle time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-handle-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-customer-hold-time-historical) Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer hold time all contacts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#avg-customer-hold-time-all-contacts-historical) AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average holds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-holds-historical) Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction and customer hold time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-customer-hold-time-historical) AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interaction time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-agent-interaction-time-historical) Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruptions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-agent-historical) AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent interruption time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-interruptions-time-agent-historical) AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average non-talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html##average-non-talk-time-historical) AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average queue answer time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-queue-answer-time-historical) Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average resolution time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-resolution-time-historical) AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-historical) AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average agent talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-agent-historical) AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Average customer talk time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-talk-time-customer-historical) AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: [Average wait time after customer connection](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-wait-time-historical) AVG_WEIGHTED_EVALUATION_SCORE Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Average weighted agent evaluation score](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#average-weighted-agent-evaluation-score-historical) BOT_CONVERSATIONS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot conversations](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-conversations-completed-metric) BOT_INTENTS_COMPLETED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Bot intents completed](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#bot-intents-completed-metric) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-historical) CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: [Campaign contacts abandoned after X rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-contacts-abandoned-rate-historical) CAMPAIGN_INTERACTIONS This metric is available only for outbound campaigns using the email delivery mode. Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: [Campaign interactions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-interactions-historical) CAMPAIGN_SEND_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype UI name: [Campaign send attempts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#campaign-send-attempts-historical) CASES_CREATED Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-created-historical) CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts created](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-created-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: [API contacts handled](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#api-contacts-handled-historical) Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts handled (connected to agent timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts hold disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-handled-by-connected-to-agent-historical) CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold agent disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-agent-disconnect-historical) CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts hold customer disconnect](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts put on hold](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-hold-customer-disconnect-historical) CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out external](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-external-historical) CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [Contacts transferred out internal](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-internal-historical) CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts queued](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-historical) CONTACTS_QUEUED_BY_ENQUEUE Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: [Contacts queued (enqueue timestamp)](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-queued-by-enqueue-historical) CONTACTS_REMOVED_FROM_QUEUE_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts removed from queue in X seconds](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-removed-historical) CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Contacts resolved in X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-resolved-historical) CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-historical) Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out by agent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Contacts transferred out queue](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#contacts-transferred-out-by-agent-historical) CURRENT_CASES Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Current cases](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#current-cases-historical) DELIVERY_ATTEMPTS This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempts](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#delivery-attempts-historical) Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. DELIVERY_ATTEMPT_DISPOSITION_RATE This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: [Delivery attempt disposition rate](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#delivery-attempt-disposition-rate-historical) Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes. EVALUATIONS_PERFORMED Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Evaluations performed](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#evaluations-performed-historical) FLOWS_OUTCOME Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-historical) FLOWS_STARTED Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows started](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-started-historical) HUMAN_ANSWERED_CALLS This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Count Valid groupings and filters: Agent, Campaign UI name: [Human answered](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#human-answered-historical) MAX_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Maximum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-flow-time-historical) MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Maximum queued time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#maximum-queued-time-historical) MIN_FLOW_TIME Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Minimum flow time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#minimum-flow-time-historical) PERCENT_AUTOMATIC_FAILS Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: [Automatic fails percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#percent-evaluation-automatic-failures-historical) PERCENT_BOT_CONVERSATIONS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot conversations outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-conversations-outcome-metric) PERCENT_BOT_INTENTS_OUTCOME Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: [Percent bot intents outcome](https://docs.aws.amazon.com/connect/latest/adminguide/bot-metrics.html#percent-bot-intents-outcome-metric) PERCENT_CASES_FIRST_CONTACT_RESOLVED Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved on first contact](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-first-contact-historical) PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. PERCENT_FLOWS_OUTCOME Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: [Flows outcome percentage](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#flows-outcome-percentage-historical). The FLOWS_OUTCOME_TYPE is not a valid grouping. PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Non-talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ntt-historical) PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#tt-historical) PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Agent talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttagent-historical) PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: [Customer talk time percent](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#ttcustomer-historical) REOPENED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases reopened](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-reopened-historical) RESOLVED_CASE_ACTIONS Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: [Cases resolved](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#cases-resolved-historical) SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: [Service level X](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#service-level-historical) STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI. SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: [After contact work time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#acw-historical) SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: [Agent API connecting time](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html#htm-agent-api-connecting-time) The Negate key in metric-level filters is not applicable for this metric. CONTACTS_ABANDONED Unit: Count Metric filter:
     ///
     /// * Valid values: API| Incoming | Outbound | Transfer | Callback | Queue_Transfer| Disconnect
     ///
@@ -13524,8 +13678,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.filters = filters
         self.groupings = groupings
@@ -13550,8 +13703,7 @@ extension ConnectClientTypes {
         public init(
             metric: ConnectClientTypes.MetricV2? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.value = value
         }
@@ -13573,8 +13725,7 @@ extension ConnectClientTypes {
             endTime: Foundation.Date? = nil,
             interval: ConnectClientTypes.IntervalPeriod? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.interval = interval
             self.startTime = startTime
@@ -13597,8 +13748,7 @@ extension ConnectClientTypes {
             collections: [ConnectClientTypes.MetricDataV2]? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             metricInterval: ConnectClientTypes.MetricInterval? = nil
-        )
-        {
+        ) {
             self.collections = collections
             self.dimensions = dimensions
             self.metricInterval = metricInterval
@@ -13615,8 +13765,7 @@ public struct GetMetricDataV2Output: Swift.Sendable {
     public init(
         metricResults: [ConnectClientTypes.MetricResultV2]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricResults = metricResults
         self.nextToken = nextToken
     }
@@ -13633,8 +13782,7 @@ public struct GetPromptFileInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.promptId = promptId
     }
@@ -13652,8 +13800,7 @@ public struct GetPromptFileOutput: Swift.Sendable {
         lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         promptPresignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.promptPresignedUrl = promptPresignedUrl
@@ -13674,8 +13821,7 @@ public struct GetTaskTemplateInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         snapshotVersion: Swift.String? = nil,
         taskTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.snapshotVersion = snapshotVersion
         self.taskTemplateId = taskTemplateId
@@ -13708,7 +13854,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
     /// The name of the task template.
     /// This member is required.
     public var name: Swift.String?
-    ///
+    /// ContactFlowId for the flow that will be run if this template is used to create a self-assigned task
     public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
@@ -13730,8 +13876,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.constraints = constraints
         self.contactFlowId = contactFlowId
@@ -13756,8 +13901,7 @@ public struct GetTrafficDistributionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -13776,8 +13920,7 @@ extension ConnectClientTypes {
         public init(
             enabled: Swift.Bool = false,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.region = region
         }
@@ -13794,8 +13937,7 @@ extension ConnectClientTypes {
 
         public init(
             distributions: [ConnectClientTypes.SignInDistribution]? = nil
-        )
-        {
+        ) {
             self.distributions = distributions
         }
     }
@@ -13811,8 +13953,7 @@ extension ConnectClientTypes {
 
         public init(
             distributions: [ConnectClientTypes.Distribution]? = nil
-        )
-        {
+        ) {
             self.distributions = distributions
         }
     }
@@ -13836,8 +13977,7 @@ public struct GetTrafficDistributionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         signInConfig: ConnectClientTypes.SignInConfig? = nil,
         telephonyConfig: ConnectClientTypes.TelephonyConfig? = nil
-    )
-    {
+    ) {
         self.agentConfig = agentConfig
         self.arn = arn
         self.id = id
@@ -13854,7 +13994,7 @@ public struct ImportPhoneNumberInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// The description of the phone number.
     public var phoneNumberDescription: Swift.String?
-    /// The claimed phone number ARN being imported from the external service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN of the phone number to import from Amazon Pinpoint.
+    /// The claimed phone number ARN being imported from the external service, such as Amazon Web Services End User Messaging. If it is from Amazon Web Services End User Messaging, it looks like the ARN of the phone number to import from Amazon Web Services End User Messaging.
     /// This member is required.
     public var sourcePhoneNumberArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -13866,8 +14006,7 @@ public struct ImportPhoneNumberInput: Swift.Sendable {
         phoneNumberDescription: Swift.String? = nil,
         sourcePhoneNumberArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.phoneNumberDescription = phoneNumberDescription
@@ -13885,8 +14024,7 @@ public struct ImportPhoneNumberOutput: Swift.Sendable {
     public init(
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
     }
@@ -13908,8 +14046,7 @@ public struct ListAgentStatusesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusTypes = agentStatusTypes
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -13926,8 +14063,7 @@ public struct ListAgentStatusesOutput: Swift.Sendable {
     public init(
         agentStatusSummaryList: [ConnectClientTypes.AgentStatusSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusSummaryList = agentStatusSummaryList
         self.nextToken = nextToken
     }
@@ -13949,8 +14085,7 @@ public struct ListAnalyticsDataAssociationsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetId = dataSetId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -13967,8 +14102,61 @@ public struct ListAnalyticsDataAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [ConnectClientTypes.AnalyticsDataAssociationResult]? = nil
-    )
-    {
+    ) {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+public struct ListAnalyticsDataLakeDataSetsInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about datasets that are available to associate with: DataSetId, DataSetName.
+    public struct AnalyticsDataSetsResult: Swift.Sendable {
+        /// The identifier of the dataset.
+        public var dataSetId: Swift.String?
+        /// The name of the dataset.
+        public var dataSetName: Swift.String?
+
+        public init(
+            dataSetId: Swift.String? = nil,
+            dataSetName: Swift.String? = nil
+        ) {
+            self.dataSetId = dataSetId
+            self.dataSetName = dataSetName
+        }
+    }
+}
+
+public struct ListAnalyticsDataLakeDataSetsOutput: Swift.Sendable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// An array of successful results: DataSetId, DataSetName. This is a paginated API, so nextToken is given if there are more results to be returned.
+    public var results: [ConnectClientTypes.AnalyticsDataSetsResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [ConnectClientTypes.AnalyticsDataSetsResult]? = nil
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -13987,8 +14175,7 @@ public struct ListApprovedOriginsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14004,23 +14191,22 @@ public struct ListApprovedOriginsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         origins: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.origins = origins
     }
 }
 
 public struct ListAssociatedContactsInput: Swift.Sendable {
-    ///
+    /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    ///
+    /// The maximum number of results to return per page. The maximum number of results to return per page. The default MaxResult size is 25. Valid Range: Minimum value of 1. Maximum value of 100.
     public var maxResults: Swift.Int?
-    ///
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -14028,8 +14214,7 @@ public struct ListAssociatedContactsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14039,25 +14224,25 @@ public struct ListAssociatedContactsInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Contact summary of a contact in contact tree associated with unique identifier.
     public struct AssociatedContactSummary: Swift.Sendable {
-        ///
+        /// How the contact reached your contact center.
         public var channel: ConnectClientTypes.Channel?
-        ///
+        /// The Amazon Resource Name (ARN) of the contact
         public var contactArn: Swift.String?
-        ///
+        /// The identifier of the contact in this instance of Amazon Connect.
         public var contactId: Swift.String?
-        ///
+        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
         public var disconnectTimestamp: Foundation.Date?
-        ///
+        /// If this contact is related to other contacts, this is the ID of the initial contact.
         public var initialContactId: Swift.String?
-        ///
+        /// Indicates how the contact was initiated.
         public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
-        ///
+        /// The date and time this contact was initiated, in UTC time.
         public var initiationTimestamp: Foundation.Date?
-        ///
+        /// If this contact is not the first contact, this is the ID of the previous contact.
         public var previousContactId: Swift.String?
-        ///
+        /// The contactId that is related to this contact.
         public var relatedContactId: Swift.String?
 
         public init(
@@ -14070,8 +14255,7 @@ extension ConnectClientTypes {
             initiationTimestamp: Foundation.Date? = nil,
             previousContactId: Swift.String? = nil,
             relatedContactId: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.contactArn = contactArn
             self.contactId = contactId
@@ -14086,16 +14270,15 @@ extension ConnectClientTypes {
 }
 
 public struct ListAssociatedContactsOutput: Swift.Sendable {
-    ///
+    /// List of the contact summary for all the contacts in contact tree associated with unique identifier.
     public var contactSummaryList: [ConnectClientTypes.AssociatedContactSummary]?
-    ///
+    /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
 
     public init(
         contactSummaryList: [ConnectClientTypes.AssociatedContactSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactSummaryList = contactSummaryList
         self.nextToken = nextToken
     }
@@ -14114,8 +14297,7 @@ public struct ListAuthenticationProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14124,7 +14306,7 @@ public struct ListAuthenticationProfilesInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. A summary of a given authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. A summary of a given authentication profile.
     public struct AuthenticationProfileSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the authentication profile summary.
         public var arn: Swift.String?
@@ -14146,8 +14328,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.isDefault = isDefault
@@ -14167,8 +14348,7 @@ public struct ListAuthenticationProfilesOutput: Swift.Sendable {
     public init(
         authenticationProfileSummaryList: [ConnectClientTypes.AuthenticationProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileSummaryList = authenticationProfileSummaryList
         self.nextToken = nextToken
     }
@@ -14220,8 +14400,7 @@ public struct ListBotsInput: Swift.Sendable {
         lexVersion: ConnectClientTypes.LexVersion? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.lexVersion = lexVersion
         self.maxResults = maxResults
@@ -14241,8 +14420,7 @@ extension ConnectClientTypes {
         public init(
             lexBot: ConnectClientTypes.LexBot? = nil,
             lexV2Bot: ConnectClientTypes.LexV2Bot? = nil
-        )
-        {
+        ) {
             self.lexBot = lexBot
             self.lexV2Bot = lexV2Bot
         }
@@ -14258,8 +14436,7 @@ public struct ListBotsOutput: Swift.Sendable {
     public init(
         lexBots: [ConnectClientTypes.LexBotConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lexBots = lexBots
         self.nextToken = nextToken
     }
@@ -14279,8 +14456,7 @@ public struct ListContactEvaluationsInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.nextToken = nextToken
@@ -14328,8 +14504,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             score: ConnectClientTypes.EvaluationScore? = nil,
             status: ConnectClientTypes.EvaluationStatus? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
             self.evaluationFormId = evaluationFormId
@@ -14353,8 +14528,7 @@ public struct ListContactEvaluationsOutput: Swift.Sendable {
     public init(
         evaluationSummaryList: [ConnectClientTypes.EvaluationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationSummaryList = evaluationSummaryList
         self.nextToken = nextToken
     }
@@ -14376,8 +14550,7 @@ public struct ListContactFlowModulesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleState = contactFlowModuleState
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14403,8 +14576,7 @@ extension ConnectClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             state: ConnectClientTypes.ContactFlowModuleState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -14422,8 +14594,7 @@ public struct ListContactFlowModulesOutput: Swift.Sendable {
     public init(
         contactFlowModulesSummaryList: [ConnectClientTypes.ContactFlowModuleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModulesSummaryList = contactFlowModulesSummaryList
         self.nextToken = nextToken
     }
@@ -14445,8 +14616,7 @@ public struct ListContactFlowsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowTypes = contactFlowTypes
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14462,7 +14632,7 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// The type of flow.
         public var contactFlowState: ConnectClientTypes.ContactFlowState?
-        /// The status of the contact flow.
+        /// The status of the flow.
         public var contactFlowStatus: ConnectClientTypes.ContactFlowStatus?
         /// The type of flow.
         public var contactFlowType: ConnectClientTypes.ContactFlowType?
@@ -14478,8 +14648,7 @@ extension ConnectClientTypes {
             contactFlowType: ConnectClientTypes.ContactFlowType? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.contactFlowState = contactFlowState
             self.contactFlowStatus = contactFlowStatus
@@ -14499,8 +14668,7 @@ public struct ListContactFlowsOutput: Swift.Sendable {
     public init(
         contactFlowSummaryList: [ConnectClientTypes.ContactFlowSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowSummaryList = contactFlowSummaryList
         self.nextToken = nextToken
     }
@@ -14523,8 +14691,7 @@ public struct ListContactFlowVersionsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -14534,7 +14701,7 @@ public struct ListContactFlowVersionsInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// A summary of a contact flow version's metadata.
+    /// A summary of a flow version's metadata.
     public struct ContactFlowVersionSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the view version.
         public var arn: Swift.String?
@@ -14547,8 +14714,7 @@ extension ConnectClientTypes {
             arn: Swift.String? = nil,
             version: Swift.Int? = nil,
             versionDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.version = version
             self.versionDescription = versionDescription
@@ -14565,8 +14731,7 @@ public struct ListContactFlowVersionsOutput: Swift.Sendable {
     public init(
         contactFlowVersionSummaryList: [ConnectClientTypes.ContactFlowVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowVersionSummaryList = contactFlowVersionSummaryList
         self.nextToken = nextToken
     }
@@ -14590,8 +14755,7 @@ public struct ListContactReferencesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         referenceTypes: [ConnectClientTypes.ReferenceType]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.nextToken = nextToken
@@ -14603,7 +14767,7 @@ extension ConnectClientTypes {
 
     /// Information about a reference when the referenceType is ATTACHMENT. Otherwise, null.
     public struct AttachmentReference: Swift.Sendable {
-        ///
+        /// The Amazon Resource Name (ARN) of the attachment reference.
         public var arn: Swift.String?
         /// Identifier of the attachment reference.
         public var name: Swift.String?
@@ -14617,8 +14781,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             status: ConnectClientTypes.ReferenceStatus? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.status = status
@@ -14639,8 +14802,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -14659,8 +14821,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -14669,18 +14830,17 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the reference when the referenceType is EMAIL_MESSAGE. Otherwise, null.
     public struct EmailMessageReference: Swift.Sendable {
-        ///
+        /// The Amazon Resource Name (ARN) of the email message reference
         public var arn: Swift.String?
-        ///
+        /// The name of the email message reference
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -14699,8 +14859,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -14719,8 +14878,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -14739,8 +14897,7 @@ extension ConnectClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -14755,7 +14912,7 @@ extension ConnectClientTypes {
         case url(ConnectClientTypes.UrlReference)
         /// Information about the reference when the referenceType is ATTACHMENT. Otherwise, null.
         case attachment(ConnectClientTypes.AttachmentReference)
-        ///
+        /// Information about the reference when the referenceType is EMAIL_MESSAGE. Otherwise, null.
         case emailmessage(ConnectClientTypes.EmailMessageReference)
         /// Information about a reference when the referenceType is STRING. Otherwise, null.
         case string(ConnectClientTypes.StringReference)
@@ -14778,8 +14935,7 @@ public struct ListContactReferencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         referenceSummaryList: [ConnectClientTypes.ReferenceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.referenceSummaryList = referenceSummaryList
     }
@@ -14801,8 +14957,7 @@ public struct ListDefaultVocabulariesInput: Swift.Sendable {
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.languageCode = languageCode
         self.maxResults = maxResults
@@ -14832,8 +14987,7 @@ extension ConnectClientTypes {
             languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
             vocabularyId: Swift.String? = nil,
             vocabularyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.languageCode = languageCode
             self.vocabularyId = vocabularyId
@@ -14852,8 +15006,7 @@ public struct ListDefaultVocabulariesOutput: Swift.Sendable {
     public init(
         defaultVocabularyList: [ConnectClientTypes.DefaultVocabulary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultVocabularyList = defaultVocabularyList
         self.nextToken = nextToken
     }
@@ -14872,8 +15025,7 @@ public struct ListEvaluationFormsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14927,8 +15079,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             latestVersion: Swift.Int = 0,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeVersion = activeVersion
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -14954,8 +15105,7 @@ public struct ListEvaluationFormsOutput: Swift.Sendable {
     public init(
         evaluationFormSummaryList: [ConnectClientTypes.EvaluationFormSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormSummaryList = evaluationFormSummaryList
         self.nextToken = nextToken
     }
@@ -14978,8 +15128,7 @@ public struct ListEvaluationFormVersionsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormId = evaluationFormId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -15029,8 +15178,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             locked: Swift.Bool = false,
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.evaluationFormArn = evaluationFormArn
@@ -15054,8 +15202,7 @@ public struct ListEvaluationFormVersionsOutput: Swift.Sendable {
     public init(
         evaluationFormVersionSummaryList: [ConnectClientTypes.EvaluationFormVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationFormVersionSummaryList = evaluationFormVersionSummaryList
         self.nextToken = nextToken
     }
@@ -15077,8 +15224,7 @@ public struct ListFlowAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: ConnectClientTypes.ListFlowAssociationResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15095,9 +15241,56 @@ public struct ListFlowAssociationsOutput: Swift.Sendable {
     public init(
         flowAssociationSummaryList: [ConnectClientTypes.FlowAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowAssociationSummaryList = flowAssociationSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListHoursOfOperationOverridesInput: Swift.Sendable {
+    /// The identifier for the hours of operation
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100. Valid Range: Minimum value of 1. Maximum value of 1000.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListHoursOfOperationOverridesOutput: Swift.Sendable {
+    /// Information about the hours of operation override.
+    public var hoursOfOperationOverrideList: [ConnectClientTypes.HoursOfOperationOverride]?
+    /// The AWS Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        hoursOfOperationOverrideList: [ConnectClientTypes.HoursOfOperationOverride]? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.hoursOfOperationOverrideList = hoursOfOperationOverrideList
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
     }
 }
@@ -15115,8 +15308,7 @@ public struct ListHoursOfOperationsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15144,8 +15336,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -15164,8 +15355,7 @@ public struct ListHoursOfOperationsOutput: Swift.Sendable {
     public init(
         hoursOfOperationSummaryList: [ConnectClientTypes.HoursOfOperationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationSummaryList = hoursOfOperationSummaryList
         self.nextToken = nextToken
     }
@@ -15184,8 +15374,7 @@ public struct ListInstanceAttributesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15201,8 +15390,7 @@ public struct ListInstanceAttributesOutput: Swift.Sendable {
     public init(
         attributes: [ConnectClientTypes.Attribute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.nextToken = nextToken
     }
@@ -15217,8 +15405,7 @@ public struct ListInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -15260,8 +15447,7 @@ extension ConnectClientTypes {
             instanceStatus: ConnectClientTypes.InstanceStatus? = nil,
             outboundCallsEnabled: Swift.Bool? = nil,
             serviceRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -15290,8 +15476,7 @@ public struct ListInstancesOutput: Swift.Sendable {
     public init(
         instanceSummaryList: [ConnectClientTypes.InstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceSummaryList = instanceSummaryList
         self.nextToken = nextToken
     }
@@ -15314,8 +15499,7 @@ public struct ListInstanceStorageConfigsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15332,8 +15516,7 @@ public struct ListInstanceStorageConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageConfigs: [ConnectClientTypes.InstanceStorageConfig]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageConfigs = storageConfigs
     }
@@ -15358,8 +15541,7 @@ public struct ListIntegrationAssociationsInput: Swift.Sendable {
         integrationType: ConnectClientTypes.IntegrationType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationArn = integrationArn
         self.integrationType = integrationType
@@ -15398,8 +15580,7 @@ extension ConnectClientTypes {
             sourceApplicationName: Swift.String? = nil,
             sourceApplicationUrl: Swift.String? = nil,
             sourceType: ConnectClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
             self.integrationAssociationArn = integrationAssociationArn
@@ -15421,8 +15602,7 @@ public struct ListIntegrationAssociationsOutput: Swift.Sendable {
     public init(
         integrationAssociationSummaryList: [ConnectClientTypes.IntegrationAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationAssociationSummaryList = integrationAssociationSummaryList
         self.nextToken = nextToken
     }
@@ -15441,8 +15621,7 @@ public struct ListLambdaFunctionsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15458,8 +15637,7 @@ public struct ListLambdaFunctionsOutput: Swift.Sendable {
     public init(
         lambdaFunctions: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lambdaFunctions = lambdaFunctions
         self.nextToken = nextToken
     }
@@ -15478,8 +15656,7 @@ public struct ListLexBotsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15495,8 +15672,7 @@ public struct ListLexBotsOutput: Swift.Sendable {
     public init(
         lexBots: [ConnectClientTypes.LexBot]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lexBots = lexBots
         self.nextToken = nextToken
     }
@@ -15521,8 +15697,7 @@ public struct ListPhoneNumbersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         phoneNumberCountryCodes: [ConnectClientTypes.PhoneNumberCountryCode]? = nil,
         phoneNumberTypes: [ConnectClientTypes.PhoneNumberType]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15552,8 +15727,7 @@ extension ConnectClientTypes {
             phoneNumber: Swift.String? = nil,
             phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode? = nil,
             phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.phoneNumber = phoneNumber
@@ -15572,8 +15746,7 @@ public struct ListPhoneNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumberSummaryList: [ConnectClientTypes.PhoneNumberSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumberSummaryList = phoneNumberSummaryList
     }
@@ -15603,8 +15776,7 @@ public struct ListPhoneNumbersV2Input: Swift.Sendable {
         phoneNumberPrefix: Swift.String? = nil,
         phoneNumberTypes: [ConnectClientTypes.PhoneNumberType]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15633,7 +15805,7 @@ extension ConnectClientTypes {
         public var phoneNumberId: Swift.String?
         /// The type of phone number.
         public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
-        /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN of the phone number that was imported from Amazon Pinpoint.
+        /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Web Services End User Messaging. If it is from Amazon Web Services End User Messaging, it looks like the ARN of the phone number that was imported from Amazon Web Services End User Messaging.
         public var sourcePhoneNumberArn: Swift.String?
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
         public var targetArn: Swift.String?
@@ -15648,8 +15820,7 @@ extension ConnectClientTypes {
             phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil,
             sourcePhoneNumberArn: Swift.String? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.phoneNumber = phoneNumber
             self.phoneNumberArn = phoneNumberArn
@@ -15672,8 +15843,7 @@ public struct ListPhoneNumbersV2Output: Swift.Sendable {
     public init(
         listPhoneNumbersSummaryList: [ConnectClientTypes.ListPhoneNumbersSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.listPhoneNumbersSummaryList = listPhoneNumbersSummaryList
         self.nextToken = nextToken
     }
@@ -15692,8 +15862,7 @@ public struct ListPredefinedAttributesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15715,8 +15884,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -15733,8 +15901,7 @@ public struct ListPredefinedAttributesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         predefinedAttributeSummaryList: [ConnectClientTypes.PredefinedAttributeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.predefinedAttributeSummaryList = predefinedAttributeSummaryList
     }
@@ -15753,8 +15920,7 @@ public struct ListPromptsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15782,8 +15948,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -15802,8 +15967,7 @@ public struct ListPromptsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         promptSummaryList: [ConnectClientTypes.PromptSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.promptSummaryList = promptSummaryList
     }
@@ -15826,8 +15990,7 @@ public struct ListQueueQuickConnectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15859,8 +16022,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             quickConnectType: ConnectClientTypes.QuickConnectType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -15886,8 +16048,7 @@ public struct ListQueueQuickConnectsOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -15940,8 +16101,7 @@ public struct ListQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueTypes: [ConnectClientTypes.QueueType]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15973,8 +16133,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             queueType: ConnectClientTypes.QueueType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -15994,8 +16153,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queueSummaryList: [ConnectClientTypes.QueueSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queueSummaryList = queueSummaryList
     }
@@ -16017,8 +16175,7 @@ public struct ListQuickConnectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         quickConnectTypes: [ConnectClientTypes.QuickConnectType]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16035,17 +16192,16 @@ public struct ListQuickConnectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         quickConnectSummaryList: [ConnectClientTypes.QuickConnectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.quickConnectSummaryList = quickConnectSummaryList
     }
 }
 
-/// Thrown for analyzed content when requested OutputType was not enabled for a given contact. For example, if an OutputType.Raw was requested for a contact that had `RedactedOnly` Redaction policy set in Contact flow.
-public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// Thrown for analyzed content when requested OutputType was not enabled for a given contact. For example, if an OutputType.Raw was requested for a contact that had `RedactedOnly` Redaction policy set in the flow.
+public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16060,8 +16216,7 @@ public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16161,8 +16316,7 @@ public struct ListRealtimeContactAnalysisSegmentsV2Input: Swift.Sendable {
         nextToken: Swift.String? = nil,
         outputType: ConnectClientTypes.RealTimeContactAnalysisOutputType? = nil,
         segmentTypes: [ConnectClientTypes.RealTimeContactAnalysisSegmentType]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -16253,8 +16407,7 @@ extension ConnectClientTypes {
             attachmentName: Swift.String? = nil,
             contentType: Swift.String? = nil,
             status: ConnectClientTypes.ArtifactStatus? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.attachmentName = attachmentName
             self.contentType = contentType
@@ -16302,8 +16455,7 @@ extension ConnectClientTypes {
             participantId: Swift.String? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil,
             time: ConnectClientTypes.RealTimeContactAnalysisTimeData? = nil
-        )
-        {
+        ) {
             self.attachments = attachments
             self.displayName = displayName
             self.id = id
@@ -16328,8 +16480,7 @@ extension ConnectClientTypes {
         public init(
             beginOffsetChar: Swift.Int = 0,
             endOffsetChar: Swift.Int = 0
-        )
-        {
+        ) {
             self.beginOffsetChar = beginOffsetChar
             self.endOffsetChar = endOffsetChar
         }
@@ -16349,8 +16500,7 @@ extension ConnectClientTypes {
         public init(
             characterOffsets: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
             self.id = id
         }
@@ -16366,8 +16516,7 @@ extension ConnectClientTypes {
 
         public init(
             transcriptItems: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]? = nil
-        )
-        {
+        ) {
             self.transcriptItems = transcriptItems
         }
     }
@@ -16383,8 +16532,7 @@ extension ConnectClientTypes {
 
         public init(
             pointsOfInterest: [ConnectClientTypes.RealTimeContactAnalysisPointOfInterest]? = nil
-        )
-        {
+        ) {
             self.pointsOfInterest = pointsOfInterest
         }
     }
@@ -16400,8 +16548,7 @@ extension ConnectClientTypes {
 
         public init(
             matchedDetails: [Swift.String: ConnectClientTypes.RealTimeContactAnalysisCategoryDetails]? = nil
-        )
-        {
+        ) {
             self.matchedDetails = matchedDetails
         }
     }
@@ -16434,8 +16581,7 @@ extension ConnectClientTypes {
             participantId: Swift.String? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil,
             time: ConnectClientTypes.RealTimeContactAnalysisTimeData? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.eventType = eventType
             self.id = id
@@ -16462,8 +16608,7 @@ extension ConnectClientTypes {
             characterOffsets: ConnectClientTypes.RealTimeContactAnalysisCharacterInterval? = nil,
             content: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
             self.content = content
             self.id = id
@@ -16481,8 +16626,7 @@ extension ConnectClientTypes {
 
         public init(
             transcriptItems: [ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent]? = nil
-        )
-        {
+        ) {
             self.transcriptItems = transcriptItems
         }
     }
@@ -16498,8 +16642,7 @@ extension ConnectClientTypes {
 
         public init(
             issuesDetected: [ConnectClientTypes.RealTimeContactAnalysisIssueDetected]? = nil
-        )
-        {
+        ) {
             self.issuesDetected = issuesDetected
         }
     }
@@ -16598,8 +16741,7 @@ extension ConnectClientTypes {
             content: Swift.String? = nil,
             failureCode: ConnectClientTypes.RealTimeContactAnalysisPostContactSummaryFailureCode? = nil,
             status: ConnectClientTypes.RealTimeContactAnalysisPostContactSummaryStatus? = nil
-        )
-        {
+        ) {
             self.content = content
             self.failureCode = failureCode
             self.status = status
@@ -16616,8 +16758,7 @@ extension ConnectClientTypes {
 
         public init(
             characterOffsets: [ConnectClientTypes.RealTimeContactAnalysisCharacterInterval]? = nil
-        )
-        {
+        ) {
             self.characterOffsets = characterOffsets
         }
     }
@@ -16693,8 +16834,7 @@ extension ConnectClientTypes {
             redaction: ConnectClientTypes.RealTimeContactAnalysisTranscriptItemRedaction? = nil,
             sentiment: ConnectClientTypes.RealTimeContactAnalysisSentimentLabel? = nil,
             time: ConnectClientTypes.RealTimeContactAnalysisTimeData? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.displayName = displayName
@@ -16778,8 +16918,7 @@ public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Sendable {
         nextToken: Swift.String? = nil,
         segments: [ConnectClientTypes.RealtimeContactAnalysisSegment]? = nil,
         status: ConnectClientTypes.RealTimeContactAnalysisStatus? = nil
-    )
-    {
+    ) {
         self.channel = channel
         self.nextToken = nextToken
         self.segments = segments
@@ -16804,8 +16943,7 @@ public struct ListRoutingProfileQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16843,8 +16981,7 @@ extension ConnectClientTypes {
             queueArn: Swift.String? = nil,
             queueId: Swift.String? = nil,
             queueName: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.delay = delay
             self.priority = priority
@@ -16870,8 +17007,7 @@ public struct ListRoutingProfileQueuesOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         routingProfileQueueConfigSummaryList: [ConnectClientTypes.RoutingProfileQueueConfigSummary]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -16892,8 +17028,7 @@ public struct ListRoutingProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16921,8 +17056,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -16941,8 +17075,7 @@ public struct ListRoutingProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         routingProfileSummaryList: [ConnectClientTypes.RoutingProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.routingProfileSummaryList = routingProfileSummaryList
     }
@@ -16967,8 +17100,7 @@ public struct ListRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil
-    )
-    {
+    ) {
         self.eventSourceName = eventSourceName
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -17015,8 +17147,7 @@ extension ConnectClientTypes {
             publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
             ruleArn: Swift.String? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionSummaries = actionSummaries
             self.createdTime = createdTime
             self.eventSourceName = eventSourceName
@@ -17039,8 +17170,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleSummaryList: [ConnectClientTypes.RuleSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleSummaryList = ruleSummaryList
     }
@@ -17059,8 +17189,7 @@ public struct ListSecurityKeysInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17082,8 +17211,7 @@ extension ConnectClientTypes {
             associationId: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.creationTime = creationTime
             self.key = key
@@ -17100,8 +17228,7 @@ public struct ListSecurityKeysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityKeys: [ConnectClientTypes.SecurityKey]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityKeys = securityKeys
     }
@@ -17124,8 +17251,7 @@ public struct ListSecurityProfileApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17148,8 +17274,7 @@ public struct ListSecurityProfileApplicationsOutput: Swift.Sendable {
         lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
@@ -17174,8 +17299,7 @@ public struct ListSecurityProfilePermissionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17198,8 +17322,7 @@ public struct ListSecurityProfilePermissionsOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         permissions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -17220,8 +17343,7 @@ public struct ListSecurityProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17249,8 +17371,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -17269,8 +17390,7 @@ public struct ListSecurityProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityProfileSummaryList: [ConnectClientTypes.SecurityProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityProfileSummaryList = securityProfileSummaryList
     }
@@ -17283,8 +17403,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -17295,8 +17414,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -17320,8 +17438,7 @@ public struct ListTaskTemplatesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.name = name
@@ -17357,8 +17474,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: ConnectClientTypes.TaskTemplateStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -17379,8 +17495,7 @@ public struct ListTaskTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskTemplates: [ConnectClientTypes.TaskTemplateMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskTemplates = taskTemplates
     }
@@ -17398,8 +17513,7 @@ public struct ListTrafficDistributionGroupsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17442,8 +17556,7 @@ extension ConnectClientTypes {
             isDefault: Swift.Bool = false,
             name: Swift.String? = nil,
             status: ConnectClientTypes.TrafficDistributionGroupStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.instanceArn = instanceArn
@@ -17463,8 +17576,7 @@ public struct ListTrafficDistributionGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trafficDistributionGroupSummaryList: [ConnectClientTypes.TrafficDistributionGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trafficDistributionGroupSummaryList = trafficDistributionGroupSummaryList
     }
@@ -17483,8 +17595,7 @@ public struct ListTrafficDistributionGroupUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trafficDistributionGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.trafficDistributionGroupId = trafficDistributionGroupId
@@ -17500,8 +17611,7 @@ extension ConnectClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -17516,8 +17626,7 @@ public struct ListTrafficDistributionGroupUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trafficDistributionGroupUserSummaryList: [ConnectClientTypes.TrafficDistributionGroupUserSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trafficDistributionGroupUserSummaryList = trafficDistributionGroupUserSummaryList
     }
@@ -17541,8 +17650,7 @@ public struct ListUseCasesInput: Swift.Sendable {
         integrationAssociationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.integrationAssociationId = integrationAssociationId
         self.maxResults = maxResults
@@ -17565,8 +17673,7 @@ extension ConnectClientTypes {
             useCaseArn: Swift.String? = nil,
             useCaseId: Swift.String? = nil,
             useCaseType: ConnectClientTypes.UseCaseType? = nil
-        )
-        {
+        ) {
             self.useCaseArn = useCaseArn
             self.useCaseId = useCaseId
             self.useCaseType = useCaseType
@@ -17583,8 +17690,7 @@ public struct ListUseCasesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         useCaseSummaryList: [ConnectClientTypes.UseCase]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.useCaseSummaryList = useCaseSummaryList
     }
@@ -17603,8 +17709,7 @@ public struct ListUserHierarchyGroupsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17620,8 +17725,7 @@ public struct ListUserHierarchyGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userHierarchyGroupSummaryList: [ConnectClientTypes.HierarchyGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userHierarchyGroupSummaryList = userHierarchyGroupSummaryList
     }
@@ -17644,8 +17748,7 @@ public struct ListUserProficienciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17668,8 +17771,7 @@ public struct ListUserProficienciesOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         userProficiencyList: [ConnectClientTypes.UserProficiency]? = nil
-    )
-    {
+    ) {
         self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
@@ -17690,8 +17792,7 @@ public struct ListUsersInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17719,8 +17820,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -17739,8 +17839,7 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userSummaryList: [ConnectClientTypes.UserSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userSummaryList = userSummaryList
     }
@@ -17762,8 +17861,7 @@ public struct ListViewsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         type: ConnectClientTypes.ViewType? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17795,8 +17893,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             status: ConnectClientTypes.ViewStatus? = nil,
             type: ConnectClientTypes.ViewType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -17821,8 +17918,7 @@ public struct ListViewsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         viewsSummaryList: [ConnectClientTypes.ViewSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.viewsSummaryList = viewsSummaryList
     }
@@ -17845,8 +17941,7 @@ public struct ListViewVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17881,8 +17976,7 @@ extension ConnectClientTypes {
             type: ConnectClientTypes.ViewType? = nil,
             version: Swift.Int = 0,
             versionDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -17908,8 +18002,7 @@ public struct ListViewVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         viewVersionSummaryList: [ConnectClientTypes.ViewVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.viewVersionSummaryList = viewVersionSummaryList
     }
@@ -17936,8 +18029,7 @@ public struct MonitorContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedMonitorCapabilities = allowedMonitorCapabilities
         self.clientToken = clientToken
         self.contactId = contactId
@@ -17955,8 +18047,7 @@ public struct MonitorContactOutput: Swift.Sendable {
     public init(
         contactArn: Swift.String? = nil,
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.contactId = contactId
     }
@@ -17976,8 +18067,7 @@ public struct PauseContactInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.contactId = contactId
         self.instanceId = instanceId
@@ -18004,8 +18094,7 @@ public struct PutUserStatusInput: Swift.Sendable {
         agentStatusId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatusId = agentStatusId
         self.instanceId = instanceId
         self.userId = userId
@@ -18027,8 +18116,7 @@ public struct ReleasePhoneNumberInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.phoneNumberId = phoneNumberId
     }
@@ -18052,8 +18140,7 @@ public struct ReplicateInstanceInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         replicaAlias: Swift.String? = nil,
         replicaRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.replicaAlias = replicaAlias
@@ -18075,8 +18162,7 @@ public struct ReplicateInstanceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -18096,8 +18182,7 @@ public struct ResumeContactInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.contactId = contactId
         self.instanceId = instanceId
@@ -18109,10 +18194,44 @@ public struct ResumeContactOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectClientTypes {
+
+    public enum ContactRecordingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agent
+        case ivr
+        case screen
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactRecordingType] {
+            return [
+                .agent,
+                .ivr,
+                .screen
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .ivr: return "IVR"
+            case .screen: return "SCREEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ResumeContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
+    /// The type of recording being operated on.
+    public var contactRecordingType: ConnectClientTypes.ContactRecordingType?
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
@@ -18122,11 +18241,12 @@ public struct ResumeContactRecordingInput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil,
+        contactRecordingType: ConnectClientTypes.ContactRecordingType? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
+        self.contactRecordingType = contactRecordingType
         self.initialContactId = initialContactId
         self.instanceId = instanceId
     }
@@ -18149,8 +18269,7 @@ public struct SearchAgentStatusesOutput: Swift.Sendable {
         agentStatuses: [ConnectClientTypes.AgentStatus]? = nil,
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentStatuses = agentStatuses
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
@@ -18183,8 +18302,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Sendable {
         phoneNumberPrefix: Swift.String? = nil,
         phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18210,8 +18328,7 @@ extension ConnectClientTypes {
             phoneNumber: Swift.String? = nil,
             phoneNumberCountryCode: ConnectClientTypes.PhoneNumberCountryCode? = nil,
             phoneNumberType: ConnectClientTypes.PhoneNumberType? = nil
-        )
-        {
+        ) {
             self.phoneNumber = phoneNumber
             self.phoneNumberCountryCode = phoneNumberCountryCode
             self.phoneNumberType = phoneNumberType
@@ -18228,8 +18345,7 @@ public struct SearchAvailablePhoneNumbersOutput: Swift.Sendable {
     public init(
         availableNumbersList: [ConnectClientTypes.AvailableNumberSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.availableNumbersList = availableNumbersList
         self.nextToken = nextToken
     }
@@ -18254,8 +18370,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.TagCondition]? = nil,
             orConditions: [[ConnectClientTypes.TagCondition]]? = nil,
             tagCondition: ConnectClientTypes.TagCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.tagCondition = tagCondition
@@ -18276,17 +18391,16 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
 }
 
 public struct SearchContactFlowModulesOutput: Swift.Sendable {
-    /// The total number of contact flows which matched your search query.
+    /// The total number of flows which matched your search query.
     public var approximateTotalCount: Swift.Int?
-    /// The search criteria to be used to return contact flow modules.
+    /// The search criteria to be used to return flow modules.
     public var contactFlowModules: [ConnectClientTypes.ContactFlowModule]?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
@@ -18295,8 +18409,7 @@ public struct SearchContactFlowModulesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         contactFlowModules: [ConnectClientTypes.ContactFlowModule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.contactFlowModules = contactFlowModules
         self.nextToken = nextToken
@@ -18316,15 +18429,14 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
 }
 
 public struct SearchContactFlowsOutput: Swift.Sendable {
-    /// The total number of contact flows which matched your search query.
+    /// The total number of flows which matched your search query.
     public var approximateTotalCount: Swift.Int?
     /// Information about the flows.
     public var contactFlows: [ConnectClientTypes.ContactFlow]?
@@ -18335,8 +18447,7 @@ public struct SearchContactFlowsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         contactFlows: [ConnectClientTypes.ContactFlow]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.contactFlows = contactFlows
         self.nextToken = nextToken
@@ -18390,8 +18501,7 @@ extension ConnectClientTypes {
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil,
             searchText: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.matchType = matchType
             self.participantRole = participantRole
             self.searchText = searchText
@@ -18417,8 +18527,7 @@ extension ConnectClientTypes {
         public init(
             criteria: [ConnectClientTypes.TranscriptCriteria]? = nil,
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.matchType = matchType
         }
@@ -18434,8 +18543,7 @@ extension ConnectClientTypes {
 
         public init(
             transcript: ConnectClientTypes.Transcript? = nil
-        )
-        {
+        ) {
             self.transcript = transcript
         }
     }
@@ -18443,7 +18551,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The search criteria based on user-defned contact attribute key and values to search on.
+    /// The search criteria based on user-defined contact attribute key and values to search on.
     public struct SearchableContactAttributesCriteria: Swift.Sendable {
         /// The key containing a searchable user-defined contact attribute.
         /// This member is required.
@@ -18455,8 +18563,7 @@ extension ConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -18481,8 +18588,7 @@ extension ConnectClientTypes {
         public init(
             criteria: [ConnectClientTypes.SearchableContactAttributesCriteria]? = nil,
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.matchType = matchType
         }
@@ -18491,20 +18597,19 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// The search criteria based on searchable segment attribute key and values to search on.
     public struct SearchableSegmentAttributesCriteria: Swift.Sendable {
-        ///
+        /// The key containing a searchable segment attribute.
         /// This member is required.
         public var key: Swift.String?
-        ///
+        /// The list of values to search for within a searchable segment attribute.
         /// This member is required.
         public var values: [Swift.String]?
 
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -18518,19 +18623,18 @@ extension ConnectClientTypes.SearchableSegmentAttributesCriteria: Swift.CustomDe
 
 extension ConnectClientTypes {
 
-    ///
+    /// The search criteria based on searchable segment attributes of a contact
     public struct SearchableSegmentAttributes: Swift.Sendable {
-        ///
+        /// The list of criteria based on searchable segment attributes.
         /// This member is required.
         public var criteria: [ConnectClientTypes.SearchableSegmentAttributesCriteria]?
-        ///
+        /// The match type combining search criteria using multiple searchable segment attributes.
         public var matchType: ConnectClientTypes.SearchContactsMatchType?
 
         public init(
             criteria: [ConnectClientTypes.SearchableSegmentAttributesCriteria]? = nil,
             matchType: ConnectClientTypes.SearchContactsMatchType? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.matchType = matchType
         }
@@ -18555,7 +18659,7 @@ extension ConnectClientTypes {
         public var queueIds: [Swift.String]?
         /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see [Search by custom contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html) in the Amazon Connect Administrator Guide. To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions)Actions defined by Amazon Connect.
         public var searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes?
-        ///
+        /// The search criteria based on searchable segment attributes of a contact.
         public var searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes?
 
         public init(
@@ -18567,8 +18671,7 @@ extension ConnectClientTypes {
             queueIds: [Swift.String]? = nil,
             searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes? = nil,
             searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes? = nil
-        )
-        {
+        ) {
             self.agentHierarchyGroups = agentHierarchyGroups
             self.agentIds = agentIds
             self.channels = channels
@@ -18636,8 +18739,7 @@ extension ConnectClientTypes {
         public init(
             fieldName: ConnectClientTypes.SortableFieldName? = nil,
             order: ConnectClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.order = order
         }
@@ -18697,8 +18799,7 @@ extension ConnectClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             type: ConnectClientTypes.SearchContactsTimeRangeType? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
             self.type = type
@@ -18729,8 +18830,7 @@ public struct SearchContactsInput: Swift.Sendable {
         searchCriteria: ConnectClientTypes.SearchCriteria? = nil,
         sort: ConnectClientTypes.Sort? = nil,
         timeRange: ConnectClientTypes.SearchContactsTimeRange? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -18752,8 +18852,7 @@ extension ConnectClientTypes {
         public init(
             connectedToAgentTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
             self.id = id
         }
@@ -18772,8 +18871,7 @@ extension ConnectClientTypes {
         public init(
             enqueueTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.enqueueTimestamp = enqueueTimestamp
             self.id = id
         }
@@ -18782,15 +18880,14 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// The value of a segment attribute. This is structured as a map with a single key-value pair. The key 'valueString' indicates that the attribute type is a string, and its corresponding value is the actual string value of the segment attribute.
     public struct ContactSearchSummarySegmentAttributeValue: Swift.Sendable {
-        ///
+        /// The value of a segment attribute represented as a string.
         public var valueString: Swift.String?
 
         public init(
             valueString: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueString = valueString
         }
     }
@@ -18822,7 +18919,7 @@ extension ConnectClientTypes {
         public var queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public var scheduledTimestamp: Foundation.Date?
-        ///
+        /// Set of segment attributes for a contact.
         public var segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]?
 
         public init(
@@ -18838,8 +18935,7 @@ extension ConnectClientTypes {
             queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
             scheduledTimestamp: Foundation.Date? = nil,
             segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil
-        )
-        {
+        ) {
             self.agentInfo = agentInfo
             self.arn = arn
             self.channel = channel
@@ -18869,8 +18965,7 @@ public struct SearchContactsOutput: Swift.Sendable {
         contacts: [ConnectClientTypes.ContactSearchSummary]? = nil,
         nextToken: Swift.String? = nil,
         totalCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.contacts = contacts
         self.nextToken = nextToken
         self.totalCount = totalCount
@@ -18879,7 +18974,7 @@ public struct SearchContactsOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Filters to be applied to search results.
     public struct EmailAddressSearchFilter: Swift.Sendable {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
         ///
@@ -18890,8 +18985,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -18899,17 +18993,17 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Contains information about an email address for a contact center.
     public struct EmailAddressMetadata: Swift.Sendable {
-        ///
+        /// The description of the email address.
         public var description: Swift.String?
-        ///
+        /// The display name of email address.
         public var displayName: Swift.String?
-        ///
+        /// The email address with the instance, in [^\s@]+@[^\s@]+\.[^\s@]+ format.
         public var emailAddress: Swift.String?
-        ///
+        /// The Amazon Resource Name (ARN) of the email address.
         public var emailAddressArn: Swift.String?
-        ///
+        /// The identifier of the email address.
         public var emailAddressId: Swift.String?
 
         public init(
@@ -18918,8 +19012,7 @@ extension ConnectClientTypes {
             emailAddress: Swift.String? = nil,
             emailAddressArn: Swift.String? = nil,
             emailAddressId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -18935,22 +19028,82 @@ extension ConnectClientTypes.EmailAddressMetadata: Swift.CustomDebugStringConver
 }
 
 public struct SearchEmailAddressesOutput: Swift.Sendable {
-    ///
+    /// The total number of email addresses which matched your search query.
     public var approximateTotalCount: Swift.Int?
-    ///
+    /// List of email addresses matching SearchFilter and SearchCriteria
     public var emailAddresses: [ConnectClientTypes.EmailAddressMetadata]?
-    ///
+    /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
 
     public init(
         approximateTotalCount: Swift.Int? = nil,
         emailAddresses: [ConnectClientTypes.EmailAddressMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.emailAddresses = emailAddresses
         self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum DateComparisonType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equalTo
+        case greaterThan
+        case greaterThanOrEqualTo
+        case lessThan
+        case lessThanOrEqualTo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DateComparisonType] {
+            return [
+                .equalTo,
+                .greaterThan,
+                .greaterThanOrEqualTo,
+                .lessThan,
+                .lessThanOrEqualTo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equalTo: return "EQUAL_TO"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqualTo: return "GREATER_THAN_OR_EQUAL_TO"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqualTo: return "LESS_THAN_OR_EQUAL_TO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An object to specify the hours of operation override date condition.
+    public struct DateCondition: Swift.Sendable {
+        /// An object to specify the hours of operation override date condition comparisonType.
+        public var comparisonType: ConnectClientTypes.DateComparisonType?
+        /// An object to specify the hours of operation override date field.
+        public var fieldName: Swift.String?
+        /// An object to specify the hours of operation override date value.
+        public var value: Swift.String?
+
+        public init(
+            comparisonType: ConnectClientTypes.DateComparisonType? = nil,
+            fieldName: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.comparisonType = comparisonType
+            self.fieldName = fieldName
+            self.value = value
+        }
     }
 }
 
@@ -18967,10 +19120,28 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
+    }
+}
+
+public struct SearchHoursOfOperationOverridesOutput: Swift.Sendable {
+    /// The total number of hours of operations which matched your search query.
+    public var approximateTotalCount: Swift.Int?
+    /// Information about the hours of operations overrides.
+    public var hoursOfOperationOverrides: [ConnectClientTypes.HoursOfOperationOverride]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Length Constraints: Minimum length of 1. Maximum length of 2500.
+    public var nextToken: Swift.String?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        hoursOfOperationOverrides: [ConnectClientTypes.HoursOfOperationOverride]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.approximateTotalCount = approximateTotalCount
+        self.hoursOfOperationOverrides = hoursOfOperationOverrides
+        self.nextToken = nextToken
     }
 }
 
@@ -18986,8 +19157,7 @@ public struct SearchHoursOfOperationsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         hoursOfOperations: [ConnectClientTypes.HoursOfOperation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.hoursOfOperations = hoursOfOperations
         self.nextToken = nextToken
@@ -19006,8 +19176,7 @@ public struct SearchPredefinedAttributesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         predefinedAttributes: [ConnectClientTypes.PredefinedAttribute]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.predefinedAttributes = predefinedAttributes
@@ -19027,8 +19196,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19046,8 +19214,7 @@ public struct SearchPromptsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         prompts: [ConnectClientTypes.Prompt]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.prompts = prompts
@@ -19093,8 +19260,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19112,8 +19278,7 @@ public struct SearchQueuesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queues: [ConnectClientTypes.Queue]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.queues = queues
@@ -19133,8 +19298,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19152,8 +19316,7 @@ public struct SearchQuickConnectsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         quickConnects: [ConnectClientTypes.QuickConnect]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.quickConnects = quickConnects
@@ -19161,9 +19324,9 @@ public struct SearchQuickConnectsOutput: Swift.Sendable {
 }
 
 /// Maximum number (1000) of tags have been returned with current request. Consider changing request parameters to get more tags.
-public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19178,8 +19341,7 @@ public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19202,8 +19364,7 @@ extension ConnectClientTypes {
             tagKeyComparisonType: ConnectClientTypes.StringComparisonType? = nil,
             tagValue: Swift.String? = nil,
             tagValueComparisonType: ConnectClientTypes.StringComparisonType? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagKeyComparisonType = tagKeyComparisonType
             self.tagValue = tagValue
@@ -19221,8 +19382,7 @@ extension ConnectClientTypes {
 
         public init(
             tagSearchCondition: ConnectClientTypes.TagSearchCondition? = nil
-        )
-        {
+        ) {
             self.tagSearchCondition = tagSearchCondition
         }
     }
@@ -19236,23 +19396,27 @@ public struct SearchResourceTagsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Supported resource types
+    /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required. Supported resource types
     ///
-    /// * AGENT
+    /// * agent
     ///
-    /// * ROUTING_PROFILE
+    /// * agent-state
     ///
-    /// * STANDARD_QUEUE
+    /// * routing-profile
     ///
-    /// * SECURITY_PROFILE
+    /// * standard-queue
     ///
-    /// * OPERATING_HOURS
+    /// * security-profile
     ///
-    /// * PROMPT
+    /// * operating-hours
     ///
-    /// * CONTACT_FLOW
+    /// * prompt
     ///
-    /// * FLOW_MODULE
+    /// * contact-flow
+    ///
+    /// * flow- module
+    ///
+    /// * transfer-destination (also known as quick connect)
     public var resourceTypes: [Swift.String]?
     /// The search criteria to be used to return tags.
     public var searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria?
@@ -19263,8 +19427,7 @@ public struct SearchResourceTagsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil,
         searchCriteria: ConnectClientTypes.ResourceTagsSearchCriteria? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -19277,7 +19440,7 @@ extension ConnectClientTypes {
 
     /// A tag set contains tag key and tag value.
     public struct TagSet: Swift.Sendable {
-        /// The tag key in the tagSet.
+        /// The tag key in the TagSet.
         public var key: Swift.String?
         /// The tag value in the tagSet.
         public var value: Swift.String?
@@ -19285,8 +19448,7 @@ extension ConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -19302,8 +19464,7 @@ public struct SearchResourceTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [ConnectClientTypes.TagSet]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -19322,8 +19483,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19341,8 +19501,7 @@ public struct SearchRoutingProfilesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         routingProfiles: [ConnectClientTypes.RoutingProfile]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.routingProfiles = routingProfiles
@@ -19362,8 +19521,7 @@ extension ConnectClientTypes {
 
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
         }
     }
@@ -19393,8 +19551,7 @@ extension ConnectClientTypes {
             organizationResourceId: Swift.String? = nil,
             securityProfileName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -19417,8 +19574,7 @@ public struct SearchSecurityProfilesOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfiles: [ConnectClientTypes.SecurityProfileSearchSummary]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.securityProfiles = securityProfiles
@@ -19438,8 +19594,7 @@ extension ConnectClientTypes {
 
         public init(
             attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
-        )
-        {
+        ) {
             self.attributeFilter = attributeFilter
         }
     }
@@ -19457,8 +19612,7 @@ public struct SearchUserHierarchyGroupsOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userHierarchyGroups: [ConnectClientTypes.HierarchyGroup]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.userHierarchyGroups = userHierarchyGroups
@@ -19506,8 +19660,7 @@ extension ConnectClientTypes {
         public init(
             hierarchyGroupMatchType: ConnectClientTypes.HierarchyGroupMatchType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.hierarchyGroupMatchType = hierarchyGroupMatchType
             self.value = value
         }
@@ -19576,8 +19729,7 @@ extension ConnectClientTypes {
             fieldName: Swift.String? = nil,
             maxValue: Swift.Int? = nil,
             minValue: Swift.Int? = nil
-        )
-        {
+        ) {
             self.comparisonType = comparisonType
             self.fieldName = fieldName
             self.maxValue = maxValue
@@ -19598,8 +19750,7 @@ extension ConnectClientTypes {
         public init(
             numberCondition: ConnectClientTypes.NumberCondition? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.numberCondition = numberCondition
             self.stringCondition = stringCondition
         }
@@ -19644,8 +19795,7 @@ extension ConnectClientTypes {
         public init(
             conditions: [ConnectClientTypes.Condition]? = nil,
             targetListType: ConnectClientTypes.TargetListType? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
             self.targetListType = targetListType
         }
@@ -19664,8 +19814,7 @@ extension ConnectClientTypes {
         public init(
             hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
             tagConditions: [ConnectClientTypes.TagCondition]? = nil
-        )
-        {
+        ) {
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.tagConditions = tagConditions
         }
@@ -19697,8 +19846,7 @@ extension ConnectClientTypes {
             hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
             orConditions: [ConnectClientTypes.AttributeAndCondition]? = nil,
             tagCondition: ConnectClientTypes.TagCondition? = nil
-        )
-        {
+        ) {
             self.andCondition = andCondition
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.orConditions = orConditions
@@ -19730,8 +19878,7 @@ extension ConnectClientTypes {
         public init(
             tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil,
             userAttributeFilter: ConnectClientTypes.ControlPlaneUserAttributeFilter? = nil
-        )
-        {
+        ) {
             self.tagFilter = tagFilter
             self.userAttributeFilter = userAttributeFilter
         }
@@ -19750,8 +19897,7 @@ extension ConnectClientTypes {
         public init(
             firstName: Swift.String? = nil,
             lastName: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstName = firstName
             self.lastName = lastName
         }
@@ -19799,8 +19945,7 @@ extension ConnectClientTypes {
             securityProfileIds: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
@@ -19827,8 +19972,7 @@ public struct SearchUsersOutput: Swift.Sendable {
         approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         users: [ConnectClientTypes.UserSearchSummary]? = nil
-    )
-    {
+    ) {
         self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.users = users
@@ -19857,8 +20001,7 @@ public struct SearchVocabulariesInput: Swift.Sendable {
         nameStartsWith: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: ConnectClientTypes.VocabularyState? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.languageCode = languageCode
         self.maxResults = maxResults
@@ -19901,8 +20044,7 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: ConnectClientTypes.VocabularyState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.failureReason = failureReason
             self.id = id
@@ -19923,8 +20065,7 @@ public struct SearchVocabulariesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vocabularySummaryList: [ConnectClientTypes.VocabularySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vocabularySummaryList = vocabularySummaryList
     }
@@ -19992,8 +20133,7 @@ extension ConnectClientTypes {
             content: Swift.String? = nil,
             contentType: Swift.String? = nil,
             type: ConnectClientTypes.ChatEventType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.type = type
@@ -20011,8 +20151,7 @@ extension ConnectClientTypes {
 
         public init(
             displayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
         }
     }
@@ -20028,8 +20167,7 @@ extension ConnectClientTypes {
 
         public init(
             streamingEndpointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamingEndpointArn = streamingEndpointArn
         }
     }
@@ -20053,8 +20191,7 @@ extension ConnectClientTypes {
             participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
             streamingConfiguration: ConnectClientTypes.ChatStreamingConfiguration? = nil,
             supportedMessagingContentTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.participantDetails = participantDetails
             self.streamingConfiguration = streamingConfiguration
@@ -20064,7 +20201,7 @@ extension ConnectClientTypes {
 }
 
 public struct SendChatIntegrationEventInput: Swift.Sendable {
-    /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Amazon Connect instance and flow to be used to start chats. For SMS, this is the phone number destination of inbound SMS messages represented by an Amazon Pinpoint phone number ARN.
+    /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Amazon Connect instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
     /// This member is required.
     public var destinationId: Swift.String?
     /// Chat integration event payload
@@ -20075,7 +20212,7 @@ public struct SendChatIntegrationEventInput: Swift.Sendable {
     /// External identifier of chat customer participant, used in part to uniquely identify a chat. For SMS, this is the E164 phone number of the chat customer participant.
     /// This member is required.
     public var sourceId: Swift.String?
-    /// Classification of a channel. This is used in part to uniquely identify chat. Valid value: ["connect:sms"]
+    /// Classification of a channel. This is used in part to uniquely identify chat. Valid value: ["connect:sms", connect:"WhatsApp"]
     public var subtype: Swift.String?
 
     public init(
@@ -20084,8 +20221,7 @@ public struct SendChatIntegrationEventInput: Swift.Sendable {
         newSessionDetails: ConnectClientTypes.NewSessionDetails? = nil,
         sourceId: Swift.String? = nil,
         subtype: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationId = destinationId
         self.event = event
         self.newSessionDetails = newSessionDetails
@@ -20103,8 +20239,7 @@ public struct SendChatIntegrationEventOutput: Swift.Sendable {
     public init(
         initialContactId: Swift.String? = nil,
         newChatCreated: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.initialContactId = initialContactId
         self.newChatCreated = newChatCreated
     }
@@ -20112,19 +20247,18 @@ public struct SendChatIntegrationEventOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Contains information about a source or destination email address
     public struct EmailAddressInfo: Swift.Sendable {
-        ///
+        /// The display name of email address.
         public var displayName: Swift.String?
-        ///
+        /// The email address with the instance, in [^\s@]+@[^\s@]+\.[^\s@]+ format.
         /// This member is required.
         public var emailAddress: Swift.String?
 
         public init(
             displayName: Swift.String? = nil,
             emailAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.emailAddress = emailAddress
         }
@@ -20138,15 +20272,14 @@ extension ConnectClientTypes.EmailAddressInfo: Swift.CustomDebugStringConvertibl
 
 extension ConnectClientTypes {
 
-    ///
+    /// The additional recipients information of outbound email.
     public struct OutboundAdditionalRecipients: Swift.Sendable {
-        ///
+        /// The additional CC email address recipients information.
         public var ccEmailAddresses: [ConnectClientTypes.EmailAddressInfo]?
 
         public init(
             ccEmailAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil
-        )
-        {
+        ) {
             self.ccEmailAddresses = ccEmailAddresses
         }
     }
@@ -20183,15 +20316,15 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the raw email body content.
     public struct OutboundRawMessage: Swift.Sendable {
-        ///
+        /// The email message body.
         /// This member is required.
         public var body: Swift.String?
-        ///
+        /// Type of content, that is, text/plain or text/html.
         /// This member is required.
         public var contentType: Swift.String?
-        ///
+        /// The email subject.
         /// This member is required.
         public var subject: Swift.String?
 
@@ -20199,8 +20332,7 @@ extension ConnectClientTypes {
             body: Swift.String? = nil,
             contentType: Swift.String? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.contentType = contentType
             self.subject = subject
@@ -20215,18 +20347,17 @@ extension ConnectClientTypes.OutboundRawMessage: Swift.CustomDebugStringConverti
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the template attributes.
     public struct TemplateAttributes: Swift.Sendable {
-        ///
+        /// An object that specifies the custom attributes values to use for variables in the message template. This object contains different categories of key-value pairs. Each key defines a variable or placeholder in the message template.
         public var customAttributes: [Swift.String: Swift.String]?
-        ///
+        /// An object that specifies the customer profile attributes values to use for variables in the message template. This object contains different categories of key-value pairs. Each key defines a variable or placeholder in the message template.
         public var customerProfileAttributes: Swift.String?
 
         public init(
             customAttributes: [Swift.String: Swift.String]? = nil,
             customerProfileAttributes: Swift.String? = nil
-        )
-        {
+        ) {
             self.customAttributes = customAttributes
             self.customerProfileAttributes = customerProfileAttributes
         }
@@ -20235,15 +20366,15 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about template message configuration.
     public struct TemplatedMessageConfig: Swift.Sendable {
-        ///
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
-        ///
+        /// The identifier of the message template Id.
         /// This member is required.
         public var messageTemplateId: Swift.String?
-        ///
+        /// Information about template attributes, that is, CustomAttributes or CustomerProfileAttributes.
         /// This member is required.
         public var templateAttributes: ConnectClientTypes.TemplateAttributes?
 
@@ -20251,8 +20382,7 @@ extension ConnectClientTypes {
             knowledgeBaseId: Swift.String? = nil,
             messageTemplateId: Swift.String? = nil,
             templateAttributes: ConnectClientTypes.TemplateAttributes? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseId = knowledgeBaseId
             self.messageTemplateId = messageTemplateId
             self.templateAttributes = templateAttributes
@@ -20262,22 +20392,21 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about email body content.
     public struct OutboundEmailContent: Swift.Sendable {
-        ///
+        /// The message source type, that is, RAW or TEMPLATE.
         /// This member is required.
         public var messageSourceType: ConnectClientTypes.OutboundMessageSourceType?
-        ///
+        /// The raw email body content.
         public var rawMessage: ConnectClientTypes.OutboundRawMessage?
-        ///
+        /// Information about template message configuration.
         public var templatedMessageConfig: ConnectClientTypes.TemplatedMessageConfig?
 
         public init(
             messageSourceType: ConnectClientTypes.OutboundMessageSourceType? = nil,
             rawMessage: ConnectClientTypes.OutboundRawMessage? = nil,
             templatedMessageConfig: ConnectClientTypes.TemplatedMessageConfig? = nil
-        )
-        {
+        ) {
             self.messageSourceType = messageSourceType
             self.rawMessage = rawMessage
             self.templatedMessageConfig = templatedMessageConfig
@@ -20287,18 +20416,17 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the campaign.
     public struct SourceCampaign: Swift.Sendable {
-        ///
+        /// A unique identifier for a campaign.
         public var campaignId: Swift.String?
-        ///
+        /// A unique identifier for a each request part of same campaign.
         public var outboundRequestId: Swift.String?
 
         public init(
             campaignId: Swift.String? = nil,
             outboundRequestId: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.outboundRequestId = outboundRequestId
         }
@@ -20335,25 +20463,25 @@ extension ConnectClientTypes {
 }
 
 public struct SendOutboundEmailInput: Swift.Sendable {
-    ///
+    /// The additional recipients address of the email in CC.
     public var additionalRecipients: ConnectClientTypes.OutboundAdditionalRecipients?
-    ///
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    ///
+    /// The email address to send the email to.
     /// This member is required.
     public var destinationEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    ///
+    /// The email message body to be sent to the newly created email.
     /// This member is required.
     public var emailMessage: ConnectClientTypes.OutboundEmailContent?
-    ///
+    /// The email address to be used for sending email.
     /// This member is required.
     public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    ///
+    /// A Campaign object need for Campaign traffic type.
     public var sourceCampaign: ConnectClientTypes.SourceCampaign?
-    ///
+    /// Denotes the class of traffic.
     /// This member is required.
     public var trafficType: ConnectClientTypes.TrafficType?
 
@@ -20366,8 +20494,7 @@ public struct SendOutboundEmailInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         sourceCampaign: ConnectClientTypes.SourceCampaign? = nil,
         trafficType: ConnectClientTypes.TrafficType? = nil
-    )
-    {
+    ) {
         self.additionalRecipients = additionalRecipients
         self.clientToken = clientToken
         self.destinationEmailAddress = destinationEmailAddress
@@ -20385,7 +20512,7 @@ public struct SendOutboundEmailOutput: Swift.Sendable {
 }
 
 public struct StartAttachedFileUploadInput: Swift.Sendable {
-    /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
+    /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
     /// This member is required.
     public var associatedResourceArn: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -20398,7 +20525,7 @@ public struct StartAttachedFileUploadInput: Swift.Sendable {
     /// The size of the attached file in bytes.
     /// This member is required.
     public var fileSizeInBytes: Swift.Int?
-    /// The use case for the file.
+    /// The use case for the file. Only ATTACHMENTS are supported.
     /// This member is required.
     public var fileUseCaseType: ConnectClientTypes.FileUseCaseType?
     /// The unique identifier of the Amazon Connect instance.
@@ -20419,8 +20546,7 @@ public struct StartAttachedFileUploadInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         urlExpiryInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.associatedResourceArn = associatedResourceArn
         self.clientToken = clientToken
         self.createdBy = createdBy
@@ -20448,8 +20574,7 @@ extension ConnectClientTypes {
             headersToInclude: [Swift.String: Swift.String]? = nil,
             url: Swift.String? = nil,
             urlExpiry: Swift.String? = nil
-        )
-        {
+        ) {
             self.headersToInclude = headersToInclude
             self.url = url
             self.urlExpiry = urlExpiry
@@ -20469,7 +20594,7 @@ public struct StartAttachedFileUploadOutput: Swift.Sendable {
     public var fileId: Swift.String?
     /// The current status of the attached file.
     public var fileStatus: ConnectClientTypes.FileStatusType?
-    /// Information to be used while uploading the attached file.
+    /// The headers to be provided while uploading the file to the URL.
     public var uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata?
 
     public init(
@@ -20479,8 +20604,7 @@ public struct StartAttachedFileUploadOutput: Swift.Sendable {
         fileId: Swift.String? = nil,
         fileStatus: ConnectClientTypes.FileStatusType? = nil,
         uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.fileArn = fileArn
@@ -20510,8 +20634,7 @@ extension ConnectClientTypes {
         public init(
             content: Swift.String? = nil,
             contentType: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
         }
@@ -20537,66 +20660,10 @@ extension ConnectClientTypes {
         public init(
             rehydrationType: ConnectClientTypes.RehydrationType? = nil,
             sourceContactId: Swift.String? = nil
-        )
-        {
+        ) {
             self.rehydrationType = rehydrationType
             self.sourceContactId = sourceContactId
         }
-    }
-}
-
-public struct StartChatContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-    public var attributes: [Swift.String: Swift.String]?
-    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
-    public var chatDurationInMinutes: Swift.Int?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-    /// This member is required.
-    public var contactFlowId: Swift.String?
-    /// The initial message to be sent to the newly created chat. If you have a Lex bot in your flow, the initial message is not delivered to the Lex bot.
-    public var initialMessage: ConnectClientTypes.ChatMessage?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// Information identifying the participant.
-    /// This member is required.
-    public var participantDetails: ConnectClientTypes.ParticipantDetails?
-    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
-    public var persistentChat: ConnectClientTypes.PersistentChat?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting. You cannot provide data for both RelatedContactId and PersistentChat.
-    public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]. The type application/vnd.amazonaws.connect.message.interactive is required to use the [Show view](https://docs.aws.amazon.com/connect/latest/adminguide/show-view-block.html) flow block.
-    public var supportedMessagingContentTypes: [Swift.String]?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        chatDurationInMinutes: Swift.Int? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        initialMessage: ConnectClientTypes.ChatMessage? = nil,
-        instanceId: Swift.String? = nil,
-        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
-        persistentChat: ConnectClientTypes.PersistentChat? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        supportedMessagingContentTypes: [Swift.String]? = nil
-    )
-    {
-        self.attributes = attributes
-        self.chatDurationInMinutes = chatDurationInMinutes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.initialMessage = initialMessage
-        self.instanceId = instanceId
-        self.participantDetails = participantDetails
-        self.persistentChat = persistentChat
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-        self.supportedMessagingContentTypes = supportedMessagingContentTypes
     }
 }
 
@@ -20615,8 +20682,7 @@ public struct StartChatContactOutput: Swift.Sendable {
         continuedFromContactId: Swift.String? = nil,
         participantId: Swift.String? = nil,
         participantToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.continuedFromContactId = continuedFromContactId
         self.participantId = participantId
@@ -20642,8 +20708,7 @@ public struct StartContactEvaluationInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactId = contactId
         self.evaluationFormId = evaluationFormId
@@ -20662,10 +20727,35 @@ public struct StartContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluationArn: Swift.String? = nil,
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationArn = evaluationArn
         self.evaluationId = evaluationId
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum IvrRecordingTrack: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IvrRecordingTrack] {
+            return [
+                .all
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -20705,13 +20795,16 @@ extension ConnectClientTypes {
 
     /// Contains information about the recording configuration settings.
     public struct VoiceRecordingConfiguration: Swift.Sendable {
+        /// Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request.
+        public var ivrRecordingTrack: ConnectClientTypes.IvrRecordingTrack?
         /// Identifies which track is being recorded.
         public var voiceRecordingTrack: ConnectClientTypes.VoiceRecordingTrack?
 
         public init(
+            ivrRecordingTrack: ConnectClientTypes.IvrRecordingTrack? = nil,
             voiceRecordingTrack: ConnectClientTypes.VoiceRecordingTrack? = nil
-        )
-        {
+        ) {
+            self.ivrRecordingTrack = ivrRecordingTrack
             self.voiceRecordingTrack = voiceRecordingTrack
         }
     }
@@ -20736,8 +20829,7 @@ public struct StartContactRecordingInput: Swift.Sendable {
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         voiceRecordingConfiguration: ConnectClientTypes.VoiceRecordingConfiguration? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.initialContactId = initialContactId
         self.instanceId = instanceId
@@ -20769,8 +20861,7 @@ public struct StartContactStreamingInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.chatStreamingConfiguration = chatStreamingConfiguration
         self.clientToken = clientToken
         self.contactId = contactId
@@ -20785,26 +20876,24 @@ public struct StartContactStreamingOutput: Swift.Sendable {
 
     public init(
         streamingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamingId = streamingId
     }
 }
 
 extension ConnectClientTypes {
 
-    ///
+    /// The additional TO CC recipients information of inbound email.
     public struct InboundAdditionalRecipients: Swift.Sendable {
-        ///
+        /// The additional recipients information present in cc list.
         public var ccAddresses: [ConnectClientTypes.EmailAddressInfo]?
-        ///
+        /// The additional recipients information present in to list.
         public var toAddresses: [ConnectClientTypes.EmailAddressInfo]?
 
         public init(
             ccAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil,
             toAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil
-        )
-        {
+        ) {
             self.ccAddresses = ccAddresses
             self.toAddresses = toAddresses
         }
@@ -20813,20 +20902,19 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the email attachment files.
     public struct EmailAttachment: Swift.Sendable {
-        ///
+        /// A case-sensitive name of the attached file being uploaded.
         /// This member is required.
         public var fileName: Swift.String?
-        ///
+        /// The pre-signed URLs for the S3 bucket where the email attachment is stored.
         /// This member is required.
         public var s3Url: Swift.String?
 
         public init(
             fileName: Swift.String? = nil,
             s3Url: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileName = fileName
             self.s3Url = s3Url
         }
@@ -20899,17 +20987,17 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about the raw email body content.
     public struct InboundRawMessage: Swift.Sendable {
-        ///
+        /// The email message body.
         /// This member is required.
         public var body: Swift.String?
-        ///
+        /// Type of content, that is, text/plain or text/html.
         /// This member is required.
         public var contentType: Swift.String?
-        ///
+        /// Headers present in inbound email.
         public var headers: [Swift.String: Swift.String]?
-        ///
+        /// The email subject.
         /// This member is required.
         public var subject: Swift.String?
 
@@ -20918,8 +21006,7 @@ extension ConnectClientTypes {
             contentType: Swift.String? = nil,
             headers: [Swift.String: Swift.String]? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.contentType = contentType
             self.headers = headers
@@ -20935,191 +21022,32 @@ extension ConnectClientTypes.InboundRawMessage: Swift.CustomDebugStringConvertib
 
 extension ConnectClientTypes {
 
-    ///
+    /// Information about email body content.
     public struct InboundEmailContent: Swift.Sendable {
-        ///
+        /// The message source type, that is, RAW.
         /// This member is required.
         public var messageSourceType: ConnectClientTypes.InboundMessageSourceType?
-        ///
+        /// The raw email body content.
         public var rawMessage: ConnectClientTypes.InboundRawMessage?
 
         public init(
             messageSourceType: ConnectClientTypes.InboundMessageSourceType? = nil,
             rawMessage: ConnectClientTypes.InboundRawMessage? = nil
-        )
-        {
+        ) {
             self.messageSourceType = messageSourceType
             self.rawMessage = rawMessage
         }
     }
 }
 
-public struct StartEmailContactInput: Swift.Sendable {
-    ///
-    public var additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients?
-    ///
-    public var attachments: [ConnectClientTypes.EmailAttachment]?
-    ///
-    public var attributes: [Swift.String: Swift.String]?
-    ///
-    public var clientToken: Swift.String?
-    ///
-    public var contactFlowId: Swift.String?
-    ///
-    public var description: Swift.String?
-    ///
-    /// This member is required.
-    public var destinationEmailAddress: Swift.String?
-    ///
-    /// This member is required.
-    public var emailMessage: ConnectClientTypes.InboundEmailContent?
-    ///
-    /// This member is required.
-    public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    ///
-    /// This member is required.
-    public var instanceId: Swift.String?
-    ///
-    public var name: Swift.String?
-    ///
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    ///
-    public var relatedContactId: Swift.String?
-    ///
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-
-    public init(
-        additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients? = nil,
-        attachments: [ConnectClientTypes.EmailAttachment]? = nil,
-        attributes: [Swift.String: Swift.String]? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        destinationEmailAddress: Swift.String? = nil,
-        emailMessage: ConnectClientTypes.InboundEmailContent? = nil,
-        fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
-    )
-    {
-        self.additionalRecipients = additionalRecipients
-        self.attachments = attachments
-        self.attributes = attributes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.description = description
-        self.destinationEmailAddress = destinationEmailAddress
-        self.emailMessage = emailMessage
-        self.fromEmailAddress = fromEmailAddress
-        self.instanceId = instanceId
-        self.name = name
-        self.references = references
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-    }
-}
-
-extension StartEmailContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "StartEmailContactInput(additionalRecipients: \(Swift.String(describing: additionalRecipients)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), emailMessage: \(Swift.String(describing: emailMessage)), fromEmailAddress: \(Swift.String(describing: fromEmailAddress)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", destinationEmailAddress: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
 public struct StartEmailContactOutput: Swift.Sendable {
-    ///
+    /// The identifier of this contact within the Amazon Connect instance.
     public var contactId: Swift.String?
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
-    }
-}
-
-public struct StartOutboundChatContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
-    public var attributes: [Swift.String: Swift.String]?
-    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
-    public var chatDurationInMinutes: Swift.Int?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:
-    ///
-    /// * arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
-    /// This member is required.
-    public var contactFlowId: Swift.String?
-    /// Information about the endpoint.
-    /// This member is required.
-    public var destinationEndpoint: ConnectClientTypes.Endpoint?
-    /// A chat message.
-    public var initialSystemMessage: ConnectClientTypes.ChatMessage?
-    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The customer's details.
-    public var participantDetails: ConnectClientTypes.ParticipantDetails?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
-    public var relatedContactId: Swift.String?
-    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.
-    ///
-    /// * Attribute keys can include only alphanumeric, -, and _.
-    ///
-    /// * This field can be used to show channel subtype, such as connect:Guide and connect:SMS.
-    /// This member is required.
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// Information about the endpoint.
-    /// This member is required.
-    public var sourceEndpoint: ConnectClientTypes.Endpoint?
-    /// The supported chat message content types. Supported types are:
-    ///
-    /// * text/plain
-    ///
-    /// * text/markdown
-    ///
-    /// * application/json, application/vnd.amazonaws.connect.message.interactive
-    ///
-    /// * application/vnd.amazonaws.connect.message.interactive.response
-    ///
-    ///
-    /// Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:
-    ///
-    /// * [text/plain, text/markdown, application/json]
-    ///
-    /// * [text/markdown, text/plain]
-    ///
-    /// * [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
-    public var supportedMessagingContentTypes: [Swift.String]?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        chatDurationInMinutes: Swift.Int? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        destinationEndpoint: ConnectClientTypes.Endpoint? = nil,
-        initialSystemMessage: ConnectClientTypes.ChatMessage? = nil,
-        instanceId: Swift.String? = nil,
-        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
-        relatedContactId: Swift.String? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        sourceEndpoint: ConnectClientTypes.Endpoint? = nil,
-        supportedMessagingContentTypes: [Swift.String]? = nil
-    )
-    {
-        self.attributes = attributes
-        self.chatDurationInMinutes = chatDurationInMinutes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.destinationEndpoint = destinationEndpoint
-        self.initialSystemMessage = initialSystemMessage
-        self.instanceId = instanceId
-        self.participantDetails = participantDetails
-        self.relatedContactId = relatedContactId
-        self.segmentAttributes = segmentAttributes
-        self.sourceEndpoint = sourceEndpoint
-        self.supportedMessagingContentTypes = supportedMessagingContentTypes
     }
 }
 
@@ -21129,29 +21057,28 @@ public struct StartOutboundChatContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
 
 public struct StartOutboundEmailContactInput: Swift.Sendable {
-    ///
+    /// The addtional recipients address of email in CC.
     public var additionalRecipients: ConnectClientTypes.OutboundAdditionalRecipients?
-    ///
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    ///
+    /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
-    ///
+    /// The email address of the customer.
     /// This member is required.
     public var destinationEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    ///
+    /// The email message body to be sent to the newly created email.
     /// This member is required.
     public var emailMessage: ConnectClientTypes.OutboundEmailContent?
-    ///
+    /// The email address associated with the instance.
     public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -21163,8 +21090,7 @@ public struct StartOutboundEmailContactInput: Swift.Sendable {
         emailMessage: ConnectClientTypes.OutboundEmailContent? = nil,
         fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalRecipients = additionalRecipients
         self.clientToken = clientToken
         self.contactId = contactId
@@ -21176,21 +21102,20 @@ public struct StartOutboundEmailContactInput: Swift.Sendable {
 }
 
 public struct StartOutboundEmailContactOutput: Swift.Sendable {
-    ///
+    /// The identifier of the contact in this instance of Amazon Connect.
     public var contactId: Swift.String?
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
 
 /// Outbound calls to the destination number are not allowed.
-public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the outbound calls.
         public internal(set) var message: Swift.String? = nil
     }
@@ -21206,16 +21131,15 @@ public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The contact is not permitted.
-public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the contact.
         public internal(set) var message: Swift.String? = nil
     }
@@ -21231,8 +21155,7 @@ public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21249,8 +21172,7 @@ extension ConnectClientTypes {
         public init(
             awaitAnswerMachinePrompt: Swift.Bool = false,
             enableAnswerMachineDetection: Swift.Bool = false
-        )
-        {
+        ) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
@@ -21305,8 +21227,7 @@ public struct StartOutboundVoiceContactInput: Swift.Sendable {
         relatedContactId: Swift.String? = nil,
         sourcePhoneNumber: Swift.String? = nil,
         trafficType: ConnectClientTypes.TrafficType? = nil
-    )
-    {
+    ) {
         self.answerMachineDetectionConfig = answerMachineDetectionConfig
         self.attributes = attributes
         self.campaignId = campaignId
@@ -21335,8 +21256,7 @@ public struct StartOutboundVoiceContactOutput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -21355,8 +21275,7 @@ public struct StartScreenSharingInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactId = contactId
         self.instanceId = instanceId
@@ -21368,81 +21287,13 @@ public struct StartScreenSharingOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct StartTaskContactInput: Swift.Sendable {
-    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-    public var attributes: [Swift.String: Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
-    public var clientToken: Swift.String?
-    /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-    public var contactFlowId: Swift.String?
-    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
-    public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
-    /// This member is required.
-    public var name: Swift.String?
-    /// The identifier of the previous chat, voice, or task contact. Any updates to user-defined attributes to task contacts linked using the same PreviousContactID will affect every contact in the chain. There can be a maximum of 12 linked task contacts in a chain.
-    public var previousContactId: Swift.String?
-    /// The identifier for the quick connect. Tasks that are created by using QuickConnectId will use the flow that is defined on agent or queue quick connect. For more information about quick connects, see [Create quick connects](https://docs.aws.amazon.com/connect/latest/adminguide/quick-connects.html).
-    public var quickConnectId: Swift.String?
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks) to this contact. Linking tasks together by using RelatedContactID copies over contact attributes from the related task contact to the new task contact. All updates to user-defined attributes in the new task contact are limited to the individual contact ID, unlike what happens when tasks are linked by using PreviousContactID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
-    public var relatedContactId: Swift.String?
-    /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
-    public var scheduledTime: Foundation.Date?
-    ///
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-    /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Amazon Connect Administrator Guide.
-    public var taskTemplateId: Swift.String?
-
-    public init(
-        attributes: [Swift.String: Swift.String]? = nil,
-        clientToken: Swift.String? = nil,
-        contactFlowId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        previousContactId: Swift.String? = nil,
-        quickConnectId: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        relatedContactId: Swift.String? = nil,
-        scheduledTime: Foundation.Date? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
-        taskTemplateId: Swift.String? = nil
-    )
-    {
-        self.attributes = attributes
-        self.clientToken = clientToken
-        self.contactFlowId = contactFlowId
-        self.description = description
-        self.instanceId = instanceId
-        self.name = name
-        self.previousContactId = previousContactId
-        self.quickConnectId = quickConnectId
-        self.references = references
-        self.relatedContactId = relatedContactId
-        self.scheduledTime = scheduledTime
-        self.segmentAttributes = segmentAttributes
-        self.taskTemplateId = taskTemplateId
-    }
-}
-
-extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
 public struct StartTaskContactOutput: Swift.Sendable {
     /// The identifier of this contact within the Amazon Connect instance.
     public var contactId: Swift.String?
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -21480,8 +21331,7 @@ public struct StartWebRTCContactInput: Swift.Sendable {
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
         references: [Swift.String: ConnectClientTypes.Reference]? = nil,
         relatedContactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedCapabilities = allowedCapabilities
         self.attributes = attributes
         self.clientToken = clientToken
@@ -21511,8 +21361,7 @@ extension ConnectClientTypes {
         public init(
             attendeeId: Swift.String? = nil,
             joinToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.attendeeId = attendeeId
             self.joinToken = joinToken
         }
@@ -21545,8 +21394,7 @@ extension ConnectClientTypes {
             eventIngestionUrl: Swift.String? = nil,
             signalingUrl: Swift.String? = nil,
             turnControlUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
             self.eventIngestionUrl = eventIngestionUrl
@@ -21594,8 +21442,7 @@ extension ConnectClientTypes {
 
         public init(
             echoReduction: ConnectClientTypes.MeetingFeatureStatus? = nil
-        )
-        {
+        ) {
             self.echoReduction = echoReduction
         }
     }
@@ -21610,8 +21457,7 @@ extension ConnectClientTypes {
 
         public init(
             audio: ConnectClientTypes.AudioFeatures? = nil
-        )
-        {
+        ) {
             self.audio = audio
         }
     }
@@ -21635,8 +21481,7 @@ extension ConnectClientTypes {
             mediaRegion: Swift.String? = nil,
             meetingFeatures: ConnectClientTypes.MeetingFeaturesConfiguration? = nil,
             meetingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
@@ -21657,8 +21502,7 @@ extension ConnectClientTypes {
         public init(
             attendee: ConnectClientTypes.Attendee? = nil,
             meeting: ConnectClientTypes.Meeting? = nil
-        )
-        {
+        ) {
             self.attendee = attendee
             self.meeting = meeting
         }
@@ -21680,8 +21524,7 @@ public struct StartWebRTCContactOutput: Swift.Sendable {
         contactId: Swift.String? = nil,
         participantId: Swift.String? = nil,
         participantToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionData = connectionData
         self.contactId = contactId
         self.participantId = participantId
@@ -21690,9 +21533,9 @@ public struct StartWebRTCContactOutput: Swift.Sendable {
 }
 
 /// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat or Task contacts.
-public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -21708,8 +21551,7 @@ public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21723,8 +21565,7 @@ extension ConnectClientTypes {
 
         public init(
             code: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
         }
     }
@@ -21744,8 +21585,7 @@ public struct StopContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         disconnectReason: ConnectClientTypes.DisconnectReason? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.disconnectReason = disconnectReason
         self.instanceId = instanceId
@@ -21761,6 +21601,8 @@ public struct StopContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
+    /// The type of recording being operated on.
+    public var contactRecordingType: ConnectClientTypes.ContactRecordingType?
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
@@ -21770,11 +21612,12 @@ public struct StopContactRecordingInput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil,
+        contactRecordingType: ConnectClientTypes.ContactRecordingType? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
+        self.contactRecordingType = contactRecordingType
         self.initialContactId = initialContactId
         self.instanceId = instanceId
     }
@@ -21800,8 +21643,7 @@ public struct StopContactStreamingInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         streamingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.streamingId = streamingId
@@ -21822,8 +21664,7 @@ extension ConnectClientTypes {
 
         public init(
             value: ConnectClientTypes.EvaluationAnswerData? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -21846,8 +21687,7 @@ public struct SubmitContactEvaluationInput: Swift.Sendable {
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         notes: [Swift.String: ConnectClientTypes.EvaluationNote]? = nil
-    )
-    {
+    ) {
         self.answers = answers
         self.evaluationId = evaluationId
         self.instanceId = instanceId
@@ -21866,8 +21706,7 @@ public struct SubmitContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluationArn: Swift.String? = nil,
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationArn = evaluationArn
         self.evaluationId = evaluationId
     }
@@ -21877,6 +21716,8 @@ public struct SuspendContactRecordingInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
+    /// The type of recording being operated on.
+    public var contactRecordingType: ConnectClientTypes.ContactRecordingType?
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
@@ -21886,11 +21727,12 @@ public struct SuspendContactRecordingInput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil,
+        contactRecordingType: ConnectClientTypes.ContactRecordingType? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
+        self.contactRecordingType = contactRecordingType
         self.initialContactId = initialContactId
         self.instanceId = instanceId
     }
@@ -21916,8 +21758,7 @@ public struct TagContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.tags = tags
@@ -21940,8 +21781,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -21971,8 +21811,7 @@ public struct TransferContactInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
         self.contactId = contactId
@@ -21991,8 +21830,7 @@ public struct TransferContactOutput: Swift.Sendable {
     public init(
         contactArn: Swift.String? = nil,
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.contactId = contactId
     }
@@ -22013,8 +21851,7 @@ public struct UntagContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.tagKeys = tagKeys
@@ -22037,8 +21874,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -22070,8 +21906,7 @@ public struct UpdateAgentStatusInput: Swift.Sendable {
         name: Swift.String? = nil,
         resetOrderNumber: Swift.Bool? = false,
         state: ConnectClientTypes.AgentStatusState? = nil
-    )
-    {
+    ) {
         self.agentStatusId = agentStatusId
         self.description = description
         self.displayOrder = displayOrder
@@ -22108,8 +21943,7 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         periodicSessionDuration: Swift.Int? = nil
-    )
-    {
+    ) {
         self.allowedIps = allowedIps
         self.authenticationProfileId = authenticationProfileId
         self.blockedIps = blockedIps
@@ -22120,43 +21954,19 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
     }
 }
 
-public struct UpdateContactInput: Swift.Sendable {
-    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
-    /// This member is required.
-    public var contactId: Swift.String?
-    /// The description of the contact.
-    public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// The name of the contact.
-    public var name: Swift.String?
-    /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
-    public var references: [Swift.String: ConnectClientTypes.Reference]?
-    ///
-    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+extension ConnectClientTypes {
 
-    public init(
-        contactId: Swift.String? = nil,
-        description: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        name: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
-        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
-    )
-    {
-        self.contactId = contactId
-        self.description = description
-        self.instanceId = instanceId
-        self.name = name
-        self.references = references
-        self.segmentAttributes = segmentAttributes
+    /// Information about a queue.
+    public struct QueueInfoInput: Swift.Sendable {
+        /// The identifier of the queue.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
     }
-}
-
-extension UpdateContactInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateContactInput(contactId: \(Swift.String(describing: contactId)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateContactOutput: Swift.Sendable {
@@ -22165,7 +21975,7 @@ public struct UpdateContactOutput: Swift.Sendable {
 }
 
 public struct UpdateContactAttributesInput: Swift.Sendable {
-    /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. When the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:
+    /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the [Set contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/set-contact-attributes.html) block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:
     ///
     /// * Remove unnecessary attributes by setting their values to empty.
     ///
@@ -22183,8 +21993,7 @@ public struct UpdateContactAttributesInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         initialContactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.initialContactId = initialContactId
         self.instanceId = instanceId
@@ -22213,8 +22022,7 @@ public struct UpdateContactEvaluationInput: Swift.Sendable {
         evaluationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         notes: [Swift.String: ConnectClientTypes.EvaluationNote]? = nil
-    )
-    {
+    ) {
         self.answers = answers
         self.evaluationId = evaluationId
         self.instanceId = instanceId
@@ -22233,8 +22041,7 @@ public struct UpdateContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluationArn: Swift.String? = nil,
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationArn = evaluationArn
         self.evaluationId = evaluationId
     }
@@ -22255,8 +22062,7 @@ public struct UpdateContactFlowContentInput: Swift.Sendable {
         contactFlowId: Swift.String? = nil,
         content: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.content = content
         self.instanceId = instanceId
@@ -22288,8 +22094,7 @@ public struct UpdateContactFlowMetadataInput: Swift.Sendable {
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.contactFlowState = contactFlowState
         self.description = description
@@ -22318,8 +22123,7 @@ public struct UpdateContactFlowModuleContentInput: Swift.Sendable {
         contactFlowModuleId: Swift.String? = nil,
         content: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.content = content
         self.instanceId = instanceId
@@ -22351,8 +22155,7 @@ public struct UpdateContactFlowModuleMetadataInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         state: ConnectClientTypes.ContactFlowModuleState? = nil
-    )
-    {
+    ) {
         self.contactFlowModuleId = contactFlowModuleId
         self.description = description
         self.instanceId = instanceId
@@ -22383,8 +22186,7 @@ public struct UpdateContactFlowNameInput: Swift.Sendable {
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactFlowId = contactFlowId
         self.description = description
         self.instanceId = instanceId
@@ -22406,8 +22208,7 @@ extension ConnectClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -22433,8 +22234,7 @@ public struct UpdateContactScheduleInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         scheduledTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.instanceId = instanceId
         self.scheduledTime = scheduledTime
@@ -22447,16 +22247,16 @@ public struct UpdateContactScheduleOutput: Swift.Sendable {
 }
 
 public struct UpdateEmailAddressMetadataInput: Swift.Sendable {
-    ///
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    ///
+    /// The description of the email address.
     public var description: Swift.String?
-    ///
+    /// The display name of email address.
     public var displayName: Swift.String?
-    ///
+    /// The identifier of the email address.
     /// This member is required.
     public var emailAddressId: Swift.String?
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -22466,8 +22266,7 @@ public struct UpdateEmailAddressMetadataInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         emailAddressId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
@@ -22482,16 +22281,15 @@ extension UpdateEmailAddressMetadataInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateEmailAddressMetadataOutput: Swift.Sendable {
-    ///
+    /// The Amazon Resource Name (ARN) of the email address.
     public var emailAddressArn: Swift.String?
-    ///
+    /// The identifier of the email address.
     public var emailAddressId: Swift.String?
 
     public init(
         emailAddressArn: Swift.String? = nil,
         emailAddressId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailAddressArn = emailAddressArn
         self.emailAddressId = emailAddressId
     }
@@ -22512,8 +22310,7 @@ public struct UpdateEvaluationFormOutput: Swift.Sendable {
         evaluationFormArn: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int = 0
-    )
-    {
+    ) {
         self.evaluationFormArn = evaluationFormArn
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
@@ -22543,8 +22340,7 @@ public struct UpdateHoursOfOperationInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         timeZone: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.description = description
         self.hoursOfOperationId = hoursOfOperationId
@@ -22554,10 +22350,77 @@ public struct UpdateHoursOfOperationInput: Swift.Sendable {
     }
 }
 
+/// Request processing failed because dependent condition failed.
+public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
+    /// Configuration information for the hours of operation override: day, start time, and end time.
+    public var config: [ConnectClientTypes.HoursOfOperationOverrideConfig]?
+    /// The description of the hours of operation override.
+    public var description: Swift.String?
+    /// The date from when the hours of operation override would be effective.
+    public var effectiveFrom: Swift.String?
+    /// The date till when the hours of operation override would be effective.
+    public var effectiveTill: Swift.String?
+    /// The identifier for the hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier for the hours of operation override.
+    /// This member is required.
+    public var hoursOfOperationOverrideId: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the hours of operation override.
+    public var name: Swift.String?
+
+    public init(
+        config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
+        description: Swift.String? = nil,
+        effectiveFrom: Swift.String? = nil,
+        effectiveTill: Swift.String? = nil,
+        hoursOfOperationId: Swift.String? = nil,
+        hoursOfOperationOverrideId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.config = config
+        self.description = description
+        self.effectiveFrom = effectiveFrom
+        self.effectiveTill = effectiveTill
+        self.hoursOfOperationId = hoursOfOperationId
+        self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
 public struct UpdateInstanceAttributeInput: Swift.Sendable {
-    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
+    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web ServicesSupport for allowlisting.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -22567,11 +22430,12 @@ public struct UpdateInstanceAttributeInput: Swift.Sendable {
 
     public init(
         attributeType: ConnectClientTypes.InstanceAttributeType? = nil,
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeType = attributeType
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.value = value
     }
@@ -22581,6 +22445,8 @@ public struct UpdateInstanceStorageConfigInput: Swift.Sendable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -22593,16 +22459,56 @@ public struct UpdateInstanceStorageConfigInput: Swift.Sendable {
 
     public init(
         associationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         resourceType: ConnectClientTypes.InstanceStorageResourceType? = nil,
         storageConfig: ConnectClientTypes.InstanceStorageConfig? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
+        self.clientToken = clientToken
         self.instanceId = instanceId
         self.resourceType = resourceType
         self.storageConfig = storageConfig
     }
+}
+
+public struct UpdateParticipantAuthenticationInput: Swift.Sendable {
+    /// The code query parameter provided by Cognito in the redirectUri.
+    public var code: Swift.String?
+    /// The error query parameter provided by Cognito in the redirectUri.
+    public var error: Swift.String?
+    /// The error_description parameter provided by Cognito in the redirectUri.
+    public var errorDescription: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The state query parameter that was provided by Cognito in the redirectUri. This will also match the state parameter provided in the AuthenticationUrl from the [GetAuthenticationUrl](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetAuthenticationUrl.html) response.
+    /// This member is required.
+    public var state: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        error: Swift.String? = nil,
+        errorDescription: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        state: Swift.String? = nil
+    ) {
+        self.code = code
+        self.error = error
+        self.errorDescription = errorDescription
+        self.instanceId = instanceId
+        self.state = state
+    }
+}
+
+extension UpdateParticipantAuthenticationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateParticipantAuthenticationInput(instanceId: \(Swift.String(describing: instanceId)), state: \(Swift.String(describing: state)), code: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", errorDescription: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateParticipantAuthenticationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension ConnectClientTypes {
@@ -22719,8 +22625,7 @@ extension ConnectClientTypes {
             participantRole: ConnectClientTypes.TimerEligibleParticipantRoles? = nil,
             timerType: ConnectClientTypes.ParticipantTimerType? = nil,
             timerValue: ConnectClientTypes.ParticipantTimerValue? = nil
-        )
-        {
+        ) {
             self.participantRole = participantRole
             self.timerType = timerType
             self.timerValue = timerValue
@@ -22738,8 +22643,7 @@ extension ConnectClientTypes {
 
         public init(
             participantTimerConfigList: [ConnectClientTypes.ParticipantTimerConfiguration]? = nil
-        )
-        {
+        ) {
             self.participantTimerConfigList = participantTimerConfigList
         }
     }
@@ -22770,8 +22674,7 @@ public struct UpdateParticipantRoleConfigInput: Swift.Sendable {
         channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo? = nil,
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelConfiguration = channelConfiguration
         self.contactId = contactId
         self.instanceId = instanceId
@@ -22799,8 +22702,7 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceId = instanceId
         self.phoneNumberId = phoneNumberId
@@ -22817,8 +22719,7 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
     public init(
         phoneNumberArn: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberArn = phoneNumberArn
         self.phoneNumberId = phoneNumberId
     }
@@ -22837,8 +22738,7 @@ public struct UpdatePhoneNumberMetadataInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         phoneNumberDescription: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.phoneNumberDescription = phoneNumberDescription
         self.phoneNumberId = phoneNumberId
@@ -22859,8 +22759,7 @@ public struct UpdatePredefinedAttributeInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         values: ConnectClientTypes.PredefinedAttributeValues? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.name = name
         self.values = values
@@ -22887,8 +22786,7 @@ public struct UpdatePromptInput: Swift.Sendable {
         name: Swift.String? = nil,
         promptId: Swift.String? = nil,
         s3Uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -22906,8 +22804,7 @@ public struct UpdatePromptOutput: Swift.Sendable {
     public init(
         promptARN: Swift.String? = nil,
         promptId: Swift.String? = nil
-    )
-    {
+    ) {
         self.promptARN = promptARN
         self.promptId = promptId
     }
@@ -22928,8 +22825,7 @@ public struct UpdateQueueHoursOfOperationInput: Swift.Sendable {
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
         self.queueId = queueId
@@ -22950,8 +22846,7 @@ public struct UpdateQueueMaxContactsInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         maxContacts: Swift.Int? = 0,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxContacts = maxContacts
         self.queueId = queueId
@@ -22975,8 +22870,7 @@ public struct UpdateQueueNameInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -22999,46 +22893,21 @@ public struct UpdateQueueOutboundCallerConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.outboundCallerConfig = outboundCallerConfig
         self.queueId = queueId
     }
 }
 
-///
-public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 public struct UpdateQueueOutboundEmailConfigInput: Swift.Sendable {
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    ///
+    /// The outbound email address ID for a specified queue.
     /// This member is required.
     public var outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig?
-    ///
+    /// The identifier for the queue.
     /// This member is required.
     public var queueId: Swift.String?
 
@@ -23046,8 +22915,7 @@ public struct UpdateQueueOutboundEmailConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.outboundEmailConfig = outboundEmailConfig
         self.queueId = queueId
@@ -23069,8 +22937,7 @@ public struct UpdateQueueStatusInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         status: ConnectClientTypes.QueueStatus? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueId = queueId
         self.status = status
@@ -23092,8 +22959,7 @@ public struct UpdateQuickConnectConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         quickConnectConfig: ConnectClientTypes.QuickConnectConfig? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.quickConnectConfig = quickConnectConfig
         self.quickConnectId = quickConnectId
@@ -23117,8 +22983,7 @@ public struct UpdateQuickConnectNameInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         quickConnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -23141,8 +23006,7 @@ public struct UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Sendable {
         agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer? = nil,
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentAvailabilityTimer = agentAvailabilityTimer
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
@@ -23164,8 +23028,7 @@ public struct UpdateRoutingProfileConcurrencyInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.mediaConcurrencies = mediaConcurrencies
         self.routingProfileId = routingProfileId
@@ -23187,8 +23050,7 @@ public struct UpdateRoutingProfileDefaultOutboundQueueInput: Swift.Sendable {
         defaultOutboundQueueId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultOutboundQueueId = defaultOutboundQueueId
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
@@ -23212,8 +23074,7 @@ public struct UpdateRoutingProfileNameInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -23236,8 +23097,7 @@ public struct UpdateRoutingProfileQueuesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]? = nil,
         routingProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.queueConfigs = queueConfigs
         self.routingProfileId = routingProfileId
@@ -23271,8 +23131,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         publishStatus: ConnectClientTypes.RulePublishStatus? = nil,
         ruleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.function = function
         self.instanceId = instanceId
@@ -23314,8 +23173,7 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
         permissions: [Swift.String]? = nil,
         securityProfileId: Swift.String? = nil,
         tagRestrictedResources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.applications = applications
@@ -23344,7 +23202,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// The name of the task template.
     public var name: Swift.String?
-    ///
+    /// The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task.
     public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
@@ -23363,8 +23221,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil,
         taskTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.constraints = constraints
         self.contactFlowId = contactFlowId
         self.defaults = defaults
@@ -23401,7 +23258,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
     public var lastModifiedTime: Foundation.Date?
     /// The name of the task template.
     public var name: Swift.String?
-    ///
+    /// The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task.
     public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
@@ -23420,8 +23277,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
         name: Swift.String? = nil,
         selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.constraints = constraints
         self.contactFlowId = contactFlowId
@@ -23454,8 +23310,7 @@ public struct UpdateTrafficDistributionInput: Swift.Sendable {
         id: Swift.String? = nil,
         signInConfig: ConnectClientTypes.SignInConfig? = nil,
         telephonyConfig: ConnectClientTypes.TelephonyConfig? = nil
-    )
-    {
+    ) {
         self.agentConfig = agentConfig
         self.id = id
         self.signInConfig = signInConfig
@@ -23482,8 +23337,7 @@ public struct UpdateUserHierarchyInput: Swift.Sendable {
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
         self.userId = userId
@@ -23505,8 +23359,7 @@ public struct UpdateUserHierarchyGroupNameInput: Swift.Sendable {
         hierarchyGroupId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyGroupId = hierarchyGroupId
         self.instanceId = instanceId
         self.name = name
@@ -23523,8 +23376,7 @@ extension ConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -23551,8 +23403,7 @@ extension ConnectClientTypes {
             levelOne: ConnectClientTypes.HierarchyLevelUpdate? = nil,
             levelThree: ConnectClientTypes.HierarchyLevelUpdate? = nil,
             levelTwo: ConnectClientTypes.HierarchyLevelUpdate? = nil
-        )
-        {
+        ) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -23573,8 +23424,7 @@ public struct UpdateUserHierarchyStructureInput: Swift.Sendable {
     public init(
         hierarchyStructure: ConnectClientTypes.HierarchyStructureUpdate? = nil,
         instanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hierarchyStructure = hierarchyStructure
         self.instanceId = instanceId
     }
@@ -23595,8 +23445,7 @@ public struct UpdateUserIdentityInfoInput: Swift.Sendable {
         identityInfo: ConnectClientTypes.UserIdentityInfo? = nil,
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityInfo = identityInfo
         self.instanceId = instanceId
         self.userId = userId
@@ -23618,8 +23467,7 @@ public struct UpdateUserPhoneConfigInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         phoneConfig: ConnectClientTypes.UserPhoneConfig? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.phoneConfig = phoneConfig
         self.userId = userId
@@ -23641,8 +23489,7 @@ public struct UpdateUserProficienciesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         userId: Swift.String? = nil,
         userProficiencies: [ConnectClientTypes.UserProficiency]? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.userId = userId
         self.userProficiencies = userProficiencies
@@ -23664,8 +23511,7 @@ public struct UpdateUserRoutingProfileInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         routingProfileId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.routingProfileId = routingProfileId
         self.userId = userId
@@ -23687,8 +23533,7 @@ public struct UpdateUserSecurityProfilesInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         securityProfileIds: [Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.securityProfileIds = securityProfileIds
         self.userId = userId
@@ -23714,8 +23559,7 @@ public struct UpdateViewContentInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         status: ConnectClientTypes.ViewStatus? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.instanceId = instanceId
         self.status = status
@@ -23729,8 +23573,7 @@ public struct UpdateViewContentOutput: Swift.Sendable {
 
     public init(
         view: ConnectClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -23752,8 +23595,7 @@ public struct UpdateViewMetadataInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
         viewId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.instanceId = instanceId
         self.name = name
@@ -23769,6 +23611,29 @@ extension UpdateViewMetadataInput: Swift.CustomDebugStringConvertible {
 public struct UpdateViewMetadataOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension ConnectClientTypes {
+
+    /// A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string.
+    public struct SegmentAttributeValue: Swift.Sendable {
+        /// The value of a segment attribute.
+        public var valueInteger: Swift.Int?
+        /// The value of a segment attribute.
+        public var valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+        /// The value of a segment attribute.
+        public var valueString: Swift.String?
+
+        public init(
+            valueInteger: Swift.Int? = nil,
+            valueMap: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+            valueString: Swift.String? = nil
+        ) {
+            self.valueInteger = valueInteger
+            self.valueMap = valueMap
+            self.valueString = valueString
+        }
+    }
 }
 
 extension ConnectClientTypes {
@@ -23807,8 +23672,7 @@ extension ConnectClientTypes {
             refId: Swift.String? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.instructions = instructions
             self.items = items
             self.refId = refId
@@ -23833,8 +23697,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.AgentStatusSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.AgentStatusSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -23850,17 +23713,24 @@ extension ConnectClientTypes {
         public var andConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]?
+        /// The state of the flow.
+        public var stateCondition: ConnectClientTypes.ContactFlowModuleState?
+        /// The status of the flow.
+        public var statusCondition: ConnectClientTypes.ContactFlowModuleStatus?
         /// A leaf node condition which can be used to specify a string condition.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
             andConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.ContactFlowModuleSearchCriteria]? = nil,
+            stateCondition: ConnectClientTypes.ContactFlowModuleState? = nil,
+            statusCondition: ConnectClientTypes.ContactFlowModuleStatus? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
+            self.stateCondition = stateCondition
+            self.statusCondition = statusCondition
             self.stringCondition = stringCondition
         }
     }
@@ -23868,7 +23738,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The search criteria to be used to return contact flows.
+    /// The search criteria to be used to return flows.
     public struct ContactFlowSearchCriteria: Swift.Sendable {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.ContactFlowSearchCriteria]?
@@ -23890,8 +23760,7 @@ extension ConnectClientTypes {
             statusCondition: ConnectClientTypes.ContactFlowStatus? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil,
             typeCondition: ConnectClientTypes.ContactFlowType? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stateCondition = stateCondition
@@ -23904,11 +23773,11 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    ///
+    /// The search criteria to be used to return email addresses.
     public struct EmailAddressSearchCriteria: Swift.Sendable {
-        ///
+        /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.EmailAddressSearchCriteria]?
-        ///
+        /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.EmailAddressSearchCriteria]?
         /// A leaf node condition which can be used to specify a string condition.
         public var stringCondition: ConnectClientTypes.StringCondition?
@@ -23917,8 +23786,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.EmailAddressSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.EmailAddressSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -23985,8 +23853,7 @@ extension ConnectClientTypes {
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.description = description
@@ -24037,8 +23904,7 @@ extension ConnectClientTypes {
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
@@ -24058,18 +23924,48 @@ extension ConnectClientTypes {
         public var andExpression: [ConnectClientTypes.Expression]?
         /// An object to specify the predefined attribute condition.
         public var attributeCondition: ConnectClientTypes.AttributeCondition?
+        /// An object to specify the predefined attribute condition.
+        public var notAttributeCondition: ConnectClientTypes.AttributeCondition?
         /// List of routing expressions which will be OR-ed together.
         public var orExpression: [ConnectClientTypes.Expression]?
 
         public init(
             andExpression: [ConnectClientTypes.Expression]? = nil,
             attributeCondition: ConnectClientTypes.AttributeCondition? = nil,
+            notAttributeCondition: ConnectClientTypes.AttributeCondition? = nil,
             orExpression: [ConnectClientTypes.Expression]? = nil
-        )
-        {
+        ) {
             self.andExpression = andExpression
             self.attributeCondition = attributeCondition
+            self.notAttributeCondition = notAttributeCondition
             self.orExpression = orExpression
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The search criteria to be used to return hours of operations overrides.
+    public struct HoursOfOperationOverrideSearchCriteria: Swift.Sendable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]?
+        /// A leaf node condition which can be used to specify a date condition.
+        public var dateCondition: ConnectClientTypes.DateCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]? = nil,
+            dateCondition: ConnectClientTypes.DateCondition? = nil,
+            orConditions: [ConnectClientTypes.HoursOfOperationOverrideSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        ) {
+            self.andConditions = andConditions
+            self.dateCondition = dateCondition
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
         }
     }
 }
@@ -24089,8 +23985,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.HoursOfOperationSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24113,8 +24008,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24137,8 +24031,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.PromptSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.PromptSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24164,8 +24057,7 @@ extension ConnectClientTypes {
             orConditions: [ConnectClientTypes.QueueSearchCriteria]? = nil,
             queueTypeCondition: ConnectClientTypes.SearchableQueueType? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.queueTypeCondition = queueTypeCondition
@@ -24189,8 +24081,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.QuickConnectSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.QuickConnectSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24213,8 +24104,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24237,8 +24127,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24261,8 +24150,7 @@ extension ConnectClientTypes {
             andConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]? = nil,
             orConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.orConditions = orConditions
             self.stringCondition = stringCondition
@@ -24291,8 +24179,7 @@ extension ConnectClientTypes {
             listCondition: ConnectClientTypes.ListCondition? = nil,
             orConditions: [ConnectClientTypes.UserSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
-        )
-        {
+        ) {
             self.andConditions = andConditions
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.listCondition = listCondition
@@ -24300,6 +24187,73 @@ extension ConnectClientTypes {
             self.stringCondition = stringCondition
         }
     }
+}
+
+public struct CreateContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// The channel for the contact CreateContact only supports the EMAIL channel. The following information that states other channels are supported is incorrect. We are working to update this topic.
+    /// This member is required.
+    public var channel: ConnectClientTypes.Channel?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// A description of the contact.
+    public var description: Swift.String?
+    /// Number of minutes the contact will be active for before expiring
+    public var expiryDurationInMinutes: Swift.Int?
+    /// Initial state of the contact when it's created
+    public var initiateAs: ConnectClientTypes.InitiateAs?
+    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods: OUTBOUND, AGENT_REPLY, and FLOW. The following information that states other initiation methods are supported is incorrect. We are working to update this topic.
+    /// This member is required.
+    public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of a the contact.
+    public var name: Swift.String?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// The identifier of the contact in this instance of Amazon Connect.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// User details for the contact
+    public var userInfo: ConnectClientTypes.UserInfo?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        channel: ConnectClientTypes.Channel? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        expiryDurationInMinutes: Swift.Int? = nil,
+        initiateAs: ConnectClientTypes.InitiateAs? = nil,
+        initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        userInfo: ConnectClientTypes.UserInfo? = nil
+    ) {
+        self.attributes = attributes
+        self.channel = channel
+        self.clientToken = clientToken
+        self.description = description
+        self.expiryDurationInMinutes = expiryDurationInMinutes
+        self.initiateAs = initiateAs
+        self.initiationMethod = initiationMethod
+        self.instanceId = instanceId
+        self.name = name
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+        self.userInfo = userInfo
+    }
+}
+
+extension CreateContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateContactInput(attributes: \(Swift.String(describing: attributes)), channel: \(Swift.String(describing: channel)), clientToken: \(Swift.String(describing: clientToken)), expiryDurationInMinutes: \(Swift.String(describing: expiryDurationInMinutes)), initiateAs: \(Swift.String(describing: initiateAs)), initiationMethod: \(Swift.String(describing: initiationMethod)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEvaluationFormInput: Swift.Sendable {
@@ -24326,8 +24280,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.instanceId = instanceId
@@ -24335,6 +24288,344 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         self.scoringStrategy = scoringStrategy
         self.title = title
     }
+}
+
+public struct StartChatContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+    public var chatDurationInMinutes: Swift.Int?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
+    public var customerId: Swift.String?
+    /// The initial message to be sent to the newly created chat. If you have a Lex bot in your flow, the initial message is not delivered to the Lex bot.
+    public var initialMessage: ConnectClientTypes.ChatMessage?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Information identifying the participant.
+    /// This member is required.
+    public var participantDetails: ConnectClientTypes.ParticipantDetails?
+    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
+    public var persistentChat: ConnectClientTypes.PersistentChat?
+    /// The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting. You cannot provide data for both RelatedContactId and PersistentChat.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]. The type application/vnd.amazonaws.connect.message.interactive is required to use the [Show view](https://docs.aws.amazon.com/connect/latest/adminguide/show-view-block.html) flow block.
+    public var supportedMessagingContentTypes: [Swift.String]?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        chatDurationInMinutes: Swift.Int? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        customerId: Swift.String? = nil,
+        initialMessage: ConnectClientTypes.ChatMessage? = nil,
+        instanceId: Swift.String? = nil,
+        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
+        persistentChat: ConnectClientTypes.PersistentChat? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        supportedMessagingContentTypes: [Swift.String]? = nil
+    ) {
+        self.attributes = attributes
+        self.chatDurationInMinutes = chatDurationInMinutes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.customerId = customerId
+        self.initialMessage = initialMessage
+        self.instanceId = instanceId
+        self.participantDetails = participantDetails
+        self.persistentChat = persistentChat
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+        self.supportedMessagingContentTypes = supportedMessagingContentTypes
+    }
+}
+
+extension StartChatContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartEmailContactInput: Swift.Sendable {
+    /// The addtional recipients address of the email.
+    public var additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients?
+    /// List of S3 presigned URLs of email attachments and their file name.
+    public var attachments: [ConnectClientTypes.EmailAttachment]?
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for initiating the emails. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    public var contactFlowId: Swift.String?
+    /// A description of the email contact.
+    public var description: Swift.String?
+    /// The email address associated with the instance.
+    /// This member is required.
+    public var destinationEmailAddress: Swift.String?
+    /// The email message body to be sent to the newly created email.
+    /// This member is required.
+    public var emailMessage: ConnectClientTypes.InboundEmailContent?
+    /// The email address of the customer.
+    /// This member is required.
+    public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of a email that is shown to an agent in the Contact Control Panel (CCP).
+    public var name: Swift.String?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Emails can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE. EMAIL | EMAIL_MESSAGE |ATTACHMENT are not a supported reference type during email creation.
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// The contactId that is related to this contact. Linking emails together by using RelatedContactID copies over contact attributes from the related email contact to the new email contact. All updates to user-defined attributes in the new email contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+
+    public init(
+        additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients? = nil,
+        attachments: [ConnectClientTypes.EmailAttachment]? = nil,
+        attributes: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        destinationEmailAddress: Swift.String? = nil,
+        emailMessage: ConnectClientTypes.InboundEmailContent? = nil,
+        fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
+    ) {
+        self.additionalRecipients = additionalRecipients
+        self.attachments = attachments
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.description = description
+        self.destinationEmailAddress = destinationEmailAddress
+        self.emailMessage = emailMessage
+        self.fromEmailAddress = fromEmailAddress
+        self.instanceId = instanceId
+        self.name = name
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+    }
+}
+
+extension StartEmailContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartEmailContactInput(additionalRecipients: \(Swift.String(describing: additionalRecipients)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), emailMessage: \(Swift.String(describing: emailMessage)), fromEmailAddress: \(Swift.String(describing: fromEmailAddress)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", destinationEmailAddress: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartOutboundChatContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
+    public var attributes: [Swift.String: Swift.String]?
+    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+    public var chatDurationInMinutes: Swift.Int?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:
+    ///
+    /// * arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
+    /// This member is required.
+    public var contactFlowId: Swift.String?
+    /// Information about the endpoint.
+    /// This member is required.
+    public var destinationEndpoint: ConnectClientTypes.Endpoint?
+    /// A chat message.
+    public var initialSystemMessage: ConnectClientTypes.ChatMessage?
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The customer's details.
+    public var participantDetails: ConnectClientTypes.ParticipantDetails?
+    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+    public var relatedContactId: Swift.String?
+    /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.
+    ///
+    /// * Attribute keys can include only alphanumeric, -, and _.
+    ///
+    /// * This field can be used to show channel subtype, such as connect:Guide and connect:SMS.
+    /// This member is required.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// Information about the endpoint.
+    /// This member is required.
+    public var sourceEndpoint: ConnectClientTypes.Endpoint?
+    /// The supported chat message content types. Supported types are:
+    ///
+    /// * text/plain
+    ///
+    /// * text/markdown
+    ///
+    /// * application/json, application/vnd.amazonaws.connect.message.interactive
+    ///
+    /// * application/vnd.amazonaws.connect.message.interactive.response
+    ///
+    ///
+    /// Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:
+    ///
+    /// * [text/plain, text/markdown, application/json]
+    ///
+    /// * [text/markdown, text/plain]
+    ///
+    /// * [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
+    public var supportedMessagingContentTypes: [Swift.String]?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        chatDurationInMinutes: Swift.Int? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        destinationEndpoint: ConnectClientTypes.Endpoint? = nil,
+        initialSystemMessage: ConnectClientTypes.ChatMessage? = nil,
+        instanceId: Swift.String? = nil,
+        participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        sourceEndpoint: ConnectClientTypes.Endpoint? = nil,
+        supportedMessagingContentTypes: [Swift.String]? = nil
+    ) {
+        self.attributes = attributes
+        self.chatDurationInMinutes = chatDurationInMinutes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.destinationEndpoint = destinationEndpoint
+        self.initialSystemMessage = initialSystemMessage
+        self.instanceId = instanceId
+        self.participantDetails = participantDetails
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+        self.sourceEndpoint = sourceEndpoint
+        self.supportedMessagingContentTypes = supportedMessagingContentTypes
+    }
+}
+
+public struct StartTaskContactInput: Swift.Sendable {
+    /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    public var attributes: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    public var contactFlowId: Swift.String?
+    /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier of the previous chat, voice, or task contact. Any updates to user-defined attributes to task contacts linked using the same PreviousContactID will affect every contact in the chain. There can be a maximum of 12 linked task contacts in a chain.
+    public var previousContactId: Swift.String?
+    /// The identifier for the quick connect. Tasks that are created by using QuickConnectId will use the flow that is defined on agent or queue quick connect. For more information about quick connects, see [Create quick connects](https://docs.aws.amazon.com/connect/latest/adminguide/quick-connects.html).
+    public var quickConnectId: Swift.String?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks) to this contact. Linking tasks together by using RelatedContactID copies over contact attributes from the related task contact to the new task contact. All updates to user-defined attributes in the new task contact are limited to the individual contact ID, unlike what happens when tasks are linked by using PreviousContactID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
+    public var relatedContactId: Swift.String?
+    /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
+    public var scheduledTime: Foundation.Date?
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}. To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Amazon Connect Administrator Guide.
+    public var taskTemplateId: Swift.String?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        previousContactId: Swift.String? = nil,
+        quickConnectId: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        scheduledTime: Foundation.Date? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        taskTemplateId: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.previousContactId = previousContactId
+        self.quickConnectId = quickConnectId
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.scheduledTime = scheduledTime
+        self.segmentAttributes = segmentAttributes
+        self.taskTemplateId = taskTemplateId
+    }
+}
+
+extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateContactInput: Swift.Sendable {
+    /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var customerEndpoint: ConnectClientTypes.Endpoint?
+    /// The description of the contact.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the contact.
+    public var name: Swift.String?
+    /// Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var queueInfo: ConnectClientTypes.QueueInfoInput?
+    /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Currently Contact Expiry is the only segment attribute which can be updated by using the UpdateContact API.
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    /// External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var systemEndpoint: ConnectClientTypes.Endpoint?
+    /// Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see [Amazon Connect Contact Lens integration](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var userInfo: ConnectClientTypes.UserInfo?
+
+    public init(
+        contactId: Swift.String? = nil,
+        customerEndpoint: ConnectClientTypes.Endpoint? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        queueInfo: ConnectClientTypes.QueueInfoInput? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        systemEndpoint: ConnectClientTypes.Endpoint? = nil,
+        userInfo: ConnectClientTypes.UserInfo? = nil
+    ) {
+        self.contactId = contactId
+        self.customerEndpoint = customerEndpoint
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.queueInfo = queueInfo
+        self.references = references
+        self.segmentAttributes = segmentAttributes
+        self.systemEndpoint = systemEndpoint
+        self.userInfo = userInfo
+    }
+}
+
+extension UpdateContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateContactInput(contactId: \(Swift.String(describing: contactId)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), instanceId: \(Swift.String(describing: instanceId)), queueInfo: \(Swift.String(describing: queueInfo)), references: \(Swift.String(describing: references)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEvaluationFormInput: Swift.Sendable {
@@ -24372,8 +24663,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.createNewVersion = createNewVersion
         self.description = description
@@ -24397,8 +24687,7 @@ public struct DescribeContactEvaluationOutput: Swift.Sendable {
     public init(
         evaluation: ConnectClientTypes.Evaluation? = nil,
         evaluationForm: ConnectClientTypes.EvaluationFormContent? = nil
-    )
-    {
+    ) {
         self.evaluation = evaluation
         self.evaluationForm = evaluationForm
     }
@@ -24411,8 +24700,7 @@ public struct DescribeEvaluationFormOutput: Swift.Sendable {
 
     public init(
         evaluationForm: ConnectClientTypes.EvaluationForm? = nil
-    )
-    {
+    ) {
         self.evaluationForm = evaluationForm
     }
 }
@@ -24429,8 +24717,7 @@ extension ConnectClientTypes {
         public init(
             expiry: ConnectClientTypes.RoutingCriteriaInputStepExpiry? = nil,
             expression: ConnectClientTypes.Expression? = nil
-        )
-        {
+        ) {
             self.expiry = expiry
             self.expression = expression
         }
@@ -24452,8 +24739,7 @@ extension ConnectClientTypes {
             expiry: ConnectClientTypes.Expiry? = nil,
             expression: ConnectClientTypes.Expression? = nil,
             status: ConnectClientTypes.RoutingCriteriaStepStatus? = nil
-        )
-        {
+        ) {
             self.expiry = expiry
             self.expression = expression
             self.status = status
@@ -24480,8 +24766,7 @@ public struct SearchAgentStatusesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.AgentStatusSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.AgentStatusSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24498,7 +24783,7 @@ public struct SearchContactFlowModulesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The search criteria to be used to return contact flow modules. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will result in invalid results.
+    /// The search criteria to be used to return flow modules. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will result in invalid results.
     public var searchCriteria: ConnectClientTypes.ContactFlowModuleSearchCriteria?
     /// Filters to be applied to search results.
     public var searchFilter: ConnectClientTypes.ContactFlowModuleSearchFilter?
@@ -24509,8 +24794,7 @@ public struct SearchContactFlowModulesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.ContactFlowModuleSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.ContactFlowModuleSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24538,8 +24822,7 @@ public struct SearchContactFlowsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.ContactFlowSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.ContactFlowSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24549,16 +24832,16 @@ public struct SearchContactFlowsInput: Swift.Sendable {
 }
 
 public struct SearchEmailAddressesInput: Swift.Sendable {
-    ///
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    ///
+    /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    ///
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    ///
+    /// The search criteria to be used to return email addresses.
     public var searchCriteria: ConnectClientTypes.EmailAddressSearchCriteria?
-    ///
+    /// Filters to be applied to search results.
     public var searchFilter: ConnectClientTypes.EmailAddressSearchFilter?
 
     public init(
@@ -24567,8 +24850,35 @@ public struct SearchEmailAddressesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.EmailAddressSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.EmailAddressSearchFilter? = nil
-    )
-    {
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+public struct SearchHoursOfOperationOverridesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. Valid Range: Minimum value of 1. Maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Length Constraints: Minimum length of 1. Maximum length of 2500.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return hours of operations overrides.
+    public var searchCriteria: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria?
+    /// Filters to be applied to search results.
+    public var searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter? = nil
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24596,8 +24906,7 @@ public struct SearchHoursOfOperationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.HoursOfOperationSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.HoursOfOperationSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24622,8 +24931,7 @@ public struct SearchPredefinedAttributesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.PredefinedAttributeSearchCriteria? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24650,8 +24958,7 @@ public struct SearchPromptsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.PromptSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.PromptSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24679,8 +24986,7 @@ public struct SearchQueuesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.QueueSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.QueueSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24708,8 +25014,7 @@ public struct SearchQuickConnectsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.QuickConnectSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.QuickConnectSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24737,8 +25042,7 @@ public struct SearchRoutingProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.RoutingProfileSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.RoutingProfileSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24766,8 +25070,7 @@ public struct SearchSecurityProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.SecurityProfileSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.SecurityProfilesSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24795,8 +25098,7 @@ public struct SearchUserHierarchyGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.UserHierarchyGroupSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.UserHierarchyGroupSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24806,7 +25108,7 @@ public struct SearchUserHierarchyGroupsInput: Swift.Sendable {
 }
 
 public struct SearchUsersInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. InstanceID is a required field. The "Required: No" below is incorrect.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -24824,8 +25126,7 @@ public struct SearchUsersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.UserSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.UserSearchFilter? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -24849,8 +25150,7 @@ extension ConnectClientTypes {
             activationTimestamp: Foundation.Date? = nil,
             index: Swift.Int? = nil,
             steps: [ConnectClientTypes.Step]? = nil
-        )
-        {
+        ) {
             self.activationTimestamp = activationTimestamp
             self.index = index
             self.steps = steps
@@ -24867,10 +25167,38 @@ extension ConnectClientTypes {
 
         public init(
             steps: [ConnectClientTypes.RoutingCriteriaInputStep]? = nil
-        )
-        {
+        ) {
             self.steps = steps
         }
+    }
+}
+
+public struct UpdateContactRoutingDataInput: Swift.Sendable {
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
+    public var queuePriority: Swift.Int?
+    /// The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
+    public var queueTimeAdjustmentSeconds: Swift.Int?
+    /// Updates the routing criteria on the contact. These properties can be used to change how a  contact is routed within the queue.
+    public var routingCriteria: ConnectClientTypes.RoutingCriteriaInput?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        queuePriority: Swift.Int? = nil,
+        queueTimeAdjustmentSeconds: Swift.Int? = nil,
+        routingCriteria: ConnectClientTypes.RoutingCriteriaInput? = nil
+    ) {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.queuePriority = queuePriority
+        self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
+        self.routingCriteria = routingCriteria
     }
 }
 
@@ -24878,7 +25206,7 @@ extension ConnectClientTypes {
 
     /// Contains information about a contact.
     public struct Contact: Swift.Sendable {
-        ///
+        /// List of additional email addresses for an email contact.
         public var additionalEmailRecipients: ConnectClientTypes.AdditionalEmailRecipients?
         /// Information about the agent who accepted the contact.
         public var agentInfo: ConnectClientTypes.AgentInfo?
@@ -24892,12 +25220,14 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// The timestamp when customer endpoint connected to Amazon Connect.
         public var connectedToSystemTimestamp: Foundation.Date?
-        ///
+        /// This is the root contactId which is used as a unique identifier for all subsequent contacts in a contact tree.
         public var contactAssociationId: Swift.String?
         /// Information about the Customer on the contact.
         public var customer: ConnectClientTypes.Customer?
-        ///
+        /// The customer or external third party participant endpoint.
         public var customerEndpoint: ConnectClientTypes.EndpointInfo?
+        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Amazon Connect Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
+        public var customerId: Swift.String?
         /// Information about customer’s voice activity.
         public var customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity?
         /// The description of the contact.
@@ -24940,7 +25270,7 @@ extension ConnectClientTypes {
         public var scheduledTimestamp: Foundation.Date?
         /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes and can be accessed in flows. Attribute keys can include only alphanumeric, -, and _ characters. This field can be used to show channel subtype. For example, connect:Guide or connect:SMS.
         public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
-        ///
+        /// The system endpoint. For INBOUND, this is the phone number or email address that the customer dialed. For OUTBOUND and EXTERNAL_OUTBOUND, this is the outbound caller ID number assigned to the outbound queue that is used to dial the customer. For callback, this shows up as Softphone for calls handled by agents with softphone.
         public var systemEndpoint: ConnectClientTypes.EndpointInfo?
         /// Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.
         public var tags: [Swift.String: Swift.String]?
@@ -24962,6 +25292,7 @@ extension ConnectClientTypes {
             contactAssociationId: Swift.String? = nil,
             customer: ConnectClientTypes.Customer? = nil,
             customerEndpoint: ConnectClientTypes.EndpointInfo? = nil,
+            customerId: Swift.String? = nil,
             customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity? = nil,
             description: Swift.String? = nil,
             disconnectDetails: ConnectClientTypes.DisconnectDetails? = nil,
@@ -24988,8 +25319,7 @@ extension ConnectClientTypes {
             totalPauseCount: Swift.Int? = nil,
             totalPauseDurationInSeconds: Swift.Int? = nil,
             wisdomInfo: ConnectClientTypes.WisdomInfo? = nil
-        )
-        {
+        ) {
             self.additionalEmailRecipients = additionalEmailRecipients
             self.agentInfo = agentInfo
             self.answeringMachineDetectionStatus = answeringMachineDetectionStatus
@@ -25000,6 +25330,7 @@ extension ConnectClientTypes {
             self.contactAssociationId = contactAssociationId
             self.customer = customer
             self.customerEndpoint = customerEndpoint
+            self.customerId = customerId
             self.customerVoiceActivity = customerVoiceActivity
             self.description = description
             self.disconnectDetails = disconnectDetails
@@ -25032,37 +25363,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
-public struct UpdateContactRoutingDataInput: Swift.Sendable {
-    /// The identifier of the contact in this instance of Amazon Connect.
-    /// This member is required.
-    public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
-    /// This member is required.
-    public var instanceId: Swift.String?
-    /// Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
-    public var queuePriority: Swift.Int?
-    /// The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
-    public var queueTimeAdjustmentSeconds: Swift.Int?
-    /// Updates the routing criteria on the contact. These properties can be used to change how a  contact is routed within the queue.
-    public var routingCriteria: ConnectClientTypes.RoutingCriteriaInput?
-
-    public init(
-        contactId: Swift.String? = nil,
-        instanceId: Swift.String? = nil,
-        queuePriority: Swift.Int? = nil,
-        queueTimeAdjustmentSeconds: Swift.Int? = nil,
-        routingCriteria: ConnectClientTypes.RoutingCriteriaInput? = nil
-    )
-    {
-        self.contactId = contactId
-        self.instanceId = instanceId
-        self.queuePriority = queuePriority
-        self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
-        self.routingCriteria = routingCriteria
-    }
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -25071,8 +25372,7 @@ public struct DescribeContactOutput: Swift.Sendable {
 
     public init(
         contact: ConnectClientTypes.Contact? = nil
-    )
-    {
+    ) {
         self.contact = contact
     }
 }
@@ -25420,6 +25720,19 @@ extension CreateHoursOfOperationInput {
     }
 }
 
+extension CreateHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: CreateHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides"
+    }
+}
+
 extension CreateInstanceInput {
 
     static func urlPathProvider(_ value: CreateInstanceInput) -> Swift.String? {
@@ -25474,6 +25787,16 @@ extension CreatePromptInput {
             return nil
         }
         return "/prompts/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension CreatePushNotificationRegistrationInput {
+
+    static func urlPathProvider(_ value: CreatePushNotificationRegistrationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/push-notification/\(instanceId.urlPercentEncoding())/registrations"
     }
 }
 
@@ -25689,6 +26012,22 @@ extension DeleteContactFlowModuleInput {
     }
 }
 
+extension DeleteContactFlowVersionInput {
+
+    static func urlPathProvider(_ value: DeleteContactFlowVersionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactFlowId = value.contactFlowId else {
+            return nil
+        }
+        guard let contactFlowVersion = value.contactFlowVersion else {
+            return nil
+        }
+        return "/contact-flows/\(instanceId.urlPercentEncoding())/\(contactFlowId.urlPercentEncoding())/version/\(contactFlowVersion)"
+    }
+}
+
 extension DeleteEmailAddressInput {
 
     static func urlPathProvider(_ value: DeleteEmailAddressInput) -> Swift.String? {
@@ -25740,6 +26079,22 @@ extension DeleteHoursOfOperationInput {
     }
 }
 
+extension DeleteHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: DeleteHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        guard let hoursOfOperationOverrideId = value.hoursOfOperationOverrideId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides/\(hoursOfOperationOverrideId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteInstanceInput {
 
     static func urlPathProvider(_ value: DeleteInstanceInput) -> Swift.String? {
@@ -25747,6 +26102,18 @@ extension DeleteInstanceInput {
             return nil
         }
         return "/instance/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteInstanceInput {
+
+    static func queryItemProvider(_ value: DeleteInstanceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -25786,6 +26153,33 @@ extension DeletePromptInput {
             return nil
         }
         return "/prompts/\(instanceId.urlPercentEncoding())/\(promptId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePushNotificationRegistrationInput {
+
+    static func urlPathProvider(_ value: DeletePushNotificationRegistrationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let registrationId = value.registrationId else {
+            return nil
+        }
+        return "/push-notification/\(instanceId.urlPercentEncoding())/registrations/\(registrationId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePushNotificationRegistrationInput {
+
+    static func queryItemProvider(_ value: DeletePushNotificationRegistrationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let contactId = value.contactId else {
+            let message = "Creating a URL Query Item failed. contactId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let contactIdQueryItem = Smithy.URIQueryItem(name: "contactId".urlPercentEncoding(), value: Swift.String(contactId).urlPercentEncoding())
+        items.append(contactIdQueryItem)
+        return items
     }
 }
 
@@ -26090,6 +26484,22 @@ extension DescribeHoursOfOperationInput {
     }
 }
 
+extension DescribeHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: DescribeHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        guard let hoursOfOperationOverrideId = value.hoursOfOperationOverrideId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides/\(hoursOfOperationOverrideId.urlPercentEncoding())"
+    }
+}
+
 extension DescribeInstanceInput {
 
     static func urlPathProvider(_ value: DescribeInstanceInput) -> Swift.String? {
@@ -26343,6 +26753,10 @@ extension DisassociateApprovedOriginInput {
         }
         let originQueryItem = Smithy.URIQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin).urlPercentEncoding())
         items.append(originQueryItem)
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
         return items
     }
 }
@@ -26396,6 +26810,10 @@ extension DisassociateInstanceStorageConfigInput {
         }
         let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
         items.append(resourceTypeQueryItem)
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
         return items
     }
 }
@@ -26420,6 +26838,10 @@ extension DisassociateLambdaFunctionInput {
         }
         let functionArnQueryItem = Smithy.URIQueryItem(name: "functionArn".urlPercentEncoding(), value: Swift.String(functionArn).urlPercentEncoding())
         items.append(functionArnQueryItem)
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
         return items
     }
 }
@@ -26444,6 +26866,10 @@ extension DisassociateLexBotInput {
         }
         let lexRegionQueryItem = Smithy.URIQueryItem(name: "lexRegion".urlPercentEncoding(), value: Swift.String(lexRegion).urlPercentEncoding())
         items.append(lexRegionQueryItem)
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
         guard let botName = value.botName else {
             let message = "Creating a URL Query Item failed. botName is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
@@ -26514,6 +26940,18 @@ extension DisassociateSecurityKeyInput {
             return nil
         }
         return "/instance/\(instanceId.urlPercentEncoding())/security-key/\(associationId.urlPercentEncoding())"
+    }
+}
+
+extension DisassociateSecurityKeyInput {
+
+    static func queryItemProvider(_ value: DisassociateSecurityKeyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -26634,6 +27072,39 @@ extension GetCurrentUserDataInput {
             return nil
         }
         return "/metrics/userdata/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension GetEffectiveHoursOfOperationsInput {
+
+    static func urlPathProvider(_ value: GetEffectiveHoursOfOperationsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/effective-hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())"
+    }
+}
+
+extension GetEffectiveHoursOfOperationsInput {
+
+    static func queryItemProvider(_ value: GetEffectiveHoursOfOperationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let fromDate = value.fromDate else {
+            let message = "Creating a URL Query Item failed. fromDate is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let fromDateQueryItem = Smithy.URIQueryItem(name: "fromDate".urlPercentEncoding(), value: Swift.String(fromDate).urlPercentEncoding())
+        items.append(fromDateQueryItem)
+        guard let toDate = value.toDate else {
+            let message = "Creating a URL Query Item failed. toDate is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let toDateQueryItem = Smithy.URIQueryItem(name: "toDate".urlPercentEncoding(), value: Swift.String(toDate).urlPercentEncoding())
+        items.append(toDateQueryItem)
+        return items
     }
 }
 
@@ -26792,6 +27263,32 @@ extension ListAnalyticsDataAssociationsInput {
         if let dataSetId = value.dataSetId {
             let dataSetIdQueryItem = Smithy.URIQueryItem(name: "DataSetId".urlPercentEncoding(), value: Swift.String(dataSetId).urlPercentEncoding())
             items.append(dataSetIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAnalyticsDataLakeDataSetsInput {
+
+    static func urlPathProvider(_ value: ListAnalyticsDataLakeDataSetsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/analytics-data/instance/\(instanceId.urlPercentEncoding())/datasets"
+    }
+}
+
+extension ListAnalyticsDataLakeDataSetsInput {
+
+    static func queryItemProvider(_ value: ListAnalyticsDataLakeDataSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -27155,6 +27652,35 @@ extension ListFlowAssociationsInput {
         if let resourceType = value.resourceType {
             let resourceTypeQueryItem = Smithy.URIQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
             items.append(resourceTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListHoursOfOperationOverridesInput {
+
+    static func urlPathProvider(_ value: ListHoursOfOperationOverridesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides"
+    }
+}
+
+extension ListHoursOfOperationOverridesInput {
+
+    static func queryItemProvider(_ value: ListHoursOfOperationOverridesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -28136,6 +28662,13 @@ extension SearchEmailAddressesInput {
     }
 }
 
+extension SearchHoursOfOperationOverridesInput {
+
+    static func urlPathProvider(_ value: SearchHoursOfOperationOverridesInput) -> Swift.String? {
+        return "/search-hours-of-operation-overrides"
+    }
+}
+
 extension SearchHoursOfOperationsInput {
 
     static func urlPathProvider(_ value: SearchHoursOfOperationsInput) -> Swift.String? {
@@ -28640,6 +29173,22 @@ extension UpdateHoursOfOperationInput {
     }
 }
 
+extension UpdateHoursOfOperationOverrideInput {
+
+    static func urlPathProvider(_ value: UpdateHoursOfOperationOverrideInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        guard let hoursOfOperationOverrideId = value.hoursOfOperationOverrideId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/overrides/\(hoursOfOperationOverrideId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateInstanceAttributeInput {
 
     static func urlPathProvider(_ value: UpdateInstanceAttributeInput) -> Swift.String? {
@@ -28677,6 +29226,13 @@ extension UpdateInstanceStorageConfigInput {
         let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
         items.append(resourceTypeQueryItem)
         return items
+    }
+}
+
+extension UpdateParticipantAuthenticationInput {
+
+    static func urlPathProvider(_ value: UpdateParticipantAuthenticationInput) -> Swift.String? {
+        return "/contact/update-participant-authentication"
     }
 }
 
@@ -29105,6 +29661,7 @@ extension AssociateApprovedOriginInput {
 
     static func write(value: AssociateApprovedOriginInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["Origin"].write(value.origin)
     }
 }
@@ -29113,6 +29670,7 @@ extension AssociateBotInput {
 
     static func write(value: AssociateBotInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["LexBot"].write(value.lexBot, with: ConnectClientTypes.LexBot.write(value:to:))
         try writer["LexV2Bot"].write(value.lexV2Bot, with: ConnectClientTypes.LexV2Bot.write(value:to:))
     }
@@ -29140,6 +29698,7 @@ extension AssociateInstanceStorageConfigInput {
 
     static func write(value: AssociateInstanceStorageConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["ResourceType"].write(value.resourceType)
         try writer["StorageConfig"].write(value.storageConfig, with: ConnectClientTypes.InstanceStorageConfig.write(value:to:))
     }
@@ -29149,6 +29708,7 @@ extension AssociateLambdaFunctionInput {
 
     static func write(value: AssociateLambdaFunctionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["FunctionArn"].write(value.functionArn)
     }
 }
@@ -29157,6 +29717,7 @@ extension AssociateLexBotInput {
 
     static func write(value: AssociateLexBotInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["LexBot"].write(value.lexBot, with: ConnectClientTypes.LexBot.write(value:to:))
     }
 }
@@ -29190,6 +29751,7 @@ extension AssociateSecurityKeyInput {
 
     static func write(value: AssociateSecurityKeyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["Key"].write(value.key)
     }
 }
@@ -29329,6 +29891,7 @@ extension CreateContactFlowVersionInput {
 
     static func write(value: CreateContactFlowVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ContactFlowVersion"].write(value.contactFlowVersion)
         try writer["Description"].write(value.description)
         try writer["FlowContentSha256"].write(value.flowContentSha256)
         try writer["LastModifiedRegion"].write(value.lastModifiedRegion)
@@ -29369,6 +29932,18 @@ extension CreateHoursOfOperationInput {
         try writer["Name"].write(value.name)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TimeZone"].write(value.timeZone)
+    }
+}
+
+extension CreateHoursOfOperationOverrideInput {
+
+    static func write(value: CreateHoursOfOperationOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Config"].writeList(value.config, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["EffectiveFrom"].write(value.effectiveFrom)
+        try writer["EffectiveTill"].write(value.effectiveTill)
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -29437,6 +30012,18 @@ extension CreatePromptInput {
         try writer["Name"].write(value.name)
         try writer["S3Uri"].write(value.s3Uri)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreatePushNotificationRegistrationInput {
+
+    static func write(value: CreatePushNotificationRegistrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ContactConfiguration"].write(value.contactConfiguration, with: ConnectClientTypes.ContactConfiguration.write(value:to:))
+        try writer["DeviceToken"].write(value.deviceToken)
+        try writer["DeviceType"].write(value.deviceType)
+        try writer["PinpointAppArn"].write(value.pinpointAppArn)
     }
 }
 
@@ -29627,6 +30214,7 @@ extension DisassociateBotInput {
 
     static func write(value: DisassociateBotInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["LexBot"].write(value.lexBot, with: ConnectClientTypes.LexBot.write(value:to:))
         try writer["LexV2Bot"].write(value.lexV2Bot, with: ConnectClientTypes.LexV2Bot.write(value:to:))
     }
@@ -29819,6 +30407,7 @@ extension ResumeContactRecordingInput {
     static func write(value: ResumeContactRecordingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContactId"].write(value.contactId)
+        try writer["ContactRecordingType"].write(value.contactRecordingType)
         try writer["InitialContactId"].write(value.initialContactId)
         try writer["InstanceId"].write(value.instanceId)
     }
@@ -29896,6 +30485,18 @@ extension SearchEmailAddressesInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.EmailAddressSearchCriteria.write(value:to:))
         try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.EmailAddressSearchFilter.write(value:to:))
+    }
+}
+
+extension SearchHoursOfOperationOverridesInput {
+
+    static func write(value: SearchHoursOfOperationOverridesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.HoursOfOperationSearchFilter.write(value:to:))
     }
 }
 
@@ -30078,6 +30679,7 @@ extension StartChatContactInput {
         try writer["ChatDurationInMinutes"].write(value.chatDurationInMinutes)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContactFlowId"].write(value.contactFlowId)
+        try writer["CustomerId"].write(value.customerId)
         try writer["InitialMessage"].write(value.initialMessage, with: ConnectClientTypes.ChatMessage.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
         try writer["ParticipantDetails"].write(value.participantDetails, with: ConnectClientTypes.ParticipantDetails.write(value:to:))
@@ -30256,6 +30858,7 @@ extension StopContactRecordingInput {
     static func write(value: StopContactRecordingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContactId"].write(value.contactId)
+        try writer["ContactRecordingType"].write(value.contactRecordingType)
         try writer["InitialContactId"].write(value.initialContactId)
         try writer["InstanceId"].write(value.instanceId)
     }
@@ -30285,6 +30888,7 @@ extension SuspendContactRecordingInput {
     static func write(value: SuspendContactRecordingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContactId"].write(value.contactId)
+        try writer["ContactRecordingType"].write(value.contactRecordingType)
         try writer["InitialContactId"].write(value.initialContactId)
         try writer["InstanceId"].write(value.instanceId)
     }
@@ -30349,10 +30953,14 @@ extension UpdateContactInput {
 
     static func write(value: UpdateContactInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomerEndpoint"].write(value.customerEndpoint, with: ConnectClientTypes.Endpoint.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["QueueInfo"].write(value.queueInfo, with: ConnectClientTypes.QueueInfoInput.write(value:to:))
         try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SystemEndpoint"].write(value.systemEndpoint, with: ConnectClientTypes.Endpoint.write(value:to:))
+        try writer["UserInfo"].write(value.userInfo, with: ConnectClientTypes.UserInfo.write(value:to:))
     }
 }
 
@@ -30475,10 +31083,23 @@ extension UpdateHoursOfOperationInput {
     }
 }
 
+extension UpdateHoursOfOperationOverrideInput {
+
+    static func write(value: UpdateHoursOfOperationOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Config"].writeList(value.config, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["EffectiveFrom"].write(value.effectiveFrom)
+        try writer["EffectiveTill"].write(value.effectiveTill)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateInstanceAttributeInput {
 
     static func write(value: UpdateInstanceAttributeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["Value"].write(value.value)
     }
 }
@@ -30487,7 +31108,20 @@ extension UpdateInstanceStorageConfigInput {
 
     static func write(value: UpdateInstanceStorageConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["StorageConfig"].write(value.storageConfig, with: ConnectClientTypes.InstanceStorageConfig.write(value:to:))
+    }
+}
+
+extension UpdateParticipantAuthenticationInput {
+
+    static func write(value: UpdateParticipantAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Code"].write(value.code)
+        try writer["Error"].write(value.error)
+        try writer["ErrorDescription"].write(value.errorDescription)
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["State"].write(value.state)
     }
 }
 
@@ -31094,6 +31728,18 @@ extension CreateHoursOfOperationOutput {
     }
 }
 
+extension CreateHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHoursOfOperationOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHoursOfOperationOverrideOutput()
+        value.hoursOfOperationOverrideId = try reader["HoursOfOperationOverrideId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInstanceOutput {
@@ -31161,6 +31807,18 @@ extension CreatePromptOutput {
         var value = CreatePromptOutput()
         value.promptARN = try reader["PromptARN"].readIfPresent()
         value.promptId = try reader["PromptId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreatePushNotificationRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePushNotificationRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePushNotificationRegistrationOutput()
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -31375,6 +32033,13 @@ extension DeleteContactFlowModuleOutput {
     }
 }
 
+extension DeleteContactFlowVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContactFlowVersionOutput {
+        return DeleteContactFlowVersionOutput()
+    }
+}
+
 extension DeleteEmailAddressOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEmailAddressOutput {
@@ -31393,6 +32058,13 @@ extension DeleteHoursOfOperationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHoursOfOperationOutput {
         return DeleteHoursOfOperationOutput()
+    }
+}
+
+extension DeleteHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHoursOfOperationOverrideOutput {
+        return DeleteHoursOfOperationOverrideOutput()
     }
 }
 
@@ -31421,6 +32093,13 @@ extension DeletePromptOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePromptOutput {
         return DeletePromptOutput()
+    }
+}
+
+extension DeletePushNotificationRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePushNotificationRegistrationOutput {
+        return DeletePushNotificationRegistrationOutput()
     }
 }
 
@@ -31634,6 +32313,18 @@ extension DescribeHoursOfOperationOutput {
         let reader = responseReader
         var value = DescribeHoursOfOperationOutput()
         value.hoursOfOperation = try reader["HoursOfOperation"].readIfPresent(with: ConnectClientTypes.HoursOfOperation.read(from:))
+        return value
+    }
+}
+
+extension DescribeHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeHoursOfOperationOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeHoursOfOperationOverrideOutput()
+        value.hoursOfOperationOverride = try reader["HoursOfOperationOverride"].readIfPresent(with: ConnectClientTypes.HoursOfOperationOverride.read(from:))
         return value
     }
 }
@@ -32004,6 +32695,19 @@ extension GetCurrentUserDataOutput {
     }
 }
 
+extension GetEffectiveHoursOfOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEffectiveHoursOfOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEffectiveHoursOfOperationsOutput()
+        value.effectiveHoursOfOperationList = try reader["EffectiveHoursOfOperationList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EffectiveHoursOfOperations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeZone = try reader["TimeZone"].readIfPresent()
+        return value
+    }
+}
+
 extension GetFederationTokenOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFederationTokenOutput {
@@ -32149,6 +32853,19 @@ extension ListAnalyticsDataAssociationsOutput {
         var value = ListAnalyticsDataAssociationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.results = try reader["Results"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AnalyticsDataAssociationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListAnalyticsDataLakeDataSetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAnalyticsDataLakeDataSetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAnalyticsDataLakeDataSetsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.results = try reader["Results"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AnalyticsDataSetsResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -32317,6 +33034,21 @@ extension ListFlowAssociationsOutput {
         let reader = responseReader
         var value = ListFlowAssociationsOutput()
         value.flowAssociationSummaryList = try reader["FlowAssociationSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FlowAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListHoursOfOperationOverridesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHoursOfOperationOverridesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHoursOfOperationOverridesOutput()
+        value.hoursOfOperationOverrideList = try reader["HoursOfOperationOverrideList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -32893,6 +33625,20 @@ extension SearchEmailAddressesOutput {
     }
 }
 
+extension SearchHoursOfOperationOverridesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchHoursOfOperationOverridesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchHoursOfOperationOverridesOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.hoursOfOperationOverrides = try reader["HoursOfOperationOverrides"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension SearchHoursOfOperationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchHoursOfOperationsOutput {
@@ -33417,6 +34163,13 @@ extension UpdateHoursOfOperationOutput {
     }
 }
 
+extension UpdateHoursOfOperationOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHoursOfOperationOverrideOutput {
+        return UpdateHoursOfOperationOverrideOutput()
+    }
+}
+
 extension UpdateInstanceAttributeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateInstanceAttributeOutput {
@@ -33428,6 +34181,13 @@ extension UpdateInstanceStorageConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateInstanceStorageConfigOutput {
         return UpdateInstanceStorageConfigOutput()
+    }
+}
+
+extension UpdateParticipantAuthenticationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateParticipantAuthenticationOutput {
+        return UpdateParticipantAuthenticationOutput()
     }
 }
 
@@ -34270,6 +35030,26 @@ enum CreateHoursOfOperationOutputError {
     }
 }
 
+enum CreateHoursOfOperationOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateInstanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34376,6 +35156,25 @@ enum CreatePromptOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePushNotificationRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -34735,6 +35534,25 @@ enum DeleteContactFlowModuleOutputError {
     }
 }
 
+enum DeleteContactFlowVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteEmailAddressOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34774,6 +35592,24 @@ enum DeleteEvaluationFormOutputError {
 }
 
 enum DeleteHoursOfOperationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteHoursOfOperationOverrideOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -34854,6 +35690,24 @@ enum DeletePromptOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePushNotificationRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -35250,6 +36104,24 @@ enum DescribeEvaluationFormOutputError {
 }
 
 enum DescribeHoursOfOperationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeHoursOfOperationOverrideOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -35896,6 +36768,24 @@ enum GetCurrentUserDataOutputError {
     }
 }
 
+enum GetEffectiveHoursOfOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFederationTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -36062,6 +36952,24 @@ enum ListAgentStatusesOutputError {
 }
 
 enum ListAnalyticsDataAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAnalyticsDataLakeDataSetsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -36301,6 +37209,24 @@ enum ListFlowAssociationsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListHoursOfOperationOverridesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -37129,6 +38055,24 @@ enum SearchEmailAddressesOutputError {
     }
 }
 
+enum SearchHoursOfOperationOverridesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SearchHoursOfOperationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -37815,6 +38759,8 @@ enum UpdateContactOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -38052,6 +38998,26 @@ enum UpdateHoursOfOperationOutputError {
     }
 }
 
+enum UpdateHoursOfOperationOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateInstanceAttributeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -38082,6 +39048,25 @@ enum UpdateInstanceStorageConfigOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateParticipantAuthenticationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -39036,6 +40021,7 @@ extension ConnectClientTypes.AnalyticsDataAssociationResult {
         value.targetAccountId = try reader["TargetAccountId"].readIfPresent()
         value.resourceShareId = try reader["ResourceShareId"].readIfPresent()
         value.resourceShareArn = try reader["ResourceShareArn"].readIfPresent()
+        value.resourceShareStatus = try reader["ResourceShareStatus"].readIfPresent()
         return value
     }
 }
@@ -39256,6 +40242,7 @@ extension ConnectClientTypes.Contact {
         value.scheduledTimestamp = try reader["ScheduledTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
         value.wisdomInfo = try reader["WisdomInfo"].readIfPresent(with: ConnectClientTypes.WisdomInfo.read(from:))
+        value.customerId = try reader["CustomerId"].readIfPresent()
         value.customerEndpoint = try reader["CustomerEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
         value.systemEndpoint = try reader["SystemEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
         value.queueTimeAdjustmentSeconds = try reader["QueueTimeAdjustmentSeconds"].readIfPresent()
@@ -39279,6 +40266,8 @@ extension ConnectClientTypes.SegmentAttributeValue {
 
     static func write(value: ConnectClientTypes.SegmentAttributeValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ValueInteger"].write(value.valueInteger)
+        try writer["ValueMap"].writeMap(value.valueMap, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ValueString"].write(value.valueString)
     }
 
@@ -39286,6 +40275,8 @@ extension ConnectClientTypes.SegmentAttributeValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.SegmentAttributeValue()
         value.valueString = try reader["ValueString"].readIfPresent()
+        value.valueMap = try reader["ValueMap"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.valueInteger = try reader["ValueInteger"].readIfPresent()
         return value
     }
 }
@@ -39460,6 +40451,7 @@ extension ConnectClientTypes.Expression {
         guard let value else { return }
         try writer["AndExpression"].writeList(value.andExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AttributeCondition"].write(value.attributeCondition, with: ConnectClientTypes.AttributeCondition.write(value:to:))
+        try writer["NotAttributeCondition"].write(value.notAttributeCondition, with: ConnectClientTypes.AttributeCondition.write(value:to:))
         try writer["OrExpression"].writeList(value.orExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -39469,6 +40461,7 @@ extension ConnectClientTypes.Expression {
         value.attributeCondition = try reader["AttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
         value.andExpression = try reader["AndExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.orExpression = try reader["OrExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notAttributeCondition = try reader["NotAttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
         return value
     }
 }
@@ -39481,6 +40474,7 @@ extension ConnectClientTypes.AttributeCondition {
         try writer["MatchCriteria"].write(value.matchCriteria, with: ConnectClientTypes.MatchCriteria.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["ProficiencyLevel"].write(value.proficiencyLevel)
+        try writer["Range"].write(value.range, with: ConnectClientTypes.Range.write(value:to:))
         try writer["Value"].write(value.value)
     }
 
@@ -39490,6 +40484,7 @@ extension ConnectClientTypes.AttributeCondition {
         value.name = try reader["Name"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         value.proficiencyLevel = try reader["ProficiencyLevel"].readIfPresent()
+        value.range = try reader["Range"].readIfPresent(with: ConnectClientTypes.Range.read(from:))
         value.matchCriteria = try reader["MatchCriteria"].readIfPresent(with: ConnectClientTypes.MatchCriteria.read(from:))
         value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
         return value
@@ -39522,6 +40517,23 @@ extension ConnectClientTypes.AgentsCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.AgentsCriteria()
         value.agentIds = try reader["AgentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.Range {
+
+    static func write(value: ConnectClientTypes.Range?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxProficiencyLevel"].write(value.maxProficiencyLevel)
+        try writer["MinProficiencyLevel"].write(value.minProficiencyLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Range {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Range()
+        value.minProficiencyLevel = try reader["MinProficiencyLevel"].readIfPresent()
+        value.maxProficiencyLevel = try reader["MaxProficiencyLevel"].readIfPresent()
         return value
     }
 }
@@ -40045,7 +41057,6 @@ extension ConnectClientTypes.ContactFlow {
         value.description = try reader["Description"].readIfPresent()
         value.content = try reader["Content"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
         value.flowContentSha256 = try reader["FlowContentSha256"].readIfPresent()
         value.version = try reader["Version"].readIfPresent()
         value.versionDescription = try reader["VersionDescription"].readIfPresent()
@@ -40143,6 +41154,59 @@ extension ConnectClientTypes.HoursOfOperationTimeSlice {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationTimeSlice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.HoursOfOperationTimeSlice()
+        value.hours = try reader["Hours"].readIfPresent()
+        value.minutes = try reader["Minutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.HoursOfOperationOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.HoursOfOperationOverride()
+        value.hoursOfOperationOverrideId = try reader["HoursOfOperationOverrideId"].readIfPresent()
+        value.hoursOfOperationId = try reader["HoursOfOperationId"].readIfPresent()
+        value.hoursOfOperationArn = try reader["HoursOfOperationArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.config = try reader["Config"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationOverrideConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.effectiveFrom = try reader["EffectiveFrom"].readIfPresent()
+        value.effectiveTill = try reader["EffectiveTill"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.HoursOfOperationOverrideConfig {
+
+    static func write(value: ConnectClientTypes.HoursOfOperationOverrideConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Day"].write(value.day)
+        try writer["EndTime"].write(value.endTime, with: ConnectClientTypes.OverrideTimeSlice.write(value:to:))
+        try writer["StartTime"].write(value.startTime, with: ConnectClientTypes.OverrideTimeSlice.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationOverrideConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.HoursOfOperationOverrideConfig()
+        value.day = try reader["Day"].readIfPresent()
+        value.startTime = try reader["StartTime"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        value.endTime = try reader["EndTime"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.OverrideTimeSlice {
+
+    static func write(value: ConnectClientTypes.OverrideTimeSlice?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Hours"].write(value.hours)
+        try writer["Minutes"].write(value.minutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.OverrideTimeSlice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.OverrideTimeSlice()
         value.hours = try reader["Hours"].readIfPresent()
         value.minutes = try reader["Minutes"].readIfPresent()
         return value
@@ -41261,6 +42325,28 @@ extension ConnectClientTypes.UserReference {
     }
 }
 
+extension ConnectClientTypes.EffectiveHoursOfOperations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EffectiveHoursOfOperations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EffectiveHoursOfOperations()
+        value.date = try reader["Date"].readIfPresent()
+        value.operationalHours = try reader["OperationalHours"].readListIfPresent(memberReadingClosure: ConnectClientTypes.OperationalHour.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.OperationalHour {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.OperationalHour {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.OperationalHour()
+        value.start = try reader["Start"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        value.end = try reader["End"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        return value
+    }
+}
+
 extension ConnectClientTypes.Credentials {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Credentials {
@@ -41646,6 +42732,17 @@ extension ConnectClientTypes.AgentStatusSummary {
         value.type = try reader["Type"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.AnalyticsDataSetsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AnalyticsDataSetsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AnalyticsDataSetsResult()
+        value.dataSetId = try reader["DataSetId"].readIfPresent()
+        value.dataSetName = try reader["DataSetName"].readIfPresent()
         return value
     }
 }
@@ -42839,6 +43936,16 @@ extension ConnectClientTypes.ParticipantDetailsToAdd {
     }
 }
 
+extension ConnectClientTypes.ContactConfiguration {
+
+    static func write(value: ConnectClientTypes.ContactConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactId"].write(value.contactId)
+        try writer["IncludeRawMessage"].write(value.includeRawMessage)
+        try writer["ParticipantRole"].write(value.participantRole)
+    }
+}
+
 extension ConnectClientTypes.ViewInputContent {
 
     static func write(value: ConnectClientTypes.ViewInputContent?, to writer: SmithyJSON.Writer) throws {
@@ -42994,6 +44101,8 @@ extension ConnectClientTypes.ContactFlowModuleSearchCriteria {
         guard let value else { return }
         try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.ContactFlowModuleSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.ContactFlowModuleSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StateCondition"].write(value.stateCondition)
+        try writer["StatusCondition"].write(value.statusCondition)
         try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
     }
 }
@@ -43151,6 +44260,27 @@ extension ConnectClientTypes.HoursOfOperationSearchFilter {
     static func write(value: ConnectClientTypes.HoursOfOperationSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.HoursOfOperationOverrideSearchCriteria {
+
+    static func write(value: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DateCondition"].write(value.dateCondition, with: ConnectClientTypes.DateCondition.write(value:to:))
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.HoursOfOperationOverrideSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.DateCondition {
+
+    static func write(value: ConnectClientTypes.DateCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonType"].write(value.comparisonType)
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -43505,6 +44635,7 @@ extension ConnectClientTypes.VoiceRecordingConfiguration {
 
     static func write(value: ConnectClientTypes.VoiceRecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IvrRecordingTrack"].write(value.ivrRecordingTrack)
         try writer["VoiceRecordingTrack"].write(value.voiceRecordingTrack)
     }
 }
@@ -43578,6 +44709,14 @@ extension ConnectClientTypes.EvaluationAnswerInput {
     static func write(value: ConnectClientTypes.EvaluationAnswerInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Value"].write(value.value, with: ConnectClientTypes.EvaluationAnswerData.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.QueueInfoInput {
+
+    static func write(value: ConnectClientTypes.QueueInfoInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 }
 

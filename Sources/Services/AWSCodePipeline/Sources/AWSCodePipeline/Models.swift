@@ -80,9 +80,9 @@ public struct UpdateActionTypeOutput: Swift.Sendable {
 }
 
 /// The nonce was specified in an invalid format.
-public struct InvalidNonceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNonceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -98,16 +98,15 @@ public struct InvalidNonceException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The job was specified in an invalid format or cannot be found.
-public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -123,16 +122,15 @@ public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The validation was specified in an invalid format.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -148,8 +146,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -166,8 +163,7 @@ public struct AcknowledgeJobInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         nonce: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.nonce = nonce
     }
@@ -224,16 +220,15 @@ public struct AcknowledgeJobOutput: Swift.Sendable {
 
     public init(
         status: CodePipelineClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
 
 /// The client token was specified in an invalid format
-public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -249,8 +244,7 @@ public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -271,8 +265,7 @@ public struct AcknowledgeThirdPartyJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         jobId: Swift.String? = nil,
         nonce: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.jobId = jobId
         self.nonce = nonce
@@ -286,8 +279,7 @@ public struct AcknowledgeThirdPartyJobOutput: Swift.Sendable {
 
     public init(
         status: CodePipelineClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -345,8 +337,7 @@ extension CodePipelineClientTypes {
 
         public init(
             configuration: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
         }
     }
@@ -415,8 +406,7 @@ extension CodePipelineClientTypes {
             `required`: Swift.Bool = false,
             secret: Swift.Bool = false,
             type: CodePipelineClientTypes.ActionConfigurationPropertyType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.key = key
             self.name = name
@@ -440,8 +430,7 @@ extension CodePipelineClientTypes {
         public init(
             actionExecutionId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionExecutionId = actionExecutionId
             self.name = name
         }
@@ -497,6 +486,8 @@ extension CodePipelineClientTypes {
         /// * Invoke
         ///
         /// * Approval
+        ///
+        /// * Compute
         /// This member is required.
         public var category: CodePipelineClientTypes.ActionCategory?
         /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see [Valid Action Types and Providers in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
@@ -514,8 +505,7 @@ extension CodePipelineClientTypes {
             owner: CodePipelineClientTypes.ActionOwner? = nil,
             provider: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.owner = owner
             self.provider = provider
@@ -534,8 +524,7 @@ extension CodePipelineClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -554,8 +543,7 @@ extension CodePipelineClientTypes {
         public init(
             files: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.files = files
             self.name = name
         }
@@ -606,8 +594,7 @@ extension CodePipelineClientTypes {
             roleArn: Swift.String? = nil,
             runOrder: Swift.Int? = nil,
             timeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actionTypeId = actionTypeId
             self.commands = commands
             self.configuration = configuration
@@ -636,8 +623,7 @@ extension CodePipelineClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -718,8 +704,7 @@ extension CodePipelineClientTypes {
             status: CodePipelineClientTypes.ActionExecutionStatus? = nil,
             summary: Swift.String? = nil,
             token: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionExecutionId = actionExecutionId
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
@@ -747,8 +732,7 @@ extension CodePipelineClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -767,8 +751,7 @@ extension CodePipelineClientTypes {
         public init(
             name: Swift.String? = nil,
             s3location: CodePipelineClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.name = name
             self.s3location = s3location
         }
@@ -802,8 +785,7 @@ extension CodePipelineClientTypes {
             region: Swift.String? = nil,
             resolvedConfiguration: [Swift.String: Swift.String]? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionTypeId = actionTypeId
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
@@ -836,8 +818,7 @@ extension CodePipelineClientTypes {
             externalExecutionSummary: Swift.String? = nil,
             externalExecutionUrl: Swift.String? = nil,
             logStreamARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionSummary = externalExecutionSummary
@@ -862,8 +843,7 @@ extension CodePipelineClientTypes {
             executionResult: CodePipelineClientTypes.ActionExecutionResult? = nil,
             outputArtifacts: [CodePipelineClientTypes.ArtifactDetail]? = nil,
             outputVariables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.executionResult = executionResult
             self.outputArtifacts = outputArtifacts
             self.outputVariables = outputVariables
@@ -910,8 +890,7 @@ extension CodePipelineClientTypes {
             startTime: Foundation.Date? = nil,
             status: CodePipelineClientTypes.ActionExecutionStatus? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionExecutionId = actionExecutionId
             self.actionName = actionName
             self.input = input
@@ -974,8 +953,7 @@ extension CodePipelineClientTypes {
         public init(
             pipelineExecutionId: Swift.String? = nil,
             startTimeRange: CodePipelineClientTypes.StartTimeRange? = nil
-        )
-        {
+        ) {
             self.pipelineExecutionId = pipelineExecutionId
             self.startTimeRange = startTimeRange
         }
@@ -994,8 +972,7 @@ extension CodePipelineClientTypes {
         public init(
             latestInPipelineExecution: CodePipelineClientTypes.LatestInPipelineExecutionFilter? = nil,
             pipelineExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestInPipelineExecution = latestInPipelineExecution
             self.pipelineExecutionId = pipelineExecutionId
         }
@@ -1003,9 +980,9 @@ extension CodePipelineClientTypes {
 }
 
 /// The specified action cannot be found.
-public struct ActionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1021,8 +998,7 @@ public struct ActionNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1045,8 +1021,7 @@ extension CodePipelineClientTypes {
             created: Foundation.Date? = nil,
             revisionChangeId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.created = created
             self.revisionChangeId = revisionChangeId
             self.revisionId = revisionId
@@ -1075,8 +1050,7 @@ extension CodePipelineClientTypes {
             entityUrl: Swift.String? = nil,
             latestExecution: CodePipelineClientTypes.ActionExecution? = nil,
             revisionUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.currentRevision = currentRevision
             self.entityUrl = entityUrl
@@ -1100,8 +1074,7 @@ extension CodePipelineClientTypes {
         public init(
             maximumCount: Swift.Int = 0,
             minimumCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumCount = maximumCount
             self.minimumCount = minimumCount
         }
@@ -1126,8 +1099,7 @@ extension CodePipelineClientTypes {
             executionUrlTemplate: Swift.String? = nil,
             revisionUrlTemplate: Swift.String? = nil,
             thirdPartyConfigurationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityUrlTemplate = entityUrlTemplate
             self.executionUrlTemplate = executionUrlTemplate
             self.revisionUrlTemplate = revisionUrlTemplate
@@ -1160,8 +1132,7 @@ extension CodePipelineClientTypes {
             inputArtifactDetails: CodePipelineClientTypes.ArtifactDetails? = nil,
             outputArtifactDetails: CodePipelineClientTypes.ArtifactDetails? = nil,
             settings: CodePipelineClientTypes.ActionTypeSettings? = nil
-        )
-        {
+        ) {
             self.actionConfigurationProperties = actionConfigurationProperties
             self.id = id
             self.inputArtifactDetails = inputArtifactDetails
@@ -1185,8 +1156,7 @@ extension CodePipelineClientTypes {
         public init(
             maximumCount: Swift.Int = 0,
             minimumCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumCount = maximumCount
             self.minimumCount = minimumCount
         }
@@ -1205,8 +1175,7 @@ extension CodePipelineClientTypes {
         public init(
             pollingAccounts: [Swift.String]? = nil,
             pollingServicePrincipals: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.pollingAccounts = pollingAccounts
             self.pollingServicePrincipals = pollingServicePrincipals
         }
@@ -1223,8 +1192,7 @@ extension CodePipelineClientTypes {
 
         public init(
             lambdaFunctionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaFunctionArn = lambdaFunctionArn
         }
     }
@@ -1242,8 +1210,7 @@ extension CodePipelineClientTypes {
         public init(
             jobWorkerExecutorConfiguration: CodePipelineClientTypes.JobWorkerExecutorConfiguration? = nil,
             lambdaExecutorConfiguration: CodePipelineClientTypes.LambdaExecutorConfiguration? = nil
-        )
-        {
+        ) {
             self.jobWorkerExecutorConfiguration = jobWorkerExecutorConfiguration
             self.lambdaExecutorConfiguration = lambdaExecutorConfiguration
         }
@@ -1299,8 +1266,7 @@ extension CodePipelineClientTypes {
             jobTimeout: Swift.Int? = nil,
             policyStatementsTemplate: Swift.String? = nil,
             type: CodePipelineClientTypes.ExecutorType? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.jobTimeout = jobTimeout
             self.policyStatementsTemplate = policyStatementsTemplate
@@ -1343,8 +1309,7 @@ extension CodePipelineClientTypes {
             owner: Swift.String? = nil,
             provider: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.owner = owner
             self.provider = provider
@@ -1363,8 +1328,7 @@ extension CodePipelineClientTypes {
 
         public init(
             allowedAccounts: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedAccounts = allowedAccounts
         }
     }
@@ -1398,8 +1362,7 @@ extension CodePipelineClientTypes {
             noEcho: Swift.Bool = false,
             `optional`: Swift.Bool = false,
             queryable: Swift.Bool = false
-        )
-        {
+        ) {
             self.description = description
             self.key = key
             self.name = name
@@ -1428,8 +1391,7 @@ extension CodePipelineClientTypes {
             entityUrlTemplate: Swift.String? = nil,
             executionUrlTemplate: Swift.String? = nil,
             revisionUrlTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationUrl = configurationUrl
             self.entityUrlTemplate = entityUrlTemplate
             self.executionUrlTemplate = executionUrlTemplate
@@ -1472,8 +1434,7 @@ extension CodePipelineClientTypes {
             permissions: CodePipelineClientTypes.ActionTypePermissions? = nil,
             properties: [CodePipelineClientTypes.ActionTypeProperty]? = nil,
             urls: CodePipelineClientTypes.ActionTypeUrls? = nil
-        )
-        {
+        ) {
             self.description = description
             self.executor = executor
             self.id = id
@@ -1487,9 +1448,9 @@ extension CodePipelineClientTypes {
 }
 
 /// The specified action type cannot be found.
-public struct ActionTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActionTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1505,16 +1466,15 @@ public struct ActionTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The approval action has already been approved or rejected.
-public struct ApprovalAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1530,8 +1490,7 @@ public struct ApprovalAlreadyCompletedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1579,8 +1538,7 @@ extension CodePipelineClientTypes {
         public init(
             status: CodePipelineClientTypes.ApprovalStatus? = nil,
             summary: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.summary = summary
         }
@@ -1601,8 +1559,7 @@ extension CodePipelineClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -1647,8 +1604,7 @@ extension CodePipelineClientTypes {
         public init(
             s3Location: CodePipelineClientTypes.S3ArtifactLocation? = nil,
             type: CodePipelineClientTypes.ArtifactLocationType? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
             self.type = type
         }
@@ -1670,8 +1626,7 @@ extension CodePipelineClientTypes {
             location: CodePipelineClientTypes.ArtifactLocation? = nil,
             name: Swift.String? = nil,
             revision: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
             self.name = name
             self.revision = revision
@@ -1703,8 +1658,7 @@ extension CodePipelineClientTypes {
             revisionId: Swift.String? = nil,
             revisionSummary: Swift.String? = nil,
             revisionUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.created = created
             self.name = name
             self.revisionChangeIdentifier = revisionChangeIdentifier
@@ -1755,8 +1709,7 @@ extension CodePipelineClientTypes {
         public init(
             id: Swift.String? = nil,
             type: CodePipelineClientTypes.EncryptionKeyType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -1806,8 +1759,7 @@ extension CodePipelineClientTypes {
             encryptionKey: CodePipelineClientTypes.EncryptionKey? = nil,
             location: Swift.String? = nil,
             type: CodePipelineClientTypes.ArtifactStoreType? = nil
-        )
-        {
+        ) {
             self.encryptionKey = encryptionKey
             self.location = location
             self.type = type
@@ -1833,8 +1785,7 @@ extension CodePipelineClientTypes {
             accessKeyId: Swift.String? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
             self.sessionToken = sessionToken
@@ -1955,8 +1906,7 @@ extension CodePipelineClientTypes {
             owner: CodePipelineClientTypes.RuleOwner? = nil,
             provider: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.owner = owner
             self.provider = provider
@@ -1967,13 +1917,15 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage.
+    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct RuleDeclaration: Swift.Sendable {
+        /// The shell commands to run with your commands rule in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild. Using compute time for this action will incur separate charges in CodeBuild.
+        public var commands: [Swift.String]?
         /// The action configuration fields for the rule.
         public var configuration: [Swift.String: Swift.String]?
         /// The input artifacts fields for the rule, such as specifying an input file for the rule.
         public var inputArtifacts: [CodePipelineClientTypes.InputArtifact]?
-        /// The name of the rule that is created for the condition, such as CheckAllResults.
+        /// The name of the rule that is created for the condition, such as VariableCheck.
         /// This member is required.
         public var name: Swift.String?
         /// The Region for the condition associated with the rule.
@@ -1987,6 +1939,7 @@ extension CodePipelineClientTypes {
         public var timeoutInMinutes: Swift.Int?
 
         public init(
+            commands: [Swift.String]? = nil,
             configuration: [Swift.String: Swift.String]? = nil,
             inputArtifacts: [CodePipelineClientTypes.InputArtifact]? = nil,
             name: Swift.String? = nil,
@@ -1994,8 +1947,8 @@ extension CodePipelineClientTypes {
             roleArn: Swift.String? = nil,
             ruleTypeId: CodePipelineClientTypes.RuleTypeId? = nil,
             timeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
+            self.commands = commands
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
             self.name = name
@@ -2009,7 +1962,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The condition for the stage. A condition is made up of the rules and the result for the condition.
+    /// The condition for the stage. A condition is made up of the rules and the result for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct Condition: Swift.Sendable {
         /// The action to be done when the condition is met. For example, rolling back an execution for a failure condition.
         public var result: CodePipelineClientTypes.Result?
@@ -2019,8 +1972,7 @@ extension CodePipelineClientTypes {
         public init(
             result: CodePipelineClientTypes.Result? = nil,
             rules: [CodePipelineClientTypes.RuleDeclaration]? = nil
-        )
-        {
+        ) {
             self.result = result
             self.rules = rules
         }
@@ -2037,8 +1989,7 @@ extension CodePipelineClientTypes {
 
         public init(
             conditions: [CodePipelineClientTypes.Condition]? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
         }
     }
@@ -2084,8 +2035,7 @@ extension CodePipelineClientTypes {
         public init(
             name: Swift.String? = nil,
             type: CodePipelineClientTypes.BlockerType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -2093,9 +2043,9 @@ extension CodePipelineClientTypes {
 }
 
 /// Unable to modify the tag due to a simultaneous update request.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2110,16 +2060,15 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource tags are invalid.
-public struct InvalidTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2134,16 +2083,15 @@ public struct InvalidTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of pipelines associated with the Amazon Web Services account has exceeded the limit allowed for the account.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2159,16 +2107,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The tags limit for a resource has been exceeded.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2183,8 +2130,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2203,8 +2149,7 @@ extension CodePipelineClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2244,8 +2189,7 @@ public struct CreateCustomActionTypeInput: Swift.Sendable {
         settings: CodePipelineClientTypes.ActionTypeSettings? = nil,
         tags: [CodePipelineClientTypes.Tag]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.category = category
         self.configurationProperties = configurationProperties
         self.inputArtifactDetails = inputArtifactDetails
@@ -2268,17 +2212,16 @@ public struct CreateCustomActionTypeOutput: Swift.Sendable {
     public init(
         actionType: CodePipelineClientTypes.ActionType? = nil,
         tags: [CodePipelineClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.tags = tags
     }
 }
 
 /// The action declaration was specified in an invalid format.
-public struct InvalidActionDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidActionDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2294,16 +2237,15 @@ public struct InvalidActionDeclarationException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Reserved for future use.
-public struct InvalidBlockerDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBlockerDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2319,16 +2261,15 @@ public struct InvalidBlockerDeclarationException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The stage declaration was specified in an invalid format.
-public struct InvalidStageDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStageDeclarationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2344,16 +2285,15 @@ public struct InvalidStageDeclarationException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The structure was specified in an invalid format.
-public struct InvalidStructureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStructureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2369,16 +2309,15 @@ public struct InvalidStructureException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified pipeline name is already in use.
-public struct PipelineNameInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineNameInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2394,8 +2333,7 @@ public struct PipelineNameInUseException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2499,8 +2437,7 @@ extension CodePipelineClientTypes {
 
         public init(
             retryMode: CodePipelineClientTypes.StageRetryMode? = nil
-        )
-        {
+        ) {
             self.retryMode = retryMode
         }
     }
@@ -2521,8 +2458,7 @@ extension CodePipelineClientTypes {
             conditions: [CodePipelineClientTypes.Condition]? = nil,
             result: CodePipelineClientTypes.Result? = nil,
             retryConfiguration: CodePipelineClientTypes.RetryConfiguration? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
             self.result = result
             self.retryConfiguration = retryConfiguration
@@ -2540,8 +2476,7 @@ extension CodePipelineClientTypes {
 
         public init(
             conditions: [CodePipelineClientTypes.Condition]? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
         }
     }
@@ -2573,8 +2508,7 @@ extension CodePipelineClientTypes {
             name: Swift.String? = nil,
             onFailure: CodePipelineClientTypes.FailureConditions? = nil,
             onSuccess: CodePipelineClientTypes.SuccessConditions? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.beforeEntry = beforeEntry
             self.blockers = blockers
@@ -2597,8 +2531,7 @@ extension CodePipelineClientTypes {
         public init(
             excludes: [Swift.String]? = nil,
             includes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
             self.includes = includes
         }
@@ -2649,8 +2582,7 @@ extension CodePipelineClientTypes {
         public init(
             excludes: [Swift.String]? = nil,
             includes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
             self.includes = includes
         }
@@ -2672,8 +2604,7 @@ extension CodePipelineClientTypes {
             branches: CodePipelineClientTypes.GitBranchFilterCriteria? = nil,
             events: [CodePipelineClientTypes.GitPullRequestEventType]? = nil,
             filePaths: CodePipelineClientTypes.GitFilePathFilterCriteria? = nil
-        )
-        {
+        ) {
             self.branches = branches
             self.events = events
             self.filePaths = filePaths
@@ -2693,8 +2624,7 @@ extension CodePipelineClientTypes {
         public init(
             excludes: [Swift.String]? = nil,
             includes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.excludes = excludes
             self.includes = includes
         }
@@ -2716,8 +2646,7 @@ extension CodePipelineClientTypes {
             branches: CodePipelineClientTypes.GitBranchFilterCriteria? = nil,
             filePaths: CodePipelineClientTypes.GitFilePathFilterCriteria? = nil,
             tags: CodePipelineClientTypes.GitTagFilterCriteria? = nil
-        )
-        {
+        ) {
             self.branches = branches
             self.filePaths = filePaths
             self.tags = tags
@@ -2741,8 +2670,7 @@ extension CodePipelineClientTypes {
             pullRequest: [CodePipelineClientTypes.GitPullRequestFilter]? = nil,
             push: [CodePipelineClientTypes.GitPushFilter]? = nil,
             sourceActionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.pullRequest = pullRequest
             self.push = push
             self.sourceActionName = sourceActionName
@@ -2790,8 +2718,7 @@ extension CodePipelineClientTypes {
         public init(
             gitConfiguration: CodePipelineClientTypes.GitConfiguration? = nil,
             providerType: CodePipelineClientTypes.PipelineTriggerProviderType? = nil
-        )
-        {
+        ) {
             self.gitConfiguration = gitConfiguration
             self.providerType = providerType
         }
@@ -2814,8 +2741,7 @@ extension CodePipelineClientTypes {
             defaultValue: Swift.String? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
@@ -2869,8 +2795,7 @@ extension CodePipelineClientTypes {
             triggers: [CodePipelineClientTypes.PipelineTriggerDeclaration]? = nil,
             variables: [CodePipelineClientTypes.PipelineVariableDeclaration]? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.artifactStore = artifactStore
             self.artifactStores = artifactStores
             self.executionMode = executionMode
@@ -2896,8 +2821,7 @@ public struct CreatePipelineInput: Swift.Sendable {
     public init(
         pipeline: CodePipelineClientTypes.PipelineDeclaration? = nil,
         tags: [CodePipelineClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
         self.tags = tags
     }
@@ -2913,8 +2837,7 @@ public struct CreatePipelineOutput: Swift.Sendable {
     public init(
         pipeline: CodePipelineClientTypes.PipelineDeclaration? = nil,
         tags: [CodePipelineClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
         self.tags = tags
     }
@@ -2936,8 +2859,7 @@ public struct DeleteCustomActionTypeInput: Swift.Sendable {
         category: CodePipelineClientTypes.ActionCategory? = nil,
         provider: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.category = category
         self.provider = provider
         self.version = version
@@ -2952,8 +2874,7 @@ public struct DeletePipelineInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2965,8 +2886,7 @@ public struct DeleteWebhookInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2977,7 +2897,7 @@ public struct DeleteWebhookOutput: Swift.Sendable {
 }
 
 /// The specified webhook was entered in an invalid format or cannot be found.
-public struct WebhookNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebhookNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "WebhookNotFoundException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -2995,8 +2915,7 @@ public struct DeregisterWebhookWithThirdPartyInput: Swift.Sendable {
 
     public init(
         webhookName: Swift.String? = nil
-    )
-    {
+    ) {
         self.webhookName = webhookName
     }
 }
@@ -3007,9 +2926,9 @@ public struct DeregisterWebhookWithThirdPartyOutput: Swift.Sendable {
 }
 
 /// The pipeline was specified in an invalid format or cannot be found.
-public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3025,16 +2944,15 @@ public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The stage was specified in an invalid format or cannot be found.
-public struct StageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3050,8 +2968,7 @@ public struct StageNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3105,8 +3022,7 @@ public struct DisableStageTransitionInput: Swift.Sendable {
         reason: Swift.String? = nil,
         stageName: Swift.String? = nil,
         transitionType: CodePipelineClientTypes.StageTransitionType? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
         self.reason = reason
         self.stageName = stageName
@@ -3130,8 +3046,7 @@ public struct EnableStageTransitionInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         stageName: Swift.String? = nil,
         transitionType: CodePipelineClientTypes.StageTransitionType? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
         self.stageName = stageName
         self.transitionType = transitionType
@@ -3152,6 +3067,8 @@ public struct GetActionTypeInput: Swift.Sendable {
     /// * Approval
     ///
     /// * Invoke
+    ///
+    /// * Compute
     /// This member is required.
     public var category: CodePipelineClientTypes.ActionCategory?
     /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty.
@@ -3169,8 +3086,7 @@ public struct GetActionTypeInput: Swift.Sendable {
         owner: Swift.String? = nil,
         provider: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.category = category
         self.owner = owner
         self.provider = provider
@@ -3184,8 +3100,7 @@ public struct GetActionTypeOutput: Swift.Sendable {
 
     public init(
         actionType: CodePipelineClientTypes.ActionTypeDeclaration? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
     }
 }
@@ -3198,8 +3113,7 @@ public struct GetJobDetailsInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3213,8 +3127,7 @@ extension CodePipelineClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3241,8 +3154,7 @@ extension CodePipelineClientTypes {
             pipelineExecutionId: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
             stage: CodePipelineClientTypes.StageContext? = nil
-        )
-        {
+        ) {
             self.action = action
             self.pipelineArn = pipelineArn
             self.pipelineExecutionId = pipelineExecutionId
@@ -3282,8 +3194,7 @@ extension CodePipelineClientTypes {
             inputArtifacts: [CodePipelineClientTypes.Artifact]? = nil,
             outputArtifacts: [CodePipelineClientTypes.Artifact]? = nil,
             pipelineContext: CodePipelineClientTypes.PipelineContext? = nil
-        )
-        {
+        ) {
             self.actionConfiguration = actionConfiguration
             self.actionTypeId = actionTypeId
             self.artifactCredentials = artifactCredentials
@@ -3316,8 +3227,7 @@ extension CodePipelineClientTypes {
             accountId: Swift.String? = nil,
             data: CodePipelineClientTypes.JobData? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.data = data
             self.id = id
@@ -3332,16 +3242,15 @@ public struct GetJobDetailsOutput: Swift.Sendable {
 
     public init(
         jobDetails: CodePipelineClientTypes.JobDetails? = nil
-    )
-    {
+    ) {
         self.jobDetails = jobDetails
     }
 }
 
 /// The pipeline version was specified in an invalid format or cannot be found.
-public struct PipelineVersionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineVersionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3357,8 +3266,7 @@ public struct PipelineVersionNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3374,8 +3282,7 @@ public struct GetPipelineInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.name = name
         self.version = version
     }
@@ -3399,8 +3306,7 @@ extension CodePipelineClientTypes {
             pipelineArn: Swift.String? = nil,
             pollingDisabledAt: Foundation.Date? = nil,
             updated: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.created = created
             self.pipelineArn = pipelineArn
             self.pollingDisabledAt = pollingDisabledAt
@@ -3419,17 +3325,16 @@ public struct GetPipelineOutput: Swift.Sendable {
     public init(
         metadata: CodePipelineClientTypes.PipelineMetadata? = nil,
         pipeline: CodePipelineClientTypes.PipelineDeclaration? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.pipeline = pipeline
     }
 }
 
 /// The pipeline execution was specified in an invalid format or cannot be found, or an execution ID does not belong to the specified pipeline.
-public struct PipelineExecutionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineExecutionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3445,8 +3350,7 @@ public struct PipelineExecutionNotFoundException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3463,8 +3367,7 @@ public struct GetPipelineExecutionInput: Swift.Sendable {
     public init(
         pipelineExecutionId: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionId = pipelineExecutionId
         self.pipelineName = pipelineName
     }
@@ -3508,8 +3411,7 @@ extension CodePipelineClientTypes {
 
         public init(
             rollbackTargetPipelineExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.rollbackTargetPipelineExecutionId = rollbackTargetPipelineExecutionId
         }
     }
@@ -3621,8 +3523,7 @@ extension CodePipelineClientTypes {
         public init(
             triggerDetail: Swift.String? = nil,
             triggerType: CodePipelineClientTypes.TriggerType? = nil
-        )
-        {
+        ) {
             self.triggerDetail = triggerDetail
             self.triggerType = triggerType
         }
@@ -3641,8 +3542,7 @@ extension CodePipelineClientTypes {
         public init(
             name: Swift.String? = nil,
             resolvedValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.resolvedValue = resolvedValue
         }
@@ -3702,8 +3602,7 @@ extension CodePipelineClientTypes {
             statusSummary: Swift.String? = nil,
             trigger: CodePipelineClientTypes.ExecutionTrigger? = nil,
             variables: [CodePipelineClientTypes.ResolvedPipelineVariable]? = nil
-        )
-        {
+        ) {
             self.artifactRevisions = artifactRevisions
             self.executionMode = executionMode
             self.executionType = executionType
@@ -3726,8 +3625,7 @@ public struct GetPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecution: CodePipelineClientTypes.PipelineExecution? = nil
-    )
-    {
+    ) {
         self.pipelineExecution = pipelineExecution
     }
 }
@@ -3740,8 +3638,7 @@ public struct GetPipelineStateInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3805,8 +3702,7 @@ extension CodePipelineClientTypes {
             lastStatusChange: Foundation.Date? = nil,
             status: CodePipelineClientTypes.ConditionExecutionStatus? = nil,
             summary: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastStatusChange = lastStatusChange
             self.status = status
             self.summary = summary
@@ -3832,8 +3728,7 @@ extension CodePipelineClientTypes {
             created: Foundation.Date? = nil,
             revisionChangeId: Swift.String? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.created = created
             self.revisionChangeId = revisionChangeId
             self.revisionId = revisionId
@@ -3909,8 +3804,7 @@ extension CodePipelineClientTypes {
             status: CodePipelineClientTypes.RuleExecutionStatus? = nil,
             summary: Swift.String? = nil,
             token: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionUrl = externalExecutionUrl
@@ -3945,8 +3839,7 @@ extension CodePipelineClientTypes {
             latestExecution: CodePipelineClientTypes.RuleExecution? = nil,
             revisionUrl: Swift.String? = nil,
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentRevision = currentRevision
             self.entityUrl = entityUrl
             self.latestExecution = latestExecution
@@ -3968,8 +3861,7 @@ extension CodePipelineClientTypes {
         public init(
             latestExecution: CodePipelineClientTypes.ConditionExecution? = nil,
             ruleStates: [CodePipelineClientTypes.RuleState]? = nil
-        )
-        {
+        ) {
             self.latestExecution = latestExecution
             self.ruleStates = ruleStates
         }
@@ -3988,8 +3880,7 @@ extension CodePipelineClientTypes {
         public init(
             status: CodePipelineClientTypes.ConditionExecutionStatus? = nil,
             summary: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.summary = summary
         }
@@ -4008,8 +3899,7 @@ extension CodePipelineClientTypes {
         public init(
             conditionStates: [CodePipelineClientTypes.ConditionState]? = nil,
             latestExecution: CodePipelineClientTypes.StageConditionsExecution? = nil
-        )
-        {
+        ) {
             self.conditionStates = conditionStates
             self.latestExecution = latestExecution
         }
@@ -4077,8 +3967,7 @@ extension CodePipelineClientTypes {
             pipelineExecutionId: Swift.String? = nil,
             status: CodePipelineClientTypes.StageExecutionStatus? = nil,
             type: CodePipelineClientTypes.ExecutionType? = nil
-        )
-        {
+        ) {
             self.pipelineExecutionId = pipelineExecutionId
             self.status = status
             self.type = type
@@ -4104,8 +3993,7 @@ extension CodePipelineClientTypes {
             enabled: Swift.Bool = false,
             lastChangedAt: Foundation.Date? = nil,
             lastChangedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.disabledReason = disabledReason
             self.enabled = enabled
             self.lastChangedAt = lastChangedAt
@@ -4158,8 +4046,7 @@ extension CodePipelineClientTypes {
             autoStageRetryAttempt: Swift.Int? = nil,
             latestRetryTrigger: CodePipelineClientTypes.RetryTrigger? = nil,
             manualStageRetryAttempt: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autoStageRetryAttempt = autoStageRetryAttempt
             self.latestRetryTrigger = latestRetryTrigger
             self.manualStageRetryAttempt = manualStageRetryAttempt
@@ -4203,8 +4090,7 @@ extension CodePipelineClientTypes {
             onSuccessConditionState: CodePipelineClientTypes.StageConditionState? = nil,
             retryStageMetadata: CodePipelineClientTypes.RetryStageMetadata? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionStates = actionStates
             self.beforeEntryConditionState = beforeEntryConditionState
             self.inboundExecution = inboundExecution
@@ -4238,8 +4124,7 @@ public struct GetPipelineStateOutput: Swift.Sendable {
         pipelineVersion: Swift.Int? = nil,
         stageStates: [CodePipelineClientTypes.StageState]? = nil,
         updated: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.created = created
         self.pipelineName = pipelineName
         self.pipelineVersion = pipelineVersion
@@ -4249,9 +4134,9 @@ public struct GetPipelineStateOutput: Swift.Sendable {
 }
 
 /// The job was specified in an invalid format or cannot be found.
-public struct InvalidJobException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidJobException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4267,8 +4152,7 @@ public struct InvalidJobException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4285,8 +4169,7 @@ public struct GetThirdPartyJobDetailsInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.jobId = jobId
     }
@@ -4322,8 +4205,7 @@ extension CodePipelineClientTypes {
             inputArtifacts: [CodePipelineClientTypes.Artifact]? = nil,
             outputArtifacts: [CodePipelineClientTypes.Artifact]? = nil,
             pipelineContext: CodePipelineClientTypes.PipelineContext? = nil
-        )
-        {
+        ) {
             self.actionConfiguration = actionConfiguration
             self.actionTypeId = actionTypeId
             self.artifactCredentials = artifactCredentials
@@ -4356,8 +4238,7 @@ extension CodePipelineClientTypes {
             data: CodePipelineClientTypes.ThirdPartyJobData? = nil,
             id: Swift.String? = nil,
             nonce: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.id = id
             self.nonce = nonce
@@ -4372,16 +4253,15 @@ public struct GetThirdPartyJobDetailsOutput: Swift.Sendable {
 
     public init(
         jobDetails: CodePipelineClientTypes.ThirdPartyJobDetails? = nil
-    )
-    {
+    ) {
         self.jobDetails = jobDetails
     }
 }
 
 /// The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4397,8 +4277,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4419,8 +4298,7 @@ public struct ListActionExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4437,8 +4315,7 @@ public struct ListActionExecutionsOutput: Swift.Sendable {
     public init(
         actionExecutionDetails: [CodePipelineClientTypes.ActionExecutionDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionExecutionDetails = actionExecutionDetails
         self.nextToken = nextToken
     }
@@ -4457,8 +4334,7 @@ public struct ListActionTypesInput: Swift.Sendable {
         actionOwnerFilter: CodePipelineClientTypes.ActionOwner? = nil,
         nextToken: Swift.String? = nil,
         regionFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionOwnerFilter = actionOwnerFilter
         self.nextToken = nextToken
         self.regionFilter = regionFilter
@@ -4476,8 +4352,7 @@ public struct ListActionTypesOutput: Swift.Sendable {
     public init(
         actionTypes: [CodePipelineClientTypes.ActionType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionTypes = actionTypes
         self.nextToken = nextToken
     }
@@ -4492,8 +4367,7 @@ extension CodePipelineClientTypes {
 
         public init(
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.stageName = stageName
         }
     }
@@ -4508,8 +4382,7 @@ extension CodePipelineClientTypes {
 
         public init(
             succeededInStage: CodePipelineClientTypes.SucceededInStageFilter? = nil
-        )
-        {
+        ) {
             self.succeededInStage = succeededInStage
         }
     }
@@ -4532,8 +4405,7 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4560,8 +4432,7 @@ extension CodePipelineClientTypes {
             revisionId: Swift.String? = nil,
             revisionSummary: Swift.String? = nil,
             revisionUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.revisionId = revisionId
             self.revisionSummary = revisionSummary
@@ -4579,8 +4450,7 @@ extension CodePipelineClientTypes {
 
         public init(
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.reason = reason
         }
     }
@@ -4637,8 +4507,7 @@ extension CodePipelineClientTypes {
             statusSummary: Swift.String? = nil,
             stopTrigger: CodePipelineClientTypes.StopExecutionTrigger? = nil,
             trigger: CodePipelineClientTypes.ExecutionTrigger? = nil
-        )
-        {
+        ) {
             self.executionMode = executionMode
             self.executionType = executionType
             self.lastUpdateTime = lastUpdateTime
@@ -4664,8 +4533,7 @@ public struct ListPipelineExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineExecutionSummaries: [CodePipelineClientTypes.PipelineExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineExecutionSummaries = pipelineExecutionSummaries
     }
@@ -4681,8 +4549,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4719,8 +4586,7 @@ extension CodePipelineClientTypes {
             pipelineType: CodePipelineClientTypes.PipelineType? = nil,
             updated: Foundation.Date? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.created = created
             self.executionMode = executionMode
             self.name = name
@@ -4741,8 +4607,7 @@ public struct ListPipelinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelines: [CodePipelineClientTypes.PipelineSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelines = pipelines
     }
@@ -4760,8 +4625,7 @@ extension CodePipelineClientTypes {
         public init(
             latestInPipelineExecution: CodePipelineClientTypes.LatestInPipelineExecutionFilter? = nil,
             pipelineExecutionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestInPipelineExecution = latestInPipelineExecution
             self.pipelineExecutionId = pipelineExecutionId
         }
@@ -4784,8 +4648,7 @@ public struct ListRuleExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4817,8 +4680,7 @@ extension CodePipelineClientTypes {
             resolvedConfiguration: [Swift.String: Swift.String]? = nil,
             roleArn: Swift.String? = nil,
             ruleTypeId: CodePipelineClientTypes.RuleTypeId? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
             self.region = region
@@ -4847,8 +4709,7 @@ extension CodePipelineClientTypes {
             externalExecutionId: Swift.String? = nil,
             externalExecutionSummary: Swift.String? = nil,
             externalExecutionUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionSummary = externalExecutionSummary
@@ -4866,8 +4727,7 @@ extension CodePipelineClientTypes {
 
         public init(
             executionResult: CodePipelineClientTypes.RuleExecutionResult? = nil
-        )
-        {
+        ) {
             self.executionResult = executionResult
         }
     }
@@ -4912,8 +4772,7 @@ extension CodePipelineClientTypes {
             startTime: Foundation.Date? = nil,
             status: CodePipelineClientTypes.RuleExecutionStatus? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
             self.lastUpdateTime = lastUpdateTime
             self.output = output
@@ -4938,8 +4797,7 @@ public struct ListRuleExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleExecutionDetails: [CodePipelineClientTypes.RuleExecutionDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleExecutionDetails = ruleExecutionDetails
     }
@@ -4954,8 +4812,7 @@ public struct ListRuleTypesInput: Swift.Sendable {
     public init(
         regionFilter: Swift.String? = nil,
         ruleOwnerFilter: CodePipelineClientTypes.RuleOwner? = nil
-    )
-    {
+    ) {
         self.regionFilter = regionFilter
         self.ruleOwnerFilter = ruleOwnerFilter
     }
@@ -5024,8 +4881,7 @@ extension CodePipelineClientTypes {
             `required`: Swift.Bool = false,
             secret: Swift.Bool = false,
             type: CodePipelineClientTypes.RuleConfigurationPropertyType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.key = key
             self.name = name
@@ -5055,8 +4911,7 @@ extension CodePipelineClientTypes {
             executionUrlTemplate: Swift.String? = nil,
             revisionUrlTemplate: Swift.String? = nil,
             thirdPartyConfigurationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityUrlTemplate = entityUrlTemplate
             self.executionUrlTemplate = executionUrlTemplate
             self.revisionUrlTemplate = revisionUrlTemplate
@@ -5085,8 +4940,7 @@ extension CodePipelineClientTypes {
             inputArtifactDetails: CodePipelineClientTypes.ArtifactDetails? = nil,
             ruleConfigurationProperties: [CodePipelineClientTypes.RuleConfigurationProperty]? = nil,
             settings: CodePipelineClientTypes.RuleTypeSettings? = nil
-        )
-        {
+        ) {
             self.id = id
             self.inputArtifactDetails = inputArtifactDetails
             self.ruleConfigurationProperties = ruleConfigurationProperties
@@ -5102,16 +4956,15 @@ public struct ListRuleTypesOutput: Swift.Sendable {
 
     public init(
         ruleTypes: [CodePipelineClientTypes.RuleType]? = nil
-    )
-    {
+    ) {
         self.ruleTypes = ruleTypes
     }
 }
 
 /// The specified resource ARN is invalid.
-public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5126,16 +4979,15 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource was specified in an invalid format.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5151,8 +5003,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5170,8 +5021,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -5187,8 +5037,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [CodePipelineClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -5203,8 +5052,7 @@ public struct ListWebhooksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5254,8 +5102,7 @@ extension CodePipelineClientTypes {
         public init(
             allowedIPRange: Swift.String? = nil,
             secretToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedIPRange = allowedIPRange
             self.secretToken = secretToken
         }
@@ -5275,8 +5122,7 @@ extension CodePipelineClientTypes {
         public init(
             jsonPath: Swift.String? = nil,
             matchEquals: Swift.String? = nil
-        )
-        {
+        ) {
             self.jsonPath = jsonPath
             self.matchEquals = matchEquals
         }
@@ -5319,8 +5165,7 @@ extension CodePipelineClientTypes {
             name: Swift.String? = nil,
             targetAction: Swift.String? = nil,
             targetPipeline: Swift.String? = nil
-        )
-        {
+        ) {
             self.authentication = authentication
             self.authenticationConfiguration = authenticationConfiguration
             self.filters = filters
@@ -5360,8 +5205,7 @@ extension CodePipelineClientTypes {
             lastTriggered: Foundation.Date? = nil,
             tags: [CodePipelineClientTypes.Tag]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.definition = definition
             self.errorCode = errorCode
@@ -5382,17 +5226,16 @@ public struct ListWebhooksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         webhooks: [CodePipelineClientTypes.ListWebhookItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.webhooks = webhooks
     }
 }
 
 /// The pipeline has reached the limit for concurrent pipeline executions.
-public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5407,16 +5250,15 @@ public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unable to override because the condition does not allow overrides.
-public struct ConditionNotOverridableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConditionNotOverridableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5431,16 +5273,15 @@ public struct ConditionNotOverridableException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5455,16 +5296,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The stage has failed in a later run of the pipeline and the pipelineExecutionId associated with the request is out of date.
-public struct NotLatestPipelineExecutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotLatestPipelineExecutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5480,8 +5320,7 @@ public struct NotLatestPipelineExecutionException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5534,8 +5373,7 @@ public struct OverrideStageConditionInput: Swift.Sendable {
         pipelineExecutionId: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.conditionType = conditionType
         self.pipelineExecutionId = pipelineExecutionId
         self.pipelineName = pipelineName
@@ -5557,8 +5395,7 @@ public struct PollForJobsInput: Swift.Sendable {
         actionTypeId: CodePipelineClientTypes.ActionTypeId? = nil,
         maxBatchSize: Swift.Int? = nil,
         queryParam: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.actionTypeId = actionTypeId
         self.maxBatchSize = maxBatchSize
         self.queryParam = queryParam
@@ -5583,8 +5420,7 @@ extension CodePipelineClientTypes {
             data: CodePipelineClientTypes.JobData? = nil,
             id: Swift.String? = nil,
             nonce: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.data = data
             self.id = id
@@ -5600,8 +5436,7 @@ public struct PollForJobsOutput: Swift.Sendable {
 
     public init(
         jobs: [CodePipelineClientTypes.Job]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
     }
 }
@@ -5617,8 +5452,7 @@ public struct PollForThirdPartyJobsInput: Swift.Sendable {
     public init(
         actionTypeId: CodePipelineClientTypes.ActionTypeId? = nil,
         maxBatchSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.actionTypeId = actionTypeId
         self.maxBatchSize = maxBatchSize
     }
@@ -5636,8 +5470,7 @@ extension CodePipelineClientTypes {
         public init(
             clientId: Swift.String? = nil,
             jobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.jobId = jobId
         }
@@ -5651,8 +5484,7 @@ public struct PollForThirdPartyJobsOutput: Swift.Sendable {
 
     public init(
         jobs: [CodePipelineClientTypes.ThirdPartyJob]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
     }
 }
@@ -5677,8 +5509,7 @@ public struct PutActionRevisionInput: Swift.Sendable {
         actionRevision: CodePipelineClientTypes.ActionRevision? = nil,
         pipelineName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.actionRevision = actionRevision
         self.pipelineName = pipelineName
@@ -5696,17 +5527,16 @@ public struct PutActionRevisionOutput: Swift.Sendable {
     public init(
         newRevision: Swift.Bool = false,
         pipelineExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.newRevision = newRevision
         self.pipelineExecutionId = pipelineExecutionId
     }
 }
 
 /// The approval request already received a response or has expired.
-public struct InvalidApprovalTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5722,8 +5552,7 @@ public struct InvalidApprovalTokenException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5752,8 +5581,7 @@ public struct PutApprovalResultInput: Swift.Sendable {
         result: CodePipelineClientTypes.ApprovalResult? = nil,
         stageName: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.pipelineName = pipelineName
         self.result = result
@@ -5769,16 +5597,15 @@ public struct PutApprovalResultOutput: Swift.Sendable {
 
     public init(
         approvedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.approvedAt = approvedAt
     }
 }
 
 /// The job state was specified in an invalid format.
-public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5794,8 +5621,7 @@ public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5858,8 +5684,7 @@ extension CodePipelineClientTypes {
             externalExecutionId: Swift.String? = nil,
             message: Swift.String? = nil,
             type: CodePipelineClientTypes.FailureType? = nil
-        )
-        {
+        ) {
             self.externalExecutionId = externalExecutionId
             self.message = message
             self.type = type
@@ -5879,17 +5704,16 @@ public struct PutJobFailureResultInput: Swift.Sendable {
     public init(
         failureDetails: CodePipelineClientTypes.FailureDetails? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureDetails = failureDetails
         self.jobId = jobId
     }
 }
 
 /// Exceeded the total size limit for all variables in the pipeline.
-public struct OutputVariablesSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutputVariablesSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5904,8 +5728,7 @@ public struct OutputVariablesSizeExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5930,8 +5753,7 @@ extension CodePipelineClientTypes {
             created: Foundation.Date? = nil,
             revision: Swift.String? = nil,
             revisionSummary: Swift.String? = nil
-        )
-        {
+        ) {
             self.changeIdentifier = changeIdentifier
             self.created = created
             self.revision = revision
@@ -5955,8 +5777,7 @@ extension CodePipelineClientTypes {
             externalExecutionId: Swift.String? = nil,
             percentComplete: Swift.Int? = nil,
             summary: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalExecutionId = externalExecutionId
             self.percentComplete = percentComplete
             self.summary = summary
@@ -5984,8 +5805,7 @@ public struct PutJobSuccessResultInput: Swift.Sendable {
         executionDetails: CodePipelineClientTypes.ExecutionDetails? = nil,
         jobId: Swift.String? = nil,
         outputVariables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.continuationToken = continuationToken
         self.currentRevision = currentRevision
         self.executionDetails = executionDetails
@@ -6010,8 +5830,7 @@ public struct PutThirdPartyJobFailureResultInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         failureDetails: CodePipelineClientTypes.FailureDetails? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.failureDetails = failureDetails
         self.jobId = jobId
@@ -6039,8 +5858,7 @@ public struct PutThirdPartyJobSuccessResultInput: Swift.Sendable {
         currentRevision: CodePipelineClientTypes.CurrentRevision? = nil,
         executionDetails: CodePipelineClientTypes.ExecutionDetails? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.continuationToken = continuationToken
         self.currentRevision = currentRevision
@@ -6050,9 +5868,9 @@ public struct PutThirdPartyJobSuccessResultInput: Swift.Sendable {
 }
 
 /// The specified authentication type is in an invalid format.
-public struct InvalidWebhookAuthenticationParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidWebhookAuthenticationParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6068,16 +5886,15 @@ public struct InvalidWebhookAuthenticationParametersException: ClientRuntime.Mod
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified event filter rule is in an invalid format.
-public struct InvalidWebhookFilterPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidWebhookFilterPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6093,8 +5910,7 @@ public struct InvalidWebhookFilterPatternException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6109,8 +5925,7 @@ public struct PutWebhookInput: Swift.Sendable {
     public init(
         tags: [CodePipelineClientTypes.Tag]? = nil,
         webhook: CodePipelineClientTypes.WebhookDefinition? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.webhook = webhook
     }
@@ -6122,8 +5937,7 @@ public struct PutWebhookOutput: Swift.Sendable {
 
     public init(
         webhook: CodePipelineClientTypes.ListWebhookItem? = nil
-    )
-    {
+    ) {
         self.webhook = webhook
     }
 }
@@ -6134,8 +5948,7 @@ public struct RegisterWebhookWithThirdPartyInput: Swift.Sendable {
 
     public init(
         webhookName: Swift.String? = nil
-    )
-    {
+    ) {
         self.webhookName = webhookName
     }
 }
@@ -6146,9 +5959,9 @@ public struct RegisterWebhookWithThirdPartyOutput: Swift.Sendable {
 }
 
 /// Unable to retry. The pipeline structure or stage state might have changed while actions awaited retry, or the stage contains no failed actions.
-public struct StageNotRetryableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StageNotRetryableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided to the user in the event of an exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6164,8 +5977,7 @@ public struct StageNotRetryableException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6190,8 +6002,7 @@ public struct RetryStageExecutionInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         retryMode: CodePipelineClientTypes.StageRetryMode? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionId = pipelineExecutionId
         self.pipelineName = pipelineName
         self.retryMode = retryMode
@@ -6206,16 +6017,15 @@ public struct RetryStageExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionId = pipelineExecutionId
     }
 }
 
 /// The specified pipeline execution is outdated and cannot be used as a target pipeline execution for rollback.
-public struct PipelineExecutionOutdatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineExecutionOutdatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6230,16 +6040,15 @@ public struct PipelineExecutionOutdatedException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unable to roll back the stage. The cause might be if the pipeline version has changed since the target pipeline execution was deployed, the stage is currently running, or an incorrect target pipeline execution ID was provided.
-public struct UnableToRollbackStageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToRollbackStageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6254,8 +6063,7 @@ public struct UnableToRollbackStageException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6275,8 +6083,7 @@ public struct RollbackStageInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         stageName: Swift.String? = nil,
         targetPipelineExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
         self.stageName = stageName
         self.targetPipelineExecutionId = targetPipelineExecutionId
@@ -6290,8 +6097,7 @@ public struct RollbackStageOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionId = pipelineExecutionId
     }
 }
@@ -6349,8 +6155,7 @@ extension CodePipelineClientTypes {
             actionName: Swift.String? = nil,
             revisionType: CodePipelineClientTypes.SourceRevisionType? = nil,
             revisionValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.revisionType = revisionType
             self.revisionValue = revisionValue
@@ -6372,8 +6177,7 @@ extension CodePipelineClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -6397,8 +6201,7 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         name: Swift.String? = nil,
         sourceRevisions: [CodePipelineClientTypes.SourceRevisionOverride]? = nil,
         variables: [CodePipelineClientTypes.PipelineVariable]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.sourceRevisions = sourceRevisions
@@ -6413,16 +6216,15 @@ public struct StartPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionId = pipelineExecutionId
     }
 }
 
 /// The pipeline execution is already in a Stopping state. If you already chose to stop and wait, you cannot make that request again. You can choose to stop and abandon now, but be aware that this option can lead to failed tasks or out of sequence tasks. If you already chose to stop and abandon, you cannot make that request again.
-public struct DuplicatedStopRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicatedStopRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6437,16 +6239,15 @@ public struct DuplicatedStopRequestException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unable to stop the pipeline execution. The execution might already be in a Stopped state, or it might no longer be in progress.
-public struct PipelineExecutionNotStoppableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineExecutionNotStoppableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6461,8 +6262,7 @@ public struct PipelineExecutionNotStoppableException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6484,8 +6284,7 @@ public struct StopPipelineExecutionInput: Swift.Sendable {
         pipelineExecutionId: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.abandon = abandon
         self.pipelineExecutionId = pipelineExecutionId
         self.pipelineName = pipelineName
@@ -6499,8 +6298,7 @@ public struct StopPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionId = pipelineExecutionId
     }
 }
@@ -6516,8 +6314,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [CodePipelineClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6539,8 +6336,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6552,9 +6348,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// The request failed because of an unknown error, exception, or failure.
-public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6569,8 +6365,7 @@ public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6582,8 +6377,7 @@ public struct UpdateActionTypeInput: Swift.Sendable {
 
     public init(
         actionType: CodePipelineClientTypes.ActionTypeDeclaration? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
     }
 }
@@ -6596,8 +6390,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
 
     public init(
         pipeline: CodePipelineClientTypes.PipelineDeclaration? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -6609,8 +6402,7 @@ public struct UpdatePipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: CodePipelineClientTypes.PipelineDeclaration? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -9391,6 +9183,7 @@ extension CodePipelineClientTypes.RuleDeclaration {
 
     static func write(value: CodePipelineClientTypes.RuleDeclaration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["commands"].writeList(value.commands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["inputArtifacts"].writeList(value.inputArtifacts, memberWritingClosure: CodePipelineClientTypes.InputArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -9406,6 +9199,7 @@ extension CodePipelineClientTypes.RuleDeclaration {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.ruleTypeId = try reader["ruleTypeId"].readIfPresent(with: CodePipelineClientTypes.RuleTypeId.read(from:))
         value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.commands = try reader["commands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputArtifacts = try reader["inputArtifacts"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.InputArtifact.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.region = try reader["region"].readIfPresent()

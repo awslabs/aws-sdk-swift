@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 ///
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// User does not have sufficient access to perform this action.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -48,16 +48,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Updating or deleting a resource can cause an inconsistent state.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -73,16 +72,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Unexpected error during processing of request.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -98,16 +96,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Your account is pending verification.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -123,16 +120,15 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Request references a resource which does not exist.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -148,16 +144,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Request would cause a service quota to be exceeded.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -173,16 +168,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -198,8 +192,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
@@ -222,8 +215,7 @@ extension IVSRealTimeClientTypes {
             framerate: Swift.Float? = nil,
             height: Swift.Int? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bitrate = bitrate
             self.framerate = framerate
             self.height = height
@@ -244,8 +236,7 @@ public struct CreateEncoderConfigurationInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         video: IVSRealTimeClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.name = name
         self.tags = tags
         self.video = video
@@ -271,8 +262,7 @@ extension IVSRealTimeClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             video: IVSRealTimeClientTypes.Video? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.tags = tags
@@ -287,8 +277,7 @@ public struct CreateEncoderConfigurationOutput: Swift.Sendable {
 
     public init(
         encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration? = nil
-    )
-    {
+    ) {
         self.encoderConfiguration = encoderConfiguration
     }
 }
@@ -347,8 +336,7 @@ public struct CreateIngestConfigurationInput: Swift.Sendable {
         stageArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.ingestProtocol = ingestProtocol
         self.insecureIngest = insecureIngest
@@ -430,8 +418,7 @@ extension IVSRealTimeClientTypes {
             streamKey: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attributes = attributes
             self.ingestProtocol = ingestProtocol
@@ -457,8 +444,7 @@ public struct CreateIngestConfigurationOutput: Swift.Sendable {
 
     public init(
         ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration? = nil
-    )
-    {
+    ) {
         self.ingestConfiguration = ingestConfiguration
     }
 }
@@ -511,8 +497,7 @@ public struct CreateParticipantTokenInput: Swift.Sendable {
         duration: Swift.Int? = nil,
         stageArn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.capabilities = capabilities
         self.duration = duration
@@ -548,8 +533,7 @@ extension IVSRealTimeClientTypes {
             participantId: Swift.String? = nil,
             token: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.capabilities = capabilities
             self.duration = duration
@@ -572,8 +556,7 @@ public struct CreateParticipantTokenOutput: Swift.Sendable {
 
     public init(
         participantToken: IVSRealTimeClientTypes.ParticipantToken? = nil
-    )
-    {
+    ) {
         self.participantToken = participantToken
     }
 }
@@ -583,12 +566,14 @@ extension IVSRealTimeClientTypes {
     public enum ParticipantRecordingMediaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audioOnly
         case audioVideo
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ParticipantRecordingMediaType] {
             return [
                 .audioOnly,
-                .audioVideo
+                .audioVideo,
+                .none
             ]
         }
 
@@ -601,8 +586,90 @@ extension IVSRealTimeClientTypes {
             switch self {
             case .audioOnly: return "AUDIO_ONLY"
             case .audioVideo: return "AUDIO_VIDEO"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    public enum ThumbnailRecordingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case interval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailRecordingMode] {
+            return [
+                .disabled,
+                .interval
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .interval: return "INTERVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    public enum ThumbnailStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case latest
+        case sequential
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThumbnailStorageType] {
+            return [
+                .latest,
+                .sequential
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .latest: return "LATEST"
+            case .sequential: return "SEQUENTIAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// An object representing a configuration of thumbnails for recorded video from an individual participant.
+    public struct ParticipantThumbnailConfiguration: Swift.Sendable {
+        /// Thumbnail recording mode. Default: DISABLED.
+        public var recordingMode: IVSRealTimeClientTypes.ThumbnailRecordingMode?
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/high directory. LATEST saves the latest thumbnail in media/latest_thumbnail/high/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
+        public var storage: [IVSRealTimeClientTypes.ThumbnailStorageType]?
+        /// The targeted thumbnail-generation interval in seconds. This is configurable only if recordingMode is INTERVAL. Default: 60.
+        public var targetIntervalSeconds: Swift.Int?
+
+        public init(
+            recordingMode: IVSRealTimeClientTypes.ThumbnailRecordingMode? = nil,
+            storage: [IVSRealTimeClientTypes.ThumbnailStorageType]? = nil,
+            targetIntervalSeconds: Swift.Int? = nil
+        ) {
+            self.recordingMode = recordingMode
+            self.storage = storage
+            self.targetIntervalSeconds = targetIntervalSeconds
         }
     }
 }
@@ -616,14 +683,17 @@ extension IVSRealTimeClientTypes {
         /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated.
         /// This member is required.
         public var storageConfigurationArn: Swift.String?
+        /// A complex type that allows you to enable/disable the recording of thumbnails for individual participant recording and modify the interval at which thumbnails are generated for the live session.
+        public var thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?
 
         public init(
             mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]? = nil,
-            storageConfigurationArn: Swift.String? = nil
-        )
-        {
+            storageConfigurationArn: Swift.String? = nil,
+            thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration? = nil
+        ) {
             self.mediaTypes = mediaTypes
             self.storageConfigurationArn = storageConfigurationArn
+            self.thumbnailConfiguration = thumbnailConfiguration
         }
     }
 }
@@ -646,8 +716,7 @@ extension IVSRealTimeClientTypes {
             capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil,
             duration: Swift.Int? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.capabilities = capabilities
             self.duration = duration
@@ -671,8 +740,7 @@ public struct CreateStageInput: Swift.Sendable {
         name: Swift.String? = nil,
         participantTokenConfigurations: [IVSRealTimeClientTypes.ParticipantTokenConfiguration]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
         self.name = name
         self.participantTokenConfigurations = participantTokenConfigurations
@@ -698,8 +766,7 @@ extension IVSRealTimeClientTypes {
             rtmp: Swift.String? = nil,
             rtmps: Swift.String? = nil,
             whip: Swift.String? = nil
-        )
-        {
+        ) {
             self.events = events
             self.rtmp = rtmp
             self.rtmps = rtmps
@@ -733,8 +800,7 @@ extension IVSRealTimeClientTypes {
             endpoints: IVSRealTimeClientTypes.StageEndpoints? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeSessionId = activeSessionId
             self.arn = arn
             self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
@@ -754,8 +820,7 @@ public struct CreateStageOutput: Swift.Sendable {
     public init(
         participantTokens: [IVSRealTimeClientTypes.ParticipantToken]? = nil,
         stage: IVSRealTimeClientTypes.Stage? = nil
-    )
-    {
+    ) {
         self.participantTokens = participantTokens
         self.stage = stage
     }
@@ -771,8 +836,7 @@ extension IVSRealTimeClientTypes {
 
         public init(
             bucketName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
         }
     }
@@ -791,8 +855,7 @@ public struct CreateStorageConfigurationInput: Swift.Sendable {
         name: Swift.String? = nil,
         s3: IVSRealTimeClientTypes.S3StorageConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.s3 = s3
         self.tags = tags
@@ -818,8 +881,7 @@ extension IVSRealTimeClientTypes {
             name: Swift.String? = nil,
             s3: IVSRealTimeClientTypes.S3StorageConfiguration? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.s3 = s3
@@ -834,8 +896,7 @@ public struct CreateStorageConfigurationOutput: Swift.Sendable {
 
     public init(
         storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration? = nil
-    )
-    {
+    ) {
         self.storageConfiguration = storageConfiguration
     }
 }
@@ -847,8 +908,7 @@ public struct DeleteEncoderConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -868,8 +928,7 @@ public struct DeleteIngestConfigurationInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         force: Swift.Bool? = false
-    )
-    {
+    ) {
         self.arn = arn
         self.force = force
     }
@@ -887,8 +946,7 @@ public struct DeletePublicKeyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -905,8 +963,7 @@ public struct DeleteStageInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -923,8 +980,7 @@ public struct DeleteStorageConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -948,8 +1004,7 @@ public struct DisconnectParticipantInput: Swift.Sendable {
         participantId: Swift.String? = nil,
         reason: Swift.String? = nil,
         stageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.participantId = participantId
         self.reason = reason
         self.stageArn = stageArn
@@ -968,8 +1023,7 @@ public struct GetCompositionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -987,8 +1041,7 @@ extension IVSRealTimeClientTypes {
         public init(
             channelArn: Swift.String? = nil,
             encoderConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.encoderConfigurationArn = encoderConfigurationArn
         }
@@ -1030,9 +1083,27 @@ extension IVSRealTimeClientTypes {
 
         public init(
             format: IVSRealTimeClientTypes.RecordingConfigurationFormat? = nil
-        )
-        {
+        ) {
             self.format = format
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// An object representing a configuration of thumbnails for recorded video for a [Composition].
+    public struct CompositionThumbnailConfiguration: Swift.Sendable {
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/(width)x(height) directory, where (width) and (height) are the width and height of the thumbnail. LATEST saves the latest thumbnail in media/latest_thumbnail/(width)x(height)/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
+        public var storage: [IVSRealTimeClientTypes.ThumbnailStorageType]?
+        /// The targeted thumbnail-generation interval in seconds. Default: 60.
+        public var targetIntervalSeconds: Swift.Int?
+
+        public init(
+            storage: [IVSRealTimeClientTypes.ThumbnailStorageType]? = nil,
+            targetIntervalSeconds: Swift.Int? = nil
+        ) {
+            self.storage = storage
+            self.targetIntervalSeconds = targetIntervalSeconds
         }
     }
 }
@@ -1049,16 +1120,19 @@ extension IVSRealTimeClientTypes {
         /// ARN of the [StorageConfiguration] where recorded videos will be stored.
         /// This member is required.
         public var storageConfigurationArn: Swift.String?
+        /// A complex type that allows you to enable/disable the recording of thumbnails for a [Composition] and modify the interval at which thumbnails are generated for the live session.
+        public var thumbnailConfigurations: [IVSRealTimeClientTypes.CompositionThumbnailConfiguration]?
 
         public init(
             encoderConfigurationArns: [Swift.String]? = nil,
             recordingConfiguration: IVSRealTimeClientTypes.RecordingConfiguration? = nil,
-            storageConfigurationArn: Swift.String? = nil
-        )
-        {
+            storageConfigurationArn: Swift.String? = nil,
+            thumbnailConfigurations: [IVSRealTimeClientTypes.CompositionThumbnailConfiguration]? = nil
+        ) {
             self.encoderConfigurationArns = encoderConfigurationArns
             self.recordingConfiguration = recordingConfiguration
             self.storageConfigurationArn = storageConfigurationArn
+            self.thumbnailConfigurations = thumbnailConfigurations
         }
     }
 }
@@ -1078,8 +1152,7 @@ extension IVSRealTimeClientTypes {
             channel: IVSRealTimeClientTypes.ChannelDestinationConfiguration? = nil,
             name: Swift.String? = nil,
             s3: IVSRealTimeClientTypes.S3DestinationConfiguration? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.name = name
             self.s3 = s3
@@ -1097,8 +1170,7 @@ extension IVSRealTimeClientTypes {
 
         public init(
             recordingPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.recordingPrefix = recordingPrefix
         }
     }
@@ -1113,8 +1185,7 @@ extension IVSRealTimeClientTypes {
 
         public init(
             s3: IVSRealTimeClientTypes.S3Detail? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -1188,8 +1259,7 @@ extension IVSRealTimeClientTypes {
             id: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: IVSRealTimeClientTypes.DestinationState? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.detail = detail
             self.endTime = endTime
@@ -1288,8 +1358,7 @@ extension IVSRealTimeClientTypes {
             omitStoppedVideo: Swift.Bool = false,
             videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio? = nil,
             videoFillMode: IVSRealTimeClientTypes.VideoFillMode? = nil
-        )
-        {
+        ) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
@@ -1399,8 +1468,7 @@ extension IVSRealTimeClientTypes {
             pipPosition: IVSRealTimeClientTypes.PipPosition? = nil,
             pipWidth: Swift.Int? = nil,
             videoFillMode: IVSRealTimeClientTypes.VideoFillMode? = nil
-        )
-        {
+        ) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
@@ -1427,8 +1495,7 @@ extension IVSRealTimeClientTypes {
         public init(
             grid: IVSRealTimeClientTypes.GridConfiguration? = nil,
             pip: IVSRealTimeClientTypes.PipConfiguration? = nil
-        )
-        {
+        ) {
             self.grid = grid
             self.pip = pip
         }
@@ -1508,8 +1575,7 @@ extension IVSRealTimeClientTypes {
             startTime: Foundation.Date? = nil,
             state: IVSRealTimeClientTypes.CompositionState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.destinations = destinations
             self.endTime = endTime
@@ -1528,8 +1594,7 @@ public struct GetCompositionOutput: Swift.Sendable {
 
     public init(
         composition: IVSRealTimeClientTypes.Composition? = nil
-    )
-    {
+    ) {
         self.composition = composition
     }
 }
@@ -1541,8 +1606,7 @@ public struct GetEncoderConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1553,8 +1617,7 @@ public struct GetEncoderConfigurationOutput: Swift.Sendable {
 
     public init(
         encoderConfiguration: IVSRealTimeClientTypes.EncoderConfiguration? = nil
-    )
-    {
+    ) {
         self.encoderConfiguration = encoderConfiguration
     }
 }
@@ -1566,8 +1629,7 @@ public struct GetIngestConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1578,8 +1640,7 @@ public struct GetIngestConfigurationOutput: Swift.Sendable {
 
     public init(
         ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration? = nil
-    )
-    {
+    ) {
         self.ingestConfiguration = ingestConfiguration
     }
 }
@@ -1599,8 +1660,7 @@ public struct GetParticipantInput: Swift.Sendable {
         participantId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         stageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.participantId = participantId
         self.sessionId = sessionId
         self.stageArn = stageArn
@@ -1766,8 +1826,7 @@ extension IVSRealTimeClientTypes {
             sdkVersion: Swift.String? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.browserName = browserName
             self.browserVersion = browserVersion
@@ -1794,8 +1853,7 @@ public struct GetParticipantOutput: Swift.Sendable {
 
     public init(
         participant: IVSRealTimeClientTypes.Participant? = nil
-    )
-    {
+    ) {
         self.participant = participant
     }
 }
@@ -1807,8 +1865,7 @@ public struct GetPublicKeyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1834,8 +1891,7 @@ extension IVSRealTimeClientTypes {
             name: Swift.String? = nil,
             publicKeyMaterial: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.fingerprint = fingerprint
             self.name = name
@@ -1851,8 +1907,7 @@ public struct GetPublicKeyOutput: Swift.Sendable {
 
     public init(
         publicKey: IVSRealTimeClientTypes.PublicKey? = nil
-    )
-    {
+    ) {
         self.publicKey = publicKey
     }
 }
@@ -1864,8 +1919,7 @@ public struct GetStageInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1876,8 +1930,7 @@ public struct GetStageOutput: Swift.Sendable {
 
     public init(
         stage: IVSRealTimeClientTypes.Stage? = nil
-    )
-    {
+    ) {
         self.stage = stage
     }
 }
@@ -1893,8 +1946,7 @@ public struct GetStageSessionInput: Swift.Sendable {
     public init(
         sessionId: Swift.String? = nil,
         stageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
         self.stageArn = stageArn
     }
@@ -1915,8 +1967,7 @@ extension IVSRealTimeClientTypes {
             endTime: Foundation.Date? = nil,
             sessionId: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.sessionId = sessionId
             self.startTime = startTime
@@ -1930,8 +1981,7 @@ public struct GetStageSessionOutput: Swift.Sendable {
 
     public init(
         stageSession: IVSRealTimeClientTypes.StageSession? = nil
-    )
-    {
+    ) {
         self.stageSession = stageSession
     }
 }
@@ -1943,8 +1993,7 @@ public struct GetStorageConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1955,8 +2004,7 @@ public struct GetStorageConfigurationOutput: Swift.Sendable {
 
     public init(
         storageConfiguration: IVSRealTimeClientTypes.StorageConfiguration? = nil
-    )
-    {
+    ) {
         self.storageConfiguration = storageConfiguration
     }
 }
@@ -1974,8 +2022,7 @@ public struct ImportPublicKeyInput: Swift.Sendable {
         name: Swift.String? = nil,
         publicKeyMaterial: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.publicKeyMaterial = publicKeyMaterial
         self.tags = tags
@@ -1988,8 +2035,7 @@ public struct ImportPublicKeyOutput: Swift.Sendable {
 
     public init(
         publicKey: IVSRealTimeClientTypes.PublicKey? = nil
-    )
-    {
+    ) {
         self.publicKey = publicKey
     }
 }
@@ -2009,8 +2055,7 @@ public struct ListCompositionsInput: Swift.Sendable {
         filterByStageArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterByEncoderConfigurationArn = filterByEncoderConfigurationArn
         self.filterByStageArn = filterByStageArn
         self.maxResults = maxResults
@@ -2038,8 +2083,7 @@ extension IVSRealTimeClientTypes {
             id: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: IVSRealTimeClientTypes.DestinationState? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.id = id
             self.startTime = startTime
@@ -2079,8 +2123,7 @@ extension IVSRealTimeClientTypes {
             startTime: Foundation.Date? = nil,
             state: IVSRealTimeClientTypes.CompositionState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.destinations = destinations
             self.endTime = endTime
@@ -2102,8 +2145,7 @@ public struct ListCompositionsOutput: Swift.Sendable {
     public init(
         compositions: [IVSRealTimeClientTypes.CompositionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.compositions = compositions
         self.nextToken = nextToken
     }
@@ -2118,8 +2160,7 @@ public struct ListEncoderConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2141,8 +2182,7 @@ extension IVSRealTimeClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.tags = tags
@@ -2160,8 +2200,7 @@ public struct ListEncoderConfigurationsOutput: Swift.Sendable {
     public init(
         encoderConfigurations: [IVSRealTimeClientTypes.EncoderConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.encoderConfigurations = encoderConfigurations
         self.nextToken = nextToken
     }
@@ -2182,8 +2221,7 @@ public struct ListIngestConfigurationsInput: Swift.Sendable {
         filterByState: IVSRealTimeClientTypes.IngestConfigurationState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterByStageArn = filterByStageArn
         self.filterByState = filterByState
         self.maxResults = maxResults
@@ -2223,8 +2261,7 @@ extension IVSRealTimeClientTypes {
             stageArn: Swift.String? = nil,
             state: IVSRealTimeClientTypes.IngestConfigurationState? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.ingestProtocol = ingestProtocol
             self.name = name
@@ -2246,8 +2283,7 @@ public struct ListIngestConfigurationsOutput: Swift.Sendable {
     public init(
         ingestConfigurations: [IVSRealTimeClientTypes.IngestConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingestConfigurations = ingestConfigurations
         self.nextToken = nextToken
     }
@@ -2274,8 +2310,7 @@ public struct ListParticipantEventsInput: Swift.Sendable {
         participantId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         stageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.participantId = participantId
@@ -2448,8 +2483,7 @@ extension IVSRealTimeClientTypes {
             name: IVSRealTimeClientTypes.EventName? = nil,
             participantId: Swift.String? = nil,
             remoteParticipantId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
@@ -2469,8 +2503,7 @@ public struct ListParticipantEventsOutput: Swift.Sendable {
     public init(
         events: [IVSRealTimeClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -2543,8 +2576,7 @@ public struct ListParticipantsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         stageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterByPublished = filterByPublished
         self.filterByRecordingState = filterByRecordingState
         self.filterByState = filterByState
@@ -2580,8 +2612,7 @@ extension IVSRealTimeClientTypes {
             recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstJoinTime = firstJoinTime
             self.participantId = participantId
             self.published = published
@@ -2602,8 +2633,7 @@ public struct ListParticipantsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         participants: [IVSRealTimeClientTypes.ParticipantSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.participants = participants
     }
@@ -2618,8 +2648,7 @@ public struct ListPublicKeysInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2640,8 +2669,7 @@ extension IVSRealTimeClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.tags = tags
@@ -2659,8 +2687,7 @@ public struct ListPublicKeysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         publicKeys: [IVSRealTimeClientTypes.PublicKeySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.publicKeys = publicKeys
     }
@@ -2675,8 +2702,7 @@ public struct ListStagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2701,8 +2727,7 @@ extension IVSRealTimeClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeSessionId = activeSessionId
             self.arn = arn
             self.name = name
@@ -2721,8 +2746,7 @@ public struct ListStagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stages: [IVSRealTimeClientTypes.StageSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stages = stages
     }
@@ -2741,8 +2765,7 @@ public struct ListStageSessionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stageArn = stageArn
@@ -2764,8 +2787,7 @@ extension IVSRealTimeClientTypes {
             endTime: Foundation.Date? = nil,
             sessionId: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.sessionId = sessionId
             self.startTime = startTime
@@ -2783,8 +2805,7 @@ public struct ListStageSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         stageSessions: [IVSRealTimeClientTypes.StageSessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.stageSessions = stageSessions
     }
@@ -2799,8 +2820,7 @@ public struct ListStorageConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2825,8 +2845,7 @@ extension IVSRealTimeClientTypes {
             name: Swift.String? = nil,
             s3: IVSRealTimeClientTypes.S3StorageConfiguration? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.s3 = s3
@@ -2845,8 +2864,7 @@ public struct ListStorageConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageConfigurations: [IVSRealTimeClientTypes.StorageConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageConfigurations = storageConfigurations
     }
@@ -2859,8 +2877,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2872,8 +2889,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2898,8 +2914,7 @@ public struct StartCompositionInput: Swift.Sendable {
         layout: IVSRealTimeClientTypes.LayoutConfiguration? = nil,
         stageArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.idempotencyToken = idempotencyToken
         self.layout = layout
@@ -2914,8 +2929,7 @@ public struct StartCompositionOutput: Swift.Sendable {
 
     public init(
         composition: IVSRealTimeClientTypes.Composition? = nil
-    )
-    {
+    ) {
         self.composition = composition
     }
 }
@@ -2927,8 +2941,7 @@ public struct StopCompositionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2949,8 +2962,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2972,8 +2984,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2994,8 +3005,7 @@ public struct UpdateIngestConfigurationInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         stageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.stageArn = stageArn
     }
@@ -3007,8 +3017,7 @@ public struct UpdateIngestConfigurationOutput: Swift.Sendable {
 
     public init(
         ingestConfiguration: IVSRealTimeClientTypes.IngestConfiguration? = nil
-    )
-    {
+    ) {
         self.ingestConfiguration = ingestConfiguration
     }
 }
@@ -3026,8 +3035,7 @@ public struct UpdateStageInput: Swift.Sendable {
         arn: Swift.String? = nil,
         autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
         self.name = name
@@ -3040,8 +3048,7 @@ public struct UpdateStageOutput: Swift.Sendable {
 
     public init(
         stage: IVSRealTimeClientTypes.Stage? = nil
-    )
-    {
+    ) {
         self.stage = stage
     }
 }
@@ -4866,6 +4873,7 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         guard let value else { return }
         try writer["mediaTypes"].writeList(value.mediaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
+        try writer["thumbnailConfiguration"].write(value.thumbnailConfiguration, with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
@@ -4873,6 +4881,26 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         var value = IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration()
         value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
         value.mediaTypes = try reader["mediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordingMode"].write(value.recordingMode)
+        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantThumbnailConfiguration()
+        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
+        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordingMode = try reader["recordingMode"].readIfPresent()
         return value
     }
 }
@@ -4983,6 +5011,7 @@ extension IVSRealTimeClientTypes.S3DestinationConfiguration {
         try writer["encoderConfigurationArns"].writeList(value.encoderConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["recordingConfiguration"].write(value.recordingConfiguration, with: IVSRealTimeClientTypes.RecordingConfiguration.write(value:to:))
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
+        try writer["thumbnailConfigurations"].writeList(value.thumbnailConfigurations, memberWritingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3DestinationConfiguration {
@@ -4991,6 +5020,24 @@ extension IVSRealTimeClientTypes.S3DestinationConfiguration {
         value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
         value.encoderConfigurationArns = try reader["encoderConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.recordingConfiguration = try reader["recordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.RecordingConfiguration.read(from:))
+        value.thumbnailConfigurations = try reader["thumbnailConfigurations"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.CompositionThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.CompositionThumbnailConfiguration()
+        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
+        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

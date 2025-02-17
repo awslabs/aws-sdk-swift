@@ -11,6 +11,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension KafkaConnectClient {
+    /// Paginate over `[ListConnectorOperationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectorOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorOperationsOutput`
+    public func listConnectorOperationsPaginated(input: ListConnectorOperationsInput) -> ClientRuntime.PaginatorSequence<ListConnectorOperationsInput, ListConnectorOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConnectorOperationsInput, ListConnectorOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectorOperations(input:))
+    }
+}
+
+extension ListConnectorOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConnectorOperationsInput {
+        return ListConnectorOperationsInput(
+            connectorArn: self.connectorArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConnectorOperationsInput, OperationStackOutput == ListConnectorOperationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConnectorOperationsPaginated`
+    /// to access the nested member `[KafkaConnectClientTypes.ConnectorOperationSummary]`
+    /// - Returns: `[KafkaConnectClientTypes.ConnectorOperationSummary]`
+    public func connectorOperations() async throws -> [KafkaConnectClientTypes.ConnectorOperationSummary] {
+        return try await self.asyncCompactMap { item in item.connectorOperations }
+    }
+}
+extension KafkaConnectClient {
     /// Paginate over `[ListConnectorsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

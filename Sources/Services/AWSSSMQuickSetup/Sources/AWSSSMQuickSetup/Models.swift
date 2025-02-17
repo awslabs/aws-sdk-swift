@@ -70,9 +70,9 @@ public struct UpdateServiceSettingsOutput: Swift.Sendable {
 }
 
 /// The requester has insufficient permissions to perform the operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -87,8 +87,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -119,8 +118,7 @@ extension SSMQuickSetupClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil,
             typeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.localDeploymentAdministrationRoleArn = localDeploymentAdministrationRoleArn
             self.localDeploymentExecutionRoleName = localDeploymentExecutionRoleName
@@ -877,8 +875,7 @@ extension SSMQuickSetupClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil,
             typeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.localDeploymentAdministrationRoleArn = localDeploymentAdministrationRoleArn
             self.localDeploymentExecutionRoleName = localDeploymentExecutionRoleName
             self.parameters = parameters
@@ -906,8 +903,7 @@ extension SSMQuickSetupClientTypes {
             id: Swift.String? = nil,
             type: Swift.String? = nil,
             typeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.firstClassParameters = firstClassParameters
             self.id = id
             self.type = type
@@ -1021,8 +1017,7 @@ extension SSMQuickSetupClientTypes {
             statusDetails: [Swift.String: Swift.String]? = nil,
             statusMessage: Swift.String? = nil,
             statusType: SSMQuickSetupClientTypes.StatusType? = nil
-        )
-        {
+        ) {
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
             self.statusDetails = statusDetails
@@ -1054,8 +1049,7 @@ extension SSMQuickSetupClientTypes {
             managerArn: Swift.String? = nil,
             name: Swift.String? = nil,
             statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]? = nil
-        )
-        {
+        ) {
             self.configurationDefinitionSummaries = configurationDefinitionSummaries
             self.description = description
             self.managerArn = managerArn
@@ -1101,8 +1095,7 @@ extension SSMQuickSetupClientTypes {
             statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]? = nil,
             type: Swift.String? = nil,
             typeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.account = account
             self.configurationDefinitionId = configurationDefinitionId
             self.createdAt = createdAt
@@ -1118,9 +1111,9 @@ extension SSMQuickSetupClientTypes {
 }
 
 /// Another request is being processed. Wait a few minutes and try again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1135,16 +1128,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error occurred on the server side.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1159,16 +1151,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request or operation exceeds the maximum allowed request rate per Amazon Web Services account and Amazon Web Services Region.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1184,16 +1175,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request is invalid. Verify the values provided for the request parameters are accurate.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1208,8 +1198,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1230,8 +1219,7 @@ public struct CreateConfigurationManagerInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configurationDefinitions = configurationDefinitions
         self.description = description
         self.name = name
@@ -1251,16 +1239,15 @@ public struct CreateConfigurationManagerOutput: Swift.Sendable {
 
     public init(
         managerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.managerArn = managerArn
     }
 }
 
 /// The resource couldn't be found. Check the ID or name and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1275,8 +1262,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1288,8 +1274,7 @@ public struct DeleteConfigurationManagerInput: Swift.Sendable {
 
     public init(
         managerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.managerArn = managerArn
     }
 }
@@ -1308,8 +1293,7 @@ extension SSMQuickSetupClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -1323,8 +1307,7 @@ public struct GetConfigurationInput: Swift.Sendable {
 
     public init(
         configurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
     }
 }
@@ -1365,8 +1348,7 @@ public struct GetConfigurationOutput: Swift.Sendable {
         statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]? = nil,
         type: Swift.String? = nil,
         typeVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.configurationDefinitionId = configurationDefinitionId
         self.createdAt = createdAt
@@ -1388,8 +1370,7 @@ public struct GetConfigurationManagerInput: Swift.Sendable {
 
     public init(
         managerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.managerArn = managerArn
     }
 }
@@ -1422,8 +1403,7 @@ public struct GetConfigurationManagerOutput: Swift.Sendable {
         name: Swift.String? = nil,
         statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configurationDefinitions = configurationDefinitions
         self.createdAt = createdAt
         self.description = description
@@ -1449,8 +1429,7 @@ extension SSMQuickSetupClientTypes {
 
         public init(
             explorerEnablingRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.explorerEnablingRoleArn = explorerEnablingRoleArn
         }
     }
@@ -1462,8 +1441,7 @@ public struct GetServiceSettingsOutput: Swift.Sendable {
 
     public init(
         serviceSettings: SSMQuickSetupClientTypes.ServiceSettings? = nil
-    )
-    {
+    ) {
         self.serviceSettings = serviceSettings
     }
 }
@@ -1480,8 +1458,7 @@ public struct ListConfigurationManagersInput: Swift.Sendable {
         filters: [SSMQuickSetupClientTypes.Filter]? = nil,
         maxItems: Swift.Int? = nil,
         startingToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxItems = maxItems
         self.startingToken = startingToken
@@ -1497,8 +1474,7 @@ public struct ListConfigurationManagersOutput: Swift.Sendable {
     public init(
         configurationManagersList: [SSMQuickSetupClientTypes.ConfigurationManagerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationManagersList = configurationManagersList
         self.nextToken = nextToken
     }
@@ -1522,8 +1498,7 @@ public struct ListConfigurationsInput: Swift.Sendable {
         managerArn: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         startingToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationDefinitionId = configurationDefinitionId
         self.filters = filters
         self.managerArn = managerArn
@@ -1541,8 +1516,7 @@ public struct ListConfigurationsOutput: Swift.Sendable {
     public init(
         configurationsList: [SSMQuickSetupClientTypes.ConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationsList = configurationsList
         self.nextToken = nextToken
     }
@@ -1560,8 +1534,7 @@ extension SSMQuickSetupClientTypes {
         public init(
             latestVersion: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestVersion = latestVersion
             self.type = type
         }
@@ -1574,8 +1547,7 @@ public struct ListQuickSetupTypesOutput: Swift.Sendable {
 
     public init(
         quickSetupTypeList: [SSMQuickSetupClientTypes.QuickSetupTypeOutput]? = nil
-    )
-    {
+    ) {
         self.quickSetupTypeList = quickSetupTypeList
     }
 }
@@ -1587,8 +1559,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1605,8 +1576,7 @@ extension SSMQuickSetupClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1625,8 +1595,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [SSMQuickSetupClientTypes.TagEntry]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1647,8 +1616,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1670,8 +1638,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1700,8 +1667,7 @@ public struct UpdateConfigurationDefinitionInput: Swift.Sendable {
         managerArn: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         typeVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.localDeploymentAdministrationRoleArn = localDeploymentAdministrationRoleArn
         self.localDeploymentExecutionRoleName = localDeploymentExecutionRoleName
@@ -1724,8 +1690,7 @@ public struct UpdateConfigurationManagerInput: Swift.Sendable {
         description: Swift.String? = nil,
         managerArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.managerArn = managerArn
         self.name = name
@@ -1738,8 +1703,7 @@ public struct UpdateServiceSettingsInput: Swift.Sendable {
 
     public init(
         explorerEnablingRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.explorerEnablingRoleArn = explorerEnablingRoleArn
     }
 }

@@ -49,9 +49,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You can receive this error if you attempt to perform an operation and you don't have the required permissions. This can be caused by insufficient permissions in policies attached to your Amazon Web Services Identity and Access Management (IAM) principal. It can also happen because of restrictions in place from an Amazon Web Services Organizations service control policy (SCP) that affects your Amazon Web Services account.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -67,16 +67,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -92,8 +91,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -119,8 +117,7 @@ extension PcaConnectorScepClientTypes {
             createdAt: Foundation.Date? = nil,
             password: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectorArn = connectorArn
             self.createdAt = createdAt
@@ -153,8 +150,7 @@ extension PcaConnectorScepClientTypes {
             connectorArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectorArn = connectorArn
             self.createdAt = createdAt
@@ -181,8 +177,7 @@ extension PcaConnectorScepClientTypes {
             connectorArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectorArn = connectorArn
             self.createdAt = createdAt
@@ -192,9 +187,9 @@ extension PcaConnectorScepClientTypes {
 }
 
 /// This request can't be completed for one of the following reasons because the requested resource was being concurrently modified by another request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the Amazon Web Services resource.
@@ -218,8 +213,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -227,9 +221,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request processing has failed because of an unknown error, exception or failure with an internal server.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -245,16 +239,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation tried to access a nonexistent resource. The resource might be incorrectly specified, or it might have a status other than ACTIVE.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the Amazon Web Services resource.
@@ -278,8 +271,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -287,9 +279,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The quota identifier.
@@ -317,8 +309,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         quotaCode: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceType = resourceType
@@ -327,9 +318,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The limit on the number of requests per second was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -345,8 +336,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -396,9 +386,9 @@ extension PcaConnectorScepClientTypes {
 }
 
 /// An input validation error occurred. For example, invalid characters in a name tag, or an invalid pagination token.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the validation error, if available. The service doesn't return a reason for every validation exception.
@@ -417,8 +407,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: PcaConnectorScepClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -437,8 +426,7 @@ public struct CreateChallengeInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         connectorArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.connectorArn = connectorArn
         self.tags = tags
@@ -451,8 +439,7 @@ public struct CreateChallengeOutput: Swift.Sendable {
 
     public init(
         challenge: PcaConnectorScepClientTypes.Challenge? = nil
-    )
-    {
+    ) {
         self.challenge = challenge
     }
 }
@@ -464,8 +451,7 @@ public struct DeleteChallengeInput: Swift.Sendable {
 
     public init(
         challengeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.challengeArn = challengeArn
     }
 }
@@ -477,8 +463,7 @@ public struct GetChallengeMetadataInput: Swift.Sendable {
 
     public init(
         challengeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.challengeArn = challengeArn
     }
 }
@@ -489,8 +474,7 @@ public struct GetChallengeMetadataOutput: Swift.Sendable {
 
     public init(
         challengeMetadata: PcaConnectorScepClientTypes.ChallengeMetadata? = nil
-    )
-    {
+    ) {
         self.challengeMetadata = challengeMetadata
     }
 }
@@ -502,8 +486,7 @@ public struct GetChallengePasswordInput: Swift.Sendable {
 
     public init(
         challengeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.challengeArn = challengeArn
     }
 }
@@ -514,8 +497,7 @@ public struct GetChallengePasswordOutput: Swift.Sendable {
 
     public init(
         password: Swift.String? = nil
-    )
-    {
+    ) {
         self.password = password
     }
 }
@@ -538,8 +520,7 @@ public struct ListChallengeMetadataInput: Swift.Sendable {
         connectorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -555,8 +536,7 @@ public struct ListChallengeMetadataOutput: Swift.Sendable {
     public init(
         challenges: [PcaConnectorScepClientTypes.ChallengeMetadataSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.challenges = challenges
         self.nextToken = nextToken
     }
@@ -576,8 +556,7 @@ extension PcaConnectorScepClientTypes {
         public init(
             azureApplicationId: Swift.String? = nil,
             domain: Swift.String? = nil
-        )
-        {
+        ) {
             self.azureApplicationId = azureApplicationId
             self.domain = domain
         }
@@ -609,8 +588,7 @@ extension PcaConnectorScepClientTypes {
             audience: Swift.String? = nil,
             issuer: Swift.String? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.audience = audience
             self.issuer = issuer
             self.subject = subject
@@ -753,8 +731,7 @@ extension PcaConnectorScepClientTypes {
             statusReason: PcaConnectorScepClientTypes.ConnectorStatusReason? = nil,
             type: PcaConnectorScepClientTypes.ConnectorType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
@@ -805,8 +782,7 @@ extension PcaConnectorScepClientTypes {
             statusReason: PcaConnectorScepClientTypes.ConnectorStatusReason? = nil,
             type: PcaConnectorScepClientTypes.ConnectorType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
@@ -837,8 +813,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         mobileDeviceManagement: PcaConnectorScepClientTypes.MobileDeviceManagement? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.clientToken = clientToken
         self.mobileDeviceManagement = mobileDeviceManagement
@@ -852,8 +827,7 @@ public struct CreateConnectorOutput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -865,8 +839,7 @@ public struct DeleteConnectorInput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -878,8 +851,7 @@ public struct GetConnectorInput: Swift.Sendable {
 
     public init(
         connectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorArn = connectorArn
     }
 }
@@ -890,8 +862,7 @@ public struct GetConnectorOutput: Swift.Sendable {
 
     public init(
         connector: PcaConnectorScepClientTypes.Connector? = nil
-    )
-    {
+    ) {
         self.connector = connector
     }
 }
@@ -905,8 +876,7 @@ public struct ListConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -921,8 +891,7 @@ public struct ListConnectorsOutput: Swift.Sendable {
     public init(
         connectors: [PcaConnectorScepClientTypes.ConnectorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectors = connectors
         self.nextToken = nextToken
     }
@@ -935,8 +904,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -947,8 +915,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -964,8 +931,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -982,8 +948,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

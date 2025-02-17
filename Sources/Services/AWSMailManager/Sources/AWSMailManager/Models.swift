@@ -58,9 +58,9 @@ extension MailManagerClientTypes {
 }
 
 /// Occurs when a user is denied access to a specific resource or action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -75,8 +75,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -124,8 +123,7 @@ extension MailManagerClientTypes {
         public init(
             headerName: Swift.String? = nil,
             headerValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.headerName = headerName
             self.headerValue = headerValue
         }
@@ -153,8 +151,7 @@ extension MailManagerClientTypes {
             addonName: Swift.String? = nil,
             addonSubscriptionId: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.addonInstanceArn = addonInstanceArn
             self.addonInstanceId = addonInstanceId
             self.addonName = addonName
@@ -165,9 +162,9 @@ extension MailManagerClientTypes {
 }
 
 /// The request configuration has conflicts. For details, see the accompanying error message.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -182,16 +179,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Occurs when a requested resource is not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -206,16 +202,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Occurs when an operation exceeds a predefined service quota or limit.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -230,16 +225,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request validation has failed. For details, see the accompanying error message.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -254,8 +248,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -274,17 +267,11 @@ extension MailManagerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
     }
-}
-
-extension MailManagerClientTypes.Tag: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "Tag(key: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAddonInstanceInput: Swift.Sendable {
@@ -300,8 +287,7 @@ public struct CreateAddonInstanceInput: Swift.Sendable {
         addonSubscriptionId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
         self.clientToken = clientToken
         self.tags = tags
@@ -315,8 +301,7 @@ public struct CreateAddonInstanceOutput: Swift.Sendable {
 
     public init(
         addonInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstanceId = addonInstanceId
     }
 }
@@ -328,8 +313,7 @@ public struct DeleteAddonInstanceInput: Swift.Sendable {
 
     public init(
         addonInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstanceId = addonInstanceId
     }
 }
@@ -346,8 +330,7 @@ public struct GetAddonInstanceInput: Swift.Sendable {
 
     public init(
         addonInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstanceId = addonInstanceId
     }
 }
@@ -367,8 +350,7 @@ public struct GetAddonInstanceOutput: Swift.Sendable {
         addonName: Swift.String? = nil,
         addonSubscriptionId: Swift.String? = nil,
         createdTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.addonInstanceArn = addonInstanceArn
         self.addonName = addonName
         self.addonSubscriptionId = addonSubscriptionId
@@ -385,8 +367,7 @@ public struct ListAddonInstancesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -401,8 +382,7 @@ public struct ListAddonInstancesOutput: Swift.Sendable {
     public init(
         addonInstances: [MailManagerClientTypes.AddonInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstances = addonInstances
         self.nextToken = nextToken
     }
@@ -426,8 +406,7 @@ extension MailManagerClientTypes {
             addonSubscriptionArn: Swift.String? = nil,
             addonSubscriptionId: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.addonName = addonName
             self.addonSubscriptionArn = addonSubscriptionArn
             self.addonSubscriptionId = addonSubscriptionId
@@ -449,8 +428,7 @@ public struct CreateAddonSubscriptionInput: Swift.Sendable {
         addonName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.clientToken = clientToken
         self.tags = tags
@@ -464,8 +442,7 @@ public struct CreateAddonSubscriptionOutput: Swift.Sendable {
 
     public init(
         addonSubscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
     }
 }
@@ -477,8 +454,7 @@ public struct DeleteAddonSubscriptionInput: Swift.Sendable {
 
     public init(
         addonSubscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
     }
 }
@@ -495,8 +471,7 @@ public struct GetAddonSubscriptionInput: Swift.Sendable {
 
     public init(
         addonSubscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
     }
 }
@@ -513,8 +488,7 @@ public struct GetAddonSubscriptionOutput: Swift.Sendable {
         addonName: Swift.String? = nil,
         addonSubscriptionArn: Swift.String? = nil,
         createdTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.addonSubscriptionArn = addonSubscriptionArn
         self.createdTimestamp = createdTimestamp
@@ -530,8 +504,7 @@ public struct ListAddonSubscriptionsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -546,9 +519,211 @@ public struct ListAddonSubscriptionsOutput: Swift.Sendable {
     public init(
         addonSubscriptions: [MailManagerClientTypes.AddonSubscription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptions = addonSubscriptions
+        self.nextToken = nextToken
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// Filtering options for ListMembersOfAddressList operation.
+    public struct AddressFilter: Swift.Sendable {
+        /// Filter to limit the results to addresses having the provided prefix.
+        public var addressPrefix: Swift.String?
+
+        public init(
+            addressPrefix: Swift.String? = nil
+        ) {
+            self.addressPrefix = addressPrefix
+        }
+    }
+}
+
+extension MailManagerClientTypes.AddressFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AddressFilter(addressPrefix: \"CONTENT_REDACTED\")"}
+}
+
+extension MailManagerClientTypes {
+
+    /// An address list contains a list of emails and domains that are used in MailManager Ingress endpoints and Rules for email management.
+    public struct AddressList: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the address list.
+        /// This member is required.
+        public var addressListArn: Swift.String?
+        /// The identifier of the address list.
+        /// This member is required.
+        public var addressListId: Swift.String?
+        /// The user-friendly name of the address list.
+        /// This member is required.
+        public var addressListName: Swift.String?
+        /// The timestamp of when the address list was created.
+        /// This member is required.
+        public var createdTimestamp: Foundation.Date?
+        /// The timestamp of when the address list was last updated.
+        /// This member is required.
+        public var lastUpdatedTimestamp: Foundation.Date?
+
+        public init(
+            addressListArn: Swift.String? = nil,
+            addressListId: Swift.String? = nil,
+            addressListName: Swift.String? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil
+        ) {
+            self.addressListArn = addressListArn
+            self.addressListId = addressListId
+            self.addressListName = addressListName
+            self.createdTimestamp = createdTimestamp
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        }
+    }
+}
+
+/// Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateAddressListInput: Swift.Sendable {
+    /// A user-friendly name for the address list.
+    /// This member is required.
+    public var addressListName: Swift.String?
+    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request.
+    public var clientToken: Swift.String?
+    /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [MailManagerClientTypes.Tag]?
+
+    public init(
+        addressListName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        tags: [MailManagerClientTypes.Tag]? = nil
+    ) {
+        self.addressListName = addressListName
+        self.clientToken = clientToken
+        self.tags = tags
+    }
+}
+
+public struct CreateAddressListOutput: Swift.Sendable {
+    /// The identifier of the created address list.
+    /// This member is required.
+    public var addressListId: Swift.String?
+
+    public init(
+        addressListId: Swift.String? = nil
+    ) {
+        self.addressListId = addressListId
+    }
+}
+
+public struct DeleteAddressListInput: Swift.Sendable {
+    /// The identifier of an existing address list resource to delete.
+    /// This member is required.
+    public var addressListId: Swift.String?
+
+    public init(
+        addressListId: Swift.String? = nil
+    ) {
+        self.addressListId = addressListId
+    }
+}
+
+public struct DeleteAddressListOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAddressListInput: Swift.Sendable {
+    /// The identifier of an existing address list resource to be retrieved.
+    /// This member is required.
+    public var addressListId: Swift.String?
+
+    public init(
+        addressListId: Swift.String? = nil
+    ) {
+        self.addressListId = addressListId
+    }
+}
+
+public struct GetAddressListOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the address list resource.
+    /// This member is required.
+    public var addressListArn: Swift.String?
+    /// The identifier of the address list resource.
+    /// This member is required.
+    public var addressListId: Swift.String?
+    /// A user-friendly name for the address list resource.
+    /// This member is required.
+    public var addressListName: Swift.String?
+    /// The date of when then address list was created.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// The date of when the address list was last updated.
+    /// This member is required.
+    public var lastUpdatedTimestamp: Foundation.Date?
+
+    public init(
+        addressListArn: Swift.String? = nil,
+        addressListId: Swift.String? = nil,
+        addressListName: Swift.String? = nil,
+        createdTimestamp: Foundation.Date? = nil,
+        lastUpdatedTimestamp: Foundation.Date? = nil
+    ) {
+        self.addressListArn = addressListArn
+        self.addressListId = addressListId
+        self.addressListName = addressListName
+        self.createdTimestamp = createdTimestamp
+        self.lastUpdatedTimestamp = lastUpdatedTimestamp
+    }
+}
+
+public struct ListAddressListsInput: Swift.Sendable {
+    /// If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+    public var nextToken: Swift.String?
+    /// The maximum number of address list resources that are returned per call. You can use NextToken to retrieve the next page of address lists.
+    public var pageSize: Swift.Int?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+public struct ListAddressListsOutput: Swift.Sendable {
+    /// The list of address lists.
+    /// This member is required.
+    public var addressLists: [MailManagerClientTypes.AddressList]?
+    /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        addressLists: [MailManagerClientTypes.AddressList]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.addressLists = addressLists
         self.nextToken = nextToken
     }
 }
@@ -567,8 +742,7 @@ extension MailManagerClientTypes {
         public init(
             analyzer: Swift.String? = nil,
             resultField: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyzer = analyzer
             self.resultField = resultField
         }
@@ -627,8 +801,7 @@ extension MailManagerClientTypes {
             archiveName: Swift.String? = nil,
             archiveState: MailManagerClientTypes.ArchiveState? = nil,
             lastUpdatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.archiveId = archiveId
             self.archiveName = archiveName
             self.archiveState = archiveState
@@ -650,8 +823,7 @@ extension MailManagerClientTypes {
         public init(
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             targetArchive: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.targetArchive = targetArchive
         }
@@ -737,8 +909,7 @@ extension MailManagerClientTypes {
         public init(
             evaluate: MailManagerClientTypes.ArchiveBooleanToEvaluate? = nil,
             `operator`: MailManagerClientTypes.ArchiveBooleanOperator? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
         }
@@ -840,8 +1011,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.ArchiveStringToEvaluate? = nil,
             `operator`: MailManagerClientTypes.ArchiveStringOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -873,8 +1043,7 @@ extension MailManagerClientTypes {
         public init(
             include: [MailManagerClientTypes.ArchiveFilterCondition]? = nil,
             unless: [MailManagerClientTypes.ArchiveFilterCondition]? = nil
-        )
-        {
+        ) {
             self.include = include
             self.unless = unless
         }
@@ -962,30 +1131,6 @@ extension MailManagerClientTypes {
     }
 }
 
-/// Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// The request to create a new email archive.
 public struct CreateArchiveInput: Swift.Sendable {
     /// A unique name for the new archive.
@@ -1006,8 +1151,7 @@ public struct CreateArchiveInput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         retention: MailManagerClientTypes.ArchiveRetention? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
         self.clientToken = clientToken
         self.kmsKeyArn = kmsKeyArn
@@ -1024,8 +1168,7 @@ public struct CreateArchiveOutput: Swift.Sendable {
 
     public init(
         archiveId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
     }
 }
@@ -1038,8 +1181,7 @@ public struct DeleteArchiveInput: Swift.Sendable {
 
     public init(
         archiveId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
     }
 }
@@ -1058,8 +1200,7 @@ public struct GetArchiveInput: Swift.Sendable {
 
     public init(
         archiveId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
     }
 }
@@ -1101,8 +1242,7 @@ public struct GetArchiveOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         lastUpdatedTimestamp: Foundation.Date? = nil,
         retention: MailManagerClientTypes.ArchiveRetention? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.archiveId = archiveId
         self.archiveName = archiveName
@@ -1124,8 +1264,7 @@ public struct ListArchivesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -1142,8 +1281,7 @@ public struct ListArchivesOutput: Swift.Sendable {
     public init(
         archives: [MailManagerClientTypes.Archive]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.archives = archives
         self.nextToken = nextToken
     }
@@ -1163,8 +1301,7 @@ public struct UpdateArchiveInput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         archiveName: Swift.String? = nil,
         retention: MailManagerClientTypes.ArchiveRetention? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.archiveName = archiveName
         self.retention = retention
@@ -1175,6 +1312,99 @@ public struct UpdateArchiveInput: Swift.Sendable {
 public struct UpdateArchiveOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension MailManagerClientTypes {
+
+    public enum ImportDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case json
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportDataType] {
+            return [
+                .csv,
+                .json
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .json: return "JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The import data format contains the specifications of the input file that would be passed to the address list import job.
+    public struct ImportDataFormat: Swift.Sendable {
+        /// The type of file that would be passed as an input for the address list import job.
+        /// This member is required.
+        public var importDataType: MailManagerClientTypes.ImportDataType?
+
+        public init(
+            importDataType: MailManagerClientTypes.ImportDataType? = nil
+        ) {
+            self.importDataType = importDataType
+        }
+    }
+}
+
+public struct CreateAddressListImportJobInput: Swift.Sendable {
+    /// The unique identifier of the address list for importing addresses to.
+    /// This member is required.
+    public var addressListId: Swift.String?
+    /// A unique token that Amazon SES uses to recognize subsequent retries of the same request.
+    public var clientToken: Swift.String?
+    /// The format of the input for an import job.
+    /// This member is required.
+    public var importDataFormat: MailManagerClientTypes.ImportDataFormat?
+    /// A user-friendly name for the import job.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        addressListId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        importDataFormat: MailManagerClientTypes.ImportDataFormat? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.addressListId = addressListId
+        self.clientToken = clientToken
+        self.importDataFormat = importDataFormat
+        self.name = name
+    }
+}
+
+public struct CreateAddressListImportJobOutput: Swift.Sendable {
+    /// The identifier of the created import job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The pre-signed URL target for uploading the input file.
+    /// This member is required.
+    public var preSignedUrl: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        preSignedUrl: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+        self.preSignedUrl = preSignedUrl
+    }
+}
+
+extension CreateAddressListImportJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAddressListImportJobOutput(jobId: \(Swift.String(describing: jobId)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension MailManagerClientTypes {
@@ -1246,8 +1476,7 @@ public struct CreateIngressPointInput: Swift.Sendable {
         tags: [MailManagerClientTypes.Tag]? = nil,
         trafficPolicyId: Swift.String? = nil,
         type: MailManagerClientTypes.IngressPointType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.ingressPointConfiguration = ingressPointConfiguration
         self.ingressPointName = ingressPointName
@@ -1265,8 +1494,7 @@ public struct CreateIngressPointOutput: Swift.Sendable {
 
     public init(
         ingressPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointId = ingressPointId
     }
 }
@@ -1317,8 +1545,7 @@ public struct CreateRelayInput: Swift.Sendable {
         serverName: Swift.String? = nil,
         serverPort: Swift.Int? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.clientToken = clientToken
         self.relayName = relayName
@@ -1335,8 +1562,7 @@ public struct CreateRelayOutput: Swift.Sendable {
 
     public init(
         relayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relayId = relayId
     }
 }
@@ -1358,8 +1584,7 @@ extension MailManagerClientTypes {
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             mailboxArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.mailboxArn = mailboxArn
             self.roleArn = roleArn
@@ -1388,8 +1613,7 @@ extension MailManagerClientTypes {
             applicationId: Swift.String? = nil,
             indexId: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.applicationId = applicationId
             self.indexId = indexId
@@ -1452,8 +1676,7 @@ extension MailManagerClientTypes {
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             mailFrom: MailManagerClientTypes.MailFrom? = nil,
             relay: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.mailFrom = mailFrom
             self.relay = relay
@@ -1470,8 +1693,7 @@ extension MailManagerClientTypes {
 
         public init(
             replaceWith: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.replaceWith = replaceWith
         }
     }
@@ -1495,8 +1717,7 @@ extension MailManagerClientTypes {
         public init(
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.roleArn = roleArn
         }
@@ -1526,8 +1747,7 @@ extension MailManagerClientTypes {
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil,
             s3SseKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.roleArn = roleArn
             self.s3Bucket = s3Bucket
@@ -1597,10 +1817,74 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes {
 
+    public enum RuleAddressListEmailAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cc
+        case from
+        case mailFrom
+        case recipient
+        case sender
+        case to
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleAddressListEmailAttribute] {
+            return [
+                .cc,
+                .from,
+                .mailFrom,
+                .recipient,
+                .sender,
+                .to
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cc: return "CC"
+            case .from: return "FROM"
+            case .mailFrom: return "MAIL_FROM"
+            case .recipient: return "RECIPIENT"
+            case .sender: return "SENDER"
+            case .to: return "TO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The structure type for a boolean condition that provides the address lists and address list attribute to evaluate.
+    public struct RuleIsInAddressList: Swift.Sendable {
+        /// The address lists that will be used for evaluation.
+        /// This member is required.
+        public var addressLists: [Swift.String]?
+        /// The email attribute that needs to be evaluated against the address list.
+        /// This member is required.
+        public var attribute: MailManagerClientTypes.RuleAddressListEmailAttribute?
+
+        public init(
+            addressLists: [Swift.String]? = nil,
+            attribute: MailManagerClientTypes.RuleAddressListEmailAttribute? = nil
+        ) {
+            self.addressLists = addressLists
+            self.attribute = attribute
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     /// The union type representing the allowed types of operands for a boolean condition.
     public enum RuleBooleanToEvaluate: Swift.Sendable {
         /// The boolean type representing the allowed attribute types for an email.
         case attribute(MailManagerClientTypes.RuleBooleanEmailAttribute)
+        /// The structure representing the address lists and address list attribute that will be used in evaluation of boolean expression.
+        case isinaddresslist(MailManagerClientTypes.RuleIsInAddressList)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1648,8 +1932,7 @@ extension MailManagerClientTypes {
         public init(
             evaluate: MailManagerClientTypes.RuleBooleanToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleBooleanOperator? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
         }
@@ -1731,8 +2014,7 @@ extension MailManagerClientTypes {
         public init(
             `operator`: MailManagerClientTypes.RuleDmarcOperator? = nil,
             values: [MailManagerClientTypes.RuleDmarcPolicy]? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.values = values
         }
@@ -1822,8 +2104,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleIpToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleIpOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -1926,8 +2207,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleNumberToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleNumberOperator? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.value = value
@@ -2050,8 +2330,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleStringToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleStringOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2182,8 +2461,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleVerdictToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleVerdictOperator? = nil,
             values: [MailManagerClientTypes.RuleVerdict]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2230,8 +2508,7 @@ extension MailManagerClientTypes {
             conditions: [MailManagerClientTypes.RuleCondition]? = nil,
             name: Swift.String? = nil,
             unless: [MailManagerClientTypes.RuleCondition]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.conditions = conditions
             self.name = name
@@ -2257,8 +2534,7 @@ public struct CreateRuleSetInput: Swift.Sendable {
         ruleSetName: Swift.String? = nil,
         rules: [MailManagerClientTypes.Rule]? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.ruleSetName = ruleSetName
         self.rules = rules
@@ -2273,8 +2549,7 @@ public struct CreateRuleSetOutput: Swift.Sendable {
 
     public init(
         ruleSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
     }
 }
@@ -2293,10 +2568,56 @@ extension MailManagerClientTypes {
         public init(
             analyzer: Swift.String? = nil,
             resultField: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyzer = analyzer
             self.resultField = resultField
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    public enum IngressAddressListEmailAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case recipient
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IngressAddressListEmailAttribute] {
+            return [
+                .recipient
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .recipient: return "RECIPIENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The address lists and the address list attribute value that is evaluated in a policy statement's conditional expression to either deny or block the incoming email.
+    public struct IngressIsInAddressList: Swift.Sendable {
+        /// The address lists that will be used for evaluation.
+        /// This member is required.
+        public var addressLists: [Swift.String]?
+        /// The email attribute that needs to be evaluated against the address list.
+        /// This member is required.
+        public var attribute: MailManagerClientTypes.IngressAddressListEmailAttribute?
+
+        public init(
+            addressLists: [Swift.String]? = nil,
+            attribute: MailManagerClientTypes.IngressAddressListEmailAttribute? = nil
+        ) {
+            self.addressLists = addressLists
+            self.attribute = attribute
         }
     }
 }
@@ -2307,6 +2628,8 @@ extension MailManagerClientTypes {
     public enum IngressBooleanToEvaluate: Swift.Sendable {
         /// The structure type for a boolean condition stating the Add On ARN and its returned value.
         case analysis(MailManagerClientTypes.IngressAnalysis)
+        /// The structure type for a boolean condition that provides the address lists to evaluate incoming traffic on.
+        case isinaddresslist(MailManagerClientTypes.IngressIsInAddressList)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2354,8 +2677,7 @@ extension MailManagerClientTypes {
         public init(
             evaluate: MailManagerClientTypes.IngressBooleanToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressBooleanOperator? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
         }
@@ -2445,8 +2767,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.IngressIpToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressIpOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2546,8 +2867,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.IngressStringToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressStringOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2667,8 +2987,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.IngressTlsProtocolToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressTlsProtocolOperator? = nil,
             value: MailManagerClientTypes.IngressTlsProtocolAttribute? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.value = value
@@ -2706,8 +3025,7 @@ extension MailManagerClientTypes {
         public init(
             action: MailManagerClientTypes.AcceptAction? = nil,
             conditions: [MailManagerClientTypes.PolicyCondition]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.conditions = conditions
         }
@@ -2738,8 +3056,7 @@ public struct CreateTrafficPolicyInput: Swift.Sendable {
         policyStatements: [MailManagerClientTypes.PolicyStatement]? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil,
         trafficPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.defaultAction = defaultAction
         self.maxMessageSizeBytes = maxMessageSizeBytes
@@ -2756,8 +3073,7 @@ public struct CreateTrafficPolicyOutput: Swift.Sendable {
 
     public init(
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficPolicyId = trafficPolicyId
     }
 }
@@ -2769,8 +3085,7 @@ public struct DeleteIngressPointInput: Swift.Sendable {
 
     public init(
         ingressPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointId = ingressPointId
     }
 }
@@ -2787,8 +3102,7 @@ public struct DeleteRelayInput: Swift.Sendable {
 
     public init(
         relayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relayId = relayId
     }
 }
@@ -2805,8 +3119,7 @@ public struct DeleteRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
     }
 }
@@ -2823,13 +3136,39 @@ public struct DeleteTrafficPolicyInput: Swift.Sendable {
 
     public init(
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficPolicyId = trafficPolicyId
     }
 }
 
 public struct DeleteTrafficPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeregisterMemberFromAddressListInput: Swift.Sendable {
+    /// The address to be removed from the address list.
+    /// This member is required.
+    public var address: Swift.String?
+    /// The unique identifier of the address list to remove the address from.
+    /// This member is required.
+    public var addressListId: Swift.String?
+
+    public init(
+        address: Swift.String? = nil,
+        addressListId: Swift.String? = nil
+    ) {
+        self.address = address
+        self.addressListId = addressListId
+    }
+}
+
+extension DeregisterMemberFromAddressListInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DeregisterMemberFromAddressListInput(addressListId: \(Swift.String(describing: addressListId)), address: \"CONTENT_REDACTED\")"}
+}
+
+public struct DeregisterMemberFromAddressListOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2849,8 +3188,7 @@ extension MailManagerClientTypes {
             from: Swift.String? = nil,
             helo: Swift.String? = nil,
             to: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.from = from
             self.helo = helo
             self.to = to
@@ -2867,8 +3205,7 @@ extension MailManagerClientTypes {
 
         public init(
             s3Location: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -2943,8 +3280,7 @@ extension MailManagerClientTypes {
             errorMessage: Swift.String? = nil,
             state: MailManagerClientTypes.ExportState? = nil,
             submissionTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completionTimestamp = completionTimestamp
             self.errorMessage = errorMessage
             self.state = state
@@ -2965,12 +3301,128 @@ extension MailManagerClientTypes {
         public init(
             exportId: Swift.String? = nil,
             status: MailManagerClientTypes.ExportStatus? = nil
-        )
-        {
+        ) {
             self.exportId = exportId
             self.status = status
         }
     }
+}
+
+public struct GetAddressListImportJobInput: Swift.Sendable {
+    /// The identifier of the import job that needs to be retrieved.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+extension MailManagerClientTypes {
+
+    public enum ImportJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case created
+        case failed
+        case processing
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportJobStatus] {
+            return [
+                .completed,
+                .created,
+                .failed,
+                .processing,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetAddressListImportJobOutput: Swift.Sendable {
+    /// The unique identifier of the address list the import job was created for.
+    /// This member is required.
+    public var addressListId: Swift.String?
+    /// The timestamp of when the import job was completed.
+    public var completedTimestamp: Foundation.Date?
+    /// The timestamp of when the import job was created.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// The reason for failure of an import job.
+    public var error: Swift.String?
+    /// The number of input addresses that failed to be imported into the address list.
+    public var failedItemsCount: Swift.Int?
+    /// The format of the input for an import job.
+    /// This member is required.
+    public var importDataFormat: MailManagerClientTypes.ImportDataFormat?
+    /// The number of input addresses successfully imported into the address list.
+    public var importedItemsCount: Swift.Int?
+    /// The identifier of the import job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// A user-friendly name for the import job.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The pre-signed URL target for uploading the input file.
+    /// This member is required.
+    public var preSignedUrl: Swift.String?
+    /// The timestamp of when the import job was started.
+    public var startTimestamp: Foundation.Date?
+    /// The status of the import job.
+    /// This member is required.
+    public var status: MailManagerClientTypes.ImportJobStatus?
+
+    public init(
+        addressListId: Swift.String? = nil,
+        completedTimestamp: Foundation.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
+        error: Swift.String? = nil,
+        failedItemsCount: Swift.Int? = nil,
+        importDataFormat: MailManagerClientTypes.ImportDataFormat? = nil,
+        importedItemsCount: Swift.Int? = nil,
+        jobId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        preSignedUrl: Swift.String? = nil,
+        startTimestamp: Foundation.Date? = nil,
+        status: MailManagerClientTypes.ImportJobStatus? = nil
+    ) {
+        self.addressListId = addressListId
+        self.completedTimestamp = completedTimestamp
+        self.createdTimestamp = createdTimestamp
+        self.error = error
+        self.failedItemsCount = failedItemsCount
+        self.importDataFormat = importDataFormat
+        self.importedItemsCount = importedItemsCount
+        self.jobId = jobId
+        self.name = name
+        self.preSignedUrl = preSignedUrl
+        self.startTimestamp = startTimestamp
+        self.status = status
+    }
+}
+
+extension GetAddressListImportJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAddressListImportJobOutput(addressListId: \(Swift.String(describing: addressListId)), completedTimestamp: \(Swift.String(describing: completedTimestamp)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), error: \(Swift.String(describing: error)), failedItemsCount: \(Swift.String(describing: failedItemsCount)), importDataFormat: \(Swift.String(describing: importDataFormat)), importedItemsCount: \(Swift.String(describing: importedItemsCount)), jobId: \(Swift.String(describing: jobId)), name: \(Swift.String(describing: name)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 /// The request to retrieve details of a specific archive export job.
@@ -2981,8 +3433,7 @@ public struct GetArchiveExportInput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -3012,8 +3463,7 @@ public struct GetArchiveExportOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         status: MailManagerClientTypes.ExportStatus? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.exportDestinationConfiguration = exportDestinationConfiguration
         self.filters = filters
@@ -3032,8 +3482,7 @@ public struct GetArchiveMessageInput: Swift.Sendable {
 
     public init(
         archivedMessageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archivedMessageId = archivedMessageId
     }
 }
@@ -3068,8 +3517,7 @@ extension MailManagerClientTypes {
             tlsCipherSuite: Swift.String? = nil,
             tlsProtocol: Swift.String? = nil,
             trafficPolicyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ingressPointId = ingressPointId
             self.ruleSetId = ruleSetId
             self.senderHostname = senderHostname
@@ -3100,8 +3548,7 @@ public struct GetArchiveMessageOutput: Swift.Sendable {
         envelope: MailManagerClientTypes.Envelope? = nil,
         messageDownloadLink: Swift.String? = nil,
         metadata: MailManagerClientTypes.Metadata? = nil
-    )
-    {
+    ) {
         self.envelope = envelope
         self.messageDownloadLink = messageDownloadLink
         self.metadata = metadata
@@ -3116,8 +3563,7 @@ public struct GetArchiveMessageContentInput: Swift.Sendable {
 
     public init(
         archivedMessageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archivedMessageId = archivedMessageId
     }
 }
@@ -3137,8 +3583,7 @@ extension MailManagerClientTypes {
             html: Swift.String? = nil,
             messageMalformed: Swift.Bool? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.html = html
             self.messageMalformed = messageMalformed
             self.text = text
@@ -3153,8 +3598,7 @@ public struct GetArchiveMessageContentOutput: Swift.Sendable {
 
     public init(
         body: MailManagerClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.body = body
     }
 }
@@ -3167,8 +3611,7 @@ public struct GetArchiveSearchInput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
 }
@@ -3229,8 +3672,7 @@ extension MailManagerClientTypes {
             errorMessage: Swift.String? = nil,
             state: MailManagerClientTypes.SearchState? = nil,
             submissionTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completionTimestamp = completionTimestamp
             self.errorMessage = errorMessage
             self.state = state
@@ -3261,8 +3703,7 @@ public struct GetArchiveSearchOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         status: MailManagerClientTypes.SearchStatus? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.filters = filters
         self.fromTimestamp = fromTimestamp
@@ -3280,8 +3721,7 @@ public struct GetArchiveSearchResultsInput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
 }
@@ -3346,8 +3786,7 @@ extension MailManagerClientTypes {
             xMailer: Swift.String? = nil,
             xOriginalMailer: Swift.String? = nil,
             xPriority: Swift.String? = nil
-        )
-        {
+        ) {
             self.archivedMessageId = archivedMessageId
             self.cc = cc
             self.date = date
@@ -3382,8 +3821,7 @@ public struct GetArchiveSearchResultsOutput: Swift.Sendable {
 
     public init(
         rows: [MailManagerClientTypes.Row]? = nil
-    )
-    {
+    ) {
         self.rows = rows
     }
 }
@@ -3395,8 +3833,7 @@ public struct GetIngressPointInput: Swift.Sendable {
 
     public init(
         ingressPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointId = ingressPointId
     }
 }
@@ -3416,8 +3853,7 @@ extension MailManagerClientTypes {
             previousSmtpPasswordExpiryTimestamp: Foundation.Date? = nil,
             previousSmtpPasswordVersion: Swift.String? = nil,
             smtpPasswordVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.previousSmtpPasswordExpiryTimestamp = previousSmtpPasswordExpiryTimestamp
             self.previousSmtpPasswordVersion = previousSmtpPasswordVersion
             self.smtpPasswordVersion = smtpPasswordVersion
@@ -3437,8 +3873,7 @@ extension MailManagerClientTypes {
         public init(
             ingressPointPasswordConfiguration: MailManagerClientTypes.IngressPointPasswordConfiguration? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.ingressPointPasswordConfiguration = ingressPointPasswordConfiguration
             self.secretArn = secretArn
         }
@@ -3524,8 +3959,7 @@ public struct GetIngressPointOutput: Swift.Sendable {
         status: MailManagerClientTypes.IngressPointStatus? = nil,
         trafficPolicyId: Swift.String? = nil,
         type: MailManagerClientTypes.IngressPointType? = nil
-    )
-    {
+    ) {
         self.aRecord = aRecord
         self.createdTimestamp = createdTimestamp
         self.ingressPointArn = ingressPointArn
@@ -3540,6 +3974,50 @@ public struct GetIngressPointOutput: Swift.Sendable {
     }
 }
 
+public struct GetMemberOfAddressListInput: Swift.Sendable {
+    /// The address to be retrieved from the address list.
+    /// This member is required.
+    public var address: Swift.String?
+    /// The unique identifier of the address list to retrieve the address from.
+    /// This member is required.
+    public var addressListId: Swift.String?
+
+    public init(
+        address: Swift.String? = nil,
+        addressListId: Swift.String? = nil
+    ) {
+        self.address = address
+        self.addressListId = addressListId
+    }
+}
+
+extension GetMemberOfAddressListInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMemberOfAddressListInput(addressListId: \(Swift.String(describing: addressListId)), address: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetMemberOfAddressListOutput: Swift.Sendable {
+    /// The address retrieved from the address list.
+    /// This member is required.
+    public var address: Swift.String?
+    /// The timestamp of when the address was created.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+
+    public init(
+        address: Swift.String? = nil,
+        createdTimestamp: Foundation.Date? = nil
+    ) {
+        self.address = address
+        self.createdTimestamp = createdTimestamp
+    }
+}
+
+extension GetMemberOfAddressListOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMemberOfAddressListOutput(createdTimestamp: \(Swift.String(describing: createdTimestamp)), address: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetRelayInput: Swift.Sendable {
     /// A unique relay identifier.
     /// This member is required.
@@ -3547,8 +4025,7 @@ public struct GetRelayInput: Swift.Sendable {
 
     public init(
         relayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relayId = relayId
     }
 }
@@ -3581,8 +4058,7 @@ public struct GetRelayOutput: Swift.Sendable {
         relayName: Swift.String? = nil,
         serverName: Swift.String? = nil,
         serverPort: Swift.Int? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.createdTimestamp = createdTimestamp
         self.lastModifiedTimestamp = lastModifiedTimestamp
@@ -3601,8 +4077,7 @@ public struct GetRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
     }
 }
@@ -3634,8 +4109,7 @@ public struct GetRuleSetOutput: Swift.Sendable {
         ruleSetId: Swift.String? = nil,
         ruleSetName: Swift.String? = nil,
         rules: [MailManagerClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.lastModificationDate = lastModificationDate
         self.ruleSetArn = ruleSetArn
@@ -3652,8 +4126,7 @@ public struct GetTrafficPolicyInput: Swift.Sendable {
 
     public init(
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficPolicyId = trafficPolicyId
     }
 }
@@ -3687,8 +4160,7 @@ public struct GetTrafficPolicyOutput: Swift.Sendable {
         trafficPolicyArn: Swift.String? = nil,
         trafficPolicyId: Swift.String? = nil,
         trafficPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.defaultAction = defaultAction
         self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -3698,6 +4170,77 @@ public struct GetTrafficPolicyOutput: Swift.Sendable {
         self.trafficPolicyId = trafficPolicyId
         self.trafficPolicyName = trafficPolicyName
     }
+}
+
+extension MailManagerClientTypes {
+
+    /// Details about an import job.
+    public struct ImportJob: Swift.Sendable {
+        /// The unique identifier of the address list the import job was created for.
+        /// This member is required.
+        public var addressListId: Swift.String?
+        /// The timestamp of when the import job was completed.
+        public var completedTimestamp: Foundation.Date?
+        /// The timestamp of when the import job was created.
+        /// This member is required.
+        public var createdTimestamp: Foundation.Date?
+        /// The reason for failure of an import job.
+        public var error: Swift.String?
+        /// The number of addresses in the input that failed to get imported into address list.
+        public var failedItemsCount: Swift.Int?
+        /// The format of the input for the import job.
+        /// This member is required.
+        public var importDataFormat: MailManagerClientTypes.ImportDataFormat?
+        /// The number of addresses in the input that were successfully imported into the address list.
+        public var importedItemsCount: Swift.Int?
+        /// The identifier of the import job.
+        /// This member is required.
+        public var jobId: Swift.String?
+        /// A user-friendly name for the import job.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The pre-signed URL target for uploading the input file.
+        /// This member is required.
+        public var preSignedUrl: Swift.String?
+        /// The timestamp of when the import job was started.
+        public var startTimestamp: Foundation.Date?
+        /// The status of the import job.
+        /// This member is required.
+        public var status: MailManagerClientTypes.ImportJobStatus?
+
+        public init(
+            addressListId: Swift.String? = nil,
+            completedTimestamp: Foundation.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            error: Swift.String? = nil,
+            failedItemsCount: Swift.Int? = nil,
+            importDataFormat: MailManagerClientTypes.ImportDataFormat? = nil,
+            importedItemsCount: Swift.Int? = nil,
+            jobId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            preSignedUrl: Swift.String? = nil,
+            startTimestamp: Foundation.Date? = nil,
+            status: MailManagerClientTypes.ImportJobStatus? = nil
+        ) {
+            self.addressListId = addressListId
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.error = error
+            self.failedItemsCount = failedItemsCount
+            self.importDataFormat = importDataFormat
+            self.importedItemsCount = importedItemsCount
+            self.jobId = jobId
+            self.name = name
+            self.preSignedUrl = preSignedUrl
+            self.startTimestamp = startTimestamp
+            self.status = status
+        }
+    }
+}
+
+extension MailManagerClientTypes.ImportJob: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImportJob(addressListId: \(Swift.String(describing: addressListId)), completedTimestamp: \(Swift.String(describing: completedTimestamp)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), error: \(Swift.String(describing: error)), failedItemsCount: \(Swift.String(describing: failedItemsCount)), importDataFormat: \(Swift.String(describing: importDataFormat)), importedItemsCount: \(Swift.String(describing: importedItemsCount)), jobId: \(Swift.String(describing: jobId)), name: \(Swift.String(describing: name)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension MailManagerClientTypes {
@@ -3725,8 +4268,7 @@ extension MailManagerClientTypes {
             ingressPointName: Swift.String? = nil,
             status: MailManagerClientTypes.IngressPointStatus? = nil,
             type: MailManagerClientTypes.IngressPointType? = nil
-        )
-        {
+        ) {
             self.aRecord = aRecord
             self.ingressPointId = ingressPointId
             self.ingressPointName = ingressPointName
@@ -3745,8 +4287,7 @@ public struct ListIngressPointsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -3761,8 +4302,7 @@ public struct ListIngressPointsOutput: Swift.Sendable {
     public init(
         ingressPoints: [MailManagerClientTypes.IngressPoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPoints = ingressPoints
         self.nextToken = nextToken
     }
@@ -3819,8 +4359,7 @@ public struct UpdateIngressPointInput: Swift.Sendable {
         ruleSetId: Swift.String? = nil,
         statusToUpdate: MailManagerClientTypes.IngressPointStatusToUpdate? = nil,
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointConfiguration = ingressPointConfiguration
         self.ingressPointId = ingressPointId
         self.ingressPointName = ingressPointName
@@ -3833,6 +4372,42 @@ public struct UpdateIngressPointInput: Swift.Sendable {
 public struct UpdateIngressPointOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct ListAddressListImportJobsInput: Swift.Sendable {
+    /// The unique identifier of the address list for listing import jobs.
+    /// This member is required.
+    public var addressListId: Swift.String?
+    /// If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+    public var nextToken: Swift.String?
+    /// The maximum number of import jobs that are returned per call. You can use NextToken to retrieve the next page of jobs.
+    public var pageSize: Swift.Int?
+
+    public init(
+        addressListId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    ) {
+        self.addressListId = addressListId
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+public struct ListAddressListImportJobsOutput: Swift.Sendable {
+    /// The list of import jobs.
+    /// This member is required.
+    public var importJobs: [MailManagerClientTypes.ImportJob]?
+    /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        importJobs: [MailManagerClientTypes.ImportJob]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.importJobs = importJobs
+        self.nextToken = nextToken
+    }
 }
 
 /// The request to list archive export jobs in your account.
@@ -3849,8 +4424,7 @@ public struct ListArchiveExportsInput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.nextToken = nextToken
         self.pageSize = pageSize
@@ -3867,8 +4441,7 @@ public struct ListArchiveExportsOutput: Swift.Sendable {
     public init(
         exports: [MailManagerClientTypes.ExportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exports = exports
         self.nextToken = nextToken
     }
@@ -3888,8 +4461,7 @@ public struct ListArchiveSearchesInput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.nextToken = nextToken
         self.pageSize = pageSize
@@ -3908,8 +4480,7 @@ extension MailManagerClientTypes {
         public init(
             searchId: Swift.String? = nil,
             status: MailManagerClientTypes.SearchStatus? = nil
-        )
-        {
+        ) {
             self.searchId = searchId
             self.status = status
         }
@@ -3926,10 +4497,75 @@ public struct ListArchiveSearchesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         searches: [MailManagerClientTypes.SearchSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.searches = searches
+    }
+}
+
+public struct ListMembersOfAddressListInput: Swift.Sendable {
+    /// The unique identifier of the address list to list the addresses from.
+    /// This member is required.
+    public var addressListId: Swift.String?
+    /// Filter to be used to limit the results.
+    public var filter: MailManagerClientTypes.AddressFilter?
+    /// If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+    public var nextToken: Swift.String?
+    /// The maximum number of address list members that are returned per call. You can use NextToken to retrieve the next page of members.
+    public var pageSize: Swift.Int?
+
+    public init(
+        addressListId: Swift.String? = nil,
+        filter: MailManagerClientTypes.AddressFilter? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    ) {
+        self.addressListId = addressListId
+        self.filter = filter
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// An address that is a member of an address list.
+    public struct SavedAddress: Swift.Sendable {
+        /// The email or domain that constitutes the address.
+        /// This member is required.
+        public var address: Swift.String?
+        /// The timestamp of when the address was added to the address list.
+        /// This member is required.
+        public var createdTimestamp: Foundation.Date?
+
+        public init(
+            address: Swift.String? = nil,
+            createdTimestamp: Foundation.Date? = nil
+        ) {
+            self.address = address
+            self.createdTimestamp = createdTimestamp
+        }
+    }
+}
+
+extension MailManagerClientTypes.SavedAddress: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SavedAddress(createdTimestamp: \(Swift.String(describing: createdTimestamp)), address: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListMembersOfAddressListOutput: Swift.Sendable {
+    /// The list of addresses.
+    /// This member is required.
+    public var addresses: [MailManagerClientTypes.SavedAddress]?
+    /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        addresses: [MailManagerClientTypes.SavedAddress]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.addresses = addresses
+        self.nextToken = nextToken
     }
 }
 
@@ -3942,8 +4578,7 @@ public struct ListRelaysInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -3964,8 +4599,7 @@ extension MailManagerClientTypes {
             lastModifiedTimestamp: Foundation.Date? = nil,
             relayId: Swift.String? = nil,
             relayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTimestamp = lastModifiedTimestamp
             self.relayId = relayId
             self.relayName = relayName
@@ -3983,8 +4617,7 @@ public struct ListRelaysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relays: [MailManagerClientTypes.Relay]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relays = relays
     }
@@ -3999,8 +4632,7 @@ public struct ListRuleSetsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -4021,8 +4653,7 @@ extension MailManagerClientTypes {
             lastModificationDate: Foundation.Date? = nil,
             ruleSetId: Swift.String? = nil,
             ruleSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModificationDate = lastModificationDate
             self.ruleSetId = ruleSetId
             self.ruleSetName = ruleSetName
@@ -4040,8 +4671,7 @@ public struct ListRuleSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleSets: [MailManagerClientTypes.RuleSet]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleSets = ruleSets
     }
@@ -4054,8 +4684,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4067,8 +4696,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4082,8 +4710,7 @@ public struct ListTrafficPoliciesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -4107,8 +4734,7 @@ extension MailManagerClientTypes {
             defaultAction: MailManagerClientTypes.AcceptAction? = nil,
             trafficPolicyId: Swift.String? = nil,
             trafficPolicyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultAction = defaultAction
             self.trafficPolicyId = trafficPolicyId
             self.trafficPolicyName = trafficPolicyName
@@ -4125,11 +4751,37 @@ public struct ListTrafficPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trafficPolicies: [MailManagerClientTypes.TrafficPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trafficPolicies = trafficPolicies
     }
+}
+
+public struct RegisterMemberToAddressListInput: Swift.Sendable {
+    /// The address to be added to the address list.
+    /// This member is required.
+    public var address: Swift.String?
+    /// The unique identifier of the address list where the address should be added.
+    /// This member is required.
+    public var addressListId: Swift.String?
+
+    public init(
+        address: Swift.String? = nil,
+        addressListId: Swift.String? = nil
+    ) {
+        self.address = address
+        self.addressListId = addressListId
+    }
+}
+
+extension RegisterMemberToAddressListInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterMemberToAddressListInput(addressListId: \(Swift.String(describing: addressListId)), address: \"CONTENT_REDACTED\")"}
+}
+
+public struct RegisterMemberToAddressListOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct UpdateRelayInput: Swift.Sendable {
@@ -4151,8 +4803,7 @@ public struct UpdateRelayInput: Swift.Sendable {
         relayName: Swift.String? = nil,
         serverName: Swift.String? = nil,
         serverPort: Swift.Int? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.relayId = relayId
         self.relayName = relayName
@@ -4179,8 +4830,7 @@ public struct UpdateRuleSetInput: Swift.Sendable {
         ruleSetId: Swift.String? = nil,
         ruleSetName: Swift.String? = nil,
         rules: [MailManagerClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
         self.ruleSetName = ruleSetName
         self.rules = rules
@@ -4188,6 +4838,23 @@ public struct UpdateRuleSetInput: Swift.Sendable {
 }
 
 public struct UpdateRuleSetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StartAddressListImportJobInput: Swift.Sendable {
+    /// The identifier of the import job that needs to be started.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+public struct StartAddressListImportJobOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -4221,8 +4888,7 @@ public struct StartArchiveExportInput: Swift.Sendable {
         includeMetadata: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.exportDestinationConfiguration = exportDestinationConfiguration
         self.filters = filters
@@ -4240,8 +4906,7 @@ public struct StartArchiveExportOutput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -4269,8 +4934,7 @@ public struct StartArchiveSearchInput: Swift.Sendable {
         fromTimestamp: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.filters = filters
         self.fromTimestamp = fromTimestamp
@@ -4286,10 +4950,26 @@ public struct StartArchiveSearchOutput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
+}
+
+public struct StopAddressListImportJobInput: Swift.Sendable {
+    /// The identifier of the import job that needs to be stopped.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
+public struct StopAddressListImportJobOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// The request to stop an in-progress archive export job.
@@ -4300,8 +4980,7 @@ public struct StopArchiveExportInput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -4320,8 +4999,7 @@ public struct StopArchiveSearchInput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
 }
@@ -4343,8 +5021,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4374,8 +5051,7 @@ public struct UpdateTrafficPolicyInput: Swift.Sendable {
         policyStatements: [MailManagerClientTypes.PolicyStatement]? = nil,
         trafficPolicyId: Swift.String? = nil,
         trafficPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultAction = defaultAction
         self.maxMessageSizeBytes = maxMessageSizeBytes
         self.policyStatements = policyStatements
@@ -4400,16 +5076,10 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
-}
-
-extension UntagResourceInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
 public struct UntagResourceOutput: Swift.Sendable {
@@ -4427,6 +5097,20 @@ extension CreateAddonInstanceInput {
 extension CreateAddonSubscriptionInput {
 
     static func urlPathProvider(_ value: CreateAddonSubscriptionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateAddressListInput {
+
+    static func urlPathProvider(_ value: CreateAddressListInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateAddressListImportJobInput {
+
+    static func urlPathProvider(_ value: CreateAddressListImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4480,6 +5164,13 @@ extension DeleteAddonSubscriptionInput {
     }
 }
 
+extension DeleteAddressListInput {
+
+    static func urlPathProvider(_ value: DeleteAddressListInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteArchiveInput {
 
     static func urlPathProvider(_ value: DeleteArchiveInput) -> Swift.String? {
@@ -4515,6 +5206,13 @@ extension DeleteTrafficPolicyInput {
     }
 }
 
+extension DeregisterMemberFromAddressListInput {
+
+    static func urlPathProvider(_ value: DeregisterMemberFromAddressListInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetAddonInstanceInput {
 
     static func urlPathProvider(_ value: GetAddonInstanceInput) -> Swift.String? {
@@ -4525,6 +5223,20 @@ extension GetAddonInstanceInput {
 extension GetAddonSubscriptionInput {
 
     static func urlPathProvider(_ value: GetAddonSubscriptionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetAddressListInput {
+
+    static func urlPathProvider(_ value: GetAddressListInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetAddressListImportJobInput {
+
+    static func urlPathProvider(_ value: GetAddressListImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4578,6 +5290,13 @@ extension GetIngressPointInput {
     }
 }
 
+extension GetMemberOfAddressListInput {
+
+    static func urlPathProvider(_ value: GetMemberOfAddressListInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetRelayInput {
 
     static func urlPathProvider(_ value: GetRelayInput) -> Swift.String? {
@@ -4613,6 +5332,20 @@ extension ListAddonSubscriptionsInput {
     }
 }
 
+extension ListAddressListImportJobsInput {
+
+    static func urlPathProvider(_ value: ListAddressListImportJobsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListAddressListsInput {
+
+    static func urlPathProvider(_ value: ListAddressListsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListArchiveExportsInput {
 
     static func urlPathProvider(_ value: ListArchiveExportsInput) -> Swift.String? {
@@ -4637,6 +5370,13 @@ extension ListArchiveSearchesInput {
 extension ListIngressPointsInput {
 
     static func urlPathProvider(_ value: ListIngressPointsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListMembersOfAddressListInput {
+
+    static func urlPathProvider(_ value: ListMembersOfAddressListInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4669,6 +5409,20 @@ extension ListTrafficPoliciesInput {
     }
 }
 
+extension RegisterMemberToAddressListInput {
+
+    static func urlPathProvider(_ value: RegisterMemberToAddressListInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartAddressListImportJobInput {
+
+    static func urlPathProvider(_ value: StartAddressListImportJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartArchiveExportInput {
 
     static func urlPathProvider(_ value: StartArchiveExportInput) -> Swift.String? {
@@ -4679,6 +5433,13 @@ extension StartArchiveExportInput {
 extension StartArchiveSearchInput {
 
     static func urlPathProvider(_ value: StartArchiveSearchInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StopAddressListImportJobInput {
+
+    static func urlPathProvider(_ value: StopAddressListImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4766,6 +5527,27 @@ extension CreateAddonSubscriptionInput {
     }
 }
 
+extension CreateAddressListInput {
+
+    static func write(value: CreateAddressListInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressListName"].write(value.addressListName)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: MailManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateAddressListImportJobInput {
+
+    static func write(value: CreateAddressListImportJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressListId"].write(value.addressListId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ImportDataFormat"].write(value.importDataFormat, with: MailManagerClientTypes.ImportDataFormat.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension CreateArchiveInput {
 
     static func write(value: CreateArchiveInput?, to writer: SmithyJSON.Writer) throws {
@@ -4845,6 +5627,14 @@ extension DeleteAddonSubscriptionInput {
     }
 }
 
+extension DeleteAddressListInput {
+
+    static func write(value: DeleteAddressListInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressListId"].write(value.addressListId)
+    }
+}
+
 extension DeleteArchiveInput {
 
     static func write(value: DeleteArchiveInput?, to writer: SmithyJSON.Writer) throws {
@@ -4885,6 +5675,15 @@ extension DeleteTrafficPolicyInput {
     }
 }
 
+extension DeregisterMemberFromAddressListInput {
+
+    static func write(value: DeregisterMemberFromAddressListInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address)
+        try writer["AddressListId"].write(value.addressListId)
+    }
+}
+
 extension GetAddonInstanceInput {
 
     static func write(value: GetAddonInstanceInput?, to writer: SmithyJSON.Writer) throws {
@@ -4898,6 +5697,22 @@ extension GetAddonSubscriptionInput {
     static func write(value: GetAddonSubscriptionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AddonSubscriptionId"].write(value.addonSubscriptionId)
+    }
+}
+
+extension GetAddressListInput {
+
+    static func write(value: GetAddressListInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressListId"].write(value.addressListId)
+    }
+}
+
+extension GetAddressListImportJobInput {
+
+    static func write(value: GetAddressListImportJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobId"].write(value.jobId)
     }
 }
 
@@ -4957,6 +5772,15 @@ extension GetIngressPointInput {
     }
 }
 
+extension GetMemberOfAddressListInput {
+
+    static func write(value: GetMemberOfAddressListInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address)
+        try writer["AddressListId"].write(value.addressListId)
+    }
+}
+
 extension GetRelayInput {
 
     static func write(value: GetRelayInput?, to writer: SmithyJSON.Writer) throws {
@@ -4993,6 +5817,25 @@ extension ListAddonInstancesInput {
 extension ListAddonSubscriptionsInput {
 
     static func write(value: ListAddonSubscriptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
+extension ListAddressListImportJobsInput {
+
+    static func write(value: ListAddressListImportJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressListId"].write(value.addressListId)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
+extension ListAddressListsInput {
+
+    static func write(value: ListAddressListsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["NextToken"].write(value.nextToken)
         try writer["PageSize"].write(value.pageSize)
@@ -5037,6 +5880,17 @@ extension ListIngressPointsInput {
     }
 }
 
+extension ListMembersOfAddressListInput {
+
+    static func write(value: ListMembersOfAddressListInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressListId"].write(value.addressListId)
+        try writer["Filter"].write(value.filter, with: MailManagerClientTypes.AddressFilter.write(value:to:))
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
 extension ListRelaysInput {
 
     static func write(value: ListRelaysInput?, to writer: SmithyJSON.Writer) throws {
@@ -5072,6 +5926,23 @@ extension ListTrafficPoliciesInput {
     }
 }
 
+extension RegisterMemberToAddressListInput {
+
+    static func write(value: RegisterMemberToAddressListInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address)
+        try writer["AddressListId"].write(value.addressListId)
+    }
+}
+
+extension StartAddressListImportJobInput {
+
+    static func write(value: StartAddressListImportJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobId"].write(value.jobId)
+    }
+}
+
 extension StartArchiveExportInput {
 
     static func write(value: StartArchiveExportInput?, to writer: SmithyJSON.Writer) throws {
@@ -5095,6 +5966,14 @@ extension StartArchiveSearchInput {
         try writer["FromTimestamp"].writeTimestamp(value.fromTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["MaxResults"].write(value.maxResults)
         try writer["ToTimestamp"].writeTimestamp(value.toTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension StopAddressListImportJobInput {
+
+    static func write(value: StopAddressListImportJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobId"].write(value.jobId)
     }
 }
 
@@ -5213,6 +6092,31 @@ extension CreateAddonSubscriptionOutput {
     }
 }
 
+extension CreateAddressListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAddressListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAddressListOutput()
+        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateAddressListImportJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAddressListImportJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAddressListImportJobOutput()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.preSignedUrl = try reader["PreSignedUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateArchiveOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateArchiveOutput {
@@ -5287,6 +6191,13 @@ extension DeleteAddonSubscriptionOutput {
     }
 }
 
+extension DeleteAddressListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAddressListOutput {
+        return DeleteAddressListOutput()
+    }
+}
+
 extension DeleteArchiveOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteArchiveOutput {
@@ -5322,6 +6233,13 @@ extension DeleteTrafficPolicyOutput {
     }
 }
 
+extension DeregisterMemberFromAddressListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterMemberFromAddressListOutput {
+        return DeregisterMemberFromAddressListOutput()
+    }
+}
+
 extension GetAddonInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAddonInstanceOutput {
@@ -5347,6 +6265,45 @@ extension GetAddonSubscriptionOutput {
         value.addonName = try reader["AddonName"].readIfPresent()
         value.addonSubscriptionArn = try reader["AddonSubscriptionArn"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GetAddressListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAddressListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAddressListOutput()
+        value.addressListArn = try reader["AddressListArn"].readIfPresent() ?? ""
+        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
+        value.addressListName = try reader["AddressListName"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetAddressListImportJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAddressListImportJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAddressListImportJobOutput()
+        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
+        value.completedTimestamp = try reader["CompletedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.error = try reader["Error"].readIfPresent()
+        value.failedItemsCount = try reader["FailedItemsCount"].readIfPresent()
+        value.importDataFormat = try reader["ImportDataFormat"].readIfPresent(with: MailManagerClientTypes.ImportDataFormat.read(from:))
+        value.importedItemsCount = try reader["ImportedItemsCount"].readIfPresent()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.preSignedUrl = try reader["PreSignedUrl"].readIfPresent() ?? ""
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5465,6 +6422,19 @@ extension GetIngressPointOutput {
     }
 }
 
+extension GetMemberOfAddressListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMemberOfAddressListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMemberOfAddressListOutput()
+        value.address = try reader["Address"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetRelayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRelayOutput {
@@ -5546,6 +6516,32 @@ extension ListAddonSubscriptionsOutput {
     }
 }
 
+extension ListAddressListImportJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAddressListImportJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAddressListImportJobsOutput()
+        value.importJobs = try reader["ImportJobs"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.ImportJob.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAddressListsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAddressListsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAddressListsOutput()
+        value.addressLists = try reader["AddressLists"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.AddressList.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListArchiveExportsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListArchiveExportsOutput {
@@ -5593,6 +6589,19 @@ extension ListIngressPointsOutput {
         let reader = responseReader
         var value = ListIngressPointsOutput()
         value.ingressPoints = try reader["IngressPoints"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.IngressPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListMembersOfAddressListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMembersOfAddressListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMembersOfAddressListOutput()
+        value.addresses = try reader["Addresses"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.SavedAddress.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5649,6 +6658,20 @@ extension ListTrafficPoliciesOutput {
     }
 }
 
+extension RegisterMemberToAddressListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterMemberToAddressListOutput {
+        return RegisterMemberToAddressListOutput()
+    }
+}
+
+extension StartAddressListImportJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAddressListImportJobOutput {
+        return StartAddressListImportJobOutput()
+    }
+}
+
 extension StartArchiveExportOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartArchiveExportOutput {
@@ -5670,6 +6693,13 @@ extension StartArchiveSearchOutput {
         var value = StartArchiveSearchOutput()
         value.searchId = try reader["SearchId"].readIfPresent()
         return value
+    }
+}
+
+extension StopAddressListImportJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopAddressListImportJobOutput {
+        return StopAddressListImportJobOutput()
     }
 }
 
@@ -5763,6 +6793,41 @@ enum CreateAddonSubscriptionOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAddressListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAddressListImportJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5881,6 +6946,22 @@ enum DeleteAddonSubscriptionOutputError {
     }
 }
 
+enum DeleteAddressListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteArchiveOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5961,6 +7042,23 @@ enum DeleteTrafficPolicyOutputError {
     }
 }
 
+enum DeregisterMemberFromAddressListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAddonInstanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5985,6 +7083,40 @@ enum GetAddonSubscriptionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAddressListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAddressListImportJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6104,6 +7236,23 @@ enum GetIngressPointOutputError {
     }
 }
 
+enum GetMemberOfAddressListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRelayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6177,6 +7326,39 @@ enum ListAddonSubscriptionsOutputError {
     }
 }
 
+enum ListAddressListImportJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAddressListsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListArchiveExportsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6241,6 +7423,23 @@ enum ListIngressPointsOutputError {
     }
 }
 
+enum ListMembersOfAddressListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRelaysOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6298,6 +7497,43 @@ enum ListTrafficPoliciesOutputError {
     }
 }
 
+enum RegisterMemberToAddressListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartAddressListImportJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartArchiveExportOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6328,6 +7564,24 @@ enum StartArchiveSearchOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopAddressListImportJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6557,6 +7811,21 @@ extension ThrottlingException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension MailManagerClientTypes.ImportDataFormat {
+
+    static func write(value: MailManagerClientTypes.ImportDataFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImportDataType"].write(value.importDataType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ImportDataFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.ImportDataFormat()
+        value.importDataType = try reader["ImportDataType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7431,6 +8700,8 @@ extension MailManagerClientTypes.RuleBooleanToEvaluate {
         switch value {
             case let .attribute(attribute):
                 try writer["Attribute"].write(attribute)
+            case let .isinaddresslist(isinaddresslist):
+                try writer["IsInAddressList"].write(isinaddresslist, with: MailManagerClientTypes.RuleIsInAddressList.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -7442,9 +8713,28 @@ extension MailManagerClientTypes.RuleBooleanToEvaluate {
         switch name {
             case "Attribute":
                 return .attribute(try reader["Attribute"].read())
+            case "IsInAddressList":
+                return .isinaddresslist(try reader["IsInAddressList"].read(with: MailManagerClientTypes.RuleIsInAddressList.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.RuleIsInAddressList {
+
+    static func write(value: MailManagerClientTypes.RuleIsInAddressList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressLists"].writeList(value.addressLists, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Attribute"].write(value.attribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleIsInAddressList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.RuleIsInAddressList()
+        value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
+        value.addressLists = try reader["AddressLists"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -7525,6 +8815,8 @@ extension MailManagerClientTypes.IngressBooleanToEvaluate {
         switch value {
             case let .analysis(analysis):
                 try writer["Analysis"].write(analysis, with: MailManagerClientTypes.IngressAnalysis.write(value:to:))
+            case let .isinaddresslist(isinaddresslist):
+                try writer["IsInAddressList"].write(isinaddresslist, with: MailManagerClientTypes.IngressIsInAddressList.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -7536,9 +8828,28 @@ extension MailManagerClientTypes.IngressBooleanToEvaluate {
         switch name {
             case "Analysis":
                 return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.IngressAnalysis.read(from:)))
+            case "IsInAddressList":
+                return .isinaddresslist(try reader["IsInAddressList"].read(with: MailManagerClientTypes.IngressIsInAddressList.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.IngressIsInAddressList {
+
+    static func write(value: MailManagerClientTypes.IngressIsInAddressList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressLists"].writeList(value.addressLists, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Attribute"].write(value.attribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIsInAddressList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressIsInAddressList()
+        value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
+        value.addressLists = try reader["AddressLists"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -7715,6 +9026,41 @@ extension MailManagerClientTypes.AddonSubscription {
     }
 }
 
+extension MailManagerClientTypes.ImportJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ImportJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.ImportJob()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.preSignedUrl = try reader["PreSignedUrl"].readIfPresent() ?? ""
+        value.importedItemsCount = try reader["ImportedItemsCount"].readIfPresent()
+        value.failedItemsCount = try reader["FailedItemsCount"].readIfPresent()
+        value.importDataFormat = try reader["ImportDataFormat"].readIfPresent(with: MailManagerClientTypes.ImportDataFormat.read(from:))
+        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedTimestamp = try reader["CompletedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["Error"].readIfPresent()
+        return value
+    }
+}
+
+extension MailManagerClientTypes.AddressList {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddressList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.AddressList()
+        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
+        value.addressListArn = try reader["AddressListArn"].readIfPresent() ?? ""
+        value.addressListName = try reader["AddressListName"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension MailManagerClientTypes.ExportSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ExportSummary {
@@ -7760,6 +9106,17 @@ extension MailManagerClientTypes.IngressPoint {
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.aRecord = try reader["ARecord"].readIfPresent()
+        return value
+    }
+}
+
+extension MailManagerClientTypes.SavedAddress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SavedAddress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.SavedAddress()
+        value.address = try reader["Address"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7829,6 +9186,14 @@ extension MailManagerClientTypes.IngressPointConfiguration {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension MailManagerClientTypes.AddressFilter {
+
+    static func write(value: MailManagerClientTypes.AddressFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressPrefix"].write(value.addressPrefix)
     }
 }
 

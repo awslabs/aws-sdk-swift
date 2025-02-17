@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -73,8 +72,7 @@ extension RedshiftServerlessClientTypes {
             customDomainCertificateExpiryTime: Foundation.Date? = nil,
             customDomainName: Swift.String? = nil,
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
             self.customDomainName = customDomainName
@@ -95,8 +93,7 @@ extension RedshiftServerlessClientTypes {
         public init(
             parameterKey: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterKey = parameterKey
             self.parameterValue = parameterValue
         }
@@ -104,9 +101,9 @@ extension RedshiftServerlessClientTypes {
 }
 
 /// The submitted action has conflicts.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -122,16 +119,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -147,16 +143,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource that could not be found.
@@ -175,17 +170,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
 }
 
 /// The service limit was exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -201,16 +195,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request exceeded the number of tags allowed for a resource.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource that exceeded the number of tags allowed for a resource.
         public internal(set) var resourceName: Swift.String? = nil
@@ -228,17 +221,16 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
 }
 
 /// The input failed to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -254,8 +246,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -274,8 +265,7 @@ extension RedshiftServerlessClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -299,8 +289,7 @@ public struct ConvertRecoveryPointToSnapshotInput: Swift.Sendable {
         retentionPeriod: Swift.Int? = nil,
         snapshotName: Swift.String? = nil,
         tags: [RedshiftServerlessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.recoveryPointId = recoveryPointId
         self.retentionPeriod = retentionPeriod
         self.snapshotName = snapshotName
@@ -421,8 +410,7 @@ extension RedshiftServerlessClientTypes {
             snapshotRetentionStartTime: Foundation.Date? = nil,
             status: RedshiftServerlessClientTypes.SnapshotStatus? = nil,
             totalBackupSizeInMegaBytes: Swift.Double? = nil
-        )
-        {
+        ) {
             self.accountsWithProvisionedRestoreAccess = accountsWithProvisionedRestoreAccess
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
@@ -455,16 +443,15 @@ public struct ConvertRecoveryPointToSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftServerlessClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -481,8 +468,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -503,8 +489,7 @@ public struct CreateCustomDomainAssociationInput: Swift.Sendable {
         customDomainCertificateArn: Swift.String? = nil,
         customDomainName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainName = customDomainName
         self.workgroupName = workgroupName
@@ -526,8 +511,7 @@ public struct CreateCustomDomainAssociationOutput: Swift.Sendable {
         customDomainCertificateExpiryTime: Foundation.Date? = nil,
         customDomainName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
         self.customDomainName = customDomainName
@@ -556,8 +540,7 @@ public struct CreateEndpointAccessInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
         self.ownerAccount = ownerAccount
         self.subnetIds = subnetIds
@@ -587,8 +570,7 @@ extension RedshiftServerlessClientTypes {
             networkInterfaceId: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.ipv6Address = ipv6Address
             self.networkInterfaceId = networkInterfaceId
@@ -613,8 +595,7 @@ extension RedshiftServerlessClientTypes {
             networkInterfaces: [RedshiftServerlessClientTypes.NetworkInterface]? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInterfaces = networkInterfaces
             self.vpcEndpointId = vpcEndpointId
             self.vpcId = vpcId
@@ -634,8 +615,7 @@ extension RedshiftServerlessClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -678,8 +658,7 @@ extension RedshiftServerlessClientTypes {
             vpcEndpoint: RedshiftServerlessClientTypes.VpcEndpoint? = nil,
             vpcSecurityGroups: [RedshiftServerlessClientTypes.VpcSecurityGroupMembership]? = nil,
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.endpointArn = endpointArn
             self.endpointCreateTime = endpointCreateTime
@@ -700,8 +679,7 @@ public struct CreateEndpointAccessOutput: Swift.Sendable {
 
     public init(
         endpoint: RedshiftServerlessClientTypes.EndpointAccess? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -778,8 +756,7 @@ public struct CreateNamespaceInput: Swift.Sendable {
         namespaceName: Swift.String? = nil,
         redshiftIdcApplicationArn: Swift.String? = nil,
         tags: [RedshiftServerlessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
         self.adminUserPassword = adminUserPassword
         self.adminUsername = adminUsername
@@ -877,8 +854,7 @@ extension RedshiftServerlessClientTypes {
             namespaceId: Swift.String? = nil,
             namespaceName: Swift.String? = nil,
             status: RedshiftServerlessClientTypes.NamespaceStatus? = nil
-        )
-        {
+        ) {
             self.adminPasswordSecretArn = adminPasswordSecretArn
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
@@ -907,8 +883,7 @@ public struct CreateNamespaceOutput: Swift.Sendable {
 
     public init(
         namespace: RedshiftServerlessClientTypes.Namespace? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
     }
 }
@@ -945,8 +920,7 @@ extension RedshiftServerlessClientTypes {
             retentionPeriod: Swift.Int? = nil,
             snapshotNamePrefix: Swift.String? = nil,
             tags: [RedshiftServerlessClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.namespaceName = namespaceName
             self.retentionPeriod = retentionPeriod
             self.snapshotNamePrefix = snapshotNamePrefix
@@ -1004,8 +978,7 @@ public struct CreateScheduledActionInput: Swift.Sendable {
         scheduledActionName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         targetAction: RedshiftServerlessClientTypes.TargetAction? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.endTime = endTime
         self.namespaceName = namespaceName
@@ -1090,8 +1063,7 @@ extension RedshiftServerlessClientTypes {
             startTime: Foundation.Date? = nil,
             state: RedshiftServerlessClientTypes.State? = nil,
             targetAction: RedshiftServerlessClientTypes.TargetAction? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.namespaceName = namespaceName
             self.nextInvocations = nextInvocations
@@ -1113,8 +1085,7 @@ public struct CreateScheduledActionOutput: Swift.Sendable {
 
     public init(
         scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse? = nil
-    )
-    {
+    ) {
         self.scheduledAction = scheduledAction
     }
 }
@@ -1136,8 +1107,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
         retentionPeriod: Swift.Int? = nil,
         snapshotName: Swift.String? = nil,
         tags: [RedshiftServerlessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.namespaceName = namespaceName
         self.retentionPeriod = retentionPeriod
         self.snapshotName = snapshotName
@@ -1151,8 +1121,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftServerlessClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -1174,8 +1143,7 @@ public struct CreateSnapshotCopyConfigurationInput: Swift.Sendable {
         destinationRegion: Swift.String? = nil,
         namespaceName: Swift.String? = nil,
         snapshotRetentionPeriod: Swift.Int? = nil
-    )
-    {
+    ) {
         self.destinationKmsKeyId = destinationKmsKeyId
         self.destinationRegion = destinationRegion
         self.namespaceName = namespaceName
@@ -1207,8 +1175,7 @@ extension RedshiftServerlessClientTypes {
             snapshotCopyConfigurationArn: Swift.String? = nil,
             snapshotCopyConfigurationId: Swift.String? = nil,
             snapshotRetentionPeriod: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destinationKmsKeyId = destinationKmsKeyId
             self.destinationRegion = destinationRegion
             self.namespaceName = namespaceName
@@ -1226,8 +1193,7 @@ public struct CreateSnapshotCopyConfigurationOutput: Swift.Sendable {
 
     public init(
         snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration? = nil
-    )
-    {
+    ) {
         self.snapshotCopyConfiguration = snapshotCopyConfiguration
     }
 }
@@ -1346,8 +1312,7 @@ public struct CreateUsageLimitInput: Swift.Sendable {
         period: RedshiftServerlessClientTypes.UsageLimitPeriod? = nil,
         resourceArn: Swift.String? = nil,
         usageType: RedshiftServerlessClientTypes.UsageLimitUsageType? = nil
-    )
-    {
+    ) {
         self.amount = amount
         self.breachAction = breachAction
         self.period = period
@@ -1383,8 +1348,7 @@ extension RedshiftServerlessClientTypes {
             usageLimitArn: Swift.String? = nil,
             usageLimitId: Swift.String? = nil,
             usageType: RedshiftServerlessClientTypes.UsageLimitUsageType? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.breachAction = breachAction
             self.period = period
@@ -1402,16 +1366,15 @@ public struct CreateUsageLimitOutput: Swift.Sendable {
 
     public init(
         usageLimit: RedshiftServerlessClientTypes.UsageLimit? = nil
-    )
-    {
+    ) {
         self.usageLimit = usageLimit
     }
 }
 
 /// There is an insufficient capacity to perform the action.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1427,16 +1390,15 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
-public struct Ipv6CidrBlockNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct Ipv6CidrBlockNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1452,8 +1414,7 @@ public struct Ipv6CidrBlockNotFoundException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1499,8 +1460,7 @@ extension RedshiftServerlessClientTypes {
         public init(
             level: Swift.Int? = nil,
             status: RedshiftServerlessClientTypes.PerformanceTargetStatus? = nil
-        )
-        {
+        ) {
             self.level = level
             self.status = status
         }
@@ -1551,8 +1511,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [RedshiftServerlessClientTypes.Tag]? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
@@ -1584,8 +1543,7 @@ extension RedshiftServerlessClientTypes {
             address: Swift.String? = nil,
             port: Swift.Int? = nil,
             vpcEndpoints: [RedshiftServerlessClientTypes.VpcEndpoint]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.port = port
             self.vpcEndpoints = vpcEndpoints
@@ -1703,8 +1661,7 @@ extension RedshiftServerlessClientTypes {
             workgroupId: Swift.String? = nil,
             workgroupName: Swift.String? = nil,
             workgroupVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
@@ -1738,8 +1695,7 @@ public struct CreateWorkgroupOutput: Swift.Sendable {
 
     public init(
         workgroup: RedshiftServerlessClientTypes.Workgroup? = nil
-    )
-    {
+    ) {
         self.workgroup = workgroup
     }
 }
@@ -1751,8 +1707,7 @@ public struct DeleteEndpointAccessInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -1763,8 +1718,7 @@ public struct DeleteEndpointAccessOutput: Swift.Sendable {
 
     public init(
         endpoint: RedshiftServerlessClientTypes.EndpointAccess? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -1776,8 +1730,7 @@ public struct GetEndpointAccessInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -1788,8 +1741,7 @@ public struct GetEndpointAccessOutput: Swift.Sendable {
 
     public init(
         endpoint: RedshiftServerlessClientTypes.EndpointAccess? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -1812,8 +1764,7 @@ public struct ListEndpointAccessInput: Swift.Sendable {
         ownerAccount: Swift.String? = nil,
         vpcId: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.ownerAccount = ownerAccount
@@ -1832,8 +1783,7 @@ public struct ListEndpointAccessOutput: Swift.Sendable {
     public init(
         endpoints: [RedshiftServerlessClientTypes.EndpointAccess]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -1849,8 +1799,7 @@ public struct UpdateEndpointAccessInput: Swift.Sendable {
     public init(
         endpointName: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -1862,8 +1811,7 @@ public struct UpdateEndpointAccessOutput: Swift.Sendable {
 
     public init(
         endpoint: RedshiftServerlessClientTypes.EndpointAccess? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -1879,8 +1827,7 @@ public struct DeleteCustomDomainAssociationInput: Swift.Sendable {
     public init(
         customDomainName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainName = customDomainName
         self.workgroupName = workgroupName
     }
@@ -1904,8 +1851,7 @@ public struct DeleteNamespaceInput: Swift.Sendable {
         finalSnapshotName: Swift.String? = nil,
         finalSnapshotRetentionPeriod: Swift.Int? = nil,
         namespaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.finalSnapshotName = finalSnapshotName
         self.finalSnapshotRetentionPeriod = finalSnapshotRetentionPeriod
         self.namespaceName = namespaceName
@@ -1919,8 +1865,7 @@ public struct DeleteNamespaceOutput: Swift.Sendable {
 
     public init(
         namespace: RedshiftServerlessClientTypes.Namespace? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
     }
 }
@@ -1932,8 +1877,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1950,8 +1894,7 @@ public struct DeleteScheduledActionInput: Swift.Sendable {
 
     public init(
         scheduledActionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledActionName = scheduledActionName
     }
 }
@@ -1962,8 +1905,7 @@ public struct DeleteScheduledActionOutput: Swift.Sendable {
 
     public init(
         scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse? = nil
-    )
-    {
+    ) {
         self.scheduledAction = scheduledAction
     }
 }
@@ -1975,8 +1917,7 @@ public struct DeleteSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotName = snapshotName
     }
 }
@@ -1987,8 +1928,7 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftServerlessClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -2000,8 +1940,7 @@ public struct DeleteSnapshotCopyConfigurationInput: Swift.Sendable {
 
     public init(
         snapshotCopyConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotCopyConfigurationId = snapshotCopyConfigurationId
     }
 }
@@ -2013,8 +1952,7 @@ public struct DeleteSnapshotCopyConfigurationOutput: Swift.Sendable {
 
     public init(
         snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration? = nil
-    )
-    {
+    ) {
         self.snapshotCopyConfiguration = snapshotCopyConfiguration
     }
 }
@@ -2026,8 +1964,7 @@ public struct DeleteUsageLimitInput: Swift.Sendable {
 
     public init(
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usageLimitId = usageLimitId
     }
 }
@@ -2038,8 +1975,7 @@ public struct DeleteUsageLimitOutput: Swift.Sendable {
 
     public init(
         usageLimit: RedshiftServerlessClientTypes.UsageLimit? = nil
-    )
-    {
+    ) {
         self.usageLimit = usageLimit
     }
 }
@@ -2051,8 +1987,7 @@ public struct DeleteWorkgroupInput: Swift.Sendable {
 
     public init(
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workgroupName = workgroupName
     }
 }
@@ -2064,8 +1999,7 @@ public struct DeleteWorkgroupOutput: Swift.Sendable {
 
     public init(
         workgroup: RedshiftServerlessClientTypes.Workgroup? = nil
-    )
-    {
+    ) {
         self.workgroup = workgroup
     }
 }
@@ -2095,8 +2029,7 @@ public struct GetCredentialsInput: Swift.Sendable {
         dbName: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainName = customDomainName
         self.dbName = dbName
         self.durationSeconds = durationSeconds
@@ -2119,8 +2052,7 @@ public struct GetCredentialsOutput: Swift.Sendable {
         dbUser: Swift.String? = nil,
         expiration: Foundation.Date? = nil,
         nextRefreshTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dbPassword = dbPassword
         self.dbUser = dbUser
         self.expiration = expiration
@@ -2144,8 +2076,7 @@ public struct GetCustomDomainAssociationInput: Swift.Sendable {
     public init(
         customDomainName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainName = customDomainName
         self.workgroupName = workgroupName
     }
@@ -2166,8 +2097,7 @@ public struct GetCustomDomainAssociationOutput: Swift.Sendable {
         customDomainCertificateExpiryTime: Foundation.Date? = nil,
         customDomainName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
         self.customDomainName = customDomainName
@@ -2182,8 +2112,7 @@ public struct GetNamespaceInput: Swift.Sendable {
 
     public init(
         namespaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespaceName = namespaceName
     }
 }
@@ -2195,8 +2124,7 @@ public struct GetNamespaceOutput: Swift.Sendable {
 
     public init(
         namespace: RedshiftServerlessClientTypes.Namespace? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
     }
 }
@@ -2208,8 +2136,7 @@ public struct GetRecoveryPointInput: Swift.Sendable {
 
     public init(
         recoveryPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryPointId = recoveryPointId
     }
 }
@@ -2238,8 +2165,7 @@ extension RedshiftServerlessClientTypes {
             recoveryPointId: Swift.String? = nil,
             totalSizeInMegaBytes: Swift.Double? = nil,
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
             self.recoveryPointCreateTime = recoveryPointCreateTime
@@ -2256,8 +2182,7 @@ public struct GetRecoveryPointOutput: Swift.Sendable {
 
     public init(
         recoveryPoint: RedshiftServerlessClientTypes.RecoveryPoint? = nil
-    )
-    {
+    ) {
         self.recoveryPoint = recoveryPoint
     }
 }
@@ -2269,8 +2194,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2287,8 +2211,7 @@ extension RedshiftServerlessClientTypes {
         public init(
             policy: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
             self.resourceArn = resourceArn
         }
@@ -2301,8 +2224,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -2314,8 +2236,7 @@ public struct GetScheduledActionInput: Swift.Sendable {
 
     public init(
         scheduledActionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledActionName = scheduledActionName
     }
 }
@@ -2326,8 +2247,7 @@ public struct GetScheduledActionOutput: Swift.Sendable {
 
     public init(
         scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse? = nil
-    )
-    {
+    ) {
         self.scheduledAction = scheduledAction
     }
 }
@@ -2344,8 +2264,7 @@ public struct GetSnapshotInput: Swift.Sendable {
         ownerAccount: Swift.String? = nil,
         snapshotArn: Swift.String? = nil,
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ownerAccount = ownerAccount
         self.snapshotArn = snapshotArn
         self.snapshotName = snapshotName
@@ -2358,8 +2277,7 @@ public struct GetSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftServerlessClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -2371,8 +2289,7 @@ public struct GetTableRestoreStatusInput: Swift.Sendable {
 
     public init(
         tableRestoreRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.tableRestoreRequestId = tableRestoreRequestId
     }
 }
@@ -2431,8 +2348,7 @@ extension RedshiftServerlessClientTypes {
             targetSchemaName: Swift.String? = nil,
             totalDataInMegaBytes: Swift.Int? = nil,
             workgroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.namespaceName = namespaceName
             self.newTableName = newTableName
@@ -2459,8 +2375,7 @@ public struct GetTableRestoreStatusOutput: Swift.Sendable {
 
     public init(
         tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus? = nil
-    )
-    {
+    ) {
         self.tableRestoreStatus = tableRestoreStatus
     }
 }
@@ -2472,8 +2387,7 @@ public struct GetUsageLimitInput: Swift.Sendable {
 
     public init(
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usageLimitId = usageLimitId
     }
 }
@@ -2484,8 +2398,7 @@ public struct GetUsageLimitOutput: Swift.Sendable {
 
     public init(
         usageLimit: RedshiftServerlessClientTypes.UsageLimit? = nil
-    )
-    {
+    ) {
         self.usageLimit = usageLimit
     }
 }
@@ -2497,8 +2410,7 @@ public struct GetWorkgroupInput: Swift.Sendable {
 
     public init(
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workgroupName = workgroupName
     }
 }
@@ -2510,16 +2422,15 @@ public struct GetWorkgroupOutput: Swift.Sendable {
 
     public init(
         workgroup: RedshiftServerlessClientTypes.Workgroup? = nil
-    )
-    {
+    ) {
         self.workgroup = workgroup
     }
 }
 
 /// The provided pagination token is invalid.
-public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2535,8 +2446,7 @@ public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2556,8 +2466,7 @@ public struct ListCustomDomainAssociationsInput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainName = customDomainName
         self.maxResults = maxResults
@@ -2574,9 +2483,111 @@ public struct ListCustomDomainAssociationsOutput: Swift.Sendable {
     public init(
         associations: [RedshiftServerlessClientTypes.Association]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListManagedWorkgroupsInput: Swift.Sendable {
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+    public var maxResults: Swift.Int?
+    /// If your initial ListManagedWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListManagedWorkgroups operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) for the managed workgroup in the AWS Glue Data Catalog.
+    public var sourceArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sourceArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sourceArn = sourceArn
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    public enum ManagedWorkgroupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleting
+        case modifying
+        case notAvailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedWorkgroupStatus] {
+            return [
+                .available,
+                .creating,
+                .deleting,
+                .modifying,
+                .notAvailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .modifying: return "MODIFYING"
+            case .notAvailable: return "NOT_AVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// A collection of Amazon Redshift compute resources managed by AWS Glue.
+    public struct ManagedWorkgroupListItem: Swift.Sendable {
+        /// The creation date of the managed workgroup.
+        public var creationDate: Foundation.Date?
+        /// The unique identifier of the managed workgroup.
+        public var managedWorkgroupId: Swift.String?
+        /// The name of the managed workgroup.
+        public var managedWorkgroupName: Swift.String?
+        /// The Amazon Resource Name (ARN) for the managed workgroup in the AWS Glue Data Catalog.
+        public var sourceArn: Swift.String?
+        /// The status of the managed workgroup.
+        public var status: RedshiftServerlessClientTypes.ManagedWorkgroupStatus?
+
+        public init(
+            creationDate: Foundation.Date? = nil,
+            managedWorkgroupId: Swift.String? = nil,
+            managedWorkgroupName: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: RedshiftServerlessClientTypes.ManagedWorkgroupStatus? = nil
+        ) {
+            self.creationDate = creationDate
+            self.managedWorkgroupId = managedWorkgroupId
+            self.managedWorkgroupName = managedWorkgroupName
+            self.sourceArn = sourceArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListManagedWorkgroupsOutput: Swift.Sendable {
+    /// The returned array of managed workgroups.
+    public var managedWorkgroups: [RedshiftServerlessClientTypes.ManagedWorkgroupListItem]?
+    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
+    public var nextToken: Swift.String?
+
+    public init(
+        managedWorkgroups: [RedshiftServerlessClientTypes.ManagedWorkgroupListItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.managedWorkgroups = managedWorkgroups
         self.nextToken = nextToken
     }
 }
@@ -2590,8 +2601,7 @@ public struct ListNamespacesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2607,8 +2617,7 @@ public struct ListNamespacesOutput: Swift.Sendable {
     public init(
         namespaces: [RedshiftServerlessClientTypes.Namespace]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespaces = namespaces
         self.nextToken = nextToken
     }
@@ -2635,8 +2644,7 @@ public struct ListRecoveryPointsInput: Swift.Sendable {
         namespaceName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.namespaceArn = namespaceArn
@@ -2655,8 +2663,7 @@ public struct ListRecoveryPointsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recoveryPoints: [RedshiftServerlessClientTypes.RecoveryPoint]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recoveryPoints = recoveryPoints
     }
@@ -2674,8 +2681,7 @@ public struct ListScheduledActionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namespaceName = namespaceName
         self.nextToken = nextToken
@@ -2694,8 +2700,7 @@ extension RedshiftServerlessClientTypes {
         public init(
             namespaceName: Swift.String? = nil,
             scheduledActionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespaceName = namespaceName
             self.scheduledActionName = scheduledActionName
         }
@@ -2711,8 +2716,7 @@ public struct ListScheduledActionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduledActions: [RedshiftServerlessClientTypes.ScheduledActionAssociation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduledActions = scheduledActions
     }
@@ -2730,8 +2734,7 @@ public struct ListSnapshotCopyConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namespaceName = namespaceName
         self.nextToken = nextToken
@@ -2748,8 +2751,7 @@ public struct ListSnapshotCopyConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshotCopyConfigurations: [RedshiftServerlessClientTypes.SnapshotCopyConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshotCopyConfigurations = snapshotCopyConfigurations
     }
@@ -2779,8 +2781,7 @@ public struct ListSnapshotsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.namespaceArn = namespaceArn
@@ -2800,8 +2801,7 @@ public struct ListSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshots: [RedshiftServerlessClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshots = snapshots
     }
@@ -2822,8 +2822,7 @@ public struct ListTableRestoreStatusInput: Swift.Sendable {
         namespaceName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namespaceName = namespaceName
         self.nextToken = nextToken
@@ -2840,8 +2839,7 @@ public struct ListTableRestoreStatusOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableRestoreStatuses: [RedshiftServerlessClientTypes.TableRestoreStatus]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableRestoreStatuses = tableRestoreStatuses
     }
@@ -2854,8 +2852,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2866,8 +2863,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [RedshiftServerlessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2887,8 +2883,7 @@ public struct ListUsageLimitsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         usageType: RedshiftServerlessClientTypes.UsageLimitUsageType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -2905,8 +2900,7 @@ public struct ListUsageLimitsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         usageLimits: [RedshiftServerlessClientTypes.UsageLimit]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.usageLimits = usageLimits
     }
@@ -2924,8 +2918,7 @@ public struct ListWorkgroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         ownerAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.ownerAccount = ownerAccount
@@ -2942,8 +2935,7 @@ public struct ListWorkgroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workgroups: [RedshiftServerlessClientTypes.Workgroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workgroups = workgroups
     }
@@ -2980,8 +2972,7 @@ public struct UpdateNamespaceInput: Swift.Sendable {
         logExports: [RedshiftServerlessClientTypes.LogExport]? = nil,
         manageAdminPassword: Swift.Bool? = nil,
         namespaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
         self.adminUserPassword = adminUserPassword
         self.adminUsername = adminUsername
@@ -3006,8 +2997,7 @@ public struct UpdateNamespaceOutput: Swift.Sendable {
 
     public init(
         namespace: RedshiftServerlessClientTypes.Namespace? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
     }
 }
@@ -3023,8 +3013,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -3036,8 +3025,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: RedshiftServerlessClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -3057,8 +3045,7 @@ public struct RestoreFromRecoveryPointInput: Swift.Sendable {
         namespaceName: Swift.String? = nil,
         recoveryPointId: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespaceName = namespaceName
         self.recoveryPointId = recoveryPointId
         self.workgroupName = workgroupName
@@ -3074,8 +3061,7 @@ public struct RestoreFromRecoveryPointOutput: Swift.Sendable {
     public init(
         namespace: RedshiftServerlessClientTypes.Namespace? = nil,
         recoveryPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
         self.recoveryPointId = recoveryPointId
     }
@@ -3120,8 +3106,7 @@ public struct RestoreTableFromRecoveryPointInput: Swift.Sendable {
         targetDatabaseName: Swift.String? = nil,
         targetSchemaName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifier
         self.namespaceName = namespaceName
         self.newTableName = newTableName
@@ -3141,8 +3126,7 @@ public struct RestoreTableFromRecoveryPointOutput: Swift.Sendable {
 
     public init(
         tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus? = nil
-    )
-    {
+    ) {
         self.tableRestoreStatus = tableRestoreStatus
     }
 }
@@ -3179,8 +3163,7 @@ public struct UpdateScheduledActionInput: Swift.Sendable {
         scheduledActionName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         targetAction: RedshiftServerlessClientTypes.TargetAction? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.endTime = endTime
         self.roleArn = roleArn
@@ -3198,8 +3181,7 @@ public struct UpdateScheduledActionOutput: Swift.Sendable {
 
     public init(
         scheduledAction: RedshiftServerlessClientTypes.ScheduledActionResponse? = nil
-    )
-    {
+    ) {
         self.scheduledAction = scheduledAction
     }
 }
@@ -3230,8 +3212,7 @@ public struct RestoreFromSnapshotInput: Swift.Sendable {
         snapshotArn: Swift.String? = nil,
         snapshotName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
         self.manageAdminPassword = manageAdminPassword
         self.namespaceName = namespaceName
@@ -3254,8 +3235,7 @@ public struct RestoreFromSnapshotOutput: Swift.Sendable {
         namespace: RedshiftServerlessClientTypes.Namespace? = nil,
         ownerAccount: Swift.String? = nil,
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespace = namespace
         self.ownerAccount = ownerAccount
         self.snapshotName = snapshotName
@@ -3301,8 +3281,7 @@ public struct RestoreTableFromSnapshotInput: Swift.Sendable {
         targetDatabaseName: Swift.String? = nil,
         targetSchemaName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifier
         self.namespaceName = namespaceName
         self.newTableName = newTableName
@@ -3322,8 +3301,7 @@ public struct RestoreTableFromSnapshotOutput: Swift.Sendable {
 
     public init(
         tableRestoreStatus: RedshiftServerlessClientTypes.TableRestoreStatus? = nil
-    )
-    {
+    ) {
         self.tableRestoreStatus = tableRestoreStatus
     }
 }
@@ -3338,8 +3316,7 @@ public struct UpdateSnapshotInput: Swift.Sendable {
     public init(
         retentionPeriod: Swift.Int? = nil,
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.retentionPeriod = retentionPeriod
         self.snapshotName = snapshotName
     }
@@ -3351,8 +3328,7 @@ public struct UpdateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftServerlessClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -3367,8 +3343,7 @@ public struct UpdateSnapshotCopyConfigurationInput: Swift.Sendable {
     public init(
         snapshotCopyConfigurationId: Swift.String? = nil,
         snapshotRetentionPeriod: Swift.Int? = nil
-    )
-    {
+    ) {
         self.snapshotCopyConfigurationId = snapshotCopyConfigurationId
         self.snapshotRetentionPeriod = snapshotRetentionPeriod
     }
@@ -3381,8 +3356,7 @@ public struct UpdateSnapshotCopyConfigurationOutput: Swift.Sendable {
 
     public init(
         snapshotCopyConfiguration: RedshiftServerlessClientTypes.SnapshotCopyConfiguration? = nil
-    )
-    {
+    ) {
         self.snapshotCopyConfiguration = snapshotCopyConfiguration
     }
 }
@@ -3398,8 +3372,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [RedshiftServerlessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3421,8 +3394,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3448,8 +3420,7 @@ public struct UpdateCustomDomainAssociationInput: Swift.Sendable {
         customDomainCertificateArn: Swift.String? = nil,
         customDomainName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainName = customDomainName
         self.workgroupName = workgroupName
@@ -3471,8 +3442,7 @@ public struct UpdateCustomDomainAssociationOutput: Swift.Sendable {
         customDomainCertificateExpiryTime: Foundation.Date? = nil,
         customDomainName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
         self.customDomainName = customDomainName
@@ -3493,8 +3463,7 @@ public struct UpdateUsageLimitInput: Swift.Sendable {
         amount: Swift.Int? = nil,
         breachAction: RedshiftServerlessClientTypes.UsageLimitBreachAction? = nil,
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.amount = amount
         self.breachAction = breachAction
         self.usageLimitId = usageLimitId
@@ -3507,8 +3476,7 @@ public struct UpdateUsageLimitOutput: Swift.Sendable {
 
     public init(
         usageLimit: RedshiftServerlessClientTypes.UsageLimit? = nil
-    )
-    {
+    ) {
         self.usageLimit = usageLimit
     }
 }
@@ -3550,8 +3518,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
@@ -3573,8 +3540,7 @@ public struct UpdateWorkgroupOutput: Swift.Sendable {
 
     public init(
         workgroup: RedshiftServerlessClientTypes.Workgroup? = nil
-    )
-    {
+    ) {
         self.workgroup = workgroup
     }
 }
@@ -3792,6 +3758,13 @@ extension ListCustomDomainAssociationsInput {
 extension ListEndpointAccessInput {
 
     static func urlPathProvider(_ value: ListEndpointAccessInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListManagedWorkgroupsInput {
+
+    static func urlPathProvider(_ value: ListManagedWorkgroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4261,6 +4234,8 @@ extension ListCustomDomainAssociationsInput {
         guard let value else { return }
         try writer["customDomainCertificateArn"].write(value.customDomainCertificateArn)
         try writer["customDomainName"].write(value.customDomainName)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4268,17 +4243,30 @@ extension ListEndpointAccessInput {
 
     static func write(value: ListEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccount"].write(value.ownerAccount)
         try writer["vpcId"].write(value.vpcId)
         try writer["workgroupName"].write(value.workgroupName)
     }
 }
 
+extension ListManagedWorkgroupsInput {
+
+    static func write(value: ListManagedWorkgroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sourceArn"].write(value.sourceArn)
+    }
+}
+
 extension ListNamespacesInput {
 
     static func write(value: ListNamespacesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4287,8 +4275,10 @@ extension ListRecoveryPointsInput {
     static func write(value: ListRecoveryPointsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceArn"].write(value.namespaceArn)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
@@ -4297,7 +4287,9 @@ extension ListScheduledActionsInput {
 
     static func write(value: ListScheduledActionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4305,7 +4297,9 @@ extension ListSnapshotCopyConfigurationsInput {
 
     static func write(value: ListSnapshotCopyConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4314,8 +4308,10 @@ extension ListSnapshotsInput {
     static func write(value: ListSnapshotsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceArn"].write(value.namespaceArn)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccount"].write(value.ownerAccount)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
@@ -4325,7 +4321,9 @@ extension ListTableRestoreStatusInput {
 
     static func write(value: ListTableRestoreStatusInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
         try writer["workgroupName"].write(value.workgroupName)
     }
 }
@@ -4342,6 +4340,8 @@ extension ListUsageLimitsInput {
 
     static func write(value: ListUsageLimitsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["resourceArn"].write(value.resourceArn)
         try writer["usageType"].write(value.usageType)
     }
@@ -4351,6 +4351,8 @@ extension ListWorkgroupsInput {
 
     static func write(value: ListWorkgroupsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccount"].write(value.ownerAccount)
     }
 }
@@ -4904,6 +4906,19 @@ extension ListEndpointAccessOutput {
         let reader = responseReader
         var value = ListEndpointAccessOutput()
         value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.EndpointAccess.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListManagedWorkgroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListManagedWorkgroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListManagedWorkgroupsOutput()
+        value.managedWorkgroups = try reader["managedWorkgroups"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.ManagedWorkgroupListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5733,6 +5748,21 @@ enum ListEndpointAccessOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListManagedWorkgroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6684,6 +6714,20 @@ extension RedshiftServerlessClientTypes.Association {
         value.customDomainCertificateExpiryTime = try reader["customDomainCertificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customDomainName = try reader["customDomainName"].readIfPresent()
         value.workgroupName = try reader["workgroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ManagedWorkgroupListItem()
+        value.managedWorkgroupName = try reader["managedWorkgroupName"].readIfPresent()
+        value.managedWorkgroupId = try reader["managedWorkgroupId"].readIfPresent()
+        value.sourceArn = try reader["sourceArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

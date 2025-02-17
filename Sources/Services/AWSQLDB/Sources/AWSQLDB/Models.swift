@@ -37,9 +37,9 @@ public struct DeleteLedgerOutput: Swift.Sendable {
 }
 
 /// One or more parameters in the request aren't valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the invalid parameter.
         public internal(set) var parameterName: Swift.String? = nil
@@ -57,17 +57,16 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         parameterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.parameterName = parameterName
     }
 }
 
 /// The specified resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource.
         public internal(set) var resourceName: Swift.String? = nil
@@ -88,8 +87,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -97,9 +95,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The operation failed because a condition wasn't satisfied in advance.
-public struct ResourcePreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource.
         public internal(set) var resourceName: Swift.String? = nil
@@ -120,8 +118,7 @@ public struct ResourcePreconditionNotMetException: ClientRuntime.ModeledError, A
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -139,8 +136,7 @@ public struct CancelJournalKinesisStreamInput: Swift.Sendable {
     public init(
         ledgerName: Swift.String? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ledgerName = ledgerName
         self.streamId = streamId
     }
@@ -152,16 +148,15 @@ public struct CancelJournalKinesisStreamOutput: Swift.Sendable {
 
     public init(
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamId = streamId
     }
 }
 
 /// You have reached the limit on the maximum number of resources allowed.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The type of resource.
         public internal(set) var resourceType: Swift.String? = nil
@@ -179,17 +174,16 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// The specified resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource.
         public internal(set) var resourceName: Swift.String? = nil
@@ -210,8 +204,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -219,9 +212,9 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified resource can't be modified at this time.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource.
         public internal(set) var resourceName: Swift.String? = nil
@@ -242,8 +235,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -326,8 +318,7 @@ public struct CreateLedgerInput: Swift.Sendable {
         name: Swift.String? = nil,
         permissionsMode: QLDBClientTypes.PermissionsMode? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
         self.kmsKey = kmsKey
         self.name = name
@@ -395,8 +386,7 @@ public struct CreateLedgerOutput: Swift.Sendable {
         name: Swift.String? = nil,
         permissionsMode: QLDBClientTypes.PermissionsMode? = nil,
         state: QLDBClientTypes.LedgerState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.deletionProtection = deletionProtection
@@ -414,8 +404,7 @@ public struct DeleteLedgerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -431,8 +420,7 @@ public struct DescribeJournalKinesisStreamInput: Swift.Sendable {
     public init(
         ledgerName: Swift.String? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ledgerName = ledgerName
         self.streamId = streamId
     }
@@ -480,8 +468,7 @@ extension QLDBClientTypes {
         public init(
             aggregationEnabled: Swift.Bool? = nil,
             streamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggregationEnabled = aggregationEnabled
             self.streamArn = streamArn
         }
@@ -571,8 +558,7 @@ extension QLDBClientTypes {
             status: QLDBClientTypes.StreamStatus? = nil,
             streamId: Swift.String? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.errorCause = errorCause
@@ -594,8 +580,7 @@ public struct DescribeJournalKinesisStreamOutput: Swift.Sendable {
 
     public init(
         stream: QLDBClientTypes.JournalKinesisStreamDescription? = nil
-    )
-    {
+    ) {
         self.stream = stream
     }
 }
@@ -611,8 +596,7 @@ public struct DescribeJournalS3ExportInput: Swift.Sendable {
     public init(
         exportId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
         self.name = name
     }
@@ -695,8 +679,7 @@ extension QLDBClientTypes {
         public init(
             kmsKeyArn: Swift.String? = nil,
             objectEncryptionType: QLDBClientTypes.S3ObjectEncryptionType? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.objectEncryptionType = objectEncryptionType
         }
@@ -727,8 +710,7 @@ extension QLDBClientTypes {
             bucket: Swift.String? = nil,
             encryptionConfiguration: QLDBClientTypes.S3EncryptionConfiguration? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.encryptionConfiguration = encryptionConfiguration
             self.`prefix` = `prefix`
@@ -813,8 +795,7 @@ extension QLDBClientTypes {
             roleArn: Swift.String? = nil,
             s3ExportConfiguration: QLDBClientTypes.S3ExportConfiguration? = nil,
             status: QLDBClientTypes.ExportStatus? = nil
-        )
-        {
+        ) {
             self.exclusiveEndTime = exclusiveEndTime
             self.exportCreationTime = exportCreationTime
             self.exportId = exportId
@@ -835,8 +816,7 @@ public struct DescribeJournalS3ExportOutput: Swift.Sendable {
 
     public init(
         exportDescription: QLDBClientTypes.JournalS3ExportDescription? = nil
-    )
-    {
+    ) {
         self.exportDescription = exportDescription
     }
 }
@@ -848,8 +828,7 @@ public struct DescribeLedgerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -909,8 +888,7 @@ extension QLDBClientTypes {
             encryptionStatus: QLDBClientTypes.EncryptionStatus? = nil,
             inaccessibleKmsKeyDateTime: Foundation.Date? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionStatus = encryptionStatus
             self.inaccessibleKmsKeyDateTime = inaccessibleKmsKeyDateTime
             self.kmsKeyArn = kmsKeyArn
@@ -942,8 +920,7 @@ public struct DescribeLedgerOutput: Swift.Sendable {
         name: Swift.String? = nil,
         permissionsMode: QLDBClientTypes.PermissionsMode? = nil,
         state: QLDBClientTypes.LedgerState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.deletionProtection = deletionProtection
@@ -987,8 +964,7 @@ public struct ExportJournalToS3Input: Swift.Sendable {
         outputFormat: QLDBClientTypes.OutputFormat? = nil,
         roleArn: Swift.String? = nil,
         s3ExportConfiguration: QLDBClientTypes.S3ExportConfiguration? = nil
-    )
-    {
+    ) {
         self.exclusiveEndTime = exclusiveEndTime
         self.inclusiveStartTime = inclusiveStartTime
         self.name = name
@@ -1005,8 +981,7 @@ public struct ExportJournalToS3Output: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -1020,8 +995,7 @@ extension QLDBClientTypes {
 
         public init(
             ionText: Swift.String? = nil
-        )
-        {
+        ) {
             self.ionText = ionText
         }
     }
@@ -1047,8 +1021,7 @@ public struct GetBlockInput: Swift.Sendable {
         blockAddress: QLDBClientTypes.ValueHolder? = nil,
         digestTipAddress: QLDBClientTypes.ValueHolder? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockAddress = blockAddress
         self.digestTipAddress = digestTipAddress
         self.name = name
@@ -1070,8 +1043,7 @@ public struct GetBlockOutput: Swift.Sendable {
     public init(
         block: QLDBClientTypes.ValueHolder? = nil,
         proof: QLDBClientTypes.ValueHolder? = nil
-    )
-    {
+    ) {
         self.block = block
         self.proof = proof
     }
@@ -1089,8 +1061,7 @@ public struct GetDigestInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1106,8 +1077,7 @@ public struct GetDigestOutput: Swift.Sendable {
     public init(
         digest: Foundation.Data? = nil,
         digestTipAddress: QLDBClientTypes.ValueHolder? = nil
-    )
-    {
+    ) {
         self.digest = digest
         self.digestTipAddress = digestTipAddress
     }
@@ -1136,8 +1106,7 @@ public struct GetRevisionInput: Swift.Sendable {
         digestTipAddress: QLDBClientTypes.ValueHolder? = nil,
         documentId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockAddress = blockAddress
         self.digestTipAddress = digestTipAddress
         self.documentId = documentId
@@ -1160,8 +1129,7 @@ public struct GetRevisionOutput: Swift.Sendable {
     public init(
         proof: QLDBClientTypes.ValueHolder? = nil,
         revision: QLDBClientTypes.ValueHolder? = nil
-    )
-    {
+    ) {
         self.proof = proof
         self.revision = revision
     }
@@ -1185,8 +1153,7 @@ public struct ListJournalKinesisStreamsForLedgerInput: Swift.Sendable {
         ledgerName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ledgerName = ledgerName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1204,8 +1171,7 @@ public struct ListJournalKinesisStreamsForLedgerOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         streams: [QLDBClientTypes.JournalKinesisStreamDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streams = streams
     }
@@ -1220,8 +1186,7 @@ public struct ListJournalS3ExportsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1238,8 +1203,7 @@ public struct ListJournalS3ExportsOutput: Swift.Sendable {
     public init(
         journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.journalS3Exports = journalS3Exports
         self.nextToken = nextToken
     }
@@ -1258,8 +1222,7 @@ public struct ListJournalS3ExportsForLedgerInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -1277,8 +1240,7 @@ public struct ListJournalS3ExportsForLedgerOutput: Swift.Sendable {
     public init(
         journalS3Exports: [QLDBClientTypes.JournalS3ExportDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.journalS3Exports = journalS3Exports
         self.nextToken = nextToken
     }
@@ -1293,8 +1255,7 @@ public struct ListLedgersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1315,8 +1276,7 @@ extension QLDBClientTypes {
             creationDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: QLDBClientTypes.LedgerState? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.name = name
             self.state = state
@@ -1337,8 +1297,7 @@ public struct ListLedgersOutput: Swift.Sendable {
     public init(
         ledgers: [QLDBClientTypes.LedgerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ledgers = ledgers
         self.nextToken = nextToken
     }
@@ -1351,8 +1310,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1363,8 +1321,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1398,8 +1355,7 @@ public struct StreamJournalToKinesisInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.exclusiveEndTime = exclusiveEndTime
         self.inclusiveStartTime = inclusiveStartTime
         self.kinesisConfiguration = kinesisConfiguration
@@ -1416,8 +1372,7 @@ public struct StreamJournalToKinesisOutput: Swift.Sendable {
 
     public init(
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamId = streamId
     }
 }
@@ -1433,8 +1388,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1456,8 +1410,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1501,8 +1454,7 @@ public struct UpdateLedgerInput: Swift.Sendable {
         deletionProtection: Swift.Bool? = nil,
         kmsKey: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
         self.kmsKey = kmsKey
         self.name = name
@@ -1530,8 +1482,7 @@ public struct UpdateLedgerOutput: Swift.Sendable {
         encryptionDescription: QLDBClientTypes.LedgerEncryptionDescription? = nil,
         name: Swift.String? = nil,
         state: QLDBClientTypes.LedgerState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.deletionProtection = deletionProtection
@@ -1559,8 +1510,7 @@ public struct UpdateLedgerPermissionsModeInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         permissionsMode: QLDBClientTypes.PermissionsMode? = nil
-    )
-    {
+    ) {
         self.name = name
         self.permissionsMode = permissionsMode
     }
@@ -1578,8 +1528,7 @@ public struct UpdateLedgerPermissionsModeOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
         permissionsMode: QLDBClientTypes.PermissionsMode? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.permissionsMode = permissionsMode
@@ -2058,7 +2007,7 @@ extension GetDigestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDigestOutput()
-        value.digest = try reader["Digest"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.digest = try reader["Digest"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.digestTipAddress = try reader["DigestTipAddress"].readIfPresent(with: QLDBClientTypes.ValueHolder.read(from:))
         return value
     }

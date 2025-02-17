@@ -5,6 +5,7 @@ import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1P
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.swift.codegen.core.GenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+
 class PresignerGeneratorTests {
     @Test
     fun `001 presignable on getFooInput`() {
@@ -36,6 +37,8 @@ extension GetFooInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -53,10 +56,12 @@ extension GetFooInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFooOutput>())
-        let endpointParams = EndpointParams()
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetFooOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFooInput, GetFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFooOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFooInput, GetFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Example")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFoo")
@@ -75,6 +80,7 @@ extension GetFooInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
     @Test
     fun `002 presignable on postFooInput`() {
         val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
@@ -105,6 +111,8 @@ extension PostFooInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -125,10 +133,12 @@ extension PostFooInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostFooOutput>())
-        let endpointParams = EndpointParams()
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PostFooOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PostFooInput, PostFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PostFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PostFooOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PostFooInput, PostFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Example")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PostFoo")
@@ -147,6 +157,7 @@ extension PostFooInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
     @Test
     fun `003 presignable on putFooInput`() {
         val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
@@ -177,6 +188,8 @@ extension PutFooInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -197,10 +210,12 @@ extension PutFooInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFooOutput>())
-        let endpointParams = EndpointParams()
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutFooOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFooInput, PutFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFooOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFooInput, PutFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Example")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutFoo")
@@ -219,6 +234,7 @@ extension PutFooInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
     @Test
     fun `004 presignable on S3`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
@@ -249,6 +265,8 @@ extension PutObjectInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -269,11 +287,13 @@ extension PutObjectInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
-        let endpointParams = EndpointParams()
-        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutObjectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutObjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutObject")
@@ -292,12 +312,26 @@ extension PutObjectInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
         val presigner = PresignerGenerator()
         val generator = AWSRestJson1ProtocolGenerator()
-        val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
-        val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
+        val codegenContext =
+            GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
+        val protocolGenerationContext =
+            ProtocolGenerator.GenerationContext(
+                context.ctx.settings,
+                context.ctx.model,
+                context.ctx.service,
+                context.ctx.symbolProvider,
+                listOf(),
+                RestJson1Trait.ID,
+                context.ctx.delegator,
+            )
         codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
         presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
         context.ctx.delegator.flushWriters()

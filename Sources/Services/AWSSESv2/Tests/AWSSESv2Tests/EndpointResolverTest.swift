@@ -953,4 +953,234 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// Valid EndpointId with dualstack and FIPS disabled. i.e, IPv4 Only stack with no FIPS
+    func testResolve48() throws {
+        let endpointParams = EndpointParams(
+            endpointId: "abc123.456def",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "ses",
+                        "name": "sigv4a",
+                        "signingRegionSet": [
+                            "*"
+                        ] as [AnyHashable]
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://abc123.456def.endpoints.email.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Valid EndpointId with dualstack enabled
+    func testResolve49() throws {
+        let endpointParams = EndpointParams(
+            endpointId: "abc123.456def",
+            region: "us-west-2",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "ses",
+                        "name": "sigv4a",
+                        "signingRegionSet": [
+                            "*"
+                        ] as [AnyHashable]
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://abc123.456def.endpoints.email.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Valid EndpointId with FIPS set, dualstack disabled
+    func testResolve50() throws {
+        let endpointParams = EndpointParams(
+            endpointId: "abc123.456def",
+            region: "ap-northeast-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS is not supported with multi-region endpoints", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Valid EndpointId with both dualstack and FIPS enabled
+    func testResolve51() throws {
+        let endpointParams = EndpointParams(
+            endpointId: "abc123.456def",
+            region: "ap-northeast-2",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS is not supported with multi-region endpoints", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Regular regional request, without EndpointId
+    func testResolve52() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-west-1",
+            useDualStack: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://email.eu-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Invalid EndpointId (Invalid chars / format)
+    func testResolve53() throws {
+        let endpointParams = EndpointParams(
+            endpointId: "badactor.com?foo=bar",
+            region: "eu-west-2",
+            useDualStack: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("EndpointId must be a valid host label", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Invalid EndpointId (Empty)
+    func testResolve54() throws {
+        let endpointParams = EndpointParams(
+            endpointId: "",
+            region: "ap-south-1",
+            useDualStack: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("EndpointId must be a valid host label", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Valid EndpointId with custom sdk endpoint
+    func testResolve55() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            endpointId: "abc123.456def",
+            region: "us-east-1",
+            useDualStack: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "ses",
+                        "name": "sigv4a",
+                        "signingRegionSet": [
+                            "*"
+                        ] as [AnyHashable]
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Valid EndpointId with custom sdk endpoint with FIPS enabled
+    func testResolve56() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            endpointId: "abc123.456def",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS is not supported with multi-region endpoints", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Valid EndpointId with DualStack enabled and partition does not support DualStack
+    func testResolve57() throws {
+        let endpointParams = EndpointParams(
+            endpointId: "abc123.456def",
+            region: "us-isob-east-1",
+            useDualStack: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
 }

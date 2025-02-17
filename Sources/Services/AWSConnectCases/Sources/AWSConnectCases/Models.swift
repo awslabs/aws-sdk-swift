@@ -42,9 +42,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -60,16 +60,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -85,16 +84,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// We couldn't process your request because of an issue with the server. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Advice to clients on when the call can be safely retried.
@@ -113,17 +111,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Unique identifier of the resource affected.
@@ -147,8 +144,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -156,9 +152,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The rate has been exceeded for this API. Please try again after a few minutes.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -174,16 +170,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request isn't valid. Check the syntax and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -199,8 +194,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -216,7 +210,7 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
-    /// Object to store union of Field values. The Summary system field accepts 1500 characters while all other fields accept 500 characters.
+    /// Object to store union of Field values. The Summary system field accepts 3000 characters while all other fields accept 500 characters.
     public enum FieldValueUnion: Swift.Sendable {
         /// String value type.
         case stringvalue(Swift.String)
@@ -246,8 +240,7 @@ extension ConnectCasesClientTypes {
         public init(
             id: Swift.String? = nil,
             value: ConnectCasesClientTypes.FieldValueUnion? = nil
-        )
-        {
+        ) {
             self.id = id
             self.value = value
         }
@@ -285,8 +278,7 @@ public struct CreateCaseInput: Swift.Sendable {
         fields: [ConnectCasesClientTypes.FieldValue]? = nil,
         performedBy: ConnectCasesClientTypes.UserUnion? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainId = domainId
         self.fields = fields
@@ -306,8 +298,7 @@ public struct CreateCaseOutput: Swift.Sendable {
     public init(
         caseArn: Swift.String? = nil,
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseArn = caseArn
         self.caseId = caseId
     }
@@ -323,8 +314,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -348,8 +338,7 @@ public struct GetCaseInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.fields = fields
@@ -374,8 +363,7 @@ public struct GetCaseOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fields = fields
         self.nextToken = nextToken
         self.tags = tags
@@ -400,8 +388,7 @@ public struct GetCaseAuditEventsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.maxResults = maxResults
@@ -444,8 +431,7 @@ extension ConnectCasesClientTypes {
             eventFieldId: Swift.String? = nil,
             newValue: ConnectCasesClientTypes.AuditEventFieldValueUnion? = nil,
             oldValue: ConnectCasesClientTypes.AuditEventFieldValueUnion? = nil
-        )
-        {
+        ) {
             self.eventFieldId = eventFieldId
             self.newValue = newValue
             self.oldValue = oldValue
@@ -466,8 +452,7 @@ extension ConnectCasesClientTypes {
         public init(
             iamPrincipalArn: Swift.String? = nil,
             user: ConnectCasesClientTypes.UserUnion? = nil
-        )
-        {
+        ) {
             self.iamPrincipalArn = iamPrincipalArn
             self.user = user
         }
@@ -566,8 +551,7 @@ extension ConnectCasesClientTypes {
             performedTime: Foundation.Date? = nil,
             relatedItemType: ConnectCasesClientTypes.RelatedItemType? = nil,
             type: ConnectCasesClientTypes.AuditEventType? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.fields = fields
             self.performedBy = performedBy
@@ -588,8 +572,7 @@ public struct GetCaseAuditEventsOutput: Swift.Sendable {
     public init(
         auditEvents: [ConnectCasesClientTypes.AuditEvent?]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditEvents = auditEvents
         self.nextToken = nextToken
     }
@@ -612,8 +595,7 @@ public struct ListCasesForContactInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.domainId = domainId
         self.maxResults = maxResults
@@ -635,8 +617,7 @@ extension ConnectCasesClientTypes {
         public init(
             caseId: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseId = caseId
             self.templateId = templateId
         }
@@ -653,17 +634,16 @@ public struct ListCasesForContactOutput: Swift.Sendable {
     public init(
         cases: [ConnectCasesClientTypes.CaseSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cases = cases
         self.nextToken = nextToken
     }
 }
 
 /// The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -679,8 +659,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -725,8 +704,7 @@ extension ConnectCasesClientTypes {
         public init(
             body: Swift.String? = nil,
             contentType: ConnectCasesClientTypes.CommentBodyTextType? = nil
-        )
-        {
+        ) {
             self.body = body
             self.contentType = contentType
         }
@@ -743,8 +721,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             contactArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactArn = contactArn
         }
     }
@@ -760,8 +737,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             fileArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileArn = fileArn
         }
     }
@@ -803,8 +779,7 @@ public struct CreateRelatedItemInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         performedBy: ConnectCasesClientTypes.UserUnion? = nil,
         type: ConnectCasesClientTypes.RelatedItemType? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.content = content
         self.domainId = domainId
@@ -824,8 +799,7 @@ public struct CreateRelatedItemOutput: Swift.Sendable {
     public init(
         relatedItemArn: Swift.String? = nil,
         relatedItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relatedItemArn = relatedItemArn
         self.relatedItemId = relatedItemId
     }
@@ -852,8 +826,7 @@ extension ConnectCasesClientTypes {
         public init(
             channel: [Swift.String]? = nil,
             contactArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.contactArn = contactArn
         }
@@ -869,8 +842,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             fileArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileArn = fileArn
         }
     }
@@ -910,8 +882,7 @@ public struct SearchRelatedItemsInput: Swift.Sendable {
         filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.filters = filters
@@ -938,8 +909,7 @@ extension ConnectCasesClientTypes {
             channel: Swift.String? = nil,
             connectedToSystemTime: Foundation.Date? = nil,
             contactArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.connectedToSystemTime = connectedToSystemTime
             self.contactArn = contactArn
@@ -989,8 +959,7 @@ extension ConnectCasesClientTypes {
             relatedItemId: Swift.String? = nil,
             tags: [Swift.String: Swift.String?]? = nil,
             type: ConnectCasesClientTypes.RelatedItemType? = nil
-        )
-        {
+        ) {
             self.associationTime = associationTime
             self.content = content
             self.performedBy = performedBy
@@ -1011,8 +980,7 @@ public struct SearchRelatedItemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relatedItems: [ConnectCasesClientTypes.SearchRelatedItemsResponseItem?]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relatedItems = relatedItems
     }
@@ -1081,8 +1049,7 @@ extension ConnectCasesClientTypes {
         public init(
             fieldId: Swift.String? = nil,
             sortOrder: ConnectCasesClientTypes.Order? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.sortOrder = sortOrder
         }
@@ -1110,8 +1077,7 @@ extension ConnectCasesClientTypes {
             fields: [ConnectCasesClientTypes.FieldValue]? = nil,
             tags: [Swift.String: Swift.String?]? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseId = caseId
             self.fields = fields
             self.tags = tags
@@ -1130,8 +1096,7 @@ public struct SearchCasesOutput: Swift.Sendable {
     public init(
         cases: [ConnectCasesClientTypes.SearchCasesResponseItem?]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cases = cases
         self.nextToken = nextToken
     }
@@ -1155,8 +1120,7 @@ public struct UpdateCaseInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldValue]? = nil,
         performedBy: ConnectCasesClientTypes.UserUnion? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.fields = fields
@@ -1169,6 +1133,432 @@ public struct UpdateCaseOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectCasesClientTypes {
+
+    /// Object containing case rule identifier information.
+    public struct CaseRuleIdentifier: Swift.Sendable {
+        /// Unique identifier of a case rule.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+public struct BatchGetCaseRuleInput: Swift.Sendable {
+    /// List of case rule identifiers.
+    /// This member is required.
+    public var caseRules: [ConnectCasesClientTypes.CaseRuleIdentifier]?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+
+    public init(
+        caseRules: [ConnectCasesClientTypes.CaseRuleIdentifier]? = nil,
+        domainId: Swift.String? = nil
+    ) {
+        self.caseRules = caseRules
+        self.domainId = domainId
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the left hand operand in the condition. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public enum OperandOne: Swift.Sendable {
+        /// The field ID that this operand should take the value of.
+        case fieldid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents an empty operand value. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct EmptyOperandValue: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the right hand operand in the condition. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public enum OperandTwo: Swift.Sendable {
+        /// String value type.
+        case stringvalue(Swift.String)
+        /// Boolean value type.
+        case booleanvalue(Swift.Bool)
+        /// Double value type.
+        case doublevalue(Swift.Double)
+        /// Empty value type.
+        case emptyvalue(ConnectCasesClientTypes.EmptyOperandValue)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Boolean operands for a condition. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct BooleanOperands: Swift.Sendable {
+        /// Represents the left hand operand in the condition.
+        /// This member is required.
+        public var operandOne: ConnectCasesClientTypes.OperandOne?
+        /// Represents the right hand operand in the condition.
+        /// This member is required.
+        public var operandTwo: ConnectCasesClientTypes.OperandTwo?
+        /// The value of the outer rule if the condition evaluates to true.
+        /// This member is required.
+        public var result: Swift.Bool?
+
+        public init(
+            operandOne: ConnectCasesClientTypes.OperandOne? = nil,
+            operandTwo: ConnectCasesClientTypes.OperandTwo? = nil,
+            result: Swift.Bool? = nil
+        ) {
+            self.operandOne = operandOne
+            self.operandTwo = operandTwo
+            self.result = result
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Boolean condition for a rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public enum BooleanCondition: Swift.Sendable {
+        /// Tests that operandOne is equal to operandTwo.
+        case equalto(ConnectCasesClientTypes.BooleanOperands)
+        /// Tests that operandOne is not equal to operandTwo.
+        case notequalto(ConnectCasesClientTypes.BooleanOperands)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Required rule type, used to indicate whether a field is required. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct RequiredCaseRule: Swift.Sendable {
+        /// List of conditions for the required rule; the first condition to evaluate to true dictates the value of the rule.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+        /// The value of the rule (that is, whether the field is required) should none of the conditions evaluate to true.
+        /// This member is required.
+        public var defaultValue: Swift.Bool?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
+            defaultValue: Swift.Bool? = nil
+        ) {
+            self.conditions = conditions
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents what rule type should take place, under what conditions. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public enum CaseRuleDetails: Swift.Sendable {
+        /// Required rule type, used to indicate whether a field is required.
+        case `required`(ConnectCasesClientTypes.RequiredCaseRule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Detailed case rule information. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct GetCaseRuleResponse: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the case rule.
+        /// This member is required.
+        public var caseRuleArn: Swift.String?
+        /// Unique identifier of a case rule.
+        /// This member is required.
+        public var caseRuleId: Swift.String?
+        /// Timestamp when the resource was created.
+        public var createdTime: Foundation.Date?
+        /// Indicates whether the resource has been deleted.
+        public var deleted: Swift.Bool
+        /// Description of a case rule.
+        public var description: Swift.String?
+        /// Timestamp when the resource was created or last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// Name of the case rule.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents what rule type should take place, under what conditions.
+        /// This member is required.
+        public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String?]?
+
+        public init(
+            caseRuleArn: Swift.String? = nil,
+            caseRuleId: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            deleted: Swift.Bool = false,
+            description: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            rule: ConnectCasesClientTypes.CaseRuleDetails? = nil,
+            tags: [Swift.String: Swift.String?]? = nil
+        ) {
+            self.caseRuleArn = caseRuleArn
+            self.caseRuleId = caseRuleId
+            self.createdTime = createdTime
+            self.deleted = deleted
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.rule = rule
+            self.tags = tags
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Error for batch describe case rules API failure. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct CaseRuleError: Swift.Sendable {
+        /// Error code from getting a case rule.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The case rule identifier that caused the error.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Error message from getting a case rule.
+        public var message: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.id = id
+            self.message = message
+        }
+    }
+}
+
+public struct BatchGetCaseRuleOutput: Swift.Sendable {
+    /// List of detailed case rule information.
+    /// This member is required.
+    public var caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]?
+    /// List of case rule errors.
+    /// This member is required.
+    public var errors: [ConnectCasesClientTypes.CaseRuleError]?
+
+    public init(
+        caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]? = nil,
+        errors: [ConnectCasesClientTypes.CaseRuleError]? = nil
+    ) {
+        self.caseRules = caseRules
+        self.errors = errors
+    }
+}
+
+public struct CreateCaseRuleInput: Swift.Sendable {
+    /// The description of a case rule.
+    public var description: Swift.String?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Name of the case rule.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Represents what rule type should take place, under what conditions.
+    /// This member is required.
+    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+
+    public init(
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
+    ) {
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.rule = rule
+    }
+}
+
+public struct CreateCaseRuleOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a case rule.
+    /// This member is required.
+    public var caseRuleArn: Swift.String?
+    /// Unique identifier of a case rule.
+    /// This member is required.
+    public var caseRuleId: Swift.String?
+
+    public init(
+        caseRuleArn: Swift.String? = nil,
+        caseRuleId: Swift.String? = nil
+    ) {
+        self.caseRuleArn = caseRuleArn
+        self.caseRuleId = caseRuleId
+    }
+}
+
+public struct DeleteCaseRuleInput: Swift.Sendable {
+    /// Unique identifier of a case rule.
+    /// This member is required.
+    public var caseRuleId: Swift.String?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+
+    public init(
+        caseRuleId: Swift.String? = nil,
+        domainId: Swift.String? = nil
+    ) {
+        self.caseRuleId = caseRuleId
+        self.domainId = domainId
+    }
+}
+
+public struct DeleteCaseRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ListCaseRulesInput: Swift.Sendable {
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainId = domainId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    public enum RuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleType] {
+            return [
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .required: return "Required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Summary information of this case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct CaseRuleSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the case rule.
+        /// This member is required.
+        public var caseRuleArn: Swift.String?
+        /// Unique identifier of a case rule.
+        /// This member is required.
+        public var caseRuleId: Swift.String?
+        /// Description of a case rule.
+        public var description: Swift.String?
+        /// Name of the case rule.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Possible types for a rule.
+        /// This member is required.
+        public var ruleType: ConnectCasesClientTypes.RuleType?
+
+        public init(
+            caseRuleArn: Swift.String? = nil,
+            caseRuleId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            ruleType: ConnectCasesClientTypes.RuleType? = nil
+        ) {
+            self.caseRuleArn = caseRuleArn
+            self.caseRuleId = caseRuleId
+            self.description = description
+            self.name = name
+            self.ruleType = ruleType
+        }
+    }
+}
+
+public struct ListCaseRulesOutput: Swift.Sendable {
+    /// A list of field summary objects.
+    /// This member is required.
+    public var caseRules: [ConnectCasesClientTypes.CaseRuleSummary]?
+    /// The token for the next set of results. This is null if there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        caseRules: [ConnectCasesClientTypes.CaseRuleSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.caseRules = caseRules
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateCaseRuleInput: Swift.Sendable {
+    /// Unique identifier of a case rule.
+    /// This member is required.
+    public var caseRuleId: Swift.String?
+    /// Description of a case rule.
+    public var description: Swift.String?
+    /// Unique identifier of a Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Name of the case rule.
+    public var name: Swift.String?
+    /// Represents what rule type should take place, under what conditions.
+    public var rule: ConnectCasesClientTypes.CaseRuleDetails?
+
+    public init(
+        caseRuleId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: ConnectCasesClientTypes.CaseRuleDetails? = nil
+    ) {
+        self.caseRuleId = caseRuleId
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.rule = rule
+    }
+}
+
+public struct UpdateCaseRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct CreateDomainInput: Swift.Sendable {
     /// The name for your Cases domain. It must be unique for your Amazon Web Services account.
     /// This member is required.
@@ -1176,8 +1566,7 @@ public struct CreateDomainInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1229,8 +1618,7 @@ public struct CreateDomainOutput: Swift.Sendable {
         domainArn: Swift.String? = nil,
         domainId: Swift.String? = nil,
         domainStatus: ConnectCasesClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.domainArn = domainArn
         self.domainId = domainId
         self.domainStatus = domainStatus
@@ -1244,8 +1632,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -1262,8 +1649,7 @@ public struct GetCaseEventConfigurationInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -1278,8 +1664,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             fields: [ConnectCasesClientTypes.FieldIdentifier]? = nil
-        )
-        {
+        ) {
             self.fields = fields
         }
     }
@@ -1295,8 +1680,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             includeContent: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeContent = includeContent
         }
     }
@@ -1314,8 +1698,7 @@ extension ConnectCasesClientTypes {
         public init(
             caseData: ConnectCasesClientTypes.CaseEventIncludedData? = nil,
             relatedItemData: ConnectCasesClientTypes.RelatedItemEventIncludedData? = nil
-        )
-        {
+        ) {
             self.caseData = caseData
             self.relatedItemData = relatedItemData
         }
@@ -1335,8 +1718,7 @@ extension ConnectCasesClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             includedData: ConnectCasesClientTypes.EventIncludedData? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.includedData = includedData
         }
@@ -1350,8 +1732,7 @@ public struct GetCaseEventConfigurationOutput: Swift.Sendable {
 
     public init(
         eventBridge: ConnectCasesClientTypes.EventBridgeConfiguration? = nil
-    )
-    {
+    ) {
         self.eventBridge = eventBridge
     }
 }
@@ -1363,8 +1744,7 @@ public struct GetDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -1395,8 +1775,7 @@ public struct GetDomainOutput: Swift.Sendable {
         domainStatus: ConnectCasesClientTypes.DomainStatus? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.domainArn = domainArn
         self.domainId = domainId
@@ -1415,8 +1794,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1440,8 +1818,7 @@ extension ConnectCasesClientTypes {
             domainArn: Swift.String? = nil,
             domainId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.domainId = domainId
             self.name = name
@@ -1459,8 +1836,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domains: [ConnectCasesClientTypes.DomainSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextToken = nextToken
     }
@@ -1477,8 +1853,7 @@ public struct PutCaseEventConfigurationInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         eventBridge: ConnectCasesClientTypes.EventBridgeConfiguration? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.eventBridge = eventBridge
     }
@@ -1500,8 +1875,7 @@ public struct BatchGetFieldInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldIdentifier]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fields = fields
     }
@@ -1524,8 +1898,7 @@ extension ConnectCasesClientTypes {
             errorCode: Swift.String? = nil,
             id: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.id = id
             self.message = message
@@ -1647,8 +2020,7 @@ extension ConnectCasesClientTypes {
             namespace: ConnectCasesClientTypes.FieldNamespace? = nil,
             tags: [Swift.String: Swift.String?]? = nil,
             type: ConnectCasesClientTypes.FieldType? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.deleted = deleted
             self.description = description
@@ -1674,8 +2046,7 @@ public struct BatchGetFieldOutput: Swift.Sendable {
     public init(
         errors: [ConnectCasesClientTypes.FieldError]? = nil,
         fields: [ConnectCasesClientTypes.GetFieldResponse]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.fields = fields
     }
@@ -1699,8 +2070,7 @@ extension ConnectCasesClientTypes {
             active: Swift.Bool? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.active = active
             self.name = name
             self.value = value
@@ -1723,8 +2093,7 @@ public struct BatchPutFieldOptionsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fieldId: Swift.String? = nil,
         options: [ConnectCasesClientTypes.FieldOption]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fieldId = fieldId
         self.options = options
@@ -1749,8 +2118,7 @@ extension ConnectCasesClientTypes {
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
             self.value = value
@@ -1764,8 +2132,7 @@ public struct BatchPutFieldOptionsOutput: Swift.Sendable {
 
     public init(
         errors: [ConnectCasesClientTypes.FieldOptionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1788,8 +2155,7 @@ public struct CreateFieldInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         name: Swift.String? = nil,
         type: ConnectCasesClientTypes.FieldType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.name = name
@@ -1808,8 +2174,7 @@ public struct CreateFieldOutput: Swift.Sendable {
     public init(
         fieldArn: Swift.String? = nil,
         fieldId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldArn = fieldArn
         self.fieldId = fieldId
     }
@@ -1826,8 +2191,7 @@ public struct DeleteFieldInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         fieldId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fieldId = fieldId
     }
@@ -1858,8 +2222,7 @@ public struct ListFieldOptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fieldId = fieldId
         self.maxResults = maxResults
@@ -1878,8 +2241,7 @@ public struct ListFieldOptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         options: [ConnectCasesClientTypes.FieldOption]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.options = options
     }
@@ -1898,8 +2260,7 @@ public struct ListFieldsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1932,8 +2293,7 @@ extension ConnectCasesClientTypes {
             name: Swift.String? = nil,
             namespace: ConnectCasesClientTypes.FieldNamespace? = nil,
             type: ConnectCasesClientTypes.FieldType? = nil
-        )
-        {
+        ) {
             self.fieldArn = fieldArn
             self.fieldId = fieldId
             self.name = name
@@ -1953,8 +2313,7 @@ public struct ListFieldsOutput: Swift.Sendable {
     public init(
         fields: [ConnectCasesClientTypes.FieldSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fields = fields
         self.nextToken = nextToken
     }
@@ -1977,8 +2336,7 @@ public struct UpdateFieldInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fieldId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.fieldId = fieldId
@@ -2001,8 +2359,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -2021,8 +2378,7 @@ extension ConnectCasesClientTypes {
         public init(
             fields: [ConnectCasesClientTypes.FieldItem]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.name = name
         }
@@ -2048,8 +2404,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             sections: [ConnectCasesClientTypes.Section]? = nil
-        )
-        {
+        ) {
             self.sections = sections
         }
     }
@@ -2067,8 +2422,7 @@ extension ConnectCasesClientTypes {
         public init(
             moreInfo: ConnectCasesClientTypes.LayoutSections? = nil,
             topPanel: ConnectCasesClientTypes.LayoutSections? = nil
-        )
-        {
+        ) {
             self.moreInfo = moreInfo
             self.topPanel = topPanel
         }
@@ -2100,8 +2454,7 @@ public struct CreateLayoutInput: Swift.Sendable {
         content: ConnectCasesClientTypes.LayoutContent? = nil,
         domainId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.domainId = domainId
         self.name = name
@@ -2119,8 +2472,7 @@ public struct CreateLayoutOutput: Swift.Sendable {
     public init(
         layoutArn: Swift.String? = nil,
         layoutId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layoutArn = layoutArn
         self.layoutId = layoutId
     }
@@ -2137,8 +2489,7 @@ public struct DeleteLayoutInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         layoutId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.layoutId = layoutId
     }
@@ -2160,8 +2511,7 @@ public struct GetLayoutInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         layoutId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.layoutId = layoutId
     }
@@ -2198,8 +2548,7 @@ public struct GetLayoutOutput: Swift.Sendable {
         layoutId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.content = content
         self.createdTime = createdTime
         self.deleted = deleted
@@ -2224,8 +2573,7 @@ public struct ListLayoutsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2250,8 +2598,7 @@ extension ConnectCasesClientTypes {
             layoutArn: Swift.String? = nil,
             layoutId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.layoutArn = layoutArn
             self.layoutId = layoutId
             self.name = name
@@ -2269,8 +2616,7 @@ public struct ListLayoutsOutput: Swift.Sendable {
     public init(
         layouts: [ConnectCasesClientTypes.LayoutSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.layouts = layouts
         self.nextToken = nextToken
     }
@@ -2293,8 +2639,7 @@ public struct UpdateLayoutInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         layoutId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.domainId = domainId
         self.layoutId = layoutId
@@ -2314,8 +2659,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2326,8 +2670,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2343,8 +2686,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -2359,8 +2701,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             defaultLayout: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultLayout = defaultLayout
         }
     }
@@ -2376,8 +2717,28 @@ extension ConnectCasesClientTypes {
 
         public init(
             fieldId: Swift.String? = nil
-        )
-        {
+        ) {
+            self.fieldId = fieldId
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// An association representing a case rule acting upon a field. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    public struct TemplateRule: Swift.Sendable {
+        /// Unique identifier of a case rule.
+        /// This member is required.
+        public var caseRuleId: Swift.String?
+        /// Unique identifier of a field.
+        /// This member is required.
+        public var fieldId: Swift.String?
+
+        public init(
+            caseRuleId: Swift.String? = nil,
+            fieldId: Swift.String? = nil
+        ) {
+            self.caseRuleId = caseRuleId
             self.fieldId = fieldId
         }
     }
@@ -2425,6 +2786,8 @@ public struct CreateTemplateInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of fields that must contain a value for a case to be successfully created with this template.
     public var requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    /// A list of case rules (also known as [case field conditions](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html)) on a template.
+    public var rules: [ConnectCasesClientTypes.TemplateRule]?
     /// The status of the template.
     public var status: ConnectCasesClientTypes.TemplateStatus?
 
@@ -2434,14 +2797,15 @@ public struct CreateTemplateInput: Swift.Sendable {
         layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration? = nil,
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
+        rules: [ConnectCasesClientTypes.TemplateRule]? = nil,
         status: ConnectCasesClientTypes.TemplateStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.layoutConfiguration = layoutConfiguration
         self.name = name
         self.requiredFields = requiredFields
+        self.rules = rules
         self.status = status
     }
 }
@@ -2457,8 +2821,7 @@ public struct CreateTemplateOutput: Swift.Sendable {
     public init(
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateArn = templateArn
         self.templateId = templateId
     }
@@ -2475,8 +2838,7 @@ public struct DeleteTemplateInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.templateId = templateId
     }
@@ -2498,8 +2860,7 @@ public struct GetTemplateInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.templateId = templateId
     }
@@ -2521,6 +2882,8 @@ public struct GetTemplateOutput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of fields that must contain a value for a case to be successfully created with this template.
     public var requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    /// A list of case rules (also known as [case field conditions](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html)) on a template.
+    public var rules: [ConnectCasesClientTypes.TemplateRule]?
     /// The status of the template.
     /// This member is required.
     public var status: ConnectCasesClientTypes.TemplateStatus?
@@ -2541,12 +2904,12 @@ public struct GetTemplateOutput: Swift.Sendable {
         layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration? = nil,
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
+        rules: [ConnectCasesClientTypes.TemplateRule]? = nil,
         status: ConnectCasesClientTypes.TemplateStatus? = nil,
         tags: [Swift.String: Swift.String?]? = nil,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.deleted = deleted
         self.description = description
@@ -2554,6 +2917,7 @@ public struct GetTemplateOutput: Swift.Sendable {
         self.layoutConfiguration = layoutConfiguration
         self.name = name
         self.requiredFields = requiredFields
+        self.rules = rules
         self.status = status
         self.tags = tags
         self.templateArn = templateArn
@@ -2577,8 +2941,7 @@ public struct ListTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: [ConnectCasesClientTypes.TemplateStatus]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2608,8 +2971,7 @@ extension ConnectCasesClientTypes {
             status: ConnectCasesClientTypes.TemplateStatus? = nil,
             templateArn: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
             self.templateArn = templateArn
@@ -2628,8 +2990,7 @@ public struct ListTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templates: [ConnectCasesClientTypes.TemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templates = templates
     }
@@ -2647,6 +3008,8 @@ public struct UpdateTemplateInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of fields that must contain a value for a case to be successfully created with this template.
     public var requiredFields: [ConnectCasesClientTypes.RequiredField]?
+    /// A list of case rules (also known as [case field conditions](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html)) on a template.
+    public var rules: [ConnectCasesClientTypes.TemplateRule]?
     /// The status of the template.
     public var status: ConnectCasesClientTypes.TemplateStatus?
     /// A unique identifier for the template.
@@ -2659,15 +3022,16 @@ public struct UpdateTemplateInput: Swift.Sendable {
         layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration? = nil,
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
+        rules: [ConnectCasesClientTypes.TemplateRule]? = nil,
         status: ConnectCasesClientTypes.TemplateStatus? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.layoutConfiguration = layoutConfiguration
         self.name = name
         self.requiredFields = requiredFields
+        self.rules = rules
         self.status = status
         self.templateId = templateId
     }
@@ -2689,8 +3053,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -2737,8 +3100,7 @@ public struct SearchCasesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchTerm: Swift.String? = nil,
         sorts: [ConnectCasesClientTypes.Sort]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fields = fields
         self.filter = filter
@@ -2746,6 +3108,16 @@ public struct SearchCasesInput: Swift.Sendable {
         self.nextToken = nextToken
         self.searchTerm = searchTerm
         self.sorts = sorts
+    }
+}
+
+extension BatchGetCaseRuleInput {
+
+    static func urlPathProvider(_ value: BatchGetCaseRuleInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/rules-batch"
     }
 }
 
@@ -2779,6 +3151,16 @@ extension CreateCaseInput {
             return nil
         }
         return "/domains/\(domainId.urlPercentEncoding())/cases"
+    }
+}
+
+extension CreateCaseRuleInput {
+
+    static func urlPathProvider(_ value: CreateCaseRuleInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/case-rules"
     }
 }
 
@@ -2829,6 +3211,19 @@ extension CreateTemplateInput {
             return nil
         }
         return "/domains/\(domainId.urlPercentEncoding())/templates"
+    }
+}
+
+extension DeleteCaseRuleInput {
+
+    static func urlPathProvider(_ value: DeleteCaseRuleInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseRuleId = value.caseRuleId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/case-rules/\(caseRuleId.urlPercentEncoding())"
     }
 }
 
@@ -2950,6 +3345,32 @@ extension GetTemplateInput {
             return nil
         }
         return "/domains/\(domainId.urlPercentEncoding())/templates/\(templateId.urlPercentEncoding())"
+    }
+}
+
+extension ListCaseRulesInput {
+
+    static func urlPathProvider(_ value: ListCaseRulesInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/rules-list"
+    }
+}
+
+extension ListCaseRulesInput {
+
+    static func queryItemProvider(_ value: ListCaseRulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -3197,6 +3618,19 @@ extension UpdateCaseInput {
     }
 }
 
+extension UpdateCaseRuleInput {
+
+    static func urlPathProvider(_ value: UpdateCaseRuleInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseRuleId = value.caseRuleId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/case-rules/\(caseRuleId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateFieldInput {
 
     static func urlPathProvider(_ value: UpdateFieldInput) -> Swift.String? {
@@ -3236,6 +3670,14 @@ extension UpdateTemplateInput {
     }
 }
 
+extension BatchGetCaseRuleInput {
+
+    static func write(value: BatchGetCaseRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["caseRules"].writeList(value.caseRules, memberWritingClosure: ConnectCasesClientTypes.CaseRuleIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchGetFieldInput {
 
     static func write(value: BatchGetFieldInput?, to writer: SmithyJSON.Writer) throws {
@@ -3260,6 +3702,16 @@ extension CreateCaseInput {
         try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["performedBy"].write(value.performedBy, with: ConnectCasesClientTypes.UserUnion.write(value:to:))
         try writer["templateId"].write(value.templateId)
+    }
+}
+
+extension CreateCaseRuleInput {
+
+    static func write(value: CreateCaseRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["rule"].write(value.rule, with: ConnectCasesClientTypes.CaseRuleDetails.write(value:to:))
     }
 }
 
@@ -3308,6 +3760,7 @@ extension CreateTemplateInput {
         try writer["layoutConfiguration"].write(value.layoutConfiguration, with: ConnectCasesClientTypes.LayoutConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["requiredFields"].writeList(value.requiredFields, memberWritingClosure: ConnectCasesClientTypes.RequiredField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["rules"].writeList(value.rules, memberWritingClosure: ConnectCasesClientTypes.TemplateRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].write(value.status)
     }
 }
@@ -3388,6 +3841,16 @@ extension UpdateCaseInput {
     }
 }
 
+extension UpdateCaseRuleInput {
+
+    static func write(value: UpdateCaseRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["rule"].write(value.rule, with: ConnectCasesClientTypes.CaseRuleDetails.write(value:to:))
+    }
+}
+
 extension UpdateFieldInput {
 
     static func write(value: UpdateFieldInput?, to writer: SmithyJSON.Writer) throws {
@@ -3414,7 +3877,21 @@ extension UpdateTemplateInput {
         try writer["layoutConfiguration"].write(value.layoutConfiguration, with: ConnectCasesClientTypes.LayoutConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["requiredFields"].writeList(value.requiredFields, memberWritingClosure: ConnectCasesClientTypes.RequiredField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["rules"].writeList(value.rules, memberWritingClosure: ConnectCasesClientTypes.TemplateRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].write(value.status)
+    }
+}
+
+extension BatchGetCaseRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetCaseRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetCaseRuleOutput()
+        value.caseRules = try reader["caseRules"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.GetCaseRuleResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.CaseRuleError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -3452,6 +3929,19 @@ extension CreateCaseOutput {
         var value = CreateCaseOutput()
         value.caseArn = try reader["caseArn"].readIfPresent() ?? ""
         value.caseId = try reader["caseId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateCaseRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCaseRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCaseRuleOutput()
+        value.caseRuleArn = try reader["caseRuleArn"].readIfPresent() ?? ""
+        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3519,6 +4009,13 @@ extension CreateTemplateOutput {
         value.templateArn = try reader["templateArn"].readIfPresent() ?? ""
         value.templateId = try reader["templateId"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension DeleteCaseRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCaseRuleOutput {
+        return DeleteCaseRuleOutput()
     }
 }
 
@@ -3640,10 +4137,24 @@ extension GetTemplateOutput {
         value.layoutConfiguration = try reader["layoutConfiguration"].readIfPresent(with: ConnectCasesClientTypes.LayoutConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.requiredFields = try reader["requiredFields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.RequiredField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.TemplateRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateArn = try reader["templateArn"].readIfPresent() ?? ""
         value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ListCaseRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCaseRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCaseRulesOutput()
+        value.caseRules = try reader["caseRules"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.CaseRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -3792,6 +4303,13 @@ extension UpdateCaseOutput {
     }
 }
 
+extension UpdateCaseRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCaseRuleOutput {
+        return UpdateCaseRuleOutput()
+    }
+}
+
 extension UpdateFieldOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFieldOutput {
@@ -3810,6 +4328,24 @@ extension UpdateTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTemplateOutput {
         return UpdateTemplateOutput()
+    }
+}
+
+enum BatchGetCaseRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -3862,6 +4398,26 @@ enum CreateCaseOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCaseRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3962,6 +4518,24 @@ enum CreateTemplateOutputError {
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCaseRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -4135,6 +4709,24 @@ enum GetLayoutOutputError {
 }
 
 enum GetTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCaseRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4385,6 +4977,25 @@ enum UpdateCaseOutputError {
     }
 }
 
+enum UpdateCaseRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateFieldOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4536,6 +5147,197 @@ extension ConflictException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.GetCaseRuleResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.GetCaseRuleResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.GetCaseRuleResponse()
+        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.caseRuleArn = try reader["caseRuleArn"].readIfPresent() ?? ""
+        value.rule = try reader["rule"].readIfPresent(with: ConnectCasesClientTypes.CaseRuleDetails.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.deleted = try reader["deleted"].readIfPresent() ?? false
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CaseRuleDetails {
+
+    static func write(value: ConnectCasesClientTypes.CaseRuleDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`required`(`required`):
+                try writer["required"].write(`required`, with: ConnectCasesClientTypes.RequiredCaseRule.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "required":
+                return .`required`(try reader["required"].read(with: ConnectCasesClientTypes.RequiredCaseRule.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.RequiredCaseRule {
+
+    static func write(value: ConnectCasesClientTypes.RequiredCaseRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["defaultValue"].write(value.defaultValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RequiredCaseRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.RequiredCaseRule()
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? false
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.BooleanCondition {
+
+    static func write(value: ConnectCasesClientTypes.BooleanCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .equalto(equalto):
+                try writer["equalTo"].write(equalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
+            case let .notequalto(notequalto):
+                try writer["notEqualTo"].write(notequalto, with: ConnectCasesClientTypes.BooleanOperands.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BooleanCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "equalTo":
+                return .equalto(try reader["equalTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
+            case "notEqualTo":
+                return .notequalto(try reader["notEqualTo"].read(with: ConnectCasesClientTypes.BooleanOperands.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.BooleanOperands {
+
+    static func write(value: ConnectCasesClientTypes.BooleanOperands?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["operandOne"].write(value.operandOne, with: ConnectCasesClientTypes.OperandOne.write(value:to:))
+        try writer["operandTwo"].write(value.operandTwo, with: ConnectCasesClientTypes.OperandTwo.write(value:to:))
+        try writer["result"].write(value.result)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.BooleanOperands {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.BooleanOperands()
+        value.operandOne = try reader["operandOne"].readIfPresent(with: ConnectCasesClientTypes.OperandOne.read(from:))
+        value.operandTwo = try reader["operandTwo"].readIfPresent(with: ConnectCasesClientTypes.OperandTwo.read(from:))
+        value.result = try reader["result"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.OperandTwo {
+
+    static func write(value: ConnectCasesClientTypes.OperandTwo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .booleanvalue(booleanvalue):
+                try writer["booleanValue"].write(booleanvalue)
+            case let .doublevalue(doublevalue):
+                try writer["doubleValue"].write(doublevalue)
+            case let .emptyvalue(emptyvalue):
+                try writer["emptyValue"].write(emptyvalue, with: ConnectCasesClientTypes.EmptyOperandValue.write(value:to:))
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.OperandTwo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "booleanValue":
+                return .booleanvalue(try reader["booleanValue"].read())
+            case "doubleValue":
+                return .doublevalue(try reader["doubleValue"].read())
+            case "emptyValue":
+                return .emptyvalue(try reader["emptyValue"].read(with: ConnectCasesClientTypes.EmptyOperandValue.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.EmptyOperandValue {
+
+    static func write(value: ConnectCasesClientTypes.EmptyOperandValue?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.EmptyOperandValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ConnectCasesClientTypes.EmptyOperandValue()
+    }
+}
+
+extension ConnectCasesClientTypes.OperandOne {
+
+    static func write(value: ConnectCasesClientTypes.OperandOne?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fieldid(fieldid):
+                try writer["fieldId"].write(fieldid)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.OperandOne {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fieldId":
+                return .fieldid(try reader["fieldId"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.CaseRuleError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CaseRuleError()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -4958,6 +5760,37 @@ extension ConnectCasesClientTypes.RequiredField {
     }
 }
 
+extension ConnectCasesClientTypes.TemplateRule {
+
+    static func write(value: ConnectCasesClientTypes.TemplateRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["caseRuleId"].write(value.caseRuleId)
+        try writer["fieldId"].write(value.fieldId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TemplateRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.TemplateRule()
+        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
+        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.CaseRuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CaseRuleSummary()
+        value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.caseRuleArn = try reader["caseRuleArn"].readIfPresent() ?? ""
+        value.ruleType = try reader["ruleType"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectCasesClientTypes.CaseSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseSummary {
@@ -5126,6 +5959,14 @@ extension ConnectCasesClientTypes.ContactContent {
         value.channel = try reader["channel"].readIfPresent() ?? ""
         value.connectedToSystemTime = try reader["connectedToSystemTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension ConnectCasesClientTypes.CaseRuleIdentifier {
+
+    static func write(value: ConnectCasesClientTypes.CaseRuleIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
     }
 }
 

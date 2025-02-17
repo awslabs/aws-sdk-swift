@@ -17,24 +17,27 @@ import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
 class Route53TrimHostedZone : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
-        return model.expectShape<ServiceShape>(settings.service).isRoute53
-    }
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean = model.expectShape<ServiceShape>(settings.service).isRoute53
 
-    override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
-        return ModelTransformer.create().mapShapes(model) {
+    override fun preprocessModel(
+        model: Model,
+        settings: SwiftSettings,
+    ): Model =
+        ModelTransformer.create().mapShapes(model) {
             if (isHostId(it)) {
                 (it as MemberShape).toBuilder().addTrait(TrimHostedZone()).build()
             } else {
                 it
             }
         }
-    }
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
         operationShape: OperationShape,
-        operationMiddleware: OperationMiddleware
+        operationMiddleware: OperationMiddleware,
     ) {
         val inputShape = MiddlewareShapeUtils.inputShape(ctx.model, operationShape)
         val hostedZoneMember = inputShape.members().find { it.hasTrait<TrimHostedZone>() }
@@ -43,7 +46,7 @@ class Route53TrimHostedZone : SwiftIntegration {
         }
     }
 
-    private fun isHostId(shape: Shape): Boolean {
-        return (shape is MemberShape && shape.target == ShapeId.from("com.amazonaws.route53#ResourceId")) && shape.hasTrait<HttpLabelTrait>()
-    }
+    private fun isHostId(shape: Shape): Boolean =
+        (shape is MemberShape && shape.target == ShapeId.from("com.amazonaws.route53#ResourceId")) &&
+            shape.hasTrait<HttpLabelTrait>()
 }

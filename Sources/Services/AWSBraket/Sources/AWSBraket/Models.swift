@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ extension BraketClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -115,8 +113,7 @@ extension BraketClientTypes {
             compressionType: BraketClientTypes.CompressionType? = nil,
             entryPoint: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
             self.entryPoint = entryPoint
             self.s3Uri = s3Uri
@@ -136,8 +133,7 @@ extension BraketClientTypes {
         public init(
             containerImage: BraketClientTypes.ContainerImage? = nil,
             scriptModeConfig: BraketClientTypes.ScriptModeConfig? = nil
-        )
-        {
+        ) {
             self.containerImage = containerImage
             self.scriptModeConfig = scriptModeConfig
         }
@@ -184,8 +180,7 @@ extension BraketClientTypes {
         public init(
             arn: Swift.String? = nil,
             type: BraketClientTypes.AssociationType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.type = type
         }
@@ -193,9 +188,9 @@ extension BraketClientTypes {
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -210,16 +205,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -234,16 +228,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The throttling rate limit is met.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -258,16 +251,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -282,8 +274,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -295,8 +286,7 @@ public struct GetDeviceInput: Swift.Sendable {
 
     public init(
         deviceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceArn = deviceArn
     }
 }
@@ -376,8 +366,7 @@ extension BraketClientTypes {
             queue: BraketClientTypes.QueueName? = nil,
             queuePriority: BraketClientTypes.QueuePriority? = nil,
             queueSize: Swift.String? = nil
-        )
-        {
+        ) {
             self.queue = queue
             self.queuePriority = queuePriority
             self.queueSize = queueSize
@@ -476,8 +465,7 @@ public struct GetDeviceOutput: Swift.Sendable {
         deviceStatus: BraketClientTypes.DeviceStatus? = nil,
         deviceType: BraketClientTypes.DeviceType? = nil,
         providerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceArn = deviceArn
         self.deviceCapabilities = deviceCapabilities
         self.deviceName = deviceName
@@ -502,8 +490,7 @@ extension BraketClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -523,8 +510,7 @@ public struct SearchDevicesInput: Swift.Sendable {
         filters: [BraketClientTypes.SearchDevicesFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -557,8 +543,7 @@ extension BraketClientTypes {
             deviceStatus: BraketClientTypes.DeviceStatus? = nil,
             deviceType: BraketClientTypes.DeviceType? = nil,
             providerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceArn = deviceArn
             self.deviceName = deviceName
             self.deviceStatus = deviceStatus
@@ -578,17 +563,16 @@ public struct SearchDevicesOutput: Swift.Sendable {
     public init(
         devices: [BraketClientTypes.DeviceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.nextToken = nextToken
     }
 }
 
 /// An error occurred due to a conflict.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -603,8 +587,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -616,8 +599,7 @@ public struct CancelJobInput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -662,17 +644,16 @@ public struct CancelJobOutput: Swift.Sendable {
     public init(
         cancellationStatus: BraketClientTypes.CancellationStatus? = nil,
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.cancellationStatus = cancellationStatus
         self.jobArn = jobArn
     }
 }
 
 /// The specified device is currently offline.
-public struct DeviceOfflineException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeviceOfflineException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -687,16 +668,15 @@ public struct DeviceOfflineException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified device has been retired.
-public struct DeviceRetiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeviceRetiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -711,16 +691,15 @@ public struct DeviceRetiredException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request failed because a service quota is exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -735,8 +714,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -754,8 +732,7 @@ extension BraketClientTypes {
         public init(
             localPath: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3Uri = s3Uri
         }
@@ -772,8 +749,7 @@ extension BraketClientTypes {
 
         public init(
             device: Swift.String? = nil
-        )
-        {
+        ) {
             self.device = device
         }
     }
@@ -789,8 +765,7 @@ extension BraketClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -806,8 +781,7 @@ extension BraketClientTypes {
 
         public init(
             s3DataSource: BraketClientTypes.S3DataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -830,8 +804,7 @@ extension BraketClientTypes {
             channelName: Swift.String? = nil,
             contentType: Swift.String? = nil,
             dataSource: BraketClientTypes.DataSource? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.contentType = contentType
             self.dataSource = dataSource
@@ -996,8 +969,7 @@ extension BraketClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: BraketClientTypes.InstanceType? = nil,
             volumeSizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeSizeInGb = volumeSizeInGb
@@ -1018,8 +990,7 @@ extension BraketClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3Path = s3Path
         }
@@ -1035,8 +1006,7 @@ extension BraketClientTypes {
 
         public init(
             maxRuntimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
     }
@@ -1091,8 +1061,7 @@ public struct CreateJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: BraketClientTypes.JobStoppingCondition? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.algorithmSpecification = algorithmSpecification
         self.associations = associations
         self.checkpointConfig = checkpointConfig
@@ -1116,8 +1085,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -1158,8 +1126,7 @@ public struct GetJobInput: Swift.Sendable {
     public init(
         additionalAttributeNames: [BraketClientTypes.HybridJobAdditionalAttributeName]? = nil,
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalAttributeNames = additionalAttributeNames
         self.jobArn = jobArn
     }
@@ -1236,8 +1203,7 @@ extension BraketClientTypes {
             eventType: BraketClientTypes.JobEventType? = nil,
             message: Swift.String? = nil,
             timeOfEvent: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.message = message
             self.timeOfEvent = timeOfEvent
@@ -1262,8 +1228,7 @@ extension BraketClientTypes {
             message: Swift.String? = nil,
             position: Swift.String? = nil,
             queue: BraketClientTypes.QueueName? = nil
-        )
-        {
+        ) {
             self.message = message
             self.position = position
             self.queue = queue
@@ -1386,8 +1351,7 @@ public struct GetJobOutput: Swift.Sendable {
         status: BraketClientTypes.JobPrimaryStatus? = nil,
         stoppingCondition: BraketClientTypes.JobStoppingCondition? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.algorithmSpecification = algorithmSpecification
         self.associations = associations
         self.billableDuration = billableDuration
@@ -1474,8 +1438,7 @@ extension BraketClientTypes {
             name: Swift.String? = nil,
             `operator`: BraketClientTypes.SearchJobsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -1496,8 +1459,7 @@ public struct SearchJobsInput: Swift.Sendable {
         filters: [BraketClientTypes.SearchJobsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1539,8 +1501,7 @@ extension BraketClientTypes {
             startedAt: Foundation.Date? = nil,
             status: BraketClientTypes.JobPrimaryStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.device = device
             self.endedAt = endedAt
@@ -1563,8 +1524,7 @@ public struct SearchJobsOutput: Swift.Sendable {
     public init(
         jobs: [BraketClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -1577,8 +1537,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1589,8 +1548,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1606,8 +1564,7 @@ public struct CancelQuantumTaskInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         quantumTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.quantumTaskArn = quantumTaskArn
     }
@@ -1624,8 +1581,7 @@ public struct CancelQuantumTaskOutput: Swift.Sendable {
     public init(
         cancellationStatus: BraketClientTypes.CancellationStatus? = nil,
         quantumTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.cancellationStatus = cancellationStatus
         self.quantumTaskArn = quantumTaskArn
     }
@@ -1670,8 +1626,7 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
         outputS3KeyPrefix: Swift.String? = nil,
         shots: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.associations = associations
         self.clientToken = clientToken
@@ -1692,8 +1647,7 @@ public struct CreateQuantumTaskOutput: Swift.Sendable {
 
     public init(
         quantumTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.quantumTaskArn = quantumTaskArn
     }
 }
@@ -1734,8 +1688,7 @@ public struct GetQuantumTaskInput: Swift.Sendable {
     public init(
         additionalAttributeNames: [BraketClientTypes.QuantumTaskAdditionalAttributeName]? = nil,
         quantumTaskArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalAttributeNames = additionalAttributeNames
         self.quantumTaskArn = quantumTaskArn
     }
@@ -1761,8 +1714,7 @@ extension BraketClientTypes {
             position: Swift.String? = nil,
             queue: BraketClientTypes.QueueName? = nil,
             queuePriority: BraketClientTypes.QueuePriority? = nil
-        )
-        {
+        ) {
             self.message = message
             self.position = position
             self.queue = queue
@@ -1868,8 +1820,7 @@ public struct GetQuantumTaskOutput: Swift.Sendable {
         shots: Swift.Int? = nil,
         status: BraketClientTypes.QuantumTaskStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.createdAt = createdAt
         self.deviceArn = deviceArn
@@ -1946,8 +1897,7 @@ extension BraketClientTypes {
             name: Swift.String? = nil,
             `operator`: BraketClientTypes.SearchQuantumTasksFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -1968,8 +1918,7 @@ public struct SearchQuantumTasksInput: Swift.Sendable {
         filters: [BraketClientTypes.SearchQuantumTasksFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2016,8 +1965,7 @@ extension BraketClientTypes {
             shots: Swift.Int? = nil,
             status: BraketClientTypes.QuantumTaskStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.endedAt = endedAt
@@ -2041,8 +1989,7 @@ public struct SearchQuantumTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         quantumTasks: [BraketClientTypes.QuantumTaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.quantumTasks = quantumTasks
     }
@@ -2059,8 +2006,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2082,8 +2028,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

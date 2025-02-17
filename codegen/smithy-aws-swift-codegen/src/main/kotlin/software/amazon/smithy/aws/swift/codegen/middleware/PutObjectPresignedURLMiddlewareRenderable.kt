@@ -9,14 +9,13 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 // into the operation stack.  It is only intended for use with S3 `PutObject` and only when
 // generating a pre-signed URL.
 class PutObjectPresignedURLMiddlewareRenderable : MiddlewareRenderable {
-
     override val name = "PutObjectPresignedURLMiddleware"
 
     override fun render(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
         op: OperationShape,
-        operationStackName: String
+        operationStackName: String,
     ) {
         super.renderSpecific(ctx, writer, op, operationStackName, "serialize")
     }
@@ -24,7 +23,7 @@ class PutObjectPresignedURLMiddlewareRenderable : MiddlewareRenderable {
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         writer.write("\$L()", name)
     }

@@ -28,9 +28,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have sufficient permission to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -204,8 +203,7 @@ extension IoTFleetWiseClientTypes {
             min: Swift.Double? = nil,
             structFullyQualifiedName: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
             self.comment = comment
@@ -222,9 +220,9 @@ extension IoTFleetWiseClientTypes {
 }
 
 /// The request couldn't be completed because the server temporarily failed.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the command.
@@ -243,17 +241,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// A service quota was exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that was exceeded.
@@ -277,8 +274,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -286,9 +282,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that wasn't found.
@@ -312,8 +308,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -321,9 +316,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request couldn't be completed due to throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The quota identifier of the applied throttling rules for this request.
@@ -348,8 +343,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -371,8 +365,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -415,9 +408,9 @@ extension IoTFleetWiseClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The list of fields that fail to satisfy the constraints specified by an Amazon Web Services service.
         public internal(set) var fieldList: [IoTFleetWiseClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -439,8 +432,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [IoTFleetWiseClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: IoTFleetWiseClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -458,8 +450,7 @@ public struct AssociateVehicleFleetInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.vehicleName = vehicleName
     }
@@ -512,8 +503,7 @@ extension IoTFleetWiseClientTypes {
             max: Swift.Double? = nil,
             min: Swift.Double? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.assignedValue = assignedValue
             self.comment = comment
@@ -616,8 +606,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             unit: IoTFleetWiseClientTypes.TimeUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -634,8 +623,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             stateTemplateUpdateRate: IoTFleetWiseClientTypes.TimePeriod? = nil
-        )
-        {
+        ) {
             self.stateTemplateUpdateRate = stateTemplateUpdateRate
         }
     }
@@ -667,8 +655,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             identifier: Swift.String? = nil,
             stateTemplateUpdateStrategy: IoTFleetWiseClientTypes.StateTemplateUpdateStrategy? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.stateTemplateUpdateStrategy = stateTemplateUpdateStrategy
         }
@@ -689,8 +676,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -727,8 +713,7 @@ extension IoTFleetWiseClientTypes {
             stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
             tags: [IoTFleetWiseClientTypes.Tag]? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationBehavior = associationBehavior
             self.attributes = attributes
             self.decoderManifestArn = decoderManifestArn
@@ -747,8 +732,7 @@ public struct BatchCreateVehicleInput: Swift.Sendable {
 
     public init(
         vehicles: [IoTFleetWiseClientTypes.CreateVehicleRequestItem]? = nil
-    )
-    {
+    ) {
         self.vehicles = vehicles
     }
 }
@@ -768,8 +752,7 @@ extension IoTFleetWiseClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.vehicleName = vehicleName
@@ -792,8 +775,7 @@ extension IoTFleetWiseClientTypes {
             arn: Swift.String? = nil,
             thingArn: Swift.String? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.thingArn = thingArn
             self.vehicleName = vehicleName
@@ -810,8 +792,7 @@ public struct BatchCreateVehicleOutput: Swift.Sendable {
     public init(
         errors: [IoTFleetWiseClientTypes.CreateVehicleError]? = nil,
         vehicles: [IoTFleetWiseClientTypes.CreateVehicleResponseItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.vehicles = vehicles
     }
@@ -874,8 +855,7 @@ extension IoTFleetWiseClientTypes {
             stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
             stateTemplatesToRemove: [Swift.String]? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeUpdateMode = attributeUpdateMode
             self.attributes = attributes
             self.decoderManifestArn = decoderManifestArn
@@ -894,8 +874,7 @@ public struct BatchUpdateVehicleInput: Swift.Sendable {
 
     public init(
         vehicles: [IoTFleetWiseClientTypes.UpdateVehicleRequestItem]? = nil
-    )
-    {
+    ) {
         self.vehicles = vehicles
     }
 }
@@ -915,8 +894,7 @@ extension IoTFleetWiseClientTypes {
             code: Swift.Int = 0,
             message: Swift.String? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.vehicleName = vehicleName
@@ -936,8 +914,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             arn: Swift.String? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.vehicleName = vehicleName
         }
@@ -953,8 +930,7 @@ public struct BatchUpdateVehicleOutput: Swift.Sendable {
     public init(
         errors: [IoTFleetWiseClientTypes.UpdateVehicleError]? = nil,
         vehicles: [IoTFleetWiseClientTypes.UpdateVehicleResponseItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.vehicles = vehicles
     }
@@ -979,8 +955,7 @@ extension IoTFleetWiseClientTypes {
             deprecationMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             fullyQualifiedName: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.deprecationMessage = deprecationMessage
             self.description = description
@@ -990,9 +965,9 @@ extension IoTFleetWiseClientTypes {
 }
 
 /// The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The resource on which there are conflicting operations.
@@ -1016,8 +991,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resource: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resource = resource
         self.properties.resourceType = resourceType
@@ -1072,8 +1046,7 @@ extension IoTFleetWiseClientTypes {
             expression: Swift.String? = nil,
             minimumTriggerIntervalMs: Swift.Int? = nil,
             triggerMode: IoTFleetWiseClientTypes.TriggerMode? = nil
-        )
-        {
+        ) {
             self.conditionLanguageVersion = conditionLanguageVersion
             self.expression = expression
             self.minimumTriggerIntervalMs = minimumTriggerIntervalMs
@@ -1097,8 +1070,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             periodMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.periodMs = periodMs
         }
     }
@@ -1159,8 +1131,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             executionRoleArn: Swift.String? = nil,
             mqttTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionRoleArn = executionRoleArn
             self.mqttTopicArn = mqttTopicArn
         }
@@ -1248,8 +1219,7 @@ extension IoTFleetWiseClientTypes {
             dataFormat: IoTFleetWiseClientTypes.DataFormat? = nil,
             `prefix`: Swift.String? = nil,
             storageCompressionFormat: IoTFleetWiseClientTypes.StorageCompressionFormat? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
             self.dataFormat = dataFormat
             self.`prefix` = `prefix`
@@ -1272,8 +1242,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             executionRoleArn: Swift.String? = nil,
             timestreamTableArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionRoleArn = executionRoleArn
             self.timestreamTableArn = timestreamTableArn
         }
@@ -1340,8 +1309,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             unit: IoTFleetWiseClientTypes.StorageMaximumSizeUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1394,8 +1362,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             unit: IoTFleetWiseClientTypes.StorageMinimumTimeToLiveUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1426,8 +1393,7 @@ extension IoTFleetWiseClientTypes {
             maximumSize: IoTFleetWiseClientTypes.StorageMaximumSize? = nil,
             minimumTimeToLive: IoTFleetWiseClientTypes.StorageMinimumTimeToLive? = nil,
             storageLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.maximumSize = maximumSize
             self.minimumTimeToLive = minimumTimeToLive
             self.storageLocation = storageLocation
@@ -1453,8 +1419,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             conditionLanguageVersion: Swift.Int? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.conditionLanguageVersion = conditionLanguageVersion
             self.expression = expression
         }
@@ -1483,8 +1448,7 @@ extension IoTFleetWiseClientTypes {
             id: Swift.String? = nil,
             storageOptions: IoTFleetWiseClientTypes.DataPartitionStorageOptions? = nil,
             uploadOptions: IoTFleetWiseClientTypes.DataPartitionUploadOptions? = nil
-        )
-        {
+        ) {
             self.id = id
             self.storageOptions = storageOptions
             self.uploadOptions = uploadOptions
@@ -1540,8 +1504,7 @@ extension IoTFleetWiseClientTypes {
             maxSampleCount: Swift.Int? = nil,
             minimumSamplingIntervalMs: Swift.Int? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPartitionId = dataPartitionId
             self.maxSampleCount = maxSampleCount
             self.minimumSamplingIntervalMs = minimumSamplingIntervalMs
@@ -1564,8 +1527,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             conditionExpression: Swift.String? = nil,
             triggerMode: IoTFleetWiseClientTypes.TriggerMode? = nil
-        )
-        {
+        ) {
             self.conditionExpression = conditionExpression
             self.triggerMode = triggerMode
         }
@@ -1587,8 +1549,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             executionFrequencyMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.executionFrequencyMs = executionFrequencyMs
         }
     }
@@ -1627,8 +1588,7 @@ extension IoTFleetWiseClientTypes {
             conditionLanguageVersion: Swift.Int? = nil,
             fullyQualifiedName: Swift.String? = nil,
             signalFetchConfig: IoTFleetWiseClientTypes.SignalFetchConfig? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.conditionLanguageVersion = conditionLanguageVersion
             self.fullyQualifiedName = fullyQualifiedName
@@ -1733,8 +1693,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionScheme = collectionScheme
         self.compression = compression
         self.dataDestinationConfigs = dataDestinationConfigs
@@ -1770,8 +1729,7 @@ public struct CreateCampaignOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -1784,8 +1742,7 @@ public struct DeleteCampaignInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1799,8 +1756,7 @@ public struct DeleteCampaignOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -1813,8 +1769,7 @@ public struct GetCampaignInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1920,8 +1875,7 @@ public struct GetCampaignOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: IoTFleetWiseClientTypes.CampaignStatus? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.collectionScheme = collectionScheme
         self.compression = compression
@@ -1963,8 +1917,7 @@ public struct ListCampaignsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -2011,8 +1964,7 @@ extension IoTFleetWiseClientTypes {
             signalCatalogArn: Swift.String? = nil,
             status: IoTFleetWiseClientTypes.CampaignStatus? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -2034,8 +1986,7 @@ public struct ListCampaignsOutput: Swift.Sendable {
     public init(
         campaignSummaries: [IoTFleetWiseClientTypes.CampaignSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignSummaries = campaignSummaries
         self.nextToken = nextToken
     }
@@ -2101,8 +2052,7 @@ public struct UpdateCampaignInput: Swift.Sendable {
         dataExtraDimensions: [Swift.String]? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.dataExtraDimensions = dataExtraDimensions
         self.description = description
@@ -2135,8 +2085,7 @@ public struct UpdateCampaignOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
         status: IoTFleetWiseClientTypes.CampaignStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.status = status
@@ -2160,8 +2109,7 @@ extension IoTFleetWiseClientTypes {
             canDbcFiles: [Foundation.Data]? = nil,
             networkInterface: Swift.String? = nil,
             signalsMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.canDbcFiles = canDbcFiles
             self.networkInterface = networkInterface
             self.signalsMap = signalsMap
@@ -2185,8 +2133,7 @@ extension IoTFleetWiseClientTypes {
             name: Swift.String? = nil,
             protocolName: Swift.String? = nil,
             protocolVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.protocolName = protocolName
             self.protocolVersion = protocolVersion
@@ -2231,8 +2178,7 @@ extension IoTFleetWiseClientTypes {
             name: Swift.String? = nil,
             offset: Swift.Double? = nil,
             startBit: Swift.Int = 0
-        )
-        {
+        ) {
             self.factor = factor
             self.isBigEndian = isBigEndian
             self.isSigned = isSigned
@@ -2287,8 +2233,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             logGroupName: Swift.String? = nil,
             logType: IoTFleetWiseClientTypes.LogType? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
             self.logType = logType
         }
@@ -2354,8 +2299,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             interfaceId: Swift.String? = nil,
             reason: IoTFleetWiseClientTypes.NetworkInterfaceFailureReason? = nil
-        )
-        {
+        ) {
             self.interfaceId = interfaceId
             self.reason = reason
         }
@@ -2448,8 +2392,7 @@ extension IoTFleetWiseClientTypes {
             hint: Swift.String? = nil,
             name: Swift.String? = nil,
             reason: IoTFleetWiseClientTypes.SignalDecoderFailureReason? = nil
-        )
-        {
+        ) {
             self.hint = hint
             self.name = name
             self.reason = reason
@@ -2458,9 +2401,9 @@ extension IoTFleetWiseClientTypes {
 }
 
 /// The request couldn't be completed because it contains signal decoders with one or more validation errors.
-public struct DecoderManifestValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DecoderManifestValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The request couldn't be completed because of invalid network interfaces in the request.
         public internal(set) var invalidNetworkInterfaces: [IoTFleetWiseClientTypes.InvalidNetworkInterface]? = nil
         /// The request couldn't be completed because of invalid signals in the request.
@@ -2481,8 +2424,7 @@ public struct DecoderManifestValidationException: ClientRuntime.ModeledError, AW
         invalidNetworkInterfaces: [IoTFleetWiseClientTypes.InvalidNetworkInterface]? = nil,
         invalidSignals: [IoTFleetWiseClientTypes.InvalidSignalDecoder]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidNetworkInterfaces = invalidNetworkInterfaces
         self.properties.invalidSignals = invalidSignals
         self.properties.message = message
@@ -2525,8 +2467,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2561,8 +2502,7 @@ extension IoTFleetWiseClientTypes {
             pidRequestIntervalSeconds: Swift.Int = 0,
             requestMessageId: Swift.Int = 0,
             useExtendedIds: Swift.Bool = false
-        )
-        {
+        ) {
             self.dtcRequestIntervalSeconds = dtcRequestIntervalSeconds
             self.hasTransmissionEcu = hasTransmissionEcu
             self.name = name
@@ -2649,8 +2589,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             name: Swift.String? = nil,
             protocolName: IoTFleetWiseClientTypes.VehicleMiddlewareProtocol? = nil
-        )
-        {
+        ) {
             self.name = name
             self.protocolName = protocolName
         }
@@ -2683,8 +2622,7 @@ extension IoTFleetWiseClientTypes {
             obdInterface: IoTFleetWiseClientTypes.ObdInterface? = nil,
             type: IoTFleetWiseClientTypes.NetworkInterfaceType? = nil,
             vehicleMiddleware: IoTFleetWiseClientTypes.VehicleMiddleware? = nil
-        )
-        {
+        ) {
             self.canInterface = canInterface
             self.customDecodingInterface = customDecodingInterface
             self.interfaceId = interfaceId
@@ -2705,8 +2643,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -2799,8 +2736,7 @@ extension IoTFleetWiseClientTypes {
             primitiveType: IoTFleetWiseClientTypes.ROS2PrimitiveType? = nil,
             scaling: Swift.Double? = nil,
             upperBound: Swift.Int? = nil
-        )
-        {
+        ) {
             self.offset = offset
             self.primitiveType = primitiveType
             self.scaling = scaling
@@ -2891,8 +2827,7 @@ extension IoTFleetWiseClientTypes {
             scaling: Swift.Double? = nil,
             serviceMode: Swift.Int = 0,
             startByte: Swift.Int = 0
-        )
-        {
+        ) {
             self.bitMaskLength = bitMaskLength
             self.bitRightShift = bitRightShift
             self.byteLength = byteLength
@@ -2952,8 +2887,7 @@ public struct CreateDecoderManifestOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -2976,8 +2910,7 @@ public struct CreateFleetInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         signalCatalogArn: Swift.String? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.fleetId = fleetId
         self.signalCatalogArn = signalCatalogArn
@@ -2996,8 +2929,7 @@ public struct CreateFleetOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -3015,8 +2947,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             name: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.reason = reason
         }
@@ -3024,9 +2955,9 @@ extension IoTFleetWiseClientTypes {
 }
 
 /// The request couldn't be completed because it contains signals that aren't valid.
-public struct InvalidSignalsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSignalsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The signals which caused the exception.
         public internal(set) var invalidSignals: [IoTFleetWiseClientTypes.InvalidSignal]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -3044,8 +2975,7 @@ public struct InvalidSignalsException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         invalidSignals: [IoTFleetWiseClientTypes.InvalidSignal]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidSignals = invalidSignals
         self.properties.message = message
     }
@@ -3072,8 +3002,7 @@ public struct CreateModelManifestInput: Swift.Sendable {
         nodes: [Swift.String]? = nil,
         signalCatalogArn: Swift.String? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.nodes = nodes
@@ -3093,8 +3022,7 @@ public struct CreateModelManifestOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -3158,8 +3086,7 @@ extension IoTFleetWiseClientTypes {
             description: Swift.String? = nil,
             fullyQualifiedName: Swift.String? = nil,
             structFullyQualifiedName: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.dataEncoding = dataEncoding
             self.dataType = dataType
@@ -3209,8 +3136,7 @@ extension IoTFleetWiseClientTypes {
             min: Swift.Double? = nil,
             structFullyQualifiedName: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.comment = comment
             self.dataType = dataType
@@ -3244,8 +3170,7 @@ extension IoTFleetWiseClientTypes {
             deprecationMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             fullyQualifiedName: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.deprecationMessage = deprecationMessage
             self.description = description
@@ -3275,9 +3200,9 @@ extension IoTFleetWiseClientTypes {
 }
 
 /// The specified node type doesn't match the expected node type for a node. You can specify the node type as branch, sensor, actuator, or attribute.
-public struct InvalidNodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The specified node type isn't valid.
         public internal(set) var invalidNodes: [IoTFleetWiseClientTypes.Node]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -3298,8 +3223,7 @@ public struct InvalidNodeException: ClientRuntime.ModeledError, AWSClientRuntime
         invalidNodes: [IoTFleetWiseClientTypes.Node]? = nil,
         message: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidNodes = invalidNodes
         self.properties.message = message
         self.properties.reason = reason
@@ -3322,8 +3246,7 @@ public struct CreateSignalCatalogInput: Swift.Sendable {
         name: Swift.String? = nil,
         nodes: [IoTFleetWiseClientTypes.Node]? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.nodes = nodes
@@ -3342,8 +3265,7 @@ public struct CreateSignalCatalogOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -3376,8 +3298,7 @@ public struct CreateStateTemplateInput: Swift.Sendable {
         signalCatalogArn: Swift.String? = nil,
         stateTemplateProperties: [Swift.String]? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataExtraDimensions = dataExtraDimensions
         self.description = description
         self.metadataExtraDimensions = metadataExtraDimensions
@@ -3400,8 +3321,7 @@ public struct CreateStateTemplateOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -3435,8 +3355,7 @@ public struct CreateVehicleInput: Swift.Sendable {
         stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationBehavior = associationBehavior
         self.attributes = attributes
         self.decoderManifestArn = decoderManifestArn
@@ -3459,8 +3378,7 @@ public struct CreateVehicleOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         thingArn: Swift.String? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.thingArn = thingArn
         self.vehicleName = vehicleName
@@ -3474,8 +3392,7 @@ public struct DeleteDecoderManifestInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3491,8 +3408,7 @@ public struct DeleteDecoderManifestOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -3505,8 +3421,7 @@ public struct GetDecoderManifestInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3577,8 +3492,7 @@ public struct GetDecoderManifestOutput: Swift.Sendable {
         modelManifestArn: Swift.String? = nil,
         name: Swift.String? = nil,
         status: IoTFleetWiseClientTypes.ManifestStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -3611,8 +3525,7 @@ public struct ImportDecoderManifestInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         networkFileDefinitions: [IoTFleetWiseClientTypes.NetworkFileDefinition]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.networkFileDefinitions = networkFileDefinitions
     }
@@ -3629,8 +3542,7 @@ public struct ImportDecoderManifestOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -3649,8 +3561,7 @@ public struct ListDecoderManifestNetworkInterfacesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -3666,8 +3577,7 @@ public struct ListDecoderManifestNetworkInterfacesOutput: Swift.Sendable {
     public init(
         networkInterfaces: [IoTFleetWiseClientTypes.NetworkInterface]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkInterfaces = networkInterfaces
         self.nextToken = nextToken
     }
@@ -3685,8 +3595,7 @@ public struct ListDecoderManifestsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         modelManifestArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.modelManifestArn = modelManifestArn
         self.nextToken = nextToken
@@ -3725,8 +3634,7 @@ extension IoTFleetWiseClientTypes {
             modelManifestArn: Swift.String? = nil,
             name: Swift.String? = nil,
             status: IoTFleetWiseClientTypes.ManifestStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -3748,8 +3656,7 @@ public struct ListDecoderManifestsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTFleetWiseClientTypes.DecoderManifestSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -3768,8 +3675,7 @@ public struct ListDecoderManifestSignalsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -3787,8 +3693,7 @@ public struct UpdateDecoderManifestOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -3801,8 +3706,7 @@ public struct DeleteFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -3816,8 +3720,7 @@ public struct DeleteFleetOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -3830,8 +3733,7 @@ public struct DeleteModelManifestInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3847,8 +3749,7 @@ public struct DeleteModelManifestOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -3861,8 +3762,7 @@ public struct DeleteSignalCatalogInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3878,8 +3778,7 @@ public struct DeleteSignalCatalogOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -3892,8 +3791,7 @@ public struct DeleteStateTemplateInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -3910,8 +3808,7 @@ public struct DeleteStateTemplateOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -3925,8 +3822,7 @@ public struct DeleteVehicleInput: Swift.Sendable {
 
     public init(
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vehicleName = vehicleName
     }
 }
@@ -3942,8 +3838,7 @@ public struct DeleteVehicleOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.vehicleName = vehicleName
     }
@@ -3960,8 +3855,7 @@ public struct DisassociateVehicleFleetInput: Swift.Sendable {
     public init(
         fleetId: Swift.String? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.vehicleName = vehicleName
     }
@@ -4046,8 +3940,7 @@ public struct ListFleetsForVehicleInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.vehicleName = vehicleName
@@ -4063,8 +3956,7 @@ public struct ListFleetsForVehicleOutput: Swift.Sendable {
     public init(
         fleets: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleets = fleets
         self.nextToken = nextToken
     }
@@ -4077,8 +3969,7 @@ public struct GetFleetInput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -4109,8 +4000,7 @@ public struct GetFleetOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastModificationTime: Foundation.Date? = nil,
         signalCatalogArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -4129,8 +4019,7 @@ public struct ListFleetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4164,8 +4053,7 @@ extension IoTFleetWiseClientTypes {
             id: Swift.String? = nil,
             lastModificationTime: Foundation.Date? = nil,
             signalCatalogArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -4185,8 +4073,7 @@ public struct ListFleetsOutput: Swift.Sendable {
     public init(
         fleetSummaries: [IoTFleetWiseClientTypes.FleetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetSummaries = fleetSummaries
         self.nextToken = nextToken
     }
@@ -4202,8 +4089,7 @@ public struct UpdateFleetInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.fleetId = fleetId
     }
@@ -4218,8 +4104,7 @@ public struct UpdateFleetOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -4238,8 +4123,7 @@ public struct ListVehiclesInFleetInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4255,8 +4139,7 @@ public struct ListVehiclesInFleetOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vehicles: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vehicles = vehicles
     }
@@ -4300,8 +4183,7 @@ public struct GetEncryptionConfigurationOutput: Swift.Sendable {
         errorMessage: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lastModificationTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.encryptionStatus = encryptionStatus
         self.encryptionType = encryptionType
@@ -4323,8 +4205,7 @@ public struct GetLoggingOptionsOutput: Swift.Sendable {
 
     public init(
         cloudWatchLogDelivery: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogDelivery = cloudWatchLogDelivery
     }
 }
@@ -4336,8 +4217,7 @@ public struct GetModelManifestInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4370,8 +4250,7 @@ public struct GetModelManifestOutput: Swift.Sendable {
         name: Swift.String? = nil,
         signalCatalogArn: Swift.String? = nil,
         status: IoTFleetWiseClientTypes.ManifestStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -4436,8 +4315,7 @@ extension IoTFleetWiseClientTypes {
             errorMessage: Swift.String? = nil,
             registrationStatus: IoTFleetWiseClientTypes.RegistrationStatus? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.registrationStatus = registrationStatus
             self.roleArn = roleArn
@@ -4472,8 +4350,7 @@ extension IoTFleetWiseClientTypes {
             timestreamDatabaseName: Swift.String? = nil,
             timestreamTableArn: Swift.String? = nil,
             timestreamTableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.registrationStatus = registrationStatus
             self.timestreamDatabaseArn = timestreamDatabaseArn
@@ -4516,8 +4393,7 @@ public struct GetRegisterAccountStatusOutput: Swift.Sendable {
         iamRegistrationResponse: IoTFleetWiseClientTypes.IamRegistrationResponse? = nil,
         lastModificationTime: Foundation.Date? = nil,
         timestreamRegistrationResponse: IoTFleetWiseClientTypes.TimestreamRegistrationResponse? = nil
-    )
-    {
+    ) {
         self.accountStatus = accountStatus
         self.creationTime = creationTime
         self.customerAccountId = customerAccountId
@@ -4534,8 +4410,7 @@ public struct GetSignalCatalogInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4567,8 +4442,7 @@ extension IoTFleetWiseClientTypes {
             totalProperties: Swift.Int = 0,
             totalSensors: Swift.Int = 0,
             totalStructs: Swift.Int = 0
-        )
-        {
+        ) {
             self.totalActuators = totalActuators
             self.totalAttributes = totalAttributes
             self.totalBranches = totalBranches
@@ -4605,8 +4479,7 @@ public struct GetSignalCatalogOutput: Swift.Sendable {
         lastModificationTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         nodeCounts: IoTFleetWiseClientTypes.NodeCounts? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -4623,8 +4496,7 @@ public struct GetStateTemplateInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -4662,8 +4534,7 @@ public struct GetStateTemplateOutput: Swift.Sendable {
         name: Swift.String? = nil,
         signalCatalogArn: Swift.String? = nil,
         stateTemplateProperties: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.dataExtraDimensions = dataExtraDimensions
@@ -4684,8 +4555,7 @@ public struct GetVehicleInput: Swift.Sendable {
 
     public init(
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.vehicleName = vehicleName
     }
 }
@@ -4717,8 +4587,7 @@ public struct GetVehicleOutput: Swift.Sendable {
         modelManifestArn: Swift.String? = nil,
         stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.attributes = attributes
         self.creationTime = creationTime
@@ -4743,8 +4612,7 @@ public struct GetVehicleStatusInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.vehicleName = vehicleName
@@ -4814,8 +4682,7 @@ extension IoTFleetWiseClientTypes {
             campaignName: Swift.String? = nil,
             status: IoTFleetWiseClientTypes.VehicleState? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignName = campaignName
             self.status = status
             self.vehicleName = vehicleName
@@ -4832,8 +4699,7 @@ public struct GetVehicleStatusOutput: Swift.Sendable {
     public init(
         campaigns: [IoTFleetWiseClientTypes.VehicleStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaigns = campaigns
         self.nextToken = nextToken
     }
@@ -4849,8 +4715,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
         }
     }
@@ -4872,8 +4737,7 @@ public struct ImportSignalCatalogInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil,
         vss: IoTFleetWiseClientTypes.FormattedVss? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -4892,8 +4756,7 @@ public struct ImportSignalCatalogOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -4906,8 +4769,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -4918,8 +4780,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4937,8 +4798,7 @@ public struct ListModelManifestNodesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -4954,8 +4814,7 @@ public struct ListModelManifestNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodes: [IoTFleetWiseClientTypes.Node]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodes = nodes
     }
@@ -4973,8 +4832,7 @@ public struct ListModelManifestsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         signalCatalogArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.signalCatalogArn = signalCatalogArn
@@ -5010,8 +4868,7 @@ extension IoTFleetWiseClientTypes {
             name: Swift.String? = nil,
             signalCatalogArn: Swift.String? = nil,
             status: IoTFleetWiseClientTypes.ManifestStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -5032,8 +4889,7 @@ public struct ListModelManifestsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTFleetWiseClientTypes.ModelManifestSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -5058,8 +4914,7 @@ public struct UpdateModelManifestInput: Swift.Sendable {
         nodesToAdd: [Swift.String]? = nil,
         nodesToRemove: [Swift.String]? = nil,
         status: IoTFleetWiseClientTypes.ManifestStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.nodesToAdd = nodesToAdd
@@ -5079,8 +4934,7 @@ public struct UpdateModelManifestOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -5096,8 +4950,7 @@ public struct PutEncryptionConfigurationInput: Swift.Sendable {
     public init(
         encryptionType: IoTFleetWiseClientTypes.EncryptionType? = nil,
         kmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionType = encryptionType
         self.kmsKeyId = kmsKeyId
     }
@@ -5117,8 +4970,7 @@ public struct PutEncryptionConfigurationOutput: Swift.Sendable {
         encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus? = nil,
         encryptionType: IoTFleetWiseClientTypes.EncryptionType? = nil,
         kmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionStatus = encryptionStatus
         self.encryptionType = encryptionType
         self.kmsKeyId = kmsKeyId
@@ -5132,8 +4984,7 @@ public struct PutLoggingOptionsInput: Swift.Sendable {
 
     public init(
         cloudWatchLogDelivery: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogDelivery = cloudWatchLogDelivery
     }
 }
@@ -5157,8 +5008,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             timestreamDatabaseName: Swift.String? = nil,
             timestreamTableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.timestreamDatabaseName = timestreamDatabaseName
             self.timestreamTableName = timestreamTableName
         }
@@ -5176,8 +5026,7 @@ public struct RegisterAccountInput: Swift.Sendable {
     public init(
         iamResources: IoTFleetWiseClientTypes.IamResources? = nil,
         timestreamResources: IoTFleetWiseClientTypes.TimestreamResources? = nil
-    )
-    {
+    ) {
         self.iamResources = iamResources
         self.timestreamResources = timestreamResources
     }
@@ -5205,8 +5054,7 @@ public struct RegisterAccountOutput: Swift.Sendable {
         lastModificationTime: Foundation.Date? = nil,
         registerAccountStatus: IoTFleetWiseClientTypes.RegistrationStatus? = nil,
         timestreamResources: IoTFleetWiseClientTypes.TimestreamResources? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.iamResources = iamResources
         self.lastModificationTime = lastModificationTime
@@ -5272,8 +5120,7 @@ public struct ListSignalCatalogNodesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         signalNodeType: IoTFleetWiseClientTypes.SignalNodeType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -5290,8 +5137,7 @@ public struct ListSignalCatalogNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodes: [IoTFleetWiseClientTypes.Node]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodes = nodes
     }
@@ -5306,8 +5152,7 @@ public struct ListSignalCatalogsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5331,8 +5176,7 @@ extension IoTFleetWiseClientTypes {
             creationTime: Foundation.Date? = nil,
             lastModificationTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastModificationTime = lastModificationTime
@@ -5350,8 +5194,7 @@ public struct ListSignalCatalogsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTFleetWiseClientTypes.SignalCatalogSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -5376,8 +5219,7 @@ public struct UpdateSignalCatalogInput: Swift.Sendable {
         nodesToAdd: [IoTFleetWiseClientTypes.Node]? = nil,
         nodesToRemove: [Swift.String]? = nil,
         nodesToUpdate: [IoTFleetWiseClientTypes.Node]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.nodesToAdd = nodesToAdd
@@ -5397,8 +5239,7 @@ public struct UpdateSignalCatalogOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -5413,8 +5254,7 @@ public struct ListStateTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5447,8 +5287,7 @@ extension IoTFleetWiseClientTypes {
             lastModificationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             signalCatalogArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -5469,8 +5308,7 @@ public struct ListStateTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTFleetWiseClientTypes.StateTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -5498,8 +5336,7 @@ public struct UpdateStateTemplateInput: Swift.Sendable {
         metadataExtraDimensions: [Swift.String]? = nil,
         stateTemplatePropertiesToAdd: [Swift.String]? = nil,
         stateTemplatePropertiesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dataExtraDimensions = dataExtraDimensions
         self.description = description
         self.identifier = identifier
@@ -5521,8 +5358,7 @@ public struct UpdateStateTemplateOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -5540,8 +5376,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -5563,8 +5398,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -5593,8 +5427,7 @@ public struct ListVehiclesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         modelManifestArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.attributeValues = attributeValues
         self.maxResults = maxResults
@@ -5636,8 +5469,7 @@ extension IoTFleetWiseClientTypes {
             lastModificationTime: Foundation.Date? = nil,
             modelManifestArn: Swift.String? = nil,
             vehicleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attributes = attributes
             self.creationTime = creationTime
@@ -5658,8 +5490,7 @@ public struct ListVehiclesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vehicleSummaries: [IoTFleetWiseClientTypes.VehicleSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vehicleSummaries = vehicleSummaries
     }
@@ -5690,8 +5521,7 @@ public struct UpdateVehicleInput: Swift.Sendable {
         stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
         stateTemplatesToRemove: [Swift.String]? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeUpdateMode = attributeUpdateMode
         self.attributes = attributes
         self.decoderManifestArn = decoderManifestArn
@@ -5711,8 +5541,7 @@ public struct UpdateVehicleOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         vehicleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.vehicleName = vehicleName
     }
@@ -5746,8 +5575,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             dataType: IoTFleetWiseClientTypes.StructuredMessage? = nil,
             fieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.fieldName = fieldName
         }
@@ -5775,8 +5603,7 @@ extension IoTFleetWiseClientTypes {
             listType: IoTFleetWiseClientTypes.StructuredMessageListType? = nil,
             memberType: IoTFleetWiseClientTypes.StructuredMessage? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.listType = listType
             self.memberType = memberType
@@ -5799,8 +5626,7 @@ extension IoTFleetWiseClientTypes {
         public init(
             structuredMessage: IoTFleetWiseClientTypes.StructuredMessage? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.structuredMessage = structuredMessage
             self.topicName = topicName
         }
@@ -5837,8 +5663,7 @@ extension IoTFleetWiseClientTypes {
             messageSignal: IoTFleetWiseClientTypes.MessageSignal? = nil,
             obdSignal: IoTFleetWiseClientTypes.ObdSignal? = nil,
             type: IoTFleetWiseClientTypes.SignalDecoderType? = nil
-        )
-        {
+        ) {
             self.canSignal = canSignal
             self.customDecodingSignal = customDecodingSignal
             self.fullyQualifiedName = fullyQualifiedName
@@ -5876,8 +5701,7 @@ public struct CreateDecoderManifestInput: Swift.Sendable {
         networkInterfaces: [IoTFleetWiseClientTypes.NetworkInterface]? = nil,
         signalDecoders: [IoTFleetWiseClientTypes.SignalDecoder]? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.defaultForUnmappedSignals = defaultForUnmappedSignals
         self.description = description
         self.modelManifestArn = modelManifestArn
@@ -5897,8 +5721,7 @@ public struct ListDecoderManifestSignalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         signalDecoders: [IoTFleetWiseClientTypes.SignalDecoder]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.signalDecoders = signalDecoders
     }
@@ -5938,8 +5761,7 @@ public struct UpdateDecoderManifestInput: Swift.Sendable {
         signalDecodersToRemove: [Swift.String]? = nil,
         signalDecodersToUpdate: [IoTFleetWiseClientTypes.SignalDecoder]? = nil,
         status: IoTFleetWiseClientTypes.ManifestStatus? = nil
-    )
-    {
+    ) {
         self.defaultForUnmappedSignals = defaultForUnmappedSignals
         self.description = description
         self.name = name
@@ -6476,6 +6298,7 @@ extension AssociateVehicleFleetInput {
     static func write(value: AssociateVehicleFleetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fleetId"].write(value.fleetId)
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
@@ -6507,6 +6330,7 @@ extension CreateCampaignInput {
         try writer["description"].write(value.description)
         try writer["diagnosticsMode"].write(value.diagnosticsMode)
         try writer["expiryTime"].writeTimestamp(value.expiryTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["name"].write(value.name)
         try writer["postTriggerCollectionDuration"].write(value.postTriggerCollectionDuration)
         try writer["priority"].write(value.priority)
         try writer["signalCatalogArn"].write(value.signalCatalogArn)
@@ -6526,6 +6350,7 @@ extension CreateDecoderManifestInput {
         try writer["defaultForUnmappedSignals"].write(value.defaultForUnmappedSignals)
         try writer["description"].write(value.description)
         try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["name"].write(value.name)
         try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: IoTFleetWiseClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["signalDecoders"].writeList(value.signalDecoders, memberWritingClosure: IoTFleetWiseClientTypes.SignalDecoder.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6537,6 +6362,7 @@ extension CreateFleetInput {
     static func write(value: CreateFleetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["fleetId"].write(value.fleetId)
         try writer["signalCatalogArn"].write(value.signalCatalogArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -6547,6 +6373,7 @@ extension CreateModelManifestInput {
     static func write(value: CreateModelManifestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["nodes"].writeList(value.nodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["signalCatalogArn"].write(value.signalCatalogArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6558,6 +6385,7 @@ extension CreateSignalCatalogInput {
     static func write(value: CreateSignalCatalogInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["nodes"].writeList(value.nodes, memberWritingClosure: IoTFleetWiseClientTypes.Node.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -6570,6 +6398,7 @@ extension CreateStateTemplateInput {
         try writer["dataExtraDimensions"].writeList(value.dataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["metadataExtraDimensions"].writeList(value.metadataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
         try writer["signalCatalogArn"].write(value.signalCatalogArn)
         try writer["stateTemplateProperties"].writeList(value.stateTemplateProperties, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6586,62 +6415,63 @@ extension CreateVehicleInput {
         try writer["modelManifestArn"].write(value.modelManifestArn)
         try writer["stateTemplates"].writeList(value.stateTemplates, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
 extension DeleteCampaignInput {
 
     static func write(value: DeleteCampaignInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
 extension DeleteDecoderManifestInput {
 
     static func write(value: DeleteDecoderManifestInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
 extension DeleteFleetInput {
 
     static func write(value: DeleteFleetInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["fleetId"].write(value.fleetId)
     }
 }
 
 extension DeleteModelManifestInput {
 
     static func write(value: DeleteModelManifestInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
 extension DeleteSignalCatalogInput {
 
     static func write(value: DeleteSignalCatalogInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
 extension DeleteStateTemplateInput {
 
     static func write(value: DeleteStateTemplateInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
     }
 }
 
 extension DeleteVehicleInput {
 
     static func write(value: DeleteVehicleInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
@@ -6650,22 +6480,23 @@ extension DisassociateVehicleFleetInput {
     static func write(value: DisassociateVehicleFleetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fleetId"].write(value.fleetId)
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
 extension GetCampaignInput {
 
     static func write(value: GetCampaignInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
 extension GetDecoderManifestInput {
 
     static func write(value: GetDecoderManifestInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
@@ -6680,8 +6511,8 @@ extension GetEncryptionConfigurationInput {
 extension GetFleetInput {
 
     static func write(value: GetFleetInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["fleetId"].write(value.fleetId)
     }
 }
 
@@ -6696,8 +6527,8 @@ extension GetLoggingOptionsInput {
 extension GetModelManifestInput {
 
     static func write(value: GetModelManifestInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
@@ -6712,32 +6543,34 @@ extension GetRegisterAccountStatusInput {
 extension GetSignalCatalogInput {
 
     static func write(value: GetSignalCatalogInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
 extension GetStateTemplateInput {
 
     static func write(value: GetStateTemplateInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
     }
 }
 
 extension GetVehicleInput {
 
     static func write(value: GetVehicleInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
 extension GetVehicleStatusInput {
 
     static func write(value: GetVehicleStatusInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
@@ -6745,6 +6578,7 @@ extension ImportDecoderManifestInput {
 
     static func write(value: ImportDecoderManifestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["name"].write(value.name)
         try writer["networkFileDefinitions"].writeList(value.networkFileDefinitions, memberWritingClosure: IoTFleetWiseClientTypes.NetworkFileDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -6754,6 +6588,7 @@ extension ImportSignalCatalogInput {
     static func write(value: ImportSignalCatalogInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vss"].write(value.vss, with: IoTFleetWiseClientTypes.FormattedVss.write(value:to:))
     }
@@ -6762,112 +6597,138 @@ extension ImportSignalCatalogInput {
 extension ListCampaignsInput {
 
     static func write(value: ListCampaignsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["status"].write(value.status)
     }
 }
 
 extension ListDecoderManifestNetworkInterfacesInput {
 
     static func write(value: ListDecoderManifestNetworkInterfacesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["name"].write(value.name)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListDecoderManifestsInput {
 
     static func write(value: ListDecoderManifestsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListDecoderManifestSignalsInput {
 
     static func write(value: ListDecoderManifestSignalsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["name"].write(value.name)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListFleetsInput {
 
     static func write(value: ListFleetsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListFleetsForVehicleInput {
 
     static func write(value: ListFleetsForVehicleInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
 extension ListModelManifestNodesInput {
 
     static func write(value: ListModelManifestNodesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["name"].write(value.name)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListModelManifestsInput {
 
     static func write(value: ListModelManifestsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["signalCatalogArn"].write(value.signalCatalogArn)
     }
 }
 
 extension ListSignalCatalogNodesInput {
 
     static func write(value: ListSignalCatalogNodesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["name"].write(value.name)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["signalNodeType"].write(value.signalNodeType)
     }
 }
 
 extension ListSignalCatalogsInput {
 
     static func write(value: ListSignalCatalogsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListStateTemplatesInput {
 
     static func write(value: ListStateTemplatesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
     }
 }
 
 extension ListVehiclesInput {
 
     static func write(value: ListVehiclesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["attributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["attributeValues"].writeList(value.attributeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListVehiclesInFleetInput {
 
     static func write(value: ListVehiclesInFleetInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["fleetId"].write(value.fleetId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6901,6 +6762,7 @@ extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -6908,8 +6770,9 @@ extension TagResourceInput {
 extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6920,6 +6783,7 @@ extension UpdateCampaignInput {
         try writer["action"].write(value.action)
         try writer["dataExtraDimensions"].writeList(value.dataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
     }
 }
 
@@ -6929,6 +6793,7 @@ extension UpdateDecoderManifestInput {
         guard let value else { return }
         try writer["defaultForUnmappedSignals"].write(value.defaultForUnmappedSignals)
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["networkInterfacesToAdd"].writeList(value.networkInterfacesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["networkInterfacesToRemove"].writeList(value.networkInterfacesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["networkInterfacesToUpdate"].writeList(value.networkInterfacesToUpdate, memberWritingClosure: IoTFleetWiseClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6944,6 +6809,7 @@ extension UpdateFleetInput {
     static func write(value: UpdateFleetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["fleetId"].write(value.fleetId)
     }
 }
 
@@ -6952,6 +6818,7 @@ extension UpdateModelManifestInput {
     static func write(value: UpdateModelManifestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["nodesToAdd"].writeList(value.nodesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nodesToRemove"].writeList(value.nodesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].write(value.status)
@@ -6963,6 +6830,7 @@ extension UpdateSignalCatalogInput {
     static func write(value: UpdateSignalCatalogInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
         try writer["nodesToAdd"].writeList(value.nodesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.Node.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nodesToRemove"].writeList(value.nodesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nodesToUpdate"].writeList(value.nodesToUpdate, memberWritingClosure: IoTFleetWiseClientTypes.Node.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6975,6 +6843,7 @@ extension UpdateStateTemplateInput {
         guard let value else { return }
         try writer["dataExtraDimensions"].writeList(value.dataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
+        try writer["identifier"].write(value.identifier)
         try writer["metadataExtraDimensions"].writeList(value.metadataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stateTemplatePropertiesToAdd"].writeList(value.stateTemplatePropertiesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stateTemplatePropertiesToRemove"].writeList(value.stateTemplatePropertiesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6991,6 +6860,7 @@ extension UpdateVehicleInput {
         try writer["modelManifestArn"].write(value.modelManifestArn)
         try writer["stateTemplatesToAdd"].writeList(value.stateTemplatesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stateTemplatesToRemove"].writeList(value.stateTemplatesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 

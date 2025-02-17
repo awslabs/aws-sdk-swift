@@ -35,7 +35,7 @@ public struct PostToConnectionOutput: Swift.Sendable {
 }
 
 /// The caller is not authorized to invoke this operation.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ForbiddenException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -48,7 +48,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The connection with the provided id no longer exists.
-public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "GoneException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -61,7 +61,7 @@ public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "LimitExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -79,8 +79,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -91,8 +90,7 @@ public struct GetConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -110,8 +108,7 @@ extension ApiGatewayManagementApiClientTypes {
         public init(
             sourceIp: Swift.String? = nil,
             userAgent: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceIp = sourceIp
             self.userAgent = userAgent
         }
@@ -129,8 +126,7 @@ public struct GetConnectionOutput: Swift.Sendable {
         connectedAt: Foundation.Date? = nil,
         identity: ApiGatewayManagementApiClientTypes.Identity? = nil,
         lastActiveAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectedAt = connectedAt
         self.identity = identity
         self.lastActiveAt = lastActiveAt
@@ -138,9 +134,9 @@ public struct GetConnectionOutput: Swift.Sendable {
 }
 
 /// The data has exceeded the maximum size allowed.
-public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -155,8 +151,7 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -172,8 +167,7 @@ public struct PostToConnectionInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         data: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.data = data
     }

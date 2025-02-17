@@ -23,9 +23,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -41,8 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -245,8 +244,7 @@ public struct GetGlyphsInput: Swift.Sendable {
     public init(
         fontStack: Swift.String? = nil,
         fontUnicodeRange: Swift.String? = nil
-    )
-    {
+    ) {
         self.fontStack = fontStack
         self.fontUnicodeRange = fontUnicodeRange
     }
@@ -267,8 +265,7 @@ public struct GetGlyphsOutput: Swift.Sendable {
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -356,8 +353,7 @@ public struct GetSpritesInput: Swift.Sendable {
         fileName: Swift.String? = nil,
         style: GeoMapsClientTypes.MapStyle? = nil,
         variant: GeoMapsClientTypes.Variant? = nil
-    )
-    {
+    ) {
         self.colorScheme = colorScheme
         self.fileName = fileName
         self.style = style
@@ -380,8 +376,7 @@ public struct GetSpritesOutput: Swift.Sendable {
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -390,9 +385,9 @@ public struct GetSpritesOutput: Swift.Sendable {
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -408,16 +403,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -433,8 +427,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -453,8 +446,7 @@ extension GeoMapsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -509,9 +501,9 @@ extension GeoMapsClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message with the reason for the validation exception error.
         /// This member is required.
         public internal(set) var fieldList: [GeoMapsClientTypes.ValidationExceptionField]? = nil
@@ -535,8 +527,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [GeoMapsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: GeoMapsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -652,8 +643,7 @@ public struct GetStaticMapInput: Swift.Sendable {
         style: GeoMapsClientTypes.StaticMapStyle? = nil,
         width: Swift.Int? = nil,
         zoom: Swift.Float? = nil
-    )
-    {
+    ) {
         self.boundedPositions = boundedPositions
         self.boundingBox = boundingBox
         self.center = center
@@ -695,8 +685,7 @@ public struct GetStaticMapOutput: Swift.Sendable {
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil,
         pricingBucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -751,8 +740,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
         key: Swift.String? = nil,
         politicalView: Swift.String? = nil,
         style: GeoMapsClientTypes.MapStyle? = nil
-    )
-    {
+    ) {
         self.colorScheme = colorScheme
         self.key = key
         self.politicalView = politicalView
@@ -780,8 +768,7 @@ public struct GetStyleDescriptorOutput: Swift.Sendable {
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType
@@ -811,8 +798,7 @@ public struct GetTileInput: Swift.Sendable {
         x: Swift.String? = nil,
         y: Swift.String? = nil,
         z: Swift.String? = nil
-    )
-    {
+    ) {
         self.key = key
         self.tileset = tileset
         self.x = x
@@ -845,8 +831,7 @@ public struct GetTileOutput: Swift.Sendable {
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil,
         pricingBucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.blob = blob
         self.cacheControl = cacheControl
         self.contentType = contentType

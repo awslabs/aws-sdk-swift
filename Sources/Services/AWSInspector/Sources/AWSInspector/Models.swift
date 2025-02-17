@@ -126,9 +126,9 @@ extension InspectorClientTypes {
 }
 
 /// You do not have required permissions to access the requested resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -153,8 +153,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         canRetry: Swift.Bool? = nil,
         errorCode: InspectorClientTypes.AccessDeniedErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -162,9 +161,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Internal server error.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -185,8 +184,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         canRetry: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.message = message
     }
@@ -378,9 +376,9 @@ extension InspectorClientTypes {
 }
 
 /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -405,8 +403,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
         canRetry: Swift.Bool? = nil,
         errorCode: InspectorClientTypes.InvalidInputErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -461,9 +458,9 @@ extension InspectorClientTypes {
 }
 
 /// The request was rejected because it referenced an entity that does not exist. The error code describes the entity.
-public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -488,8 +485,7 @@ public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntim
         canRetry: Swift.Bool? = nil,
         errorCode: InspectorClientTypes.NoSuchEntityErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -497,9 +493,9 @@ public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The serice is temporary unavailable.
-public struct ServiceTemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceTemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can wait and then retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -520,8 +516,7 @@ public struct ServiceTemporarilyUnavailableException: ClientRuntime.ModeledError
     public init(
         canRetry: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.message = message
     }
@@ -540,8 +535,7 @@ extension InspectorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -559,8 +553,7 @@ public struct AddAttributesToFindingsInput: Swift.Sendable {
     public init(
         attributes: [InspectorClientTypes.Attribute]? = nil,
         findingArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.findingArns = findingArns
     }
@@ -621,8 +614,7 @@ extension InspectorClientTypes {
         public init(
             failureCode: InspectorClientTypes.FailedItemErrorCode? = nil,
             retryable: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.retryable = retryable
         }
@@ -636,8 +628,7 @@ public struct AddAttributesToFindingsOutput: Swift.Sendable {
 
     public init(
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
     }
 }
@@ -656,8 +647,7 @@ extension InspectorClientTypes {
         public init(
             agentId: Swift.String? = nil,
             assessmentRunArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentId = agentId
             self.assessmentRunArn = assessmentRunArn
         }
@@ -751,8 +741,7 @@ extension InspectorClientTypes {
         public init(
             agentHealthCodes: [InspectorClientTypes.AgentHealthCode]? = nil,
             agentHealths: [InspectorClientTypes.AgentHealth]? = nil
-        )
-        {
+        ) {
             self.agentHealthCodes = agentHealthCodes
             self.agentHealths = agentHealths
         }
@@ -790,8 +779,7 @@ extension InspectorClientTypes {
             ipv4Address: Swift.String? = nil,
             kernelVersion: Swift.String? = nil,
             operatingSystem: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentHealth = agentHealth
             self.agentId = agentId
             self.agentVersion = agentVersion
@@ -805,9 +793,9 @@ extension InspectorClientTypes {
 }
 
 /// You started an assessment run, but one of the instances is already participating in another assessment run.
-public struct AgentsAlreadyRunningAssessmentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AgentsAlreadyRunningAssessmentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         /// This member is required.
         public internal(set) var agents: [InspectorClientTypes.AgentAlreadyRunningAssessment]? = nil
@@ -836,8 +824,7 @@ public struct AgentsAlreadyRunningAssessmentException: ClientRuntime.ModeledErro
         agentsTruncated: Swift.Bool? = nil,
         canRetry: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.agents = agents
         self.properties.agentsTruncated = agentsTruncated
         self.properties.canRetry = canRetry
@@ -983,8 +970,7 @@ extension InspectorClientTypes {
             message: Swift.String? = nil,
             snsPublishStatusCode: InspectorClientTypes.AssessmentRunNotificationSnsStatusCode? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.date = date
             self.error = error
             self.event = event
@@ -1071,8 +1057,7 @@ extension InspectorClientTypes {
         public init(
             state: InspectorClientTypes.AssessmentRunState? = nil,
             stateChangedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateChangedAt = stateChangedAt
         }
@@ -1143,8 +1128,7 @@ extension InspectorClientTypes {
             stateChangedAt: Foundation.Date? = nil,
             stateChanges: [InspectorClientTypes.AssessmentRunStateChange]? = nil,
             userAttributesForFindings: [InspectorClientTypes.Attribute]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assessmentTemplateArn = assessmentTemplateArn
             self.completedAt = completedAt
@@ -1181,8 +1165,7 @@ extension InspectorClientTypes {
             count: Swift.Int? = nil,
             dataSize: Swift.Int? = nil,
             messageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.dataSize = dataSize
             self.messageType = messageType
@@ -1222,8 +1205,7 @@ extension InspectorClientTypes {
             assessmentRunArn: Swift.String? = nil,
             autoScalingGroup: Swift.String? = nil,
             telemetryMetadata: [InspectorClientTypes.TelemetryMetadata]? = nil
-        )
-        {
+        ) {
             self.agentHealth = agentHealth
             self.agentHealthCode = agentHealthCode
             self.agentHealthDetails = agentHealthDetails
@@ -1247,8 +1229,7 @@ extension InspectorClientTypes {
         public init(
             beginDate: Foundation.Date? = nil,
             endDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.beginDate = beginDate
             self.endDate = endDate
         }
@@ -1267,8 +1248,7 @@ extension InspectorClientTypes {
         public init(
             maxSeconds: Swift.Int? = nil,
             minSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxSeconds = maxSeconds
             self.minSeconds = minSeconds
         }
@@ -1302,8 +1282,7 @@ extension InspectorClientTypes {
             startTimeRange: InspectorClientTypes.TimestampRange? = nil,
             stateChangeTimeRange: InspectorClientTypes.TimestampRange? = nil,
             states: [InspectorClientTypes.AssessmentRunState]? = nil
-        )
-        {
+        ) {
             self.completionTimeRange = completionTimeRange
             self.durationRange = durationRange
             self.namePattern = namePattern
@@ -1316,9 +1295,9 @@ extension InspectorClientTypes {
 }
 
 /// You cannot perform a specified action if an assessment run is currently in progress.
-public struct AssessmentRunInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AssessmentRunInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ARNs of the assessment runs that are currently in progress.
         /// This member is required.
         public internal(set) var assessmentRunArns: [Swift.String]? = nil
@@ -1347,8 +1326,7 @@ public struct AssessmentRunInProgressException: ClientRuntime.ModeledError, AWSC
         assessmentRunArnsTruncated: Swift.Bool? = nil,
         canRetry: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.assessmentRunArns = assessmentRunArns
         self.properties.assessmentRunArnsTruncated = assessmentRunArnsTruncated
         self.properties.canRetry = canRetry
@@ -1381,8 +1359,7 @@ extension InspectorClientTypes {
             name: Swift.String? = nil,
             resourceGroupArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
@@ -1401,8 +1378,7 @@ extension InspectorClientTypes {
 
         public init(
             assessmentTargetNamePattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.assessmentTargetNamePattern = assessmentTargetNamePattern
         }
     }
@@ -1449,8 +1425,7 @@ extension InspectorClientTypes {
             name: Swift.String? = nil,
             rulesPackageArns: [Swift.String]? = nil,
             userAttributesForFindings: [InspectorClientTypes.Attribute]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assessmentRunCount = assessmentRunCount
             self.assessmentTargetArn = assessmentTargetArn
@@ -1479,8 +1454,7 @@ extension InspectorClientTypes {
             durationRange: InspectorClientTypes.DurationRange? = nil,
             namePattern: Swift.String? = nil,
             rulesPackageArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.durationRange = durationRange
             self.namePattern = namePattern
             self.rulesPackageArns = rulesPackageArns
@@ -1500,8 +1474,7 @@ extension InspectorClientTypes {
         public init(
             privateDnsName: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
         }
@@ -1520,8 +1493,7 @@ extension InspectorClientTypes {
         public init(
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
         }
@@ -1564,8 +1536,7 @@ extension InspectorClientTypes {
             securityGroups: [InspectorClientTypes.SecurityGroup]? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipv6Addresses = ipv6Addresses
             self.networkInterfaceId = networkInterfaceId
             self.privateDnsName = privateDnsName
@@ -1593,8 +1564,7 @@ extension InspectorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1632,8 +1602,7 @@ extension InspectorClientTypes {
             networkInterfaces: [InspectorClientTypes.NetworkInterface]? = nil,
             schemaVersion: Swift.Int = 0,
             tags: [InspectorClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.agentId = agentId
             self.amiId = amiId
             self.autoScalingGroup = autoScalingGroup
@@ -1702,9 +1671,9 @@ extension InspectorClientTypes {
 }
 
 /// Amazon Inspector cannot assume the cross-account role that it needs to list your EC2 instances during the assessment run.
-public struct InvalidCrossAccountRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCrossAccountRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -1729,8 +1698,7 @@ public struct InvalidCrossAccountRoleException: ClientRuntime.ModeledError, AWSC
         canRetry: Swift.Bool? = nil,
         errorCode: InspectorClientTypes.InvalidCrossAccountRoleErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -1776,9 +1744,9 @@ extension InspectorClientTypes {
 }
 
 /// The request was rejected because it attempted to create resources beyond the current AWS account limits. The error code describes the limit exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You can immediately retry your request.
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
@@ -1803,8 +1771,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         canRetry: Swift.Bool? = nil,
         errorCode: InspectorClientTypes.LimitExceededErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -1821,8 +1788,7 @@ public struct CreateAssessmentTargetInput: Swift.Sendable {
     public init(
         assessmentTargetName: Swift.String? = nil,
         resourceGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTargetName = assessmentTargetName
         self.resourceGroupArn = resourceGroupArn
     }
@@ -1835,8 +1801,7 @@ public struct CreateAssessmentTargetOutput: Swift.Sendable {
 
     public init(
         assessmentTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTargetArn = assessmentTargetArn
     }
 }
@@ -1863,8 +1828,7 @@ public struct CreateAssessmentTemplateInput: Swift.Sendable {
         durationInSeconds: Swift.Int? = nil,
         rulesPackageArns: [Swift.String]? = nil,
         userAttributesForFindings: [InspectorClientTypes.Attribute]? = nil
-    )
-    {
+    ) {
         self.assessmentTargetArn = assessmentTargetArn
         self.assessmentTemplateName = assessmentTemplateName
         self.durationInSeconds = durationInSeconds
@@ -1880,16 +1844,15 @@ public struct CreateAssessmentTemplateOutput: Swift.Sendable {
 
     public init(
         assessmentTemplateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTemplateArn = assessmentTemplateArn
     }
 }
 
 /// The request is rejected. The specified assessment template is currently generating an exclusions preview.
-public struct PreviewGenerationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreviewGenerationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1905,8 +1868,7 @@ public struct PreviewGenerationInProgressException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1918,8 +1880,7 @@ public struct CreateExclusionsPreviewInput: Swift.Sendable {
 
     public init(
         assessmentTemplateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTemplateArn = assessmentTemplateArn
     }
 }
@@ -1931,8 +1892,7 @@ public struct CreateExclusionsPreviewOutput: Swift.Sendable {
 
     public init(
         previewToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.previewToken = previewToken
     }
 }
@@ -1950,8 +1910,7 @@ extension InspectorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1965,8 +1924,7 @@ public struct CreateResourceGroupInput: Swift.Sendable {
 
     public init(
         resourceGroupTags: [InspectorClientTypes.ResourceGroupTag]? = nil
-    )
-    {
+    ) {
         self.resourceGroupTags = resourceGroupTags
     }
 }
@@ -1978,8 +1936,7 @@ public struct CreateResourceGroupOutput: Swift.Sendable {
 
     public init(
         resourceGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceGroupArn = resourceGroupArn
     }
 }
@@ -1991,8 +1948,7 @@ public struct DeleteAssessmentRunInput: Swift.Sendable {
 
     public init(
         assessmentRunArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunArn = assessmentRunArn
     }
 }
@@ -2004,8 +1960,7 @@ public struct DeleteAssessmentTargetInput: Swift.Sendable {
 
     public init(
         assessmentTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTargetArn = assessmentTargetArn
     }
 }
@@ -2017,8 +1972,7 @@ public struct DeleteAssessmentTemplateInput: Swift.Sendable {
 
     public init(
         assessmentTemplateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTemplateArn = assessmentTemplateArn
     }
 }
@@ -2030,8 +1984,7 @@ public struct DescribeAssessmentRunsInput: Swift.Sendable {
 
     public init(
         assessmentRunArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentRunArns = assessmentRunArns
     }
 }
@@ -2047,8 +2000,7 @@ public struct DescribeAssessmentRunsOutput: Swift.Sendable {
     public init(
         assessmentRuns: [InspectorClientTypes.AssessmentRun]? = nil,
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil
-    )
-    {
+    ) {
         self.assessmentRuns = assessmentRuns
         self.failedItems = failedItems
     }
@@ -2061,8 +2013,7 @@ public struct DescribeAssessmentTargetsInput: Swift.Sendable {
 
     public init(
         assessmentTargetArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentTargetArns = assessmentTargetArns
     }
 }
@@ -2078,8 +2029,7 @@ public struct DescribeAssessmentTargetsOutput: Swift.Sendable {
     public init(
         assessmentTargets: [InspectorClientTypes.AssessmentTarget]? = nil,
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil
-    )
-    {
+    ) {
         self.assessmentTargets = assessmentTargets
         self.failedItems = failedItems
     }
@@ -2091,8 +2041,7 @@ public struct DescribeAssessmentTemplatesInput: Swift.Sendable {
 
     public init(
         assessmentTemplateArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentTemplateArns = assessmentTemplateArns
     }
 }
@@ -2108,8 +2057,7 @@ public struct DescribeAssessmentTemplatesOutput: Swift.Sendable {
     public init(
         assessmentTemplates: [InspectorClientTypes.AssessmentTemplate]? = nil,
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil
-    )
-    {
+    ) {
         self.assessmentTemplates = assessmentTemplates
         self.failedItems = failedItems
     }
@@ -2130,8 +2078,7 @@ public struct DescribeCrossAccountAccessRoleOutput: Swift.Sendable {
         registeredAt: Foundation.Date? = nil,
         roleArn: Swift.String? = nil,
         valid: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.registeredAt = registeredAt
         self.roleArn = roleArn
         self.valid = valid
@@ -2174,8 +2121,7 @@ public struct DescribeExclusionsInput: Swift.Sendable {
     public init(
         exclusionArns: [Swift.String]? = nil,
         locale: InspectorClientTypes.Locale? = nil
-    )
-    {
+    ) {
         self.exclusionArns = exclusionArns
         self.locale = locale
     }
@@ -2222,8 +2168,7 @@ extension InspectorClientTypes {
         public init(
             key: InspectorClientTypes.ScopeType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2259,8 +2204,7 @@ extension InspectorClientTypes {
             recommendation: Swift.String? = nil,
             scopes: [InspectorClientTypes.Scope]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attributes = attributes
             self.description = description
@@ -2282,8 +2226,7 @@ public struct DescribeExclusionsOutput: Swift.Sendable {
     public init(
         exclusions: [Swift.String: InspectorClientTypes.Exclusion]? = nil,
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil
-    )
-    {
+    ) {
         self.exclusions = exclusions
         self.failedItems = failedItems
     }
@@ -2299,8 +2242,7 @@ public struct DescribeFindingsInput: Swift.Sendable {
     public init(
         findingArns: [Swift.String]? = nil,
         locale: InspectorClientTypes.Locale? = nil
-    )
-    {
+    ) {
         self.findingArns = findingArns
         self.locale = locale
     }
@@ -2322,8 +2264,7 @@ extension InspectorClientTypes {
             assessmentRunArn: Swift.String? = nil,
             rulesPackageArn: Swift.String? = nil,
             schemaVersion: Swift.Int = 0
-        )
-        {
+        ) {
             self.assessmentRunArn = assessmentRunArn
             self.rulesPackageArn = rulesPackageArn
             self.schemaVersion = schemaVersion
@@ -2396,8 +2337,7 @@ extension InspectorClientTypes {
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             userAttributes: [InspectorClientTypes.Attribute]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetAttributes = assetAttributes
             self.assetType = assetType
@@ -2431,8 +2371,7 @@ public struct DescribeFindingsOutput: Swift.Sendable {
     public init(
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil,
         findings: [InspectorClientTypes.Finding]? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
         self.findings = findings
     }
@@ -2445,8 +2384,7 @@ public struct DescribeResourceGroupsInput: Swift.Sendable {
 
     public init(
         resourceGroupArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceGroupArns = resourceGroupArns
     }
 }
@@ -2469,8 +2407,7 @@ extension InspectorClientTypes {
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             tags: [InspectorClientTypes.ResourceGroupTag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.tags = tags
@@ -2489,8 +2426,7 @@ public struct DescribeResourceGroupsOutput: Swift.Sendable {
     public init(
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil,
         resourceGroups: [InspectorClientTypes.ResourceGroup]? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
         self.resourceGroups = resourceGroups
     }
@@ -2506,8 +2442,7 @@ public struct DescribeRulesPackagesInput: Swift.Sendable {
     public init(
         locale: InspectorClientTypes.Locale? = nil,
         rulesPackageArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.locale = locale
         self.rulesPackageArns = rulesPackageArns
     }
@@ -2538,8 +2473,7 @@ extension InspectorClientTypes {
             name: Swift.String? = nil,
             provider: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.name = name
@@ -2560,8 +2494,7 @@ public struct DescribeRulesPackagesOutput: Swift.Sendable {
     public init(
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil,
         rulesPackages: [InspectorClientTypes.RulesPackage]? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
         self.rulesPackages = rulesPackages
     }
@@ -2581,8 +2514,7 @@ extension InspectorClientTypes {
         public init(
             event: InspectorClientTypes.InspectorEvent? = nil,
             subscribedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.event = event
             self.subscribedAt = subscribedAt
         }
@@ -2614,8 +2546,7 @@ extension InspectorClientTypes {
             recommendation: Swift.String? = nil,
             scopes: [InspectorClientTypes.Scope]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.description = description
             self.recommendation = recommendation
@@ -2655,8 +2586,7 @@ extension InspectorClientTypes {
             rulesPackageArns: [Swift.String]? = nil,
             severities: [InspectorClientTypes.Severity]? = nil,
             userAttributes: [InspectorClientTypes.Attribute]? = nil
-        )
-        {
+        ) {
             self.agentIds = agentIds
             self.attributes = attributes
             self.autoScalingGroups = autoScalingGroups
@@ -2670,9 +2600,9 @@ extension InspectorClientTypes {
 }
 
 /// Used by the [GetAssessmentReport] API. The request was rejected because you tried to generate a report for an assessment run that existed before reporting was supported in Amazon Inspector. You can only generate reports for assessment runs that took place or will take place after generating reports in Amazon Inspector became available.
-public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var canRetry: Swift.Bool? = nil
         /// This member is required.
@@ -2691,8 +2621,7 @@ public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClient
     public init(
         canRetry: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.canRetry = canRetry
         self.properties.message = message
     }
@@ -2771,8 +2700,7 @@ public struct GetAssessmentReportInput: Swift.Sendable {
         assessmentRunArn: Swift.String? = nil,
         reportFileFormat: InspectorClientTypes.ReportFileFormat? = nil,
         reportType: InspectorClientTypes.ReportType? = nil
-    )
-    {
+    ) {
         self.assessmentRunArn = assessmentRunArn
         self.reportFileFormat = reportFileFormat
         self.reportType = reportType
@@ -2821,8 +2749,7 @@ public struct GetAssessmentReportOutput: Swift.Sendable {
     public init(
         status: InspectorClientTypes.ReportStatus? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.url = url
     }
@@ -2848,8 +2775,7 @@ public struct GetExclusionsPreviewInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         previewToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTemplateArn = assessmentTemplateArn
         self.locale = locale
         self.maxResults = maxResults
@@ -2900,8 +2826,7 @@ public struct GetExclusionsPreviewOutput: Swift.Sendable {
         exclusionPreviews: [InspectorClientTypes.ExclusionPreview]? = nil,
         nextToken: Swift.String? = nil,
         previewStatus: InspectorClientTypes.PreviewStatus? = nil
-    )
-    {
+    ) {
         self.exclusionPreviews = exclusionPreviews
         self.nextToken = nextToken
         self.previewStatus = previewStatus
@@ -2915,8 +2840,7 @@ public struct GetTelemetryMetadataInput: Swift.Sendable {
 
     public init(
         assessmentRunArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunArn = assessmentRunArn
     }
 }
@@ -2928,8 +2852,7 @@ public struct GetTelemetryMetadataOutput: Swift.Sendable {
 
     public init(
         telemetryMetadata: [InspectorClientTypes.TelemetryMetadata]? = nil
-    )
-    {
+    ) {
         self.telemetryMetadata = telemetryMetadata
     }
 }
@@ -2950,8 +2873,7 @@ public struct ListAssessmentRunAgentsInput: Swift.Sendable {
         filter: InspectorClientTypes.AgentFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunArn = assessmentRunArn
         self.filter = filter
         self.maxResults = maxResults
@@ -2969,8 +2891,7 @@ public struct ListAssessmentRunAgentsOutput: Swift.Sendable {
     public init(
         assessmentRunAgents: [InspectorClientTypes.AssessmentRunAgent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunAgents = assessmentRunAgents
         self.nextToken = nextToken
     }
@@ -2991,8 +2912,7 @@ public struct ListAssessmentRunsInput: Swift.Sendable {
         filter: InspectorClientTypes.AssessmentRunFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTemplateArns = assessmentTemplateArns
         self.filter = filter
         self.maxResults = maxResults
@@ -3010,8 +2930,7 @@ public struct ListAssessmentRunsOutput: Swift.Sendable {
     public init(
         assessmentRunArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunArns = assessmentRunArns
         self.nextToken = nextToken
     }
@@ -3029,8 +2948,7 @@ public struct ListAssessmentTargetsInput: Swift.Sendable {
         filter: InspectorClientTypes.AssessmentTargetFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3047,8 +2965,7 @@ public struct ListAssessmentTargetsOutput: Swift.Sendable {
     public init(
         assessmentTargetArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTargetArns = assessmentTargetArns
         self.nextToken = nextToken
     }
@@ -3069,8 +2986,7 @@ public struct ListAssessmentTemplatesInput: Swift.Sendable {
         filter: InspectorClientTypes.AssessmentTemplateFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTargetArns = assessmentTargetArns
         self.filter = filter
         self.maxResults = maxResults
@@ -3088,8 +3004,7 @@ public struct ListAssessmentTemplatesOutput: Swift.Sendable {
     public init(
         assessmentTemplateArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTemplateArns = assessmentTemplateArns
         self.nextToken = nextToken
     }
@@ -3107,8 +3022,7 @@ public struct ListEventSubscriptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -3133,8 +3047,7 @@ extension InspectorClientTypes {
             eventSubscriptions: [InspectorClientTypes.EventSubscription]? = nil,
             resourceArn: Swift.String? = nil,
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventSubscriptions = eventSubscriptions
             self.resourceArn = resourceArn
             self.topicArn = topicArn
@@ -3152,8 +3065,7 @@ public struct ListEventSubscriptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscriptions: [InspectorClientTypes.Subscription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscriptions = subscriptions
     }
@@ -3172,8 +3084,7 @@ public struct ListExclusionsInput: Swift.Sendable {
         assessmentRunArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunArn = assessmentRunArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3190,8 +3101,7 @@ public struct ListExclusionsOutput: Swift.Sendable {
     public init(
         exclusionArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusionArns = exclusionArns
         self.nextToken = nextToken
     }
@@ -3212,8 +3122,7 @@ public struct ListFindingsInput: Swift.Sendable {
         filter: InspectorClientTypes.FindingFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunArns = assessmentRunArns
         self.filter = filter
         self.maxResults = maxResults
@@ -3231,8 +3140,7 @@ public struct ListFindingsOutput: Swift.Sendable {
     public init(
         findingArns: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingArns = findingArns
         self.nextToken = nextToken
     }
@@ -3247,8 +3155,7 @@ public struct ListRulesPackagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3264,8 +3171,7 @@ public struct ListRulesPackagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rulesPackageArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rulesPackageArns = rulesPackageArns
     }
@@ -3278,8 +3184,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3291,8 +3196,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [InspectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3310,8 +3214,7 @@ public struct PreviewAgentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         previewAgentsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.previewAgentsArn = previewAgentsArn
@@ -3328,8 +3231,7 @@ public struct PreviewAgentsOutput: Swift.Sendable {
     public init(
         agentPreviews: [InspectorClientTypes.AgentPreview]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentPreviews = agentPreviews
         self.nextToken = nextToken
     }
@@ -3342,8 +3244,7 @@ public struct RegisterCrossAccountAccessRoleInput: Swift.Sendable {
 
     public init(
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleArn = roleArn
     }
 }
@@ -3359,8 +3260,7 @@ public struct RemoveAttributesFromFindingsInput: Swift.Sendable {
     public init(
         attributeKeys: [Swift.String]? = nil,
         findingArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeKeys = attributeKeys
         self.findingArns = findingArns
     }
@@ -3373,8 +3273,7 @@ public struct RemoveAttributesFromFindingsOutput: Swift.Sendable {
 
     public init(
         failedItems: [Swift.String: InspectorClientTypes.FailedItemDetails]? = nil
-    )
-    {
+    ) {
         self.failedItems = failedItems
     }
 }
@@ -3389,8 +3288,7 @@ public struct SetTagsForResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [InspectorClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3406,8 +3304,7 @@ public struct StartAssessmentRunInput: Swift.Sendable {
     public init(
         assessmentRunName: Swift.String? = nil,
         assessmentTemplateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunName = assessmentRunName
         self.assessmentTemplateArn = assessmentTemplateArn
     }
@@ -3420,8 +3317,7 @@ public struct StartAssessmentRunOutput: Swift.Sendable {
 
     public init(
         assessmentRunArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentRunArn = assessmentRunArn
     }
 }
@@ -3465,8 +3361,7 @@ public struct StopAssessmentRunInput: Swift.Sendable {
     public init(
         assessmentRunArn: Swift.String? = nil,
         stopAction: InspectorClientTypes.StopAction? = nil
-    )
-    {
+    ) {
         self.assessmentRunArn = assessmentRunArn
         self.stopAction = stopAction
     }
@@ -3487,8 +3382,7 @@ public struct SubscribeToEventInput: Swift.Sendable {
         event: InspectorClientTypes.InspectorEvent? = nil,
         resourceArn: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.event = event
         self.resourceArn = resourceArn
         self.topicArn = topicArn
@@ -3510,8 +3404,7 @@ public struct UnsubscribeFromEventInput: Swift.Sendable {
         event: InspectorClientTypes.InspectorEvent? = nil,
         resourceArn: Swift.String? = nil,
         topicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.event = event
         self.resourceArn = resourceArn
         self.topicArn = topicArn
@@ -3532,8 +3425,7 @@ public struct UpdateAssessmentTargetInput: Swift.Sendable {
         assessmentTargetArn: Swift.String? = nil,
         assessmentTargetName: Swift.String? = nil,
         resourceGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentTargetArn = assessmentTargetArn
         self.assessmentTargetName = assessmentTargetName
         self.resourceGroupArn = resourceGroupArn

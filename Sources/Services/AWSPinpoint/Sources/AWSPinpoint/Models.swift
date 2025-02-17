@@ -218,8 +218,7 @@ extension PinpointClientTypes {
             timezonesTotalCount: Swift.Int? = nil,
             totalEndpointCount: Swift.Int? = nil,
             treatmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.end = end
@@ -251,8 +250,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.ActivityResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -330,8 +328,7 @@ extension PinpointClientTypes {
         public init(
             attributeType: PinpointClientTypes.AttributeType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeType = attributeType
             self.values = values
         }
@@ -380,8 +377,7 @@ extension PinpointClientTypes {
         public init(
             dimensionType: PinpointClientTypes.DimensionType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionType = dimensionType
             self.values = values
         }
@@ -402,8 +398,7 @@ extension PinpointClientTypes {
         public init(
             comparisonOperator: Swift.String? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.value = value
         }
@@ -425,8 +420,7 @@ extension PinpointClientTypes {
             attributes: [Swift.String: PinpointClientTypes.AttributeDimension]? = nil,
             eventType: PinpointClientTypes.SetDimension? = nil,
             metrics: [Swift.String: PinpointClientTypes.MetricDimension]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.eventType = eventType
             self.metrics = metrics
@@ -446,8 +440,7 @@ extension PinpointClientTypes {
         public init(
             dimensions: PinpointClientTypes.EventDimensions? = nil,
             messageActivity: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.messageActivity = messageActivity
         }
@@ -464,8 +457,7 @@ extension PinpointClientTypes {
 
         public init(
             segmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.segmentId = segmentId
         }
     }
@@ -549,8 +541,7 @@ extension PinpointClientTypes {
         public init(
             duration: PinpointClientTypes.Duration? = nil,
             recencyType: PinpointClientTypes.RecencyType? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.recencyType = recencyType
         }
@@ -566,8 +557,7 @@ extension PinpointClientTypes {
 
         public init(
             recency: PinpointClientTypes.RecencyDimension? = nil
-        )
-        {
+        ) {
             self.recency = recency
         }
     }
@@ -597,8 +587,7 @@ extension PinpointClientTypes {
             make: PinpointClientTypes.SetDimension? = nil,
             model: PinpointClientTypes.SetDimension? = nil,
             platform: PinpointClientTypes.SetDimension? = nil
-        )
-        {
+        ) {
             self.appVersion = appVersion
             self.channel = channel
             self.deviceType = deviceType
@@ -623,8 +612,7 @@ extension PinpointClientTypes {
         public init(
             latitude: Swift.Double? = nil,
             longitude: Swift.Double? = nil
-        )
-        {
+        ) {
             self.latitude = latitude
             self.longitude = longitude
         }
@@ -644,8 +632,7 @@ extension PinpointClientTypes {
         public init(
             coordinates: PinpointClientTypes.GPSCoordinates? = nil,
             rangeInKilometers: Swift.Double? = nil
-        )
-        {
+        ) {
             self.coordinates = coordinates
             self.rangeInKilometers = rangeInKilometers
         }
@@ -664,8 +651,7 @@ extension PinpointClientTypes {
         public init(
             country: PinpointClientTypes.SetDimension? = nil,
             gpsPoint: PinpointClientTypes.GPSPointDimension? = nil
-        )
-        {
+        ) {
             self.country = country
             self.gpsPoint = gpsPoint
         }
@@ -696,8 +682,7 @@ extension PinpointClientTypes {
             location: PinpointClientTypes.SegmentLocation? = nil,
             metrics: [Swift.String: PinpointClientTypes.MetricDimension]? = nil,
             userAttributes: [Swift.String: PinpointClientTypes.AttributeDimension]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.behavior = behavior
             self.demographic = demographic
@@ -723,8 +708,7 @@ extension PinpointClientTypes {
             eventCondition: PinpointClientTypes.EventCondition? = nil,
             segmentCondition: PinpointClientTypes.SegmentCondition? = nil,
             segmentDimensions: PinpointClientTypes.SegmentDimensions? = nil
-        )
-        {
+        ) {
             self.eventCondition = eventCondition
             self.segmentCondition = segmentCondition
             self.segmentDimensions = segmentDimensions
@@ -773,8 +757,7 @@ extension PinpointClientTypes {
         public init(
             conditions: [PinpointClientTypes.SimpleCondition]? = nil,
             `operator`: PinpointClientTypes.Operator? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
             self.`operator` = `operator`
         }
@@ -793,8 +776,7 @@ extension PinpointClientTypes {
         public init(
             waitFor: Swift.String? = nil,
             waitUntil: Swift.String? = nil
-        )
-        {
+        ) {
             self.waitFor = waitFor
             self.waitUntil = waitUntil
         }
@@ -819,8 +801,7 @@ extension PinpointClientTypes {
             evaluationWaitTime: PinpointClientTypes.WaitTime? = nil,
             falseActivity: Swift.String? = nil,
             trueActivity: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.evaluationWaitTime = evaluationWaitTime
             self.falseActivity = falseActivity
@@ -837,8 +818,7 @@ extension PinpointClientTypes {
 
         public init(
             nextActivity: Swift.String? = nil
-        )
-        {
+        ) {
             self.nextActivity = nextActivity
         }
     }
@@ -853,8 +833,7 @@ extension PinpointClientTypes {
 
         public init(
             data: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -888,8 +867,7 @@ extension PinpointClientTypes {
             nextActivity: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryUri = deliveryUri
             self.endpointTypes = endpointTypes
             self.messageConfig = messageConfig
@@ -909,8 +887,7 @@ extension PinpointClientTypes {
 
         public init(
             fromAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.fromAddress = fromAddress
         }
     }
@@ -934,8 +911,7 @@ extension PinpointClientTypes {
             nextActivity: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageConfig = messageConfig
             self.nextActivity = nextActivity
             self.templateName = templateName
@@ -957,8 +933,7 @@ extension PinpointClientTypes {
         public init(
             nextActivity: Swift.String? = nil,
             percentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.nextActivity = nextActivity
             self.percentage = percentage
         }
@@ -977,8 +952,7 @@ extension PinpointClientTypes {
         public init(
             condition: PinpointClientTypes.SimpleCondition? = nil,
             nextActivity: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.nextActivity = nextActivity
         }
@@ -1000,8 +974,7 @@ extension PinpointClientTypes {
             branches: [PinpointClientTypes.MultiConditionalBranch]? = nil,
             defaultActivity: Swift.String? = nil,
             evaluationWaitTime: PinpointClientTypes.WaitTime? = nil
-        )
-        {
+        ) {
             self.branches = branches
             self.defaultActivity = defaultActivity
             self.evaluationWaitTime = evaluationWaitTime
@@ -1018,8 +991,7 @@ extension PinpointClientTypes {
 
         public init(
             timeToLive: Swift.String? = nil
-        )
-        {
+        ) {
             self.timeToLive = timeToLive
         }
     }
@@ -1043,8 +1015,7 @@ extension PinpointClientTypes {
             nextActivity: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageConfig = messageConfig
             self.nextActivity = nextActivity
             self.templateName = templateName
@@ -1065,8 +1036,7 @@ extension PinpointClientTypes {
         public init(
             nextActivity: Swift.String? = nil,
             percentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.nextActivity = nextActivity
             self.percentage = percentage
         }
@@ -1082,8 +1052,7 @@ extension PinpointClientTypes {
 
         public init(
             branches: [PinpointClientTypes.RandomSplitEntry]? = nil
-        )
-        {
+        ) {
             self.branches = branches
         }
     }
@@ -1139,8 +1108,7 @@ extension PinpointClientTypes {
             originationNumber: Swift.String? = nil,
             senderId: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.messageType = messageType
             self.originationNumber = originationNumber
@@ -1168,8 +1136,7 @@ extension PinpointClientTypes {
             nextActivity: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageConfig = messageConfig
             self.nextActivity = nextActivity
             self.templateName = templateName
@@ -1190,8 +1157,7 @@ extension PinpointClientTypes {
         public init(
             nextActivity: Swift.String? = nil,
             waitTime: PinpointClientTypes.WaitTime? = nil
-        )
-        {
+        ) {
             self.nextActivity = nextActivity
             self.waitTime = waitTime
         }
@@ -1237,8 +1203,7 @@ extension PinpointClientTypes {
             randomSplit: PinpointClientTypes.RandomSplitActivity? = nil,
             sms: PinpointClientTypes.SMSMessageActivity? = nil,
             wait: PinpointClientTypes.WaitActivity? = nil
-        )
-        {
+        ) {
             self.conditionalSplit = conditionalSplit
             self.contactCenter = contactCenter
             self.custom = custom
@@ -1340,8 +1305,7 @@ extension PinpointClientTypes {
             rawContent: Swift.String? = nil,
             substitutions: [Swift.String: [Swift.String]]? = nil,
             titleOverride: Swift.String? = nil
-        )
-        {
+        ) {
             self.bodyOverride = bodyOverride
             self.channelType = channelType
             self.context = context
@@ -1369,8 +1333,7 @@ extension PinpointClientTypes {
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
             self.enabled = enabled
@@ -1415,8 +1378,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -1491,8 +1453,7 @@ extension PinpointClientTypes {
             substitutions: [Swift.String: [Swift.String]]? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.consolidationKey = consolidationKey
@@ -1584,8 +1545,7 @@ extension PinpointClientTypes {
             sound: Swift.String? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.imageIconUrl = imageIconUrl
@@ -1629,8 +1589,7 @@ extension PinpointClientTypes {
             teamId: Swift.String? = nil,
             tokenKey: Swift.String? = nil,
             tokenKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.certificate = certificate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -1686,8 +1645,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -1787,8 +1745,7 @@ extension PinpointClientTypes {
             timeToLive: Swift.Int? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.apnsPushType = apnsPushType
             self.badge = badge
@@ -1844,8 +1801,7 @@ extension PinpointClientTypes {
             sound: Swift.String? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.mediaUrl = mediaUrl
@@ -1887,8 +1843,7 @@ extension PinpointClientTypes {
             teamId: Swift.String? = nil,
             tokenKey: Swift.String? = nil,
             tokenKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.certificate = certificate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -1944,8 +1899,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -1992,8 +1946,7 @@ extension PinpointClientTypes {
             teamId: Swift.String? = nil,
             tokenKey: Swift.String? = nil,
             tokenKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.certificate = certificate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -2049,8 +2002,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -2097,8 +2049,7 @@ extension PinpointClientTypes {
             teamId: Swift.String? = nil,
             tokenKey: Swift.String? = nil,
             tokenKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bundleId = bundleId
             self.certificate = certificate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -2154,8 +2105,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
@@ -2190,8 +2140,7 @@ extension PinpointClientTypes {
             key: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.value = value
@@ -2213,8 +2162,7 @@ extension PinpointClientTypes {
         public init(
             groupedBys: [PinpointClientTypes.ResultRowValue]? = nil,
             values: [PinpointClientTypes.ResultRowValue]? = nil
-        )
-        {
+        ) {
             self.groupedBys = groupedBys
             self.values = values
         }
@@ -2231,8 +2179,7 @@ extension PinpointClientTypes {
 
         public init(
             rows: [PinpointClientTypes.ResultRow]? = nil
-        )
-        {
+        ) {
             self.rows = rows
         }
     }
@@ -2267,8 +2214,7 @@ extension PinpointClientTypes {
             kpiResult: PinpointClientTypes.BaseKpiResult? = nil,
             nextToken: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.kpiName = kpiName
@@ -2303,8 +2249,7 @@ extension PinpointClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.id = id
@@ -2326,8 +2271,7 @@ extension PinpointClientTypes {
         public init(
             cap: Swift.Int? = nil,
             days: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cap = cap
             self.days = days
         }
@@ -2349,8 +2293,7 @@ extension PinpointClientTypes {
             dailyCap: Swift.Int? = nil,
             timeframeCap: PinpointClientTypes.JourneyTimeframeCap? = nil,
             totalCap: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dailyCap = dailyCap
             self.timeframeCap = timeframeCap
             self.totalCap = totalCap
@@ -2406,8 +2349,7 @@ extension PinpointClientTypes {
             lambdaFunctionName: Swift.String? = nil,
             mode: PinpointClientTypes.Mode? = nil,
             webUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaFunctionName = lambdaFunctionName
             self.mode = mode
             self.webUrl = webUrl
@@ -2436,8 +2378,7 @@ extension PinpointClientTypes {
             messagesPerSecond: Swift.Int? = nil,
             session: Swift.Int? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.daily = daily
             self.maximumDuration = maximumDuration
             self.messagesPerSecond = messagesPerSecond
@@ -2459,8 +2400,7 @@ extension PinpointClientTypes {
         public init(
             end: Swift.String? = nil,
             start: Swift.String? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -2501,8 +2441,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             limits: PinpointClientTypes.CampaignLimits? = nil,
             quietTime: PinpointClientTypes.QuietTime? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.campaignHook = campaignHook
             self.journeyLimits = journeyLimits
@@ -2525,8 +2464,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.ApplicationResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -2556,8 +2494,7 @@ extension PinpointClientTypes {
             applicationId: Swift.String? = nil,
             attributeType: Swift.String? = nil,
             attributes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.attributeType = attributeType
             self.attributes = attributes
@@ -2566,9 +2503,9 @@ extension PinpointClientTypes {
 }
 
 /// Provides information about an API request or response.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -2587,8 +2524,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
@@ -2611,8 +2547,7 @@ extension PinpointClientTypes {
             apiKey: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             secretKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.enabled = enabled
             self.secretKey = secretKey
@@ -2661,8 +2596,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
@@ -2732,8 +2666,7 @@ extension PinpointClientTypes {
             timeToLive: Swift.Int? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.data = data
@@ -2793,8 +2726,7 @@ extension PinpointClientTypes {
 
         public init(
             data: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -2833,8 +2765,7 @@ extension PinpointClientTypes {
             kpiResult: PinpointClientTypes.BaseKpiResult? = nil,
             nextToken: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.endTime = endTime
@@ -2858,8 +2789,7 @@ extension PinpointClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2887,8 +2817,7 @@ extension PinpointClientTypes {
             headers: [PinpointClientTypes.MessageHeader]? = nil,
             htmlBody: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.fromAddress = fromAddress
             self.headers = headers
@@ -2941,8 +2870,7 @@ extension PinpointClientTypes {
         public init(
             dimensions: PinpointClientTypes.EventDimensions? = nil,
             filterType: PinpointClientTypes.FilterType? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.filterType = filterType
         }
@@ -2967,8 +2895,7 @@ extension PinpointClientTypes {
             alignment: PinpointClientTypes.Alignment? = nil,
             body: Swift.String? = nil,
             textColor: Swift.String? = nil
-        )
-        {
+        ) {
             self.alignment = alignment
             self.body = body
             self.textColor = textColor
@@ -2994,8 +2921,7 @@ extension PinpointClientTypes {
             alignment: PinpointClientTypes.Alignment? = nil,
             header: Swift.String? = nil,
             textColor: Swift.String? = nil
-        )
-        {
+        ) {
             self.alignment = alignment
             self.header = header
             self.textColor = textColor
@@ -3016,8 +2942,7 @@ extension PinpointClientTypes {
         public init(
             buttonAction: PinpointClientTypes.ButtonAction? = nil,
             link: Swift.String? = nil
-        )
-        {
+        ) {
             self.buttonAction = buttonAction
             self.link = link
         }
@@ -3050,8 +2975,7 @@ extension PinpointClientTypes {
             link: Swift.String? = nil,
             text: Swift.String? = nil,
             textColor: Swift.String? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.borderRadius = borderRadius
             self.buttonAction = buttonAction
@@ -3080,8 +3004,7 @@ extension PinpointClientTypes {
             defaultConfig: PinpointClientTypes.DefaultButtonConfiguration? = nil,
             ios: PinpointClientTypes.OverrideButtonConfiguration? = nil,
             web: PinpointClientTypes.OverrideButtonConfiguration? = nil
-        )
-        {
+        ) {
             self.android = android
             self.defaultConfig = defaultConfig
             self.ios = ios
@@ -3114,8 +3037,7 @@ extension PinpointClientTypes {
             imageUrl: Swift.String? = nil,
             primaryBtn: PinpointClientTypes.InAppMessageButton? = nil,
             secondaryBtn: PinpointClientTypes.InAppMessageButton? = nil
-        )
-        {
+        ) {
             self.backgroundColor = backgroundColor
             self.bodyConfig = bodyConfig
             self.headerConfig = headerConfig
@@ -3185,8 +3107,7 @@ extension PinpointClientTypes {
             content: [PinpointClientTypes.InAppMessageContent]? = nil,
             customConfig: [Swift.String: Swift.String]? = nil,
             layout: PinpointClientTypes.Layout? = nil
-        )
-        {
+        ) {
             self.body = body
             self.content = content
             self.customConfig = customConfig
@@ -3212,8 +3133,7 @@ extension PinpointClientTypes {
         public init(
             deliveryUri: Swift.String? = nil,
             endpointTypes: [PinpointClientTypes.__EndpointTypesElement]? = nil
-        )
-        {
+        ) {
             self.deliveryUri = deliveryUri
             self.endpointTypes = endpointTypes
         }
@@ -3268,8 +3188,7 @@ extension PinpointClientTypes {
             timeToLive: Swift.Int? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.imageIconUrl = imageIconUrl
@@ -3310,8 +3229,7 @@ extension PinpointClientTypes {
             originationNumber: Swift.String? = nil,
             senderId: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.entityId = entityId
             self.messageType = messageType
@@ -3355,8 +3273,7 @@ extension PinpointClientTypes {
             gcmMessage: PinpointClientTypes.Message? = nil,
             inAppMessage: PinpointClientTypes.CampaignInAppMessage? = nil,
             smsMessage: PinpointClientTypes.CampaignSmsMessage? = nil
-        )
-        {
+        ) {
             self.admMessage = admMessage
             self.apnsMessage = apnsMessage
             self.baiduMessage = baiduMessage
@@ -3451,8 +3368,7 @@ extension PinpointClientTypes {
             quietTime: PinpointClientTypes.QuietTime? = nil,
             startTime: Swift.String? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.eventFilter = eventFilter
             self.frequency = frequency
@@ -3517,8 +3433,7 @@ extension PinpointClientTypes {
 
         public init(
             campaignStatus: PinpointClientTypes.CampaignStatus? = nil
-        )
-        {
+        ) {
             self.campaignStatus = campaignStatus
         }
     }
@@ -3536,8 +3451,7 @@ extension PinpointClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -3565,8 +3479,7 @@ extension PinpointClientTypes {
             pushTemplate: PinpointClientTypes.Template? = nil,
             smsTemplate: PinpointClientTypes.Template? = nil,
             voiceTemplate: PinpointClientTypes.Template? = nil
-        )
-        {
+        ) {
             self.emailTemplate = emailTemplate
             self.inAppTemplate = inAppTemplate
             self.pushTemplate = pushTemplate
@@ -3611,8 +3524,7 @@ extension PinpointClientTypes {
             templateConfiguration: PinpointClientTypes.TemplateConfiguration? = nil,
             treatmentDescription: Swift.String? = nil,
             treatmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.customDeliveryConfiguration = customDeliveryConfiguration
             self.id = id
             self.messageConfiguration = messageConfiguration
@@ -3714,8 +3626,7 @@ extension PinpointClientTypes {
             treatmentDescription: Swift.String? = nil,
             treatmentName: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.additionalTreatments = additionalTreatments
             self.applicationId = applicationId
             self.arn = arn
@@ -3758,8 +3669,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.CampaignResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -3799,8 +3709,7 @@ extension PinpointClientTypes {
             lastModifiedBy: Swift.String? = nil,
             lastModifiedDate: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -3824,8 +3733,7 @@ extension PinpointClientTypes {
 
         public init(
             channels: [Swift.String: PinpointClientTypes.ChannelResponse]? = nil
-        )
-        {
+        ) {
             self.channels = channels
         }
     }
@@ -3846,8 +3754,7 @@ extension PinpointClientTypes {
             endDateTime: Swift.String? = nil,
             name: Swift.String? = nil,
             startDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDateTime = endDateTime
             self.name = name
             self.startDateTime = startDateTime
@@ -3876,8 +3783,7 @@ extension PinpointClientTypes {
             push: [PinpointClientTypes.ClosedDaysRule]? = nil,
             sms: [PinpointClientTypes.ClosedDaysRule]? = nil,
             voice: [PinpointClientTypes.ClosedDaysRule]? = nil
-        )
-        {
+        ) {
             self.custom = custom
             self.email = email
             self.push = push
@@ -3888,9 +3794,9 @@ extension PinpointClientTypes {
 }
 
 /// Provides information about an API request or response.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -3909,17 +3815,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
 }
 
 /// Provides information about an API request or response.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -3938,17 +3843,16 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
 }
 
 /// Provides information about an API request or response.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -3967,17 +3871,16 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
 }
 
 /// Provides information about an API request or response.
-public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -3996,17 +3899,16 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
 }
 
 /// Provides information about an API request or response.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -4025,17 +3927,16 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
 }
 
 /// Provides information about an API request or response.
-public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -4054,17 +3955,16 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
 }
 
 /// Provides information about an API request or response.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that's returned from the API.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the request or response.
@@ -4083,8 +3983,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         requestID: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestID = requestID
     }
@@ -4103,8 +4002,7 @@ extension PinpointClientTypes {
         public init(
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.tags = tags
         }
@@ -4118,8 +4016,7 @@ public struct CreateAppInput: Swift.Sendable {
 
     public init(
         createApplicationRequest: PinpointClientTypes.CreateApplicationRequest? = nil
-    )
-    {
+    ) {
         self.createApplicationRequest = createApplicationRequest
     }
 }
@@ -4131,8 +4028,7 @@ public struct CreateAppOutput: Swift.Sendable {
 
     public init(
         applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
-    )
-    {
+    ) {
         self.applicationResponse = applicationResponse
     }
 }
@@ -4165,8 +4061,7 @@ extension PinpointClientTypes {
             templateConfiguration: PinpointClientTypes.TemplateConfiguration? = nil,
             treatmentDescription: Swift.String? = nil,
             treatmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.customDeliveryConfiguration = customDeliveryConfiguration
             self.messageConfiguration = messageConfiguration
             self.schedule = schedule
@@ -4235,8 +4130,7 @@ extension PinpointClientTypes {
             templateConfiguration: PinpointClientTypes.TemplateConfiguration? = nil,
             treatmentDescription: Swift.String? = nil,
             treatmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalTreatments = additionalTreatments
             self.customDeliveryConfiguration = customDeliveryConfiguration
             self.description = description
@@ -4269,8 +4163,7 @@ public struct CreateCampaignInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         writeCampaignRequest: PinpointClientTypes.WriteCampaignRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.writeCampaignRequest = writeCampaignRequest
     }
@@ -4283,8 +4176,7 @@ public struct CreateCampaignOutput: Swift.Sendable {
 
     public init(
         campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
+    ) {
         self.campaignResponse = campaignResponse
     }
 }
@@ -4319,8 +4211,7 @@ extension PinpointClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             templateDescription: Swift.String? = nil,
             textPart: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultSubstitutions = defaultSubstitutions
             self.headers = headers
             self.htmlPart = htmlPart
@@ -4344,8 +4235,7 @@ public struct CreateEmailTemplateInput: Swift.Sendable {
     public init(
         emailTemplateRequest: PinpointClientTypes.EmailTemplateRequest? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailTemplateRequest = emailTemplateRequest
         self.templateName = templateName
     }
@@ -4366,8 +4256,7 @@ extension PinpointClientTypes {
             arn: Swift.String? = nil,
             message: Swift.String? = nil,
             requestID: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.message = message
             self.requestID = requestID
@@ -4382,8 +4271,7 @@ public struct CreateEmailTemplateOutput: Swift.Sendable {
 
     public init(
         createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
-    )
-    {
+    ) {
         self.createTemplateMessageBody = createTemplateMessageBody
     }
 }
@@ -4408,8 +4296,7 @@ extension PinpointClientTypes {
             s3UrlPrefix: Swift.String? = nil,
             segmentId: Swift.String? = nil,
             segmentVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
             self.segmentId = segmentId
@@ -4429,8 +4316,7 @@ public struct CreateExportJobInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         exportJobRequest: PinpointClientTypes.ExportJobRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.exportJobRequest = exportJobRequest
     }
@@ -4456,8 +4342,7 @@ extension PinpointClientTypes {
             s3UrlPrefix: Swift.String? = nil,
             segmentId: Swift.String? = nil,
             segmentVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.s3UrlPrefix = s3UrlPrefix
             self.segmentId = segmentId
@@ -4567,8 +4452,7 @@ extension PinpointClientTypes {
             totalPieces: Swift.Int? = nil,
             totalProcessed: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
             self.completionDate = completionDate
@@ -4593,8 +4477,7 @@ public struct CreateExportJobOutput: Swift.Sendable {
 
     public init(
         exportJobResponse: PinpointClientTypes.ExportJobResponse? = nil
-    )
-    {
+    ) {
         self.exportJobResponse = exportJobResponse
     }
 }
@@ -4661,8 +4544,7 @@ extension PinpointClientTypes {
             s3Url: Swift.String? = nil,
             segmentId: Swift.String? = nil,
             segmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defineSegment = defineSegment
             self.externalId = externalId
             self.format = format
@@ -4686,8 +4568,7 @@ public struct CreateImportJobInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         importJobRequest: PinpointClientTypes.ImportJobRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.importJobRequest = importJobRequest
     }
@@ -4726,8 +4607,7 @@ extension PinpointClientTypes {
             s3Url: Swift.String? = nil,
             segmentId: Swift.String? = nil,
             segmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defineSegment = defineSegment
             self.externalId = externalId
             self.format = format
@@ -4791,8 +4671,7 @@ extension PinpointClientTypes {
             totalPieces: Swift.Int? = nil,
             totalProcessed: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.completedPieces = completedPieces
             self.completionDate = completionDate
@@ -4817,8 +4696,7 @@ public struct CreateImportJobOutput: Swift.Sendable {
 
     public init(
         importJobResponse: PinpointClientTypes.ImportJobResponse? = nil
-    )
-    {
+    ) {
         self.importJobResponse = importJobResponse
     }
 }
@@ -4844,8 +4722,7 @@ extension PinpointClientTypes {
             layout: PinpointClientTypes.Layout? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             templateDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.customConfig = customConfig
             self.layout = layout
@@ -4866,8 +4743,7 @@ public struct CreateInAppTemplateInput: Swift.Sendable {
     public init(
         inAppTemplateRequest: PinpointClientTypes.InAppTemplateRequest? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inAppTemplateRequest = inAppTemplateRequest
         self.templateName = templateName
     }
@@ -4888,8 +4764,7 @@ extension PinpointClientTypes {
             arn: Swift.String? = nil,
             message: Swift.String? = nil,
             requestID: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.message = message
             self.requestID = requestID
@@ -4904,8 +4779,7 @@ public struct CreateInAppTemplateOutput: Swift.Sendable {
 
     public init(
         templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody? = nil
-    )
-    {
+    ) {
         self.templateCreateMessageBody = templateCreateMessageBody
     }
 }
@@ -4922,8 +4796,7 @@ extension PinpointClientTypes {
         public init(
             connectCampaignArn: Swift.String? = nil,
             connectCampaignExecutionRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectCampaignArn = connectCampaignArn
             self.connectCampaignExecutionRoleArn = connectCampaignExecutionRoleArn
         }
@@ -4954,8 +4827,7 @@ extension PinpointClientTypes {
             messagesPerSecond: Swift.Int? = nil,
             timeframeCap: PinpointClientTypes.JourneyTimeframeCap? = nil,
             totalCap: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dailyCap = dailyCap
             self.endpointReentryCap = endpointReentryCap
             self.endpointReentryInterval = endpointReentryInterval
@@ -5022,8 +4894,7 @@ extension PinpointClientTypes {
         public init(
             endTime: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -5051,8 +4922,7 @@ extension PinpointClientTypes {
             push: [Swift.String: [PinpointClientTypes.OpenHoursRule]]? = nil,
             sms: [Swift.String: [PinpointClientTypes.OpenHoursRule]]? = nil,
             voice: [Swift.String: [PinpointClientTypes.OpenHoursRule]]? = nil
-        )
-        {
+        ) {
             self.custom = custom
             self.email = email
             self.push = push
@@ -5077,8 +4947,7 @@ extension PinpointClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
             self.timezone = timezone
@@ -5100,8 +4969,7 @@ extension PinpointClientTypes {
         public init(
             dimensions: PinpointClientTypes.EventDimensions? = nil,
             filterType: PinpointClientTypes.FilterType? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.filterType = filterType
         }
@@ -5119,8 +4987,7 @@ extension PinpointClientTypes {
         public init(
             eventFilter: PinpointClientTypes.EventFilter? = nil,
             segmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventFilter = eventFilter
             self.segmentId = segmentId
         }
@@ -5142,8 +5009,7 @@ extension PinpointClientTypes {
             description: Swift.String? = nil,
             eventStartCondition: PinpointClientTypes.EventStartCondition? = nil,
             segmentStartCondition: PinpointClientTypes.SegmentCondition? = nil
-        )
-        {
+        ) {
             self.description = description
             self.eventStartCondition = eventStartCondition
             self.segmentStartCondition = segmentStartCondition
@@ -5276,8 +5142,7 @@ extension PinpointClientTypes {
             state: PinpointClientTypes.State? = nil,
             timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil,
             waitForQuietTime: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.activities = activities
             self.closedDays = closedDays
             self.creationDate = creationDate
@@ -5312,8 +5177,7 @@ public struct CreateJourneyInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         writeJourneyRequest: PinpointClientTypes.WriteJourneyRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.writeJourneyRequest = writeJourneyRequest
     }
@@ -5417,8 +5281,7 @@ extension PinpointClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             timezoneEstimationMethods: [PinpointClientTypes.__TimezoneEstimationMethodsElement]? = nil,
             waitForQuietTime: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.activities = activities
             self.applicationId = applicationId
             self.closedDays = closedDays
@@ -5452,8 +5315,7 @@ public struct CreateJourneyOutput: Swift.Sendable {
 
     public init(
         journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
+    ) {
         self.journeyResponse = journeyResponse
     }
 }
@@ -5485,8 +5347,7 @@ extension PinpointClientTypes {
             sound: Swift.String? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.sound = sound
@@ -5529,8 +5390,7 @@ extension PinpointClientTypes {
             recommenderId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             templateDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.adm = adm
             self.apns = apns
             self.baidu = baidu
@@ -5555,8 +5415,7 @@ public struct CreatePushTemplateInput: Swift.Sendable {
     public init(
         pushNotificationTemplateRequest: PinpointClientTypes.PushNotificationTemplateRequest? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pushNotificationTemplateRequest = pushNotificationTemplateRequest
         self.templateName = templateName
     }
@@ -5569,8 +5428,7 @@ public struct CreatePushTemplateOutput: Swift.Sendable {
 
     public init(
         createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
-    )
-    {
+    ) {
         self.createTemplateMessageBody = createTemplateMessageBody
     }
 }
@@ -5621,8 +5479,7 @@ extension PinpointClientTypes {
             recommendationTransformerUri: Swift.String? = nil,
             recommendationsDisplayName: Swift.String? = nil,
             recommendationsPerMessage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.description = description
             self.name = name
@@ -5643,8 +5500,7 @@ public struct CreateRecommenderConfigurationInput: Swift.Sendable {
 
     public init(
         createRecommenderConfiguration: PinpointClientTypes.CreateRecommenderConfigurationShape? = nil
-    )
-    {
+    ) {
         self.createRecommenderConfiguration = createRecommenderConfiguration
     }
 }
@@ -5700,8 +5556,7 @@ extension PinpointClientTypes {
             recommendationTransformerUri: Swift.String? = nil,
             recommendationsDisplayName: Swift.String? = nil,
             recommendationsPerMessage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.creationDate = creationDate
             self.description = description
@@ -5725,8 +5580,7 @@ public struct CreateRecommenderConfigurationOutput: Swift.Sendable {
 
     public init(
         recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
+    ) {
         self.recommenderConfigurationResponse = recommenderConfigurationResponse
     }
 }
@@ -5744,8 +5598,7 @@ extension PinpointClientTypes {
         public init(
             id: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.version = version
         }
@@ -5834,8 +5687,7 @@ extension PinpointClientTypes {
             sourceSegments: [PinpointClientTypes.SegmentReference]? = nil,
             sourceType: PinpointClientTypes.SourceType? = nil,
             type: PinpointClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.sourceSegments = sourceSegments
             self.sourceType = sourceType
@@ -5888,8 +5740,7 @@ extension PinpointClientTypes {
         public init(
             groups: [PinpointClientTypes.SegmentGroup]? = nil,
             include: PinpointClientTypes.Include? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.include = include
         }
@@ -5914,8 +5765,7 @@ extension PinpointClientTypes {
             name: Swift.String? = nil,
             segmentGroups: PinpointClientTypes.SegmentGroupList? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.name = name
             self.segmentGroups = segmentGroups
@@ -5935,8 +5785,7 @@ public struct CreateSegmentInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         writeSegmentRequest: PinpointClientTypes.WriteSegmentRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.writeSegmentRequest = writeSegmentRequest
     }
@@ -5971,8 +5820,7 @@ extension PinpointClientTypes {
             roleArn: Swift.String? = nil,
             s3Url: Swift.String? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channelCounts = channelCounts
             self.externalId = externalId
             self.format = format
@@ -6063,8 +5911,7 @@ extension PinpointClientTypes {
             segmentType: PinpointClientTypes.SegmentType? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.creationDate = creationDate
@@ -6088,8 +5935,7 @@ public struct CreateSegmentOutput: Swift.Sendable {
 
     public init(
         segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
+    ) {
         self.segmentResponse = segmentResponse
     }
 }
@@ -6115,8 +5961,7 @@ extension PinpointClientTypes {
             recommenderId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             templateDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.defaultSubstitutions = defaultSubstitutions
             self.recommenderId = recommenderId
@@ -6137,8 +5982,7 @@ public struct CreateSmsTemplateInput: Swift.Sendable {
     public init(
         smsTemplateRequest: PinpointClientTypes.SMSTemplateRequest? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.smsTemplateRequest = smsTemplateRequest
         self.templateName = templateName
     }
@@ -6151,8 +5995,7 @@ public struct CreateSmsTemplateOutput: Swift.Sendable {
 
     public init(
         createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
-    )
-    {
+    ) {
         self.createTemplateMessageBody = createTemplateMessageBody
     }
 }
@@ -6181,8 +6024,7 @@ extension PinpointClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             templateDescription: Swift.String? = nil,
             voiceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.defaultSubstitutions = defaultSubstitutions
             self.languageCode = languageCode
@@ -6204,8 +6046,7 @@ public struct CreateVoiceTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         voiceTemplateRequest: PinpointClientTypes.VoiceTemplateRequest? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.voiceTemplateRequest = voiceTemplateRequest
     }
@@ -6218,8 +6059,7 @@ public struct CreateVoiceTemplateOutput: Swift.Sendable {
 
     public init(
         createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody? = nil
-    )
-    {
+    ) {
         self.createTemplateMessageBody = createTemplateMessageBody
     }
 }
@@ -6236,8 +6076,7 @@ extension PinpointClientTypes {
         public init(
             body: Swift.String? = nil,
             substitutions: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.body = body
             self.substitutions = substitutions
         }
@@ -6277,8 +6116,7 @@ extension PinpointClientTypes {
             substitutions: [Swift.String: [Swift.String]]? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.data = data
@@ -6297,8 +6135,7 @@ public struct DeleteAdmChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6310,8 +6147,7 @@ public struct DeleteAdmChannelOutput: Swift.Sendable {
 
     public init(
         admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
-    )
-    {
+    ) {
         self.admChannelResponse = admChannelResponse
     }
 }
@@ -6323,8 +6159,7 @@ public struct DeleteApnsChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6336,8 +6171,7 @@ public struct DeleteApnsChannelOutput: Swift.Sendable {
 
     public init(
         apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsChannelResponse = apnsChannelResponse
     }
 }
@@ -6349,8 +6183,7 @@ public struct DeleteApnsSandboxChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6362,8 +6195,7 @@ public struct DeleteApnsSandboxChannelOutput: Swift.Sendable {
 
     public init(
         apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
     }
 }
@@ -6375,8 +6207,7 @@ public struct DeleteApnsVoipChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6388,8 +6219,7 @@ public struct DeleteApnsVoipChannelOutput: Swift.Sendable {
 
     public init(
         apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsVoipChannelResponse = apnsVoipChannelResponse
     }
 }
@@ -6401,8 +6231,7 @@ public struct DeleteApnsVoipSandboxChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6414,8 +6243,7 @@ public struct DeleteApnsVoipSandboxChannelOutput: Swift.Sendable {
 
     public init(
         apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
     }
 }
@@ -6427,8 +6255,7 @@ public struct DeleteAppInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6440,8 +6267,7 @@ public struct DeleteAppOutput: Swift.Sendable {
 
     public init(
         applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
-    )
-    {
+    ) {
         self.applicationResponse = applicationResponse
     }
 }
@@ -6453,8 +6279,7 @@ public struct DeleteBaiduChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6466,8 +6291,7 @@ public struct DeleteBaiduChannelOutput: Swift.Sendable {
 
     public init(
         baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
-    )
-    {
+    ) {
         self.baiduChannelResponse = baiduChannelResponse
     }
 }
@@ -6483,8 +6307,7 @@ public struct DeleteCampaignInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         campaignId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.campaignId = campaignId
     }
@@ -6497,8 +6320,7 @@ public struct DeleteCampaignOutput: Swift.Sendable {
 
     public init(
         campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
+    ) {
         self.campaignResponse = campaignResponse
     }
 }
@@ -6510,8 +6332,7 @@ public struct DeleteEmailChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6571,8 +6392,7 @@ extension PinpointClientTypes {
             platform: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.configurationSet = configurationSet
             self.creationDate = creationDate
@@ -6600,8 +6420,7 @@ public struct DeleteEmailChannelOutput: Swift.Sendable {
 
     public init(
         emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
-    )
-    {
+    ) {
         self.emailChannelResponse = emailChannelResponse
     }
 }
@@ -6622,8 +6441,7 @@ public struct DeleteEmailTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -6641,8 +6459,7 @@ extension PinpointClientTypes {
         public init(
             message: Swift.String? = nil,
             requestID: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.requestID = requestID
         }
@@ -6656,8 +6473,7 @@ public struct DeleteEmailTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -6673,8 +6489,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.endpointId = endpointId
     }
@@ -6710,8 +6525,7 @@ extension PinpointClientTypes {
             platform: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.appVersion = appVersion
             self.locale = locale
             self.make = make
@@ -6748,8 +6562,7 @@ extension PinpointClientTypes {
             longitude: Swift.Double? = nil,
             postalCode: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.latitude = latitude
@@ -6772,8 +6585,7 @@ extension PinpointClientTypes {
         public init(
             userAttributes: [Swift.String: [Swift.String]]? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userAttributes = userAttributes
             self.userId = userId
         }
@@ -6831,8 +6643,7 @@ extension PinpointClientTypes {
             optOut: Swift.String? = nil,
             requestId: Swift.String? = nil,
             user: PinpointClientTypes.EndpointUser? = nil
-        )
-        {
+        ) {
             self.address = address
             self.applicationId = applicationId
             self.attributes = attributes
@@ -6859,8 +6670,7 @@ public struct DeleteEndpointOutput: Swift.Sendable {
 
     public init(
         endpointResponse: PinpointClientTypes.EndpointResponse? = nil
-    )
-    {
+    ) {
         self.endpointResponse = endpointResponse
     }
 }
@@ -6872,8 +6682,7 @@ public struct DeleteEventStreamInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6905,8 +6714,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             lastUpdatedBy: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.destinationStreamArn = destinationStreamArn
             self.externalId = externalId
@@ -6924,8 +6732,7 @@ public struct DeleteEventStreamOutput: Swift.Sendable {
 
     public init(
         eventStream: PinpointClientTypes.EventStream? = nil
-    )
-    {
+    ) {
         self.eventStream = eventStream
     }
 }
@@ -6937,8 +6744,7 @@ public struct DeleteGcmChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -6989,8 +6795,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.credential = credential
@@ -7015,8 +6820,7 @@ public struct DeleteGcmChannelOutput: Swift.Sendable {
 
     public init(
         gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
-    )
-    {
+    ) {
         self.gcmChannelResponse = gcmChannelResponse
     }
 }
@@ -7037,8 +6841,7 @@ public struct DeleteInAppTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -7051,8 +6854,7 @@ public struct DeleteInAppTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -7068,8 +6870,7 @@ public struct DeleteJourneyInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         journeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyId = journeyId
     }
@@ -7082,8 +6883,7 @@ public struct DeleteJourneyOutput: Swift.Sendable {
 
     public init(
         journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
+    ) {
         self.journeyResponse = journeyResponse
     }
 }
@@ -7104,8 +6904,7 @@ public struct DeletePushTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -7118,8 +6917,7 @@ public struct DeletePushTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -7131,8 +6929,7 @@ public struct DeleteRecommenderConfigurationInput: Swift.Sendable {
 
     public init(
         recommenderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderId = recommenderId
     }
 }
@@ -7144,8 +6941,7 @@ public struct DeleteRecommenderConfigurationOutput: Swift.Sendable {
 
     public init(
         recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
+    ) {
         self.recommenderConfigurationResponse = recommenderConfigurationResponse
     }
 }
@@ -7161,8 +6957,7 @@ public struct DeleteSegmentInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         segmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.segmentId = segmentId
     }
@@ -7175,8 +6970,7 @@ public struct DeleteSegmentOutput: Swift.Sendable {
 
     public init(
         segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
+    ) {
         self.segmentResponse = segmentResponse
     }
 }
@@ -7188,8 +6982,7 @@ public struct DeleteSmsChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -7243,8 +7036,7 @@ extension PinpointClientTypes {
             shortCode: Swift.String? = nil,
             transactionalMessagesPerSecond: Swift.Int? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -7270,8 +7062,7 @@ public struct DeleteSmsChannelOutput: Swift.Sendable {
 
     public init(
         smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
-    )
-    {
+    ) {
         self.smsChannelResponse = smsChannelResponse
     }
 }
@@ -7292,8 +7083,7 @@ public struct DeleteSmsTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -7306,8 +7096,7 @@ public struct DeleteSmsTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -7323,8 +7112,7 @@ public struct DeleteUserEndpointsInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.userId = userId
     }
@@ -7340,8 +7128,7 @@ extension PinpointClientTypes {
 
         public init(
             item: [PinpointClientTypes.EndpointResponse]? = nil
-        )
-        {
+        ) {
             self.item = item
         }
     }
@@ -7354,8 +7141,7 @@ public struct DeleteUserEndpointsOutput: Swift.Sendable {
 
     public init(
         endpointsResponse: PinpointClientTypes.EndpointsResponse? = nil
-    )
-    {
+    ) {
         self.endpointsResponse = endpointsResponse
     }
 }
@@ -7367,8 +7153,7 @@ public struct DeleteVoiceChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -7410,8 +7195,7 @@ extension PinpointClientTypes {
             lastModifiedDate: Swift.String? = nil,
             platform: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.creationDate = creationDate
             self.enabled = enabled
@@ -7433,8 +7217,7 @@ public struct DeleteVoiceChannelOutput: Swift.Sendable {
 
     public init(
         voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
-    )
-    {
+    ) {
         self.voiceChannelResponse = voiceChannelResponse
     }
 }
@@ -7455,8 +7238,7 @@ public struct DeleteVoiceTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -7469,8 +7251,7 @@ public struct DeleteVoiceTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -7528,8 +7309,7 @@ extension PinpointClientTypes {
 
         public init(
             data: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -7547,8 +7327,7 @@ extension PinpointClientTypes {
         public init(
             charset: Swift.String? = nil,
             data: Swift.String? = nil
-        )
-        {
+        ) {
             self.charset = charset
             self.data = data
         }
@@ -7573,8 +7352,7 @@ extension PinpointClientTypes {
             htmlPart: PinpointClientTypes.SimpleEmailPart? = nil,
             subject: PinpointClientTypes.SimpleEmailPart? = nil,
             textPart: PinpointClientTypes.SimpleEmailPart? = nil
-        )
-        {
+        ) {
             self.headers = headers
             self.htmlPart = htmlPart
             self.subject = subject
@@ -7610,8 +7388,7 @@ extension PinpointClientTypes {
             replyToAddresses: [Swift.String]? = nil,
             simpleEmail: PinpointClientTypes.SimpleEmail? = nil,
             substitutions: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.body = body
             self.feedbackForwardingAddress = feedbackForwardingAddress
             self.fromAddress = fromAddress
@@ -7691,8 +7468,7 @@ extension PinpointClientTypes {
             timeToLive: Swift.Int? = nil,
             title: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.body = body
             self.collapseKey = collapseKey
@@ -7748,8 +7524,7 @@ extension PinpointClientTypes {
             senderId: Swift.String? = nil,
             substitutions: [Swift.String: [Swift.String]]? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.entityId = entityId
             self.keyword = keyword
@@ -7784,8 +7559,7 @@ extension PinpointClientTypes {
             originationNumber: Swift.String? = nil,
             substitutions: [Swift.String: [Swift.String]]? = nil,
             voiceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.languageCode = languageCode
             self.originationNumber = originationNumber
@@ -7828,8 +7602,7 @@ extension PinpointClientTypes {
             gcmMessage: PinpointClientTypes.GCMMessage? = nil,
             smsMessage: PinpointClientTypes.SMSMessage? = nil,
             voiceMessage: PinpointClientTypes.VoiceMessage? = nil
-        )
-        {
+        ) {
             self.admMessage = admMessage
             self.apnsMessage = apnsMessage
             self.baiduMessage = baiduMessage
@@ -7869,8 +7642,7 @@ extension PinpointClientTypes {
             identity: Swift.String? = nil,
             orchestrationSendingRoleArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationSet = configurationSet
             self.enabled = enabled
             self.fromAddress = fromAddress
@@ -7971,8 +7743,7 @@ extension PinpointClientTypes {
             templateType: PinpointClientTypes.TemplateType? = nil,
             textPart: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
@@ -8033,8 +7804,7 @@ extension PinpointClientTypes {
             optOut: Swift.String? = nil,
             requestId: Swift.String? = nil,
             user: PinpointClientTypes.EndpointUser? = nil
-        )
-        {
+        ) {
             self.address = address
             self.attributes = attributes
             self.channelType = channelType
@@ -8061,8 +7831,7 @@ extension PinpointClientTypes {
 
         public init(
             item: [PinpointClientTypes.EndpointBatchItem]? = nil
-        )
-        {
+        ) {
             self.item = item
         }
     }
@@ -8080,8 +7849,7 @@ extension PinpointClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: Swift.Int? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -8128,8 +7896,7 @@ extension PinpointClientTypes {
             statusCode: Swift.Int? = nil,
             statusMessage: Swift.String? = nil,
             updatedToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.deliveryStatus = deliveryStatus
             self.messageId = messageId
@@ -8179,8 +7946,7 @@ extension PinpointClientTypes {
             optOut: Swift.String? = nil,
             requestId: Swift.String? = nil,
             user: PinpointClientTypes.EndpointUser? = nil
-        )
-        {
+        ) {
             self.address = address
             self.attributes = attributes
             self.channelType = channelType
@@ -8217,8 +7983,7 @@ extension PinpointClientTypes {
             rawContent: Swift.String? = nil,
             substitutions: [Swift.String: [Swift.String]]? = nil,
             titleOverride: Swift.String? = nil
-        )
-        {
+        ) {
             self.bodyOverride = bodyOverride
             self.context = context
             self.rawContent = rawContent
@@ -8248,8 +8013,7 @@ extension PinpointClientTypes {
             id: Swift.String? = nil,
             startTimestamp: Swift.String? = nil,
             stopTimestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.id = id
             self.startTimestamp = startTimestamp
@@ -8296,8 +8060,7 @@ extension PinpointClientTypes {
             sdkName: Swift.String? = nil,
             session: PinpointClientTypes.Session? = nil,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.appPackageName = appPackageName
             self.appTitle = appTitle
             self.appVersionCode = appVersionCode
@@ -8324,8 +8087,7 @@ extension PinpointClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: Swift.Int? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -8371,8 +8133,7 @@ extension PinpointClientTypes {
             optOut: Swift.String? = nil,
             requestId: Swift.String? = nil,
             user: PinpointClientTypes.EndpointUser? = nil
-        )
-        {
+        ) {
             self.address = address
             self.attributes = attributes
             self.channelType = channelType
@@ -8402,8 +8163,7 @@ extension PinpointClientTypes {
         public init(
             endpoint: PinpointClientTypes.PublicEndpoint? = nil,
             events: [Swift.String: PinpointClientTypes.Event]? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.events = events
         }
@@ -8420,8 +8180,7 @@ extension PinpointClientTypes {
 
         public init(
             batchItem: [Swift.String: PinpointClientTypes.EventsBatch]? = nil
-        )
-        {
+        ) {
             self.batchItem = batchItem
         }
     }
@@ -8439,8 +8198,7 @@ extension PinpointClientTypes {
         public init(
             endpointItemResponse: PinpointClientTypes.EndpointItemResponse? = nil,
             eventsItemResponse: [Swift.String: PinpointClientTypes.EventItemResponse]? = nil
-        )
-        {
+        ) {
             self.endpointItemResponse = endpointItemResponse
             self.eventsItemResponse = eventsItemResponse
         }
@@ -8456,8 +8214,7 @@ extension PinpointClientTypes {
 
         public init(
             results: [Swift.String: PinpointClientTypes.ItemResponse]? = nil
-        )
-        {
+        ) {
             self.results = results
         }
     }
@@ -8476,8 +8233,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.ExportJobResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -8502,8 +8258,7 @@ extension PinpointClientTypes {
             defaultAuthenticationMethod: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             serviceJson: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.defaultAuthenticationMethod = defaultAuthenticationMethod
             self.enabled = enabled
@@ -8519,8 +8274,7 @@ public struct GetAdmChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8532,8 +8286,7 @@ public struct GetAdmChannelOutput: Swift.Sendable {
 
     public init(
         admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
-    )
-    {
+    ) {
         self.admChannelResponse = admChannelResponse
     }
 }
@@ -8545,8 +8298,7 @@ public struct GetApnsChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8558,8 +8310,7 @@ public struct GetApnsChannelOutput: Swift.Sendable {
 
     public init(
         apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsChannelResponse = apnsChannelResponse
     }
 }
@@ -8571,8 +8322,7 @@ public struct GetApnsSandboxChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8584,8 +8334,7 @@ public struct GetApnsSandboxChannelOutput: Swift.Sendable {
 
     public init(
         apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
     }
 }
@@ -8597,8 +8346,7 @@ public struct GetApnsVoipChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8610,8 +8358,7 @@ public struct GetApnsVoipChannelOutput: Swift.Sendable {
 
     public init(
         apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsVoipChannelResponse = apnsVoipChannelResponse
     }
 }
@@ -8623,8 +8370,7 @@ public struct GetApnsVoipSandboxChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8636,8 +8382,7 @@ public struct GetApnsVoipSandboxChannelOutput: Swift.Sendable {
 
     public init(
         apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
     }
 }
@@ -8649,8 +8394,7 @@ public struct GetAppInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8662,8 +8406,7 @@ public struct GetAppOutput: Swift.Sendable {
 
     public init(
         applicationResponse: PinpointClientTypes.ApplicationResponse? = nil
-    )
-    {
+    ) {
         self.applicationResponse = applicationResponse
     }
 }
@@ -8691,8 +8434,7 @@ public struct GetApplicationDateRangeKpiInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.endTime = endTime
         self.kpiName = kpiName
@@ -8709,8 +8451,7 @@ public struct GetApplicationDateRangeKpiOutput: Swift.Sendable {
 
     public init(
         applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse? = nil
-    )
-    {
+    ) {
         self.applicationDateRangeKpiResponse = applicationDateRangeKpiResponse
     }
 }
@@ -8722,8 +8463,7 @@ public struct GetApplicationSettingsInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8735,8 +8475,7 @@ public struct GetApplicationSettingsOutput: Swift.Sendable {
 
     public init(
         applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource? = nil
-    )
-    {
+    ) {
         self.applicationSettingsResource = applicationSettingsResource
     }
 }
@@ -8750,8 +8489,7 @@ public struct GetAppsInput: Swift.Sendable {
     public init(
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageSize = pageSize
         self.token = token
     }
@@ -8764,8 +8502,7 @@ public struct GetAppsOutput: Swift.Sendable {
 
     public init(
         applicationsResponse: PinpointClientTypes.ApplicationsResponse? = nil
-    )
-    {
+    ) {
         self.applicationsResponse = applicationsResponse
     }
 }
@@ -8777,8 +8514,7 @@ public struct GetBaiduChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -8790,8 +8526,7 @@ public struct GetBaiduChannelOutput: Swift.Sendable {
 
     public init(
         baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
-    )
-    {
+    ) {
         self.baiduChannelResponse = baiduChannelResponse
     }
 }
@@ -8807,8 +8542,7 @@ public struct GetCampaignInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         campaignId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.campaignId = campaignId
     }
@@ -8821,8 +8555,7 @@ public struct GetCampaignOutput: Swift.Sendable {
 
     public init(
         campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
+    ) {
         self.campaignResponse = campaignResponse
     }
 }
@@ -8844,8 +8577,7 @@ public struct GetCampaignActivitiesInput: Swift.Sendable {
         campaignId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.campaignId = campaignId
         self.pageSize = pageSize
@@ -8860,8 +8592,7 @@ public struct GetCampaignActivitiesOutput: Swift.Sendable {
 
     public init(
         activitiesResponse: PinpointClientTypes.ActivitiesResponse? = nil
-    )
-    {
+    ) {
         self.activitiesResponse = activitiesResponse
     }
 }
@@ -8893,8 +8624,7 @@ public struct GetCampaignDateRangeKpiInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.campaignId = campaignId
         self.endTime = endTime
@@ -8912,8 +8642,7 @@ public struct GetCampaignDateRangeKpiOutput: Swift.Sendable {
 
     public init(
         campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse? = nil
-    )
-    {
+    ) {
         self.campaignDateRangeKpiResponse = campaignDateRangeKpiResponse
     }
 }
@@ -8931,8 +8660,7 @@ public struct GetCampaignsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.token = token
@@ -8946,8 +8674,7 @@ public struct GetCampaignsOutput: Swift.Sendable {
 
     public init(
         campaignsResponse: PinpointClientTypes.CampaignsResponse? = nil
-    )
-    {
+    ) {
         self.campaignsResponse = campaignsResponse
     }
 }
@@ -8967,8 +8694,7 @@ public struct GetCampaignVersionInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         campaignId: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.campaignId = campaignId
         self.version = version
@@ -8982,8 +8708,7 @@ public struct GetCampaignVersionOutput: Swift.Sendable {
 
     public init(
         campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
+    ) {
         self.campaignResponse = campaignResponse
     }
 }
@@ -9005,8 +8730,7 @@ public struct GetCampaignVersionsInput: Swift.Sendable {
         campaignId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.campaignId = campaignId
         self.pageSize = pageSize
@@ -9021,8 +8745,7 @@ public struct GetCampaignVersionsOutput: Swift.Sendable {
 
     public init(
         campaignsResponse: PinpointClientTypes.CampaignsResponse? = nil
-    )
-    {
+    ) {
         self.campaignsResponse = campaignsResponse
     }
 }
@@ -9034,8 +8757,7 @@ public struct GetChannelsInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -9047,8 +8769,7 @@ public struct GetChannelsOutput: Swift.Sendable {
 
     public init(
         channelsResponse: PinpointClientTypes.ChannelsResponse? = nil
-    )
-    {
+    ) {
         self.channelsResponse = channelsResponse
     }
 }
@@ -9060,8 +8781,7 @@ public struct GetEmailChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -9073,8 +8793,7 @@ public struct GetEmailChannelOutput: Swift.Sendable {
 
     public init(
         emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
-    )
-    {
+    ) {
         self.emailChannelResponse = emailChannelResponse
     }
 }
@@ -9095,8 +8814,7 @@ public struct GetEmailTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -9109,8 +8827,7 @@ public struct GetEmailTemplateOutput: Swift.Sendable {
 
     public init(
         emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse? = nil
-    )
-    {
+    ) {
         self.emailTemplateResponse = emailTemplateResponse
     }
 }
@@ -9126,8 +8843,7 @@ public struct GetEndpointInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.endpointId = endpointId
     }
@@ -9140,8 +8856,7 @@ public struct GetEndpointOutput: Swift.Sendable {
 
     public init(
         endpointResponse: PinpointClientTypes.EndpointResponse? = nil
-    )
-    {
+    ) {
         self.endpointResponse = endpointResponse
     }
 }
@@ -9153,8 +8868,7 @@ public struct GetEventStreamInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -9166,8 +8880,7 @@ public struct GetEventStreamOutput: Swift.Sendable {
 
     public init(
         eventStream: PinpointClientTypes.EventStream? = nil
-    )
-    {
+    ) {
         self.eventStream = eventStream
     }
 }
@@ -9183,8 +8896,7 @@ public struct GetExportJobInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.jobId = jobId
     }
@@ -9197,8 +8909,7 @@ public struct GetExportJobOutput: Swift.Sendable {
 
     public init(
         exportJobResponse: PinpointClientTypes.ExportJobResponse? = nil
-    )
-    {
+    ) {
         self.exportJobResponse = exportJobResponse
     }
 }
@@ -9216,8 +8927,7 @@ public struct GetExportJobsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.token = token
@@ -9231,8 +8941,7 @@ public struct GetExportJobsOutput: Swift.Sendable {
 
     public init(
         exportJobsResponse: PinpointClientTypes.ExportJobsResponse? = nil
-    )
-    {
+    ) {
         self.exportJobsResponse = exportJobsResponse
     }
 }
@@ -9244,8 +8953,7 @@ public struct GetGcmChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -9257,8 +8965,7 @@ public struct GetGcmChannelOutput: Swift.Sendable {
 
     public init(
         gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
-    )
-    {
+    ) {
         self.gcmChannelResponse = gcmChannelResponse
     }
 }
@@ -9274,8 +8981,7 @@ public struct GetImportJobInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.jobId = jobId
     }
@@ -9288,8 +8994,7 @@ public struct GetImportJobOutput: Swift.Sendable {
 
     public init(
         importJobResponse: PinpointClientTypes.ImportJobResponse? = nil
-    )
-    {
+    ) {
         self.importJobResponse = importJobResponse
     }
 }
@@ -9307,8 +9012,7 @@ public struct GetImportJobsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.token = token
@@ -9328,8 +9032,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.ImportJobResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -9343,8 +9046,7 @@ public struct GetImportJobsOutput: Swift.Sendable {
 
     public init(
         importJobsResponse: PinpointClientTypes.ImportJobsResponse? = nil
-    )
-    {
+    ) {
         self.importJobsResponse = importJobsResponse
     }
 }
@@ -9360,8 +9062,7 @@ public struct GetInAppMessagesInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         endpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.endpointId = endpointId
     }
@@ -9382,8 +9083,7 @@ extension PinpointClientTypes {
             content: [PinpointClientTypes.InAppMessageContent]? = nil,
             customConfig: [Swift.String: Swift.String]? = nil,
             layout: PinpointClientTypes.Layout? = nil
-        )
-        {
+        ) {
             self.content = content
             self.customConfig = customConfig
             self.layout = layout
@@ -9406,8 +9106,7 @@ extension PinpointClientTypes {
             endDate: Swift.String? = nil,
             eventFilter: PinpointClientTypes.CampaignEventFilter? = nil,
             quietTime: PinpointClientTypes.QuietTime? = nil
-        )
-        {
+        ) {
             self.endDate = endDate
             self.eventFilter = eventFilter
             self.quietTime = quietTime
@@ -9445,8 +9144,7 @@ extension PinpointClientTypes {
             sessionCap: Swift.Int? = nil,
             totalCap: Swift.Int? = nil,
             treatmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.dailyCap = dailyCap
             self.inAppMessage = inAppMessage
@@ -9468,8 +9166,7 @@ extension PinpointClientTypes {
 
         public init(
             inAppMessageCampaigns: [PinpointClientTypes.InAppMessageCampaign]? = nil
-        )
-        {
+        ) {
             self.inAppMessageCampaigns = inAppMessageCampaigns
         }
     }
@@ -9482,8 +9179,7 @@ public struct GetInAppMessagesOutput: Swift.Sendable {
 
     public init(
         inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse? = nil
-    )
-    {
+    ) {
         self.inAppMessagesResponse = inAppMessagesResponse
     }
 }
@@ -9504,8 +9200,7 @@ public struct GetInAppTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -9554,8 +9249,7 @@ extension PinpointClientTypes {
             templateName: Swift.String? = nil,
             templateType: PinpointClientTypes.TemplateType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.content = content
             self.creationDate = creationDate
@@ -9578,8 +9272,7 @@ public struct GetInAppTemplateOutput: Swift.Sendable {
 
     public init(
         inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse? = nil
-    )
-    {
+    ) {
         self.inAppTemplateResponse = inAppTemplateResponse
     }
 }
@@ -9595,8 +9288,7 @@ public struct GetJourneyInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         journeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyId = journeyId
     }
@@ -9609,8 +9301,7 @@ public struct GetJourneyOutput: Swift.Sendable {
 
     public init(
         journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
+    ) {
         self.journeyResponse = journeyResponse
     }
 }
@@ -9642,8 +9333,7 @@ public struct GetJourneyDateRangeKpiInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.endTime = endTime
         self.journeyId = journeyId
@@ -9687,8 +9377,7 @@ extension PinpointClientTypes {
             kpiResult: PinpointClientTypes.BaseKpiResult? = nil,
             nextToken: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.endTime = endTime
             self.journeyId = journeyId
@@ -9707,8 +9396,7 @@ public struct GetJourneyDateRangeKpiOutput: Swift.Sendable {
 
     public init(
         journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse? = nil
-    )
-    {
+    ) {
         self.journeyDateRangeKpiResponse = journeyDateRangeKpiResponse
     }
 }
@@ -9734,8 +9422,7 @@ public struct GetJourneyExecutionActivityMetricsInput: Swift.Sendable {
         journeyId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyActivityId = journeyActivityId
         self.journeyId = journeyId
@@ -9786,8 +9473,7 @@ extension PinpointClientTypes {
             journeyId: Swift.String? = nil,
             lastEvaluatedTime: Swift.String? = nil,
             metrics: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activityType = activityType
             self.applicationId = applicationId
             self.journeyActivityId = journeyActivityId
@@ -9805,8 +9491,7 @@ public struct GetJourneyExecutionActivityMetricsOutput: Swift.Sendable {
 
     public init(
         journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse? = nil
-    )
-    {
+    ) {
         self.journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponse
     }
 }
@@ -9828,8 +9513,7 @@ public struct GetJourneyExecutionMetricsInput: Swift.Sendable {
         journeyId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyId = journeyId
         self.nextToken = nextToken
@@ -9859,8 +9543,7 @@ extension PinpointClientTypes {
             journeyId: Swift.String? = nil,
             lastEvaluatedTime: Swift.String? = nil,
             metrics: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.lastEvaluatedTime = lastEvaluatedTime
@@ -9876,8 +9559,7 @@ public struct GetJourneyExecutionMetricsOutput: Swift.Sendable {
 
     public init(
         journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse? = nil
-    )
-    {
+    ) {
         self.journeyExecutionMetricsResponse = journeyExecutionMetricsResponse
     }
 }
@@ -9907,8 +9589,7 @@ public struct GetJourneyRunExecutionActivityMetricsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyActivityId = journeyActivityId
         self.journeyId = journeyId
@@ -9964,8 +9645,7 @@ extension PinpointClientTypes {
             lastEvaluatedTime: Swift.String? = nil,
             metrics: [Swift.String: Swift.String]? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.activityType = activityType
             self.applicationId = applicationId
             self.journeyActivityId = journeyActivityId
@@ -9984,8 +9664,7 @@ public struct GetJourneyRunExecutionActivityMetricsOutput: Swift.Sendable {
 
     public init(
         journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse? = nil
-    )
-    {
+    ) {
         self.journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponse
     }
 }
@@ -10011,8 +9690,7 @@ public struct GetJourneyRunExecutionMetricsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyId = journeyId
         self.nextToken = nextToken
@@ -10047,8 +9725,7 @@ extension PinpointClientTypes {
             lastEvaluatedTime: Swift.String? = nil,
             metrics: [Swift.String: Swift.String]? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.lastEvaluatedTime = lastEvaluatedTime
@@ -10065,8 +9742,7 @@ public struct GetJourneyRunExecutionMetricsOutput: Swift.Sendable {
 
     public init(
         journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse? = nil
-    )
-    {
+    ) {
         self.journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponse
     }
 }
@@ -10088,8 +9764,7 @@ public struct GetJourneyRunsInput: Swift.Sendable {
         journeyId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyId = journeyId
         self.pageSize = pageSize
@@ -10154,8 +9829,7 @@ extension PinpointClientTypes {
             lastUpdateTime: Swift.String? = nil,
             runId: Swift.String? = nil,
             status: PinpointClientTypes.JourneyRunStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
             self.runId = runId
@@ -10177,8 +9851,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.JourneyRunResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -10192,8 +9865,7 @@ public struct GetJourneyRunsOutput: Swift.Sendable {
 
     public init(
         journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse? = nil
-    )
-    {
+    ) {
         self.journeyRunsResponse = journeyRunsResponse
     }
 }
@@ -10214,8 +9886,7 @@ public struct GetPushTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -10276,8 +9947,7 @@ extension PinpointClientTypes {
             templateName: Swift.String? = nil,
             templateType: PinpointClientTypes.TemplateType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.adm = adm
             self.apns = apns
             self.arn = arn
@@ -10304,8 +9974,7 @@ public struct GetPushTemplateOutput: Swift.Sendable {
 
     public init(
         pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse? = nil
-    )
-    {
+    ) {
         self.pushNotificationTemplateResponse = pushNotificationTemplateResponse
     }
 }
@@ -10317,8 +9986,7 @@ public struct GetRecommenderConfigurationInput: Swift.Sendable {
 
     public init(
         recommenderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommenderId = recommenderId
     }
 }
@@ -10330,8 +9998,7 @@ public struct GetRecommenderConfigurationOutput: Swift.Sendable {
 
     public init(
         recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
+    ) {
         self.recommenderConfigurationResponse = recommenderConfigurationResponse
     }
 }
@@ -10345,8 +10012,7 @@ public struct GetRecommenderConfigurationsInput: Swift.Sendable {
     public init(
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageSize = pageSize
         self.token = token
     }
@@ -10365,8 +10031,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.RecommenderConfigurationResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -10380,8 +10045,7 @@ public struct GetRecommenderConfigurationsOutput: Swift.Sendable {
 
     public init(
         listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse? = nil
-    )
-    {
+    ) {
         self.listRecommenderConfigurationsResponse = listRecommenderConfigurationsResponse
     }
 }
@@ -10397,8 +10061,7 @@ public struct GetSegmentInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         segmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.segmentId = segmentId
     }
@@ -10411,8 +10074,7 @@ public struct GetSegmentOutput: Swift.Sendable {
 
     public init(
         segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
+    ) {
         self.segmentResponse = segmentResponse
     }
 }
@@ -10434,8 +10096,7 @@ public struct GetSegmentExportJobsInput: Swift.Sendable {
         pageSize: Swift.String? = nil,
         segmentId: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.segmentId = segmentId
@@ -10450,8 +10111,7 @@ public struct GetSegmentExportJobsOutput: Swift.Sendable {
 
     public init(
         exportJobsResponse: PinpointClientTypes.ExportJobsResponse? = nil
-    )
-    {
+    ) {
         self.exportJobsResponse = exportJobsResponse
     }
 }
@@ -10473,8 +10133,7 @@ public struct GetSegmentImportJobsInput: Swift.Sendable {
         pageSize: Swift.String? = nil,
         segmentId: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.segmentId = segmentId
@@ -10489,8 +10148,7 @@ public struct GetSegmentImportJobsOutput: Swift.Sendable {
 
     public init(
         importJobsResponse: PinpointClientTypes.ImportJobsResponse? = nil
-    )
-    {
+    ) {
         self.importJobsResponse = importJobsResponse
     }
 }
@@ -10508,8 +10166,7 @@ public struct GetSegmentsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.token = token
@@ -10529,8 +10186,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.SegmentResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -10544,8 +10200,7 @@ public struct GetSegmentsOutput: Swift.Sendable {
 
     public init(
         segmentsResponse: PinpointClientTypes.SegmentsResponse? = nil
-    )
-    {
+    ) {
         self.segmentsResponse = segmentsResponse
     }
 }
@@ -10565,8 +10220,7 @@ public struct GetSegmentVersionInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         segmentId: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.segmentId = segmentId
         self.version = version
@@ -10580,8 +10234,7 @@ public struct GetSegmentVersionOutput: Swift.Sendable {
 
     public init(
         segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
+    ) {
         self.segmentResponse = segmentResponse
     }
 }
@@ -10603,8 +10256,7 @@ public struct GetSegmentVersionsInput: Swift.Sendable {
         pageSize: Swift.String? = nil,
         segmentId: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.segmentId = segmentId
@@ -10619,8 +10271,7 @@ public struct GetSegmentVersionsOutput: Swift.Sendable {
 
     public init(
         segmentsResponse: PinpointClientTypes.SegmentsResponse? = nil
-    )
-    {
+    ) {
         self.segmentsResponse = segmentsResponse
     }
 }
@@ -10632,8 +10283,7 @@ public struct GetSmsChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -10645,8 +10295,7 @@ public struct GetSmsChannelOutput: Swift.Sendable {
 
     public init(
         smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
-    )
-    {
+    ) {
         self.smsChannelResponse = smsChannelResponse
     }
 }
@@ -10667,8 +10316,7 @@ public struct GetSmsTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -10717,8 +10365,7 @@ extension PinpointClientTypes {
             templateName: Swift.String? = nil,
             templateType: PinpointClientTypes.TemplateType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.body = body
             self.creationDate = creationDate
@@ -10741,8 +10388,7 @@ public struct GetSmsTemplateOutput: Swift.Sendable {
 
     public init(
         smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse? = nil
-    )
-    {
+    ) {
         self.smsTemplateResponse = smsTemplateResponse
     }
 }
@@ -10758,8 +10404,7 @@ public struct GetUserEndpointsInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.userId = userId
     }
@@ -10772,8 +10417,7 @@ public struct GetUserEndpointsOutput: Swift.Sendable {
 
     public init(
         endpointsResponse: PinpointClientTypes.EndpointsResponse? = nil
-    )
-    {
+    ) {
         self.endpointsResponse = endpointsResponse
     }
 }
@@ -10785,8 +10429,7 @@ public struct GetVoiceChannelInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -10798,8 +10441,7 @@ public struct GetVoiceChannelOutput: Swift.Sendable {
 
     public init(
         voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
-    )
-    {
+    ) {
         self.voiceChannelResponse = voiceChannelResponse
     }
 }
@@ -10820,8 +10462,7 @@ public struct GetVoiceTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.version = version
     }
@@ -10873,8 +10514,7 @@ extension PinpointClientTypes {
             templateType: PinpointClientTypes.TemplateType? = nil,
             version: Swift.String? = nil,
             voiceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.body = body
             self.creationDate = creationDate
@@ -10898,8 +10538,7 @@ public struct GetVoiceTemplateOutput: Swift.Sendable {
 
     public init(
         voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse? = nil
-    )
-    {
+    ) {
         self.voiceTemplateResponse = voiceTemplateResponse
     }
 }
@@ -10917,8 +10556,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.JourneyResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -10934,8 +10572,7 @@ extension PinpointClientTypes {
 
         public init(
             state: PinpointClientTypes.State? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -10954,8 +10591,7 @@ public struct ListJourneysInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         pageSize: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.pageSize = pageSize
         self.token = token
@@ -10969,8 +10605,7 @@ public struct ListJourneysOutput: Swift.Sendable {
 
     public init(
         journeysResponse: PinpointClientTypes.JourneysResponse? = nil
-    )
-    {
+    ) {
         self.journeysResponse = journeysResponse
     }
 }
@@ -11012,8 +10647,7 @@ extension PinpointClientTypes {
             templateName: Swift.String? = nil,
             templateType: PinpointClientTypes.TemplateType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
@@ -11058,8 +10692,7 @@ extension PinpointClientTypes {
             templateName: Swift.String? = nil,
             templateType: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.defaultSubstitutions = defaultSubstitutions
             self.lastModifiedDate = lastModifiedDate
@@ -11078,8 +10711,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -11094,8 +10726,7 @@ extension PinpointClientTypes {
 
         public init(
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.tags = tags
         }
     }
@@ -11108,8 +10739,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagsModel: PinpointClientTypes.TagsModel? = nil
-    )
-    {
+    ) {
         self.tagsModel = tagsModel
     }
 }
@@ -11129,8 +10759,7 @@ public struct ListTemplatesInput: Swift.Sendable {
         pageSize: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         templateType: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.`prefix` = `prefix`
@@ -11151,8 +10780,7 @@ extension PinpointClientTypes {
         public init(
             item: [PinpointClientTypes.TemplateResponse]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.nextToken = nextToken
         }
@@ -11166,8 +10794,7 @@ public struct ListTemplatesOutput: Swift.Sendable {
 
     public init(
         templatesResponse: PinpointClientTypes.TemplatesResponse? = nil
-    )
-    {
+    ) {
         self.templatesResponse = templatesResponse
     }
 }
@@ -11189,8 +10816,7 @@ public struct ListTemplateVersionsInput: Swift.Sendable {
         pageSize: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateType: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.templateName = templateName
@@ -11217,8 +10843,7 @@ extension PinpointClientTypes {
             message: Swift.String? = nil,
             nextToken: Swift.String? = nil,
             requestID: Swift.String? = nil
-        )
-        {
+        ) {
             self.item = item
             self.message = message
             self.nextToken = nextToken
@@ -11234,8 +10859,7 @@ public struct ListTemplateVersionsOutput: Swift.Sendable {
 
     public init(
         templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse? = nil
-    )
-    {
+    ) {
         self.templateVersionsResponse = templateVersionsResponse
     }
 }
@@ -11277,8 +10901,7 @@ extension PinpointClientTypes {
             statusCode: Swift.Int? = nil,
             statusMessage: Swift.String? = nil,
             updatedToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStatus = deliveryStatus
             self.messageId = messageId
             self.statusCode = statusCode
@@ -11313,8 +10936,7 @@ extension PinpointClientTypes {
             messageConfiguration: PinpointClientTypes.DirectMessageConfiguration? = nil,
             templateConfiguration: PinpointClientTypes.TemplateConfiguration? = nil,
             traceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.addresses = addresses
             self.context = context
             self.endpoints = endpoints
@@ -11344,8 +10966,7 @@ extension PinpointClientTypes {
             endpointResult: [Swift.String: PinpointClientTypes.EndpointMessageResult]? = nil,
             requestId: Swift.String? = nil,
             result: [Swift.String: PinpointClientTypes.MessageResult]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.endpointResult = endpointResult
             self.requestId = requestId
@@ -11366,8 +10987,7 @@ extension PinpointClientTypes {
         public init(
             isoCountryCode: Swift.String? = nil,
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.isoCountryCode = isoCountryCode
             self.phoneNumber = phoneNumber
         }
@@ -11422,8 +11042,7 @@ extension PinpointClientTypes {
             phoneTypeCode: Swift.Int? = nil,
             timezone: Swift.String? = nil,
             zipCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.carrier = carrier
             self.city = city
             self.cleansedPhoneNumberE164 = cleansedPhoneNumberE164
@@ -11449,8 +11068,7 @@ public struct PhoneNumberValidateInput: Swift.Sendable {
 
     public init(
         numberValidateRequest: PinpointClientTypes.NumberValidateRequest? = nil
-    )
-    {
+    ) {
         self.numberValidateRequest = numberValidateRequest
     }
 }
@@ -11462,8 +11080,7 @@ public struct PhoneNumberValidateOutput: Swift.Sendable {
 
     public init(
         numberValidateResponse: PinpointClientTypes.NumberValidateResponse? = nil
-    )
-    {
+    ) {
         self.numberValidateResponse = numberValidateResponse
     }
 }
@@ -11479,8 +11096,7 @@ public struct PutEventsInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         eventsRequest: PinpointClientTypes.EventsRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.eventsRequest = eventsRequest
     }
@@ -11493,8 +11109,7 @@ public struct PutEventsOutput: Swift.Sendable {
 
     public init(
         eventsResponse: PinpointClientTypes.EventsResponse? = nil
-    )
-    {
+    ) {
         self.eventsResponse = eventsResponse
     }
 }
@@ -11513,8 +11128,7 @@ extension PinpointClientTypes {
         public init(
             destinationStreamArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationStreamArn = destinationStreamArn
             self.roleArn = roleArn
         }
@@ -11532,8 +11146,7 @@ public struct PutEventStreamInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         writeEventStream: PinpointClientTypes.WriteEventStream? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.writeEventStream = writeEventStream
     }
@@ -11546,8 +11159,7 @@ public struct PutEventStreamOutput: Swift.Sendable {
 
     public init(
         eventStream: PinpointClientTypes.EventStream? = nil
-    )
-    {
+    ) {
         self.eventStream = eventStream
     }
 }
@@ -11561,8 +11173,7 @@ extension PinpointClientTypes {
 
         public init(
             blacklist: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.blacklist = blacklist
         }
     }
@@ -11589,8 +11200,7 @@ public struct RemoveAttributesInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         attributeType: Swift.String? = nil,
         updateAttributesRequest: PinpointClientTypes.UpdateAttributesRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.attributeType = attributeType
         self.updateAttributesRequest = updateAttributesRequest
@@ -11604,8 +11214,7 @@ public struct RemoveAttributesOutput: Swift.Sendable {
 
     public init(
         attributesResource: PinpointClientTypes.AttributesResource? = nil
-    )
-    {
+    ) {
         self.attributesResource = attributesResource
     }
 }
@@ -11621,8 +11230,7 @@ public struct SendMessagesInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         messageRequest: PinpointClientTypes.MessageRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.messageRequest = messageRequest
     }
@@ -11635,8 +11243,7 @@ public struct SendMessagesOutput: Swift.Sendable {
 
     public init(
         messageResponse: PinpointClientTypes.MessageResponse? = nil
-    )
-    {
+    ) {
         self.messageResponse = messageResponse
     }
 }
@@ -11685,8 +11292,7 @@ extension PinpointClientTypes {
             referenceId: Swift.String? = nil,
             templateId: Swift.String? = nil,
             validityPeriod: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowedAttempts = allowedAttempts
             self.brandName = brandName
             self.channel = channel
@@ -11713,8 +11319,7 @@ public struct SendOTPMessageInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         sendOTPMessageRequestParameters: PinpointClientTypes.SendOTPMessageRequestParameters? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.sendOTPMessageRequestParameters = sendOTPMessageRequestParameters
     }
@@ -11727,8 +11332,7 @@ public struct SendOTPMessageOutput: Swift.Sendable {
 
     public init(
         messageResponse: PinpointClientTypes.MessageResponse? = nil
-    )
-    {
+    ) {
         self.messageResponse = messageResponse
     }
 }
@@ -11756,8 +11360,7 @@ extension PinpointClientTypes {
             templateConfiguration: PinpointClientTypes.TemplateConfiguration? = nil,
             traceId: Swift.String? = nil,
             users: [Swift.String: PinpointClientTypes.EndpointSendConfiguration]? = nil
-        )
-        {
+        ) {
             self.context = context
             self.messageConfiguration = messageConfiguration
             self.templateConfiguration = templateConfiguration
@@ -11778,8 +11381,7 @@ public struct SendUsersMessagesInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         sendUsersMessageRequest: PinpointClientTypes.SendUsersMessageRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.sendUsersMessageRequest = sendUsersMessageRequest
     }
@@ -11801,8 +11403,7 @@ extension PinpointClientTypes {
             applicationId: Swift.String? = nil,
             requestId: Swift.String? = nil,
             result: [Swift.String: [Swift.String: PinpointClientTypes.EndpointMessageResult]]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.requestId = requestId
             self.result = result
@@ -11817,8 +11418,7 @@ public struct SendUsersMessagesOutput: Swift.Sendable {
 
     public init(
         sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse? = nil
-    )
-    {
+    ) {
         self.sendUsersMessageResponse = sendUsersMessageResponse
     }
 }
@@ -11834,8 +11434,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagsModel: PinpointClientTypes.TagsModel? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagsModel = tagsModel
     }
@@ -11852,8 +11451,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -11870,8 +11468,7 @@ public struct UpdateAdmChannelInput: Swift.Sendable {
     public init(
         admChannelRequest: PinpointClientTypes.ADMChannelRequest? = nil,
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.admChannelRequest = admChannelRequest
         self.applicationId = applicationId
     }
@@ -11884,8 +11481,7 @@ public struct UpdateAdmChannelOutput: Swift.Sendable {
 
     public init(
         admChannelResponse: PinpointClientTypes.ADMChannelResponse? = nil
-    )
-    {
+    ) {
         self.admChannelResponse = admChannelResponse
     }
 }
@@ -11901,8 +11497,7 @@ public struct UpdateApnsChannelInput: Swift.Sendable {
     public init(
         apnsChannelRequest: PinpointClientTypes.APNSChannelRequest? = nil,
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apnsChannelRequest = apnsChannelRequest
         self.applicationId = applicationId
     }
@@ -11915,8 +11510,7 @@ public struct UpdateApnsChannelOutput: Swift.Sendable {
 
     public init(
         apnsChannelResponse: PinpointClientTypes.APNSChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsChannelResponse = apnsChannelResponse
     }
 }
@@ -11932,8 +11526,7 @@ public struct UpdateApnsSandboxChannelInput: Swift.Sendable {
     public init(
         apnsSandboxChannelRequest: PinpointClientTypes.APNSSandboxChannelRequest? = nil,
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apnsSandboxChannelRequest = apnsSandboxChannelRequest
         self.applicationId = applicationId
     }
@@ -11946,8 +11539,7 @@ public struct UpdateApnsSandboxChannelOutput: Swift.Sendable {
 
     public init(
         apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
     }
 }
@@ -11963,8 +11555,7 @@ public struct UpdateApnsVoipChannelInput: Swift.Sendable {
     public init(
         apnsVoipChannelRequest: PinpointClientTypes.APNSVoipChannelRequest? = nil,
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apnsVoipChannelRequest = apnsVoipChannelRequest
         self.applicationId = applicationId
     }
@@ -11977,8 +11568,7 @@ public struct UpdateApnsVoipChannelOutput: Swift.Sendable {
 
     public init(
         apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsVoipChannelResponse = apnsVoipChannelResponse
     }
 }
@@ -11994,8 +11584,7 @@ public struct UpdateApnsVoipSandboxChannelInput: Swift.Sendable {
     public init(
         apnsVoipSandboxChannelRequest: PinpointClientTypes.APNSVoipSandboxChannelRequest? = nil,
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apnsVoipSandboxChannelRequest = apnsVoipSandboxChannelRequest
         self.applicationId = applicationId
     }
@@ -12008,8 +11597,7 @@ public struct UpdateApnsVoipSandboxChannelOutput: Swift.Sendable {
 
     public init(
         apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse? = nil
-    )
-    {
+    ) {
         self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
     }
 }
@@ -12046,8 +11634,7 @@ extension PinpointClientTypes {
             journeyLimits: PinpointClientTypes.ApplicationSettingsJourneyLimits? = nil,
             limits: PinpointClientTypes.CampaignLimits? = nil,
             quietTime: PinpointClientTypes.QuietTime? = nil
-        )
-        {
+        ) {
             self.campaignHook = campaignHook
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.eventTaggingEnabled = eventTaggingEnabled
@@ -12069,8 +11656,7 @@ public struct UpdateApplicationSettingsInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         writeApplicationSettingsRequest: PinpointClientTypes.WriteApplicationSettingsRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.writeApplicationSettingsRequest = writeApplicationSettingsRequest
     }
@@ -12083,8 +11669,7 @@ public struct UpdateApplicationSettingsOutput: Swift.Sendable {
 
     public init(
         applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource? = nil
-    )
-    {
+    ) {
         self.applicationSettingsResource = applicationSettingsResource
     }
 }
@@ -12100,8 +11685,7 @@ public struct UpdateBaiduChannelInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         baiduChannelRequest: PinpointClientTypes.BaiduChannelRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.baiduChannelRequest = baiduChannelRequest
     }
@@ -12114,8 +11698,7 @@ public struct UpdateBaiduChannelOutput: Swift.Sendable {
 
     public init(
         baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse? = nil
-    )
-    {
+    ) {
         self.baiduChannelResponse = baiduChannelResponse
     }
 }
@@ -12135,8 +11718,7 @@ public struct UpdateCampaignInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         campaignId: Swift.String? = nil,
         writeCampaignRequest: PinpointClientTypes.WriteCampaignRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.campaignId = campaignId
         self.writeCampaignRequest = writeCampaignRequest
@@ -12150,8 +11732,7 @@ public struct UpdateCampaignOutput: Swift.Sendable {
 
     public init(
         campaignResponse: PinpointClientTypes.CampaignResponse? = nil
-    )
-    {
+    ) {
         self.campaignResponse = campaignResponse
     }
 }
@@ -12167,8 +11748,7 @@ public struct UpdateEmailChannelInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         emailChannelRequest: PinpointClientTypes.EmailChannelRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.emailChannelRequest = emailChannelRequest
     }
@@ -12181,8 +11761,7 @@ public struct UpdateEmailChannelOutput: Swift.Sendable {
 
     public init(
         emailChannelResponse: PinpointClientTypes.EmailChannelResponse? = nil
-    )
-    {
+    ) {
         self.emailChannelResponse = emailChannelResponse
     }
 }
@@ -12210,8 +11789,7 @@ public struct UpdateEmailTemplateInput: Swift.Sendable {
         emailTemplateRequest: PinpointClientTypes.EmailTemplateRequest? = nil,
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createNewVersion = createNewVersion
         self.emailTemplateRequest = emailTemplateRequest
         self.templateName = templateName
@@ -12226,8 +11804,7 @@ public struct UpdateEmailTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12247,8 +11824,7 @@ public struct UpdateEndpointInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         endpointId: Swift.String? = nil,
         endpointRequest: PinpointClientTypes.EndpointRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.endpointId = endpointId
         self.endpointRequest = endpointRequest
@@ -12262,8 +11838,7 @@ public struct UpdateEndpointOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12279,8 +11854,7 @@ public struct UpdateEndpointsBatchInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         endpointBatchRequest: PinpointClientTypes.EndpointBatchRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.endpointBatchRequest = endpointBatchRequest
     }
@@ -12293,8 +11867,7 @@ public struct UpdateEndpointsBatchOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12310,8 +11883,7 @@ public struct UpdateGcmChannelInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         gcmChannelRequest: PinpointClientTypes.GCMChannelRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.gcmChannelRequest = gcmChannelRequest
     }
@@ -12324,8 +11896,7 @@ public struct UpdateGcmChannelOutput: Swift.Sendable {
 
     public init(
         gcmChannelResponse: PinpointClientTypes.GCMChannelResponse? = nil
-    )
-    {
+    ) {
         self.gcmChannelResponse = gcmChannelResponse
     }
 }
@@ -12353,8 +11924,7 @@ public struct UpdateInAppTemplateInput: Swift.Sendable {
         inAppTemplateRequest: PinpointClientTypes.InAppTemplateRequest? = nil,
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createNewVersion = createNewVersion
         self.inAppTemplateRequest = inAppTemplateRequest
         self.templateName = templateName
@@ -12369,8 +11939,7 @@ public struct UpdateInAppTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12390,8 +11959,7 @@ public struct UpdateJourneyInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         journeyId: Swift.String? = nil,
         writeJourneyRequest: PinpointClientTypes.WriteJourneyRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyId = journeyId
         self.writeJourneyRequest = writeJourneyRequest
@@ -12405,8 +11973,7 @@ public struct UpdateJourneyOutput: Swift.Sendable {
 
     public init(
         journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
+    ) {
         self.journeyResponse = journeyResponse
     }
 }
@@ -12426,8 +11993,7 @@ public struct UpdateJourneyStateInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         journeyId: Swift.String? = nil,
         journeyStateRequest: PinpointClientTypes.JourneyStateRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.journeyId = journeyId
         self.journeyStateRequest = journeyStateRequest
@@ -12441,8 +12007,7 @@ public struct UpdateJourneyStateOutput: Swift.Sendable {
 
     public init(
         journeyResponse: PinpointClientTypes.JourneyResponse? = nil
-    )
-    {
+    ) {
         self.journeyResponse = journeyResponse
     }
 }
@@ -12470,8 +12035,7 @@ public struct UpdatePushTemplateInput: Swift.Sendable {
         pushNotificationTemplateRequest: PinpointClientTypes.PushNotificationTemplateRequest? = nil,
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createNewVersion = createNewVersion
         self.pushNotificationTemplateRequest = pushNotificationTemplateRequest
         self.templateName = templateName
@@ -12486,8 +12050,7 @@ public struct UpdatePushTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12538,8 +12101,7 @@ extension PinpointClientTypes {
             recommendationTransformerUri: Swift.String? = nil,
             recommendationsDisplayName: Swift.String? = nil,
             recommendationsPerMessage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.description = description
             self.name = name
@@ -12564,8 +12126,7 @@ public struct UpdateRecommenderConfigurationInput: Swift.Sendable {
     public init(
         recommenderId: Swift.String? = nil,
         updateRecommenderConfiguration: PinpointClientTypes.UpdateRecommenderConfigurationShape? = nil
-    )
-    {
+    ) {
         self.recommenderId = recommenderId
         self.updateRecommenderConfiguration = updateRecommenderConfiguration
     }
@@ -12578,8 +12139,7 @@ public struct UpdateRecommenderConfigurationOutput: Swift.Sendable {
 
     public init(
         recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse? = nil
-    )
-    {
+    ) {
         self.recommenderConfigurationResponse = recommenderConfigurationResponse
     }
 }
@@ -12599,8 +12159,7 @@ public struct UpdateSegmentInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         segmentId: Swift.String? = nil,
         writeSegmentRequest: PinpointClientTypes.WriteSegmentRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.segmentId = segmentId
         self.writeSegmentRequest = writeSegmentRequest
@@ -12614,8 +12173,7 @@ public struct UpdateSegmentOutput: Swift.Sendable {
 
     public init(
         segmentResponse: PinpointClientTypes.SegmentResponse? = nil
-    )
-    {
+    ) {
         self.segmentResponse = segmentResponse
     }
 }
@@ -12635,8 +12193,7 @@ extension PinpointClientTypes {
             enabled: Swift.Bool? = nil,
             senderId: Swift.String? = nil,
             shortCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.senderId = senderId
             self.shortCode = shortCode
@@ -12655,8 +12212,7 @@ public struct UpdateSmsChannelInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         smsChannelRequest: PinpointClientTypes.SMSChannelRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.smsChannelRequest = smsChannelRequest
     }
@@ -12669,8 +12225,7 @@ public struct UpdateSmsChannelOutput: Swift.Sendable {
 
     public init(
         smsChannelResponse: PinpointClientTypes.SMSChannelResponse? = nil
-    )
-    {
+    ) {
         self.smsChannelResponse = smsChannelResponse
     }
 }
@@ -12698,8 +12253,7 @@ public struct UpdateSmsTemplateInput: Swift.Sendable {
         smsTemplateRequest: PinpointClientTypes.SMSTemplateRequest? = nil,
         templateName: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createNewVersion = createNewVersion
         self.smsTemplateRequest = smsTemplateRequest
         self.templateName = templateName
@@ -12714,8 +12268,7 @@ public struct UpdateSmsTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12729,8 +12282,7 @@ extension PinpointClientTypes {
 
         public init(
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -12751,8 +12303,7 @@ public struct UpdateTemplateActiveVersionInput: Swift.Sendable {
         templateActiveVersionRequest: PinpointClientTypes.TemplateActiveVersionRequest? = nil,
         templateName: Swift.String? = nil,
         templateType: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateActiveVersionRequest = templateActiveVersionRequest
         self.templateName = templateName
         self.templateType = templateType
@@ -12766,8 +12317,7 @@ public struct UpdateTemplateActiveVersionOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12781,8 +12331,7 @@ extension PinpointClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -12799,8 +12348,7 @@ public struct UpdateVoiceChannelInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         voiceChannelRequest: PinpointClientTypes.VoiceChannelRequest? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.voiceChannelRequest = voiceChannelRequest
     }
@@ -12813,8 +12361,7 @@ public struct UpdateVoiceChannelOutput: Swift.Sendable {
 
     public init(
         voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse? = nil
-    )
-    {
+    ) {
         self.voiceChannelResponse = voiceChannelResponse
     }
 }
@@ -12842,8 +12389,7 @@ public struct UpdateVoiceTemplateInput: Swift.Sendable {
         templateName: Swift.String? = nil,
         version: Swift.String? = nil,
         voiceTemplateRequest: PinpointClientTypes.VoiceTemplateRequest? = nil
-    )
-    {
+    ) {
         self.createNewVersion = createNewVersion
         self.templateName = templateName
         self.version = version
@@ -12858,8 +12404,7 @@ public struct UpdateVoiceTemplateOutput: Swift.Sendable {
 
     public init(
         messageBody: PinpointClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.messageBody = messageBody
     }
 }
@@ -12882,8 +12427,7 @@ extension PinpointClientTypes {
             destinationIdentity: Swift.String? = nil,
             otp: Swift.String? = nil,
             referenceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationIdentity = destinationIdentity
             self.otp = otp
             self.referenceId = referenceId
@@ -12902,8 +12446,7 @@ public struct VerifyOTPMessageInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         verifyOTPMessageRequestParameters: PinpointClientTypes.VerifyOTPMessageRequestParameters? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.verifyOTPMessageRequestParameters = verifyOTPMessageRequestParameters
     }
@@ -12918,8 +12461,7 @@ extension PinpointClientTypes {
 
         public init(
             valid: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.valid = valid
         }
     }
@@ -12932,8 +12474,7 @@ public struct VerifyOTPMessageOutput: Swift.Sendable {
 
     public init(
         verificationResponse: PinpointClientTypes.VerificationResponse? = nil
-    )
-    {
+    ) {
         self.verificationResponse = verificationResponse
     }
 }

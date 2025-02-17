@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -82,9 +81,9 @@ extension NetworkMonitorClientTypes {
 }
 
 /// This operation attempted to create a resource that already exists.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -99,16 +98,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -123,16 +121,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This request exceeds a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -147,16 +144,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -171,16 +167,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One of the parameters for the request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -195,8 +190,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -257,8 +251,7 @@ extension NetworkMonitorClientTypes {
             probeTags: [Swift.String: Swift.String]? = nil,
             `protocol`: NetworkMonitorClientTypes.ModelProtocol? = nil,
             sourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationPort = destinationPort
             self.packetSize = packetSize
@@ -288,8 +281,7 @@ public struct CreateMonitorInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         probes: [NetworkMonitorClientTypes.CreateMonitorProbeInput]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.clientToken = clientToken
         self.monitorName = monitorName
@@ -357,8 +349,7 @@ public struct CreateMonitorOutput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         state: NetworkMonitorClientTypes.MonitorState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.monitorArn = monitorArn
         self.monitorName = monitorName
@@ -368,9 +359,9 @@ public struct CreateMonitorOutput: Swift.Sendable {
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -385,8 +376,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -418,8 +408,7 @@ extension NetworkMonitorClientTypes {
             `protocol`: NetworkMonitorClientTypes.ModelProtocol? = nil,
             sourceArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationPort = destinationPort
             self.packetSize = packetSize
@@ -447,8 +436,7 @@ public struct CreateProbeInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         probe: NetworkMonitorClientTypes.ProbeInput? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.monitorName = monitorName
         self.probe = probe
@@ -542,8 +530,7 @@ public struct CreateProbeOutput: Swift.Sendable {
         state: NetworkMonitorClientTypes.ProbeState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.createdAt = createdAt
         self.destination = destination
@@ -567,8 +554,7 @@ public struct DeleteMonitorInput: Swift.Sendable {
 
     public init(
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
     }
 }
@@ -589,8 +575,7 @@ public struct DeleteProbeInput: Swift.Sendable {
     public init(
         monitorName: Swift.String? = nil,
         probeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
         self.probeId = probeId
     }
@@ -608,8 +593,7 @@ public struct GetMonitorInput: Swift.Sendable {
 
     public init(
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
     }
 }
@@ -662,8 +646,7 @@ extension NetworkMonitorClientTypes {
             state: NetworkMonitorClientTypes.ProbeState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.createdAt = createdAt
             self.destination = destination
@@ -714,8 +697,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         probes: [NetworkMonitorClientTypes.Probe]? = nil,
         state: NetworkMonitorClientTypes.MonitorState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.createdAt = createdAt
         self.modifiedAt = modifiedAt
@@ -738,8 +720,7 @@ public struct GetProbeInput: Swift.Sendable {
     public init(
         monitorName: Swift.String? = nil,
         probeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
         self.probeId = probeId
     }
@@ -790,8 +771,7 @@ public struct GetProbeOutput: Swift.Sendable {
         state: NetworkMonitorClientTypes.ProbeState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.createdAt = createdAt
         self.destination = destination
@@ -820,8 +800,7 @@ public struct ListMonitorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         state: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.state = state
@@ -852,8 +831,7 @@ extension NetworkMonitorClientTypes {
             monitorName: Swift.String? = nil,
             state: NetworkMonitorClientTypes.MonitorState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.aggregationPeriod = aggregationPeriod
             self.monitorArn = monitorArn
             self.monitorName = monitorName
@@ -873,8 +851,7 @@ public struct ListMonitorsOutput: Swift.Sendable {
     public init(
         monitors: [NetworkMonitorClientTypes.MonitorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitors = monitors
         self.nextToken = nextToken
     }
@@ -887,8 +864,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -899,8 +875,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -916,8 +891,7 @@ public struct UpdateMonitorInput: Swift.Sendable {
     public init(
         aggregationPeriod: Swift.Int? = nil,
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.monitorName = monitorName
     }
@@ -944,8 +918,7 @@ public struct UpdateMonitorOutput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         state: NetworkMonitorClientTypes.MonitorState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.aggregationPeriod = aggregationPeriod
         self.monitorArn = monitorArn
         self.monitorName = monitorName
@@ -980,8 +953,7 @@ public struct UpdateProbeInput: Swift.Sendable {
         probeId: Swift.String? = nil,
         `protocol`: NetworkMonitorClientTypes.ModelProtocol? = nil,
         state: NetworkMonitorClientTypes.ProbeState? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.destinationPort = destinationPort
         self.monitorName = monitorName
@@ -1037,8 +1009,7 @@ public struct UpdateProbeOutput: Swift.Sendable {
         state: NetworkMonitorClientTypes.ProbeState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.createdAt = createdAt
         self.destination = destination
@@ -1066,8 +1037,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1089,8 +1059,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

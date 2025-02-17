@@ -35,9 +35,9 @@ public struct SetCognitoEventsOutput: Swift.Sendable {
 }
 
 /// An exception thrown when a bulk publish operation is requested less than 24 hours after a previous bulk publish operation completed successfully.
-public struct AlreadyStreamedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyStreamedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message associated with the AlreadyStreamedException exception.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -54,16 +54,15 @@ public struct AlreadyStreamedException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception thrown when there is an IN_PROGRESS bulk publish operation for the given identity pool.
-public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message associated with the DuplicateRequestException exception.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -80,16 +79,15 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Indicates an internal service error.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by InternalErrorException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -106,16 +104,15 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when a request parameter does not comply with the associated constraints.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by InvalidParameterException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -132,16 +129,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when a user is not authorized to access the requested resource.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a NotAuthorizedException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -158,16 +154,15 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown if the resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by a ResourceNotFoundException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -184,8 +179,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -198,8 +192,7 @@ public struct BulkPublishInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -211,16 +204,15 @@ public struct BulkPublishOutput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
 
 /// Thrown if an update can't be applied because the resource was changed by another call and this would result in a conflict.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ResourceConflictException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -237,16 +229,15 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown if the request is throttled.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by a TooManyRequestsException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -263,8 +254,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -285,8 +275,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
         datasetName: Swift.String? = nil,
         identityId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.identityId = identityId
         self.identityPoolId = identityPoolId
@@ -320,8 +309,7 @@ extension CognitoSyncClientTypes {
             lastModifiedBy: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             numRecords: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.dataStorage = dataStorage
             self.datasetName = datasetName
@@ -340,8 +328,7 @@ public struct DeleteDatasetOutput: Swift.Sendable {
 
     public init(
         dataset: CognitoSyncClientTypes.Dataset? = nil
-    )
-    {
+    ) {
         self.dataset = dataset
     }
 }
@@ -362,8 +349,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
         datasetName: Swift.String? = nil,
         identityId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.identityId = identityId
         self.identityPoolId = identityPoolId
@@ -377,8 +363,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
 
     public init(
         dataset: CognitoSyncClientTypes.Dataset? = nil
-    )
-    {
+    ) {
         self.dataset = dataset
     }
 }
@@ -391,8 +376,7 @@ public struct DescribeIdentityPoolUsageInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -415,8 +399,7 @@ extension CognitoSyncClientTypes {
             identityPoolId: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             syncSessionsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataStorage = dataStorage
             self.identityPoolId = identityPoolId
             self.lastModifiedDate = lastModifiedDate
@@ -432,8 +415,7 @@ public struct DescribeIdentityPoolUsageOutput: Swift.Sendable {
 
     public init(
         identityPoolUsage: CognitoSyncClientTypes.IdentityPoolUsage? = nil
-    )
-    {
+    ) {
         self.identityPoolUsage = identityPoolUsage
     }
 }
@@ -450,8 +432,7 @@ public struct DescribeIdentityUsageInput: Swift.Sendable {
     public init(
         identityId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityPoolId = identityPoolId
     }
@@ -478,8 +459,7 @@ extension CognitoSyncClientTypes {
             identityId: Swift.String? = nil,
             identityPoolId: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataStorage = dataStorage
             self.datasetCount = datasetCount
             self.identityId = identityId
@@ -496,8 +476,7 @@ public struct DescribeIdentityUsageOutput: Swift.Sendable {
 
     public init(
         identityUsage: CognitoSyncClientTypes.IdentityUsage? = nil
-    )
-    {
+    ) {
         self.identityUsage = identityUsage
     }
 }
@@ -510,8 +489,7 @@ public struct GetBulkPublishDetailsInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -570,8 +548,7 @@ public struct GetBulkPublishDetailsOutput: Swift.Sendable {
         bulkPublishStatus: CognitoSyncClientTypes.BulkPublishStatus? = nil,
         failureMessage: Swift.String? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bulkPublishCompleteTime = bulkPublishCompleteTime
         self.bulkPublishStartTime = bulkPublishStartTime
         self.bulkPublishStatus = bulkPublishStatus
@@ -588,8 +565,7 @@ public struct GetCognitoEventsInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -601,8 +577,7 @@ public struct GetCognitoEventsOutput: Swift.Sendable {
 
     public init(
         events: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.events = events
     }
 }
@@ -615,8 +590,7 @@ public struct GetIdentityPoolConfigurationInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -665,8 +639,7 @@ extension CognitoSyncClientTypes {
             roleArn: Swift.String? = nil,
             streamName: Swift.String? = nil,
             streamingStatus: CognitoSyncClientTypes.StreamingStatus? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.streamName = streamName
             self.streamingStatus = streamingStatus
@@ -686,8 +659,7 @@ extension CognitoSyncClientTypes {
         public init(
             applicationArns: [Swift.String]? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArns = applicationArns
             self.roleArn = roleArn
         }
@@ -707,8 +679,7 @@ public struct GetIdentityPoolConfigurationOutput: Swift.Sendable {
         cognitoStreams: CognitoSyncClientTypes.CognitoStreams? = nil,
         identityPoolId: Swift.String? = nil,
         pushSync: CognitoSyncClientTypes.PushSync? = nil
-    )
-    {
+    ) {
         self.cognitoStreams = cognitoStreams
         self.identityPoolId = identityPoolId
         self.pushSync = pushSync
@@ -733,8 +704,7 @@ public struct ListDatasetsInput: Swift.Sendable {
         identityPoolId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityPoolId = identityPoolId
         self.maxResults = maxResults
@@ -755,8 +725,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
         count: Swift.Int = 0,
         datasets: [CognitoSyncClientTypes.Dataset]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.count = count
         self.datasets = datasets
         self.nextToken = nextToken
@@ -773,8 +742,7 @@ public struct ListIdentityPoolUsageInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -796,8 +764,7 @@ public struct ListIdentityPoolUsageOutput: Swift.Sendable {
         identityPoolUsages: [CognitoSyncClientTypes.IdentityPoolUsage]? = nil,
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.count = count
         self.identityPoolUsages = identityPoolUsages
         self.maxResults = maxResults
@@ -833,8 +800,7 @@ public struct ListRecordsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         syncSessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.identityId = identityId
         self.identityPoolId = identityPoolId
@@ -869,8 +835,7 @@ extension CognitoSyncClientTypes {
             lastModifiedDate: Foundation.Date? = nil,
             syncCount: Swift.Int? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.key = key
             self.lastModifiedBy = lastModifiedBy
@@ -912,8 +877,7 @@ public struct ListRecordsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         records: [CognitoSyncClientTypes.Record]? = nil,
         syncSessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.count = count
         self.datasetDeletedAfterRequestedSyncCount = datasetDeletedAfterRequestedSyncCount
         self.datasetExists = datasetExists
@@ -926,9 +890,9 @@ public struct ListRecordsOutput: Swift.Sendable {
     }
 }
 
-public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by InvalidConfigurationException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -945,8 +909,7 @@ public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1006,8 +969,7 @@ public struct RegisterDeviceInput: Swift.Sendable {
         identityPoolId: Swift.String? = nil,
         platform: CognitoSyncClientTypes.Platform? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityPoolId = identityPoolId
         self.platform = platform
@@ -1022,8 +984,7 @@ public struct RegisterDeviceOutput: Swift.Sendable {
 
     public init(
         deviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
     }
 }
@@ -1040,17 +1001,16 @@ public struct SetCognitoEventsInput: Swift.Sendable {
     public init(
         events: [Swift.String: Swift.String]? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.identityPoolId = identityPoolId
     }
 }
 
 /// Thrown if there are parallel requests to modify a resource.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ConcurrentModicationException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1067,8 +1027,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1087,8 +1046,7 @@ public struct SetIdentityPoolConfigurationInput: Swift.Sendable {
         cognitoStreams: CognitoSyncClientTypes.CognitoStreams? = nil,
         identityPoolId: Swift.String? = nil,
         pushSync: CognitoSyncClientTypes.PushSync? = nil
-    )
-    {
+    ) {
         self.cognitoStreams = cognitoStreams
         self.identityPoolId = identityPoolId
         self.pushSync = pushSync
@@ -1108,8 +1066,7 @@ public struct SetIdentityPoolConfigurationOutput: Swift.Sendable {
         cognitoStreams: CognitoSyncClientTypes.CognitoStreams? = nil,
         identityPoolId: Swift.String? = nil,
         pushSync: CognitoSyncClientTypes.PushSync? = nil
-    )
-    {
+    ) {
         self.cognitoStreams = cognitoStreams
         self.identityPoolId = identityPoolId
         self.pushSync = pushSync
@@ -1136,8 +1093,7 @@ public struct SubscribeToDatasetInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         identityId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.deviceId = deviceId
         self.identityId = identityId
@@ -1171,8 +1127,7 @@ public struct UnsubscribeFromDatasetInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         identityId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetName = datasetName
         self.deviceId = deviceId
         self.identityId = identityId
@@ -1187,9 +1142,9 @@ public struct UnsubscribeFromDatasetOutput: Swift.Sendable {
 }
 
 /// The AWS Lambda function returned invalid output or an exception.
-public struct InvalidLambdaFunctionOutputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLambdaFunctionOutputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message returned when an InvalidLambdaFunctionOutputException occurs
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1206,16 +1161,15 @@ public struct InvalidLambdaFunctionOutputException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// AWS Lambda throttled your account, please contact AWS Support
-public struct LambdaThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LambdaThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message returned when an LambdaThrottledException is thrown
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1232,16 +1186,15 @@ public struct LambdaThrottledException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when the limit on the number of objects or operations has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by LimitExceededException.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1258,8 +1211,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1317,8 +1269,7 @@ extension CognitoSyncClientTypes {
             op: CognitoSyncClientTypes.Operation? = nil,
             syncCount: Swift.Int? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.key = key
             self.op = op
@@ -1357,8 +1308,7 @@ public struct UpdateRecordsInput: Swift.Sendable {
         identityPoolId: Swift.String? = nil,
         recordPatches: [CognitoSyncClientTypes.RecordPatch]? = nil,
         syncSessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientContext = clientContext
         self.datasetName = datasetName
         self.deviceId = deviceId
@@ -1376,8 +1326,7 @@ public struct UpdateRecordsOutput: Swift.Sendable {
 
     public init(
         records: [CognitoSyncClientTypes.Record]? = nil
-    )
-    {
+    ) {
         self.records = records
     }
 }

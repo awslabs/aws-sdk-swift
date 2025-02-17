@@ -101,8 +101,7 @@ extension WorkMailClientTypes {
             notIpRanges: [Swift.String]? = nil,
             notUserIds: [Swift.String]? = nil,
             userIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -150,9 +149,9 @@ extension WorkMailClientTypes {
 }
 
 /// The identifier supplied for the user, group, or resource does not exist in your organization.
-public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -167,16 +166,15 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
-public struct EntityStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -191,16 +189,15 @@ public struct EntityStateException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more of the input parameters don't match the service's restrictions.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -215,16 +212,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An operation received a valid organization identifier that either doesn't belong or exist in the system.
-public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -239,16 +235,15 @@ public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The organization must have a valid state to perform certain operations on the organization or its members.
-public struct OrganizationStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -263,16 +258,15 @@ public struct OrganizationStateException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't perform a write operation against a read-only directory.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -287,8 +281,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -320,8 +313,7 @@ public struct AssociateDelegateToResourceInput: Swift.Sendable {
         entityId: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.organizationId = organizationId
         self.resourceId = resourceId
@@ -334,9 +326,9 @@ public struct AssociateDelegateToResourceOutput: Swift.Sendable {
 }
 
 /// The directory service doesn't recognize the credentials supplied by WorkMail.
-public struct DirectoryServiceAuthenticationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryServiceAuthenticationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -351,16 +343,15 @@ public struct DirectoryServiceAuthenticationFailedException: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The directory is unavailable. It might be located in another Region or deleted.
-public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -375,8 +366,7 @@ public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -408,8 +398,7 @@ public struct AssociateMemberToGroupInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         memberId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.memberId = memberId
         self.organizationId = organizationId
@@ -422,9 +411,9 @@ public struct AssociateMemberToGroupOutput: Swift.Sendable {
 }
 
 /// The resource cannot be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -439,8 +428,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -456,8 +444,7 @@ public struct AssumeImpersonationRoleInput: Swift.Sendable {
     public init(
         impersonationRoleId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.impersonationRoleId = impersonationRoleId
         self.organizationId = organizationId
     }
@@ -472,8 +459,7 @@ public struct AssumeImpersonationRoleOutput: Swift.Sendable {
     public init(
         expiresIn: Swift.Int? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresIn = expiresIn
         self.token = token
     }
@@ -491,8 +477,7 @@ extension WorkMailClientTypes {
         public init(
             ewsEndpoint: Swift.String? = nil,
             ewsUsername: Swift.String? = nil
-        )
-        {
+        ) {
             self.ewsEndpoint = ewsEndpoint
             self.ewsUsername = ewsUsername
         }
@@ -509,8 +494,7 @@ extension WorkMailClientTypes {
 
         public init(
             lambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
         }
     }
@@ -569,8 +553,7 @@ extension WorkMailClientTypes {
             ewsProvider: WorkMailClientTypes.RedactedEwsAvailabilityProvider? = nil,
             lambdaProvider: WorkMailClientTypes.LambdaAvailabilityProvider? = nil,
             providerType: WorkMailClientTypes.AvailabilityProviderType? = nil
-        )
-        {
+        ) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.domainName = domainName
@@ -596,8 +579,7 @@ extension WorkMailClientTypes {
             autoAcceptRequests: Swift.Bool = false,
             autoDeclineConflictingRequests: Swift.Bool = false,
             autoDeclineRecurringRequests: Swift.Bool = false
-        )
-        {
+        ) {
             self.autoAcceptRequests = autoAcceptRequests
             self.autoDeclineConflictingRequests = autoDeclineConflictingRequests
             self.autoDeclineRecurringRequests = autoDeclineRecurringRequests
@@ -620,8 +602,7 @@ public struct CancelMailboxExportJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         jobId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.jobId = jobId
         self.organizationId = organizationId
@@ -634,9 +615,9 @@ public struct CancelMailboxExportJobOutput: Swift.Sendable {
 }
 
 /// The email address that you're trying to assign is already created for a different user, group, or resource.
-public struct EmailAddressInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EmailAddressInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -651,16 +632,15 @@ public struct EmailAddressInUseException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request exceeds the limit of the resource.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -675,16 +655,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The domain specified is not found in your organization.
-public struct MailDomainNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MailDomainNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -699,16 +678,15 @@ public struct MailDomainNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// After a domain has been added to the organization, it must be verified. The domain is not yet verified.
-public struct MailDomainStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MailDomainStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -723,8 +701,7 @@ public struct MailDomainStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -744,8 +721,7 @@ public struct CreateAliasInput: Swift.Sendable {
         alias: Swift.String? = nil,
         entityId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.entityId = entityId
         self.organizationId = organizationId
@@ -758,9 +734,9 @@ public struct CreateAliasOutput: Swift.Sendable {
 }
 
 /// The user, group, or resource name isn't unique in WorkMail.
-public struct NameAvailabilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NameAvailabilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -775,8 +751,7 @@ public struct NameAvailabilityException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -799,8 +774,7 @@ extension WorkMailClientTypes {
             ewsEndpoint: Swift.String? = nil,
             ewsPassword: Swift.String? = nil,
             ewsUsername: Swift.String? = nil
-        )
-        {
+        ) {
             self.ewsEndpoint = ewsEndpoint
             self.ewsPassword = ewsPassword
             self.ewsUsername = ewsUsername
@@ -833,8 +807,7 @@ public struct CreateAvailabilityConfigurationInput: Swift.Sendable {
         ewsProvider: WorkMailClientTypes.EwsAvailabilityProvider? = nil,
         lambdaProvider: WorkMailClientTypes.LambdaAvailabilityProvider? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainName = domainName
         self.ewsProvider = ewsProvider
@@ -849,9 +822,9 @@ public struct CreateAvailabilityConfigurationOutput: Swift.Sendable {
 }
 
 /// This user, group, or resource name is not allowed in WorkMail.
-public struct ReservedNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -866,8 +839,7 @@ public struct ReservedNameException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -886,8 +858,7 @@ public struct CreateGroupInput: Swift.Sendable {
         hiddenFromGlobalAddressList: Swift.Bool? = false,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.name = name
         self.organizationId = organizationId
@@ -900,8 +871,7 @@ public struct CreateGroupOutput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -920,8 +890,7 @@ public struct CreateIdentityCenterApplicationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.instanceArn = instanceArn
         self.name = name
@@ -934,8 +903,7 @@ public struct CreateIdentityCenterApplicationOutput: Swift.Sendable {
 
     public init(
         applicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
     }
 }
@@ -966,8 +934,7 @@ extension WorkMailClientTypes {
             name: Swift.String? = nil,
             notTargetUsers: [Swift.String]? = nil,
             targetUsers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.effect = effect
             self.impersonationRuleId = impersonationRuleId
@@ -1032,8 +999,7 @@ public struct CreateImpersonationRoleInput: Swift.Sendable {
         organizationId: Swift.String? = nil,
         rules: [WorkMailClientTypes.ImpersonationRule]? = nil,
         type: WorkMailClientTypes.ImpersonationRoleType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -1049,8 +1015,7 @@ public struct CreateImpersonationRoleOutput: Swift.Sendable {
 
     public init(
         impersonationRoleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.impersonationRoleId = impersonationRoleId
     }
 }
@@ -1129,8 +1094,7 @@ public struct CreateMobileDeviceAccessRuleInput: Swift.Sendable {
         notDeviceTypes: [Swift.String]? = nil,
         notDeviceUserAgents: [Swift.String]? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.deviceModels = deviceModels
@@ -1153,16 +1117,15 @@ public struct CreateMobileDeviceAccessRuleOutput: Swift.Sendable {
 
     public init(
         mobileDeviceAccessRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
     }
 }
 
 /// The directory is already in use by another WorkMail organization in the same account and Region.
-public struct DirectoryInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1177,8 +1140,7 @@ public struct DirectoryInUseException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1196,8 +1158,7 @@ extension WorkMailClientTypes {
         public init(
             domainName: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.hostedZoneId = hostedZoneId
         }
@@ -1226,8 +1187,7 @@ public struct CreateOrganizationInput: Swift.Sendable {
         domains: [WorkMailClientTypes.Domain]? = nil,
         enableInteroperability: Swift.Bool? = false,
         kmsKeyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.directoryId = directoryId
@@ -1243,8 +1203,7 @@ public struct CreateOrganizationOutput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -1299,8 +1258,7 @@ public struct CreateResourceInput: Swift.Sendable {
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         type: WorkMailClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.name = name
@@ -1320,16 +1278,15 @@ public struct CreateResourceOutput: Swift.Sendable {
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
     }
 }
 
 /// The supplied password doesn't match the minimum security constraints, such as length or use of special characters.
-public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1344,8 +1301,7 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1418,8 +1374,7 @@ public struct CreateUserInput: Swift.Sendable {
         organizationId: Swift.String? = nil,
         password: Swift.String? = nil,
         role: WorkMailClientTypes.UserRole? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.firstName = firstName
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
@@ -1443,8 +1398,7 @@ public struct CreateUserOutput: Swift.Sendable {
 
     public init(
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userId = userId
     }
 }
@@ -1492,8 +1446,7 @@ extension WorkMailClientTypes {
         public init(
             id: Swift.String? = nil,
             type: WorkMailClientTypes.MemberType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -1511,8 +1464,7 @@ public struct DeleteAccessControlRuleInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.organizationId = organizationId
     }
@@ -1538,8 +1490,7 @@ public struct DeleteAliasInput: Swift.Sendable {
         alias: Swift.String? = nil,
         entityId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.entityId = entityId
         self.organizationId = organizationId
@@ -1562,8 +1513,7 @@ public struct DeleteAvailabilityConfigurationInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.organizationId = organizationId
     }
@@ -1581,8 +1531,7 @@ public struct DeleteEmailMonitoringConfigurationInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -1607,8 +1556,7 @@ public struct DeleteGroupInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.organizationId = organizationId
     }
@@ -1626,8 +1574,7 @@ public struct DeleteIdentityCenterApplicationInput: Swift.Sendable {
 
     public init(
         applicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
     }
 }
@@ -1644,8 +1591,7 @@ public struct DeleteIdentityProviderConfigurationInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -1666,8 +1612,7 @@ public struct DeleteImpersonationRoleInput: Swift.Sendable {
     public init(
         impersonationRoleId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.impersonationRoleId = impersonationRoleId
         self.organizationId = organizationId
     }
@@ -1705,8 +1650,7 @@ public struct DeleteMailboxPermissionsInput: Swift.Sendable {
         entityId: Swift.String? = nil,
         granteeId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.granteeId = granteeId
         self.organizationId = organizationId
@@ -1739,8 +1683,7 @@ public struct DeleteMobileDeviceAccessOverrideInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.organizationId = organizationId
         self.userId = userId
@@ -1763,8 +1706,7 @@ public struct DeleteMobileDeviceAccessRuleInput: Swift.Sendable {
     public init(
         mobileDeviceAccessRuleId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
         self.organizationId = organizationId
     }
@@ -1795,8 +1737,7 @@ public struct DeleteOrganizationInput: Swift.Sendable {
         deleteIdentityCenterApplication: Swift.Bool? = false,
         forceDelete: Swift.Bool? = false,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deleteDirectory = deleteDirectory
         self.deleteIdentityCenterApplication = deleteIdentityCenterApplication
@@ -1814,8 +1755,7 @@ public struct DeleteOrganizationOutput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         state: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.state = state
     }
@@ -1832,8 +1772,7 @@ public struct DeletePersonalAccessTokenInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         personalAccessTokenId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.personalAccessTokenId = personalAccessTokenId
     }
@@ -1859,8 +1798,7 @@ public struct DeleteResourceInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.resourceId = resourceId
     }
@@ -1882,8 +1820,7 @@ public struct DeleteRetentionPolicyInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.organizationId = organizationId
     }
@@ -1909,8 +1846,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.userId = userId
     }
@@ -1938,8 +1874,7 @@ public struct DeregisterFromWorkMailInput: Swift.Sendable {
     public init(
         entityId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.organizationId = organizationId
     }
@@ -1951,9 +1886,9 @@ public struct DeregisterFromWorkMailOutput: Swift.Sendable {
 }
 
 /// You SES configuration has customizations that WorkMail cannot save. The error message lists the invalid setting. For examples of invalid settings, refer to [CreateReceiptRule](https://docs.aws.amazon.com/ses/latest/APIReference/API_CreateReceiptRule.html).
-public struct InvalidCustomSesConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCustomSesConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1968,16 +1903,15 @@ public struct InvalidCustomSesConfigurationException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The domain you're trying to change is in use by another user or organization in your account. See the error message for details.
-public struct MailDomainInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MailDomainInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1992,8 +1926,7 @@ public struct MailDomainInUseException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2009,8 +1942,7 @@ public struct DeregisterMailDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.organizationId = organizationId
     }
@@ -2028,8 +1960,7 @@ public struct DescribeEmailMonitoringConfigurationInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -2043,8 +1974,7 @@ public struct DescribeEmailMonitoringConfigurationOutput: Swift.Sendable {
     public init(
         logGroupArn: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupArn = logGroupArn
         self.roleArn = roleArn
     }
@@ -2061,8 +1991,7 @@ public struct DescribeEntityInput: Swift.Sendable {
     public init(
         email: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.email = email
         self.organizationId = organizationId
     }
@@ -2112,8 +2041,7 @@ public struct DescribeEntityOutput: Swift.Sendable {
         entityId: Swift.String? = nil,
         name: Swift.String? = nil,
         type: WorkMailClientTypes.EntityType? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.name = name
         self.type = type
@@ -2137,8 +2065,7 @@ public struct DescribeGroupInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.organizationId = organizationId
     }
@@ -2200,8 +2127,7 @@ public struct DescribeGroupOutput: Swift.Sendable {
         hiddenFromGlobalAddressList: Swift.Bool = false,
         name: Swift.String? = nil,
         state: WorkMailClientTypes.EntityState? = nil
-    )
-    {
+    ) {
         self.disabledDate = disabledDate
         self.email = email
         self.enabledDate = enabledDate
@@ -2219,8 +2145,7 @@ public struct DescribeIdentityProviderConfigurationInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -2268,8 +2193,7 @@ extension WorkMailClientTypes {
         public init(
             applicationArn: Swift.String? = nil,
             instanceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.instanceArn = instanceArn
         }
@@ -2322,8 +2246,7 @@ extension WorkMailClientTypes {
         public init(
             lifetimeInDays: Swift.Int? = nil,
             status: WorkMailClientTypes.PersonalAccessTokenConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.lifetimeInDays = lifetimeInDays
             self.status = status
         }
@@ -2342,8 +2265,7 @@ public struct DescribeIdentityProviderConfigurationOutput: Swift.Sendable {
         authenticationMode: WorkMailClientTypes.IdentityProviderAuthenticationMode? = nil,
         identityCenterConfiguration: WorkMailClientTypes.IdentityCenterConfiguration? = nil,
         personalAccessTokenConfiguration: WorkMailClientTypes.PersonalAccessTokenConfiguration? = nil
-    )
-    {
+    ) {
         self.authenticationMode = authenticationMode
         self.identityCenterConfiguration = identityCenterConfiguration
         self.personalAccessTokenConfiguration = personalAccessTokenConfiguration
@@ -2357,8 +2279,7 @@ public struct DescribeInboundDmarcSettingsInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -2369,8 +2290,7 @@ public struct DescribeInboundDmarcSettingsOutput: Swift.Sendable {
 
     public init(
         enforced: Swift.Bool = false
-    )
-    {
+    ) {
         self.enforced = enforced
     }
 }
@@ -2386,8 +2306,7 @@ public struct DescribeMailboxExportJobInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.organizationId = organizationId
     }
@@ -2467,8 +2386,7 @@ public struct DescribeMailboxExportJobOutput: Swift.Sendable {
         s3Prefix: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         state: WorkMailClientTypes.MailboxExportJobState? = nil
-    )
-    {
+    ) {
         self.description = description
         self.endTime = endTime
         self.entityId = entityId
@@ -2491,8 +2409,7 @@ public struct DescribeOrganizationInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -2533,8 +2450,7 @@ public struct DescribeOrganizationOutput: Swift.Sendable {
         migrationAdmin: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         state: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.arn = arn
         self.completedDate = completedDate
@@ -2566,8 +2482,7 @@ public struct DescribeResourceInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.resourceId = resourceId
     }
@@ -2606,8 +2521,7 @@ public struct DescribeResourceOutput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         state: WorkMailClientTypes.EntityState? = nil,
         type: WorkMailClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.bookingOptions = bookingOptions
         self.description = description
         self.disabledDate = disabledDate
@@ -2643,8 +2557,7 @@ public struct DescribeUserInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.userId = userId
     }
@@ -2728,8 +2641,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         userId: Swift.String? = nil,
         userRole: WorkMailClientTypes.UserRole? = nil,
         zipCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.city = city
         self.company = company
         self.country = country
@@ -2790,8 +2702,7 @@ public struct DisassociateDelegateFromResourceInput: Swift.Sendable {
         entityId: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.organizationId = organizationId
         self.resourceId = resourceId
@@ -2830,8 +2741,7 @@ public struct DisassociateMemberFromGroupInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         memberId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.memberId = memberId
         self.organizationId = organizationId
@@ -2858,8 +2768,7 @@ extension WorkMailClientTypes {
             hostname: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.type = type
             self.value = value
@@ -2900,9 +2809,9 @@ extension WorkMailClientTypes {
 }
 
 /// The user, group, or resource that you're trying to register is already registered.
-public struct EntityAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2917,8 +2826,7 @@ public struct EntityAlreadyRegisteredException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3010,8 +2918,7 @@ extension WorkMailClientTypes {
             action: WorkMailClientTypes.RetentionAction? = nil,
             name: WorkMailClientTypes.FolderName? = nil,
             period: Swift.Int? = nil
-        )
-        {
+        ) {
             self.action = action
             self.name = name
             self.period = period
@@ -3040,8 +2947,7 @@ public struct GetAccessControlEffectInput: Swift.Sendable {
         ipAddress: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.impersonationRoleId = impersonationRoleId
         self.ipAddress = ipAddress
@@ -3059,8 +2965,7 @@ public struct GetAccessControlEffectOutput: Swift.Sendable {
     public init(
         effect: WorkMailClientTypes.AccessControlRuleEffect? = nil,
         matchedRules: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.effect = effect
         self.matchedRules = matchedRules
     }
@@ -3073,8 +2978,7 @@ public struct GetDefaultRetentionPolicyInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -3094,8 +2998,7 @@ public struct GetDefaultRetentionPolicyOutput: Swift.Sendable {
         folderConfigurations: [WorkMailClientTypes.FolderConfiguration]? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.folderConfigurations = folderConfigurations
         self.id = id
@@ -3114,8 +3017,7 @@ public struct GetImpersonationRoleInput: Swift.Sendable {
     public init(
         impersonationRoleId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.impersonationRoleId = impersonationRoleId
         self.organizationId = organizationId
     }
@@ -3145,8 +3047,7 @@ public struct GetImpersonationRoleOutput: Swift.Sendable {
         name: Swift.String? = nil,
         rules: [WorkMailClientTypes.ImpersonationRule]? = nil,
         type: WorkMailClientTypes.ImpersonationRoleType? = nil
-    )
-    {
+    ) {
         self.dateCreated = dateCreated
         self.dateModified = dateModified
         self.description = description
@@ -3178,8 +3079,7 @@ public struct GetImpersonationRoleEffectInput: Swift.Sendable {
         impersonationRoleId: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         targetUser: Swift.String? = nil
-    )
-    {
+    ) {
         self.impersonationRoleId = impersonationRoleId
         self.organizationId = organizationId
         self.targetUser = targetUser
@@ -3198,8 +3098,7 @@ extension WorkMailClientTypes {
         public init(
             impersonationRuleId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.impersonationRuleId = impersonationRuleId
             self.name = name
         }
@@ -3218,8 +3117,7 @@ public struct GetImpersonationRoleEffectOutput: Swift.Sendable {
         effect: WorkMailClientTypes.AccessEffect? = nil,
         matchedRules: [WorkMailClientTypes.ImpersonationMatchedRule]? = nil,
         type: WorkMailClientTypes.ImpersonationRoleType? = nil
-    )
-    {
+    ) {
         self.effect = effect
         self.matchedRules = matchedRules
         self.type = type
@@ -3243,8 +3141,7 @@ public struct GetMailboxDetailsInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.userId = userId
     }
@@ -3259,8 +3156,7 @@ public struct GetMailboxDetailsOutput: Swift.Sendable {
     public init(
         mailboxQuota: Swift.Int? = nil,
         mailboxSize: Swift.Double = 0.0
-    )
-    {
+    ) {
         self.mailboxQuota = mailboxQuota
         self.mailboxSize = mailboxSize
     }
@@ -3277,8 +3173,7 @@ public struct GetMailDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.organizationId = organizationId
     }
@@ -3302,8 +3197,7 @@ public struct GetMailDomainOutput: Swift.Sendable {
         isTestDomain: Swift.Bool = false,
         ownershipVerificationStatus: WorkMailClientTypes.DnsRecordVerificationStatus? = nil,
         records: [WorkMailClientTypes.DnsRecord]? = nil
-    )
-    {
+    ) {
         self.dkimVerificationStatus = dkimVerificationStatus
         self.isDefault = isDefault
         self.isTestDomain = isTestDomain
@@ -3331,8 +3225,7 @@ public struct GetMobileDeviceAccessEffectInput: Swift.Sendable {
         deviceType: Swift.String? = nil,
         deviceUserAgent: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceModel = deviceModel
         self.deviceOperatingSystem = deviceOperatingSystem
         self.deviceType = deviceType
@@ -3353,8 +3246,7 @@ extension WorkMailClientTypes {
         public init(
             mobileDeviceAccessRuleId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
             self.name = name
         }
@@ -3370,8 +3262,7 @@ public struct GetMobileDeviceAccessEffectOutput: Swift.Sendable {
     public init(
         effect: WorkMailClientTypes.MobileDeviceAccessRuleEffect? = nil,
         matchedRules: [WorkMailClientTypes.MobileDeviceAccessMatchedRule]? = nil
-    )
-    {
+    ) {
         self.effect = effect
         self.matchedRules = matchedRules
     }
@@ -3398,8 +3289,7 @@ public struct GetMobileDeviceAccessOverrideInput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.organizationId = organizationId
         self.userId = userId
@@ -3427,8 +3317,7 @@ public struct GetMobileDeviceAccessOverrideOutput: Swift.Sendable {
         deviceId: Swift.String? = nil,
         effect: WorkMailClientTypes.MobileDeviceAccessRuleEffect? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dateCreated = dateCreated
         self.dateModified = dateModified
         self.description = description
@@ -3449,8 +3338,7 @@ public struct GetPersonalAccessTokenMetadataInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         personalAccessTokenId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.personalAccessTokenId = personalAccessTokenId
     }
@@ -3480,8 +3368,7 @@ public struct GetPersonalAccessTokenMetadataOutput: Swift.Sendable {
         personalAccessTokenId: Swift.String? = nil,
         scopes: [Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dateCreated = dateCreated
         self.dateLastUsed = dateLastUsed
         self.expiresTime = expiresTime
@@ -3516,8 +3403,7 @@ extension WorkMailClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil
-        )
-        {
+        ) {
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
@@ -3540,8 +3426,7 @@ extension WorkMailClientTypes {
         public init(
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
         }
@@ -3569,8 +3454,7 @@ extension WorkMailClientTypes {
             impersonationRoleId: Swift.String? = nil,
             name: Swift.String? = nil,
             type: WorkMailClientTypes.ImpersonationRoleType? = nil
-        )
-        {
+        ) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.impersonationRoleId = impersonationRoleId
@@ -3581,9 +3465,9 @@ extension WorkMailClientTypes {
 }
 
 /// The configuration for a resource isn't valid. A resource must either be able to auto-respond to requests or have at least one delegate associated that can do so on its behalf.
-public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3598,8 +3482,7 @@ public struct InvalidConfigurationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3637,8 +3520,7 @@ extension WorkMailClientTypes {
             s3Path: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: WorkMailClientTypes.MailboxExportJobState? = nil
-        )
-        {
+        ) {
             self.description = description
             self.endTime = endTime
             self.entityId = entityId
@@ -3659,8 +3541,7 @@ public struct ListAccessControlRulesInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -3671,8 +3552,7 @@ public struct ListAccessControlRulesOutput: Swift.Sendable {
 
     public init(
         rules: [WorkMailClientTypes.AccessControlRule]? = nil
-    )
-    {
+    ) {
         self.rules = rules
     }
 }
@@ -3694,8 +3574,7 @@ public struct ListAliasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3712,8 +3591,7 @@ public struct ListAliasesOutput: Swift.Sendable {
     public init(
         aliases: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextToken = nextToken
     }
@@ -3732,8 +3610,7 @@ public struct ListAvailabilityConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -3749,8 +3626,7 @@ public struct ListAvailabilityConfigurationsOutput: Swift.Sendable {
     public init(
         availabilityConfigurations: [WorkMailClientTypes.AvailabilityConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityConfigurations = availabilityConfigurations
         self.nextToken = nextToken
     }
@@ -3779,8 +3655,7 @@ public struct ListGroupMembersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3812,8 +3687,7 @@ extension WorkMailClientTypes {
             name: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil,
             type: WorkMailClientTypes.MemberType? = nil
-        )
-        {
+        ) {
             self.disabledDate = disabledDate
             self.enabledDate = enabledDate
             self.id = id
@@ -3833,8 +3707,7 @@ public struct ListGroupMembersOutput: Swift.Sendable {
     public init(
         members: [WorkMailClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -3855,8 +3728,7 @@ extension WorkMailClientTypes {
             namePrefix: Swift.String? = nil,
             primaryEmailPrefix: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil
-        )
-        {
+        ) {
             self.namePrefix = namePrefix
             self.primaryEmailPrefix = primaryEmailPrefix
             self.state = state
@@ -3880,8 +3752,7 @@ public struct ListGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3898,8 +3769,7 @@ public struct ListGroupsOutput: Swift.Sendable {
     public init(
         groups: [WorkMailClientTypes.Group]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
@@ -3914,8 +3784,7 @@ extension WorkMailClientTypes {
 
         public init(
             groupNamePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupNamePrefix = groupNamePrefix
         }
     }
@@ -3947,8 +3816,7 @@ public struct ListGroupsForEntityInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.filters = filters
         self.maxResults = maxResults
@@ -3966,8 +3834,7 @@ public struct ListGroupsForEntityOutput: Swift.Sendable {
     public init(
         groups: [WorkMailClientTypes.GroupIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
@@ -3986,8 +3853,7 @@ public struct ListImpersonationRolesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -4003,8 +3869,7 @@ public struct ListImpersonationRolesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         roles: [WorkMailClientTypes.ImpersonationRole]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.roles = roles
     }
@@ -4023,8 +3888,7 @@ public struct ListMailboxExportJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -4040,8 +3904,7 @@ public struct ListMailboxExportJobsOutput: Swift.Sendable {
     public init(
         jobs: [WorkMailClientTypes.MailboxExportJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -4070,8 +3933,7 @@ public struct ListMailboxPermissionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4129,8 +3991,7 @@ extension WorkMailClientTypes {
             granteeId: Swift.String? = nil,
             granteeType: WorkMailClientTypes.MemberType? = nil,
             permissionValues: [WorkMailClientTypes.PermissionType]? = nil
-        )
-        {
+        ) {
             self.granteeId = granteeId
             self.granteeType = granteeType
             self.permissionValues = permissionValues
@@ -4147,8 +4008,7 @@ public struct ListMailboxPermissionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [WorkMailClientTypes.Permission]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -4167,8 +4027,7 @@ public struct ListMailDomainsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -4187,8 +4046,7 @@ extension WorkMailClientTypes {
         public init(
             defaultDomain: Swift.Bool = false,
             domainName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultDomain = defaultDomain
             self.domainName = domainName
         }
@@ -4204,8 +4062,7 @@ public struct ListMailDomainsOutput: Swift.Sendable {
     public init(
         mailDomains: [WorkMailClientTypes.MailDomainSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mailDomains = mailDomains
         self.nextToken = nextToken
     }
@@ -4236,8 +4093,7 @@ public struct ListMobileDeviceAccessOverridesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceId = deviceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4270,8 +4126,7 @@ extension WorkMailClientTypes {
             deviceId: Swift.String? = nil,
             effect: WorkMailClientTypes.MobileDeviceAccessRuleEffect? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.description = description
@@ -4291,8 +4146,7 @@ public struct ListMobileDeviceAccessOverridesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         overrides: [WorkMailClientTypes.MobileDeviceAccessOverride]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.overrides = overrides
     }
@@ -4305,8 +4159,7 @@ public struct ListMobileDeviceAccessRulesInput: Swift.Sendable {
 
     public init(
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
     }
 }
@@ -4359,8 +4212,7 @@ extension WorkMailClientTypes {
             notDeviceOperatingSystems: [Swift.String]? = nil,
             notDeviceTypes: [Swift.String]? = nil,
             notDeviceUserAgents: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
             self.description = description
@@ -4385,8 +4237,7 @@ public struct ListMobileDeviceAccessRulesOutput: Swift.Sendable {
 
     public init(
         rules: [WorkMailClientTypes.MobileDeviceAccessRule]? = nil
-    )
-    {
+    ) {
         self.rules = rules
     }
 }
@@ -4400,8 +4251,7 @@ public struct ListOrganizationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4428,8 +4278,7 @@ extension WorkMailClientTypes {
             errorMessage: Swift.String? = nil,
             organizationId: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.defaultMailDomain = defaultMailDomain
             self.errorMessage = errorMessage
@@ -4448,8 +4297,7 @@ public struct ListOrganizationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         organizationSummaries: [WorkMailClientTypes.OrganizationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.organizationSummaries = organizationSummaries
     }
@@ -4471,8 +4319,7 @@ public struct ListPersonalAccessTokensInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -4507,8 +4354,7 @@ extension WorkMailClientTypes {
             personalAccessTokenId: Swift.String? = nil,
             scopes: [Swift.String]? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dateCreated = dateCreated
             self.dateLastUsed = dateLastUsed
             self.expiresTime = expiresTime
@@ -4529,8 +4375,7 @@ public struct ListPersonalAccessTokensOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         personalAccessTokenSummaries: [WorkMailClientTypes.PersonalAccessTokenSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.personalAccessTokenSummaries = personalAccessTokenSummaries
     }
@@ -4559,8 +4404,7 @@ public struct ListResourceDelegatesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -4577,8 +4421,7 @@ public struct ListResourceDelegatesOutput: Swift.Sendable {
     public init(
         delegates: [WorkMailClientTypes.Delegate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegates = delegates
         self.nextToken = nextToken
     }
@@ -4599,8 +4442,7 @@ extension WorkMailClientTypes {
             namePrefix: Swift.String? = nil,
             primaryEmailPrefix: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil
-        )
-        {
+        ) {
             self.namePrefix = namePrefix
             self.primaryEmailPrefix = primaryEmailPrefix
             self.state = state
@@ -4624,8 +4466,7 @@ public struct ListResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4663,8 +4504,7 @@ extension WorkMailClientTypes {
             name: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil,
             type: WorkMailClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.disabledDate = disabledDate
             self.email = email
@@ -4691,8 +4531,7 @@ public struct ListResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [WorkMailClientTypes.Resource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -4705,8 +4544,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -4725,8 +4563,7 @@ extension WorkMailClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4739,8 +4576,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [WorkMailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4766,8 +4602,7 @@ extension WorkMailClientTypes {
             primaryEmailPrefix: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil,
             usernamePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayNamePrefix = displayNamePrefix
             self.identityProviderUserIdPrefix = identityProviderUserIdPrefix
             self.primaryEmailPrefix = primaryEmailPrefix
@@ -4798,8 +4633,7 @@ public struct ListUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4843,8 +4677,7 @@ extension WorkMailClientTypes {
             name: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil,
             userRole: WorkMailClientTypes.UserRole? = nil
-        )
-        {
+        ) {
             self.disabledDate = disabledDate
             self.displayName = displayName
             self.email = email
@@ -4868,8 +4701,7 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [WorkMailClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -4918,8 +4750,7 @@ public struct PutAccessControlRuleInput: Swift.Sendable {
         notUserIds: [Swift.String]? = nil,
         organizationId: Swift.String? = nil,
         userIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.description = description
         self.effect = effect
@@ -4955,8 +4786,7 @@ public struct PutEmailMonitoringConfigurationInput: Swift.Sendable {
         logGroupArn: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logGroupArn = logGroupArn
         self.organizationId = organizationId
         self.roleArn = roleArn
@@ -4987,8 +4817,7 @@ public struct PutIdentityProviderConfigurationInput: Swift.Sendable {
         identityCenterConfiguration: WorkMailClientTypes.IdentityCenterConfiguration? = nil,
         organizationId: Swift.String? = nil,
         personalAccessTokenConfiguration: WorkMailClientTypes.PersonalAccessTokenConfiguration? = nil
-    )
-    {
+    ) {
         self.authenticationMode = authenticationMode
         self.identityCenterConfiguration = identityCenterConfiguration
         self.organizationId = organizationId
@@ -5012,8 +4841,7 @@ public struct PutInboundDmarcSettingsInput: Swift.Sendable {
     public init(
         enforced: Swift.Bool? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.enforced = enforced
         self.organizationId = organizationId
     }
@@ -5055,8 +4883,7 @@ public struct PutMailboxPermissionsInput: Swift.Sendable {
         granteeId: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         permissionValues: [WorkMailClientTypes.PermissionType]? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.granteeId = granteeId
         self.organizationId = organizationId
@@ -5097,8 +4924,7 @@ public struct PutMobileDeviceAccessOverrideInput: Swift.Sendable {
         effect: WorkMailClientTypes.MobileDeviceAccessRuleEffect? = nil,
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.deviceId = deviceId
         self.effect = effect
@@ -5133,8 +4959,7 @@ public struct PutRetentionPolicyInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.folderConfigurations = folderConfigurations
         self.id = id
@@ -5167,8 +4992,7 @@ public struct RegisterMailDomainInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         domainName: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainName = domainName
         self.organizationId = organizationId
@@ -5199,8 +5023,7 @@ public struct RegisterToWorkMailInput: Swift.Sendable {
         email: Swift.String? = nil,
         entityId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.email = email
         self.entityId = entityId
         self.organizationId = organizationId
@@ -5227,8 +5050,7 @@ public struct ResetPasswordInput: Swift.Sendable {
         organizationId: Swift.String? = nil,
         password: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.password = password
         self.userId = userId
@@ -5285,8 +5107,7 @@ public struct StartMailboxExportJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         s3BucketName: Swift.String? = nil,
         s3Prefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.entityId = entityId
@@ -5304,16 +5125,15 @@ public struct StartMailboxExportJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
 
 /// The resource can have up to 50 user-applied tags.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5328,8 +5148,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5345,8 +5164,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [WorkMailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -5373,8 +5191,7 @@ public struct TestAvailabilityConfigurationInput: Swift.Sendable {
         ewsProvider: WorkMailClientTypes.EwsAvailabilityProvider? = nil,
         lambdaProvider: WorkMailClientTypes.LambdaAvailabilityProvider? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.ewsProvider = ewsProvider
         self.lambdaProvider = lambdaProvider
@@ -5391,8 +5208,7 @@ public struct TestAvailabilityConfigurationOutput: Swift.Sendable {
     public init(
         failureReason: Swift.String? = nil,
         testPassed: Swift.Bool = false
-    )
-    {
+    ) {
         self.failureReason = failureReason
         self.testPassed = testPassed
     }
@@ -5409,8 +5225,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -5438,8 +5253,7 @@ public struct UpdateAvailabilityConfigurationInput: Swift.Sendable {
         ewsProvider: WorkMailClientTypes.EwsAvailabilityProvider? = nil,
         lambdaProvider: WorkMailClientTypes.LambdaAvailabilityProvider? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.ewsProvider = ewsProvider
         self.lambdaProvider = lambdaProvider
@@ -5463,8 +5277,7 @@ public struct UpdateDefaultMailDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.organizationId = organizationId
     }
@@ -5495,8 +5308,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         hiddenFromGlobalAddressList: Swift.Bool? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.organizationId = organizationId
@@ -5534,8 +5346,7 @@ public struct UpdateImpersonationRoleInput: Swift.Sendable {
         organizationId: Swift.String? = nil,
         rules: [WorkMailClientTypes.ImpersonationRule]? = nil,
         type: WorkMailClientTypes.ImpersonationRoleType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.impersonationRoleId = impersonationRoleId
         self.name = name
@@ -5571,8 +5382,7 @@ public struct UpdateMailboxQuotaInput: Swift.Sendable {
         mailboxQuota: Swift.Int? = nil,
         organizationId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mailboxQuota = mailboxQuota
         self.organizationId = organizationId
         self.userId = userId
@@ -5630,8 +5440,7 @@ public struct UpdateMobileDeviceAccessRuleInput: Swift.Sendable {
         notDeviceTypes: [Swift.String]? = nil,
         notDeviceUserAgents: [Swift.String]? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.deviceModels = deviceModels
         self.deviceOperatingSystems = deviceOperatingSystems
@@ -5674,8 +5483,7 @@ public struct UpdatePrimaryEmailAddressInput: Swift.Sendable {
         email: Swift.String? = nil,
         entityId: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.email = email
         self.entityId = entityId
         self.organizationId = organizationId
@@ -5719,8 +5527,7 @@ public struct UpdateResourceInput: Swift.Sendable {
         organizationId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         type: WorkMailClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.bookingOptions = bookingOptions
         self.description = description
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
@@ -5806,8 +5613,7 @@ public struct UpdateUserInput: Swift.Sendable {
         telephone: Swift.String? = nil,
         userId: Swift.String? = nil,
         zipCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.city = city
         self.company = company
         self.country = country

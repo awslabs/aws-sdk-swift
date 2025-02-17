@@ -76,8 +76,7 @@ extension CostExplorerClientTypes {
             estimatedNewCommitmentUtilization: Swift.String? = nil,
             estimatedOnDemandCost: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentCoverage = currentCoverage
             self.estimatedCoverage = estimatedCoverage
             self.estimatedNewCommitmentUtilization = estimatedNewCommitmentUtilization
@@ -159,8 +158,7 @@ extension CostExplorerClientTypes {
             lookbackPeriodInHours: Swift.String? = nil,
             metricsOverLookbackPeriod: [CostExplorerClientTypes.RecommendationDetailHourlyMetrics]? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalMetadata = additionalMetadata
             self.currencyCode = currencyCode
             self.currentAverageCoverage = currentAverageCoverage
@@ -196,17 +194,16 @@ extension CostExplorerClientTypes {
 
         public init(
             savingsPlansPurchaseAnalysisDetails: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails? = nil
-        )
-        {
+        ) {
             self.savingsPlansPurchaseAnalysisDetails = savingsPlansPurchaseAnalysisDetails
         }
     }
 }
 
 /// The requested analysis can't be found.
-public struct AnalysisNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AnalysisNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -221,8 +218,7 @@ public struct AnalysisNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -302,8 +298,7 @@ extension CostExplorerClientTypes {
         public init(
             end: Swift.String? = nil,
             start: Swift.String? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -439,8 +434,7 @@ extension CostExplorerClientTypes {
             savingsPlansCommitment: Swift.Double? = nil,
             savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
             termInYears: CostExplorerClientTypes.TermInYears? = nil
-        )
-        {
+        ) {
             self.instanceFamily = instanceFamily
             self.offeringId = offeringId
             self.paymentOption = paymentOption
@@ -479,8 +473,7 @@ extension CostExplorerClientTypes {
             lookBackTimePeriod: CostExplorerClientTypes.DateInterval? = nil,
             savingsPlansToAdd: [CostExplorerClientTypes.SavingsPlans]? = nil,
             savingsPlansToExclude: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountScope = accountScope
             self.analysisType = analysisType
@@ -500,8 +493,7 @@ extension CostExplorerClientTypes {
 
         public init(
             savingsPlansPurchaseAnalysisConfiguration: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration? = nil
-        )
-        {
+        ) {
             self.savingsPlansPurchaseAnalysisConfiguration = savingsPlansPurchaseAnalysisConfiguration
         }
     }
@@ -572,8 +564,7 @@ extension CostExplorerClientTypes {
             commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration? = nil,
             errorCode: CostExplorerClientTypes.ErrorCode? = nil,
             estimatedCompletionTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisCompletionTime = analysisCompletionTime
             self.analysisId = analysisId
             self.analysisStartedTime = analysisStartedTime
@@ -599,8 +590,7 @@ extension CostExplorerClientTypes {
         public init(
             currentScore: Swift.Double = 0.0,
             maxScore: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currentScore = currentScore
             self.maxScore = maxScore
         }
@@ -661,8 +651,7 @@ extension CostExplorerClientTypes {
             totalExpectedSpend: Swift.Double? = nil,
             totalImpact: Swift.Double = 0.0,
             totalImpactPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.maxImpact = maxImpact
             self.totalActualSpend = totalActualSpend
             self.totalExpectedSpend = totalExpectedSpend
@@ -682,8 +671,7 @@ extension CostExplorerClientTypes {
 
         public init(
             contribution: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.contribution = contribution
         }
     }
@@ -713,8 +701,7 @@ extension CostExplorerClientTypes {
             region: Swift.String? = nil,
             service: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.impact = impact
             self.linkedAccount = linkedAccount
             self.linkedAccountName = linkedAccountName
@@ -762,8 +749,7 @@ extension CostExplorerClientTypes {
             impact: CostExplorerClientTypes.Impact? = nil,
             monitorArn: Swift.String? = nil,
             rootCauses: [CostExplorerClientTypes.RootCause]? = nil
-        )
-        {
+        ) {
             self.anomalyEndDate = anomalyEndDate
             self.anomalyId = anomalyId
             self.anomalyScore = anomalyScore
@@ -790,8 +776,7 @@ extension CostExplorerClientTypes {
         public init(
             endDate: Swift.String? = nil,
             startDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDate = endDate
             self.startDate = startDate
         }
@@ -886,8 +871,7 @@ extension CostExplorerClientTypes {
             key: Swift.String? = nil,
             matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.matchOptions = matchOptions
             self.values = values
@@ -1035,8 +1019,7 @@ extension CostExplorerClientTypes {
             key: CostExplorerClientTypes.Dimension? = nil,
             matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.matchOptions = matchOptions
             self.values = values
@@ -1059,8 +1042,7 @@ extension CostExplorerClientTypes {
             key: Swift.String? = nil,
             matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.matchOptions = matchOptions
             self.values = values
@@ -1202,8 +1184,7 @@ extension CostExplorerClientTypes {
             address: Swift.String? = nil,
             status: CostExplorerClientTypes.SubscriberStatus? = nil,
             type: CostExplorerClientTypes.SubscriberType? = nil
-        )
-        {
+        ) {
             self.address = address
             self.status = status
             self.type = type
@@ -1241,9 +1222,9 @@ extension CostExplorerClientTypes {
 }
 
 /// You made too many calls in a short period of time. Try again later.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1258,8 +1239,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1278,8 +1258,7 @@ extension CostExplorerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1293,16 +1272,15 @@ public struct CreateAnomalyMonitorOutput: Swift.Sendable {
 
     public init(
         monitorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
     }
 }
 
 /// The cost anomaly monitor does not exist for the account.
-public struct UnknownMonitorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownMonitorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1317,8 +1295,7 @@ public struct UnknownMonitorException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1330,16 +1307,15 @@ public struct CreateAnomalySubscriptionOutput: Swift.Sendable {
 
     public init(
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionArn = subscriptionArn
     }
 }
 
 /// You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1354,8 +1330,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1401,8 +1376,7 @@ extension CostExplorerClientTypes {
         public init(
             dimensionKey: Swift.String? = nil,
             dimensionName: CostExplorerClientTypes.CostCategoryInheritedValueDimensionName? = nil
-        )
-        {
+        ) {
             self.dimensionKey = dimensionKey
             self.dimensionName = dimensionName
         }
@@ -1537,8 +1511,7 @@ extension CostExplorerClientTypes {
         public init(
             type: CostExplorerClientTypes.CostCategorySplitChargeRuleParameterType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.type = type
             self.values = values
         }
@@ -1566,8 +1539,7 @@ extension CostExplorerClientTypes {
             parameters: [CostExplorerClientTypes.CostCategorySplitChargeRuleParameter]? = nil,
             source: Swift.String? = nil,
             targets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.method = method
             self.parameters = parameters
             self.source = source
@@ -1585,8 +1557,7 @@ public struct CreateCostCategoryDefinitionOutput: Swift.Sendable {
     public init(
         costCategoryArn: Swift.String? = nil,
         effectiveStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.costCategoryArn = costCategoryArn
         self.effectiveStart = effectiveStart
     }
@@ -1599,8 +1570,7 @@ public struct DeleteAnomalyMonitorInput: Swift.Sendable {
 
     public init(
         monitorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
     }
 }
@@ -1611,9 +1581,9 @@ public struct DeleteAnomalyMonitorOutput: Swift.Sendable {
 }
 
 /// The cost anomaly subscription does not exist for the account.
-public struct UnknownSubscriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownSubscriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1628,8 +1598,7 @@ public struct UnknownSubscriptionException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1641,8 +1610,7 @@ public struct DeleteAnomalySubscriptionInput: Swift.Sendable {
 
     public init(
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionArn = subscriptionArn
     }
 }
@@ -1653,9 +1621,9 @@ public struct DeleteAnomalySubscriptionOutput: Swift.Sendable {
 }
 
 /// The specified ARN in the request doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -1672,8 +1640,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -1686,8 +1653,7 @@ public struct DeleteCostCategoryDefinitionInput: Swift.Sendable {
 
     public init(
         costCategoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.costCategoryArn = costCategoryArn
     }
 }
@@ -1701,8 +1667,7 @@ public struct DeleteCostCategoryDefinitionOutput: Swift.Sendable {
     public init(
         costCategoryArn: Swift.String? = nil,
         effectiveEnd: Swift.String? = nil
-    )
-    {
+    ) {
         self.costCategoryArn = costCategoryArn
         self.effectiveEnd = effectiveEnd
     }
@@ -1718,8 +1683,7 @@ public struct DescribeCostCategoryDefinitionInput: Swift.Sendable {
     public init(
         costCategoryArn: Swift.String? = nil,
         effectiveOn: Swift.String? = nil
-    )
-    {
+    ) {
         self.costCategoryArn = costCategoryArn
         self.effectiveOn = effectiveOn
     }
@@ -1792,8 +1756,7 @@ extension CostExplorerClientTypes {
         public init(
             component: CostExplorerClientTypes.CostCategoryStatusComponent? = nil,
             status: CostExplorerClientTypes.CostCategoryStatus? = nil
-        )
-        {
+        ) {
             self.component = component
             self.status = status
         }
@@ -1801,9 +1764,9 @@ extension CostExplorerClientTypes {
 }
 
 /// The pagination token is invalid. Try again without a pagination token.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1818,8 +1781,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1882,8 +1844,7 @@ extension CostExplorerClientTypes {
             endValue: Swift.Double = 0.0,
             numericOperator: CostExplorerClientTypes.NumericOperator? = nil,
             startValue: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.endValue = endValue
             self.numericOperator = numericOperator
             self.startValue = startValue
@@ -1913,8 +1874,7 @@ public struct GetAnomaliesInput: Swift.Sendable {
         monitorArn: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
         totalImpact: CostExplorerClientTypes.TotalImpactFilter? = nil
-    )
-    {
+    ) {
         self.dateInterval = dateInterval
         self.feedback = feedback
         self.maxResults = maxResults
@@ -1934,8 +1894,7 @@ public struct GetAnomaliesOutput: Swift.Sendable {
     public init(
         anomalies: [CostExplorerClientTypes.Anomaly]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalies = anomalies
         self.nextPageToken = nextPageToken
     }
@@ -1953,8 +1912,7 @@ public struct GetAnomalyMonitorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         monitorArnList: [Swift.String]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.monitorArnList = monitorArnList
         self.nextPageToken = nextPageToken
@@ -1976,8 +1934,7 @@ public struct GetAnomalySubscriptionsInput: Swift.Sendable {
         monitorArn: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
         subscriptionArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.monitorArn = monitorArn
         self.nextPageToken = nextPageToken
@@ -1986,9 +1943,9 @@ public struct GetAnomalySubscriptionsInput: Swift.Sendable {
 }
 
 /// The requested data is unavailable.
-public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2003,8 +1960,7 @@ public struct DataUnavailableException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2055,8 +2011,7 @@ public struct GetApproximateUsageRecordsInput: Swift.Sendable {
         approximationDimension: CostExplorerClientTypes.ApproximationDimension? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         services: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.approximationDimension = approximationDimension
         self.granularity = granularity
         self.services = services
@@ -2075,8 +2030,7 @@ public struct GetApproximateUsageRecordsOutput: Swift.Sendable {
         lookbackPeriod: CostExplorerClientTypes.DateInterval? = nil,
         services: [Swift.String: Swift.Int]? = nil,
         totalRecords: Swift.Int = 0
-    )
-    {
+    ) {
         self.lookbackPeriod = lookbackPeriod
         self.services = services
         self.totalRecords = totalRecords
@@ -2090,8 +2044,7 @@ public struct GetCommitmentPurchaseAnalysisInput: Swift.Sendable {
 
     public init(
         analysisId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
     }
 }
@@ -2128,8 +2081,7 @@ public struct GetCommitmentPurchaseAnalysisOutput: Swift.Sendable {
         commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration? = nil,
         errorCode: CostExplorerClientTypes.ErrorCode? = nil,
         estimatedCompletionTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisCompletionTime = analysisCompletionTime
         self.analysisDetails = analysisDetails
         self.analysisId = analysisId
@@ -2142,9 +2094,9 @@ public struct GetCommitmentPurchaseAnalysisOutput: Swift.Sendable {
 }
 
 /// The requested report expired. Update the date interval and try again.
-public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2159,16 +2111,15 @@ public struct BillExpirationException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
-public struct RequestChangedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestChangedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2183,8 +2134,7 @@ public struct RequestChangedException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2233,8 +2183,7 @@ extension CostExplorerClientTypes {
         public init(
             key: Swift.String? = nil,
             type: CostExplorerClientTypes.GroupDefinitionType? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
         }
@@ -2253,8 +2202,7 @@ extension CostExplorerClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.value = value
         }
@@ -2273,8 +2221,7 @@ extension CostExplorerClientTypes {
         public init(
             amount: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.unit = unit
         }
@@ -2293,8 +2240,7 @@ extension CostExplorerClientTypes {
         public init(
             keys: [Swift.String]? = nil,
             metrics: [Swift.String: CostExplorerClientTypes.MetricValue]? = nil
-        )
-        {
+        ) {
             self.keys = keys
             self.metrics = metrics
         }
@@ -2319,8 +2265,7 @@ extension CostExplorerClientTypes {
             groups: [CostExplorerClientTypes.Group]? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
             total: [Swift.String: CostExplorerClientTypes.MetricValue]? = nil
-        )
-        {
+        ) {
             self.estimated = estimated
             self.groups = groups
             self.timePeriod = timePeriod
@@ -2344,8 +2289,7 @@ public struct GetCostAndUsageOutput: Swift.Sendable {
         groupDefinitions: [CostExplorerClientTypes.GroupDefinition]? = nil,
         nextPageToken: Swift.String? = nil,
         resultsByTime: [CostExplorerClientTypes.ResultByTime]? = nil
-    )
-    {
+    ) {
         self.dimensionValueAttributes = dimensionValueAttributes
         self.groupDefinitions = groupDefinitions
         self.nextPageToken = nextPageToken
@@ -2368,8 +2312,7 @@ public struct GetCostAndUsageWithResourcesOutput: Swift.Sendable {
         groupDefinitions: [CostExplorerClientTypes.GroupDefinition]? = nil,
         nextPageToken: Swift.String? = nil,
         resultsByTime: [CostExplorerClientTypes.ResultByTime]? = nil
-    )
-    {
+    ) {
         self.dimensionValueAttributes = dimensionValueAttributes
         self.groupDefinitions = groupDefinitions
         self.nextPageToken = nextPageToken
@@ -2419,8 +2362,7 @@ extension CostExplorerClientTypes {
         public init(
             key: Swift.String? = nil,
             sortOrder: CostExplorerClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.key = key
             self.sortOrder = sortOrder
         }
@@ -2447,8 +2389,7 @@ public struct GetCostCategoriesOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         returnSize: Swift.Int? = nil,
         totalSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.costCategoryNames = costCategoryNames
         self.costCategoryValues = costCategoryValues
         self.nextPageToken = nextPageToken
@@ -2519,8 +2460,7 @@ extension CostExplorerClientTypes {
             predictionIntervalLowerBound: Swift.String? = nil,
             predictionIntervalUpperBound: Swift.String? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil
-        )
-        {
+        ) {
             self.meanValue = meanValue
             self.predictionIntervalLowerBound = predictionIntervalLowerBound
             self.predictionIntervalUpperBound = predictionIntervalUpperBound
@@ -2538,8 +2478,7 @@ public struct GetCostForecastOutput: Swift.Sendable {
     public init(
         forecastResultsByTime: [CostExplorerClientTypes.ForecastResult]? = nil,
         total: CostExplorerClientTypes.MetricValue? = nil
-    )
-    {
+    ) {
         self.forecastResultsByTime = forecastResultsByTime
         self.total = total
     }
@@ -2661,8 +2600,7 @@ public struct GetDimensionValuesOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         returnSize: Swift.Int? = nil,
         totalSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dimensionValues = dimensionValues
         self.nextPageToken = nextPageToken
         self.returnSize = returnSize
@@ -2679,8 +2617,7 @@ extension CostExplorerClientTypes {
 
         public init(
             onDemandCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.onDemandCost = onDemandCost
         }
     }
@@ -2704,8 +2641,7 @@ extension CostExplorerClientTypes {
             onDemandHours: Swift.String? = nil,
             reservedHours: Swift.String? = nil,
             totalRunningHours: Swift.String? = nil
-        )
-        {
+        ) {
             self.coverageHoursPercentage = coverageHoursPercentage
             self.onDemandHours = onDemandHours
             self.reservedHours = reservedHours
@@ -2732,8 +2668,7 @@ extension CostExplorerClientTypes {
             onDemandNormalizedUnits: Swift.String? = nil,
             reservedNormalizedUnits: Swift.String? = nil,
             totalRunningNormalizedUnits: Swift.String? = nil
-        )
-        {
+        ) {
             self.coverageNormalizedUnitsPercentage = coverageNormalizedUnitsPercentage
             self.onDemandNormalizedUnits = onDemandNormalizedUnits
             self.reservedNormalizedUnits = reservedNormalizedUnits
@@ -2757,8 +2692,7 @@ extension CostExplorerClientTypes {
             coverageCost: CostExplorerClientTypes.CoverageCost? = nil,
             coverageHours: CostExplorerClientTypes.CoverageHours? = nil,
             coverageNormalizedUnits: CostExplorerClientTypes.CoverageNormalizedUnits? = nil
-        )
-        {
+        ) {
             self.coverageCost = coverageCost
             self.coverageHours = coverageHours
             self.coverageNormalizedUnits = coverageNormalizedUnits
@@ -2778,8 +2712,7 @@ extension CostExplorerClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             coverage: CostExplorerClientTypes.Coverage? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.coverage = coverage
         }
@@ -2801,8 +2734,7 @@ extension CostExplorerClientTypes {
             groups: [CostExplorerClientTypes.ReservationCoverageGroup]? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
             total: CostExplorerClientTypes.Coverage? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.timePeriod = timePeriod
             self.total = total
@@ -2823,8 +2755,7 @@ public struct GetReservationCoverageOutput: Swift.Sendable {
         coveragesByTime: [CostExplorerClientTypes.CoverageByTime]? = nil,
         nextPageToken: Swift.String? = nil,
         total: CostExplorerClientTypes.Coverage? = nil
-    )
-    {
+    ) {
         self.coveragesByTime = coveragesByTime
         self.nextPageToken = nextPageToken
         self.total = total
@@ -2901,8 +2832,7 @@ extension CostExplorerClientTypes {
 
         public init(
             offeringClass: CostExplorerClientTypes.OfferingClass? = nil
-        )
-        {
+        ) {
             self.offeringClass = offeringClass
         }
     }
@@ -2917,8 +2847,7 @@ extension CostExplorerClientTypes {
 
         public init(
             ec2Specification: CostExplorerClientTypes.EC2Specification? = nil
-        )
-        {
+        ) {
             self.ec2Specification = ec2Specification
         }
     }
@@ -2939,8 +2868,7 @@ extension CostExplorerClientTypes {
             additionalMetadata: Swift.String? = nil,
             generationTimestamp: Swift.String? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
             self.recommendationId = recommendationId
@@ -2978,8 +2906,7 @@ extension CostExplorerClientTypes {
             region: Swift.String? = nil,
             sizeFlexEligible: Swift.Bool = false,
             tenancy: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.currentGeneration = currentGeneration
             self.family = family
@@ -3016,8 +2943,7 @@ extension CostExplorerClientTypes {
             productDescription: Swift.String? = nil,
             region: Swift.String? = nil,
             sizeFlexEligible: Swift.Bool = false
-        )
-        {
+        ) {
             self.currentGeneration = currentGeneration
             self.family = family
             self.nodeType = nodeType
@@ -3049,8 +2975,7 @@ extension CostExplorerClientTypes {
             instanceSize: Swift.String? = nil,
             region: Swift.String? = nil,
             sizeFlexEligible: Swift.Bool = false
-        )
-        {
+        ) {
             self.currentGeneration = currentGeneration
             self.instanceClass = instanceClass
             self.instanceSize = instanceSize
@@ -3081,8 +3006,7 @@ extension CostExplorerClientTypes {
             nodeType: Swift.String? = nil,
             region: Swift.String? = nil,
             sizeFlexEligible: Swift.Bool = false
-        )
-        {
+        ) {
             self.currentGeneration = currentGeneration
             self.family = family
             self.nodeType = nodeType
@@ -3125,8 +3049,7 @@ extension CostExplorerClientTypes {
             licenseModel: Swift.String? = nil,
             region: Swift.String? = nil,
             sizeFlexEligible: Swift.Bool = false
-        )
-        {
+        ) {
             self.currentGeneration = currentGeneration
             self.databaseEdition = databaseEdition
             self.databaseEngine = databaseEngine
@@ -3161,8 +3084,7 @@ extension CostExplorerClientTypes {
             nodeType: Swift.String? = nil,
             region: Swift.String? = nil,
             sizeFlexEligible: Swift.Bool = false
-        )
-        {
+        ) {
             self.currentGeneration = currentGeneration
             self.family = family
             self.nodeType = nodeType
@@ -3196,8 +3118,7 @@ extension CostExplorerClientTypes {
             memoryDBInstanceDetails: CostExplorerClientTypes.MemoryDBInstanceDetails? = nil,
             rdsInstanceDetails: CostExplorerClientTypes.RDSInstanceDetails? = nil,
             redshiftInstanceDetails: CostExplorerClientTypes.RedshiftInstanceDetails? = nil
-        )
-        {
+        ) {
             self.ec2InstanceDetails = ec2InstanceDetails
             self.elastiCacheInstanceDetails = elastiCacheInstanceDetails
             self.esInstanceDetails = esInstanceDetails
@@ -3220,8 +3141,7 @@ extension CostExplorerClientTypes {
         public init(
             capacityUnits: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityUnits = capacityUnits
             self.region = region
         }
@@ -3237,8 +3157,7 @@ extension CostExplorerClientTypes {
 
         public init(
             dynamoDBCapacityDetails: CostExplorerClientTypes.DynamoDBCapacityDetails? = nil
-        )
-        {
+        ) {
             self.dynamoDBCapacityDetails = dynamoDBCapacityDetails
         }
     }
@@ -3322,8 +3241,7 @@ extension CostExplorerClientTypes {
             recurringStandardMonthlyCost: Swift.String? = nil,
             reservedCapacityDetails: CostExplorerClientTypes.ReservedCapacityDetails? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.averageNormalizedUnitsUsedPerHour = averageNormalizedUnitsUsedPerHour
             self.averageNumberOfCapacityUnitsUsedPerHour = averageNumberOfCapacityUnitsUsedPerHour
@@ -3367,8 +3285,7 @@ extension CostExplorerClientTypes {
             currencyCode: Swift.String? = nil,
             totalEstimatedMonthlySavingsAmount: Swift.String? = nil,
             totalEstimatedMonthlySavingsPercentage: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.totalEstimatedMonthlySavingsAmount = totalEstimatedMonthlySavingsAmount
             self.totalEstimatedMonthlySavingsPercentage = totalEstimatedMonthlySavingsPercentage
@@ -3403,8 +3320,7 @@ extension CostExplorerClientTypes {
             recommendationSummary: CostExplorerClientTypes.ReservationPurchaseRecommendationSummary? = nil,
             serviceSpecification: CostExplorerClientTypes.ServiceSpecification? = nil,
             termInYears: CostExplorerClientTypes.TermInYears? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.paymentOption = paymentOption
@@ -3428,8 +3344,7 @@ public struct GetReservationPurchaseRecommendationOutput: Swift.Sendable {
         metadata: CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata? = nil,
         nextPageToken: Swift.String? = nil,
         recommendations: [CostExplorerClientTypes.ReservationPurchaseRecommendation]? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.nextPageToken = nextPageToken
         self.recommendations = recommendations
@@ -3493,8 +3408,7 @@ extension CostExplorerClientTypes {
             unusedUnits: Swift.String? = nil,
             utilizationPercentage: Swift.String? = nil,
             utilizationPercentageInUnits: Swift.String? = nil
-        )
-        {
+        ) {
             self.amortizedRecurringFee = amortizedRecurringFee
             self.amortizedUpfrontFee = amortizedUpfrontFee
             self.netRISavings = netRISavings
@@ -3534,8 +3448,7 @@ extension CostExplorerClientTypes {
             key: Swift.String? = nil,
             utilization: CostExplorerClientTypes.ReservationAggregates? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.key = key
             self.utilization = utilization
@@ -3559,8 +3472,7 @@ extension CostExplorerClientTypes {
             groups: [CostExplorerClientTypes.ReservationUtilizationGroup]? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
             total: CostExplorerClientTypes.ReservationAggregates? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.timePeriod = timePeriod
             self.total = total
@@ -3581,8 +3493,7 @@ public struct GetReservationUtilizationOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         total: CostExplorerClientTypes.ReservationAggregates? = nil,
         utilizationsByTime: [CostExplorerClientTypes.UtilizationByTime]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.total = total
         self.utilizationsByTime = utilizationsByTime
@@ -3632,8 +3543,7 @@ extension CostExplorerClientTypes {
         public init(
             benefitsConsidered: Swift.Bool = false,
             recommendationTarget: CostExplorerClientTypes.RecommendationTarget? = nil
-        )
-        {
+        ) {
             self.benefitsConsidered = benefitsConsidered
             self.recommendationTarget = recommendationTarget
         }
@@ -3658,8 +3568,7 @@ extension CostExplorerClientTypes {
             generationTimestamp: Swift.String? = nil,
             lookbackPeriodInDays: CostExplorerClientTypes.LookbackPeriodInDays? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
             self.lookbackPeriodInDays = lookbackPeriodInDays
@@ -3701,8 +3610,7 @@ extension CostExplorerClientTypes {
             sku: Swift.String? = nil,
             storage: Swift.String? = nil,
             vcpu: Swift.String? = nil
-        )
-        {
+        ) {
             self.hourlyOnDemandRate = hourlyOnDemandRate
             self.instanceType = instanceType
             self.memory = memory
@@ -3725,8 +3633,7 @@ extension CostExplorerClientTypes {
 
         public init(
             ec2ResourceDetails: CostExplorerClientTypes.EC2ResourceDetails? = nil
-        )
-        {
+        ) {
             self.ec2ResourceDetails = ec2ResourceDetails
         }
     }
@@ -3750,8 +3657,7 @@ extension CostExplorerClientTypes {
             diskReadOpsPerSecond: Swift.String? = nil,
             diskWriteBytesPerSecond: Swift.String? = nil,
             diskWriteOpsPerSecond: Swift.String? = nil
-        )
-        {
+        ) {
             self.diskReadBytesPerSecond = diskReadBytesPerSecond
             self.diskReadOpsPerSecond = diskReadOpsPerSecond
             self.diskWriteBytesPerSecond = diskWriteBytesPerSecond
@@ -3778,8 +3684,7 @@ extension CostExplorerClientTypes {
             ebsReadOpsPerSecond: Swift.String? = nil,
             ebsWriteBytesPerSecond: Swift.String? = nil,
             ebsWriteOpsPerSecond: Swift.String? = nil
-        )
-        {
+        ) {
             self.ebsReadBytesPerSecond = ebsReadBytesPerSecond
             self.ebsReadOpsPerSecond = ebsReadOpsPerSecond
             self.ebsWriteBytesPerSecond = ebsWriteBytesPerSecond
@@ -3806,8 +3711,7 @@ extension CostExplorerClientTypes {
             networkOutBytesPerSecond: Swift.String? = nil,
             networkPacketsInPerSecond: Swift.String? = nil,
             networkPacketsOutPerSecond: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInBytesPerSecond = networkInBytesPerSecond
             self.networkOutBytesPerSecond = networkOutBytesPerSecond
             self.networkPacketsInPerSecond = networkPacketsInPerSecond
@@ -3840,8 +3744,7 @@ extension CostExplorerClientTypes {
             maxMemoryUtilizationPercentage: Swift.String? = nil,
             maxStorageUtilizationPercentage: Swift.String? = nil,
             networkResourceUtilization: CostExplorerClientTypes.NetworkResourceUtilization? = nil
-        )
-        {
+        ) {
             self.diskResourceUtilization = diskResourceUtilization
             self.ebsResourceUtilization = ebsResourceUtilization
             self.maxCpuUtilizationPercentage = maxCpuUtilizationPercentage
@@ -3861,8 +3764,7 @@ extension CostExplorerClientTypes {
 
         public init(
             ec2ResourceUtilization: CostExplorerClientTypes.EC2ResourceUtilization? = nil
-        )
-        {
+        ) {
             self.ec2ResourceUtilization = ec2ResourceUtilization
         }
     }
@@ -3907,8 +3809,7 @@ extension CostExplorerClientTypes {
             savingsPlansCoveredHoursInLookbackPeriod: Swift.String? = nil,
             tags: [CostExplorerClientTypes.TagValues]? = nil,
             totalRunningHoursInLookbackPeriod: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.instanceName = instanceName
             self.monthlyCost = monthlyCost
@@ -4060,8 +3961,7 @@ extension CostExplorerClientTypes {
             expectedResourceUtilization: CostExplorerClientTypes.ResourceUtilization? = nil,
             platformDifferences: [CostExplorerClientTypes.PlatformDifference]? = nil,
             resourceDetails: CostExplorerClientTypes.ResourceDetails? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.defaultTargetInstance = defaultTargetInstance
             self.estimatedMonthlyCost = estimatedMonthlyCost
@@ -4082,8 +3982,7 @@ extension CostExplorerClientTypes {
 
         public init(
             targetInstances: [CostExplorerClientTypes.TargetInstance]? = nil
-        )
-        {
+        ) {
             self.targetInstances = targetInstances
         }
     }
@@ -4130,8 +4029,7 @@ extension CostExplorerClientTypes {
         public init(
             currencyCode: Swift.String? = nil,
             estimatedMonthlySavings: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.estimatedMonthlySavings = estimatedMonthlySavings
         }
@@ -4162,8 +4060,7 @@ extension CostExplorerClientTypes {
             modifyRecommendationDetail: CostExplorerClientTypes.ModifyRecommendationDetail? = nil,
             rightsizingType: CostExplorerClientTypes.RightsizingType? = nil,
             terminateRecommendationDetail: CostExplorerClientTypes.TerminateRecommendationDetail? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currentInstance = currentInstance
             self.findingReasonCodes = findingReasonCodes
@@ -4192,8 +4089,7 @@ extension CostExplorerClientTypes {
             savingsCurrencyCode: Swift.String? = nil,
             savingsPercentage: Swift.String? = nil,
             totalRecommendationCount: Swift.String? = nil
-        )
-        {
+        ) {
             self.estimatedTotalMonthlySavingsAmount = estimatedTotalMonthlySavingsAmount
             self.savingsCurrencyCode = savingsCurrencyCode
             self.savingsPercentage = savingsPercentage
@@ -4220,8 +4116,7 @@ public struct GetRightsizingRecommendationOutput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         rightsizingRecommendations: [CostExplorerClientTypes.RightsizingRecommendation]? = nil,
         summary: CostExplorerClientTypes.RightsizingRecommendationSummary? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.metadata = metadata
         self.nextPageToken = nextPageToken
@@ -4237,8 +4132,7 @@ public struct GetSavingsPlanPurchaseRecommendationDetailsInput: Swift.Sendable {
 
     public init(
         recommendationDetailId: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommendationDetailId = recommendationDetailId
     }
 }
@@ -4336,8 +4230,7 @@ extension CostExplorerClientTypes {
             savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
             termInYears: CostExplorerClientTypes.TermInYears? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountScope = accountScope
             self.currencyCode = currencyCode
@@ -4380,8 +4273,7 @@ public struct GetSavingsPlanPurchaseRecommendationDetailsOutput: Swift.Sendable 
     public init(
         recommendationDetailData: CostExplorerClientTypes.RecommendationDetailData? = nil,
         recommendationDetailId: Swift.String? = nil
-    )
-    {
+    ) {
         self.recommendationDetailData = recommendationDetailData
         self.recommendationDetailId = recommendationDetailId
     }
@@ -4405,8 +4297,7 @@ extension CostExplorerClientTypes {
             onDemandCost: Swift.String? = nil,
             spendCoveredBySavingsPlans: Swift.String? = nil,
             totalCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.coveragePercentage = coveragePercentage
             self.onDemandCost = onDemandCost
             self.spendCoveredBySavingsPlans = spendCoveredBySavingsPlans
@@ -4430,8 +4321,7 @@ extension CostExplorerClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             coverage: CostExplorerClientTypes.SavingsPlansCoverageData? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.coverage = coverage
             self.timePeriod = timePeriod
@@ -4449,8 +4339,7 @@ public struct GetSavingsPlansCoverageOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         savingsPlansCoverages: [CostExplorerClientTypes.SavingsPlansCoverage]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.savingsPlansCoverages = savingsPlansCoverages
     }
@@ -4471,8 +4360,7 @@ extension CostExplorerClientTypes {
             additionalMetadata: Swift.String? = nil,
             generationTimestamp: Swift.String? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
             self.recommendationId = recommendationId
@@ -4495,8 +4383,7 @@ extension CostExplorerClientTypes {
             instanceFamily: Swift.String? = nil,
             offeringId: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceFamily = instanceFamily
             self.offeringId = offeringId
             self.region = region
@@ -4561,8 +4448,7 @@ extension CostExplorerClientTypes {
             recommendationDetailId: Swift.String? = nil,
             savingsPlansDetails: CostExplorerClientTypes.SavingsPlansDetails? = nil,
             upfrontCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currencyCode = currencyCode
             self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
@@ -4623,8 +4509,7 @@ extension CostExplorerClientTypes {
             estimatedTotalCost: Swift.String? = nil,
             hourlyCommitmentToPurchase: Swift.String? = nil,
             totalRecommendationCount: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.currentOnDemandSpend = currentOnDemandSpend
             self.dailyCommitmentToPurchase = dailyCommitmentToPurchase
@@ -4667,8 +4552,7 @@ extension CostExplorerClientTypes {
             savingsPlansPurchaseRecommendationSummary: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary? = nil,
             savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
             termInYears: CostExplorerClientTypes.TermInYears? = nil
-        )
-        {
+        ) {
             self.accountScope = accountScope
             self.lookbackPeriodInDays = lookbackPeriodInDays
             self.paymentOption = paymentOption
@@ -4692,8 +4576,7 @@ public struct GetSavingsPlansPurchaseRecommendationOutput: Swift.Sendable {
         metadata: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata? = nil,
         nextPageToken: Swift.String? = nil,
         savingsPlansPurchaseRecommendation: CostExplorerClientTypes.SavingsPlansPurchaseRecommendation? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.nextPageToken = nextPageToken
         self.savingsPlansPurchaseRecommendation = savingsPlansPurchaseRecommendation
@@ -4715,8 +4598,7 @@ extension CostExplorerClientTypes {
             amortizedRecurringCommitment: Swift.String? = nil,
             amortizedUpfrontCommitment: Swift.String? = nil,
             totalAmortizedCommitment: Swift.String? = nil
-        )
-        {
+        ) {
             self.amortizedRecurringCommitment = amortizedRecurringCommitment
             self.amortizedUpfrontCommitment = amortizedUpfrontCommitment
             self.totalAmortizedCommitment = totalAmortizedCommitment
@@ -4736,8 +4618,7 @@ extension CostExplorerClientTypes {
         public init(
             netSavings: Swift.String? = nil,
             onDemandCostEquivalent: Swift.String? = nil
-        )
-        {
+        ) {
             self.netSavings = netSavings
             self.onDemandCostEquivalent = onDemandCostEquivalent
         }
@@ -4762,8 +4643,7 @@ extension CostExplorerClientTypes {
             unusedCommitment: Swift.String? = nil,
             usedCommitment: Swift.String? = nil,
             utilizationPercentage: Swift.String? = nil
-        )
-        {
+        ) {
             self.totalCommitment = totalCommitment
             self.unusedCommitment = unusedCommitment
             self.usedCommitment = usedCommitment
@@ -4792,8 +4672,7 @@ extension CostExplorerClientTypes {
             savings: CostExplorerClientTypes.SavingsPlansSavings? = nil,
             timePeriod: CostExplorerClientTypes.DateInterval? = nil,
             utilization: CostExplorerClientTypes.SavingsPlansUtilization? = nil
-        )
-        {
+        ) {
             self.amortizedCommitment = amortizedCommitment
             self.savings = savings
             self.timePeriod = timePeriod
@@ -4818,8 +4697,7 @@ extension CostExplorerClientTypes {
             amortizedCommitment: CostExplorerClientTypes.SavingsPlansAmortizedCommitment? = nil,
             savings: CostExplorerClientTypes.SavingsPlansSavings? = nil,
             utilization: CostExplorerClientTypes.SavingsPlansUtilization? = nil
-        )
-        {
+        ) {
             self.amortizedCommitment = amortizedCommitment
             self.savings = savings
             self.utilization = utilization
@@ -4837,8 +4715,7 @@ public struct GetSavingsPlansUtilizationOutput: Swift.Sendable {
     public init(
         savingsPlansUtilizationsByTime: [CostExplorerClientTypes.SavingsPlansUtilizationByTime]? = nil,
         total: CostExplorerClientTypes.SavingsPlansUtilizationAggregates? = nil
-    )
-    {
+    ) {
         self.savingsPlansUtilizationsByTime = savingsPlansUtilizationsByTime
         self.total = total
     }
@@ -4900,8 +4777,7 @@ extension CostExplorerClientTypes {
             savings: CostExplorerClientTypes.SavingsPlansSavings? = nil,
             savingsPlanArn: Swift.String? = nil,
             utilization: CostExplorerClientTypes.SavingsPlansUtilization? = nil
-        )
-        {
+        ) {
             self.amortizedCommitment = amortizedCommitment
             self.attributes = attributes
             self.savings = savings
@@ -4928,8 +4804,7 @@ public struct GetSavingsPlansUtilizationDetailsOutput: Swift.Sendable {
         savingsPlansUtilizationDetails: [CostExplorerClientTypes.SavingsPlansUtilizationDetail]? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil,
         total: CostExplorerClientTypes.SavingsPlansUtilizationAggregates? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.savingsPlansUtilizationDetails = savingsPlansUtilizationDetails
         self.timePeriod = timePeriod
@@ -4955,8 +4830,7 @@ public struct GetTagsOutput: Swift.Sendable {
         returnSize: Swift.Int? = nil,
         tags: [Swift.String]? = nil,
         totalSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.returnSize = returnSize
         self.tags = tags
@@ -4965,9 +4839,9 @@ public struct GetTagsOutput: Swift.Sendable {
 }
 
 /// Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
-public struct UnresolvableUsageUnitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnresolvableUsageUnitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4982,8 +4856,7 @@ public struct UnresolvableUsageUnitException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4997,8 +4870,7 @@ public struct GetUsageForecastOutput: Swift.Sendable {
     public init(
         forecastResultsByTime: [CostExplorerClientTypes.ForecastResult]? = nil,
         total: CostExplorerClientTypes.MetricValue? = nil
-    )
-    {
+    ) {
         self.forecastResultsByTime = forecastResultsByTime
         self.total = total
     }
@@ -5019,8 +4891,7 @@ public struct ListCommitmentPurchaseAnalysesInput: Swift.Sendable {
         analysisStatus: CostExplorerClientTypes.AnalysisStatus? = nil,
         nextPageToken: Swift.String? = nil,
         pageSize: Swift.Int? = 0
-    )
-    {
+    ) {
         self.analysisIds = analysisIds
         self.analysisStatus = analysisStatus
         self.nextPageToken = nextPageToken
@@ -5037,8 +4908,7 @@ public struct ListCommitmentPurchaseAnalysesOutput: Swift.Sendable {
     public init(
         analysisSummaryList: [CostExplorerClientTypes.AnalysisSummary]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisSummaryList = analysisSummaryList
         self.nextPageToken = nextPageToken
     }
@@ -5053,8 +4923,7 @@ public struct ListCostAllocationTagBackfillHistoryInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5113,8 +4982,7 @@ extension CostExplorerClientTypes {
             completedAt: Swift.String? = nil,
             lastUpdatedAt: Swift.String? = nil,
             requestedAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.backfillFrom = backfillFrom
             self.backfillStatus = backfillStatus
             self.completedAt = completedAt
@@ -5133,8 +5001,7 @@ public struct ListCostAllocationTagBackfillHistoryOutput: Swift.Sendable {
     public init(
         backfillRequests: [CostExplorerClientTypes.CostAllocationTagBackfillRequest]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backfillRequests = backfillRequests
         self.nextToken = nextToken
     }
@@ -5216,8 +5083,7 @@ public struct ListCostAllocationTagsInput: Swift.Sendable {
         status: CostExplorerClientTypes.CostAllocationTagStatus? = nil,
         tagKeys: [Swift.String]? = nil,
         type: CostExplorerClientTypes.CostAllocationTagType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -5250,8 +5116,7 @@ extension CostExplorerClientTypes {
             status: CostExplorerClientTypes.CostAllocationTagStatus? = nil,
             tagKey: Swift.String? = nil,
             type: CostExplorerClientTypes.CostAllocationTagType? = nil
-        )
-        {
+        ) {
             self.lastUpdatedDate = lastUpdatedDate
             self.lastUsedDate = lastUsedDate
             self.status = status
@@ -5270,8 +5135,7 @@ public struct ListCostAllocationTagsOutput: Swift.Sendable {
     public init(
         costAllocationTags: [CostExplorerClientTypes.CostAllocationTag]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.costAllocationTags = costAllocationTags
         self.nextToken = nextToken
     }
@@ -5289,8 +5153,7 @@ public struct ListCostCategoryDefinitionsInput: Swift.Sendable {
         effectiveOn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.effectiveOn = effectiveOn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5327,8 +5190,7 @@ extension CostExplorerClientTypes {
             numberOfRules: Swift.Int = 0,
             processingStatus: [CostExplorerClientTypes.CostCategoryProcessingStatus]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.costCategoryArn = costCategoryArn
             self.defaultValue = defaultValue
             self.effectiveEnd = effectiveEnd
@@ -5350,8 +5212,7 @@ public struct ListCostCategoryDefinitionsOutput: Swift.Sendable {
     public init(
         costCategoryReferences: [CostExplorerClientTypes.CostCategoryReference]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.costCategoryReferences = costCategoryReferences
         self.nextToken = nextToken
     }
@@ -5404,8 +5265,7 @@ public struct ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Senda
         nextPageToken: Swift.String? = nil,
         pageSize: Swift.Int? = 0,
         recommendationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.generationStatus = generationStatus
         self.nextPageToken = nextPageToken
         self.pageSize = pageSize
@@ -5434,8 +5294,7 @@ extension CostExplorerClientTypes {
             generationStartedTime: Swift.String? = nil,
             generationStatus: CostExplorerClientTypes.GenerationStatus? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.estimatedCompletionTime = estimatedCompletionTime
             self.generationCompletionTime = generationCompletionTime
             self.generationStartedTime = generationStartedTime
@@ -5454,8 +5313,7 @@ public struct ListSavingsPlansPurchaseRecommendationGenerationOutput: Swift.Send
     public init(
         generationSummaryList: [CostExplorerClientTypes.GenerationSummary]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.generationSummaryList = generationSummaryList
         self.nextPageToken = nextPageToken
     }
@@ -5468,8 +5326,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5480,8 +5337,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceTags = resourceTags
     }
 }
@@ -5497,8 +5353,7 @@ public struct ProvideAnomalyFeedbackInput: Swift.Sendable {
     public init(
         anomalyId: Swift.String? = nil,
         feedback: CostExplorerClientTypes.AnomalyFeedbackType? = nil
-    )
-    {
+    ) {
         self.anomalyId = anomalyId
         self.feedback = feedback
     }
@@ -5511,16 +5366,15 @@ public struct ProvideAnomalyFeedbackOutput: Swift.Sendable {
 
     public init(
         anomalyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyId = anomalyId
     }
 }
 
 /// A request to generate a recommendation or analysis is already in progress.
-public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5535,8 +5389,7 @@ public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5548,8 +5401,7 @@ public struct StartCommitmentPurchaseAnalysisInput: Swift.Sendable {
 
     public init(
         commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration? = nil
-    )
-    {
+    ) {
         self.commitmentPurchaseAnalysisConfiguration = commitmentPurchaseAnalysisConfiguration
     }
 }
@@ -5569,8 +5421,7 @@ public struct StartCommitmentPurchaseAnalysisOutput: Swift.Sendable {
         analysisId: Swift.String? = nil,
         analysisStartedTime: Swift.String? = nil,
         estimatedCompletionTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisId = analysisId
         self.analysisStartedTime = analysisStartedTime
         self.estimatedCompletionTime = estimatedCompletionTime
@@ -5578,9 +5429,9 @@ public struct StartCommitmentPurchaseAnalysisOutput: Swift.Sendable {
 }
 
 /// A request to backfill is already in progress. Once the previous request is complete, you can create another request.
-public struct BackfillLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackfillLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5595,8 +5446,7 @@ public struct BackfillLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5608,8 +5458,7 @@ public struct StartCostAllocationTagBackfillInput: Swift.Sendable {
 
     public init(
         backfillFrom: Swift.String? = nil
-    )
-    {
+    ) {
         self.backfillFrom = backfillFrom
     }
 }
@@ -5620,8 +5469,7 @@ public struct StartCostAllocationTagBackfillOutput: Swift.Sendable {
 
     public init(
         backfillRequest: CostExplorerClientTypes.CostAllocationTagBackfillRequest? = nil
-    )
-    {
+    ) {
         self.backfillRequest = backfillRequest
     }
 }
@@ -5643,8 +5491,7 @@ public struct StartSavingsPlansPurchaseRecommendationGenerationOutput: Swift.Sen
         estimatedCompletionTime: Swift.String? = nil,
         generationStartedTime: Swift.String? = nil,
         recommendationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.estimatedCompletionTime = estimatedCompletionTime
         self.generationStartedTime = generationStartedTime
         self.recommendationId = recommendationId
@@ -5652,9 +5499,9 @@ public struct StartSavingsPlansPurchaseRecommendationGenerationOutput: Swift.Sen
 }
 
 /// Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -5671,8 +5518,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -5703,8 +5549,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTags = resourceTags
     }
@@ -5726,8 +5571,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTagKeys = resourceTagKeys
     }
@@ -5748,8 +5592,7 @@ public struct UpdateAnomalyMonitorInput: Swift.Sendable {
     public init(
         monitorArn: Swift.String? = nil,
         monitorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
         self.monitorName = monitorName
     }
@@ -5762,8 +5605,7 @@ public struct UpdateAnomalyMonitorOutput: Swift.Sendable {
 
     public init(
         monitorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
     }
 }
@@ -5775,8 +5617,7 @@ public struct UpdateAnomalySubscriptionOutput: Swift.Sendable {
 
     public init(
         subscriptionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionArn = subscriptionArn
     }
 }
@@ -5795,8 +5636,7 @@ extension CostExplorerClientTypes {
         public init(
             status: CostExplorerClientTypes.CostAllocationTagStatus? = nil,
             tagKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.tagKey = tagKey
         }
@@ -5810,8 +5650,7 @@ public struct UpdateCostAllocationTagsStatusInput: Swift.Sendable {
 
     public init(
         costAllocationTagsStatus: [CostExplorerClientTypes.CostAllocationTagStatusEntry]? = nil
-    )
-    {
+    ) {
         self.costAllocationTagsStatus = costAllocationTagsStatus
     }
 }
@@ -5831,8 +5670,7 @@ extension CostExplorerClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             tagKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.tagKey = tagKey
@@ -5846,8 +5684,7 @@ public struct UpdateCostAllocationTagsStatusOutput: Swift.Sendable {
 
     public init(
         errors: [CostExplorerClientTypes.UpdateCostAllocationTagsStatusError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -5861,8 +5698,7 @@ public struct UpdateCostCategoryDefinitionOutput: Swift.Sendable {
     public init(
         costCategoryArn: Swift.String? = nil,
         effectiveStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.costCategoryArn = costCategoryArn
         self.effectiveStart = effectiveStart
     }
@@ -5942,8 +5778,7 @@ extension CostExplorerClientTypes {
             not: CostExplorerClientTypes.Expression? = nil,
             or: [CostExplorerClientTypes.Expression]? = nil,
             tags: CostExplorerClientTypes.TagValues? = nil
-        )
-        {
+        ) {
             self.and = and
             self.costCategories = costCategories
             self.dimensions = dimensions
@@ -6039,8 +5874,7 @@ extension CostExplorerClientTypes {
             monitorName: Swift.String? = nil,
             monitorSpecification: CostExplorerClientTypes.Expression? = nil,
             monitorType: CostExplorerClientTypes.MonitorType? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.dimensionalValueCount = dimensionalValueCount
             self.lastEvaluatedDate = lastEvaluatedDate
@@ -6097,8 +5931,7 @@ extension CostExplorerClientTypes {
             subscriptionName: Swift.String? = nil,
             threshold: Swift.Double? = nil,
             thresholdExpression: CostExplorerClientTypes.Expression? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.frequency = frequency
             self.monitorArnList = monitorArnList
@@ -6129,8 +5962,7 @@ extension CostExplorerClientTypes {
             rule: CostExplorerClientTypes.Expression? = nil,
             type: CostExplorerClientTypes.CostCategoryRuleType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.inheritedValue = inheritedValue
             self.rule = rule
             self.type = type
@@ -6140,6 +5972,8 @@ extension CostExplorerClientTypes {
 }
 
 public struct GetCostAndUsageInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     public var filter: CostExplorerClientTypes.Expression?
     /// Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
@@ -6157,14 +5991,15 @@ public struct GetCostAndUsageInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
         metrics: [Swift.String]? = nil,
         nextPageToken: Swift.String? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.groupBy = groupBy
@@ -6175,6 +6010,8 @@ public struct GetCostAndUsageInput: Swift.Sendable {
 }
 
 public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)"SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     /// This member is required.
     public var filter: CostExplorerClientTypes.Expression?
@@ -6192,14 +6029,15 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
         metrics: [Swift.String]? = nil,
         nextPageToken: Swift.String? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.groupBy = groupBy
@@ -6210,6 +6048,8 @@ public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
 }
 
 public struct GetCostCategoriesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The unique name of the Cost Category.
     public var costCategoryName: Swift.String?
     /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
@@ -6294,6 +6134,7 @@ public struct GetCostCategoriesInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         costCategoryName: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int? = nil,
@@ -6301,8 +6142,8 @@ public struct GetCostCategoriesInput: Swift.Sendable {
         searchString: Swift.String? = nil,
         sortBy: [CostExplorerClientTypes.SortDefinition]? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
+        self.billingViewArn = billingViewArn
         self.costCategoryName = costCategoryName
         self.filter = filter
         self.maxResults = maxResults
@@ -6314,6 +6155,8 @@ public struct GetCostCategoriesInput: Swift.Sendable {
 }
 
 public struct GetCostForecastInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:
     ///
     /// * AZ
@@ -6385,13 +6228,14 @@ public struct GetCostForecastInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         metric: CostExplorerClientTypes.Metric? = nil,
         predictionIntervalLevel: Swift.Int? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.metric = metric
@@ -6401,6 +6245,8 @@ public struct GetCostForecastInput: Swift.Sendable {
 }
 
 public struct GetDimensionValuesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:
     ///
     /// * AZ - The Availability Zone. An example is us-east-1a.
@@ -6574,6 +6420,7 @@ public struct GetDimensionValuesInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         context: CostExplorerClientTypes.Context? = nil,
         dimension: CostExplorerClientTypes.Dimension? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
@@ -6582,8 +6429,8 @@ public struct GetDimensionValuesInput: Swift.Sendable {
         searchString: Swift.String? = nil,
         sortBy: [CostExplorerClientTypes.SortDefinition]? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
+        self.billingViewArn = billingViewArn
         self.context = context
         self.dimension = dimension
         self.filter = filter
@@ -6696,8 +6543,7 @@ public struct GetReservationCoverageInput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         sortBy: CostExplorerClientTypes.SortDefinition? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.granularity = granularity
         self.groupBy = groupBy
@@ -6793,8 +6639,7 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Sendable {
         service: Swift.String? = nil,
         serviceSpecification: CostExplorerClientTypes.ServiceSpecification? = nil,
         termInYears: CostExplorerClientTypes.TermInYears? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.accountScope = accountScope
         self.filter = filter
@@ -6895,8 +6740,7 @@ public struct GetReservationUtilizationInput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         sortBy: CostExplorerClientTypes.SortDefinition? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.granularity = granularity
         self.groupBy = groupBy
@@ -6976,8 +6820,7 @@ public struct GetRightsizingRecommendationInput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         pageSize: Swift.Int? = 0,
         service: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.filter = filter
         self.nextPageToken = nextPageToken
@@ -7042,8 +6885,7 @@ public struct GetSavingsPlansCoverageInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: CostExplorerClientTypes.SortDefinition? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.granularity = granularity
         self.groupBy = groupBy
@@ -7086,8 +6928,7 @@ public struct GetSavingsPlansPurchaseRecommendationInput: Swift.Sendable {
         paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
         savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
         termInYears: CostExplorerClientTypes.TermInYears? = nil
-    )
-    {
+    ) {
         self.accountScope = accountScope
         self.filter = filter
         self.lookbackPeriodInDays = lookbackPeriodInDays
@@ -7151,8 +6992,7 @@ public struct GetSavingsPlansUtilizationDetailsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: CostExplorerClientTypes.SortDefinition? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
         self.dataType = dataType
         self.filter = filter
         self.maxResults = maxResults
@@ -7206,8 +7046,7 @@ public struct GetSavingsPlansUtilizationInput: Swift.Sendable {
         granularity: CostExplorerClientTypes.Granularity? = nil,
         sortBy: CostExplorerClientTypes.SortDefinition? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.granularity = granularity
         self.sortBy = sortBy
@@ -7216,6 +7055,8 @@ public struct GetSavingsPlansUtilizationInput: Swift.Sendable {
 }
 
 public struct GetTagsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
     /// * Simple dimension values.
@@ -7300,6 +7141,7 @@ public struct GetTagsInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
@@ -7307,8 +7149,8 @@ public struct GetTagsInput: Swift.Sendable {
         sortBy: [CostExplorerClientTypes.SortDefinition]? = nil,
         tagKey: Swift.String? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.maxResults = maxResults
         self.nextPageToken = nextPageToken
@@ -7320,6 +7162,8 @@ public struct GetTagsInput: Swift.Sendable {
 }
 
 public struct GetUsageForecastInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
     /// The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:
     ///
     /// * AZ
@@ -7385,13 +7229,14 @@ public struct GetUsageForecastInput: Swift.Sendable {
     public var timePeriod: CostExplorerClientTypes.DateInterval?
 
     public init(
+        billingViewArn: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         granularity: CostExplorerClientTypes.Granularity? = nil,
         metric: CostExplorerClientTypes.Metric? = nil,
         predictionIntervalLevel: Swift.Int? = nil,
         timePeriod: CostExplorerClientTypes.DateInterval? = nil
-    )
-    {
+    ) {
+        self.billingViewArn = billingViewArn
         self.filter = filter
         self.granularity = granularity
         self.metric = metric
@@ -7434,8 +7279,7 @@ public struct UpdateAnomalySubscriptionInput: Swift.Sendable {
         subscriptionName: Swift.String? = nil,
         threshold: Swift.Double? = nil,
         thresholdExpression: CostExplorerClientTypes.Expression? = nil
-    )
-    {
+    ) {
         self.frequency = frequency
         self.monitorArnList = monitorArnList
         self.subscribers = subscribers
@@ -7470,8 +7314,7 @@ public struct CreateAnomalyMonitorInput: Swift.Sendable {
     public init(
         anomalyMonitor: CostExplorerClientTypes.AnomalyMonitor? = nil,
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.anomalyMonitor = anomalyMonitor
         self.resourceTags = resourceTags
     }
@@ -7501,8 +7344,7 @@ public struct CreateAnomalySubscriptionInput: Swift.Sendable {
     public init(
         anomalySubscription: CostExplorerClientTypes.AnomalySubscription? = nil,
         resourceTags: [CostExplorerClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.anomalySubscription = anomalySubscription
         self.resourceTags = resourceTags
     }
@@ -7546,8 +7388,7 @@ extension CostExplorerClientTypes {
             ruleVersion: CostExplorerClientTypes.CostCategoryRuleVersion? = nil,
             rules: [CostExplorerClientTypes.CostCategoryRule]? = nil,
             splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]? = nil
-        )
-        {
+        ) {
             self.costCategoryArn = costCategoryArn
             self.defaultValue = defaultValue
             self.effectiveEnd = effectiveEnd
@@ -7602,8 +7443,7 @@ public struct CreateCostCategoryDefinitionInput: Swift.Sendable {
         ruleVersion: CostExplorerClientTypes.CostCategoryRuleVersion? = nil,
         rules: [CostExplorerClientTypes.CostCategoryRule]? = nil,
         splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]? = nil
-    )
-    {
+    ) {
         self.defaultValue = defaultValue
         self.effectiveStart = effectiveStart
         self.name = name
@@ -7624,8 +7464,7 @@ public struct GetAnomalyMonitorsOutput: Swift.Sendable {
     public init(
         anomalyMonitors: [CostExplorerClientTypes.AnomalyMonitor]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyMonitors = anomalyMonitors
         self.nextPageToken = nextPageToken
     }
@@ -7641,8 +7480,7 @@ public struct GetAnomalySubscriptionsOutput: Swift.Sendable {
     public init(
         anomalySubscriptions: [CostExplorerClientTypes.AnomalySubscription]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalySubscriptions = anomalySubscriptions
         self.nextPageToken = nextPageToken
     }
@@ -7672,8 +7510,7 @@ public struct UpdateCostCategoryDefinitionInput: Swift.Sendable {
         ruleVersion: CostExplorerClientTypes.CostCategoryRuleVersion? = nil,
         rules: [CostExplorerClientTypes.CostCategoryRule]? = nil,
         splitChargeRules: [CostExplorerClientTypes.CostCategorySplitChargeRule]? = nil
-    )
-    {
+    ) {
         self.costCategoryArn = costCategoryArn
         self.defaultValue = defaultValue
         self.effectiveStart = effectiveStart
@@ -7689,8 +7526,7 @@ public struct DescribeCostCategoryDefinitionOutput: Swift.Sendable {
 
     public init(
         costCategory: CostExplorerClientTypes.CostCategory? = nil
-    )
-    {
+    ) {
         self.costCategory = costCategory
     }
 }
@@ -8124,6 +7960,7 @@ extension GetCostAndUsageInput {
 
     static func write(value: GetCostAndUsageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["GroupBy"].writeList(value.groupBy, memberWritingClosure: CostExplorerClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8137,6 +7974,7 @@ extension GetCostAndUsageWithResourcesInput {
 
     static func write(value: GetCostAndUsageWithResourcesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["GroupBy"].writeList(value.groupBy, memberWritingClosure: CostExplorerClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8150,6 +7988,7 @@ extension GetCostCategoriesInput {
 
     static func write(value: GetCostCategoriesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["CostCategoryName"].write(value.costCategoryName)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
@@ -8164,6 +8003,7 @@ extension GetCostForecastInput {
 
     static func write(value: GetCostForecastInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["Metric"].write(value.metric)
@@ -8176,6 +8016,7 @@ extension GetDimensionValuesInput {
 
     static func write(value: GetDimensionValuesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Context"].write(value.context)
         try writer["Dimension"].write(value.dimension)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
@@ -8311,6 +8152,7 @@ extension GetTagsInput {
 
     static func write(value: GetTagsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextPageToken"].write(value.nextPageToken)
@@ -8325,6 +8167,7 @@ extension GetUsageForecastInput {
 
     static func write(value: GetUsageForecastInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
         try writer["Granularity"].write(value.granularity)
         try writer["Metric"].write(value.metric)
@@ -9252,6 +9095,7 @@ enum GetCostAndUsageOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9270,6 +9114,7 @@ enum GetCostAndUsageWithResourcesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9288,6 +9133,7 @@ enum GetCostCategoriesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9303,6 +9149,7 @@ enum GetCostForecastOutputError {
         switch baseError.code {
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9321,6 +9168,7 @@ enum GetDimensionValuesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9479,6 +9327,7 @@ enum GetTagsOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9494,6 +9343,7 @@ enum GetUsageForecastOutputError {
         switch baseError.code {
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "UnresolvableUsageUnitException": return try UnresolvableUsageUnitException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

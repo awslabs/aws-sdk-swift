@@ -43,8 +43,7 @@ extension FSxClientTypes {
             activeDirectoryId: Swift.String? = nil,
             domainName: Swift.String? = nil,
             resourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeDirectoryId = activeDirectoryId
             self.domainName = domainName
             self.resourceARN = resourceARN
@@ -89,9 +88,9 @@ extension FSxClientTypes {
 }
 
 /// An Active Directory error.
-public struct ActiveDirectoryError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActiveDirectoryError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The directory ID of the directory that an error pertains to.
         /// This member is required.
         public internal(set) var activeDirectoryId: Swift.String? = nil
@@ -114,8 +113,7 @@ public struct ActiveDirectoryError: ClientRuntime.ModeledError, AWSClientRuntime
         activeDirectoryId: Swift.String? = nil,
         message: Swift.String? = nil,
         type: FSxClientTypes.ActiveDirectoryErrorType? = nil
-    )
-    {
+    ) {
         self.properties.activeDirectoryId = activeDirectoryId
         self.properties.message = message
         self.properties.type = type
@@ -235,8 +233,7 @@ extension FSxClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -292,8 +289,7 @@ extension FSxClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -453,8 +449,7 @@ extension FSxClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -543,8 +538,7 @@ extension FSxClientTypes {
             importPath: Swift.String? = nil,
             importedFileChunkSize: Swift.Int? = nil,
             lifecycle: FSxClientTypes.DataRepositoryLifecycle? = nil
-        )
-        {
+        ) {
             self.autoImportPolicy = autoImportPolicy
             self.exportPath = exportPath
             self.failureDetails = failureDetails
@@ -678,8 +672,7 @@ extension FSxClientTypes {
         public init(
             destination: Swift.String? = nil,
             level: FSxClientTypes.LustreAccessAuditLogLevel? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.level = level
         }
@@ -732,8 +725,7 @@ extension FSxClientTypes {
         public init(
             iops: Swift.Int? = nil,
             mode: FSxClientTypes.MetadataConfigurationMode? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.mode = mode
         }
@@ -763,8 +755,7 @@ extension FSxClientTypes {
         public init(
             noSquashNids: [Swift.String]? = nil,
             rootSquash: Swift.String? = nil
-        )
-        {
+        ) {
             self.noSquashNids = noSquashNids
             self.rootSquash = rootSquash
         }
@@ -796,6 +787,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
+        /// Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system.
+        public var efaEnabled: Swift.Bool?
         /// The Lustre logging configuration. Lustre logging writes the enabled log events for your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogConfiguration?
         /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type.
@@ -823,14 +816,14 @@ extension FSxClientTypes {
             dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
+            efaEnabled: Swift.Bool? = nil,
             logConfiguration: FSxClientTypes.LustreLogConfiguration? = nil,
             metadataConfiguration: FSxClientTypes.FileSystemLustreMetadataConfiguration? = nil,
             mountName: Swift.String? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -838,6 +831,7 @@ extension FSxClientTypes {
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
             self.mountName = mountName
@@ -924,8 +918,7 @@ extension FSxClientTypes {
         public init(
             iops: Swift.Int? = nil,
             mode: FSxClientTypes.DiskIopsConfigurationMode? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.mode = mode
         }
@@ -944,8 +937,7 @@ extension FSxClientTypes {
         public init(
             dnsName: Swift.String? = nil,
             ipAddresses: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
         }
@@ -964,8 +956,7 @@ extension FSxClientTypes {
         public init(
             intercluster: FSxClientTypes.FileSystemEndpoint? = nil,
             management: FSxClientTypes.FileSystemEndpoint? = nil
-        )
-        {
+        ) {
             self.intercluster = intercluster
             self.management = management
         }
@@ -1047,8 +1038,7 @@ extension FSxClientTypes {
             throughputCapacity: Swift.Int? = nil,
             throughputCapacityPerHAPair: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
@@ -1111,6 +1101,63 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
+    public enum OpenZFSReadCacheSizingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noCache
+        case proportionalToThroughputCapacity
+        case userProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OpenZFSReadCacheSizingMode] {
+            return [
+                .noCache,
+                .proportionalToThroughputCapacity,
+                .userProvisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noCache: return "NO_CACHE"
+            case .proportionalToThroughputCapacity: return "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
+            case .userProvisioned: return "USER_PROVISIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+    public struct OpenZFSReadCacheConfiguration: Swift.Sendable {
+        /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB).
+        public var sizeGiB: Swift.Int?
+        /// Specifies how the provisioned SSD read cache is sized, as follows:
+        ///
+        /// * Set to NO_CACHE if you do not want to use an SSD read cache with your Intelligent-Tiering file system.
+        ///
+        /// * Set to USER_PROVISIONED to specify the exact size of your SSD read cache.
+        ///
+        /// * Set to PROPORTIONAL_TO_THROUGHPUT_CAPACITY to have your SSD read cache automatically sized based on your throughput capacity.
+        public var sizingMode: FSxClientTypes.OpenZFSReadCacheSizingMode?
+
+        public init(
+            sizeGiB: Swift.Int? = nil,
+            sizingMode: FSxClientTypes.OpenZFSReadCacheSizingMode? = nil
+        ) {
+            self.sizeGiB = sizeGiB
+            self.sizingMode = sizingMode
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     /// The configuration for the Amazon FSx for OpenZFS file system.
     public struct OpenZFSFileSystemConfiguration: Swift.Sendable {
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
@@ -1131,6 +1178,8 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
+        /// Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
+        public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// The ID of the root volume of the OpenZFS file system.
         public var rootVolumeId: Swift.String?
         /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
@@ -1150,12 +1199,12 @@ extension FSxClientTypes {
             endpointIpAddress: Swift.String? = nil,
             endpointIpAddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
+            readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeId: Swift.String? = nil,
             routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
@@ -1165,6 +1214,7 @@ extension FSxClientTypes {
             self.endpointIpAddress = endpointIpAddress
             self.endpointIpAddressRange = endpointIpAddressRange
             self.preferredSubnetId = preferredSubnetId
+            self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeId = rootVolumeId
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -1178,12 +1228,14 @@ extension FSxClientTypes {
     /// Specifies the file system's storage type.
     public enum StorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hdd
+        case intelligentTiering
         case ssd
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StorageType] {
             return [
                 .hdd,
+                .intelligentTiering,
                 .ssd
             ]
         }
@@ -1196,6 +1248,7 @@ extension FSxClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .hdd: return "HDD"
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
             case .ssd: return "SSD"
             case let .sdkUnknown(s): return s
             }
@@ -1217,8 +1270,7 @@ extension FSxClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1296,8 +1348,7 @@ extension FSxClientTypes {
         public init(
             lifecycle: FSxClientTypes.AliasLifecycle? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lifecycle = lifecycle
             self.name = name
         }
@@ -1372,8 +1423,7 @@ extension FSxClientTypes {
             auditLogDestination: Swift.String? = nil,
             fileAccessAuditLogLevel: FSxClientTypes.WindowsAccessAuditLogLevel? = nil,
             fileShareAccessAuditLogLevel: FSxClientTypes.WindowsAccessAuditLogLevel? = nil
-        )
-        {
+        ) {
             self.auditLogDestination = auditLogDestination
             self.fileAccessAuditLogLevel = fileAccessAuditLogLevel
             self.fileShareAccessAuditLogLevel = fileShareAccessAuditLogLevel
@@ -1464,8 +1514,7 @@ extension FSxClientTypes {
             fileSystemAdministratorsGroup: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dnsIps = dnsIps
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
@@ -1535,8 +1584,7 @@ extension FSxClientTypes {
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryAttributes? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
             self.auditLogConfiguration = auditLogConfiguration
@@ -1600,8 +1648,7 @@ extension FSxClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -1669,8 +1716,7 @@ extension FSxClientTypes {
         public init(
             aggregates: [Swift.String]? = nil,
             totalConstituents: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aggregates = aggregates
             self.totalConstituents = totalConstituents
         }
@@ -1837,8 +1883,7 @@ extension FSxClientTypes {
         public init(
             type: FSxClientTypes.AutocommitPeriodType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1949,8 +1994,7 @@ extension FSxClientTypes {
         public init(
             type: FSxClientTypes.RetentionPeriodType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1975,8 +2019,7 @@ extension FSxClientTypes {
             defaultRetention: FSxClientTypes.RetentionPeriod? = nil,
             maximumRetention: FSxClientTypes.RetentionPeriod? = nil,
             minimumRetention: FSxClientTypes.RetentionPeriod? = nil
-        )
-        {
+        ) {
             self.defaultRetention = defaultRetention
             self.maximumRetention = maximumRetention
             self.minimumRetention = minimumRetention
@@ -2041,8 +2084,7 @@ extension FSxClientTypes {
             retentionPeriod: FSxClientTypes.SnaplockRetentionPeriod? = nil,
             snaplockType: FSxClientTypes.SnaplockType? = nil,
             volumeAppendModeEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.auditLogVolume = auditLogVolume
             self.autocommitPeriod = autocommitPeriod
             self.privilegedDelete = privilegedDelete
@@ -2125,8 +2167,7 @@ extension FSxClientTypes {
         public init(
             coolingPeriod: Swift.Int? = nil,
             name: FSxClientTypes.TieringPolicyName? = nil
-        )
-        {
+        ) {
             self.coolingPeriod = coolingPeriod
             self.name = name
         }
@@ -2237,8 +2278,7 @@ extension FSxClientTypes {
             tieringPolicy: FSxClientTypes.TieringPolicy? = nil,
             uuid: Swift.String? = nil,
             volumeStyle: FSxClientTypes.VolumeStyle? = nil
-        )
-        {
+        ) {
             self.aggregateConfiguration = aggregateConfiguration
             self.copyTagsToBackups = copyTagsToBackups
             self.flexCacheEndpointType = flexCacheEndpointType
@@ -2341,8 +2381,7 @@ extension FSxClientTypes {
         public init(
             clients: Swift.String? = nil,
             options: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.clients = clients
             self.options = options
         }
@@ -2359,8 +2398,7 @@ extension FSxClientTypes {
 
         public init(
             clientConfigurations: [FSxClientTypes.OpenZFSClientConfiguration]? = nil
-        )
-        {
+        ) {
             self.clientConfigurations = clientConfigurations
         }
     }
@@ -2385,8 +2423,7 @@ extension FSxClientTypes {
         public init(
             copyStrategy: FSxClientTypes.OpenZFSCopyStrategy? = nil,
             snapshotARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.copyStrategy = copyStrategy
             self.snapshotARN = snapshotARN
         }
@@ -2440,8 +2477,7 @@ extension FSxClientTypes {
             id: Swift.Int? = nil,
             storageCapacityQuotaGiB: Swift.Int? = nil,
             type: FSxClientTypes.OpenZFSQuotaType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.storageCapacityQuotaGiB = storageCapacityQuotaGiB
             self.type = type
@@ -2494,7 +2530,7 @@ extension FSxClientTypes {
         public var restoreToSnapshot: Swift.String?
         /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var sourceSnapshotARN: Swift.String?
-        /// The maximum amount of storage in gibibtyes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
+        /// The maximum amount of storage in gibibytes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
         public var storageCapacityQuotaGiB: Swift.Int?
         /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved.
         public var storageCapacityReservationGiB: Swift.Int?
@@ -2522,8 +2558,7 @@ extension FSxClientTypes {
             storageCapacityReservationGiB: Swift.Int? = nil,
             userAndGroupQuotas: [FSxClientTypes.OpenZFSUserOrGroupQuota]? = nil,
             volumePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.copyStrategy = copyStrategy
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
@@ -2576,9 +2611,9 @@ extension FSxClientTypes {
 }
 
 /// A generic error indicating a failure with a client request.
-public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2594,16 +2629,15 @@ public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// No Amazon FSx file systems were found based upon supplied parameters.
-public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2619,16 +2653,15 @@ public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A generic error indicating a server-side failure.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2644,8 +2677,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2676,8 +2708,7 @@ public struct AssociateFileSystemAliasesInput: Swift.Sendable {
         aliases: [Swift.String]? = nil,
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
@@ -2691,8 +2722,7 @@ public struct AssociateFileSystemAliasesOutput: Swift.Sendable {
 
     public init(
         aliases: [FSxClientTypes.Alias]? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
     }
 }
@@ -2747,8 +2777,7 @@ extension FSxClientTypes {
 
         public init(
             events: [FSxClientTypes.EventType]? = nil
-        )
-        {
+        ) {
             self.events = events
         }
     }
@@ -2772,17 +2801,16 @@ extension FSxClientTypes {
 
         public init(
             events: [FSxClientTypes.EventType]? = nil
-        )
-        {
+        ) {
             self.events = events
         }
     }
 }
 
 /// The data repository task could not be canceled because the task has already ended.
-public struct DataRepositoryTaskEnded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryTaskEnded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2798,16 +2826,15 @@ public struct DataRepositoryTaskEnded: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The data repository task or tasks you specified could not be found.
-public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2823,16 +2850,15 @@ public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation is not supported for this resource or API.
-public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2848,8 +2874,7 @@ public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2862,8 +2887,7 @@ public struct CancelDataRepositoryTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -2930,17 +2954,16 @@ public struct CancelDataRepositoryTaskOutput: Swift.Sendable {
     public init(
         lifecycle: FSxClientTypes.DataRepositoryTaskLifecycle? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycle = lifecycle
         self.taskId = taskId
     }
 }
 
 /// No Amazon FSx backups were found based upon the supplied parameters.
-public struct BackupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2956,16 +2979,15 @@ public struct BackupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
-public struct IncompatibleParameterError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleParameterError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// A parameter that is incompatible with the earlier request.
@@ -2985,17 +3007,16 @@ public struct IncompatibleParameterError: ClientRuntime.ModeledError, AWSClientR
     public init(
         message: Swift.String? = nil,
         parameter: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.parameter = parameter
     }
 }
 
 /// Amazon FSx doesn't support Multi-AZ Windows File Server copy backup in the destination Region, so the copied backup can't be restored.
-public struct IncompatibleRegionForMultiAZ: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleRegionForMultiAZ: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3011,16 +3032,15 @@ public struct IncompatibleRegionForMultiAZ: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Key Management Service (KMS) key of the destination backup is not valid.
-public struct InvalidDestinationKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDestinationKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3036,16 +3056,15 @@ public struct InvalidDestinationKmsKey: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Region provided for SourceRegion is not valid or is in a different Amazon Web Services partition.
-public struct InvalidRegion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRegion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3061,16 +3080,15 @@ public struct InvalidRegion: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Key Management Service (KMS) key of the source backup is not valid.
-public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3086,8 +3104,7 @@ public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3147,9 +3164,9 @@ extension FSxClientTypes {
 }
 
 /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
-public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Enumeration of the service limit that was exceeded.
         /// This member is required.
         public internal(set) var limit: FSxClientTypes.ServiceLimit? = nil
@@ -3169,17 +3186,16 @@ public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         limit: FSxClientTypes.ServiceLimit? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limit = limit
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
-public struct SourceBackupUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceBackupUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ID of the source backup. Specifies the backup that you are copying.
         public internal(set) var backupId: Swift.String? = nil
         /// A detailed error message.
@@ -3198,8 +3214,7 @@ public struct SourceBackupUnavailable: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         backupId: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.backupId = backupId
         self.properties.message = message
     }
@@ -3238,8 +3253,7 @@ public struct CopyBackupInput: Swift.Sendable {
         sourceBackupId: Swift.String? = nil,
         sourceRegion: Swift.String? = nil,
         tags: [FSxClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.copyTags = copyTags
         self.kmsKeyId = kmsKeyId
@@ -3258,8 +3272,7 @@ extension FSxClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -3451,8 +3464,7 @@ public struct CopySnapshotAndUpdateVolumeInput: Swift.Sendable {
         options: [FSxClientTypes.UpdateOpenZFSVolumeOption]? = nil,
         sourceSnapshotARN: Swift.String? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.copyStrategy = copyStrategy
         self.options = options
@@ -3462,9 +3474,9 @@ public struct CopySnapshotAndUpdateVolumeInput: Swift.Sendable {
 }
 
 /// Another backup is already under way. Wait for completion before initiating additional backups of this file system.
-public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3480,16 +3492,15 @@ public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// No Amazon FSx volumes were found based upon the supplied parameters.
-public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3505,8 +3516,7 @@ public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3527,8 +3537,7 @@ public struct CreateBackupInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
         self.tags = tags
@@ -3548,8 +3557,7 @@ extension FSxClientTypes {
         public init(
             autoExportPolicy: FSxClientTypes.AutoExportPolicy? = nil,
             autoImportPolicy: FSxClientTypes.AutoImportPolicy? = nil
-        )
-        {
+        ) {
             self.autoExportPolicy = autoExportPolicy
             self.autoImportPolicy = autoImportPolicy
         }
@@ -3585,8 +3593,7 @@ public struct CreateDataRepositoryAssociationInput: Swift.Sendable {
         importedFileChunkSize: Swift.Int? = nil,
         s3: FSxClientTypes.S3DataRepositoryConfiguration? = nil,
         tags: [FSxClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.batchImportMetaDataOnCreate = batchImportMetaDataOnCreate
         self.clientRequestToken = clientRequestToken
         self.dataRepositoryPath = dataRepositoryPath
@@ -3640,8 +3647,7 @@ extension FSxClientTypes {
             autoExportPolicy: FSxClientTypes.AutoExportPolicy? = nil,
             dnsIps: [Swift.String]? = nil,
             version: FSxClientTypes.NfsVersion? = nil
-        )
-        {
+        ) {
             self.autoExportPolicy = autoExportPolicy
             self.dnsIps = dnsIps
             self.version = version
@@ -3737,8 +3743,7 @@ extension FSxClientTypes {
             resourceARN: Swift.String? = nil,
             s3: FSxClientTypes.S3DataRepositoryConfiguration? = nil,
             tags: [FSxClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.associationId = associationId
             self.batchImportMetaDataOnCreate = batchImportMetaDataOnCreate
             self.creationTime = creationTime
@@ -3765,16 +3770,15 @@ public struct CreateDataRepositoryAssociationOutput: Swift.Sendable {
 
     public init(
         association: FSxClientTypes.DataRepositoryAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }
 
 /// An existing data repository task is currently executing on the file system. Wait until the existing task has completed, then create the new task.
-public struct DataRepositoryTaskExecuting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryTaskExecuting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3790,8 +3794,7 @@ public struct DataRepositoryTaskExecuting: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3834,8 +3837,7 @@ extension FSxClientTypes {
         public init(
             unit: FSxClientTypes.Unit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -3851,8 +3853,7 @@ extension FSxClientTypes {
 
         public init(
             durationSinceLastAccess: FSxClientTypes.DurationSinceLastAccess? = nil
-        )
-        {
+        ) {
             self.durationSinceLastAccess = durationSinceLastAccess
         }
     }
@@ -3929,8 +3930,7 @@ extension FSxClientTypes {
             format: FSxClientTypes.ReportFormat? = nil,
             path: Swift.String? = nil,
             scope: FSxClientTypes.ReportScope? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.format = format
             self.path = path
@@ -4018,8 +4018,7 @@ public struct CreateDataRepositoryTaskInput: Swift.Sendable {
         report: FSxClientTypes.CompletionReport? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         type: FSxClientTypes.DataRepositoryTaskType? = nil
-    )
-    {
+    ) {
         self.capacityToRelease = capacityToRelease
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
@@ -4040,8 +4039,7 @@ extension FSxClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -4068,8 +4066,7 @@ extension FSxClientTypes {
             releasedCapacity: Swift.Int? = nil,
             succeededCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failedCount = failedCount
             self.lastUpdatedTime = lastUpdatedTime
             self.releasedCapacity = releasedCapacity
@@ -4169,8 +4166,7 @@ extension FSxClientTypes {
             tags: [FSxClientTypes.Tag]? = nil,
             taskId: Swift.String? = nil,
             type: FSxClientTypes.DataRepositoryTaskType? = nil
-        )
-        {
+        ) {
             self.capacityToRelease = capacityToRelease
             self.creationTime = creationTime
             self.endTime = endTime
@@ -4197,16 +4193,15 @@ public struct CreateDataRepositoryTaskOutput: Swift.Sendable {
 
     public init(
         dataRepositoryTask: FSxClientTypes.DataRepositoryTask? = nil
-    )
-    {
+    ) {
         self.dataRepositoryTask = dataRepositoryTask
     }
 }
 
 /// One or more network settings specified in the request are invalid.
-public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The route table ID is either invalid or not part of the VPC specified.
         public internal(set) var invalidRouteTableId: Swift.String? = nil
         /// The security group ID is either invalid or not part of the VPC specified.
@@ -4231,8 +4226,7 @@ public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRunti
         invalidSecurityGroupId: Swift.String? = nil,
         invalidSubnetId: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidRouteTableId = invalidRouteTableId
         self.properties.invalidSecurityGroupId = invalidSecurityGroupId
         self.properties.invalidSubnetId = invalidSubnetId
@@ -4241,9 +4235,9 @@ public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
-public struct InvalidPerUnitStorageThroughput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPerUnitStorageThroughput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4259,16 +4253,15 @@ public struct InvalidPerUnitStorageThroughput: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A cache configuration is required for this operation.
-public struct MissingFileCacheConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingFileCacheConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4284,8 +4277,7 @@ public struct MissingFileCacheConfiguration: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4303,8 +4295,7 @@ extension FSxClientTypes {
         public init(
             dnsIps: [Swift.String]? = nil,
             version: FSxClientTypes.NfsVersion? = nil
-        )
-        {
+        ) {
             self.dnsIps = dnsIps
             self.version = version
         }
@@ -4342,8 +4333,7 @@ extension FSxClientTypes {
             dataRepositorySubdirectories: [Swift.String]? = nil,
             fileCachePath: Swift.String? = nil,
             nfs: FSxClientTypes.FileCacheNFSConfiguration? = nil
-        )
-        {
+        ) {
             self.dataRepositoryPath = dataRepositoryPath
             self.dataRepositorySubdirectories = dataRepositorySubdirectories
             self.fileCachePath = fileCachePath
@@ -4414,8 +4404,7 @@ extension FSxClientTypes {
 
         public init(
             storageCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.storageCapacity = storageCapacity
         }
     }
@@ -4442,8 +4431,7 @@ extension FSxClientTypes {
             metadataConfiguration: FSxClientTypes.FileCacheLustreMetadataConfiguration? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentType = deploymentType
             self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
@@ -4499,8 +4487,7 @@ public struct CreateFileCacheInput: Swift.Sendable {
         storageCapacity: Swift.Int? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [FSxClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.copyTagsToDataRepositoryAssociations = copyTagsToDataRepositoryAssociations
         self.dataRepositoryAssociations = dataRepositoryAssociations
@@ -4524,8 +4511,7 @@ extension FSxClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -4593,8 +4579,7 @@ extension FSxClientTypes {
             mountName: Swift.String? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentType = deploymentType
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
@@ -4675,8 +4660,7 @@ extension FSxClientTypes {
             subnetIds: [Swift.String]? = nil,
             tags: [FSxClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.copyTagsToDataRepositoryAssociations = copyTagsToDataRepositoryAssociations
             self.creationTime = creationTime
             self.dataRepositoryAssociationIds = dataRepositoryAssociationIds
@@ -4705,16 +4689,15 @@ public struct CreateFileCacheOutput: Swift.Sendable {
 
     public init(
         fileCache: FSxClientTypes.FileCacheCreating? = nil
-    )
-    {
+    ) {
         self.fileCache = fileCache
     }
 }
 
 /// The path provided for data repository export isn't valid.
-public struct InvalidExportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4730,16 +4713,15 @@ public struct InvalidExportPath: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The path provided for data repository import isn't valid.
-public struct InvalidImportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidImportPath: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4755,16 +4737,15 @@ public struct InvalidImportPath: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A file system configuration is required for this operation.
-public struct MissingFileSystemConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingFileSystemConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4780,8 +4761,7 @@ public struct MissingFileSystemConfiguration: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4817,8 +4797,7 @@ extension FSxClientTypes {
         public init(
             destination: Swift.String? = nil,
             level: FSxClientTypes.LustreAccessAuditLogLevel? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.level = level
         }
@@ -4842,8 +4821,7 @@ extension FSxClientTypes {
         public init(
             iops: Swift.Int? = nil,
             mode: FSxClientTypes.MetadataConfigurationMode? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.mode = mode
         }
@@ -4894,6 +4872,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
+        /// (Optional) Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system. (Default = false)
+        public var efaEnabled: Swift.Bool?
         /// (Optional) Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you specify only a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket. This parameter is not supported for file systems with a data repository association.
         public var exportPath: Swift.String?
         /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system. This parameter is not supported for file systems with a data repository association.
@@ -4925,6 +4905,7 @@ extension FSxClientTypes {
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
+            efaEnabled: Swift.Bool? = nil,
             exportPath: Swift.String? = nil,
             importPath: Swift.String? = nil,
             importedFileChunkSize: Swift.Int? = nil,
@@ -4933,8 +4914,7 @@ extension FSxClientTypes {
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
@@ -4942,6 +4922,7 @@ extension FSxClientTypes {
             self.dataCompressionType = dataCompressionType
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.exportPath = exportPath
             self.importPath = importPath
             self.importedFileChunkSize = importedFileChunkSize
@@ -5031,8 +5012,7 @@ extension FSxClientTypes {
             throughputCapacity: Swift.Int? = nil,
             throughputCapacityPerHAPair: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
@@ -5084,8 +5064,7 @@ extension FSxClientTypes {
             readOnly: Swift.Bool? = nil,
             recordSizeKiB: Swift.Int? = nil,
             userAndGroupQuotas: [FSxClientTypes.OpenZFSUserOrGroupQuota]? = nil
-        )
-        {
+        ) {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
@@ -5130,6 +5109,8 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
+        /// Specifies the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+        public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
         public var rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
@@ -5156,12 +5137,12 @@ extension FSxClientTypes {
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
+            readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration? = nil,
             routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
@@ -5170,6 +5151,7 @@ extension FSxClientTypes {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
             self.preferredSubnetId = preferredSubnetId
+            self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeConfiguration = rootVolumeConfiguration
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -5221,8 +5203,7 @@ extension FSxClientTypes {
             auditLogDestination: Swift.String? = nil,
             fileAccessAuditLogLevel: FSxClientTypes.WindowsAccessAuditLogLevel? = nil,
             fileShareAccessAuditLogLevel: FSxClientTypes.WindowsAccessAuditLogLevel? = nil
-        )
-        {
+        ) {
             self.auditLogDestination = auditLogDestination
             self.fileAccessAuditLogLevel = fileAccessAuditLogLevel
             self.fileShareAccessAuditLogLevel = fileShareAccessAuditLogLevel
@@ -5258,8 +5239,7 @@ extension FSxClientTypes {
             organizationalUnitDistinguishedName: Swift.String? = nil,
             password: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dnsIps = dnsIps
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
@@ -5338,8 +5318,7 @@ extension FSxClientTypes {
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfiguration? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
             self.auditLogConfiguration = auditLogConfiguration
@@ -5421,16 +5400,17 @@ public struct CreateFileSystemInput: Swift.Sendable {
     /// * For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).
     ///
     /// * For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
-    /// This member is required.
     public var storageCapacity: Swift.Int?
-    /// Sets the storage type for the file system that you're creating. Valid values are SSD and HDD.
+    /// Sets the storage class for the file system that you're creating. Valid values are SSD, HDD, and INTELLIGENT_TIERING.
     ///
     /// * Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.
     ///
     /// * Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.
     ///
+    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type.
     ///
-    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide and [Multiple storage options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options) in the FSx for Lustre User Guide.
+    ///
+    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide, [Multiple storage options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options) in the FSx for Lustre User Guide, and [Working with Intelligent-Tiering](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering) in the Amazon FSx for OpenZFS User Guide.
     public var storageType: FSxClientTypes.StorageType?
     /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration > PreferredSubnetID or OntapConfiguration > PreferredSubnetID properties. For more information about Multi-AZ file system configuration, see [ Availability and durability: Single-AZ and Multi-AZ file systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html) in the Amazon FSx for Windows User Guide and [ Availability and durability](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html) in the Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre deployment types, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
     /// This member is required.
@@ -5454,8 +5434,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         windowsConfiguration: FSxClientTypes.CreateFileSystemWindowsConfiguration? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemType = fileSystemType
         self.fileSystemTypeVersion = fileSystemTypeVersion
@@ -5479,7 +5458,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     public var backupId: Swift.String?
     /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
-    /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You don't need to specify FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating from backup, the value must match the backup's FileSystemTypeVersion setting.
+    /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You can enter a Lustre version that is newer than the backup's FileSystemTypeVersion setting. If you don't enter a newer Lustre version, it defaults to the backup's setting.
     public var fileSystemTypeVersion: Swift.String?
     /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on Amazon FSx file systems, as follows:
     ///
@@ -5508,7 +5487,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     public var openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration?
     /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
     public var securityGroupIds: [Swift.String]?
-    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with with an HTTP status code 400 Bad Request.
+    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with an HTTP status code 400 Bad Request.
     public var storageCapacity: Swift.Int?
     /// Sets the storage type for the Windows or OpenZFS file system that you're creating from a backup. Valid values are SSD and HDD.
     ///
@@ -5540,8 +5519,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         windowsConfiguration: FSxClientTypes.CreateFileSystemWindowsConfiguration? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.clientRequestToken = clientRequestToken
         self.fileSystemTypeVersion = fileSystemTypeVersion
@@ -5574,8 +5552,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.tags = tags
@@ -5596,8 +5573,7 @@ extension FSxClientTypes {
         public init(
             netBiosName: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfiguration? = nil
-        )
-        {
+        ) {
             self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
         }
@@ -5668,8 +5644,7 @@ public struct CreateStorageVirtualMachineInput: Swift.Sendable {
         rootVolumeSecurityStyle: FSxClientTypes.StorageVirtualMachineRootVolumeSecurityStyle? = nil,
         svmAdminPassword: Swift.String? = nil,
         tags: [FSxClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.activeDirectoryConfiguration = activeDirectoryConfiguration
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
@@ -5697,8 +5672,7 @@ extension FSxClientTypes {
         public init(
             netBiosName: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryAttributes? = nil
-        )
-        {
+        ) {
             self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
         }
@@ -5717,8 +5691,7 @@ extension FSxClientTypes {
         public init(
             dnsName: Swift.String? = nil,
             ipAddresses: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
         }
@@ -5743,8 +5716,7 @@ extension FSxClientTypes {
             management: FSxClientTypes.SvmEndpoint? = nil,
             nfs: FSxClientTypes.SvmEndpoint? = nil,
             smb: FSxClientTypes.SvmEndpoint? = nil
-        )
-        {
+        ) {
             self.iscsi = iscsi
             self.management = management
             self.nfs = nfs
@@ -5886,8 +5858,7 @@ extension FSxClientTypes {
             subtype: FSxClientTypes.StorageVirtualMachineSubtype? = nil,
             tags: [FSxClientTypes.Tag]? = nil,
             uuid: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeDirectoryConfiguration = activeDirectoryConfiguration
             self.creationTime = creationTime
             self.endpoints = endpoints
@@ -5911,16 +5882,15 @@ public struct CreateStorageVirtualMachineOutput: Swift.Sendable {
 
     public init(
         storageVirtualMachine: FSxClientTypes.StorageVirtualMachine? = nil
-    )
-    {
+    ) {
         self.storageVirtualMachine = storageVirtualMachine
     }
 }
 
 /// A volume configuration is required for this operation.
-public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5936,16 +5906,15 @@ public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// No FSx for ONTAP SVMs were found based upon the supplied parameters.
-public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5961,8 +5930,7 @@ public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5979,8 +5947,7 @@ extension FSxClientTypes {
         public init(
             aggregates: [Swift.String]? = nil,
             constituentsPerAggregate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aggregates = aggregates
             self.constituentsPerAggregate = constituentsPerAggregate
         }
@@ -6045,8 +6012,7 @@ extension FSxClientTypes {
             retentionPeriod: FSxClientTypes.SnaplockRetentionPeriod? = nil,
             snaplockType: FSxClientTypes.SnaplockType? = nil,
             volumeAppendModeEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.auditLogVolume = auditLogVolume
             self.autocommitPeriod = autocommitPeriod
             self.privilegedDelete = privilegedDelete
@@ -6146,8 +6112,7 @@ extension FSxClientTypes {
             storageVirtualMachineId: Swift.String? = nil,
             tieringPolicy: FSxClientTypes.TieringPolicy? = nil,
             volumeStyle: FSxClientTypes.VolumeStyle? = nil
-        )
-        {
+        ) {
             self.aggregateConfiguration = aggregateConfiguration
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
@@ -6186,8 +6151,7 @@ extension FSxClientTypes {
         public init(
             copyStrategy: FSxClientTypes.OpenZFSCopyStrategy? = nil,
             snapshotARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.copyStrategy = copyStrategy
             self.snapshotARN = snapshotARN
         }
@@ -6220,7 +6184,7 @@ extension FSxClientTypes {
         public var parentVolumeId: Swift.String?
         /// A Boolean value indicating whether the volume is read-only.
         public var readOnly: Swift.Bool?
-        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). For file systems using the Intelligent-Tiering storage class, valid values are 128, 256, 512, 1024, 2048, or 4096 KiB, with a default of 1024 KiB. For all other file systems, valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB, with a default of 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
         public var recordSizeKiB: Swift.Int?
         /// Sets the maximum storage size in gibibytes (GiB) for the volume. You can specify a quota that is larger than the storage on the parent volume. A volume quota limits the amount of storage that the volume can consume to the configured amount, but does not guarantee the space will be available on the parent volume. To guarantee quota space, you must also set StorageCapacityReservationGiB. To not specify a storage capacity quota, set this to -1. For more information, see [Volume properties](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties) in the Amazon FSx for OpenZFS User Guide.
         public var storageCapacityQuotaGiB: Swift.Int?
@@ -6240,8 +6204,7 @@ extension FSxClientTypes {
             storageCapacityQuotaGiB: Swift.Int? = nil,
             storageCapacityReservationGiB: Swift.Int? = nil,
             userAndGroupQuotas: [FSxClientTypes.OpenZFSUserOrGroupQuota]? = nil
-        )
-        {
+        ) {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
@@ -6279,8 +6242,7 @@ public struct CreateVolumeInput: Swift.Sendable {
         openZFSConfiguration: FSxClientTypes.CreateOpenZFSVolumeConfiguration? = nil,
         tags: [FSxClientTypes.Tag]? = nil,
         volumeType: FSxClientTypes.VolumeType? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.ontapConfiguration = ontapConfiguration
@@ -6310,8 +6272,7 @@ public struct CreateVolumeFromBackupInput: Swift.Sendable {
         name: Swift.String? = nil,
         ontapConfiguration: FSxClientTypes.CreateOntapVolumeConfiguration? = nil,
         tags: [FSxClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.clientRequestToken = clientRequestToken
         self.name = name
@@ -6321,9 +6282,9 @@ public struct CreateVolumeFromBackupInput: Swift.Sendable {
 }
 
 /// You can't delete a backup while it's being copied.
-public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ID of the source backup. Specifies the backup that you are copying.
         public internal(set) var backupId: Swift.String? = nil
         /// A detailed error message.
@@ -6342,17 +6303,16 @@ public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         backupId: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.backupId = backupId
         self.properties.message = message
     }
 }
 
 /// You can't delete a backup while it's being used to restore a file system.
-public struct BackupRestoring: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupRestoring: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ID of a file system being restored from the backup.
         public internal(set) var fileSystemId: Swift.String? = nil
         /// A detailed error message.
@@ -6371,8 +6331,7 @@ public struct BackupRestoring: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public init(
         fileSystemId: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fileSystemId = fileSystemId
         self.properties.message = message
     }
@@ -6389,8 +6348,7 @@ public struct DeleteBackupInput: Swift.Sendable {
     public init(
         backupId: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.clientRequestToken = clientRequestToken
     }
@@ -6406,17 +6364,16 @@ public struct DeleteBackupOutput: Swift.Sendable {
     public init(
         backupId: Swift.String? = nil,
         lifecycle: FSxClientTypes.BackupLifecycle? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.lifecycle = lifecycle
     }
 }
 
 /// No data repository associations were found based upon the supplied parameters.
-public struct DataRepositoryAssociationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataRepositoryAssociationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6432,8 +6389,7 @@ public struct DataRepositoryAssociationNotFound: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6451,8 +6407,7 @@ public struct DeleteDataRepositoryAssociationInput: Swift.Sendable {
         associationId: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         deleteDataInFileSystem: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.clientRequestToken = clientRequestToken
         self.deleteDataInFileSystem = deleteDataInFileSystem
@@ -6471,8 +6426,7 @@ public struct DeleteDataRepositoryAssociationOutput: Swift.Sendable {
         associationId: Swift.String? = nil,
         deleteDataInFileSystem: Swift.Bool? = nil,
         lifecycle: FSxClientTypes.DataRepositoryLifecycle? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.deleteDataInFileSystem = deleteDataInFileSystem
         self.lifecycle = lifecycle
@@ -6480,9 +6434,9 @@ public struct DeleteDataRepositoryAssociationOutput: Swift.Sendable {
 }
 
 /// No caches were found based upon supplied parameters.
-public struct FileCacheNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileCacheNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6498,8 +6452,7 @@ public struct FileCacheNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6514,8 +6467,7 @@ public struct DeleteFileCacheInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         fileCacheId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileCacheId = fileCacheId
     }
@@ -6530,8 +6482,7 @@ public struct DeleteFileCacheOutput: Swift.Sendable {
     public init(
         fileCacheId: Swift.String? = nil,
         lifecycle: FSxClientTypes.FileCacheLifecycle? = nil
-    )
-    {
+    ) {
         self.fileCacheId = fileCacheId
         self.lifecycle = lifecycle
     }
@@ -6549,8 +6500,7 @@ extension FSxClientTypes {
         public init(
             finalBackupTags: [FSxClientTypes.Tag]? = nil,
             skipFinalBackup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.finalBackupTags = finalBackupTags
             self.skipFinalBackup = skipFinalBackup
         }
@@ -6598,8 +6548,7 @@ extension FSxClientTypes {
             finalBackupTags: [FSxClientTypes.Tag]? = nil,
             options: [FSxClientTypes.DeleteFileSystemOpenZFSOption]? = nil,
             skipFinalBackup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.finalBackupTags = finalBackupTags
             self.options = options
             self.skipFinalBackup = skipFinalBackup
@@ -6619,8 +6568,7 @@ extension FSxClientTypes {
         public init(
             finalBackupTags: [FSxClientTypes.Tag]? = nil,
             skipFinalBackup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.finalBackupTags = finalBackupTags
             self.skipFinalBackup = skipFinalBackup
         }
@@ -6647,8 +6595,7 @@ public struct DeleteFileSystemInput: Swift.Sendable {
         lustreConfiguration: FSxClientTypes.DeleteFileSystemLustreConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.DeleteFileSystemOpenZFSConfiguration? = nil,
         windowsConfiguration: FSxClientTypes.DeleteFileSystemWindowsConfiguration? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
         self.lustreConfiguration = lustreConfiguration
@@ -6669,8 +6616,7 @@ extension FSxClientTypes {
         public init(
             finalBackupId: Swift.String? = nil,
             finalBackupTags: [FSxClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
         }
@@ -6689,8 +6635,7 @@ extension FSxClientTypes {
         public init(
             finalBackupId: Swift.String? = nil,
             finalBackupTags: [FSxClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
         }
@@ -6709,8 +6654,7 @@ extension FSxClientTypes {
         public init(
             finalBackupId: Swift.String? = nil,
             finalBackupTags: [FSxClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
         }
@@ -6736,8 +6680,7 @@ public struct DeleteFileSystemOutput: Swift.Sendable {
         lustreResponse: FSxClientTypes.DeleteFileSystemLustreResponse? = nil,
         openZFSResponse: FSxClientTypes.DeleteFileSystemOpenZFSResponse? = nil,
         windowsResponse: FSxClientTypes.DeleteFileSystemWindowsResponse? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.lifecycle = lifecycle
         self.lustreResponse = lustreResponse
@@ -6747,9 +6690,9 @@ public struct DeleteFileSystemOutput: Swift.Sendable {
 }
 
 /// No Amazon FSx snapshots were found based on the supplied parameters.
-public struct SnapshotNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6765,8 +6708,7 @@ public struct SnapshotNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6781,8 +6723,7 @@ public struct DeleteSnapshotInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.snapshotId = snapshotId
     }
@@ -6797,8 +6738,7 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
     public init(
         lifecycle: FSxClientTypes.SnapshotLifecycle? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycle = lifecycle
         self.snapshotId = snapshotId
     }
@@ -6814,8 +6754,7 @@ public struct DeleteStorageVirtualMachineInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         storageVirtualMachineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.storageVirtualMachineId = storageVirtualMachineId
     }
@@ -6830,8 +6769,7 @@ public struct DeleteStorageVirtualMachineOutput: Swift.Sendable {
     public init(
         lifecycle: FSxClientTypes.StorageVirtualMachineLifecycle? = nil,
         storageVirtualMachineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycle = lifecycle
         self.storageVirtualMachineId = storageVirtualMachineId
     }
@@ -6852,8 +6790,7 @@ extension FSxClientTypes {
             bypassSnaplockEnterpriseRetention: Swift.Bool? = nil,
             finalBackupTags: [FSxClientTypes.Tag]? = nil,
             skipFinalBackup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.bypassSnaplockEnterpriseRetention = bypassSnaplockEnterpriseRetention
             self.finalBackupTags = finalBackupTags
             self.skipFinalBackup = skipFinalBackup
@@ -6896,8 +6833,7 @@ extension FSxClientTypes {
 
         public init(
             options: [FSxClientTypes.DeleteOpenZFSVolumeOption]? = nil
-        )
-        {
+        ) {
             self.options = options
         }
     }
@@ -6919,8 +6855,7 @@ public struct DeleteVolumeInput: Swift.Sendable {
         ontapConfiguration: FSxClientTypes.DeleteVolumeOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.DeleteVolumeOpenZFSConfiguration? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
@@ -6940,8 +6875,7 @@ extension FSxClientTypes {
         public init(
             finalBackupId: Swift.String? = nil,
             finalBackupTags: [FSxClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.finalBackupId = finalBackupId
             self.finalBackupTags = finalBackupTags
         }
@@ -6960,8 +6894,7 @@ public struct DeleteVolumeOutput: Swift.Sendable {
         lifecycle: FSxClientTypes.VolumeLifecycle? = nil,
         ontapResponse: FSxClientTypes.DeleteVolumeOntapResponse? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecycle = lifecycle
         self.ontapResponse = ontapResponse
         self.volumeId = volumeId
@@ -7025,8 +6958,7 @@ extension FSxClientTypes {
         public init(
             name: FSxClientTypes.FilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -7049,8 +6981,7 @@ public struct DescribeBackupsInput: Swift.Sendable {
         filters: [FSxClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupIds = backupIds
         self.filters = filters
         self.maxResults = maxResults
@@ -7059,9 +6990,9 @@ public struct DescribeBackupsInput: Swift.Sendable {
 }
 
 /// You have filtered the response to a data repository type that is not supported.
-public struct InvalidDataRepositoryType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDataRepositoryType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7077,8 +7008,7 @@ public struct InvalidDataRepositoryType: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7098,8 +7028,7 @@ public struct DescribeDataRepositoryAssociationsInput: Swift.Sendable {
         filters: [FSxClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationIds = associationIds
         self.filters = filters
         self.maxResults = maxResults
@@ -7116,8 +7045,7 @@ public struct DescribeDataRepositoryAssociationsOutput: Swift.Sendable {
     public init(
         associations: [FSxClientTypes.DataRepositoryAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.nextToken = nextToken
     }
@@ -7160,7 +7088,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name, and one or more Values for the filter.
+    /// (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name, and one or more Values for the filter.
     public struct DataRepositoryTaskFilter: Swift.Sendable {
         /// Name of the task property to use in filtering the tasks returned in the response.
         ///
@@ -7174,8 +7102,7 @@ extension FSxClientTypes {
         public init(
             name: FSxClientTypes.DataRepositoryTaskFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -7197,8 +7124,7 @@ public struct DescribeDataRepositoryTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         taskIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7215,8 +7141,7 @@ public struct DescribeDataRepositoryTasksOutput: Swift.Sendable {
     public init(
         dataRepositoryTasks: [FSxClientTypes.DataRepositoryTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataRepositoryTasks = dataRepositoryTasks
         self.nextToken = nextToken
     }
@@ -7234,8 +7159,7 @@ public struct DescribeFileCachesInput: Swift.Sendable {
         fileCacheIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileCacheIds = fileCacheIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7306,8 +7230,7 @@ extension FSxClientTypes {
             storageCapacity: Swift.Int? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataRepositoryAssociationIds = dataRepositoryAssociationIds
             self.dnsName = dnsName
@@ -7337,8 +7260,7 @@ public struct DescribeFileCachesOutput: Swift.Sendable {
     public init(
         fileCaches: [FSxClientTypes.FileCache]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileCaches = fileCaches
         self.nextToken = nextToken
     }
@@ -7361,8 +7283,7 @@ public struct DescribeFileSystemAliasesInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
         self.maxResults = maxResults
@@ -7380,8 +7301,7 @@ public struct DescribeFileSystemAliasesOutput: Swift.Sendable {
     public init(
         aliases: [FSxClientTypes.Alias]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextToken = nextToken
     }
@@ -7400,8 +7320,7 @@ public struct DescribeFileSystemsInput: Swift.Sendable {
         fileSystemIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemIds = fileSystemIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7419,8 +7338,7 @@ public struct DescribeSharedVpcConfigurationOutput: Swift.Sendable {
 
     public init(
         enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
     }
 }
@@ -7466,8 +7384,7 @@ extension FSxClientTypes {
         public init(
             name: FSxClientTypes.SnapshotFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -7492,8 +7409,7 @@ public struct DescribeSnapshotsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         snapshotIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.includeShared = includeShared
         self.maxResults = maxResults
@@ -7540,8 +7456,7 @@ extension FSxClientTypes {
         public init(
             name: FSxClientTypes.StorageVirtualMachineFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -7563,8 +7478,7 @@ public struct DescribeStorageVirtualMachinesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         storageVirtualMachineIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7581,8 +7495,7 @@ public struct DescribeStorageVirtualMachinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageVirtualMachines: [FSxClientTypes.StorageVirtualMachine]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageVirtualMachines = storageVirtualMachines
     }
@@ -7629,8 +7542,7 @@ extension FSxClientTypes {
         public init(
             name: FSxClientTypes.VolumeFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -7652,8 +7564,7 @@ public struct DescribeVolumesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         volumeIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7676,8 +7587,7 @@ public struct DisassociateFileSystemAliasesInput: Swift.Sendable {
         aliases: [Swift.String]? = nil,
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
@@ -7691,16 +7601,15 @@ public struct DisassociateFileSystemAliasesOutput: Swift.Sendable {
 
     public init(
         aliases: [FSxClientTypes.Alias]? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
     }
 }
 
 /// The resource specified for the tagging operation is not a resource type owned by Amazon FSx. Use the API of the relevant service to perform the operation.
-public struct NotServiceResourceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotServiceResourceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Resource Name (ARN) of the non-Amazon FSx resource.
@@ -7720,17 +7629,16 @@ public struct NotServiceResourceError: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceARN = resourceARN
     }
 }
 
 /// The resource specified does not support tagging.
-public struct ResourceDoesNotSupportTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceDoesNotSupportTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Resource Name (ARN) of the resource that doesn't support tagging.
@@ -7750,17 +7658,16 @@ public struct ResourceDoesNotSupportTagging: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceARN = resourceARN
     }
 }
 
 /// The resource specified by the Amazon Resource Name (ARN) can't be found.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A detailed error message.
         public internal(set) var message: Swift.String? = nil
         /// The resource ARN of the resource that can't be found.
@@ -7780,8 +7687,7 @@ public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         message: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceARN = resourceARN
     }
@@ -7801,8 +7707,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceARN = resourceARN
@@ -7819,8 +7724,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [FSxClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -7836,8 +7740,7 @@ public struct ReleaseFileSystemNfsV3LocksInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
     }
@@ -7893,8 +7796,7 @@ public struct RestoreVolumeFromSnapshotInput: Swift.Sendable {
         options: [FSxClientTypes.RestoreOpenZFSVolumeOption]? = nil,
         snapshotId: Swift.String? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.options = options
         self.snapshotId = snapshotId
@@ -7912,8 +7814,7 @@ public struct StartMisconfiguredStateRecoveryInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
     }
@@ -7931,8 +7832,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [FSxClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -7956,8 +7856,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -7985,8 +7884,7 @@ public struct UpdateDataRepositoryAssociationInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         importedFileChunkSize: Swift.Int? = nil,
         s3: FSxClientTypes.S3DataRepositoryConfiguration? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.clientRequestToken = clientRequestToken
         self.importedFileChunkSize = importedFileChunkSize
@@ -8000,8 +7898,7 @@ public struct UpdateDataRepositoryAssociationOutput: Swift.Sendable {
 
     public init(
         association: FSxClientTypes.DataRepositoryAssociation? = nil
-    )
-    {
+    ) {
         self.association = association
     }
 }
@@ -8015,8 +7912,7 @@ extension FSxClientTypes {
 
         public init(
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -8035,8 +7931,7 @@ public struct UpdateFileCacheInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         fileCacheId: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.UpdateFileCacheLustreConfiguration? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileCacheId = fileCacheId
         self.lustreConfiguration = lustreConfiguration
@@ -8049,8 +7944,7 @@ public struct UpdateFileCacheOutput: Swift.Sendable {
 
     public init(
         fileCache: FSxClientTypes.FileCache? = nil
-    )
-    {
+    ) {
         self.fileCache = fileCache
     }
 }
@@ -8071,8 +7965,7 @@ extension FSxClientTypes {
         public init(
             iops: Swift.Int? = nil,
             mode: FSxClientTypes.MetadataConfigurationMode? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.mode = mode
         }
@@ -8137,8 +8030,7 @@ extension FSxClientTypes {
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -8164,7 +8056,7 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [Updating SSD storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/increase-primary-storage.html).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Applicaton](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
+        /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Application](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
         /// Use to update the number of high-availability (HA) pairs for a second-generation single-AZ file system. If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage).
         public var haPairs: Swift.Int?
@@ -8207,8 +8099,7 @@ extension FSxClientTypes {
             throughputCapacity: Swift.Int? = nil,
             throughputCapacityPerHAPair: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -8244,6 +8135,8 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+        public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
         public var removeRouteTableIds: [Swift.String]?
         /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:
@@ -8262,17 +8155,18 @@ extension FSxClientTypes {
             copyTagsToVolumes: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             removeRouteTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.addRouteTableIds = addRouteTableIds
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.readCacheConfiguration = readCacheConfiguration
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -8304,8 +8198,7 @@ extension FSxClientTypes {
             organizationalUnitDistinguishedName: Swift.String? = nil,
             password: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dnsIps = dnsIps
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
@@ -8348,8 +8241,7 @@ extension FSxClientTypes {
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -8368,6 +8260,8 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// The ID of the file system that you are updating.
     /// This member is required.
     public var fileSystemId: Swift.String?
+    /// The Lustre version you are updating an FSx for Lustre file system to. Valid values are 2.12 and 2.15. The value you choose must be newer than the file system's current Lustre version.
+    public var fileSystemTypeVersion: Swift.String?
     /// The configuration object for Amazon FSx for Lustre file systems used in the UpdateFileSystem operation.
     public var lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration?
     /// The configuration updates for an Amazon FSx for NetApp ONTAP file system.
@@ -8393,16 +8287,17 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil,
+        fileSystemTypeVersion: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration? = nil,
         ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration? = nil,
         storageCapacity: Swift.Int? = nil,
         storageType: FSxClientTypes.StorageType? = nil,
         windowsConfiguration: FSxClientTypes.UpdateFileSystemWindowsConfiguration? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
+        self.fileSystemTypeVersion = fileSystemTypeVersion
         self.lustreConfiguration = lustreConfiguration
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
@@ -8421,8 +8316,7 @@ public struct UpdateSharedVpcConfigurationInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
     }
@@ -8434,8 +8328,7 @@ public struct UpdateSharedVpcConfigurationOutput: Swift.Sendable {
 
     public init(
         enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableFsxRouteTableUpdatesFromParticipantAccounts = enableFsxRouteTableUpdatesFromParticipantAccounts
     }
 }
@@ -8454,8 +8347,7 @@ public struct UpdateSnapshotInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.snapshotId = snapshotId
@@ -8474,8 +8366,7 @@ extension FSxClientTypes {
         public init(
             netBiosName: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates? = nil
-        )
-        {
+        ) {
             self.netBiosName = netBiosName
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
         }
@@ -8498,8 +8389,7 @@ public struct UpdateStorageVirtualMachineInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         storageVirtualMachineId: Swift.String? = nil,
         svmAdminPassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeDirectoryConfiguration = activeDirectoryConfiguration
         self.clientRequestToken = clientRequestToken
         self.storageVirtualMachineId = storageVirtualMachineId
@@ -8518,8 +8408,7 @@ public struct UpdateStorageVirtualMachineOutput: Swift.Sendable {
 
     public init(
         storageVirtualMachine: FSxClientTypes.StorageVirtualMachine? = nil
-    )
-    {
+    ) {
         self.storageVirtualMachine = storageVirtualMachine
     }
 }
@@ -8545,8 +8434,7 @@ extension FSxClientTypes {
             privilegedDelete: FSxClientTypes.PrivilegedDelete? = nil,
             retentionPeriod: FSxClientTypes.SnaplockRetentionPeriod? = nil,
             volumeAppendModeEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.auditLogVolume = auditLogVolume
             self.autocommitPeriod = autocommitPeriod
             self.privilegedDelete = privilegedDelete
@@ -8598,8 +8486,7 @@ extension FSxClientTypes {
             snapshotPolicy: Swift.String? = nil,
             storageEfficiencyEnabled: Swift.Bool? = nil,
             tieringPolicy: FSxClientTypes.TieringPolicy? = nil
-        )
-        {
+        ) {
             self.copyTagsToBackups = copyTagsToBackups
             self.junctionPath = junctionPath
             self.securityStyle = securityStyle
@@ -8646,8 +8533,7 @@ extension FSxClientTypes {
             storageCapacityQuotaGiB: Swift.Int? = nil,
             storageCapacityReservationGiB: Swift.Int? = nil,
             userAndGroupQuotas: [FSxClientTypes.OpenZFSUserOrGroupQuota]? = nil
-        )
-        {
+        ) {
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
             self.readOnly = readOnly
@@ -8678,8 +8564,7 @@ public struct UpdateVolumeInput: Swift.Sendable {
         ontapConfiguration: FSxClientTypes.UpdateOntapVolumeConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.UpdateOpenZFSVolumeConfiguration? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.ontapConfiguration = ontapConfiguration
@@ -8773,8 +8658,7 @@ extension FSxClientTypes {
             targetSnapshotValues: FSxClientTypes.Snapshot? = nil,
             targetVolumeValues: FSxClientTypes.Volume? = nil,
             totalTransferBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
             self.progressPercent = progressPercent
@@ -8880,8 +8764,7 @@ extension FSxClientTypes {
             tags: [FSxClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil,
             windowsConfiguration: FSxClientTypes.WindowsFileSystemConfiguration? = nil
-        )
-        {
+        ) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.dnsName = dnsName
@@ -8948,8 +8831,7 @@ extension FSxClientTypes {
             snapshotId: Swift.String? = nil,
             tags: [FSxClientTypes.Tag]? = nil,
             volumeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.lifecycle = lifecycle
@@ -9019,8 +8901,7 @@ extension FSxClientTypes {
             tags: [FSxClientTypes.Tag]? = nil,
             volumeId: Swift.String? = nil,
             volumeType: FSxClientTypes.VolumeType? = nil
-        )
-        {
+        ) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.fileSystemId = fileSystemId
@@ -9049,8 +8930,7 @@ public struct CopySnapshotAndUpdateVolumeOutput: Swift.Sendable {
         administrativeActions: [FSxClientTypes.AdministrativeAction]? = nil,
         lifecycle: FSxClientTypes.VolumeLifecycle? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.administrativeActions = administrativeActions
         self.lifecycle = lifecycle
         self.volumeId = volumeId
@@ -9069,8 +8949,7 @@ public struct RestoreVolumeFromSnapshotOutput: Swift.Sendable {
         administrativeActions: [FSxClientTypes.AdministrativeAction]? = nil,
         lifecycle: FSxClientTypes.VolumeLifecycle? = nil,
         volumeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.administrativeActions = administrativeActions
         self.lifecycle = lifecycle
         self.volumeId = volumeId
@@ -9084,8 +8963,7 @@ public struct CreateFileSystemFromBackupOutput: Swift.Sendable {
 
     public init(
         fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
+    ) {
         self.fileSystem = fileSystem
     }
 }
@@ -9097,8 +8975,7 @@ public struct CreateFileSystemOutput: Swift.Sendable {
 
     public init(
         fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
+    ) {
         self.fileSystem = fileSystem
     }
 }
@@ -9109,8 +8986,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: FSxClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -9121,8 +8997,7 @@ public struct CreateVolumeFromBackupOutput: Swift.Sendable {
 
     public init(
         volume: FSxClientTypes.Volume? = nil
-    )
-    {
+    ) {
         self.volume = volume
     }
 }
@@ -9133,8 +9008,7 @@ public struct CreateVolumeOutput: Swift.Sendable {
 
     public init(
         volume: FSxClientTypes.Volume? = nil
-    )
-    {
+    ) {
         self.volume = volume
     }
 }
@@ -9145,8 +9019,7 @@ public struct ReleaseFileSystemNfsV3LocksOutput: Swift.Sendable {
 
     public init(
         fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
+    ) {
         self.fileSystem = fileSystem
     }
 }
@@ -9157,8 +9030,7 @@ public struct StartMisconfiguredStateRecoveryOutput: Swift.Sendable {
 
     public init(
         fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
+    ) {
         self.fileSystem = fileSystem
     }
 }
@@ -9170,8 +9042,7 @@ public struct UpdateFileSystemOutput: Swift.Sendable {
 
     public init(
         fileSystem: FSxClientTypes.FileSystem? = nil
-    )
-    {
+    ) {
         self.fileSystem = fileSystem
     }
 }
@@ -9182,8 +9053,7 @@ public struct UpdateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: FSxClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -9194,8 +9064,7 @@ public struct UpdateVolumeOutput: Swift.Sendable {
 
     public init(
         volume: FSxClientTypes.Volume? = nil
-    )
-    {
+    ) {
         self.volume = volume
     }
 }
@@ -9210,8 +9079,7 @@ public struct DescribeFileSystemsOutput: Swift.Sendable {
     public init(
         fileSystems: [FSxClientTypes.FileSystem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystems = fileSystems
         self.nextToken = nextToken
     }
@@ -9226,8 +9094,7 @@ public struct DescribeSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshots: [FSxClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshots = snapshots
     }
@@ -9242,8 +9109,7 @@ public struct DescribeVolumesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         volumes: [FSxClientTypes.Volume]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.volumes = volumes
     }
@@ -9293,6 +9159,8 @@ extension FSxClientTypes {
         public var resourceARN: Swift.String?
         /// Specifies the resource type that's backed up.
         public var resourceType: FSxClientTypes.ResourceType?
+        /// The size of the backup in bytes. This represents the amount of data that the file system would contain if you restore this backup.
+        public var sizeInBytes: Swift.Int?
         /// The ID of the source backup. Specifies the backup that you are copying.
         public var sourceBackupId: Swift.String?
         /// The source Region of the backup. Specifies the Region from where this backup is copied.
@@ -9317,13 +9185,13 @@ extension FSxClientTypes {
             progressPercent: Swift.Int? = nil,
             resourceARN: Swift.String? = nil,
             resourceType: FSxClientTypes.ResourceType? = nil,
+            sizeInBytes: Swift.Int? = nil,
             sourceBackupId: Swift.String? = nil,
             sourceBackupRegion: Swift.String? = nil,
             tags: [FSxClientTypes.Tag]? = nil,
             type: FSxClientTypes.BackupType? = nil,
             volume: FSxClientTypes.Volume? = nil
-        )
-        {
+        ) {
             self.backupId = backupId
             self.creationTime = creationTime
             self.directoryInformation = directoryInformation
@@ -9335,6 +9203,7 @@ extension FSxClientTypes {
             self.progressPercent = progressPercent
             self.resourceARN = resourceARN
             self.resourceType = resourceType
+            self.sizeInBytes = sizeInBytes
             self.sourceBackupId = sourceBackupId
             self.sourceBackupRegion = sourceBackupRegion
             self.tags = tags
@@ -9350,8 +9219,7 @@ public struct CopyBackupOutput: Swift.Sendable {
 
     public init(
         backup: FSxClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
@@ -9363,8 +9231,7 @@ public struct CreateBackupOutput: Swift.Sendable {
 
     public init(
         backup: FSxClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
@@ -9379,8 +9246,7 @@ public struct DescribeBackupsOutput: Swift.Sendable {
     public init(
         backups: [FSxClientTypes.Backup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backups = backups
         self.nextToken = nextToken
     }
@@ -10161,6 +10027,7 @@ extension UpdateFileSystemInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.UpdateFileSystemLustreConfiguration.write(value:to:))
         try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.UpdateFileSystemOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration.write(value:to:))
@@ -12084,6 +11951,7 @@ extension FSxClientTypes.Backup {
         value.sourceBackupRegion = try reader["SourceBackupRegion"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.volume = try reader["Volume"].readIfPresent(with: FSxClientTypes.Volume.read(from:))
+        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent()
         return value
     }
 }
@@ -12320,6 +12188,24 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration {
         value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
         value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.endpointIpAddress = try reader["EndpointIpAddress"].readIfPresent()
+        value.readCacheConfiguration = try reader["ReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSReadCacheConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSReadCacheConfiguration {
+
+    static func write(value: FSxClientTypes.OpenZFSReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SizeGiB"].write(value.sizeGiB)
+        try writer["SizingMode"].write(value.sizingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSReadCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSReadCacheConfiguration()
+        value.sizingMode = try reader["SizingMode"].readIfPresent()
+        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
         return value
     }
 }
@@ -12403,6 +12289,7 @@ extension FSxClientTypes.LustreFileSystemConfiguration {
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
         value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
         value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
+        value.efaEnabled = try reader["EfaEnabled"].readIfPresent()
         return value
     }
 }
@@ -13137,6 +13024,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["DataCompressionType"].write(value.dataCompressionType)
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DriveCacheType"].write(value.driveCacheType)
+        try writer["EfaEnabled"].write(value.efaEnabled)
         try writer["ExportPath"].write(value.exportPath)
         try writer["ImportPath"].write(value.importPath)
         try writer["ImportedFileChunkSize"].write(value.importedFileChunkSize)
@@ -13197,6 +13085,7 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration {
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
         try writer["EndpointIpAddressRange"].write(value.endpointIpAddressRange)
         try writer["PreferredSubnetId"].write(value.preferredSubnetId)
+        try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RootVolumeConfiguration"].write(value.rootVolumeConfiguration, with: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration.write(value:to:))
         try writer["RouteTableIds"].writeList(value.routeTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
@@ -13472,6 +13361,7 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration {
         try writer["CopyTagsToVolumes"].write(value.copyTagsToVolumes)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RemoveRouteTableIds"].writeList(value.removeRouteTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)

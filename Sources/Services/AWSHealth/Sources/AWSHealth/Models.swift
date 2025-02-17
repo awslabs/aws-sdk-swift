@@ -106,8 +106,7 @@ extension HealthClientTypes {
             accountId: Swift.String? = nil,
             count: Swift.Int = 0,
             statuses: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.count = count
             self.statuses = statuses
@@ -148,8 +147,7 @@ extension HealthClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EntityStatusCode? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.entityArn = entityArn
             self.entityMetadata = entityMetadata
@@ -164,9 +162,9 @@ extension HealthClientTypes {
 }
 
 /// The specified pagination token (nextToken) is not valid.
-public struct InvalidPaginationToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -181,8 +179,7 @@ public struct InvalidPaginationToken: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -200,8 +197,7 @@ public struct DescribeAffectedAccountsForOrganizationInput: Swift.Sendable {
         eventArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventArn = eventArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -258,8 +254,7 @@ public struct DescribeAffectedAccountsForOrganizationOutput: Swift.Sendable {
         affectedAccounts: [Swift.String]? = nil,
         eventScopeCode: HealthClientTypes.EventScopeCode? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.affectedAccounts = affectedAccounts
         self.eventScopeCode = eventScopeCode
         self.nextToken = nextToken
@@ -267,9 +262,9 @@ public struct DescribeAffectedAccountsForOrganizationOutput: Swift.Sendable {
 }
 
 /// The specified locale is not supported.
-public struct UnsupportedLocale: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedLocale: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -284,8 +279,7 @@ public struct UnsupportedLocale: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -302,8 +296,7 @@ extension HealthClientTypes {
         public init(
             from: Foundation.Date? = nil,
             to: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -335,8 +328,7 @@ extension HealthClientTypes {
             lastUpdatedTimes: [HealthClientTypes.DateTimeRange]? = nil,
             statusCodes: [HealthClientTypes.EntityStatusCode]? = nil,
             tags: [[Swift.String: Swift.String]]? = nil
-        )
-        {
+        ) {
             self.entityArns = entityArns
             self.entityValues = entityValues
             self.eventArns = eventArns
@@ -363,8 +355,7 @@ public struct DescribeAffectedEntitiesInput: Swift.Sendable {
         locale: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.locale = locale
         self.maxResults = maxResults
@@ -381,8 +372,7 @@ public struct DescribeAffectedEntitiesOutput: Swift.Sendable {
     public init(
         entities: [HealthClientTypes.AffectedEntity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.nextToken = nextToken
     }
@@ -404,8 +394,7 @@ extension HealthClientTypes {
             awsAccountId: Swift.String? = nil,
             eventArn: Swift.String? = nil,
             statusCodes: [HealthClientTypes.EntityStatusCode]? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.eventArn = eventArn
             self.statusCodes = statusCodes
@@ -426,8 +415,7 @@ extension HealthClientTypes {
         public init(
             awsAccountId: Swift.String? = nil,
             eventArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.eventArn = eventArn
         }
@@ -453,8 +441,7 @@ public struct DescribeAffectedEntitiesForOrganizationInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         organizationEntityAccountFilters: [HealthClientTypes.EntityAccountFilter]? = nil,
         organizationEntityFilters: [HealthClientTypes.EventAccountFilter]? = nil
-    )
-    {
+    ) {
         self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -481,8 +468,7 @@ extension HealthClientTypes {
             errorMessage: Swift.String? = nil,
             errorName: Swift.String? = nil,
             eventArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.errorMessage = errorMessage
             self.errorName = errorName
@@ -503,8 +489,7 @@ public struct DescribeAffectedEntitiesForOrganizationOutput: Swift.Sendable {
         entities: [HealthClientTypes.AffectedEntity]? = nil,
         failedSet: [HealthClientTypes.OrganizationAffectedEntitiesErrorItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.failedSet = failedSet
         self.nextToken = nextToken
@@ -517,8 +502,7 @@ public struct DescribeEntityAggregatesInput: Swift.Sendable {
 
     public init(
         eventArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.eventArns = eventArns
     }
 }
@@ -538,8 +522,7 @@ extension HealthClientTypes {
             count: Swift.Int = 0,
             eventArn: Swift.String? = nil,
             statuses: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.eventArn = eventArn
             self.statuses = statuses
@@ -553,8 +536,7 @@ public struct DescribeEntityAggregatesOutput: Swift.Sendable {
 
     public init(
         entityAggregates: [HealthClientTypes.EntityAggregate]? = nil
-    )
-    {
+    ) {
         self.entityAggregates = entityAggregates
     }
 }
@@ -569,8 +551,7 @@ public struct DescribeEntityAggregatesForOrganizationInput: Swift.Sendable {
     public init(
         awsAccountIds: [Swift.String]? = nil,
         eventArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.awsAccountIds = awsAccountIds
         self.eventArns = eventArns
     }
@@ -594,8 +575,7 @@ extension HealthClientTypes {
             count: Swift.Int = 0,
             eventArn: Swift.String? = nil,
             statuses: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.accounts = accounts
             self.count = count
             self.eventArn = eventArn
@@ -610,8 +590,7 @@ public struct DescribeEntityAggregatesForOrganizationOutput: Swift.Sendable {
 
     public init(
         organizationEntityAggregates: [HealthClientTypes.OrganizationEntityAggregate]? = nil
-    )
-    {
+    ) {
         self.organizationEntityAggregates = organizationEntityAggregates
     }
 }
@@ -754,8 +733,7 @@ extension HealthClientTypes {
             services: [Swift.String]? = nil,
             startTimes: [HealthClientTypes.DateTimeRange]? = nil,
             tags: [[Swift.String: Swift.String]]? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.endTimes = endTimes
             self.entityArns = entityArns
@@ -789,8 +767,7 @@ public struct DescribeEventAggregatesInput: Swift.Sendable {
         filter: HealthClientTypes.EventFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregateField = aggregateField
         self.filter = filter
         self.maxResults = maxResults
@@ -810,8 +787,7 @@ extension HealthClientTypes {
         public init(
             aggregateValue: Swift.String? = nil,
             count: Swift.Int = 0
-        )
-        {
+        ) {
             self.aggregateValue = aggregateValue
             self.count = count
         }
@@ -827,8 +803,7 @@ public struct DescribeEventAggregatesOutput: Swift.Sendable {
     public init(
         eventAggregates: [HealthClientTypes.EventAggregate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventAggregates = eventAggregates
         self.nextToken = nextToken
     }
@@ -844,8 +819,7 @@ public struct DescribeEventDetailsInput: Swift.Sendable {
     public init(
         eventArns: [Swift.String]? = nil,
         locale: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventArns = eventArns
         self.locale = locale
     }
@@ -866,8 +840,7 @@ extension HealthClientTypes {
             errorMessage: Swift.String? = nil,
             errorName: Swift.String? = nil,
             eventArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorName = errorName
             self.eventArn = eventArn
@@ -927,8 +900,7 @@ extension HealthClientTypes {
             service: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EventStatusCode? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.endTime = endTime
@@ -953,8 +925,7 @@ extension HealthClientTypes {
 
         public init(
             latestDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestDescription = latestDescription
         }
     }
@@ -975,8 +946,7 @@ extension HealthClientTypes {
             event: HealthClientTypes.Event? = nil,
             eventDescription: HealthClientTypes.EventDescription? = nil,
             eventMetadata: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.event = event
             self.eventDescription = eventDescription
             self.eventMetadata = eventMetadata
@@ -993,8 +963,7 @@ public struct DescribeEventDetailsOutput: Swift.Sendable {
     public init(
         failedSet: [HealthClientTypes.EventDetailsErrorItem]? = nil,
         successfulSet: [HealthClientTypes.EventDetails]? = nil
-    )
-    {
+    ) {
         self.failedSet = failedSet
         self.successfulSet = successfulSet
     }
@@ -1010,8 +979,7 @@ public struct DescribeEventDetailsForOrganizationInput: Swift.Sendable {
     public init(
         locale: Swift.String? = nil,
         organizationEventDetailFilters: [HealthClientTypes.EventAccountFilter]? = nil
-    )
-    {
+    ) {
         self.locale = locale
         self.organizationEventDetailFilters = organizationEventDetailFilters
     }
@@ -1041,8 +1009,7 @@ extension HealthClientTypes {
             errorMessage: Swift.String? = nil,
             errorName: Swift.String? = nil,
             eventArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.errorMessage = errorMessage
             self.errorName = errorName
@@ -1076,8 +1043,7 @@ extension HealthClientTypes {
             event: HealthClientTypes.Event? = nil,
             eventDescription: HealthClientTypes.EventDescription? = nil,
             eventMetadata: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.event = event
             self.eventDescription = eventDescription
@@ -1095,8 +1061,7 @@ public struct DescribeEventDetailsForOrganizationOutput: Swift.Sendable {
     public init(
         failedSet: [HealthClientTypes.OrganizationEventDetailsErrorItem]? = nil,
         successfulSet: [HealthClientTypes.OrganizationEventDetails]? = nil
-    )
-    {
+    ) {
         self.failedSet = failedSet
         self.successfulSet = successfulSet
     }
@@ -1117,8 +1082,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         locale: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.locale = locale
         self.maxResults = maxResults
@@ -1135,8 +1099,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [HealthClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -1181,8 +1144,7 @@ extension HealthClientTypes {
             regions: [Swift.String]? = nil,
             services: [Swift.String]? = nil,
             startTime: HealthClientTypes.DateTimeRange? = nil
-        )
-        {
+        ) {
             self.awsAccountIds = awsAccountIds
             self.endTime = endTime
             self.entityArns = entityArns
@@ -1213,8 +1175,7 @@ public struct DescribeEventsForOrganizationInput: Swift.Sendable {
         locale: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.locale = locale
         self.maxResults = maxResults
@@ -1264,8 +1225,7 @@ extension HealthClientTypes {
             service: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EventStatusCode? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.endTime = endTime
             self.eventScopeCode = eventScopeCode
@@ -1289,8 +1249,7 @@ public struct DescribeEventsForOrganizationOutput: Swift.Sendable {
     public init(
         events: [HealthClientTypes.OrganizationEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -1311,8 +1270,7 @@ extension HealthClientTypes {
             eventTypeCategories: [HealthClientTypes.EventTypeCategory]? = nil,
             eventTypeCodes: [Swift.String]? = nil,
             services: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
             self.services = services
@@ -1335,8 +1293,7 @@ public struct DescribeEventTypesInput: Swift.Sendable {
         locale: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.locale = locale
         self.maxResults = maxResults
@@ -1359,8 +1316,7 @@ extension HealthClientTypes {
             category: HealthClientTypes.EventTypeCategory? = nil,
             code: Swift.String? = nil,
             service: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.code = code
             self.service = service
@@ -1377,8 +1333,7 @@ public struct DescribeEventTypesOutput: Swift.Sendable {
     public init(
         eventTypes: [HealthClientTypes.EventType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventTypes = eventTypes
         self.nextToken = nextToken
     }
@@ -1390,16 +1345,15 @@ public struct DescribeHealthServiceStatusForOrganizationOutput: Swift.Sendable {
 
     public init(
         healthServiceAccessStatusForOrganization: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthServiceAccessStatusForOrganization = healthServiceAccessStatusForOrganization
     }
 }
 
 /// [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1414,8 +1368,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }

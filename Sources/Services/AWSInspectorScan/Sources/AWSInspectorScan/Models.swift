@@ -23,9 +23,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.Document
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -41,8 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -77,9 +76,9 @@ extension InspectorScanClientTypes {
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the validation failure.
@@ -102,8 +101,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
         message: Swift.String? = nil,
         reason: InspectorScanClientTypes.InternalServerExceptionReason? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -111,9 +109,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the request.
@@ -132,8 +130,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -153,8 +150,7 @@ extension InspectorScanClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -200,9 +196,9 @@ extension InspectorScanClientTypes {
 }
 
 /// The request has failed validation due to missing required fields or having invalid inputs.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that failed validation.
         public internal(set) var fields: [InspectorScanClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -225,8 +221,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [InspectorScanClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: InspectorScanClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -272,8 +267,7 @@ public struct ScanSbomInput: Swift.Sendable {
     public init(
         outputFormat: InspectorScanClientTypes.OutputFormat? = nil,
         sbom: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.outputFormat = outputFormat
         self.sbom = sbom
     }
@@ -285,8 +279,7 @@ public struct ScanSbomOutput: Swift.Sendable {
 
     public init(
         sbom: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.sbom = sbom
     }
 }

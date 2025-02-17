@@ -81,9 +81,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// Returned if the access point that you are trying to create already exists, with the creation token you provided in the request.
-public struct AccessPointAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessPointAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var accessPointId: Swift.String? = nil
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
@@ -106,8 +106,7 @@ public struct AccessPointAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
         accessPointId: Swift.String? = nil,
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.accessPointId = accessPointId
         self.properties.errorCode = errorCode
         self.properties.message = message
@@ -172,8 +171,7 @@ extension EFSClientTypes {
             gid: Swift.Int? = nil,
             secondaryGids: [Swift.Int]? = nil,
             uid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gid = gid
             self.secondaryGids = secondaryGids
             self.uid = uid
@@ -199,8 +197,7 @@ extension EFSClientTypes {
             ownerGid: Swift.Int? = nil,
             ownerUid: Swift.Int? = nil,
             permissions: Swift.String? = nil
-        )
-        {
+        ) {
             self.ownerGid = ownerGid
             self.ownerUid = ownerUid
             self.permissions = permissions
@@ -220,8 +217,7 @@ extension EFSClientTypes {
         public init(
             creationInfo: EFSClientTypes.CreationInfo? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationInfo = creationInfo
             self.path = path
         }
@@ -242,8 +238,7 @@ extension EFSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -286,8 +281,7 @@ extension EFSClientTypes {
             posixUser: EFSClientTypes.PosixUser? = nil,
             rootDirectory: EFSClientTypes.RootDirectory? = nil,
             tags: [EFSClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accessPointArn = accessPointArn
             self.accessPointId = accessPointId
             self.clientToken = clientToken
@@ -303,9 +297,9 @@ extension EFSClientTypes {
 }
 
 /// Returned if the Amazon Web Services account has already created the maximum number of access points allowed per file system. For more informaton, see [https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region).
-public struct AccessPointLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessPointLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -325,17 +319,16 @@ public struct AccessPointLimitExceeded: ClientRuntime.ModeledError, AWSClientRun
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
-public struct AccessPointNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessPointNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -355,17 +348,16 @@ public struct AccessPointNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the Availability Zone that was specified for a mount target is different from the Availability Zone that was specified for One Zone storage. For more information, see [Regional and One Zone storage redundancy](https://docs.aws.amazon.com/efs/latest/ug/availability-durability.html).
-public struct AvailabilityZonesMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AvailabilityZonesMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         public internal(set) var errorCode: Swift.String? = nil
         /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
@@ -384,8 +376,7 @@ public struct AvailabilityZonesMismatch: ClientRuntime.ModeledError, AWSClientRu
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -444,17 +435,16 @@ extension EFSClientTypes {
 
         public init(
             status: EFSClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
 }
 
 /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
-public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -474,17 +464,16 @@ public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the source file system in a replication is encrypted but the destination file system is unencrypted.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         public internal(set) var errorCode: Swift.String? = nil
         /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
@@ -503,17 +492,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
-public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -533,17 +521,16 @@ public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the file system's lifecycle state is not "available".
-public struct IncorrectFileSystemLifeCycleState: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncorrectFileSystemLifeCycleState: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -563,17 +550,16 @@ public struct IncorrectFileSystemLifeCycleState: ClientRuntime.ModeledError, AWS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if an error occurred on the server side.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -593,17 +579,16 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned when the CreateAccessPoint API action is called too quickly and the number of Access Points on the file system is nearing the [limit of 120](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region).
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         public internal(set) var errorCode: Swift.String? = nil
         /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
@@ -622,8 +607,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -649,8 +633,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
         posixUser: EFSClientTypes.PosixUser? = nil,
         rootDirectory: EFSClientTypes.RootDirectory? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.fileSystemId = fileSystemId
         self.posixUser = posixUser
@@ -693,8 +676,7 @@ public struct CreateAccessPointOutput: Swift.Sendable {
         posixUser: EFSClientTypes.PosixUser? = nil,
         rootDirectory: EFSClientTypes.RootDirectory? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accessPointArn = accessPointArn
         self.accessPointId = accessPointId
         self.clientToken = clientToken
@@ -709,9 +691,9 @@ public struct CreateAccessPointOutput: Swift.Sendable {
 }
 
 /// Returned if the file system you are trying to create already exists, with the creation token you provided.
-public struct FileSystemAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileSystemAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -734,8 +716,7 @@ public struct FileSystemAlreadyExists: ClientRuntime.ModeledError, AWSClientRunt
         errorCode: Swift.String? = nil,
         fileSystemId: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.fileSystemId = fileSystemId
         self.properties.message = message
@@ -743,9 +724,9 @@ public struct FileSystemAlreadyExists: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Returned if the Amazon Web Services account has already created the maximum number of file systems allowed per account.
-public struct FileSystemLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileSystemLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -765,17 +746,16 @@ public struct FileSystemLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
-public struct InsufficientThroughputCapacity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientThroughputCapacity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -795,17 +775,16 @@ public struct InsufficientThroughputCapacity: ClientRuntime.ModeledError, AWSCli
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
-public struct ThroughputLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThroughputLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -825,17 +804,16 @@ public struct ThroughputLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
-public struct UnsupportedAvailabilityZone: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedAvailabilityZone: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -855,8 +833,7 @@ public struct UnsupportedAvailabilityZone: ClientRuntime.ModeledError, AWSClient
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -965,8 +942,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
         provisionedThroughputInMibps: Swift.Double? = nil,
         tags: [EFSClientTypes.Tag]? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.availabilityZoneName = availabilityZoneName
         self.backup = backup
         self.creationToken = creationToken
@@ -1029,8 +1005,7 @@ extension EFSClientTypes {
 
         public init(
             replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection? = nil
-        )
-        {
+        ) {
             self.replicationOverwriteProtection = replicationOverwriteProtection
         }
     }
@@ -1058,8 +1033,7 @@ extension EFSClientTypes {
             valueInArchive: Swift.Int? = nil,
             valueInIA: Swift.Int? = nil,
             valueInStandard: Swift.Int? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
             self.valueInArchive = valueInArchive
@@ -1136,8 +1110,7 @@ public struct CreateFileSystemOutput: Swift.Sendable {
         sizeInBytes: EFSClientTypes.FileSystemSize? = nil,
         tags: [EFSClientTypes.Tag]? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.availabilityZoneName = availabilityZoneName
         self.creationTime = creationTime
@@ -1160,9 +1133,9 @@ public struct CreateFileSystemOutput: Swift.Sendable {
 }
 
 /// Returned if the request specified an IpAddress that is already in use in the subnet.
-public struct IpAddressInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IpAddressInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1182,17 +1155,16 @@ public struct IpAddressInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the mount target would violate one of the specified restrictions based on the file system's existing mount targets.
-public struct MountTargetConflict: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MountTargetConflict: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1212,17 +1184,16 @@ public struct MountTargetConflict: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. Either delete some network interfaces or request that the account quota be raised. For more information, see [Amazon VPC Quotas](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html) in the Amazon VPC User Guide (see the Network interfaces per Region entry in the Network interfaces table).
-public struct NetworkInterfaceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NetworkInterfaceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1242,17 +1213,16 @@ public struct NetworkInterfaceLimitExceeded: ClientRuntime.ModeledError, AWSClie
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if IpAddress was not specified in the request and there are no free IP addresses in the subnet.
-public struct NoFreeAddressesInSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoFreeAddressesInSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1272,17 +1242,16 @@ public struct NoFreeAddressesInSubnet: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the size of SecurityGroups specified in the request is greater than five.
-public struct SecurityGroupLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SecurityGroupLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1302,17 +1271,16 @@ public struct SecurityGroupLimitExceeded: ClientRuntime.ModeledError, AWSClientR
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
-public struct SecurityGroupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SecurityGroupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1332,17 +1300,16 @@ public struct SecurityGroupNotFound: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if there is no subnet with ID SubnetId provided in the request.
-public struct SubnetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1362,8 +1329,7 @@ public struct SubnetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1387,8 +1353,7 @@ public struct CreateMountTargetInput: Swift.Sendable {
         ipAddress: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil,
         subnetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.ipAddress = ipAddress
         self.securityGroups = securityGroups
@@ -1434,8 +1399,7 @@ public struct CreateMountTargetOutput: Swift.Sendable {
         ownerId: Swift.String? = nil,
         subnetId: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.availabilityZoneName = availabilityZoneName
         self.fileSystemId = fileSystemId
@@ -1450,9 +1414,9 @@ public struct CreateMountTargetOutput: Swift.Sendable {
 }
 
 /// Returned if the specified file system does not have a replication configuration.
-public struct ReplicationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplicationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// ReplicationNotFound
         public internal(set) var errorCode: Swift.String? = nil
         /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
@@ -1471,17 +1435,16 @@ public struct ReplicationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1501,8 +1464,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1543,8 +1505,7 @@ extension EFSClientTypes {
             kmsKeyId: Swift.String? = nil,
             region: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
             self.kmsKeyId = kmsKeyId
@@ -1565,8 +1526,7 @@ public struct CreateReplicationConfigurationInput: Swift.Sendable {
     public init(
         destinations: [EFSClientTypes.DestinationToCreate]? = nil,
         sourceFileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.sourceFileSystemId = sourceFileSystemId
     }
@@ -1643,8 +1603,7 @@ extension EFSClientTypes {
             roleArn: Swift.String? = nil,
             status: EFSClientTypes.ReplicationStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.lastReplicatedTimestamp = lastReplicatedTimestamp
             self.ownerId = ownerId
@@ -1687,8 +1646,7 @@ public struct CreateReplicationConfigurationOutput: Swift.Sendable {
         sourceFileSystemId: Swift.String? = nil,
         sourceFileSystemOwnerId: Swift.String? = nil,
         sourceFileSystemRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.destinations = destinations
         self.originalSourceFileSystemArn = originalSourceFileSystemArn
@@ -1711,8 +1669,7 @@ public struct CreateTagsInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.tags = tags
     }
@@ -1725,16 +1682,15 @@ public struct DeleteAccessPointInput: Swift.Sendable {
 
     public init(
         accessPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointId = accessPointId
     }
 }
 
 /// Returned if a file system has mount targets.
-public struct FileSystemInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileSystemInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1754,8 +1710,7 @@ public struct FileSystemInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1769,8 +1724,7 @@ public struct DeleteFileSystemInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -1782,16 +1736,15 @@ public struct DeleteFileSystemPolicyInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
 
 /// The service timed out trying to fulfill the request, and the client should try the call again.
-public struct DependencyTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1811,17 +1764,16 @@ public struct DependencyTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
 }
 
 /// Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
-public struct MountTargetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MountTargetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1841,8 +1793,7 @@ public struct MountTargetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -1856,8 +1807,7 @@ public struct DeleteMountTargetInput: Swift.Sendable {
 
     public init(
         mountTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mountTargetId = mountTargetId
     }
 }
@@ -1901,8 +1851,7 @@ public struct DeleteReplicationConfigurationInput: Swift.Sendable {
     public init(
         deletionMode: EFSClientTypes.DeletionMode? = nil,
         sourceFileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionMode = deletionMode
         self.sourceFileSystemId = sourceFileSystemId
     }
@@ -1920,8 +1869,7 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.tagKeys = tagKeys
     }
@@ -1942,8 +1890,7 @@ public struct DescribeAccessPointsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointId = accessPointId
         self.fileSystemId = fileSystemId
         self.maxResults = maxResults
@@ -1960,8 +1907,7 @@ public struct DescribeAccessPointsOutput: Swift.Sendable {
     public init(
         accessPoints: [EFSClientTypes.AccessPointDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPoints = accessPoints
         self.nextToken = nextToken
     }
@@ -1976,8 +1922,7 @@ public struct DescribeAccountPreferencesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2055,8 +2000,7 @@ extension EFSClientTypes {
         public init(
             resourceIdType: EFSClientTypes.ResourceIdType? = nil,
             resources: [EFSClientTypes.Resource]? = nil
-        )
-        {
+        ) {
             self.resourceIdType = resourceIdType
             self.resources = resources
         }
@@ -2072,17 +2016,16 @@ public struct DescribeAccountPreferencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceIdPreference: EFSClientTypes.ResourceIdPreference? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceIdPreference = resourceIdPreference
     }
 }
 
 /// Returned if the default file system policy is in effect for the EFS file system specified.
-public struct PolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         public internal(set) var errorCode: Swift.String? = nil
         /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
@@ -2101,8 +2044,7 @@ public struct PolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -2115,8 +2057,7 @@ public struct DescribeBackupPolicyInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -2127,8 +2068,7 @@ public struct DescribeBackupPolicyOutput: Swift.Sendable {
 
     public init(
         backupPolicy: EFSClientTypes.BackupPolicy? = nil
-    )
-    {
+    ) {
         self.backupPolicy = backupPolicy
     }
 }
@@ -2140,8 +2080,7 @@ public struct DescribeFileSystemPolicyInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -2155,8 +2094,7 @@ public struct DescribeFileSystemPolicyOutput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.policy = policy
     }
@@ -2178,8 +2116,7 @@ public struct DescribeFileSystemsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.creationToken = creationToken
         self.fileSystemId = fileSystemId
         self.marker = marker
@@ -2256,8 +2193,7 @@ extension EFSClientTypes {
             sizeInBytes: EFSClientTypes.FileSystemSize? = nil,
             tags: [EFSClientTypes.Tag]? = nil,
             throughputMode: EFSClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
             self.creationTime = creationTime
@@ -2292,8 +2228,7 @@ public struct DescribeFileSystemsOutput: Swift.Sendable {
         fileSystems: [EFSClientTypes.FileSystemDescription]? = nil,
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystems = fileSystems
         self.marker = marker
         self.nextMarker = nextMarker
@@ -2307,8 +2242,7 @@ public struct DescribeLifecycleConfigurationInput: Swift.Sendable {
 
     public init(
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
     }
 }
@@ -2454,8 +2388,7 @@ extension EFSClientTypes {
             transitionToArchive: EFSClientTypes.TransitionToArchiveRules? = nil,
             transitionToIA: EFSClientTypes.TransitionToIARules? = nil,
             transitionToPrimaryStorageClass: EFSClientTypes.TransitionToPrimaryStorageClassRules? = nil
-        )
-        {
+        ) {
             self.transitionToArchive = transitionToArchive
             self.transitionToIA = transitionToIA
             self.transitionToPrimaryStorageClass = transitionToPrimaryStorageClass
@@ -2469,8 +2402,7 @@ public struct DescribeLifecycleConfigurationOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicies = lifecyclePolicies
     }
 }
@@ -2494,8 +2426,7 @@ public struct DescribeMountTargetsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         mountTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPointId = accessPointId
         self.fileSystemId = fileSystemId
         self.marker = marker
@@ -2544,8 +2475,7 @@ extension EFSClientTypes {
             ownerId: Swift.String? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
@@ -2573,8 +2503,7 @@ public struct DescribeMountTargetsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         mountTargets: [EFSClientTypes.MountTargetDescription]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.mountTargets = mountTargets
         self.nextMarker = nextMarker
@@ -2582,9 +2511,9 @@ public struct DescribeMountTargetsOutput: Swift.Sendable {
 }
 
 /// Returned if the mount target is not in the correct state for the operation.
-public struct IncorrectMountTargetState: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncorrectMountTargetState: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -2604,8 +2533,7 @@ public struct IncorrectMountTargetState: ClientRuntime.ModeledError, AWSClientRu
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -2619,8 +2547,7 @@ public struct DescribeMountTargetSecurityGroupsInput: Swift.Sendable {
 
     public init(
         mountTargetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mountTargetId = mountTargetId
     }
 }
@@ -2632,8 +2559,7 @@ public struct DescribeMountTargetSecurityGroupsOutput: Swift.Sendable {
 
     public init(
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.securityGroups = securityGroups
     }
 }
@@ -2650,8 +2576,7 @@ public struct DescribeReplicationConfigurationsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2691,8 +2616,7 @@ extension EFSClientTypes {
             sourceFileSystemId: Swift.String? = nil,
             sourceFileSystemOwnerId: Swift.String? = nil,
             sourceFileSystemRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.destinations = destinations
             self.originalSourceFileSystemArn = originalSourceFileSystemArn
@@ -2713,8 +2637,7 @@ public struct DescribeReplicationConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replications: [EFSClientTypes.ReplicationConfigurationDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replications = replications
     }
@@ -2734,8 +2657,7 @@ public struct DescribeTagsInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.marker = marker
         self.maxItems = maxItems
@@ -2756,8 +2678,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         nextMarker: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.nextMarker = nextMarker
         self.tags = tags
@@ -2765,9 +2686,9 @@ public struct DescribeTagsOutput: Swift.Sendable {
 }
 
 /// Returned if the FileSystemPolicy is malformed or contains an error such as a parameter value that is not valid or a missing required parameter. Returned in the case of a policy lockout safety check error.
-public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         public internal(set) var errorCode: Swift.String? = nil
         /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
@@ -2786,8 +2707,7 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -2806,8 +2726,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -2823,8 +2742,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -2841,8 +2759,7 @@ public struct ModifyMountTargetSecurityGroupsInput: Swift.Sendable {
     public init(
         mountTargetId: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.mountTargetId = mountTargetId
         self.securityGroups = securityGroups
     }
@@ -2855,8 +2772,7 @@ public struct PutAccountPreferencesInput: Swift.Sendable {
 
     public init(
         resourceIdType: EFSClientTypes.ResourceIdType? = nil
-    )
-    {
+    ) {
         self.resourceIdType = resourceIdType
     }
 }
@@ -2867,8 +2783,7 @@ public struct PutAccountPreferencesOutput: Swift.Sendable {
 
     public init(
         resourceIdPreference: EFSClientTypes.ResourceIdPreference? = nil
-    )
-    {
+    ) {
         self.resourceIdPreference = resourceIdPreference
     }
 }
@@ -2884,8 +2799,7 @@ public struct PutBackupPolicyInput: Swift.Sendable {
     public init(
         backupPolicy: EFSClientTypes.BackupPolicy? = nil,
         fileSystemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupPolicy = backupPolicy
         self.fileSystemId = fileSystemId
     }
@@ -2897,8 +2811,7 @@ public struct PutBackupPolicyOutput: Swift.Sendable {
 
     public init(
         backupPolicy: EFSClientTypes.BackupPolicy? = nil
-    )
-    {
+    ) {
         self.backupPolicy = backupPolicy
     }
 }
@@ -2917,8 +2830,7 @@ public struct PutFileSystemPolicyInput: Swift.Sendable {
         bypassPolicyLockoutSafetyCheck: Swift.Bool? = false,
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.fileSystemId = fileSystemId
         self.policy = policy
@@ -2934,8 +2846,7 @@ public struct PutFileSystemPolicyOutput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.policy = policy
     }
@@ -2961,8 +2872,7 @@ public struct PutLifecycleConfigurationInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.lifecyclePolicies = lifecyclePolicies
     }
@@ -2974,8 +2884,7 @@ public struct PutLifecycleConfigurationOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicies = lifecyclePolicies
     }
 }
@@ -2991,8 +2900,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tags: [EFSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tags = tags
     }
@@ -3009,17 +2917,16 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeys = tagKeys
     }
 }
 
 /// Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
-public struct TooManyRequests: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequests: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -3039,8 +2946,7 @@ public struct TooManyRequests: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -3059,8 +2965,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         provisionedThroughputInMibps: Swift.Double? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.provisionedThroughputInMibps = provisionedThroughputInMibps
         self.throughputMode = throughputMode
@@ -3134,8 +3039,7 @@ public struct UpdateFileSystemOutput: Swift.Sendable {
         sizeInBytes: EFSClientTypes.FileSystemSize? = nil,
         tags: [EFSClientTypes.Tag]? = nil,
         throughputMode: EFSClientTypes.ThroughputMode? = nil
-    )
-    {
+    ) {
         self.availabilityZoneId = availabilityZoneId
         self.availabilityZoneName = availabilityZoneName
         self.creationTime = creationTime
@@ -3158,9 +3062,9 @@ public struct UpdateFileSystemOutput: Swift.Sendable {
 }
 
 /// Returned if the file system is already included in a replication configuration.>
-public struct ReplicationAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplicationAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.
         public internal(set) var errorCode: Swift.String? = nil
         /// The error message contains a generic description of the error condition in English. It is intended for a human audience. Simple programs display the message directly to the end user if they encounter an error condition they don't know how or don't care to handle. Sophisticated programs with more exhaustive error handling and proper internationalization are more likely to ignore the error message.
@@ -3179,8 +3083,7 @@ public struct ReplicationAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -3205,8 +3108,7 @@ public struct UpdateFileSystemProtectionInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection? = nil
-    )
-    {
+    ) {
         self.fileSystemId = fileSystemId
         self.replicationOverwriteProtection = replicationOverwriteProtection
     }
@@ -3228,8 +3130,7 @@ public struct UpdateFileSystemProtectionOutput: Swift.Sendable {
 
     public init(
         replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection? = nil
-    )
-    {
+    ) {
         self.replicationOverwriteProtection = replicationOverwriteProtection
     }
 }

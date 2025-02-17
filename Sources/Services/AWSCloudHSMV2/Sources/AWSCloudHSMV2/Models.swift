@@ -104,8 +104,7 @@ extension CloudHSMV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -161,8 +160,7 @@ extension CloudHSMV2ClientTypes {
             sourceCluster: Swift.String? = nil,
             sourceRegion: Swift.String? = nil,
             tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.backupArn = backupArn
             self.backupId = backupId
             self.backupState = backupState
@@ -245,8 +243,7 @@ extension CloudHSMV2ClientTypes {
         public init(
             type: CloudHSMV2ClientTypes.BackupRetentionType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -254,9 +251,9 @@ extension CloudHSMV2ClientTypes {
 }
 
 /// The request was rejected because the requester does not have permission to perform the requested operation.
-public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -271,16 +268,15 @@ public struct CloudHsmAccessDeniedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because of an CloudHSM internal failure. The request can be retried.
-public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -295,16 +291,15 @@ public struct CloudHsmInternalFailureException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because it is not a valid request.
-public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -319,16 +314,15 @@ public struct CloudHsmInvalidRequestException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because it refers to a resource that cannot be found.
-public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -343,16 +337,15 @@ public struct CloudHsmResourceNotFoundException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because an error occurred.
-public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -367,16 +360,15 @@ public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
-public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -391,8 +383,7 @@ public struct CloudHsmTagException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -411,8 +402,7 @@ public struct CopyBackupToRegionInput: Swift.Sendable {
         backupId: Swift.String? = nil,
         destinationRegion: Swift.String? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.destinationRegion = destinationRegion
         self.tagList = tagList
@@ -437,8 +427,7 @@ extension CloudHSMV2ClientTypes {
             sourceBackup: Swift.String? = nil,
             sourceCluster: Swift.String? = nil,
             sourceRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTimestamp = createTimestamp
             self.sourceBackup = sourceBackup
             self.sourceCluster = sourceCluster
@@ -453,9 +442,37 @@ public struct CopyBackupToRegionOutput: Swift.Sendable {
 
     public init(
         destinationBackup: CloudHSMV2ClientTypes.DestinationBackup? = nil
-    )
-    {
+    ) {
         self.destinationBackup = destinationBackup
+    }
+}
+
+extension CloudHSMV2ClientTypes {
+
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -467,6 +484,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var hsmType: Swift.String?
     /// The mode to use in the cluster. The allowed values are FIPS and NON_FIPS.
     public var mode: CloudHSMV2ClientTypes.ClusterMode?
+    /// The NetworkType to create a cluster with. The allowed values are IPV4 and DUALSTACK.
+    public var networkType: CloudHSMV2ClientTypes.NetworkType?
     /// The identifier (ID) or the Amazon Resource Name (ARN) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID or ARN, use [DescribeBackups]. If using a backup in another account, the full ARN must be supplied.
     public var sourceBackupId: Swift.String?
     /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:
@@ -483,14 +502,15 @@ public struct CreateClusterInput: Swift.Sendable {
         backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy? = nil,
         hsmType: Swift.String? = nil,
         mode: CloudHSMV2ClientTypes.ClusterMode? = nil,
+        networkType: CloudHSMV2ClientTypes.NetworkType? = nil,
         sourceBackupId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.backupRetentionPolicy = backupRetentionPolicy
         self.hsmType = hsmType
         self.mode = mode
+        self.networkType = networkType
         self.sourceBackupId = sourceBackupId
         self.subnetIds = subnetIds
         self.tagList = tagList
@@ -518,8 +538,7 @@ extension CloudHSMV2ClientTypes {
             clusterCsr: Swift.String? = nil,
             hsmCertificate: Swift.String? = nil,
             manufacturerHardwareCertificate: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsHardwareCertificate = awsHardwareCertificate
             self.clusterCertificate = clusterCertificate
             self.clusterCsr = clusterCsr
@@ -579,9 +598,13 @@ extension CloudHSMV2ClientTypes {
         public var eniId: Swift.String?
         /// The IP address of the HSM's elastic network interface (ENI).
         public var eniIp: Swift.String?
+        /// The IPv6 address (if any) of the HSM's elastic network interface (ENI).
+        public var eniIpV6: Swift.String?
         /// The HSM's identifier (ID).
         /// This member is required.
         public var hsmId: Swift.String?
+        /// The type of HSM.
+        public var hsmType: Swift.String?
         /// The HSM's state.
         public var state: CloudHSMV2ClientTypes.HsmState?
         /// A description of the HSM's state.
@@ -594,17 +617,20 @@ extension CloudHSMV2ClientTypes {
             clusterId: Swift.String? = nil,
             eniId: Swift.String? = nil,
             eniIp: Swift.String? = nil,
+            eniIpV6: Swift.String? = nil,
             hsmId: Swift.String? = nil,
+            hsmType: Swift.String? = nil,
             state: CloudHSMV2ClientTypes.HsmState? = nil,
             stateMessage: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.clusterId = clusterId
             self.eniId = eniId
             self.eniIp = eniIp
+            self.eniIpV6 = eniIpV6
             self.hsmId = hsmId
+            self.hsmType = hsmType
             self.state = state
             self.stateMessage = stateMessage
             self.subnetId = subnetId
@@ -622,6 +648,8 @@ extension CloudHSMV2ClientTypes {
         case deleteInProgress
         case initialized
         case initializeInProgress
+        case modifyInProgress
+        case rollbackInProgress
         case uninitialized
         case updateInProgress
         case sdkUnknown(Swift.String)
@@ -635,6 +663,8 @@ extension CloudHSMV2ClientTypes {
                 .deleteInProgress,
                 .initialized,
                 .initializeInProgress,
+                .modifyInProgress,
+                .rollbackInProgress,
                 .uninitialized,
                 .updateInProgress
             ]
@@ -654,6 +684,8 @@ extension CloudHSMV2ClientTypes {
             case .deleteInProgress: return "DELETE_IN_PROGRESS"
             case .initialized: return "INITIALIZED"
             case .initializeInProgress: return "INITIALIZE_IN_PROGRESS"
+            case .modifyInProgress: return "MODIFY_IN_PROGRESS"
+            case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
             case .uninitialized: return "UNINITIALIZED"
             case .updateInProgress: return "UPDATE_IN_PROGRESS"
             case let .sdkUnknown(s): return s
@@ -678,10 +710,14 @@ extension CloudHSMV2ClientTypes {
         public var createTimestamp: Foundation.Date?
         /// The type of HSM that the cluster contains.
         public var hsmType: Swift.String?
+        /// The timestamp until when the cluster can be rolled back to its original HSM type.
+        public var hsmTypeRollbackExpiration: Foundation.Date?
         /// Contains information about the HSMs in the cluster.
         public var hsms: [CloudHSMV2ClientTypes.Hsm]?
         /// The mode of the cluster.
         public var mode: CloudHSMV2ClientTypes.ClusterMode?
+        /// The cluster's NetworkType can be IPv4 (the default) or DUALSTACK. The IPv4 NetworkType restricts communication between your application and the hardware security modules (HSMs) to the IPv4 protocol only. The DUALSTACK NetworkType enables communication over both IPv4 and IPv6 protocols. To use DUALSTACK, configure your virtual private cloud (VPC) and subnets to support both IPv4 and IPv6. This configuration involves adding IPv6 Classless Inter-Domain Routing (CIDR) blocks to the existing IPv4 CIDR blocks in your subnets. The NetworkType you choose affects the network addressing options for your cluster. DUALSTACK provides more flexibility by supporting both IPv4 and IPv6 communication.
+        public var networkType: CloudHSMV2ClientTypes.NetworkType?
         /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
         public var preCoPassword: Swift.String?
         /// The identifier (ID) of the cluster's security group.
@@ -706,8 +742,10 @@ extension CloudHSMV2ClientTypes {
             clusterId: Swift.String? = nil,
             createTimestamp: Foundation.Date? = nil,
             hsmType: Swift.String? = nil,
+            hsmTypeRollbackExpiration: Foundation.Date? = nil,
             hsms: [CloudHSMV2ClientTypes.Hsm]? = nil,
             mode: CloudHSMV2ClientTypes.ClusterMode? = nil,
+            networkType: CloudHSMV2ClientTypes.NetworkType? = nil,
             preCoPassword: Swift.String? = nil,
             securityGroup: Swift.String? = nil,
             sourceBackupId: Swift.String? = nil,
@@ -716,16 +754,17 @@ extension CloudHSMV2ClientTypes {
             subnetMapping: [Swift.String: Swift.String]? = nil,
             tagList: [CloudHSMV2ClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupPolicy = backupPolicy
             self.backupRetentionPolicy = backupRetentionPolicy
             self.certificates = certificates
             self.clusterId = clusterId
             self.createTimestamp = createTimestamp
             self.hsmType = hsmType
+            self.hsmTypeRollbackExpiration = hsmTypeRollbackExpiration
             self.hsms = hsms
             self.mode = mode
+            self.networkType = networkType
             self.preCoPassword = preCoPassword
             self.securityGroup = securityGroup
             self.sourceBackupId = sourceBackupId
@@ -744,8 +783,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: CloudHSMV2ClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -764,8 +802,7 @@ public struct CreateHsmInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         clusterId: Swift.String? = nil,
         ipAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.clusterId = clusterId
         self.ipAddress = ipAddress
@@ -778,8 +815,7 @@ public struct CreateHsmOutput: Swift.Sendable {
 
     public init(
         hsm: CloudHSMV2ClientTypes.Hsm? = nil
-    )
-    {
+    ) {
         self.hsm = hsm
     }
 }
@@ -791,8 +827,7 @@ public struct DeleteBackupInput: Swift.Sendable {
 
     public init(
         backupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
     }
 }
@@ -803,8 +838,7 @@ public struct DeleteBackupOutput: Swift.Sendable {
 
     public init(
         backup: CloudHSMV2ClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
@@ -816,8 +850,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -828,8 +861,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: CloudHSMV2ClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -850,8 +882,7 @@ public struct DeleteHsmInput: Swift.Sendable {
         eniId: Swift.String? = nil,
         eniIp: Swift.String? = nil,
         hsmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.eniId = eniId
         self.eniIp = eniIp
@@ -865,8 +896,7 @@ public struct DeleteHsmOutput: Swift.Sendable {
 
     public init(
         hsmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmId = hsmId
     }
 }
@@ -877,8 +907,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -892,8 +921,7 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -917,8 +945,7 @@ public struct DescribeBackupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         shared: Swift.Bool? = nil,
         sortAscending: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -936,8 +963,7 @@ public struct DescribeBackupsOutput: Swift.Sendable {
     public init(
         backups: [CloudHSMV2ClientTypes.Backup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backups = backups
         self.nextToken = nextToken
     }
@@ -955,8 +981,7 @@ public struct DescribeClustersInput: Swift.Sendable {
         filters: [Swift.String: [Swift.String]]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -972,8 +997,7 @@ public struct DescribeClustersOutput: Swift.Sendable {
     public init(
         clusters: [CloudHSMV2ClientTypes.Cluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -985,8 +1009,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -997,8 +1020,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1018,8 +1040,7 @@ public struct InitializeClusterInput: Swift.Sendable {
         clusterId: Swift.String? = nil,
         signedCert: Swift.String? = nil,
         trustAnchor: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.signedCert = signedCert
         self.trustAnchor = trustAnchor
@@ -1035,8 +1056,7 @@ public struct InitializeClusterOutput: Swift.Sendable {
     public init(
         state: CloudHSMV2ClientTypes.ClusterState? = nil,
         stateMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.state = state
         self.stateMessage = stateMessage
     }
@@ -1055,8 +1075,7 @@ public struct ListTagsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -1073,8 +1092,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tagList = tagList
     }
@@ -1091,8 +1109,7 @@ public struct ModifyBackupAttributesInput: Swift.Sendable {
     public init(
         backupId: Swift.String? = nil,
         neverExpires: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.neverExpires = neverExpires
     }
@@ -1104,27 +1121,28 @@ public struct ModifyBackupAttributesOutput: Swift.Sendable {
 
     public init(
         backup: CloudHSMV2ClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
 
 public struct ModifyClusterInput: Swift.Sendable {
     /// A policy that defines how the service retains backups.
-    /// This member is required.
     public var backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy?
     /// The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use [DescribeClusters].
     /// This member is required.
     public var clusterId: Swift.String?
+    /// The desired HSM type of the cluster.
+    public var hsmType: Swift.String?
 
     public init(
         backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy? = nil,
-        clusterId: Swift.String? = nil
-    )
-    {
+        clusterId: Swift.String? = nil,
+        hsmType: Swift.String? = nil
+    ) {
         self.backupRetentionPolicy = backupRetentionPolicy
         self.clusterId = clusterId
+        self.hsmType = hsmType
     }
 }
 
@@ -1134,8 +1152,7 @@ public struct ModifyClusterOutput: Swift.Sendable {
 
     public init(
         cluster: CloudHSMV2ClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -1149,8 +1166,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -1165,8 +1181,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -1179,8 +1194,7 @@ public struct RestoreBackupInput: Swift.Sendable {
 
     public init(
         backupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
     }
 }
@@ -1191,9 +1205,31 @@ public struct RestoreBackupOutput: Swift.Sendable {
 
     public init(
         backup: CloudHSMV2ClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
+    }
+}
+
+/// The request was rejected because it exceeds an CloudHSM limit.
+public struct CloudHsmResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudHsmResourceLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -1208,8 +1244,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagList = tagList
     }
@@ -1231,8 +1266,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeyList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeyList = tagKeyList
     }
@@ -1386,6 +1420,7 @@ extension CreateClusterInput {
         try writer["BackupRetentionPolicy"].write(value.backupRetentionPolicy, with: CloudHSMV2ClientTypes.BackupRetentionPolicy.write(value:to:))
         try writer["HsmType"].write(value.hsmType)
         try writer["Mode"].write(value.mode)
+        try writer["NetworkType"].write(value.networkType)
         try writer["SourceBackupId"].write(value.sourceBackupId)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TagList"].writeList(value.tagList, memberWritingClosure: CloudHSMV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1502,6 +1537,7 @@ extension ModifyClusterInput {
         guard let value else { return }
         try writer["BackupRetentionPolicy"].write(value.backupRetentionPolicy, with: CloudHSMV2ClientTypes.BackupRetentionPolicy.write(value:to:))
         try writer["ClusterId"].write(value.clusterId)
+        try writer["HsmType"].write(value.hsmType)
     }
 }
 
@@ -2056,6 +2092,7 @@ enum TagResourceOutputError {
             case "CloudHsmAccessDeniedException": return try CloudHsmAccessDeniedException.makeError(baseError: baseError)
             case "CloudHsmInternalFailureException": return try CloudHsmInternalFailureException.makeError(baseError: baseError)
             case "CloudHsmInvalidRequestException": return try CloudHsmInvalidRequestException.makeError(baseError: baseError)
+            case "CloudHsmResourceLimitExceededException": return try CloudHsmResourceLimitExceededException.makeError(baseError: baseError)
             case "CloudHsmResourceNotFoundException": return try CloudHsmResourceNotFoundException.makeError(baseError: baseError)
             case "CloudHsmServiceException": return try CloudHsmServiceException.makeError(baseError: baseError)
             case "CloudHsmTagException": return try CloudHsmTagException.makeError(baseError: baseError)
@@ -2161,6 +2198,19 @@ extension CloudHsmServiceException {
     }
 }
 
+extension CloudHsmResourceLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmResourceLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = CloudHsmResourceLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CloudHSMV2ClientTypes.DestinationBackup {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.DestinationBackup {
@@ -2185,6 +2235,7 @@ extension CloudHSMV2ClientTypes.Cluster {
         value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.hsms = try reader["Hsms"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Hsm.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.hsmType = try reader["HsmType"].readIfPresent()
+        value.hsmTypeRollbackExpiration = try reader["HsmTypeRollbackExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.preCoPassword = try reader["PreCoPassword"].readIfPresent()
         value.securityGroup = try reader["SecurityGroup"].readIfPresent()
         value.sourceBackupId = try reader["SourceBackupId"].readIfPresent()
@@ -2192,6 +2243,7 @@ extension CloudHSMV2ClientTypes.Cluster {
         value.stateMessage = try reader["StateMessage"].readIfPresent()
         value.subnetMapping = try reader["SubnetMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpcId = try reader["VpcId"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         value.certificates = try reader["Certificates"].readIfPresent(with: CloudHSMV2ClientTypes.Certificates.read(from:))
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mode = try reader["Mode"].readIfPresent()
@@ -2240,7 +2292,9 @@ extension CloudHSMV2ClientTypes.Hsm {
         value.subnetId = try reader["SubnetId"].readIfPresent()
         value.eniId = try reader["EniId"].readIfPresent()
         value.eniIp = try reader["EniIp"].readIfPresent()
+        value.eniIpV6 = try reader["EniIpV6"].readIfPresent()
         value.hsmId = try reader["HsmId"].readIfPresent() ?? ""
+        value.hsmType = try reader["HsmType"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
         value.stateMessage = try reader["StateMessage"].readIfPresent()
         return value

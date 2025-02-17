@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user-provided application configuration is not valid.
-public struct InvalidApplicationConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApplicationConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct InvalidApplicationConfigurationException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified input parameter value is not valid.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request JSON is not valid for the operation.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,16 +114,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The application is not available for this operation.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,16 +137,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Specified application can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -165,8 +160,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -181,8 +175,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             logStreamARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.logStreamARN = logStreamARN
         }
     }
@@ -205,8 +198,7 @@ public struct AddApplicationCloudWatchLoggingOptionInput: Swift.Sendable {
         cloudWatchLoggingOption: KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOption? = nil,
         conditionalToken: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.cloudWatchLoggingOption = cloudWatchLoggingOption
         self.conditionalToken = conditionalToken
@@ -230,8 +222,7 @@ extension KinesisAnalyticsV2ClientTypes {
             cloudWatchLoggingOptionId: Swift.String? = nil,
             logStreamARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
             self.logStreamARN = logStreamARN
             self.roleARN = roleARN
@@ -254,8 +245,7 @@ public struct AddApplicationCloudWatchLoggingOptionOutput: Swift.Sendable {
         applicationVersionId: Swift.Int? = nil,
         cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
@@ -264,9 +254,9 @@ public struct AddApplicationCloudWatchLoggingOptionOutput: Swift.Sendable {
 }
 
 /// The user-provided application code (query) is not valid. This can be a simple syntax error.
-public struct CodeValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -281,8 +271,7 @@ public struct CodeValidationException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -296,8 +285,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             count: Swift.Int? = nil
-        )
-        {
+        ) {
             self.count = count
         }
     }
@@ -313,8 +301,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
         }
     }
@@ -330,8 +317,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             inputLambdaProcessor: KinesisAnalyticsV2ClientTypes.InputLambdaProcessor? = nil
-        )
-        {
+        ) {
             self.inputLambdaProcessor = inputLambdaProcessor
         }
     }
@@ -354,8 +340,7 @@ extension KinesisAnalyticsV2ClientTypes {
             mapping: Swift.String? = nil,
             name: Swift.String? = nil,
             sqlType: Swift.String? = nil
-        )
-        {
+        ) {
             self.mapping = mapping
             self.name = name
             self.sqlType = sqlType
@@ -378,8 +363,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             recordColumnDelimiter: Swift.String? = nil,
             recordRowDelimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.recordColumnDelimiter = recordColumnDelimiter
             self.recordRowDelimiter = recordRowDelimiter
         }
@@ -396,8 +380,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             recordRowPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.recordRowPath = recordRowPath
         }
     }
@@ -415,8 +398,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             csvMappingParameters: KinesisAnalyticsV2ClientTypes.CSVMappingParameters? = nil,
             jsonMappingParameters: KinesisAnalyticsV2ClientTypes.JSONMappingParameters? = nil
-        )
-        {
+        ) {
             self.csvMappingParameters = csvMappingParameters
             self.jsonMappingParameters = jsonMappingParameters
         }
@@ -465,8 +447,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             mappingParameters: KinesisAnalyticsV2ClientTypes.MappingParameters? = nil,
             recordFormatType: KinesisAnalyticsV2ClientTypes.RecordFormatType? = nil
-        )
-        {
+        ) {
             self.mappingParameters = mappingParameters
             self.recordFormatType = recordFormatType
         }
@@ -490,8 +471,7 @@ extension KinesisAnalyticsV2ClientTypes {
             recordColumns: [KinesisAnalyticsV2ClientTypes.RecordColumn]? = nil,
             recordEncoding: Swift.String? = nil,
             recordFormat: KinesisAnalyticsV2ClientTypes.RecordFormat? = nil
-        )
-        {
+        ) {
             self.recordColumns = recordColumns
             self.recordEncoding = recordEncoding
             self.recordFormat = recordFormat
@@ -509,8 +489,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
         }
     }
@@ -526,8 +505,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
         }
     }
@@ -559,8 +537,7 @@ extension KinesisAnalyticsV2ClientTypes {
             kinesisFirehoseInput: KinesisAnalyticsV2ClientTypes.KinesisFirehoseInput? = nil,
             kinesisStreamsInput: KinesisAnalyticsV2ClientTypes.KinesisStreamsInput? = nil,
             namePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputParallelism = inputParallelism
             self.inputProcessingConfiguration = inputProcessingConfiguration
             self.inputSchema = inputSchema
@@ -586,8 +563,7 @@ public struct AddApplicationInputInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         input: KinesisAnalyticsV2ClientTypes.Input? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
         self.input = input
@@ -607,8 +583,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
         }
@@ -624,8 +599,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             inputLambdaProcessorDescription: KinesisAnalyticsV2ClientTypes.InputLambdaProcessorDescription? = nil
-        )
-        {
+        ) {
             self.inputLambdaProcessorDescription = inputLambdaProcessorDescription
         }
     }
@@ -678,8 +652,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             inputStartingPosition: KinesisAnalyticsV2ClientTypes.InputStartingPosition? = nil
-        )
-        {
+        ) {
             self.inputStartingPosition = inputStartingPosition
         }
     }
@@ -698,8 +671,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
         }
@@ -719,8 +691,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
         }
@@ -760,8 +731,7 @@ extension KinesisAnalyticsV2ClientTypes {
             kinesisFirehoseInputDescription: KinesisAnalyticsV2ClientTypes.KinesisFirehoseInputDescription? = nil,
             kinesisStreamsInputDescription: KinesisAnalyticsV2ClientTypes.KinesisStreamsInputDescription? = nil,
             namePrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.inAppStreamNames = inAppStreamNames
             self.inputId = inputId
             self.inputParallelism = inputParallelism
@@ -787,8 +757,7 @@ public struct AddApplicationInputOutput: Swift.Sendable {
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         inputDescriptions: [KinesisAnalyticsV2ClientTypes.InputDescription]? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.inputDescriptions = inputDescriptions
@@ -814,8 +783,7 @@ public struct AddApplicationInputProcessingConfigurationInput: Swift.Sendable {
         currentApplicationVersionId: Swift.Int? = nil,
         inputId: Swift.String? = nil,
         inputProcessingConfiguration: KinesisAnalyticsV2ClientTypes.InputProcessingConfiguration? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
         self.inputId = inputId
@@ -838,8 +806,7 @@ public struct AddApplicationInputProcessingConfigurationOutput: Swift.Sendable {
         applicationVersionId: Swift.Int? = nil,
         inputId: Swift.String? = nil,
         inputProcessingConfigurationDescription: KinesisAnalyticsV2ClientTypes.InputProcessingConfigurationDescription? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.inputId = inputId
@@ -857,8 +824,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             recordFormatType: KinesisAnalyticsV2ClientTypes.RecordFormatType? = nil
-        )
-        {
+        ) {
             self.recordFormatType = recordFormatType
         }
     }
@@ -874,8 +840,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
         }
     }
@@ -891,8 +856,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
         }
     }
@@ -908,8 +872,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
         }
     }
@@ -938,8 +901,7 @@ extension KinesisAnalyticsV2ClientTypes {
             kinesisStreamsOutput: KinesisAnalyticsV2ClientTypes.KinesisStreamsOutput? = nil,
             lambdaOutput: KinesisAnalyticsV2ClientTypes.LambdaOutput? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationSchema = destinationSchema
             self.kinesisFirehoseOutput = kinesisFirehoseOutput
             self.kinesisStreamsOutput = kinesisStreamsOutput
@@ -964,8 +926,7 @@ public struct AddApplicationOutputInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         output: KinesisAnalyticsV2ClientTypes.Output? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
         self.output = output
@@ -985,8 +946,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
         }
@@ -1006,8 +966,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
         }
@@ -1027,8 +986,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.roleARN = roleARN
         }
@@ -1059,8 +1017,7 @@ extension KinesisAnalyticsV2ClientTypes {
             lambdaOutputDescription: KinesisAnalyticsV2ClientTypes.LambdaOutputDescription? = nil,
             name: Swift.String? = nil,
             outputId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationSchema = destinationSchema
             self.kinesisFirehoseOutputDescription = kinesisFirehoseOutputDescription
             self.kinesisStreamsOutputDescription = kinesisStreamsOutputDescription
@@ -1083,8 +1040,7 @@ public struct AddApplicationOutputOutput: Swift.Sendable {
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         outputDescriptions: [KinesisAnalyticsV2ClientTypes.OutputDescription]? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.outputDescriptions = outputDescriptions
@@ -1103,8 +1059,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
         }
@@ -1128,8 +1083,7 @@ extension KinesisAnalyticsV2ClientTypes {
             referenceSchema: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
             s3ReferenceDataSource: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSource? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.referenceSchema = referenceSchema
             self.s3ReferenceDataSource = s3ReferenceDataSource
             self.tableName = tableName
@@ -1152,8 +1106,7 @@ public struct AddApplicationReferenceDataSourceInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         referenceDataSource: KinesisAnalyticsV2ClientTypes.ReferenceDataSource? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
         self.referenceDataSource = referenceDataSource
@@ -1177,8 +1130,7 @@ extension KinesisAnalyticsV2ClientTypes {
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             referenceRoleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
             self.referenceRoleARN = referenceRoleARN
@@ -1207,8 +1159,7 @@ extension KinesisAnalyticsV2ClientTypes {
             referenceSchema: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
             s3ReferenceDataSourceDescription: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceDescription? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.referenceId = referenceId
             self.referenceSchema = referenceSchema
             self.s3ReferenceDataSourceDescription = s3ReferenceDataSourceDescription
@@ -1229,8 +1180,7 @@ public struct AddApplicationReferenceDataSourceOutput: Swift.Sendable {
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         referenceDataSourceDescriptions: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription]? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
@@ -1251,8 +1201,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1276,8 +1225,7 @@ public struct AddApplicationVpcConfigurationInput: Swift.Sendable {
         conditionalToken: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         vpcConfiguration: KinesisAnalyticsV2ClientTypes.VpcConfiguration? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.conditionalToken = conditionalToken
         self.currentApplicationVersionId = currentApplicationVersionId
@@ -1307,8 +1255,7 @@ extension KinesisAnalyticsV2ClientTypes {
             subnetIds: [Swift.String]? = nil,
             vpcConfigurationId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcConfigurationId = vpcConfigurationId
@@ -1332,8 +1279,7 @@ public struct AddApplicationVpcConfigurationOutput: Swift.Sendable {
         applicationVersionId: Swift.Int? = nil,
         operationId: Swift.String? = nil,
         vpcConfigurationDescription: KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.operationId = operationId
@@ -1358,8 +1304,7 @@ extension KinesisAnalyticsV2ClientTypes {
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             objectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
             self.objectVersion = objectVersion
@@ -1382,8 +1327,7 @@ extension KinesisAnalyticsV2ClientTypes {
             s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentLocation? = nil,
             textContent: Swift.String? = nil,
             zipFileContent: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.s3ContentLocation = s3ContentLocation
             self.textContent = textContent
             self.zipFileContent = zipFileContent
@@ -1433,8 +1377,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             codeContent: KinesisAnalyticsV2ClientTypes.CodeContent? = nil,
             codeContentType: KinesisAnalyticsV2ClientTypes.CodeContentType? = nil
-        )
-        {
+        ) {
             self.codeContent = codeContent
             self.codeContentType = codeContentType
         }
@@ -1458,8 +1401,7 @@ extension KinesisAnalyticsV2ClientTypes {
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil,
             objectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
             self.objectVersion = objectVersion
@@ -1485,8 +1427,7 @@ extension KinesisAnalyticsV2ClientTypes {
             codeSize: Swift.Int? = nil,
             s3ApplicationCodeLocationDescription: KinesisAnalyticsV2ClientTypes.S3ApplicationCodeLocationDescription? = nil,
             textContent: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeMD5 = codeMD5
             self.codeSize = codeSize
             self.s3ApplicationCodeLocationDescription = s3ApplicationCodeLocationDescription
@@ -1508,8 +1449,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             codeContentDescription: KinesisAnalyticsV2ClientTypes.CodeContentDescription? = nil,
             codeContentType: KinesisAnalyticsV2ClientTypes.CodeContentType? = nil
-        )
-        {
+        ) {
             self.codeContentDescription = codeContentDescription
             self.codeContentType = codeContentType
         }
@@ -1531,8 +1471,7 @@ extension KinesisAnalyticsV2ClientTypes {
             bucketARNUpdate: Swift.String? = nil,
             fileKeyUpdate: Swift.String? = nil,
             objectVersionUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARNUpdate = bucketARNUpdate
             self.fileKeyUpdate = fileKeyUpdate
             self.objectVersionUpdate = objectVersionUpdate
@@ -1555,8 +1494,7 @@ extension KinesisAnalyticsV2ClientTypes {
             s3ContentLocationUpdate: KinesisAnalyticsV2ClientTypes.S3ContentLocationUpdate? = nil,
             textContentUpdate: Swift.String? = nil,
             zipFileContentUpdate: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.s3ContentLocationUpdate = s3ContentLocationUpdate
             self.textContentUpdate = textContentUpdate
             self.zipFileContentUpdate = zipFileContentUpdate
@@ -1576,8 +1514,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             codeContentTypeUpdate: KinesisAnalyticsV2ClientTypes.CodeContentType? = nil,
             codeContentUpdate: KinesisAnalyticsV2ClientTypes.CodeContentUpdate? = nil
-        )
-        {
+        ) {
             self.codeContentTypeUpdate = codeContentTypeUpdate
             self.codeContentUpdate = codeContentUpdate
         }
@@ -1594,8 +1531,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             snapshotsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.snapshotsEnabled = snapshotsEnabled
         }
     }
@@ -1611,8 +1547,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             rollbackEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.rollbackEnabled = rollbackEnabled
         }
     }
@@ -1632,8 +1567,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             propertyGroupId: Swift.String? = nil,
             propertyMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.propertyGroupId = propertyGroupId
             self.propertyMap = propertyMap
         }
@@ -1650,8 +1584,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             propertyGroups: [KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
-        )
-        {
+        ) {
             self.propertyGroups = propertyGroups
         }
     }
@@ -1711,8 +1644,7 @@ extension KinesisAnalyticsV2ClientTypes {
             checkpointingEnabled: Swift.Bool? = nil,
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             minPauseBetweenCheckpoints: Swift.Int? = nil
-        )
-        {
+        ) {
             self.checkpointInterval = checkpointInterval
             self.checkpointingEnabled = checkpointingEnabled
             self.configurationType = configurationType
@@ -1807,8 +1739,7 @@ extension KinesisAnalyticsV2ClientTypes {
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil,
             metricsLevel: KinesisAnalyticsV2ClientTypes.MetricsLevel? = nil
-        )
-        {
+        ) {
             self.configurationType = configurationType
             self.logLevel = logLevel
             self.metricsLevel = metricsLevel
@@ -1835,8 +1766,7 @@ extension KinesisAnalyticsV2ClientTypes {
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             parallelism: Swift.Int? = nil,
             parallelismPerKPU: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
             self.parallelism = parallelism
@@ -1860,8 +1790,7 @@ extension KinesisAnalyticsV2ClientTypes {
             checkpointConfiguration: KinesisAnalyticsV2ClientTypes.CheckpointConfiguration? = nil,
             monitoringConfiguration: KinesisAnalyticsV2ClientTypes.MonitoringConfiguration? = nil,
             parallelismConfiguration: KinesisAnalyticsV2ClientTypes.ParallelismConfiguration? = nil
-        )
-        {
+        ) {
             self.checkpointConfiguration = checkpointConfiguration
             self.monitoringConfiguration = monitoringConfiguration
             self.parallelismConfiguration = parallelismConfiguration
@@ -1884,8 +1813,7 @@ extension KinesisAnalyticsV2ClientTypes {
             inputs: [KinesisAnalyticsV2ClientTypes.Input]? = nil,
             outputs: [KinesisAnalyticsV2ClientTypes.Output]? = nil,
             referenceDataSources: [KinesisAnalyticsV2ClientTypes.ReferenceDataSource]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.outputs = outputs
             self.referenceDataSources = referenceDataSources
@@ -1903,8 +1831,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             databaseARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseARN = databaseARN
         }
     }
@@ -1920,8 +1847,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             glueDataCatalogConfiguration: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfiguration? = nil
-        )
-        {
+        ) {
             self.glueDataCatalogConfiguration = glueDataCatalogConfiguration
         }
     }
@@ -1974,8 +1900,7 @@ extension KinesisAnalyticsV2ClientTypes {
             artifactId: Swift.String? = nil,
             groupId: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactId = artifactId
             self.groupId = groupId
             self.version = version
@@ -1999,8 +1924,7 @@ extension KinesisAnalyticsV2ClientTypes {
             artifactType: KinesisAnalyticsV2ClientTypes.ArtifactType? = nil,
             mavenReference: KinesisAnalyticsV2ClientTypes.MavenReference? = nil,
             s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentLocation? = nil
-        )
-        {
+        ) {
             self.artifactType = artifactType
             self.mavenReference = mavenReference
             self.s3ContentLocation = s3ContentLocation
@@ -2021,8 +1945,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             basePath: Swift.String? = nil,
             bucketARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.basePath = basePath
             self.bucketARN = bucketARN
         }
@@ -2039,8 +1962,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocation? = nil
-        )
-        {
+        ) {
             self.s3ContentLocation = s3ContentLocation
         }
     }
@@ -2056,8 +1978,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil
-        )
-        {
+        ) {
             self.logLevel = logLevel
         }
     }
@@ -2081,8 +2002,7 @@ extension KinesisAnalyticsV2ClientTypes {
             customArtifactsConfiguration: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration]? = nil,
             deployAsApplicationConfiguration: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfiguration? = nil,
             monitoringConfiguration: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfiguration? = nil
-        )
-        {
+        ) {
             self.catalogConfiguration = catalogConfiguration
             self.customArtifactsConfiguration = customArtifactsConfiguration
             self.deployAsApplicationConfiguration = deployAsApplicationConfiguration
@@ -2121,8 +2041,7 @@ extension KinesisAnalyticsV2ClientTypes {
             sqlApplicationConfiguration: KinesisAnalyticsV2ClientTypes.SqlApplicationConfiguration? = nil,
             vpcConfigurations: [KinesisAnalyticsV2ClientTypes.VpcConfiguration]? = nil,
             zeppelinApplicationConfiguration: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration? = nil
-        )
-        {
+        ) {
             self.applicationCodeConfiguration = applicationCodeConfiguration
             self.applicationSnapshotConfiguration = applicationSnapshotConfiguration
             self.applicationSystemRollbackConfiguration = applicationSystemRollbackConfiguration
@@ -2145,8 +2064,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             snapshotsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.snapshotsEnabled = snapshotsEnabled
         }
     }
@@ -2162,8 +2080,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             rollbackEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.rollbackEnabled = rollbackEnabled
         }
     }
@@ -2178,8 +2095,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             propertyGroupDescriptions: [KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
-        )
-        {
+        ) {
             self.propertyGroupDescriptions = propertyGroupDescriptions
         }
     }
@@ -2209,8 +2125,7 @@ extension KinesisAnalyticsV2ClientTypes {
             checkpointingEnabled: Swift.Bool? = nil,
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             minPauseBetweenCheckpoints: Swift.Int? = nil
-        )
-        {
+        ) {
             self.checkpointInterval = checkpointInterval
             self.checkpointingEnabled = checkpointingEnabled
             self.configurationType = configurationType
@@ -2234,8 +2149,7 @@ extension KinesisAnalyticsV2ClientTypes {
             configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil,
             metricsLevel: KinesisAnalyticsV2ClientTypes.MetricsLevel? = nil
-        )
-        {
+        ) {
             self.configurationType = configurationType
             self.logLevel = logLevel
             self.metricsLevel = metricsLevel
@@ -2264,8 +2178,7 @@ extension KinesisAnalyticsV2ClientTypes {
             currentParallelism: Swift.Int? = nil,
             parallelism: Swift.Int? = nil,
             parallelismPerKPU: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autoScalingEnabled = autoScalingEnabled
             self.configurationType = configurationType
             self.currentParallelism = currentParallelism
@@ -2293,8 +2206,7 @@ extension KinesisAnalyticsV2ClientTypes {
             jobPlanDescription: Swift.String? = nil,
             monitoringConfigurationDescription: KinesisAnalyticsV2ClientTypes.MonitoringConfigurationDescription? = nil,
             parallelismConfigurationDescription: KinesisAnalyticsV2ClientTypes.ParallelismConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.checkpointConfigurationDescription = checkpointConfigurationDescription
             self.jobPlanDescription = jobPlanDescription
             self.monitoringConfigurationDescription = monitoringConfigurationDescription
@@ -2348,8 +2260,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             applicationRestoreType: KinesisAnalyticsV2ClientTypes.ApplicationRestoreType? = nil,
             snapshotName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationRestoreType = applicationRestoreType
             self.snapshotName = snapshotName
         }
@@ -2365,8 +2276,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             allowNonRestoredState: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowNonRestoredState = allowNonRestoredState
         }
     }
@@ -2384,8 +2294,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             applicationRestoreConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration? = nil,
             flinkRunConfigurationDescription: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration? = nil
-        )
-        {
+        ) {
             self.applicationRestoreConfigurationDescription = applicationRestoreConfigurationDescription
             self.flinkRunConfigurationDescription = flinkRunConfigurationDescription
         }
@@ -2407,8 +2316,7 @@ extension KinesisAnalyticsV2ClientTypes {
             inputDescriptions: [KinesisAnalyticsV2ClientTypes.InputDescription]? = nil,
             outputDescriptions: [KinesisAnalyticsV2ClientTypes.OutputDescription]? = nil,
             referenceDataSourceDescriptions: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceDescription]? = nil
-        )
-        {
+        ) {
             self.inputDescriptions = inputDescriptions
             self.outputDescriptions = outputDescriptions
             self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
@@ -2426,8 +2334,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             databaseARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseARN = databaseARN
         }
     }
@@ -2443,8 +2350,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             glueDataCatalogConfigurationDescription: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.glueDataCatalogConfigurationDescription = glueDataCatalogConfigurationDescription
         }
     }
@@ -2465,8 +2371,7 @@ extension KinesisAnalyticsV2ClientTypes {
             artifactType: KinesisAnalyticsV2ClientTypes.ArtifactType? = nil,
             mavenReferenceDescription: KinesisAnalyticsV2ClientTypes.MavenReference? = nil,
             s3ContentLocationDescription: KinesisAnalyticsV2ClientTypes.S3ContentLocation? = nil
-        )
-        {
+        ) {
             self.artifactType = artifactType
             self.mavenReferenceDescription = mavenReferenceDescription
             self.s3ContentLocationDescription = s3ContentLocationDescription
@@ -2487,8 +2392,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             basePath: Swift.String? = nil,
             bucketARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.basePath = basePath
             self.bucketARN = bucketARN
         }
@@ -2505,8 +2409,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             s3ContentLocationDescription: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationDescription? = nil
-        )
-        {
+        ) {
             self.s3ContentLocationDescription = s3ContentLocationDescription
         }
     }
@@ -2521,8 +2424,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             logLevel: KinesisAnalyticsV2ClientTypes.LogLevel? = nil
-        )
-        {
+        ) {
             self.logLevel = logLevel
         }
     }
@@ -2547,8 +2449,7 @@ extension KinesisAnalyticsV2ClientTypes {
             customArtifactsConfigurationDescription: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfigurationDescription]? = nil,
             deployAsApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationDescription? = nil,
             monitoringConfigurationDescription: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.catalogConfigurationDescription = catalogConfigurationDescription
             self.customArtifactsConfigurationDescription = customArtifactsConfigurationDescription
             self.deployAsApplicationConfigurationDescription = deployAsApplicationConfigurationDescription
@@ -2590,8 +2491,7 @@ extension KinesisAnalyticsV2ClientTypes {
             sqlApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationDescription? = nil,
             vpcConfigurationDescriptions: [KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription]? = nil,
             zeppelinApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.applicationCodeConfigurationDescription = applicationCodeConfigurationDescription
             self.applicationSnapshotConfigurationDescription = applicationSnapshotConfigurationDescription
             self.applicationSystemRollbackConfigurationDescription = applicationSystemRollbackConfigurationDescription
@@ -2615,8 +2515,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             snapshotsEnabledUpdate: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.snapshotsEnabledUpdate = snapshotsEnabledUpdate
         }
     }
@@ -2632,8 +2531,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             rollbackEnabledUpdate: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.rollbackEnabledUpdate = rollbackEnabledUpdate
         }
     }
@@ -2649,8 +2547,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             propertyGroups: [KinesisAnalyticsV2ClientTypes.PropertyGroup]? = nil
-        )
-        {
+        ) {
             self.propertyGroups = propertyGroups
         }
     }
@@ -2680,8 +2577,7 @@ extension KinesisAnalyticsV2ClientTypes {
             checkpointingEnabledUpdate: Swift.Bool? = nil,
             configurationTypeUpdate: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             minPauseBetweenCheckpointsUpdate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.checkpointIntervalUpdate = checkpointIntervalUpdate
             self.checkpointingEnabledUpdate = checkpointingEnabledUpdate
             self.configurationTypeUpdate = configurationTypeUpdate
@@ -2705,8 +2601,7 @@ extension KinesisAnalyticsV2ClientTypes {
             configurationTypeUpdate: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             logLevelUpdate: KinesisAnalyticsV2ClientTypes.LogLevel? = nil,
             metricsLevelUpdate: KinesisAnalyticsV2ClientTypes.MetricsLevel? = nil
-        )
-        {
+        ) {
             self.configurationTypeUpdate = configurationTypeUpdate
             self.logLevelUpdate = logLevelUpdate
             self.metricsLevelUpdate = metricsLevelUpdate
@@ -2732,8 +2627,7 @@ extension KinesisAnalyticsV2ClientTypes {
             configurationTypeUpdate: KinesisAnalyticsV2ClientTypes.ConfigurationType? = nil,
             parallelismPerKPUUpdate: Swift.Int? = nil,
             parallelismUpdate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autoScalingEnabledUpdate = autoScalingEnabledUpdate
             self.configurationTypeUpdate = configurationTypeUpdate
             self.parallelismPerKPUUpdate = parallelismPerKPUUpdate
@@ -2757,8 +2651,7 @@ extension KinesisAnalyticsV2ClientTypes {
             checkpointConfigurationUpdate: KinesisAnalyticsV2ClientTypes.CheckpointConfigurationUpdate? = nil,
             monitoringConfigurationUpdate: KinesisAnalyticsV2ClientTypes.MonitoringConfigurationUpdate? = nil,
             parallelismConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ParallelismConfigurationUpdate? = nil
-        )
-        {
+        ) {
             self.checkpointConfigurationUpdate = checkpointConfigurationUpdate
             self.monitoringConfigurationUpdate = monitoringConfigurationUpdate
             self.parallelismConfigurationUpdate = parallelismConfigurationUpdate
@@ -2776,8 +2669,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             countUpdate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.countUpdate = countUpdate
         }
     }
@@ -2793,8 +2685,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARNUpdate = resourceARNUpdate
         }
     }
@@ -2810,8 +2701,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             inputLambdaProcessorUpdate: KinesisAnalyticsV2ClientTypes.InputLambdaProcessorUpdate? = nil
-        )
-        {
+        ) {
             self.inputLambdaProcessorUpdate = inputLambdaProcessorUpdate
         }
     }
@@ -2832,8 +2722,7 @@ extension KinesisAnalyticsV2ClientTypes {
             recordColumnUpdates: [KinesisAnalyticsV2ClientTypes.RecordColumn]? = nil,
             recordEncodingUpdate: Swift.String? = nil,
             recordFormatUpdate: KinesisAnalyticsV2ClientTypes.RecordFormat? = nil
-        )
-        {
+        ) {
             self.recordColumnUpdates = recordColumnUpdates
             self.recordEncodingUpdate = recordEncodingUpdate
             self.recordFormatUpdate = recordFormatUpdate
@@ -2851,8 +2740,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARNUpdate = resourceARNUpdate
         }
     }
@@ -2868,8 +2756,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARNUpdate = resourceARNUpdate
         }
     }
@@ -2903,8 +2790,7 @@ extension KinesisAnalyticsV2ClientTypes {
             kinesisFirehoseInputUpdate: KinesisAnalyticsV2ClientTypes.KinesisFirehoseInputUpdate? = nil,
             kinesisStreamsInputUpdate: KinesisAnalyticsV2ClientTypes.KinesisStreamsInputUpdate? = nil,
             namePrefixUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputId = inputId
             self.inputParallelismUpdate = inputParallelismUpdate
             self.inputProcessingConfigurationUpdate = inputProcessingConfigurationUpdate
@@ -2926,8 +2812,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARNUpdate = resourceARNUpdate
         }
     }
@@ -2943,8 +2828,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARNUpdate = resourceARNUpdate
         }
     }
@@ -2960,8 +2844,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             resourceARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARNUpdate = resourceARNUpdate
         }
     }
@@ -2992,8 +2875,7 @@ extension KinesisAnalyticsV2ClientTypes {
             lambdaOutputUpdate: KinesisAnalyticsV2ClientTypes.LambdaOutputUpdate? = nil,
             nameUpdate: Swift.String? = nil,
             outputId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationSchemaUpdate = destinationSchemaUpdate
             self.kinesisFirehoseOutputUpdate = kinesisFirehoseOutputUpdate
             self.kinesisStreamsOutputUpdate = kinesisStreamsOutputUpdate
@@ -3016,8 +2898,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             bucketARNUpdate: Swift.String? = nil,
             fileKeyUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARNUpdate = bucketARNUpdate
             self.fileKeyUpdate = fileKeyUpdate
         }
@@ -3043,8 +2924,7 @@ extension KinesisAnalyticsV2ClientTypes {
             referenceSchemaUpdate: KinesisAnalyticsV2ClientTypes.SourceSchema? = nil,
             s3ReferenceDataSourceUpdate: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSourceUpdate? = nil,
             tableNameUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.referenceId = referenceId
             self.referenceSchemaUpdate = referenceSchemaUpdate
             self.s3ReferenceDataSourceUpdate = s3ReferenceDataSourceUpdate
@@ -3068,8 +2948,7 @@ extension KinesisAnalyticsV2ClientTypes {
             inputUpdates: [KinesisAnalyticsV2ClientTypes.InputUpdate]? = nil,
             outputUpdates: [KinesisAnalyticsV2ClientTypes.OutputUpdate]? = nil,
             referenceDataSourceUpdates: [KinesisAnalyticsV2ClientTypes.ReferenceDataSourceUpdate]? = nil
-        )
-        {
+        ) {
             self.inputUpdates = inputUpdates
             self.outputUpdates = outputUpdates
             self.referenceDataSourceUpdates = referenceDataSourceUpdates
@@ -3093,8 +2972,7 @@ extension KinesisAnalyticsV2ClientTypes {
             securityGroupIdUpdates: [Swift.String]? = nil,
             subnetIdUpdates: [Swift.String]? = nil,
             vpcConfigurationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIdUpdates = securityGroupIdUpdates
             self.subnetIdUpdates = subnetIdUpdates
             self.vpcConfigurationId = vpcConfigurationId
@@ -3112,8 +2990,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             databaseARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseARNUpdate = databaseARNUpdate
         }
     }
@@ -3129,8 +3006,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             glueDataCatalogConfigurationUpdate: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationUpdate? = nil
-        )
-        {
+        ) {
             self.glueDataCatalogConfigurationUpdate = glueDataCatalogConfigurationUpdate
         }
     }
@@ -3148,8 +3024,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             basePathUpdate: Swift.String? = nil,
             bucketARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.basePathUpdate = basePathUpdate
             self.bucketARNUpdate = bucketARNUpdate
         }
@@ -3165,8 +3040,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             s3ContentLocationUpdate: KinesisAnalyticsV2ClientTypes.S3ContentBaseLocationUpdate? = nil
-        )
-        {
+        ) {
             self.s3ContentLocationUpdate = s3ContentLocationUpdate
         }
     }
@@ -3182,8 +3056,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             logLevelUpdate: KinesisAnalyticsV2ClientTypes.LogLevel? = nil
-        )
-        {
+        ) {
             self.logLevelUpdate = logLevelUpdate
         }
     }
@@ -3207,8 +3080,7 @@ extension KinesisAnalyticsV2ClientTypes {
             customArtifactsConfigurationUpdate: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration]? = nil,
             deployAsApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationUpdate? = nil,
             monitoringConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationUpdate? = nil
-        )
-        {
+        ) {
             self.catalogConfigurationUpdate = catalogConfigurationUpdate
             self.customArtifactsConfigurationUpdate = customArtifactsConfigurationUpdate
             self.deployAsApplicationConfigurationUpdate = deployAsApplicationConfigurationUpdate
@@ -3247,8 +3119,7 @@ extension KinesisAnalyticsV2ClientTypes {
             sqlApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationUpdate? = nil,
             vpcConfigurationUpdates: [KinesisAnalyticsV2ClientTypes.VpcConfigurationUpdate]? = nil,
             zeppelinApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate? = nil
-        )
-        {
+        ) {
             self.applicationCodeConfigurationUpdate = applicationCodeConfigurationUpdate
             self.applicationSnapshotConfigurationUpdate = applicationSnapshotConfigurationUpdate
             self.applicationSystemRollbackConfigurationUpdate = applicationSystemRollbackConfigurationUpdate
@@ -3275,8 +3146,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             applicationMaintenanceWindowEndTime: Swift.String? = nil,
             applicationMaintenanceWindowStartTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationMaintenanceWindowEndTime = applicationMaintenanceWindowEndTime
             self.applicationMaintenanceWindowStartTime = applicationMaintenanceWindowStartTime
         }
@@ -3492,8 +3362,7 @@ extension KinesisAnalyticsV2ClientTypes {
             lastUpdateTimestamp: Foundation.Date? = nil,
             runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil,
             serviceExecutionRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationARN = applicationARN
             self.applicationConfigurationDescription = applicationConfigurationDescription
             self.applicationDescription = applicationDescription
@@ -3526,8 +3395,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             applicationMaintenanceWindowStartTimeUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationMaintenanceWindowStartTimeUpdate = applicationMaintenanceWindowStartTimeUpdate
         }
     }
@@ -3590,8 +3458,7 @@ extension KinesisAnalyticsV2ClientTypes {
             operationId: Swift.String? = nil,
             operationStatus: KinesisAnalyticsV2ClientTypes.OperationStatus? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.operation = operation
             self.operationId = operationId
@@ -3615,8 +3482,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             applicationVersionUpdatedFrom: Swift.Int? = nil,
             applicationVersionUpdatedTo: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationVersionUpdatedFrom = applicationVersionUpdatedFrom
             self.applicationVersionUpdatedTo = applicationVersionUpdatedTo
         }
@@ -3632,8 +3498,7 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             errorString: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorString = errorString
         }
     }
@@ -3651,8 +3516,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             errorInfo: KinesisAnalyticsV2ClientTypes.ErrorInfo? = nil,
             rollbackOperationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorInfo = errorInfo
             self.rollbackOperationId = rollbackOperationId
         }
@@ -3687,8 +3551,7 @@ extension KinesisAnalyticsV2ClientTypes {
             operationFailureDetails: KinesisAnalyticsV2ClientTypes.OperationFailureDetails? = nil,
             operationStatus: KinesisAnalyticsV2ClientTypes.OperationStatus? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationVersionChangeDetails = applicationVersionChangeDetails
             self.endTime = endTime
             self.operation = operation
@@ -3728,8 +3591,7 @@ extension KinesisAnalyticsV2ClientTypes {
             applicationStatus: KinesisAnalyticsV2ClientTypes.ApplicationStatus? = nil,
             applicationVersionId: Swift.Int? = nil,
             runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil
-        )
-        {
+        ) {
             self.applicationARN = applicationARN
             self.applicationMode = applicationMode
             self.applicationName = applicationName
@@ -3754,8 +3616,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             applicationStatus: KinesisAnalyticsV2ClientTypes.ApplicationStatus? = nil,
             applicationVersionId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationStatus = applicationStatus
             self.applicationVersionId = applicationVersionId
         }
@@ -3775,8 +3636,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             cloudWatchLoggingOptionId: Swift.String? = nil,
             logStreamARNUpdate: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
             self.logStreamARNUpdate = logStreamARNUpdate
         }
@@ -3784,9 +3644,9 @@ extension KinesisAnalyticsV2ClientTypes {
 }
 
 /// The number of allowed resources has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3801,16 +3661,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3825,16 +3684,15 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3849,8 +3707,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3868,8 +3725,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3906,8 +3762,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil,
         serviceExecutionRole: Swift.String? = nil,
         tags: [KinesisAnalyticsV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.applicationConfiguration = applicationConfiguration
         self.applicationDescription = applicationDescription
         self.applicationMode = applicationMode
@@ -3926,8 +3781,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
 
     public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
-    )
-    {
+    ) {
         self.applicationDetail = applicationDetail
     }
 }
@@ -3975,8 +3829,7 @@ public struct CreateApplicationPresignedUrlInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         sessionExpirationDurationInSeconds: Swift.Int? = nil,
         urlType: KinesisAnalyticsV2ClientTypes.UrlType? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
         self.urlType = urlType
@@ -3989,8 +3842,7 @@ public struct CreateApplicationPresignedUrlOutput: Swift.Sendable {
 
     public init(
         authorizedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedUrl = authorizedUrl
     }
 }
@@ -4006,8 +3858,7 @@ public struct CreateApplicationSnapshotInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.snapshotName = snapshotName
     }
@@ -4029,8 +3880,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         createTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.createTimestamp = createTimestamp
     }
@@ -4058,8 +3908,7 @@ public struct DeleteApplicationCloudWatchLoggingOptionInput: Swift.Sendable {
         cloudWatchLoggingOptionId: Swift.String? = nil,
         conditionalToken: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
         self.conditionalToken = conditionalToken
@@ -4082,8 +3931,7 @@ public struct DeleteApplicationCloudWatchLoggingOptionOutput: Swift.Sendable {
         applicationVersionId: Swift.Int? = nil,
         cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
@@ -4106,8 +3954,7 @@ public struct DeleteApplicationInputProcessingConfigurationInput: Swift.Sendable
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         inputId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
         self.inputId = inputId
@@ -4123,8 +3970,7 @@ public struct DeleteApplicationInputProcessingConfigurationOutput: Swift.Sendabl
     public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
     }
@@ -4145,8 +3991,7 @@ public struct DeleteApplicationOutputInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         outputId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
         self.outputId = outputId
@@ -4162,8 +4007,7 @@ public struct DeleteApplicationOutputOutput: Swift.Sendable {
     public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
     }
@@ -4184,8 +4028,7 @@ public struct DeleteApplicationReferenceDataSourceInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         referenceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
         self.referenceId = referenceId
@@ -4201,8 +4044,7 @@ public struct DeleteApplicationReferenceDataSourceOutput: Swift.Sendable {
     public init(
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
     }
@@ -4223,8 +4065,7 @@ public struct DeleteApplicationSnapshotInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         snapshotCreationTimestamp: Foundation.Date? = nil,
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.snapshotCreationTimestamp = snapshotCreationTimestamp
         self.snapshotName = snapshotName
@@ -4253,8 +4094,7 @@ public struct DeleteApplicationVpcConfigurationInput: Swift.Sendable {
         conditionalToken: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         vpcConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.conditionalToken = conditionalToken
         self.currentApplicationVersionId = currentApplicationVersionId
@@ -4274,8 +4114,7 @@ public struct DeleteApplicationVpcConfigurationOutput: Swift.Sendable {
         applicationARN: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationVersionId = applicationVersionId
         self.operationId = operationId
@@ -4292,8 +4131,7 @@ public struct DescribeApplicationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         includeAdditionalDetails: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.includeAdditionalDetails = includeAdditionalDetails
     }
@@ -4306,8 +4144,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
 
     public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
-    )
-    {
+    ) {
         self.applicationDetail = applicationDetail
     }
 }
@@ -4324,8 +4161,7 @@ public struct DescribeApplicationOperationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.operationId = operationId
     }
@@ -4338,8 +4174,7 @@ public struct DescribeApplicationOperationOutput: Swift.Sendable {
 
     public init(
         applicationOperationInfoDetails: KinesisAnalyticsV2ClientTypes.ApplicationOperationInfoDetails? = nil
-    )
-    {
+    ) {
         self.applicationOperationInfoDetails = applicationOperationInfoDetails
     }
 }
@@ -4355,8 +4190,7 @@ public struct DescribeApplicationSnapshotInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.snapshotName = snapshotName
     }
@@ -4421,8 +4255,7 @@ extension KinesisAnalyticsV2ClientTypes {
             snapshotCreationTimestamp: Foundation.Date? = nil,
             snapshotName: Swift.String? = nil,
             snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil
-        )
-        {
+        ) {
             self.applicationVersionId = applicationVersionId
             self.runtimeEnvironment = runtimeEnvironment
             self.snapshotCreationTimestamp = snapshotCreationTimestamp
@@ -4439,8 +4272,7 @@ public struct DescribeApplicationSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshotDetails: KinesisAnalyticsV2ClientTypes.SnapshotDetails? = nil
-    )
-    {
+    ) {
         self.snapshotDetails = snapshotDetails
     }
 }
@@ -4456,8 +4288,7 @@ public struct DescribeApplicationVersionInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         applicationVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.applicationVersionId = applicationVersionId
     }
@@ -4469,16 +4300,15 @@ public struct DescribeApplicationVersionOutput: Swift.Sendable {
 
     public init(
         applicationVersionDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil
-    )
-    {
+    ) {
         self.applicationVersionDetail = applicationVersionDetail
     }
 }
 
 /// Discovery failed to get a record from the streaming source because of the Kinesis Streams ProvisionedThroughputExceededException. For more information, see [GetRecords](http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetRecords.html) in the Amazon Kinesis Streams API Reference.
-public struct ResourceProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4493,16 +4323,15 @@ public struct ResourceProvisionedThroughputExceededException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service cannot complete the request.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4517,16 +4346,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The data format is not valid. Kinesis Data Analytics cannot detect the schema for the given streaming source.
-public struct UnableToDetectSchemaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToDetectSchemaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Stream data that was modified by the processor specified in the InputProcessingConfiguration parameter.
         public internal(set) var processedInputRecords: [Swift.String]? = nil
@@ -4547,8 +4375,7 @@ public struct UnableToDetectSchemaException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         processedInputRecords: [Swift.String]? = nil,
         rawInputRecords: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.processedInputRecords = processedInputRecords
         self.properties.rawInputRecords = rawInputRecords
@@ -4569,8 +4396,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             bucketARN: Swift.String? = nil,
             fileKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.fileKey = fileKey
         }
@@ -4596,8 +4422,7 @@ public struct DiscoverInputSchemaInput: Swift.Sendable {
         resourceARN: Swift.String? = nil,
         s3Configuration: KinesisAnalyticsV2ClientTypes.S3Configuration? = nil,
         serviceExecutionRole: Swift.String? = nil
-    )
-    {
+    ) {
         self.inputProcessingConfiguration = inputProcessingConfiguration
         self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         self.resourceARN = resourceARN
@@ -4621,8 +4446,7 @@ public struct DiscoverInputSchemaOutput: Swift.Sendable {
         parsedInputRecords: [[Swift.String]]? = nil,
         processedInputRecords: [Swift.String]? = nil,
         rawInputRecords: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.inputSchema = inputSchema
         self.parsedInputRecords = parsedInputRecords
         self.processedInputRecords = processedInputRecords
@@ -4650,8 +4474,7 @@ public struct ListApplicationOperationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         operation: Swift.String? = nil,
         operationStatus: KinesisAnalyticsV2ClientTypes.OperationStatus? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.limit = limit
         self.nextToken = nextToken
@@ -4670,8 +4493,7 @@ public struct ListApplicationOperationsOutput: Swift.Sendable {
     public init(
         applicationOperationInfoList: [KinesisAnalyticsV2ClientTypes.ApplicationOperationInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationOperationInfoList = applicationOperationInfoList
         self.nextToken = nextToken
     }
@@ -4686,8 +4508,7 @@ public struct ListApplicationsInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -4703,8 +4524,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applicationSummaries: [KinesisAnalyticsV2ClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationSummaries = applicationSummaries
         self.nextToken = nextToken
     }
@@ -4723,8 +4543,7 @@ public struct ListApplicationSnapshotsInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.limit = limit
         self.nextToken = nextToken
@@ -4740,8 +4559,7 @@ public struct ListApplicationSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshotSummaries: [KinesisAnalyticsV2ClientTypes.SnapshotDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshotSummaries = snapshotSummaries
     }
@@ -4760,8 +4578,7 @@ public struct ListApplicationVersionsInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.limit = limit
         self.nextToken = nextToken
@@ -4777,8 +4594,7 @@ public struct ListApplicationVersionsOutput: Swift.Sendable {
     public init(
         applicationVersionSummaries: [KinesisAnalyticsV2ClientTypes.ApplicationVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationVersionSummaries = applicationVersionSummaries
         self.nextToken = nextToken
     }
@@ -4791,8 +4607,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -4803,8 +4618,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [KinesisAnalyticsV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4820,8 +4634,7 @@ public struct RollbackApplicationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.currentApplicationVersionId = currentApplicationVersionId
     }
@@ -4837,8 +4650,7 @@ public struct RollbackApplicationOutput: Swift.Sendable {
     public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationDetail = applicationDetail
         self.operationId = operationId
     }
@@ -4858,8 +4670,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             inputId: Swift.String? = nil,
             inputStartingPositionConfiguration: KinesisAnalyticsV2ClientTypes.InputStartingPositionConfiguration? = nil
-        )
-        {
+        ) {
             self.inputId = inputId
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         }
@@ -4881,8 +4692,7 @@ extension KinesisAnalyticsV2ClientTypes {
             applicationRestoreConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration? = nil,
             flinkRunConfiguration: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration? = nil,
             sqlRunConfigurations: [KinesisAnalyticsV2ClientTypes.SqlRunConfiguration]? = nil
-        )
-        {
+        ) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
             self.flinkRunConfiguration = flinkRunConfiguration
             self.sqlRunConfigurations = sqlRunConfigurations
@@ -4900,8 +4710,7 @@ public struct StartApplicationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         runConfiguration: KinesisAnalyticsV2ClientTypes.RunConfiguration? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.runConfiguration = runConfiguration
     }
@@ -4913,8 +4722,7 @@ public struct StartApplicationOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -4929,8 +4737,7 @@ public struct StopApplicationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         force: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.force = force
     }
@@ -4942,8 +4749,7 @@ public struct StopApplicationOutput: Swift.Sendable {
 
     public init(
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationId = operationId
     }
 }
@@ -4959,8 +4765,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [KinesisAnalyticsV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -4982,8 +4787,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -5006,8 +4810,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public init(
             applicationRestoreConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration? = nil,
             flinkRunConfiguration: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration? = nil
-        )
-        {
+        ) {
             self.applicationRestoreConfiguration = applicationRestoreConfiguration
             self.flinkRunConfiguration = flinkRunConfiguration
         }
@@ -5046,8 +4849,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         runConfigurationUpdate: KinesisAnalyticsV2ClientTypes.RunConfigurationUpdate? = nil,
         runtimeEnvironmentUpdate: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil,
         serviceExecutionRoleUpdate: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationConfigurationUpdate = applicationConfigurationUpdate
         self.applicationName = applicationName
         self.cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdates
@@ -5069,8 +4871,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
     public init(
         applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail? = nil,
         operationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationDetail = applicationDetail
         self.operationId = operationId
     }
@@ -5087,8 +4888,7 @@ public struct UpdateApplicationMaintenanceConfigurationInput: Swift.Sendable {
     public init(
         applicationMaintenanceConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationUpdate? = nil,
         applicationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationMaintenanceConfigurationUpdate = applicationMaintenanceConfigurationUpdate
         self.applicationName = applicationName
     }
@@ -5103,8 +4903,7 @@ public struct UpdateApplicationMaintenanceConfigurationOutput: Swift.Sendable {
     public init(
         applicationARN: Swift.String? = nil,
         applicationMaintenanceConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescription? = nil
-    )
-    {
+    ) {
         self.applicationARN = applicationARN
         self.applicationMaintenanceConfigurationDescription = applicationMaintenanceConfigurationDescription
     }

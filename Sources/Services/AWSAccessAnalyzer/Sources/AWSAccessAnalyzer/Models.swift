@@ -85,8 +85,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             actions: [Swift.String]? = [],
             resources: [Swift.String]? = []
-        )
-        {
+        ) {
             self.actions = actions
             self.resources = resources
         }
@@ -94,9 +93,9 @@ extension AccessAnalyzerClientTypes {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -112,16 +111,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A conflict exception error.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -145,8 +143,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -154,9 +151,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Internal server error.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The seconds to wait to retry.
@@ -175,17 +172,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The specified resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -209,8 +205,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -218,9 +213,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Service quote met error.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The resource ID.
@@ -244,8 +239,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -253,9 +247,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Throttling limit exceeded error.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The seconds to wait to retry.
@@ -274,8 +268,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -295,8 +288,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -342,9 +334,9 @@ extension AccessAnalyzerClientTypes {
 }
 
 /// Validation exception error.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A list of fields that didn't validate.
         public internal(set) var fieldList: [AccessAnalyzerClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -367,8 +359,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [AccessAnalyzerClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: AccessAnalyzerClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -393,8 +384,7 @@ extension AccessAnalyzerClientTypes {
             eq: [Swift.String]? = nil,
             exists: Swift.Bool? = nil,
             neq: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.contains = contains
             self.eq = eq
             self.exists = exists
@@ -422,8 +412,7 @@ public struct CreateArchiveRuleInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         filter: [Swift.String: AccessAnalyzerClientTypes.Criterion]? = nil,
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.clientToken = clientToken
         self.filter = filter
@@ -446,8 +435,7 @@ public struct DeleteArchiveRuleInput: Swift.Sendable {
         analyzerName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.clientToken = clientToken
         self.ruleName = ruleName
@@ -466,8 +454,7 @@ public struct GetArchiveRuleInput: Swift.Sendable {
     public init(
         analyzerName: Swift.String? = nil,
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.ruleName = ruleName
     }
@@ -495,8 +482,7 @@ extension AccessAnalyzerClientTypes {
             filter: [Swift.String: AccessAnalyzerClientTypes.Criterion]? = nil,
             ruleName: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.filter = filter
             self.ruleName = ruleName
@@ -513,8 +499,7 @@ public struct GetArchiveRuleOutput: Swift.Sendable {
 
     public init(
         archiveRule: AccessAnalyzerClientTypes.ArchiveRuleSummary? = nil
-    )
-    {
+    ) {
         self.archiveRule = archiveRule
     }
 }
@@ -533,8 +518,7 @@ public struct ListArchiveRulesInput: Swift.Sendable {
         analyzerName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -552,8 +536,7 @@ public struct ListArchiveRulesOutput: Swift.Sendable {
     public init(
         archiveRules: [AccessAnalyzerClientTypes.ArchiveRuleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveRules = archiveRules
         self.nextToken = nextToken
     }
@@ -578,8 +561,7 @@ public struct UpdateArchiveRuleInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         filter: [Swift.String: AccessAnalyzerClientTypes.Criterion]? = nil,
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.clientToken = clientToken
         self.filter = filter
@@ -601,8 +583,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             filter: [Swift.String: AccessAnalyzerClientTypes.Criterion]? = nil,
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.ruleName = ruleName
         }
@@ -621,8 +602,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             accountIds: [Swift.String]? = nil,
             resourceTags: [[Swift.String: Swift.String]]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.resourceTags = resourceTags
         }
@@ -638,8 +618,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             exclusions: [AccessAnalyzerClientTypes.AnalysisRuleCriteria]? = nil
-        )
-        {
+        ) {
             self.exclusions = exclusions
         }
     }
@@ -657,8 +636,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             analysisRule: AccessAnalyzerClientTypes.AnalysisRule? = nil,
             unusedAccessAge: Swift.Int? = nil
-        )
-        {
+        ) {
             self.analysisRule = analysisRule
             self.unusedAccessAge = unusedAccessAge
         }
@@ -734,8 +712,7 @@ public struct CreateAnalyzerInput: Swift.Sendable {
         configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: AccessAnalyzerClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.archiveRules = archiveRules
         self.clientToken = clientToken
@@ -752,8 +729,7 @@ public struct CreateAnalyzerOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -769,8 +745,7 @@ public struct DeleteAnalyzerInput: Swift.Sendable {
     public init(
         analyzerName: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.clientToken = clientToken
     }
@@ -784,8 +759,7 @@ public struct GetAnalyzerInput: Swift.Sendable {
 
     public init(
         analyzerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
     }
 }
@@ -870,8 +844,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             code: AccessAnalyzerClientTypes.ReasonCode? = nil
-        )
-        {
+        ) {
             self.code = code
         }
     }
@@ -918,8 +891,7 @@ extension AccessAnalyzerClientTypes {
             statusReason: AccessAnalyzerClientTypes.StatusReason? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: AccessAnalyzerClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.configuration = configuration
             self.createdAt = createdAt
@@ -942,8 +914,7 @@ public struct GetAnalyzerOutput: Swift.Sendable {
 
     public init(
         analyzer: AccessAnalyzerClientTypes.AnalyzerSummary? = nil
-    )
-    {
+    ) {
         self.analyzer = analyzer
     }
 }
@@ -961,8 +932,7 @@ public struct ListAnalyzersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: AccessAnalyzerClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.type = type
@@ -980,8 +950,7 @@ public struct ListAnalyzersOutput: Swift.Sendable {
     public init(
         analyzers: [AccessAnalyzerClientTypes.AnalyzerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzers = analyzers
         self.nextToken = nextToken
     }
@@ -997,8 +966,7 @@ public struct UpdateAnalyzerInput: Swift.Sendable {
     public init(
         analyzerName: Swift.String? = nil,
         configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil
-    )
-    {
+    ) {
         self.analyzerName = analyzerName
         self.configuration = configuration
     }
@@ -1010,8 +978,7 @@ public struct UpdateAnalyzerOutput: Swift.Sendable {
 
     public init(
         configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -1031,8 +998,7 @@ public struct ApplyArchiveRuleInput: Swift.Sendable {
         analyzerArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.clientToken = clientToken
         self.ruleName = ruleName
@@ -1046,8 +1012,7 @@ public struct CancelPolicyGenerationInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1058,9 +1023,9 @@ public struct CancelPolicyGenerationOutput: Swift.Sendable {
 }
 
 /// The specified parameter is invalid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1076,16 +1041,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified entity could not be processed.
-public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1101,8 +1065,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1151,8 +1114,7 @@ public struct CheckAccessNotGrantedInput: Swift.Sendable {
         access: [AccessAnalyzerClientTypes.Access]? = nil,
         policyDocument: Swift.String? = nil,
         policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType? = nil
-    )
-    {
+    ) {
         self.access = access
         self.policyDocument = policyDocument
         self.policyType = policyType
@@ -1179,8 +1141,7 @@ extension AccessAnalyzerClientTypes {
             description: Swift.String? = nil,
             statementId: Swift.String? = nil,
             statementIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.description = description
             self.statementId = statementId
             self.statementIndex = statementIndex
@@ -1229,8 +1190,7 @@ public struct CheckAccessNotGrantedOutput: Swift.Sendable {
         message: Swift.String? = nil,
         reasons: [AccessAnalyzerClientTypes.ReasonSummary]? = nil,
         result: AccessAnalyzerClientTypes.CheckAccessNotGrantedResult? = nil
-    )
-    {
+    ) {
         self.message = message
         self.reasons = reasons
         self.result = result
@@ -1252,8 +1212,7 @@ public struct CheckNoNewAccessInput: Swift.Sendable {
         existingPolicyDocument: Swift.String? = nil,
         newPolicyDocument: Swift.String? = nil,
         policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType? = nil
-    )
-    {
+    ) {
         self.existingPolicyDocument = existingPolicyDocument
         self.newPolicyDocument = newPolicyDocument
         self.policyType = policyType
@@ -1306,8 +1265,7 @@ public struct CheckNoNewAccessOutput: Swift.Sendable {
         message: Swift.String? = nil,
         reasons: [AccessAnalyzerClientTypes.ReasonSummary]? = nil,
         result: AccessAnalyzerClientTypes.CheckNoNewAccessResult? = nil
-    )
-    {
+    ) {
         self.message = message
         self.reasons = reasons
         self.result = result
@@ -1402,8 +1360,7 @@ public struct CheckNoPublicAccessInput: Swift.Sendable {
     public init(
         policyDocument: Swift.String? = nil,
         resourceType: AccessAnalyzerClientTypes.AccessCheckResourceType? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.resourceType = resourceType
     }
@@ -1455,8 +1412,7 @@ public struct CheckNoPublicAccessOutput: Swift.Sendable {
         message: Swift.String? = nil,
         reasons: [AccessAnalyzerClientTypes.ReasonSummary]? = nil,
         result: AccessAnalyzerClientTypes.CheckNoPublicAccessResult? = nil
-    )
-    {
+    ) {
         self.message = message
         self.reasons = reasons
         self.result = result
@@ -1478,8 +1434,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             streamPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamPolicy = streamPolicy
         }
     }
@@ -1500,8 +1455,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             tablePolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.tablePolicy = tablePolicy
         }
     }
@@ -1538,8 +1492,7 @@ extension AccessAnalyzerClientTypes {
             groups: [Swift.String]? = nil,
             kmsKeyId: Swift.String? = nil,
             userIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.kmsKeyId = kmsKeyId
             self.userIds = userIds
@@ -1562,8 +1515,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             repositoryPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryPolicy = repositoryPolicy
         }
     }
@@ -1584,8 +1536,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             fileSystemPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemPolicy = fileSystemPolicy
         }
     }
@@ -1600,8 +1551,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             trustPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.trustPolicy = trustPolicy
         }
     }
@@ -1619,8 +1569,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             encryptionContextEquals: [Swift.String: Swift.String]? = nil,
             encryptionContextSubset: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.encryptionContextEquals = encryptionContextEquals
             self.encryptionContextSubset = encryptionContextSubset
         }
@@ -1716,8 +1665,7 @@ extension AccessAnalyzerClientTypes {
             issuingAccount: Swift.String? = nil,
             operations: [AccessAnalyzerClientTypes.KmsGrantOperation]? = nil,
             retiringPrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.granteePrincipal = granteePrincipal
             self.issuingAccount = issuingAccount
@@ -1739,8 +1687,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             grants: [AccessAnalyzerClientTypes.KmsGrantConfiguration]? = nil,
             keyPolicies: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.grants = grants
             self.keyPolicies = keyPolicies
         }
@@ -1779,8 +1726,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             attributes: [Swift.String: AccessAnalyzerClientTypes.RdsDbClusterSnapshotAttributeValue]? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.kmsKeyId = kmsKeyId
         }
@@ -1819,8 +1765,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             attributes: [Swift.String: AccessAnalyzerClientTypes.RdsDbSnapshotAttributeValue]? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.kmsKeyId = kmsKeyId
         }
@@ -1846,8 +1791,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcId = vpcId
         }
     }
@@ -1879,8 +1823,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             ignorePublicAcls: Swift.Bool? = nil,
             restrictPublicBuckets: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.ignorePublicAcls = ignorePublicAcls
             self.restrictPublicBuckets = restrictPublicBuckets
         }
@@ -1902,8 +1845,7 @@ extension AccessAnalyzerClientTypes {
             accessPointPolicy: Swift.String? = nil,
             networkOrigin: AccessAnalyzerClientTypes.NetworkOriginConfiguration? = nil,
             publicAccessBlock: AccessAnalyzerClientTypes.S3PublicAccessBlockConfiguration? = nil
-        )
-        {
+        ) {
             self.accessPointPolicy = accessPointPolicy
             self.networkOrigin = networkOrigin
             self.publicAccessBlock = publicAccessBlock
@@ -1975,8 +1917,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             grantee: AccessAnalyzerClientTypes.AclGrantee? = nil,
             permission: AccessAnalyzerClientTypes.AclPermission? = nil
-        )
-        {
+        ) {
             self.grantee = grantee
             self.permission = permission
         }
@@ -2001,8 +1942,7 @@ extension AccessAnalyzerClientTypes {
             bucketAclGrants: [AccessAnalyzerClientTypes.S3BucketAclGrantConfiguration]? = nil,
             bucketPolicy: Swift.String? = nil,
             bucketPublicAccessBlock: AccessAnalyzerClientTypes.S3PublicAccessBlockConfiguration? = nil
-        )
-        {
+        ) {
             self.accessPoints = accessPoints
             self.bucketAclGrants = bucketAclGrants
             self.bucketPolicy = bucketPolicy
@@ -2020,8 +1960,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             bucketPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketPolicy = bucketPolicy
         }
     }
@@ -2039,8 +1978,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             secretPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.secretPolicy = secretPolicy
         }
@@ -2056,8 +1994,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             topicPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicPolicy = topicPolicy
         }
     }
@@ -2072,8 +2009,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             queuePolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.queuePolicy = queuePolicy
         }
     }
@@ -2129,8 +2065,7 @@ public struct CreateAccessPreviewInput: Swift.Sendable {
         analyzerArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         configurations: [Swift.String: AccessAnalyzerClientTypes.Configuration]? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.clientToken = clientToken
         self.configurations = configurations
@@ -2144,8 +2079,7 @@ public struct CreateAccessPreviewOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2161,8 +2095,7 @@ public struct GenerateFindingRecommendationInput: Swift.Sendable {
     public init(
         analyzerArn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.id = id
     }
@@ -2179,8 +2112,7 @@ public struct GetAccessPreviewInput: Swift.Sendable {
     public init(
         accessPreviewId: Swift.String? = nil,
         analyzerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPreviewId = accessPreviewId
         self.analyzerArn = analyzerArn
     }
@@ -2257,8 +2189,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             code: AccessAnalyzerClientTypes.AccessPreviewStatusReasonCode? = nil
-        )
-        {
+        ) {
             self.code = code
         }
     }
@@ -2299,8 +2230,7 @@ extension AccessAnalyzerClientTypes {
             id: Swift.String? = nil,
             status: AccessAnalyzerClientTypes.AccessPreviewStatus? = nil,
             statusReason: AccessAnalyzerClientTypes.AccessPreviewStatusReason? = nil
-        )
-        {
+        ) {
             self.analyzerArn = analyzerArn
             self.configurations = configurations
             self.createdAt = createdAt
@@ -2318,8 +2248,7 @@ public struct GetAccessPreviewOutput: Swift.Sendable {
 
     public init(
         accessPreview: AccessAnalyzerClientTypes.AccessPreview? = nil
-    )
-    {
+    ) {
         self.accessPreview = accessPreview
     }
 }
@@ -2336,8 +2265,7 @@ public struct GetAnalyzedResourceInput: Swift.Sendable {
     public init(
         analyzerArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.resourceArn = resourceArn
     }
@@ -2495,8 +2423,7 @@ extension AccessAnalyzerClientTypes {
             sharedVia: [Swift.String]? = nil,
             status: AccessAnalyzerClientTypes.FindingStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.analyzedAt = analyzedAt
             self.createdAt = createdAt
@@ -2519,8 +2446,7 @@ public struct GetAnalyzedResourceOutput: Swift.Sendable {
 
     public init(
         resource: AccessAnalyzerClientTypes.AnalyzedResource? = nil
-    )
-    {
+    ) {
         self.resource = resource
     }
 }
@@ -2537,8 +2463,7 @@ public struct GetFindingInput: Swift.Sendable {
     public init(
         analyzerArn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.id = id
     }
@@ -2588,8 +2513,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             accessPointAccount: Swift.String? = nil,
             accessPointArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessPointAccount = accessPointAccount
             self.accessPointArn = accessPointArn
         }
@@ -2644,8 +2568,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             detail: AccessAnalyzerClientTypes.FindingSourceDetail? = nil,
             type: AccessAnalyzerClientTypes.FindingSourceType? = nil
-        )
-        {
+        ) {
             self.detail = detail
             self.type = type
         }
@@ -2711,8 +2634,7 @@ extension AccessAnalyzerClientTypes {
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
             status: AccessAnalyzerClientTypes.FindingStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition
@@ -2739,8 +2661,7 @@ public struct GetFindingOutput: Swift.Sendable {
 
     public init(
         finding: AccessAnalyzerClientTypes.Finding? = nil
-    )
-    {
+    ) {
         self.finding = finding
     }
 }
@@ -2762,8 +2683,7 @@ public struct GetFindingRecommendationInput: Swift.Sendable {
         id: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.id = id
         self.maxResults = maxResults
@@ -2785,8 +2705,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2867,8 +2786,7 @@ extension AccessAnalyzerClientTypes {
             policyUpdatedAt: Foundation.Date? = nil,
             recommendedAction: AccessAnalyzerClientTypes.RecommendedRemediationAction? = nil,
             recommendedPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.existingPolicyId = existingPolicyId
             self.policyUpdatedAt = policyUpdatedAt
             self.recommendedAction = recommendedAction
@@ -2950,8 +2868,7 @@ public struct GetFindingRecommendationOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         startedAt: Foundation.Date? = nil,
         status: AccessAnalyzerClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.completedAt = completedAt
         self.error = error
         self.nextToken = nextToken
@@ -2960,6 +2877,164 @@ public struct GetFindingRecommendationOutput: Swift.Sendable {
         self.resourceArn = resourceArn
         self.startedAt = startedAt
         self.status = status
+    }
+}
+
+public struct GetFindingsStatisticsInput: Swift.Sendable {
+    /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) used to generate the statistics.
+    /// This member is required.
+    public var analyzerArn: Swift.String?
+
+    public init(
+        analyzerArn: Swift.String? = nil
+    ) {
+        self.analyzerArn = analyzerArn
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the total number of active cross-account and public findings for a resource type of an external access analyzer.
+    public struct ResourceTypeDetails: Swift.Sendable {
+        /// The total number of active cross-account findings for the resource type.
+        public var totalActiveCrossAccount: Swift.Int?
+        /// The total number of active public findings for the resource type.
+        public var totalActivePublic: Swift.Int?
+
+        public init(
+            totalActiveCrossAccount: Swift.Int? = nil,
+            totalActivePublic: Swift.Int? = nil
+        ) {
+            self.totalActiveCrossAccount = totalActiveCrossAccount
+            self.totalActivePublic = totalActivePublic
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Provides aggregate statistics about the findings for the specified external access analyzer.
+    public struct ExternalAccessFindingsStatistics: Swift.Sendable {
+        /// The total number of active cross-account and public findings for each resource type of the specified external access analyzer.
+        public var resourceTypeStatistics: [Swift.String: AccessAnalyzerClientTypes.ResourceTypeDetails]?
+        /// The number of active findings for the specified external access analyzer.
+        public var totalActiveFindings: Swift.Int?
+        /// The number of archived findings for the specified external access analyzer.
+        public var totalArchivedFindings: Swift.Int?
+        /// The number of resolved findings for the specified external access analyzer.
+        public var totalResolvedFindings: Swift.Int?
+
+        public init(
+            resourceTypeStatistics: [Swift.String: AccessAnalyzerClientTypes.ResourceTypeDetails]? = nil,
+            totalActiveFindings: Swift.Int? = nil,
+            totalArchivedFindings: Swift.Int? = nil,
+            totalResolvedFindings: Swift.Int? = nil
+        ) {
+            self.resourceTypeStatistics = resourceTypeStatistics
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the findings for an Amazon Web Services account in an organization unused access analyzer.
+    public struct FindingAggregationAccountDetails: Swift.Sendable {
+        /// The ID of the Amazon Web Services account for which unused access finding details are provided.
+        public var account: Swift.String?
+        /// Provides the number of active findings for each type of unused access for the specified Amazon Web Services account.
+        public var details: [Swift.String: Swift.Int]?
+        /// The number of active unused access findings for the specified Amazon Web Services account.
+        public var numberOfActiveFindings: Swift.Int?
+
+        public init(
+            account: Swift.String? = nil,
+            details: [Swift.String: Swift.Int]? = nil,
+            numberOfActiveFindings: Swift.Int? = nil
+        ) {
+            self.account = account
+            self.details = details
+            self.numberOfActiveFindings = numberOfActiveFindings
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the total number of findings for a type of unused access.
+    public struct UnusedAccessTypeStatistics: Swift.Sendable {
+        /// The total number of findings for the specified unused access type.
+        public var total: Swift.Int?
+        /// The type of unused access.
+        public var unusedAccessType: Swift.String?
+
+        public init(
+            total: Swift.Int? = nil,
+            unusedAccessType: Swift.String? = nil
+        ) {
+            self.total = total
+            self.unusedAccessType = unusedAccessType
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Provides aggregate statistics about the findings for the specified unused access analyzer.
+    public struct UnusedAccessFindingsStatistics: Swift.Sendable {
+        /// A list of one to ten Amazon Web Services accounts that have the most active findings for the unused access analyzer.
+        public var topAccounts: [AccessAnalyzerClientTypes.FindingAggregationAccountDetails]?
+        /// The total number of active findings for the unused access analyzer.
+        public var totalActiveFindings: Swift.Int?
+        /// The total number of archived findings for the unused access analyzer.
+        public var totalArchivedFindings: Swift.Int?
+        /// The total number of resolved findings for the unused access analyzer.
+        public var totalResolvedFindings: Swift.Int?
+        /// A list of details about the total number of findings for each type of unused access for the analyzer.
+        public var unusedAccessTypeStatistics: [AccessAnalyzerClientTypes.UnusedAccessTypeStatistics]?
+
+        public init(
+            topAccounts: [AccessAnalyzerClientTypes.FindingAggregationAccountDetails]? = nil,
+            totalActiveFindings: Swift.Int? = nil,
+            totalArchivedFindings: Swift.Int? = nil,
+            totalResolvedFindings: Swift.Int? = nil,
+            unusedAccessTypeStatistics: [AccessAnalyzerClientTypes.UnusedAccessTypeStatistics]? = nil
+        ) {
+            self.topAccounts = topAccounts
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+            self.unusedAccessTypeStatistics = unusedAccessTypeStatistics
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the aggregate statistics for an external or unused access analyzer. Only one parameter can be used in a FindingsStatistics object.
+    public enum FindingsStatistics: Swift.Sendable {
+        /// The aggregate statistics for an external access analyzer.
+        case externalaccessfindingsstatistics(AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics)
+        /// The aggregate statistics for an unused access analyzer.
+        case unusedaccessfindingsstatistics(AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetFindingsStatisticsOutput: Swift.Sendable {
+    /// A group of external access or unused access findings statistics.
+    public var findingsStatistics: [AccessAnalyzerClientTypes.FindingsStatistics]?
+    /// The time at which the retrieval of the findings statistics was last updated. If the findings statistics have not been previously retrieved for the specified analyzer, this field will not be populated.
+    public var lastUpdatedAt: Foundation.Date?
+
+    public init(
+        findingsStatistics: [AccessAnalyzerClientTypes.FindingsStatistics]? = nil,
+        lastUpdatedAt: Foundation.Date? = nil
+    ) {
+        self.findingsStatistics = findingsStatistics
+        self.lastUpdatedAt = lastUpdatedAt
     }
 }
 
@@ -2980,8 +3055,7 @@ public struct GetFindingV2Input: Swift.Sendable {
         id: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.id = id
         self.maxResults = maxResults
@@ -3014,8 +3088,7 @@ extension AccessAnalyzerClientTypes {
             principal: [Swift.String: Swift.String]? = nil,
             resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.condition = condition
             self.isPublic = isPublic
@@ -3035,8 +3108,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             lastAccessed: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lastAccessed = lastAccessed
         }
     }
@@ -3055,8 +3127,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             accessKeyId: Swift.String? = nil,
             lastAccessed: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.lastAccessed = lastAccessed
         }
@@ -3072,8 +3143,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             lastAccessed: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lastAccessed = lastAccessed
         }
     }
@@ -3092,8 +3162,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             action: Swift.String? = nil,
             lastAccessed: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.lastAccessed = lastAccessed
         }
@@ -3116,8 +3185,7 @@ extension AccessAnalyzerClientTypes {
             actions: [AccessAnalyzerClientTypes.UnusedAction]? = nil,
             lastAccessed: Foundation.Date? = nil,
             serviceNamespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.lastAccessed = lastAccessed
             self.serviceNamespace = serviceNamespace
@@ -3228,8 +3296,7 @@ public struct GetFindingV2Output: Swift.Sendable {
         resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
         status: AccessAnalyzerClientTypes.FindingStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.analyzedAt = analyzedAt
         self.createdAt = createdAt
         self.error = error
@@ -3258,8 +3325,7 @@ public struct GetGeneratedPolicyInput: Swift.Sendable {
         includeResourcePlaceholders: Swift.Bool? = nil,
         includeServiceLevelTemplate: Swift.Bool? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeResourcePlaceholders = includeResourcePlaceholders
         self.includeServiceLevelTemplate = includeServiceLevelTemplate
         self.jobId = jobId
@@ -3276,8 +3342,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
         }
     }
@@ -3299,8 +3364,7 @@ extension AccessAnalyzerClientTypes {
             allRegions: Swift.Bool? = nil,
             cloudTrailArn: Swift.String? = nil,
             regions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allRegions = allRegions
             self.cloudTrailArn = cloudTrailArn
             self.regions = regions
@@ -3326,8 +3390,7 @@ extension AccessAnalyzerClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             trailProperties: [AccessAnalyzerClientTypes.TrailProperties]? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
             self.trailProperties = trailProperties
@@ -3351,8 +3414,7 @@ extension AccessAnalyzerClientTypes {
             cloudTrailProperties: AccessAnalyzerClientTypes.CloudTrailProperties? = nil,
             isComplete: Swift.Bool? = nil,
             principalArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudTrailProperties = cloudTrailProperties
             self.isComplete = isComplete
             self.principalArn = principalArn
@@ -3373,8 +3435,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             generatedPolicies: [AccessAnalyzerClientTypes.GeneratedPolicy]? = nil,
             properties: AccessAnalyzerClientTypes.GeneratedPolicyProperties? = nil
-        )
-        {
+        ) {
             self.generatedPolicies = generatedPolicies
             self.properties = properties
         }
@@ -3430,8 +3491,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             code: AccessAnalyzerClientTypes.JobErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -3497,8 +3557,7 @@ extension AccessAnalyzerClientTypes {
             jobId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: AccessAnalyzerClientTypes.JobStatus? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.jobError = jobError
             self.jobId = jobId
@@ -3519,8 +3578,7 @@ public struct GetGeneratedPolicyOutput: Swift.Sendable {
     public init(
         generatedPolicyResult: AccessAnalyzerClientTypes.GeneratedPolicyResult? = nil,
         jobDetails: AccessAnalyzerClientTypes.JobDetails? = nil
-    )
-    {
+    ) {
         self.generatedPolicyResult = generatedPolicyResult
         self.jobDetails = jobDetails
     }
@@ -3546,8 +3604,7 @@ public struct ListAccessPreviewFindingsInput: Swift.Sendable {
         filter: [Swift.String: AccessAnalyzerClientTypes.Criterion]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPreviewId = accessPreviewId
         self.analyzerArn = analyzerArn
         self.filter = filter
@@ -3657,8 +3714,7 @@ extension AccessAnalyzerClientTypes {
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
             status: AccessAnalyzerClientTypes.FindingStatus? = nil
-        )
-        {
+        ) {
             self.action = action
             self.changeType = changeType
             self.condition = condition
@@ -3689,8 +3745,7 @@ public struct ListAccessPreviewFindingsOutput: Swift.Sendable {
     public init(
         findings: [AccessAnalyzerClientTypes.AccessPreviewFinding]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -3709,8 +3764,7 @@ public struct ListAccessPreviewsInput: Swift.Sendable {
         analyzerArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3748,8 +3802,7 @@ extension AccessAnalyzerClientTypes {
             id: Swift.String? = nil,
             status: AccessAnalyzerClientTypes.AccessPreviewStatus? = nil,
             statusReason: AccessAnalyzerClientTypes.AccessPreviewStatusReason? = nil
-        )
-        {
+        ) {
             self.analyzerArn = analyzerArn
             self.createdAt = createdAt
             self.id = id
@@ -3769,8 +3822,7 @@ public struct ListAccessPreviewsOutput: Swift.Sendable {
     public init(
         accessPreviews: [AccessAnalyzerClientTypes.AccessPreviewSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPreviews = accessPreviews
         self.nextToken = nextToken
     }
@@ -3793,8 +3845,7 @@ public struct ListAnalyzedResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: AccessAnalyzerClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3820,8 +3871,7 @@ extension AccessAnalyzerClientTypes {
             resourceArn: Swift.String? = nil,
             resourceOwnerAccount: Swift.String? = nil,
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
@@ -3840,8 +3890,7 @@ public struct ListAnalyzedResourcesOutput: Swift.Sendable {
     public init(
         analyzedResources: [AccessAnalyzerClientTypes.AnalyzedResourceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzedResources = analyzedResources
         self.nextToken = nextToken
     }
@@ -3888,8 +3937,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             orderBy: AccessAnalyzerClientTypes.OrderBy? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.orderBy = orderBy
         }
@@ -3916,8 +3964,7 @@ public struct ListFindingsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: AccessAnalyzerClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.filter = filter
         self.maxResults = maxResults
@@ -3985,8 +4032,7 @@ extension AccessAnalyzerClientTypes {
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
             status: AccessAnalyzerClientTypes.FindingStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.analyzedAt = analyzedAt
             self.condition = condition
@@ -4017,8 +4063,7 @@ public struct ListFindingsOutput: Swift.Sendable {
     public init(
         findings: [AccessAnalyzerClientTypes.FindingSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -4043,8 +4088,7 @@ public struct ListFindingsV2Input: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: AccessAnalyzerClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.filter = filter
         self.maxResults = maxResults
@@ -4096,8 +4140,7 @@ extension AccessAnalyzerClientTypes {
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             status: AccessAnalyzerClientTypes.FindingStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analyzedAt = analyzedAt
             self.createdAt = createdAt
             self.error = error
@@ -4122,8 +4165,7 @@ public struct ListFindingsV2Output: Swift.Sendable {
     public init(
         findings: [AccessAnalyzerClientTypes.FindingSummaryV2]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -4141,8 +4183,7 @@ public struct ListPolicyGenerationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         principalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.principalArn = principalArn
@@ -4174,8 +4215,7 @@ extension AccessAnalyzerClientTypes {
             principalArn: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: AccessAnalyzerClientTypes.JobStatus? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.jobId = jobId
             self.principalArn = principalArn
@@ -4195,8 +4235,7 @@ public struct ListPolicyGenerationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policyGenerations: [AccessAnalyzerClientTypes.PolicyGeneration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policyGenerations = policyGenerations
     }
@@ -4210,8 +4249,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4223,8 +4261,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4245,8 +4282,7 @@ extension AccessAnalyzerClientTypes {
             allRegions: Swift.Bool? = nil,
             cloudTrailArn: Swift.String? = nil,
             regions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allRegions = allRegions
             self.cloudTrailArn = cloudTrailArn
             self.regions = regions
@@ -4275,8 +4311,7 @@ extension AccessAnalyzerClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             trails: [AccessAnalyzerClientTypes.Trail]? = nil
-        )
-        {
+        ) {
             self.accessRole = accessRole
             self.endTime = endTime
             self.startTime = startTime
@@ -4295,8 +4330,7 @@ extension AccessAnalyzerClientTypes {
 
         public init(
             principalArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.principalArn = principalArn
         }
     }
@@ -4315,8 +4349,7 @@ public struct StartPolicyGenerationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         cloudTrailDetails: AccessAnalyzerClientTypes.CloudTrailDetails? = nil,
         policyGenerationDetails: AccessAnalyzerClientTypes.PolicyGenerationDetails? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.cloudTrailDetails = cloudTrailDetails
         self.policyGenerationDetails = policyGenerationDetails
@@ -4330,8 +4363,7 @@ public struct StartPolicyGenerationOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -4351,8 +4383,7 @@ public struct StartResourceScanInput: Swift.Sendable {
         analyzerArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceOwnerAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.resourceArn = resourceArn
         self.resourceOwnerAccount = resourceOwnerAccount
@@ -4371,8 +4402,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4396,8 +4426,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4459,8 +4488,7 @@ public struct UpdateFindingsInput: Swift.Sendable {
         ids: [Swift.String]? = nil,
         resourceArn: Swift.String? = nil,
         status: AccessAnalyzerClientTypes.FindingStatusUpdate? = nil
-    )
-    {
+    ) {
         self.analyzerArn = analyzerArn
         self.clientToken = clientToken
         self.ids = ids
@@ -4621,8 +4649,7 @@ public struct ValidatePolicyInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyType: AccessAnalyzerClientTypes.PolicyType? = nil,
         validatePolicyResourceType: AccessAnalyzerClientTypes.ValidatePolicyResourceType? = nil
-    )
-    {
+    ) {
         self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4681,8 +4708,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             length: Swift.Int? = nil,
             start: Swift.Int? = nil
-        )
-        {
+        ) {
             self.length = length
             self.start = start
         }
@@ -4723,8 +4749,7 @@ extension AccessAnalyzerClientTypes {
             column: Swift.Int? = nil,
             line: Swift.Int? = nil,
             offset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.column = column
             self.line = line
             self.offset = offset
@@ -4746,8 +4771,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             end: AccessAnalyzerClientTypes.Position? = nil,
             start: AccessAnalyzerClientTypes.Position? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -4768,8 +4792,7 @@ extension AccessAnalyzerClientTypes {
         public init(
             path: [AccessAnalyzerClientTypes.PathElement]? = nil,
             span: AccessAnalyzerClientTypes.Span? = nil
-        )
-        {
+        ) {
             self.path = path
             self.span = span
         }
@@ -4802,8 +4825,7 @@ extension AccessAnalyzerClientTypes {
             issueCode: Swift.String? = nil,
             learnMoreLink: Swift.String? = nil,
             locations: [AccessAnalyzerClientTypes.Location]? = nil
-        )
-        {
+        ) {
             self.findingDetails = findingDetails
             self.findingType = findingType
             self.issueCode = issueCode
@@ -4823,8 +4845,7 @@ public struct ValidatePolicyOutput: Swift.Sendable {
     public init(
         findings: [AccessAnalyzerClientTypes.ValidatePolicyFinding]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -5090,6 +5111,13 @@ extension GetFindingRecommendationInput {
         let analyzerArnQueryItem = Smithy.URIQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
         items.append(analyzerArnQueryItem)
         return items
+    }
+}
+
+extension GetFindingsStatisticsInput {
+
+    static func urlPathProvider(_ value: GetFindingsStatisticsInput) -> Swift.String? {
+        return "/analyzer/findings/statistics"
     }
 }
 
@@ -5476,6 +5504,14 @@ extension CreateArchiveRuleInput {
     }
 }
 
+extension GetFindingsStatisticsInput {
+
+    static func write(value: GetFindingsStatisticsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analyzerArn"].write(value.analyzerArn)
+    }
+}
+
 extension ListAccessPreviewFindingsInput {
 
     static func write(value: ListAccessPreviewFindingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5773,6 +5809,19 @@ extension GetFindingRecommendationOutput {
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetFindingsStatisticsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingsStatisticsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFindingsStatisticsOutput()
+        value.findingsStatistics = try reader["findingsStatistics"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingsStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -6296,6 +6345,24 @@ enum GetFindingOutputError {
 }
 
 enum GetFindingRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFindingsStatisticsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7588,6 +7655,83 @@ extension AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep {
         value.recommendedAction = try reader["recommendedAction"].readIfPresent() ?? .sdkUnknown("")
         value.recommendedPolicy = try reader["recommendedPolicy"].readIfPresent()
         value.existingPolicyId = try reader["existingPolicyId"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.FindingsStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingsStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "externalAccessFindingsStatistics":
+                return .externalaccessfindingsstatistics(try reader["externalAccessFindingsStatistics"].read(with: AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics.read(from:)))
+            case "unusedAccessFindingsStatistics":
+                return .unusedaccessfindingsstatistics(try reader["unusedAccessFindingsStatistics"].read(with: AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics()
+        value.unusedAccessTypeStatistics = try reader["unusedAccessTypeStatistics"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.UnusedAccessTypeStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topAccounts = try reader["topAccounts"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingAggregationAccountDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalActiveFindings = try reader["totalActiveFindings"].readIfPresent()
+        value.totalArchivedFindings = try reader["totalArchivedFindings"].readIfPresent()
+        value.totalResolvedFindings = try reader["totalResolvedFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.FindingAggregationAccountDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingAggregationAccountDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.FindingAggregationAccountDetails()
+        value.account = try reader["account"].readIfPresent()
+        value.numberOfActiveFindings = try reader["numberOfActiveFindings"].readIfPresent()
+        value.details = try reader["details"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.UnusedAccessTypeStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedAccessTypeStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.UnusedAccessTypeStatistics()
+        value.unusedAccessType = try reader["unusedAccessType"].readIfPresent()
+        value.total = try reader["total"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics()
+        value.resourceTypeStatistics = try reader["resourceTypeStatistics"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.ResourceTypeDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.totalActiveFindings = try reader["totalActiveFindings"].readIfPresent()
+        value.totalArchivedFindings = try reader["totalArchivedFindings"].readIfPresent()
+        value.totalResolvedFindings = try reader["totalResolvedFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.ResourceTypeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ResourceTypeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.ResourceTypeDetails()
+        value.totalActivePublic = try reader["totalActivePublic"].readIfPresent()
+        value.totalActiveCrossAccount = try reader["totalActiveCrossAccount"].readIfPresent()
         return value
     }
 }

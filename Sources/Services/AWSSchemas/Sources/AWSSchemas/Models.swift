@@ -115,8 +115,7 @@ extension SchemasClientTypes {
             sourceArn: Swift.String? = nil,
             state: SchemasClientTypes.DiscovererState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.crossAccount = crossAccount
             self.discovererArn = discovererArn
             self.discovererId = discovererId
@@ -141,8 +140,7 @@ extension SchemasClientTypes {
             registryArn: Swift.String? = nil,
             registryName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.registryArn = registryArn
             self.registryName = registryName
             self.tags = tags
@@ -171,8 +169,7 @@ extension SchemasClientTypes {
             schemaName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             versionCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lastModified = lastModified
             self.schemaArn = schemaArn
             self.schemaName = schemaName
@@ -228,8 +225,7 @@ extension SchemasClientTypes {
             schemaName: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             type: SchemasClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.schemaArn = schemaArn
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
@@ -252,8 +248,7 @@ extension SchemasClientTypes {
             createdDate: Foundation.Date? = nil,
             schemaVersion: Swift.String? = nil,
             type: SchemasClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.schemaVersion = schemaVersion
             self.type = type
@@ -278,8 +273,7 @@ extension SchemasClientTypes {
             schemaArn: Swift.String? = nil,
             schemaName: Swift.String? = nil,
             schemaVersions: [SchemasClientTypes.SearchSchemaVersionSummary]? = nil
-        )
-        {
+        ) {
             self.registryName = registryName
             self.schemaArn = schemaArn
             self.schemaName = schemaName
@@ -288,9 +282,9 @@ extension SchemasClientTypes {
     }
 }
 
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -311,8 +305,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -350,9 +343,9 @@ extension SchemasClientTypes {
     }
 }
 
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -373,16 +366,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -403,16 +395,15 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -433,16 +424,15 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -463,16 +453,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -493,8 +482,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -516,8 +504,7 @@ public struct CreateDiscovererInput: Swift.Sendable {
         description: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.crossAccount = crossAccount
         self.description = description
         self.sourceArn = sourceArn
@@ -549,8 +536,7 @@ public struct CreateDiscovererOutput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         state: SchemasClientTypes.DiscovererState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.crossAccount = crossAccount
         self.description = description
         self.discovererArn = discovererArn
@@ -574,8 +560,7 @@ public struct CreateRegistryInput: Swift.Sendable {
         description: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryName = registryName
         self.tags = tags
@@ -597,8 +582,7 @@ public struct CreateRegistryOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryArn = registryArn
         self.registryName = registryName
@@ -631,8 +615,7 @@ public struct CreateSchemaInput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: SchemasClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.content = content
         self.description = description
         self.registryName = registryName
@@ -669,8 +652,7 @@ public struct CreateSchemaOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         versionCreatedDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.description = description
         self.lastModified = lastModified
         self.schemaArn = schemaArn
@@ -682,9 +664,9 @@ public struct CreateSchemaOutput: Swift.Sendable {
     }
 }
 
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -705,8 +687,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -719,8 +700,7 @@ public struct DeleteDiscovererInput: Swift.Sendable {
 
     public init(
         discovererId: Swift.String? = nil
-    )
-    {
+    ) {
         self.discovererId = discovererId
     }
 }
@@ -732,8 +712,7 @@ public struct DeleteRegistryInput: Swift.Sendable {
 
     public init(
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
     }
 }
@@ -744,8 +723,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
     }
 }
@@ -761,8 +739,7 @@ public struct DeleteSchemaInput: Swift.Sendable {
     public init(
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
         self.schemaName = schemaName
     }
@@ -783,17 +760,16 @@ public struct DeleteSchemaVersionInput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         schemaVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
         self.schemaName = schemaName
         self.schemaVersion = schemaVersion
     }
 }
 
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -814,8 +790,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -839,8 +814,7 @@ public struct DescribeCodeBindingInput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         schemaVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.language = language
         self.registryName = registryName
         self.schemaName = schemaName
@@ -863,8 +837,7 @@ public struct DescribeCodeBindingOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         schemaVersion: Swift.String? = nil,
         status: SchemasClientTypes.CodeGenerationStatus? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.lastModified = lastModified
         self.schemaVersion = schemaVersion
@@ -879,8 +852,7 @@ public struct DescribeDiscovererInput: Swift.Sendable {
 
     public init(
         discovererId: Swift.String? = nil
-    )
-    {
+    ) {
         self.discovererId = discovererId
     }
 }
@@ -909,8 +881,7 @@ public struct DescribeDiscovererOutput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         state: SchemasClientTypes.DiscovererState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.crossAccount = crossAccount
         self.description = description
         self.discovererArn = discovererArn
@@ -928,8 +899,7 @@ public struct DescribeRegistryInput: Swift.Sendable {
 
     public init(
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
     }
 }
@@ -949,8 +919,7 @@ public struct DescribeRegistryOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryArn = registryArn
         self.registryName = registryName
@@ -972,8 +941,7 @@ public struct DescribeSchemaInput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         schemaVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
         self.schemaName = schemaName
         self.schemaVersion = schemaVersion
@@ -1010,8 +978,7 @@ public struct DescribeSchemaOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         versionCreatedDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.content = content
         self.description = description
         self.lastModified = lastModified
@@ -1041,8 +1008,7 @@ public struct ExportSchemaInput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaVersion: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
         self.schemaName = schemaName
         self.schemaVersion = schemaVersion
@@ -1063,8 +1029,7 @@ public struct ExportSchemaOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaVersion: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.schemaArn = schemaArn
         self.schemaName = schemaName
@@ -1091,8 +1056,7 @@ public struct GetCodeBindingSourceInput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         schemaVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.language = language
         self.registryName = registryName
         self.schemaName = schemaName
@@ -1105,8 +1069,7 @@ public struct GetCodeBindingSourceOutput: Swift.Sendable {
 
     public init(
         body: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.body = body
     }
 }
@@ -1122,8 +1085,7 @@ public struct GetDiscoveredSchemaInput: Swift.Sendable {
     public init(
         events: [Swift.String]? = nil,
         type: SchemasClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.events = events
         self.type = type
     }
@@ -1135,8 +1097,7 @@ public struct GetDiscoveredSchemaOutput: Swift.Sendable {
 
     public init(
         content: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -1147,8 +1108,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
     }
 }
@@ -1162,16 +1122,15 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
 }
 
-public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1192,8 +1151,7 @@ public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1213,8 +1171,7 @@ public struct ListDiscoverersInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceArnPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.discovererIdPrefix = discovererIdPrefix
         self.limit = limit
         self.nextToken = nextToken
@@ -1231,8 +1188,7 @@ public struct ListDiscoverersOutput: Swift.Sendable {
     public init(
         discoverers: [SchemasClientTypes.DiscovererSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoverers = discoverers
         self.nextToken = nextToken
     }
@@ -1252,8 +1208,7 @@ public struct ListRegistriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryNamePrefix: Swift.String? = nil,
         scope: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.registryNamePrefix = registryNamePrefix
@@ -1270,8 +1225,7 @@ public struct ListRegistriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registries: [SchemasClientTypes.RegistrySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registries = registries
     }
@@ -1292,8 +1246,7 @@ public struct ListSchemasInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryName: Swift.String? = nil,
         schemaNamePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.registryName = registryName
@@ -1310,8 +1263,7 @@ public struct ListSchemasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [SchemasClientTypes.SchemaSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -1333,8 +1285,7 @@ public struct ListSchemaVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.registryName = registryName
@@ -1351,8 +1302,7 @@ public struct ListSchemaVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaVersions: [SchemasClientTypes.SchemaVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaVersions = schemaVersions
     }
@@ -1365,8 +1315,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1377,15 +1326,14 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
-public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1406,8 +1354,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1431,8 +1378,7 @@ public struct PutCodeBindingInput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         schemaVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.language = language
         self.registryName = registryName
         self.schemaName = schemaName
@@ -1455,8 +1401,7 @@ public struct PutCodeBindingOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         schemaVersion: Swift.String? = nil,
         status: SchemasClientTypes.CodeGenerationStatus? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.lastModified = lastModified
         self.schemaVersion = schemaVersion
@@ -1478,8 +1423,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         registryName: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.registryName = registryName
         self.revisionId = revisionId
@@ -1495,8 +1439,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.revisionId = revisionId
     }
@@ -1518,8 +1461,7 @@ public struct SearchSchemasInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keywords = keywords
         self.limit = limit
         self.nextToken = nextToken
@@ -1536,8 +1478,7 @@ public struct SearchSchemasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [SchemasClientTypes.SearchSchemaSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -1550,8 +1491,7 @@ public struct StartDiscovererInput: Swift.Sendable {
 
     public init(
         discovererId: Swift.String? = nil
-    )
-    {
+    ) {
         self.discovererId = discovererId
     }
 }
@@ -1565,8 +1505,7 @@ public struct StartDiscovererOutput: Swift.Sendable {
     public init(
         discovererId: Swift.String? = nil,
         state: SchemasClientTypes.DiscovererState? = nil
-    )
-    {
+    ) {
         self.discovererId = discovererId
         self.state = state
     }
@@ -1579,8 +1518,7 @@ public struct StopDiscovererInput: Swift.Sendable {
 
     public init(
         discovererId: Swift.String? = nil
-    )
-    {
+    ) {
         self.discovererId = discovererId
     }
 }
@@ -1594,8 +1532,7 @@ public struct StopDiscovererOutput: Swift.Sendable {
     public init(
         discovererId: Swift.String? = nil,
         state: SchemasClientTypes.DiscovererState? = nil
-    )
-    {
+    ) {
         self.discovererId = discovererId
         self.state = state
     }
@@ -1613,8 +1550,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1631,8 +1567,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1651,8 +1586,7 @@ public struct UpdateDiscovererInput: Swift.Sendable {
         crossAccount: Swift.Bool? = nil,
         description: Swift.String? = nil,
         discovererId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossAccount = crossAccount
         self.description = description
         self.discovererId = discovererId
@@ -1683,8 +1617,7 @@ public struct UpdateDiscovererOutput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         state: SchemasClientTypes.DiscovererState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.crossAccount = crossAccount
         self.description = description
         self.discovererArn = discovererArn
@@ -1706,8 +1639,7 @@ public struct UpdateRegistryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryName = registryName
     }
@@ -1728,8 +1660,7 @@ public struct UpdateRegistryOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryArn = registryArn
         self.registryName = registryName
@@ -1760,8 +1691,7 @@ public struct UpdateSchemaInput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         type: SchemasClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.clientTokenId = clientTokenId
         self.content = content
         self.description = description
@@ -1798,8 +1728,7 @@ public struct UpdateSchemaOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         versionCreatedDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.description = description
         self.lastModified = lastModified
         self.schemaArn = schemaArn

@@ -27,9 +27,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// An exception occurred with the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -44,16 +44,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unable to find the requested Amazon Web Services resource.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -68,16 +67,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -92,16 +90,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided input is not valid. Try your request again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -116,8 +113,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -129,8 +125,7 @@ public struct DeregisterSubscriptionProviderInput: Swift.Sendable {
 
     public init(
         subscriptionProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionProviderArn = subscriptionProviderArn
     }
 }
@@ -190,8 +185,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
             name: Swift.String? = nil,
             `operator`: LicenseManagerLinuxSubscriptionsClientTypes.Operator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -206,8 +200,7 @@ public struct GetRegisteredSubscriptionProviderInput: Swift.Sendable {
 
     public init(
         subscriptionProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionProviderArn = subscriptionProviderArn
     }
 }
@@ -295,8 +288,7 @@ public struct GetRegisteredSubscriptionProviderOutput: Swift.Sendable {
         subscriptionProviderSource: LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderSource? = nil,
         subscriptionProviderStatus: LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderStatus? = nil,
         subscriptionProviderStatusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastSuccessfulDataRetrievalTime = lastSuccessfulDataRetrievalTime
         self.secretArn = secretArn
         self.subscriptionProviderArn = subscriptionProviderArn
@@ -387,8 +379,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
         public init(
             organizationIntegration: LicenseManagerLinuxSubscriptionsClientTypes.OrganizationIntegration? = nil,
             sourceRegions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.organizationIntegration = organizationIntegration
             self.sourceRegions = sourceRegions
         }
@@ -452,8 +443,7 @@ public struct GetServiceSettingsOutput: Swift.Sendable {
         linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings? = nil,
         status: LicenseManagerLinuxSubscriptionsClientTypes.Status? = nil,
         statusMessage: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.homeRegions = homeRegions
         self.linuxSubscriptionsDiscovery = linuxSubscriptionsDiscovery
         self.linuxSubscriptionsDiscoverySettings = linuxSubscriptionsDiscoverySettings
@@ -513,8 +503,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
             subscriptionProviderCreateTime: Swift.String? = nil,
             subscriptionProviderUpdateTime: Swift.String? = nil,
             usageOperation: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountID = accountID
             self.amiId = amiId
             self.dualSubscription = dualSubscription
@@ -574,8 +563,7 @@ public struct ListLinuxSubscriptionInstancesInput: Swift.Sendable {
         filters: [LicenseManagerLinuxSubscriptionsClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -591,8 +579,7 @@ public struct ListLinuxSubscriptionInstancesOutput: Swift.Sendable {
     public init(
         instances: [LicenseManagerLinuxSubscriptionsClientTypes.Instance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
     }
@@ -622,8 +609,7 @@ public struct ListLinuxSubscriptionsInput: Swift.Sendable {
         filters: [LicenseManagerLinuxSubscriptionsClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -645,8 +631,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
             instanceCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.name = name
             self.type = type
@@ -663,8 +648,7 @@ public struct ListLinuxSubscriptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscriptions: [LicenseManagerLinuxSubscriptionsClientTypes.Subscription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscriptions = subscriptions
     }
@@ -682,8 +666,7 @@ public struct ListRegisteredSubscriptionProvidersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         subscriptionProviderSources: [LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderSource]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.subscriptionProviderSources = subscriptionProviderSources
@@ -714,8 +697,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
             subscriptionProviderSource: LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderSource? = nil,
             subscriptionProviderStatus: LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderStatus? = nil,
             subscriptionProviderStatusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastSuccessfulDataRetrievalTime = lastSuccessfulDataRetrievalTime
             self.secretArn = secretArn
             self.subscriptionProviderArn = subscriptionProviderArn
@@ -735,8 +717,7 @@ public struct ListRegisteredSubscriptionProvidersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registeredSubscriptionProviders: [LicenseManagerLinuxSubscriptionsClientTypes.RegisteredSubscriptionProvider]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registeredSubscriptionProviders = registeredSubscriptionProviders
     }
@@ -749,8 +730,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -761,8 +741,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -786,8 +765,7 @@ public struct RegisterSubscriptionProviderInput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         subscriptionProviderSource: LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderSource? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.secretArn = secretArn
         self.subscriptionProviderSource = subscriptionProviderSource
         self.tags = tags
@@ -811,8 +789,7 @@ public struct RegisterSubscriptionProviderOutput: Swift.Sendable {
         subscriptionProviderArn: Swift.String? = nil,
         subscriptionProviderSource: LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderSource? = nil,
         subscriptionProviderStatus: LicenseManagerLinuxSubscriptionsClientTypes.SubscriptionProviderStatus? = nil
-    )
-    {
+    ) {
         self.subscriptionProviderArn = subscriptionProviderArn
         self.subscriptionProviderSource = subscriptionProviderSource
         self.subscriptionProviderStatus = subscriptionProviderStatus
@@ -830,8 +807,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -858,8 +834,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -889,8 +864,7 @@ public struct UpdateServiceSettingsInput: Swift.Sendable {
         allowUpdate: Swift.Bool? = nil,
         linuxSubscriptionsDiscovery: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscovery? = nil,
         linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings? = nil
-    )
-    {
+    ) {
         self.allowUpdate = allowUpdate
         self.linuxSubscriptionsDiscovery = linuxSubscriptionsDiscovery
         self.linuxSubscriptionsDiscoverySettings = linuxSubscriptionsDiscoverySettings
@@ -915,8 +889,7 @@ public struct UpdateServiceSettingsOutput: Swift.Sendable {
         linuxSubscriptionsDiscoverySettings: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings? = nil,
         status: LicenseManagerLinuxSubscriptionsClientTypes.Status? = nil,
         statusMessage: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.homeRegions = homeRegions
         self.linuxSubscriptionsDiscovery = linuxSubscriptionsDiscovery
         self.linuxSubscriptionsDiscoverySettings = linuxSubscriptionsDiscoverySettings

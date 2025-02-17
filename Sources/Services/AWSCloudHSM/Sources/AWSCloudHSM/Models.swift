@@ -24,9 +24,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Indicates that an internal error occurred.
-public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the error.
         public internal(set) var message: Swift.String? = nil
         /// Indicates if the action can be retried.
@@ -45,17 +45,16 @@ public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         retryable: Swift.Bool = false
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryable = retryable
     }
 }
 
 /// Indicates that an exception occurred in the AWS CloudHSM service.
-public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the error.
         public internal(set) var message: Swift.String? = nil
         /// Indicates if the action can be retried.
@@ -74,17 +73,16 @@ public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         retryable: Swift.Bool = false
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryable = retryable
     }
 }
 
 /// Indicates that one or more of the request parameters are not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the error.
         public internal(set) var message: Swift.String? = nil
         /// Indicates if the action can be retried.
@@ -103,8 +101,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryable: Swift.Bool = false
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryable = retryable
     }
@@ -124,8 +121,7 @@ extension CloudHSMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -143,8 +139,7 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagList: [CloudHSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagList = tagList
     }
@@ -157,8 +152,7 @@ public struct AddTagsToResourceOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -200,8 +194,7 @@ public struct CreateHapgInput: Swift.Sendable {
 
     public init(
         label: Swift.String? = nil
-    )
-    {
+    ) {
         self.label = label
     }
 }
@@ -213,8 +206,7 @@ public struct CreateHapgOutput: Swift.Sendable {
 
     public init(
         hapgArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hapgArn = hapgArn
     }
 }
@@ -286,8 +278,7 @@ public struct CreateHsmInput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         subscriptionType: CloudHSMClientTypes.SubscriptionType? = nil,
         syslogIp: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.eniIp = eniIp
         self.externalId = externalId
@@ -306,8 +297,7 @@ public struct CreateHsmOutput: Swift.Sendable {
 
     public init(
         hsmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmArn = hsmArn
     }
 }
@@ -323,8 +313,7 @@ public struct CreateLunaClientInput: Swift.Sendable {
     public init(
         certificate: Swift.String? = nil,
         label: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.label = label
     }
@@ -337,8 +326,7 @@ public struct CreateLunaClientOutput: Swift.Sendable {
 
     public init(
         clientArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientArn = clientArn
     }
 }
@@ -351,8 +339,7 @@ public struct DeleteHapgInput: Swift.Sendable {
 
     public init(
         hapgArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hapgArn = hapgArn
     }
 }
@@ -365,8 +352,7 @@ public struct DeleteHapgOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -379,8 +365,7 @@ public struct DeleteHsmInput: Swift.Sendable {
 
     public init(
         hsmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmArn = hsmArn
     }
 }
@@ -393,8 +378,7 @@ public struct DeleteHsmOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -406,8 +390,7 @@ public struct DeleteLunaClientInput: Swift.Sendable {
 
     public init(
         clientArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientArn = clientArn
     }
 }
@@ -419,8 +402,7 @@ public struct DeleteLunaClientOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -433,8 +415,7 @@ public struct DescribeHapgInput: Swift.Sendable {
 
     public init(
         hapgArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hapgArn = hapgArn
     }
 }
@@ -502,8 +483,7 @@ public struct DescribeHapgOutput: Swift.Sendable {
         lastModifiedTimestamp: Swift.String? = nil,
         partitionSerialList: [Swift.String]? = nil,
         state: CloudHSMClientTypes.CloudHsmObjectState? = nil
-    )
-    {
+    ) {
         self.hapgArn = hapgArn
         self.hapgSerial = hapgSerial
         self.hsmsLastActionFailed = hsmsLastActionFailed
@@ -526,8 +506,7 @@ public struct DescribeHsmInput: Swift.Sendable {
     public init(
         hsmArn: Swift.String? = nil,
         hsmSerialNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmArn = hsmArn
         self.hsmSerialNumber = hsmSerialNumber
     }
@@ -648,8 +627,7 @@ public struct DescribeHsmOutput: Swift.Sendable {
         subscriptionType: CloudHSMClientTypes.SubscriptionType? = nil,
         vendorName: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.eniId = eniId
         self.eniIp = eniIp
@@ -683,8 +661,7 @@ public struct DescribeLunaClientInput: Swift.Sendable {
     public init(
         certificateFingerprint: Swift.String? = nil,
         clientArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateFingerprint = certificateFingerprint
         self.clientArn = clientArn
     }
@@ -708,8 +685,7 @@ public struct DescribeLunaClientOutput: Swift.Sendable {
         clientArn: Swift.String? = nil,
         label: Swift.String? = nil,
         lastModifiedTimestamp: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.certificateFingerprint = certificateFingerprint
         self.clientArn = clientArn
@@ -733,8 +709,7 @@ public struct GetConfigInput: Swift.Sendable {
         clientArn: Swift.String? = nil,
         clientVersion: CloudHSMClientTypes.ClientVersion? = nil,
         hapgList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientArn = clientArn
         self.clientVersion = clientVersion
         self.hapgList = hapgList
@@ -753,8 +728,7 @@ public struct GetConfigOutput: Swift.Sendable {
         configCred: Swift.String? = nil,
         configFile: Swift.String? = nil,
         configType: Swift.String? = nil
-    )
-    {
+    ) {
         self.configCred = configCred
         self.configFile = configFile
         self.configType = configType
@@ -773,8 +747,7 @@ public struct ListAvailableZonesOutput: Swift.Sendable {
 
     public init(
         azList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.azList = azList
     }
 }
@@ -785,8 +758,7 @@ public struct ListHapgsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -801,8 +773,7 @@ public struct ListHapgsOutput: Swift.Sendable {
     public init(
         hapgList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hapgList = hapgList
         self.nextToken = nextToken
     }
@@ -814,8 +785,7 @@ public struct ListHsmsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -830,8 +800,7 @@ public struct ListHsmsOutput: Swift.Sendable {
     public init(
         hsmList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmList = hsmList
         self.nextToken = nextToken
     }
@@ -843,8 +812,7 @@ public struct ListLunaClientsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -859,8 +827,7 @@ public struct ListLunaClientsOutput: Swift.Sendable {
     public init(
         clientList: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientList = clientList
         self.nextToken = nextToken
     }
@@ -873,8 +840,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -886,8 +852,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [CloudHSMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -905,8 +870,7 @@ public struct ModifyHapgInput: Swift.Sendable {
         hapgArn: Swift.String? = nil,
         label: Swift.String? = nil,
         partitionSerialList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.hapgArn = hapgArn
         self.label = label
         self.partitionSerialList = partitionSerialList
@@ -919,8 +883,7 @@ public struct ModifyHapgOutput: Swift.Sendable {
 
     public init(
         hapgArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hapgArn = hapgArn
     }
 }
@@ -948,8 +911,7 @@ public struct ModifyHsmInput: Swift.Sendable {
         iamRoleArn: Swift.String? = nil,
         subnetId: Swift.String? = nil,
         syslogIp: Swift.String? = nil
-    )
-    {
+    ) {
         self.eniIp = eniIp
         self.externalId = externalId
         self.hsmArn = hsmArn
@@ -966,8 +928,7 @@ public struct ModifyHsmOutput: Swift.Sendable {
 
     public init(
         hsmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmArn = hsmArn
     }
 }
@@ -983,8 +944,7 @@ public struct ModifyLunaClientInput: Swift.Sendable {
     public init(
         certificate: Swift.String? = nil,
         clientArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.clientArn = clientArn
     }
@@ -996,8 +956,7 @@ public struct ModifyLunaClientOutput: Swift.Sendable {
 
     public init(
         clientArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientArn = clientArn
     }
 }
@@ -1013,8 +972,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeyList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeyList = tagKeyList
     }
@@ -1027,8 +985,7 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }

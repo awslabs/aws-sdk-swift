@@ -121,9 +121,9 @@ public struct UpgradeReviewTemplateLensReviewOutput: Swift.Sendable {
 }
 
 /// User does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -140,8 +140,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -248,8 +247,7 @@ extension WellArchitectedClientTypes {
             issueManagementStatus: WellArchitectedClientTypes.AccountJiraIssueManagementStatus? = nil,
             issueManagementType: WellArchitectedClientTypes.IssueManagementType? = nil,
             jiraProjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.integrationStatus = integrationStatus
             self.issueManagementStatus = issueManagementStatus
             self.issueManagementType = issueManagementType
@@ -311,8 +309,7 @@ extension WellArchitectedClientTypes {
             jiraProjectKey: Swift.String? = nil,
             statusMessage: Swift.String? = nil,
             subdomain: Swift.String? = nil
-        )
-        {
+        ) {
             self.integrationStatus = integrationStatus
             self.issueManagementStatus = issueManagementStatus
             self.issueManagementType = issueManagementType
@@ -373,8 +370,7 @@ extension WellArchitectedClientTypes {
         public init(
             displayText: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayText = displayText
             self.url = url
         }
@@ -422,8 +418,7 @@ extension WellArchitectedClientTypes {
         public init(
             content: [WellArchitectedClientTypes.ChoiceContent]? = nil,
             type: WellArchitectedClientTypes.AdditionalResourceType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.type = type
         }
@@ -518,8 +513,7 @@ extension WellArchitectedClientTypes {
             notes: Swift.String? = nil,
             reason: WellArchitectedClientTypes.ChoiceReason? = nil,
             status: WellArchitectedClientTypes.ChoiceStatus? = nil
-        )
-        {
+        ) {
             self.choiceId = choiceId
             self.notes = notes
             self.reason = reason
@@ -552,8 +546,7 @@ extension WellArchitectedClientTypes {
             helpfulResource: WellArchitectedClientTypes.ChoiceContent? = nil,
             improvementPlan: WellArchitectedClientTypes.ChoiceContent? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalResources = additionalResources
             self.choiceId = choiceId
             self.description = description
@@ -576,8 +569,7 @@ extension WellArchitectedClientTypes {
         public init(
             jiraIssueUrl: Swift.String? = nil,
             lastSyncedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jiraIssueUrl = jiraIssueUrl
             self.lastSyncedTime = lastSyncedTime
         }
@@ -712,8 +704,7 @@ extension WellArchitectedClientTypes {
             reason: WellArchitectedClientTypes.AnswerReason? = nil,
             risk: WellArchitectedClientTypes.Risk? = nil,
             selectedChoices: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.choiceAnswers = choiceAnswers
             self.choices = choices
             self.helpfulResourceDisplayText = helpfulResourceDisplayText
@@ -748,8 +739,7 @@ extension WellArchitectedClientTypes {
             choiceId: Swift.String? = nil,
             reason: WellArchitectedClientTypes.ChoiceReason? = nil,
             status: WellArchitectedClientTypes.ChoiceStatus? = nil
-        )
-        {
+        ) {
             self.choiceId = choiceId
             self.reason = reason
             self.status = status
@@ -825,8 +815,7 @@ extension WellArchitectedClientTypes {
             reason: WellArchitectedClientTypes.AnswerReason? = nil,
             risk: WellArchitectedClientTypes.Risk? = nil,
             selectedChoices: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
             self.isApplicable = isApplicable
@@ -843,9 +832,9 @@ extension WellArchitectedClientTypes {
 }
 
 /// The resource has already been processed, was deleted, or is too large.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -870,8 +859,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -879,9 +867,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// There is a problem with the Well-Architected Tool API service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -898,16 +886,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -932,8 +919,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -941,9 +927,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -966,8 +952,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.serviceCode = serviceCode
@@ -988,8 +973,7 @@ extension WellArchitectedClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -1033,9 +1017,9 @@ extension WellArchitectedClientTypes {
 }
 
 /// The user input is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that caused the error, if applicable.
         public internal(set) var fields: [WellArchitectedClientTypes.ValidationExceptionField]? = nil
         /// Description of the error.
@@ -1058,8 +1042,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [WellArchitectedClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: WellArchitectedClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -1078,8 +1061,7 @@ public struct AssociateLensesInput: Swift.Sendable {
     public init(
         lensAliases: [Swift.String]? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAliases = lensAliases
         self.workloadId = workloadId
     }
@@ -1096,8 +1078,7 @@ public struct AssociateProfilesInput: Swift.Sendable {
     public init(
         profileArns: [Swift.String]? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileArns = profileArns
         self.workloadId = workloadId
     }
@@ -1115,8 +1096,7 @@ extension WellArchitectedClientTypes {
         public init(
             choiceId: Swift.String? = nil,
             choiceTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.choiceId = choiceId
             self.choiceTitle = choiceTitle
         }
@@ -1229,8 +1209,7 @@ extension WellArchitectedClientTypes {
             reason: WellArchitectedClientTypes.CheckFailureReason? = nil,
             status: WellArchitectedClientTypes.CheckStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.choiceId = choiceId
             self.description = description
@@ -1287,8 +1266,7 @@ extension WellArchitectedClientTypes {
             questionId: Swift.String? = nil,
             status: WellArchitectedClientTypes.CheckStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountSummary = accountSummary
             self.choiceId = choiceId
             self.description = description
@@ -1319,8 +1297,7 @@ extension WellArchitectedClientTypes {
             choiceId: Swift.String? = nil,
             displayText: Swift.String? = nil,
             improvementPlanUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.choiceId = choiceId
             self.displayText = displayText
             self.improvementPlanUrl = improvementPlanUrl
@@ -1344,8 +1321,7 @@ extension WellArchitectedClientTypes {
             notes: Swift.String? = nil,
             reason: WellArchitectedClientTypes.ChoiceReason? = nil,
             status: WellArchitectedClientTypes.ChoiceStatus? = nil
-        )
-        {
+        ) {
             self.notes = notes
             self.reason = reason
             self.status = status
@@ -1368,8 +1344,7 @@ extension WellArchitectedClientTypes {
             bestPractices: [WellArchitectedClientTypes.BestPractice]? = nil,
             questionId: Swift.String? = nil,
             risk: WellArchitectedClientTypes.Risk? = nil
-        )
-        {
+        ) {
             self.bestPractices = bestPractices
             self.questionId = questionId
             self.risk = risk
@@ -1392,8 +1367,7 @@ extension WellArchitectedClientTypes {
             pillarId: Swift.String? = nil,
             questions: [WellArchitectedClientTypes.QuestionMetric]? = nil,
             riskCounts: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.pillarId = pillarId
             self.questions = questions
             self.riskCounts = riskCounts
@@ -1416,8 +1390,7 @@ extension WellArchitectedClientTypes {
             lensArn: Swift.String? = nil,
             pillars: [WellArchitectedClientTypes.PillarMetric]? = nil,
             riskCounts: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.lensArn = lensArn
             self.pillars = pillars
             self.riskCounts = riskCounts
@@ -1481,8 +1454,7 @@ extension WellArchitectedClientTypes {
             workloadArn: Swift.String? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lenses = lenses
             self.lensesAppliedCount = lensesAppliedCount
             self.metricType = metricType
@@ -1496,9 +1468,9 @@ extension WellArchitectedClientTypes {
 }
 
 /// The user has reached their resource quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1529,8 +1501,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1554,8 +1525,7 @@ public struct CreateLensShareInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         lensAlias: Swift.String? = nil,
         sharedWith: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.lensAlias = lensAlias
         self.sharedWith = sharedWith
@@ -1568,8 +1538,7 @@ public struct CreateLensShareOutput: Swift.Sendable {
 
     public init(
         shareId: Swift.String? = nil
-    )
-    {
+    ) {
         self.shareId = shareId
     }
 }
@@ -1592,8 +1561,7 @@ public struct CreateLensVersionInput: Swift.Sendable {
         isMajorVersion: Swift.Bool? = nil,
         lensAlias: Swift.String? = nil,
         lensVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.isMajorVersion = isMajorVersion
         self.lensAlias = lensAlias
@@ -1610,8 +1578,7 @@ public struct CreateLensVersionOutput: Swift.Sendable {
     public init(
         lensArn: Swift.String? = nil,
         lensVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensArn = lensArn
         self.lensVersion = lensVersion
     }
@@ -1633,8 +1600,7 @@ public struct CreateMilestoneInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         milestoneName: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.milestoneName = milestoneName
         self.workloadId = workloadId
@@ -1651,8 +1617,7 @@ public struct CreateMilestoneOutput: Swift.Sendable {
     public init(
         milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.milestoneNumber = milestoneNumber
         self.workloadId = workloadId
     }
@@ -1670,8 +1635,7 @@ extension WellArchitectedClientTypes {
         public init(
             questionId: Swift.String? = nil,
             selectedChoiceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.questionId = questionId
             self.selectedChoiceIds = selectedChoiceIds
         }
@@ -1700,8 +1664,7 @@ public struct CreateProfileInput: Swift.Sendable {
         profileName: Swift.String? = nil,
         profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.profileDescription = profileDescription
         self.profileName = profileName
@@ -1719,8 +1682,7 @@ public struct CreateProfileOutput: Swift.Sendable {
     public init(
         profileArn: Swift.String? = nil,
         profileVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileArn = profileArn
         self.profileVersion = profileVersion
     }
@@ -1741,8 +1703,7 @@ public struct CreateProfileShareInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         profileArn: Swift.String? = nil,
         sharedWith: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.profileArn = profileArn
         self.sharedWith = sharedWith
@@ -1758,8 +1719,7 @@ public struct CreateProfileShareOutput: Swift.Sendable {
     public init(
         profileArn: Swift.String? = nil,
         shareId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileArn = profileArn
         self.shareId = shareId
     }
@@ -1790,8 +1750,7 @@ public struct CreateReviewTemplateInput: Swift.Sendable {
         notes: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.lenses = lenses
@@ -1807,8 +1766,7 @@ public struct CreateReviewTemplateOutput: Swift.Sendable {
 
     public init(
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateArn = templateArn
     }
 }
@@ -1828,8 +1786,7 @@ public struct CreateTemplateShareInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         sharedWith: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.sharedWith = sharedWith
         self.templateArn = templateArn
@@ -1845,8 +1802,7 @@ public struct CreateTemplateShareOutput: Swift.Sendable {
     public init(
         shareId: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.shareId = shareId
         self.templateArn = templateArn
     }
@@ -1922,8 +1878,7 @@ extension WellArchitectedClientTypes {
         public init(
             trustedAdvisorIntegrationStatus: WellArchitectedClientTypes.TrustedAdvisorIntegrationStatus? = nil,
             workloadResourceDefinition: [WellArchitectedClientTypes.DefinitionType]? = nil
-        )
-        {
+        ) {
             self.trustedAdvisorIntegrationStatus = trustedAdvisorIntegrationStatus
             self.workloadResourceDefinition = workloadResourceDefinition
         }
@@ -2007,8 +1962,7 @@ extension WellArchitectedClientTypes {
             issueManagementStatus: WellArchitectedClientTypes.WorkloadIssueManagementStatus? = nil,
             issueManagementType: WellArchitectedClientTypes.IssueManagementType? = nil,
             jiraProjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.issueManagementStatus = issueManagementStatus
             self.issueManagementType = issueManagementType
             self.jiraProjectKey = jiraProjectKey
@@ -2139,8 +2093,7 @@ public struct CreateWorkloadInput: Swift.Sendable {
         reviewTemplateArns: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workloadName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.applications = applications
         self.architecturalDesign = architecturalDesign
@@ -2174,8 +2127,7 @@ public struct CreateWorkloadOutput: Swift.Sendable {
     public init(
         workloadArn: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workloadArn = workloadArn
         self.workloadId = workloadId
     }
@@ -2231,8 +2183,7 @@ public struct CreateWorkloadShareInput: Swift.Sendable {
         permissionType: WellArchitectedClientTypes.PermissionType? = nil,
         sharedWith: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.permissionType = permissionType
         self.sharedWith = sharedWith
@@ -2250,8 +2201,7 @@ public struct CreateWorkloadShareOutput: Swift.Sendable {
     public init(
         shareId: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.shareId = shareId
         self.workloadId = workloadId
     }
@@ -2304,8 +2254,7 @@ public struct DeleteLensInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         lensAlias: Swift.String? = nil,
         lensStatus: WellArchitectedClientTypes.LensStatusType? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.lensAlias = lensAlias
         self.lensStatus = lensStatus
@@ -2327,8 +2276,7 @@ public struct DeleteLensShareInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         lensAlias: Swift.String? = nil,
         shareId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.lensAlias = lensAlias
         self.shareId = shareId
@@ -2346,8 +2294,7 @@ public struct DeleteProfileInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         profileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.profileArn = profileArn
     }
@@ -2368,8 +2315,7 @@ public struct DeleteProfileShareInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         profileArn: Swift.String? = nil,
         shareId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.profileArn = profileArn
         self.shareId = shareId
@@ -2387,8 +2333,7 @@ public struct DeleteReviewTemplateInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.templateArn = templateArn
     }
@@ -2409,8 +2354,7 @@ public struct DeleteTemplateShareInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         shareId: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.shareId = shareId
         self.templateArn = templateArn
@@ -2429,8 +2373,7 @@ public struct DeleteWorkloadInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.workloadId = workloadId
     }
@@ -2452,8 +2395,7 @@ public struct DeleteWorkloadShareInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         shareId: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.shareId = shareId
         self.workloadId = workloadId
@@ -2504,8 +2446,7 @@ public struct DisassociateLensesInput: Swift.Sendable {
     public init(
         lensAliases: [Swift.String]? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAliases = lensAliases
         self.workloadId = workloadId
     }
@@ -2522,8 +2463,7 @@ public struct DisassociateProfilesInput: Swift.Sendable {
     public init(
         profileArns: [Swift.String]? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileArns = profileArns
         self.workloadId = workloadId
     }
@@ -2568,8 +2508,7 @@ public struct ExportLensInput: Swift.Sendable {
     public init(
         lensAlias: Swift.String? = nil,
         lensVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.lensVersion = lensVersion
     }
@@ -2581,8 +2520,7 @@ public struct ExportLensOutput: Swift.Sendable {
 
     public init(
         lensJSON: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensJSON = lensJSON
     }
 }
@@ -2606,8 +2544,7 @@ public struct GetAnswerInput: Swift.Sendable {
         milestoneNumber: Swift.Int? = nil,
         questionId: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.milestoneNumber = milestoneNumber
         self.questionId = questionId
@@ -2634,8 +2571,7 @@ public struct GetAnswerOutput: Swift.Sendable {
         lensArn: Swift.String? = nil,
         milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.answer = answer
         self.lensAlias = lensAlias
         self.lensArn = lensArn
@@ -2689,8 +2625,7 @@ public struct GetConsolidatedReportInput: Swift.Sendable {
         includeSharedResources: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.format = format
         self.includeSharedResources = includeSharedResources
         self.maxResults = maxResults
@@ -2710,8 +2645,7 @@ public struct GetConsolidatedReportOutput: Swift.Sendable {
         base64String: Swift.String? = nil,
         metrics: [WellArchitectedClientTypes.ConsolidatedReportMetric]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.base64String = base64String
         self.metrics = metrics
         self.nextToken = nextToken
@@ -2759,8 +2693,7 @@ public struct GetGlobalSettingsOutput: Swift.Sendable {
         discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus? = nil,
         jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationOutput? = nil,
         organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus? = nil
-    )
-    {
+    ) {
         self.discoveryIntegrationStatus = discoveryIntegrationStatus
         self.jiraConfiguration = jiraConfiguration
         self.organizationSharingStatus = organizationSharingStatus
@@ -2777,8 +2710,7 @@ public struct GetLensInput: Swift.Sendable {
     public init(
         lensAlias: Swift.String? = nil,
         lensVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.lensVersion = lensVersion
     }
@@ -2811,8 +2743,7 @@ extension WellArchitectedClientTypes {
             owner: Swift.String? = nil,
             shareInvitationId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lensArn = lensArn
             self.lensVersion = lensVersion
@@ -2830,8 +2761,7 @@ public struct GetLensOutput: Swift.Sendable {
 
     public init(
         lens: WellArchitectedClientTypes.Lens? = nil
-    )
-    {
+    ) {
         self.lens = lens
     }
 }
@@ -2851,8 +2781,7 @@ public struct GetLensReviewInput: Swift.Sendable {
         lensAlias: Swift.String? = nil,
         milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.milestoneNumber = milestoneNumber
         self.workloadId = workloadId
@@ -2871,8 +2800,7 @@ extension WellArchitectedClientTypes {
         public init(
             pillarId: Swift.String? = nil,
             selectedQuestionIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.pillarId = pillarId
             self.selectedQuestionIds = selectedQuestionIds
         }
@@ -2888,8 +2816,7 @@ extension WellArchitectedClientTypes {
 
         public init(
             selectedPillars: [WellArchitectedClientTypes.SelectedPillar]? = nil
-        )
-        {
+        ) {
             self.selectedPillars = selectedPillars
         }
     }
@@ -2954,8 +2881,7 @@ extension WellArchitectedClientTypes {
             pillarName: Swift.String? = nil,
             prioritizedRiskCounts: [Swift.String: Swift.Int]? = nil,
             riskCounts: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.notes = notes
             self.pillarId = pillarId
             self.pillarName = pillarName
@@ -2977,8 +2903,7 @@ extension WellArchitectedClientTypes {
         public init(
             profileArn: Swift.String? = nil,
             profileVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.profileArn = profileArn
             self.profileVersion = profileVersion
         }
@@ -3030,8 +2955,7 @@ extension WellArchitectedClientTypes {
             profiles: [WellArchitectedClientTypes.WorkloadProfile]? = nil,
             riskCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jiraConfiguration = jiraConfiguration
             self.lensAlias = lensAlias
             self.lensArn = lensArn
@@ -3062,8 +2986,7 @@ public struct GetLensReviewOutput: Swift.Sendable {
         lensReview: WellArchitectedClientTypes.LensReview? = nil,
         milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensReview = lensReview
         self.milestoneNumber = milestoneNumber
         self.workloadId = workloadId
@@ -3085,8 +3008,7 @@ public struct GetLensReviewReportInput: Swift.Sendable {
         lensAlias: Swift.String? = nil,
         milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.milestoneNumber = milestoneNumber
         self.workloadId = workloadId
@@ -3108,8 +3030,7 @@ extension WellArchitectedClientTypes {
             base64String: Swift.String? = nil,
             lensAlias: Swift.String? = nil,
             lensArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.base64String = base64String
             self.lensAlias = lensAlias
             self.lensArn = lensArn
@@ -3130,8 +3051,7 @@ public struct GetLensReviewReportOutput: Swift.Sendable {
         lensReviewReport: WellArchitectedClientTypes.LensReviewReport? = nil,
         milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensReviewReport = lensReviewReport
         self.milestoneNumber = milestoneNumber
         self.workloadId = workloadId
@@ -3151,8 +3071,7 @@ public struct GetLensVersionDifferenceInput: Swift.Sendable {
         baseLensVersion: Swift.String? = nil,
         lensAlias: Swift.String? = nil,
         targetLensVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseLensVersion = baseLensVersion
         self.lensAlias = lensAlias
         self.targetLensVersion = targetLensVersion
@@ -3174,8 +3093,7 @@ extension WellArchitectedClientTypes {
             differenceStatus: WellArchitectedClientTypes.DifferenceStatus? = nil,
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.differenceStatus = differenceStatus
             self.questionId = questionId
             self.questionTitle = questionTitle
@@ -3201,8 +3119,7 @@ extension WellArchitectedClientTypes {
             pillarId: Swift.String? = nil,
             pillarName: Swift.String? = nil,
             questionDifferences: [WellArchitectedClientTypes.QuestionDifference]? = nil
-        )
-        {
+        ) {
             self.differenceStatus = differenceStatus
             self.pillarId = pillarId
             self.pillarName = pillarName
@@ -3220,8 +3137,7 @@ extension WellArchitectedClientTypes {
 
         public init(
             pillarDifferences: [WellArchitectedClientTypes.PillarDifference]? = nil
-        )
-        {
+        ) {
             self.pillarDifferences = pillarDifferences
         }
     }
@@ -3248,8 +3164,7 @@ public struct GetLensVersionDifferenceOutput: Swift.Sendable {
         lensArn: Swift.String? = nil,
         targetLensVersion: Swift.String? = nil,
         versionDifferences: WellArchitectedClientTypes.VersionDifferences? = nil
-    )
-    {
+    ) {
         self.baseLensVersion = baseLensVersion
         self.latestLensVersion = latestLensVersion
         self.lensAlias = lensAlias
@@ -3271,8 +3186,7 @@ public struct GetMilestoneInput: Swift.Sendable {
     public init(
         milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.milestoneNumber = milestoneNumber
         self.workloadId = workloadId
     }
@@ -3335,8 +3249,7 @@ extension WellArchitectedClientTypes {
             issueManagementType: WellArchitectedClientTypes.IssueManagementType? = nil,
             jiraProjectKey: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.issueManagementStatus = issueManagementStatus
             self.issueManagementType = issueManagementType
             self.jiraProjectKey = jiraProjectKey
@@ -3489,8 +3402,7 @@ extension WellArchitectedClientTypes {
             workloadArn: Swift.String? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.applications = applications
             self.architecturalDesign = architecturalDesign
@@ -3541,8 +3453,7 @@ extension WellArchitectedClientTypes {
             milestoneNumber: Swift.Int? = nil,
             recordedAt: Foundation.Date? = nil,
             workload: WellArchitectedClientTypes.Workload? = nil
-        )
-        {
+        ) {
             self.milestoneName = milestoneName
             self.milestoneNumber = milestoneNumber
             self.recordedAt = recordedAt
@@ -3561,8 +3472,7 @@ public struct GetMilestoneOutput: Swift.Sendable {
     public init(
         milestone: WellArchitectedClientTypes.Milestone? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.milestone = milestone
         self.workloadId = workloadId
     }
@@ -3578,8 +3488,7 @@ public struct GetProfileInput: Swift.Sendable {
     public init(
         profileArn: Swift.String? = nil,
         profileVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileArn = profileArn
         self.profileVersion = profileVersion
     }
@@ -3600,8 +3509,7 @@ extension WellArchitectedClientTypes {
             choiceDescription: Swift.String? = nil,
             choiceId: Swift.String? = nil,
             choiceTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.choiceDescription = choiceDescription
             self.choiceId = choiceId
             self.choiceTitle = choiceTitle
@@ -3636,8 +3544,7 @@ extension WellArchitectedClientTypes {
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil,
             selectedChoiceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.maxSelectedChoices = maxSelectedChoices
             self.minSelectedChoices = minSelectedChoices
             self.questionChoices = questionChoices
@@ -3685,8 +3592,7 @@ extension WellArchitectedClientTypes {
             shareInvitationId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.owner = owner
             self.profileArn = profileArn
@@ -3707,8 +3613,7 @@ public struct GetProfileOutput: Swift.Sendable {
 
     public init(
         profile: WellArchitectedClientTypes.Profile? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -3733,8 +3638,7 @@ extension WellArchitectedClientTypes {
             choiceDescription: Swift.String? = nil,
             choiceId: Swift.String? = nil,
             choiceTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.choiceDescription = choiceDescription
             self.choiceId = choiceId
             self.choiceTitle = choiceTitle
@@ -3766,8 +3670,7 @@ extension WellArchitectedClientTypes {
             questionDescription: Swift.String? = nil,
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxSelectedChoices = maxSelectedChoices
             self.minSelectedChoices = minSelectedChoices
             self.questionChoices = questionChoices
@@ -3796,8 +3699,7 @@ extension WellArchitectedClientTypes {
             templateName: Swift.String? = nil,
             templateQuestions: [WellArchitectedClientTypes.ProfileTemplateQuestion]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.templateName = templateName
             self.templateQuestions = templateQuestions
@@ -3812,8 +3714,7 @@ public struct GetProfileTemplateOutput: Swift.Sendable {
 
     public init(
         profileTemplate: WellArchitectedClientTypes.ProfileTemplate? = nil
-    )
-    {
+    ) {
         self.profileTemplate = profileTemplate
     }
 }
@@ -3825,8 +3726,7 @@ public struct GetReviewTemplateInput: Swift.Sendable {
 
     public init(
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateArn = templateArn
     }
 }
@@ -3928,8 +3828,7 @@ extension WellArchitectedClientTypes {
             templateName: Swift.String? = nil,
             updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lenses = lenses
             self.notes = notes
@@ -3951,8 +3850,7 @@ public struct GetReviewTemplateOutput: Swift.Sendable {
 
     public init(
         reviewTemplate: WellArchitectedClientTypes.ReviewTemplate? = nil
-    )
-    {
+    ) {
         self.reviewTemplate = reviewTemplate
     }
 }
@@ -3972,8 +3870,7 @@ public struct GetReviewTemplateAnswerInput: Swift.Sendable {
         lensAlias: Swift.String? = nil,
         questionId: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.questionId = questionId
         self.templateArn = templateArn
@@ -4057,8 +3954,7 @@ extension WellArchitectedClientTypes {
             questionTitle: Swift.String? = nil,
             reason: WellArchitectedClientTypes.AnswerReason? = nil,
             selectedChoices: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.answerStatus = answerStatus
             self.choiceAnswers = choiceAnswers
             self.choices = choices
@@ -4089,8 +3985,7 @@ public struct GetReviewTemplateAnswerOutput: Swift.Sendable {
         answer: WellArchitectedClientTypes.ReviewTemplateAnswer? = nil,
         lensAlias: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.answer = answer
         self.lensAlias = lensAlias
         self.templateArn = templateArn
@@ -4108,8 +4003,7 @@ public struct GetReviewTemplateLensReviewInput: Swift.Sendable {
     public init(
         lensAlias: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.templateArn = templateArn
     }
@@ -4133,8 +4027,7 @@ extension WellArchitectedClientTypes {
             pillarId: Swift.String? = nil,
             pillarName: Swift.String? = nil,
             questionCounts: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.notes = notes
             self.pillarId = pillarId
             self.pillarName = pillarName
@@ -4179,8 +4072,7 @@ extension WellArchitectedClientTypes {
             pillarReviewSummaries: [WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary]? = nil,
             questionCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
@@ -4204,8 +4096,7 @@ public struct GetReviewTemplateLensReviewOutput: Swift.Sendable {
     public init(
         lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensReview = lensReview
         self.templateArn = templateArn
     }
@@ -4219,8 +4110,7 @@ public struct GetWorkloadInput: Swift.Sendable {
 
     public init(
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workloadId = workloadId
     }
 }
@@ -4232,8 +4122,7 @@ public struct GetWorkloadOutput: Swift.Sendable {
 
     public init(
         workload: WellArchitectedClientTypes.Workload? = nil
-    )
-    {
+    ) {
         self.workload = workload
     }
 }
@@ -4255,8 +4144,7 @@ public struct ImportLensInput: Swift.Sendable {
         jsonString: Swift.String? = nil,
         lensAlias: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.jsonString = jsonString
         self.lensAlias = lensAlias
@@ -4305,8 +4193,7 @@ public struct ImportLensOutput: Swift.Sendable {
     public init(
         lensArn: Swift.String? = nil,
         status: WellArchitectedClientTypes.ImportLensStatus? = nil
-    )
-    {
+    ) {
         self.lensArn = lensArn
         self.status = status
     }
@@ -4339,8 +4226,7 @@ extension WellArchitectedClientTypes {
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil,
             risk: WellArchitectedClientTypes.Risk? = nil
-        )
-        {
+        ) {
             self.improvementPlanUrl = improvementPlanUrl
             self.improvementPlans = improvementPlans
             self.jiraConfiguration = jiraConfiguration
@@ -4411,8 +4297,7 @@ extension WellArchitectedClientTypes {
             profiles: [WellArchitectedClientTypes.WorkloadProfile]? = nil,
             riskCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
@@ -4492,8 +4377,7 @@ extension WellArchitectedClientTypes {
             sharedWith: Swift.String? = nil,
             status: WellArchitectedClientTypes.ShareStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.shareId = shareId
             self.sharedWith = sharedWith
             self.status = status
@@ -4570,8 +4454,7 @@ extension WellArchitectedClientTypes {
             lensVersion: Swift.String? = nil,
             owner: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.lensAlias = lensAlias
@@ -4616,8 +4499,7 @@ extension WellArchitectedClientTypes {
             resourceName: Swift.String? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentLensVersion = currentLensVersion
             self.latestLensVersion = latestLensVersion
             self.lensAlias = lensAlias
@@ -4686,8 +4568,7 @@ public struct ListAnswersInput: Swift.Sendable {
         pillarId: Swift.String? = nil,
         questionPriority: WellArchitectedClientTypes.QuestionPriority? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.maxResults = maxResults
         self.milestoneNumber = milestoneNumber
@@ -4720,8 +4601,7 @@ public struct ListAnswersOutput: Swift.Sendable {
         milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.answerSummaries = answerSummaries
         self.lensAlias = lensAlias
         self.lensArn = lensArn
@@ -4760,8 +4640,7 @@ public struct ListCheckDetailsInput: Swift.Sendable {
         pillarId: Swift.String? = nil,
         questionId: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.choiceId = choiceId
         self.lensArn = lensArn
         self.maxResults = maxResults
@@ -4781,8 +4660,7 @@ public struct ListCheckDetailsOutput: Swift.Sendable {
     public init(
         checkDetails: [WellArchitectedClientTypes.CheckDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkDetails = checkDetails
         self.nextToken = nextToken
     }
@@ -4817,8 +4695,7 @@ public struct ListCheckSummariesInput: Swift.Sendable {
         pillarId: Swift.String? = nil,
         questionId: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.choiceId = choiceId
         self.lensArn = lensArn
         self.maxResults = maxResults
@@ -4838,8 +4715,7 @@ public struct ListCheckSummariesOutput: Swift.Sendable {
     public init(
         checkSummaries: [WellArchitectedClientTypes.CheckSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkSummaries = checkSummaries
         self.nextToken = nextToken
     }
@@ -4864,8 +4740,7 @@ public struct ListLensesInput: Swift.Sendable {
         lensType: WellArchitectedClientTypes.LensType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensName = lensName
         self.lensStatus = lensStatus
         self.lensType = lensType
@@ -4884,8 +4759,7 @@ public struct ListLensesOutput: Swift.Sendable {
     public init(
         lensSummaries: [WellArchitectedClientTypes.LensSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensSummaries = lensSummaries
         self.nextToken = nextToken
     }
@@ -4918,8 +4792,7 @@ public struct ListLensReviewImprovementsInput: Swift.Sendable {
         pillarId: Swift.String? = nil,
         questionPriority: WellArchitectedClientTypes.QuestionPriority? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.maxResults = maxResults
         self.milestoneNumber = milestoneNumber
@@ -4952,8 +4825,7 @@ public struct ListLensReviewImprovementsOutput: Swift.Sendable {
         milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.improvementSummaries = improvementSummaries
         self.lensAlias = lensAlias
         self.lensArn = lensArn
@@ -4980,8 +4852,7 @@ public struct ListLensReviewsInput: Swift.Sendable {
         milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.milestoneNumber = milestoneNumber
         self.nextToken = nextToken
@@ -5005,8 +4876,7 @@ public struct ListLensReviewsOutput: Swift.Sendable {
         milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensReviewSummaries = lensReviewSummaries
         self.milestoneNumber = milestoneNumber
         self.nextToken = nextToken
@@ -5033,8 +4903,7 @@ public struct ListLensSharesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sharedWithPrefix: Swift.String? = nil,
         status: WellArchitectedClientTypes.ShareStatus? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5052,8 +4921,7 @@ public struct ListLensSharesOutput: Swift.Sendable {
     public init(
         lensShareSummaries: [WellArchitectedClientTypes.LensShareSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensShareSummaries = lensShareSummaries
         self.nextToken = nextToken
     }
@@ -5073,8 +4941,7 @@ public struct ListMilestonesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workloadId = workloadId
@@ -5117,8 +4984,7 @@ extension WellArchitectedClientTypes {
             workloadArn: Swift.String? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.improvementStatus = improvementStatus
             self.lenses = lenses
             self.owner = owner
@@ -5151,8 +5017,7 @@ extension WellArchitectedClientTypes {
             milestoneNumber: Swift.Int? = nil,
             recordedAt: Foundation.Date? = nil,
             workloadSummary: WellArchitectedClientTypes.WorkloadSummary? = nil
-        )
-        {
+        ) {
             self.milestoneName = milestoneName
             self.milestoneNumber = milestoneNumber
             self.recordedAt = recordedAt
@@ -5174,8 +5039,7 @@ public struct ListMilestonesOutput: Swift.Sendable {
         milestoneSummaries: [WellArchitectedClientTypes.MilestoneSummary]? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.milestoneSummaries = milestoneSummaries
         self.nextToken = nextToken
         self.workloadId = workloadId
@@ -5197,8 +5061,7 @@ public struct ListNotificationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -5247,8 +5110,7 @@ extension WellArchitectedClientTypes {
         public init(
             lensUpgradeSummary: WellArchitectedClientTypes.LensUpgradeSummary? = nil,
             type: WellArchitectedClientTypes.NotificationType? = nil
-        )
-        {
+        ) {
             self.lensUpgradeSummary = lensUpgradeSummary
             self.type = type
         }
@@ -5264,8 +5126,7 @@ public struct ListNotificationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notificationSummaries: [WellArchitectedClientTypes.NotificationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notificationSummaries = notificationSummaries
     }
@@ -5283,8 +5144,7 @@ public struct ListProfileNotificationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workloadId = workloadId
@@ -5347,8 +5207,7 @@ extension WellArchitectedClientTypes {
             type: WellArchitectedClientTypes.ProfileNotificationType? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentProfileVersion = currentProfileVersion
             self.latestProfileVersion = latestProfileVersion
             self.profileArn = profileArn
@@ -5369,8 +5228,7 @@ public struct ListProfileNotificationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notificationSummaries: [WellArchitectedClientTypes.ProfileNotificationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notificationSummaries = notificationSummaries
     }
@@ -5420,8 +5278,7 @@ public struct ListProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         profileNamePrefix: Swift.String? = nil,
         profileOwnerType: WellArchitectedClientTypes.ProfileOwnerType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileNamePrefix = profileNamePrefix
@@ -5456,8 +5313,7 @@ extension WellArchitectedClientTypes {
             profileName: Swift.String? = nil,
             profileVersion: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.owner = owner
             self.profileArn = profileArn
@@ -5478,8 +5334,7 @@ public struct ListProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profileSummaries: [WellArchitectedClientTypes.ProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profileSummaries = profileSummaries
     }
@@ -5504,8 +5359,7 @@ public struct ListProfileSharesInput: Swift.Sendable {
         profileArn: Swift.String? = nil,
         sharedWithPrefix: Swift.String? = nil,
         status: WellArchitectedClientTypes.ShareStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileArn = profileArn
@@ -5532,8 +5386,7 @@ extension WellArchitectedClientTypes {
             sharedWith: Swift.String? = nil,
             status: WellArchitectedClientTypes.ShareStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.shareId = shareId
             self.sharedWith = sharedWith
             self.status = status
@@ -5551,8 +5404,7 @@ public struct ListProfileSharesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profileShareSummaries: [WellArchitectedClientTypes.ProfileShareSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profileShareSummaries = profileShareSummaries
     }
@@ -5578,8 +5430,7 @@ public struct ListReviewTemplateAnswersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pillarId: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5624,8 +5475,7 @@ extension WellArchitectedClientTypes {
             questionType: WellArchitectedClientTypes.QuestionType? = nil,
             reason: WellArchitectedClientTypes.AnswerReason? = nil,
             selectedChoices: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.answerStatus = answerStatus
             self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
@@ -5655,8 +5505,7 @@ public struct ListReviewTemplateAnswersOutput: Swift.Sendable {
         lensAlias: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.answerSummaries = answerSummaries
         self.lensAlias = lensAlias
         self.nextToken = nextToken
@@ -5673,8 +5522,7 @@ public struct ListReviewTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5707,8 +5555,7 @@ extension WellArchitectedClientTypes {
             templateName: Swift.String? = nil,
             updateStatus: WellArchitectedClientTypes.ReviewTemplateUpdateStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lenses = lenses
             self.owner = owner
@@ -5729,8 +5576,7 @@ public struct ListReviewTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reviewTemplates: [WellArchitectedClientTypes.ReviewTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reviewTemplates = reviewTemplates
     }
@@ -5796,8 +5642,7 @@ public struct ListShareInvitationsInput: Swift.Sendable {
         shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
         templateNamePrefix: Swift.String? = nil,
         workloadNamePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensNamePrefix = lensNamePrefix
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5853,8 +5698,7 @@ extension WellArchitectedClientTypes {
             templateName: Swift.String? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lensArn = lensArn
             self.lensName = lensName
             self.permissionType = permissionType
@@ -5882,8 +5726,7 @@ public struct ListShareInvitationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         shareInvitationSummaries: [WellArchitectedClientTypes.ShareInvitationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.shareInvitationSummaries = shareInvitationSummaries
     }
@@ -5896,8 +5739,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         workloadArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workloadArn = workloadArn
     }
 }
@@ -5908,8 +5750,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5933,8 +5774,7 @@ public struct ListTemplateSharesInput: Swift.Sendable {
         sharedWithPrefix: Swift.String? = nil,
         status: WellArchitectedClientTypes.ShareStatus? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sharedWithPrefix = sharedWithPrefix
@@ -5961,8 +5801,7 @@ extension WellArchitectedClientTypes {
             sharedWith: Swift.String? = nil,
             status: WellArchitectedClientTypes.ShareStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.shareId = shareId
             self.sharedWith = sharedWith
             self.status = status
@@ -5983,8 +5822,7 @@ public struct ListTemplateSharesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         templateArn: Swift.String? = nil,
         templateShareSummaries: [WellArchitectedClientTypes.TemplateShareSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templateArn = templateArn
         self.templateShareSummaries = templateShareSummaries
@@ -6004,8 +5842,7 @@ public struct ListWorkloadsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadNamePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workloadNamePrefix = workloadNamePrefix
@@ -6022,8 +5859,7 @@ public struct ListWorkloadsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workloadSummaries: [WellArchitectedClientTypes.WorkloadSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workloadSummaries = workloadSummaries
     }
@@ -6049,8 +5885,7 @@ public struct ListWorkloadSharesInput: Swift.Sendable {
         sharedWithPrefix: Swift.String? = nil,
         status: WellArchitectedClientTypes.ShareStatus? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sharedWithPrefix = sharedWithPrefix
@@ -6080,8 +5915,7 @@ extension WellArchitectedClientTypes {
             sharedWith: Swift.String? = nil,
             status: WellArchitectedClientTypes.ShareStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.permissionType = permissionType
             self.shareId = shareId
             self.sharedWith = sharedWith
@@ -6104,8 +5938,7 @@ public struct ListWorkloadSharesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil,
         workloadShareSummaries: [WellArchitectedClientTypes.WorkloadShareSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workloadId = workloadId
         self.workloadShareSummaries = workloadShareSummaries
@@ -6139,8 +5972,7 @@ extension WellArchitectedClientTypes {
             shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
             templateArn: Swift.String? = nil,
             workloadId: Swift.String? = nil
-        )
-        {
+        ) {
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.profileArn = profileArn
@@ -6193,8 +6025,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         tags: [Swift.String: Swift.String]? = nil,
         workloadArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.workloadArn = workloadArn
     }
@@ -6216,8 +6047,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         tagKeys: [Swift.String]? = nil,
         workloadArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.tagKeys = tagKeys
         self.workloadArn = workloadArn
     }
@@ -6259,8 +6089,7 @@ public struct UpdateAnswerInput: Swift.Sendable {
         reason: WellArchitectedClientTypes.AnswerReason? = nil,
         selectedChoices: [Swift.String]? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.choiceUpdates = choiceUpdates
         self.isApplicable = isApplicable
         self.lensAlias = lensAlias
@@ -6288,8 +6117,7 @@ public struct UpdateAnswerOutput: Swift.Sendable {
         lensAlias: Swift.String? = nil,
         lensArn: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.answer = answer
         self.lensAlias = lensAlias
         self.lensArn = lensArn
@@ -6309,8 +6137,7 @@ public struct UpdateGlobalSettingsInput: Swift.Sendable {
         discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus? = nil,
         jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationInput? = nil,
         organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus? = nil
-    )
-    {
+    ) {
         self.discoveryIntegrationStatus = discoveryIntegrationStatus
         self.jiraConfiguration = jiraConfiguration
         self.organizationSharingStatus = organizationSharingStatus
@@ -6332,8 +6159,7 @@ public struct UpdateIntegrationInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         integratingService: WellArchitectedClientTypes.IntegratingService? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.integratingService = integratingService
         self.workloadId = workloadId
@@ -6361,8 +6187,7 @@ public struct UpdateLensReviewInput: Swift.Sendable {
         lensNotes: Swift.String? = nil,
         pillarNotes: [Swift.String: Swift.String]? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jiraConfiguration = jiraConfiguration
         self.lensAlias = lensAlias
         self.lensNotes = lensNotes
@@ -6381,8 +6206,7 @@ public struct UpdateLensReviewOutput: Swift.Sendable {
     public init(
         lensReview: WellArchitectedClientTypes.LensReview? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensReview = lensReview
         self.workloadId = workloadId
     }
@@ -6401,8 +6225,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         profileArn: Swift.String? = nil,
         profileDescription: Swift.String? = nil,
         profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]? = nil
-    )
-    {
+    ) {
         self.profileArn = profileArn
         self.profileDescription = profileDescription
         self.profileQuestions = profileQuestions
@@ -6415,8 +6238,7 @@ public struct UpdateProfileOutput: Swift.Sendable {
 
     public init(
         profile: WellArchitectedClientTypes.Profile? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -6443,8 +6265,7 @@ public struct UpdateReviewTemplateInput: Swift.Sendable {
         notes: Swift.String? = nil,
         templateArn: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.lensesToAssociate = lensesToAssociate
         self.lensesToDisassociate = lensesToDisassociate
@@ -6460,8 +6281,7 @@ public struct UpdateReviewTemplateOutput: Swift.Sendable {
 
     public init(
         reviewTemplate: WellArchitectedClientTypes.ReviewTemplate? = nil
-    )
-    {
+    ) {
         self.reviewTemplate = reviewTemplate
     }
 }
@@ -6496,8 +6316,7 @@ public struct UpdateReviewTemplateAnswerInput: Swift.Sendable {
         reason: WellArchitectedClientTypes.AnswerReason? = nil,
         selectedChoices: [Swift.String]? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.choiceUpdates = choiceUpdates
         self.isApplicable = isApplicable
         self.lensAlias = lensAlias
@@ -6521,8 +6340,7 @@ public struct UpdateReviewTemplateAnswerOutput: Swift.Sendable {
         answer: WellArchitectedClientTypes.ReviewTemplateAnswer? = nil,
         lensAlias: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.answer = answer
         self.lensAlias = lensAlias
         self.templateArn = templateArn
@@ -6546,8 +6364,7 @@ public struct UpdateReviewTemplateLensReviewInput: Swift.Sendable {
         lensNotes: Swift.String? = nil,
         pillarNotes: [Swift.String: Swift.String]? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensAlias = lensAlias
         self.lensNotes = lensNotes
         self.pillarNotes = pillarNotes
@@ -6564,8 +6381,7 @@ public struct UpdateReviewTemplateLensReviewOutput: Swift.Sendable {
     public init(
         lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.lensReview = lensReview
         self.templateArn = templateArn
     }
@@ -6583,8 +6399,7 @@ public struct UpdateShareInvitationInput: Swift.Sendable {
     public init(
         shareInvitationAction: WellArchitectedClientTypes.ShareInvitationAction? = nil,
         shareInvitationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.shareInvitationAction = shareInvitationAction
         self.shareInvitationId = shareInvitationId
     }
@@ -6596,8 +6411,7 @@ public struct UpdateShareInvitationOutput: Swift.Sendable {
 
     public init(
         shareInvitation: WellArchitectedClientTypes.ShareInvitation? = nil
-    )
-    {
+    ) {
         self.shareInvitation = shareInvitation
     }
 }
@@ -6715,8 +6529,7 @@ public struct UpdateWorkloadInput: Swift.Sendable {
         reviewOwner: Swift.String? = nil,
         workloadId: Swift.String? = nil,
         workloadName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.applications = applications
         self.architecturalDesign = architecturalDesign
@@ -6745,8 +6558,7 @@ public struct UpdateWorkloadOutput: Swift.Sendable {
 
     public init(
         workload: WellArchitectedClientTypes.Workload? = nil
-    )
-    {
+    ) {
         self.workload = workload
     }
 }
@@ -6767,8 +6579,7 @@ public struct UpdateWorkloadShareInput: Swift.Sendable {
         permissionType: WellArchitectedClientTypes.PermissionType? = nil,
         shareId: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissionType = permissionType
         self.shareId = shareId
         self.workloadId = workloadId
@@ -6802,8 +6613,7 @@ extension WellArchitectedClientTypes {
             status: WellArchitectedClientTypes.ShareStatus? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.permissionType = permissionType
             self.shareId = shareId
             self.sharedBy = sharedBy
@@ -6825,8 +6635,7 @@ public struct UpdateWorkloadShareOutput: Swift.Sendable {
     public init(
         workloadId: Swift.String? = nil,
         workloadShare: WellArchitectedClientTypes.WorkloadShare? = nil
-    )
-    {
+    ) {
         self.workloadId = workloadId
         self.workloadShare = workloadShare
     }
@@ -6850,8 +6659,7 @@ public struct UpgradeLensReviewInput: Swift.Sendable {
         lensAlias: Swift.String? = nil,
         milestoneName: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.lensAlias = lensAlias
         self.milestoneName = milestoneName
@@ -6876,8 +6684,7 @@ public struct UpgradeProfileVersionInput: Swift.Sendable {
         milestoneName: Swift.String? = nil,
         profileArn: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.milestoneName = milestoneName
         self.profileArn = profileArn
@@ -6899,8 +6706,7 @@ public struct UpgradeReviewTemplateLensReviewInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         lensAlias: Swift.String? = nil,
         templateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.lensAlias = lensAlias
         self.templateArn = templateArn

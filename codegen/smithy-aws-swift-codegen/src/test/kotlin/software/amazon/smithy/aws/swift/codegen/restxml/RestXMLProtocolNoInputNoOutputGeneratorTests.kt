@@ -15,7 +15,6 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
 class RestXMLProtocolNoInputNoOutputGeneratorTests {
-
     @Test
     fun `smoke test for generating request tests`() {
         val context = setupTests("restxml-generator-test.smithy", "aws.protocoltests.restxml#RestXml")
@@ -29,7 +28,10 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
         val generator = RestXMLProtocolGenerator()

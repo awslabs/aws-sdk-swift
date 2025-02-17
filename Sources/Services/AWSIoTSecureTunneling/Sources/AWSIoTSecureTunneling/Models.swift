@@ -59,9 +59,9 @@ extension IoTSecureTunnelingClientTypes {
 }
 
 /// Thrown when an operation is attempted on a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -76,8 +76,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -92,8 +91,7 @@ public struct CloseTunnelInput: Swift.Sendable {
     public init(
         delete: Swift.Bool? = false,
         tunnelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.delete = delete
         self.tunnelId = tunnelId
     }
@@ -145,8 +143,7 @@ extension IoTSecureTunnelingClientTypes {
         public init(
             lastUpdatedAt: Foundation.Date? = nil,
             status: IoTSecureTunnelingClientTypes.ConnectionStatus? = nil
-        )
-        {
+        ) {
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
         }
@@ -160,8 +157,7 @@ public struct DescribeTunnelInput: Swift.Sendable {
 
     public init(
         tunnelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.tunnelId = tunnelId
     }
 }
@@ -179,8 +175,7 @@ extension IoTSecureTunnelingClientTypes {
         public init(
             services: [Swift.String]? = nil,
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.services = services
             self.thingName = thingName
         }
@@ -230,8 +225,7 @@ extension IoTSecureTunnelingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -247,8 +241,7 @@ extension IoTSecureTunnelingClientTypes {
 
         public init(
             maxLifetimeTimeoutMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxLifetimeTimeoutMinutes = maxLifetimeTimeoutMinutes
         }
     }
@@ -293,8 +286,7 @@ extension IoTSecureTunnelingClientTypes {
             timeoutConfig: IoTSecureTunnelingClientTypes.TimeoutConfig? = nil,
             tunnelArn: Swift.String? = nil,
             tunnelId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.destinationConfig = destinationConfig
@@ -316,8 +308,7 @@ public struct DescribeTunnelOutput: Swift.Sendable {
 
     public init(
         tunnel: IoTSecureTunnelingClientTypes.Tunnel? = nil
-    )
-    {
+    ) {
         self.tunnel = tunnel
     }
 }
@@ -329,8 +320,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -341,8 +331,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [IoTSecureTunnelingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -359,8 +348,7 @@ public struct ListTunnelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.thingName = thingName
@@ -391,8 +379,7 @@ extension IoTSecureTunnelingClientTypes {
             status: IoTSecureTunnelingClientTypes.TunnelStatus? = nil,
             tunnelArn: Swift.String? = nil,
             tunnelId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
@@ -412,17 +399,16 @@ public struct ListTunnelsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tunnelSummaries: [IoTSecureTunnelingClientTypes.TunnelSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tunnelSummaries = tunnelSummaries
     }
 }
 
 /// Thrown when a tunnel limit is exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -437,8 +423,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -458,8 +443,7 @@ public struct OpenTunnelInput: Swift.Sendable {
         destinationConfig: IoTSecureTunnelingClientTypes.DestinationConfig? = nil,
         tags: [IoTSecureTunnelingClientTypes.Tag]? = nil,
         timeoutConfig: IoTSecureTunnelingClientTypes.TimeoutConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.destinationConfig = destinationConfig
         self.tags = tags
@@ -482,8 +466,7 @@ public struct OpenTunnelOutput: Swift.Sendable {
         sourceAccessToken: Swift.String? = nil,
         tunnelArn: Swift.String? = nil,
         tunnelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationAccessToken = destinationAccessToken
         self.sourceAccessToken = sourceAccessToken
         self.tunnelArn = tunnelArn
@@ -510,8 +493,7 @@ public struct RotateTunnelAccessTokenInput: Swift.Sendable {
         clientMode: IoTSecureTunnelingClientTypes.ClientMode? = nil,
         destinationConfig: IoTSecureTunnelingClientTypes.DestinationConfig? = nil,
         tunnelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientMode = clientMode
         self.destinationConfig = destinationConfig
         self.tunnelId = tunnelId
@@ -530,8 +512,7 @@ public struct RotateTunnelAccessTokenOutput: Swift.Sendable {
         destinationAccessToken: Swift.String? = nil,
         sourceAccessToken: Swift.String? = nil,
         tunnelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationAccessToken = destinationAccessToken
         self.sourceAccessToken = sourceAccessToken
         self.tunnelArn = tunnelArn
@@ -554,8 +535,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [IoTSecureTunnelingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -577,8 +557,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -669,32 +648,35 @@ extension UntagResourceInput {
 extension CloseTunnelInput {
 
     static func write(value: CloseTunnelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["delete"].write(value.delete)
+        try writer["tunnelId"].write(value.tunnelId)
     }
 }
 
 extension DescribeTunnelInput {
 
     static func write(value: DescribeTunnelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["tunnelId"].write(value.tunnelId)
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
 extension ListTunnelsInput {
 
     static func write(value: ListTunnelsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["thingName"].write(value.thingName)
     }
 }
 
@@ -715,6 +697,7 @@ extension RotateTunnelAccessTokenInput {
         guard let value else { return }
         try writer["clientMode"].write(value.clientMode)
         try writer["destinationConfig"].write(value.destinationConfig, with: IoTSecureTunnelingClientTypes.DestinationConfig.write(value:to:))
+        try writer["tunnelId"].write(value.tunnelId)
     }
 }
 

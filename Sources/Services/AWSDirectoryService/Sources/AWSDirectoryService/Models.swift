@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 /// A client exception has occurred.
-public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -48,17 +48,16 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The specified directory has already been shared with this Amazon Web Services account.
-public struct DirectoryAlreadySharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryAlreadySharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -77,17 +76,16 @@ public struct DirectoryAlreadySharedException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The specified entity could not be found.
-public struct EntityDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -106,17 +104,16 @@ public struct EntityDoesNotExistException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// One or more parameters are not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -135,17 +132,16 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// An exception has occurred in Directory Service.
-public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -164,8 +160,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -178,8 +173,7 @@ public struct AcceptSharedDirectoryInput: Swift.Sendable {
 
     public init(
         sharedDirectoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sharedDirectoryId = sharedDirectoryId
     }
 }
@@ -296,8 +290,7 @@ extension DirectoryClientTypes {
             shareStatus: DirectoryClientTypes.ShareStatus? = nil,
             sharedAccountId: Swift.String? = nil,
             sharedDirectoryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDateTime = createdDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.ownerAccountId = ownerAccountId
@@ -322,16 +315,15 @@ public struct AcceptSharedDirectoryOutput: Swift.Sendable {
 
     public init(
         sharedDirectory: DirectoryClientTypes.SharedDirectory? = nil
-    )
-    {
+    ) {
         self.sharedDirectory = sharedDirectory
     }
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -350,17 +342,16 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The specified directory is unavailable.
-public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -379,17 +370,16 @@ public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The specified entity already exists.
-public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -408,17 +398,16 @@ public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The maximum allowed number of IP addresses was exceeded. The default limit is 100 IP address blocks.
-public struct IpRouteLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IpRouteLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -437,8 +426,7 @@ public struct IpRouteLimitExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -456,8 +444,7 @@ extension DirectoryClientTypes {
         public init(
             cidrIp: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrIp = cidrIp
             self.description = description
         }
@@ -520,8 +507,7 @@ public struct AddIpRoutesInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         ipRoutes: [DirectoryClientTypes.IpRoute]? = nil,
         updateSecurityGroupForDirectoryControllers: Swift.Bool? = false
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.ipRoutes = ipRoutes
         self.updateSecurityGroupForDirectoryControllers = updateSecurityGroupForDirectoryControllers
@@ -534,9 +520,9 @@ public struct AddIpRoutesOutput: Swift.Sendable {
 }
 
 /// The Region you specified is the same Region where the Managed Microsoft AD directory was created. Specify a different Region and try again.
-public struct DirectoryAlreadyInRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryAlreadyInRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -555,17 +541,16 @@ public struct DirectoryAlreadyInRegionException: ClientRuntime.ModeledError, AWS
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The specified directory does not exist in the system.
-public struct DirectoryDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -584,17 +569,16 @@ public struct DirectoryDoesNotExistException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// You have reached the limit for maximum number of simultaneous Region replications per directory.
-public struct RegionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RegionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -613,17 +597,16 @@ public struct RegionLimitExceededException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The operation is not supported.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -642,8 +625,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -663,8 +645,7 @@ extension DirectoryClientTypes {
         public init(
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetIds = subnetIds
             self.vpcId = vpcId
         }
@@ -686,8 +667,7 @@ public struct AddRegionInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         regionName: Swift.String? = nil,
         vpcSettings: DirectoryClientTypes.DirectoryVpcSettings? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.regionName = regionName
         self.vpcSettings = vpcSettings
@@ -700,9 +680,9 @@ public struct AddRegionOutput: Swift.Sendable {
 }
 
 /// The maximum allowed number of tags was exceeded.
-public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -721,8 +701,7 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -742,8 +721,7 @@ extension DirectoryClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -761,8 +739,7 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tags: [DirectoryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tags = tags
     }
@@ -785,8 +762,7 @@ extension DirectoryClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -794,9 +770,9 @@ extension DirectoryClientTypes {
 }
 
 /// An authentication error occurred.
-public struct AuthenticationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthenticationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The textual message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the request that caused the exception.
@@ -815,8 +791,7 @@ public struct AuthenticationFailedException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -833,8 +808,7 @@ public struct CancelSchemaExtensionInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         schemaExtensionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.schemaExtensionId = schemaExtensionId
     }
@@ -854,8 +828,7 @@ extension DirectoryClientTypes {
 
         public init(
             ocspUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.ocspUrl = ocspUrl
         }
     }
@@ -961,8 +934,7 @@ extension DirectoryClientTypes {
             state: DirectoryClientTypes.CertificateState? = nil,
             stateReason: Swift.String? = nil,
             type: DirectoryClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.certificateId = certificateId
             self.clientCertAuthSettings = clientCertAuthSettings
             self.commonName = commonName
@@ -976,9 +948,9 @@ extension DirectoryClientTypes {
 }
 
 /// The certificate has already been registered into the system.
-public struct CertificateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -997,17 +969,16 @@ public struct CertificateAlreadyExistsException: ClientRuntime.ModeledError, AWS
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The certificate is not present in the system for describe or deregister activities.
-public struct CertificateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1026,8 +997,7 @@ public struct CertificateDoesNotExistException: ClientRuntime.ModeledError, AWSC
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -1054,8 +1024,7 @@ extension DirectoryClientTypes {
             expiryDateTime: Foundation.Date? = nil,
             state: DirectoryClientTypes.CertificateState? = nil,
             type: DirectoryClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.certificateId = certificateId
             self.commonName = commonName
             self.expiryDateTime = expiryDateTime
@@ -1066,9 +1035,9 @@ extension DirectoryClientTypes {
 }
 
 /// The certificate is being used for the LDAP security connection and cannot be removed without disabling LDAP security.
-public struct CertificateInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1087,17 +1056,16 @@ public struct CertificateInUseException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The certificate could not be added because the certificate limit has been reached.
-public struct CertificateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1116,8 +1084,7 @@ public struct CertificateLimitExceededException: ClientRuntime.ModeledError, AWS
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -1196,8 +1163,7 @@ extension DirectoryClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             status: DirectoryClientTypes.ClientAuthenticationStatus? = nil,
             type: DirectoryClientTypes.ClientAuthenticationType? = nil
-        )
-        {
+        ) {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.status = status
             self.type = type
@@ -1220,8 +1186,7 @@ extension DirectoryClientTypes {
             computerAttributes: [DirectoryClientTypes.Attribute]? = nil,
             computerId: Swift.String? = nil,
             computerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.computerAttributes = computerAttributes
             self.computerId = computerId
             self.computerName = computerName
@@ -1270,8 +1235,7 @@ extension DirectoryClientTypes {
             dnsIpAddrs: [Swift.String]? = nil,
             remoteDomainName: Swift.String? = nil,
             replicationScope: DirectoryClientTypes.ReplicationScope? = nil
-        )
-        {
+        ) {
             self.dnsIpAddrs = dnsIpAddrs
             self.remoteDomainName = remoteDomainName
             self.replicationScope = replicationScope
@@ -1280,9 +1244,9 @@ extension DirectoryClientTypes {
 }
 
 /// The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
-public struct DirectoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1301,8 +1265,7 @@ public struct DirectoryLimitExceededException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -1336,8 +1299,7 @@ extension DirectoryClientTypes {
             customerUserName: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.customerDnsIps = customerDnsIps
             self.customerUserName = customerUserName
             self.subnetIds = subnetIds
@@ -1404,8 +1366,7 @@ public struct ConnectDirectoryInput: Swift.Sendable {
         shortName: Swift.String? = nil,
         size: DirectoryClientTypes.DirectorySize? = nil,
         tags: [DirectoryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectSettings = connectSettings
         self.description = description
         self.name = name
@@ -1428,8 +1389,7 @@ public struct ConnectDirectoryOutput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -1446,8 +1406,7 @@ public struct CreateAliasInput: Swift.Sendable {
     public init(
         alias: Swift.String? = nil,
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.directoryId = directoryId
     }
@@ -1463,8 +1422,7 @@ public struct CreateAliasOutput: Swift.Sendable {
     public init(
         alias: Swift.String? = nil,
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.directoryId = directoryId
     }
@@ -1492,8 +1450,7 @@ public struct CreateComputerInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         organizationalUnitDistinguishedName: Swift.String? = nil,
         password: Swift.String? = nil
-    )
-    {
+    ) {
         self.computerAttributes = computerAttributes
         self.computerName = computerName
         self.directoryId = directoryId
@@ -1514,8 +1471,7 @@ public struct CreateComputerOutput: Swift.Sendable {
 
     public init(
         computer: DirectoryClientTypes.Computer? = nil
-    )
-    {
+    ) {
         self.computer = computer
     }
 }
@@ -1536,8 +1492,7 @@ public struct CreateConditionalForwarderInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         dnsIpAddrs: [Swift.String]? = nil,
         remoteDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.dnsIpAddrs = dnsIpAddrs
         self.remoteDomainName = remoteDomainName
@@ -1594,8 +1549,7 @@ public struct CreateDirectoryInput: Swift.Sendable {
         size: DirectoryClientTypes.DirectorySize? = nil,
         tags: [DirectoryClientTypes.Tag]? = nil,
         vpcSettings: DirectoryClientTypes.DirectoryVpcSettings? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.password = password
@@ -1618,16 +1572,15 @@ public struct CreateDirectoryOutput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
 
 /// The account does not have sufficient permission to perform the operation.
-public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1646,8 +1599,7 @@ public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSC
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -1664,8 +1616,7 @@ public struct CreateLogSubscriptionInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         logGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.logGroupName = logGroupName
     }
@@ -1733,8 +1684,7 @@ public struct CreateMicrosoftADInput: Swift.Sendable {
         shortName: Swift.String? = nil,
         tags: [DirectoryClientTypes.Tag]? = nil,
         vpcSettings: DirectoryClientTypes.DirectoryVpcSettings? = nil
-    )
-    {
+    ) {
         self.description = description
         self.edition = edition
         self.name = name
@@ -1757,16 +1707,15 @@ public struct CreateMicrosoftADOutput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
 
 /// The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-public struct SnapshotLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1785,8 +1734,7 @@ public struct SnapshotLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -1803,8 +1751,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.name = name
     }
@@ -1817,8 +1764,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotId = snapshotId
     }
 }
@@ -1942,8 +1888,7 @@ public struct CreateTrustInput: Swift.Sendable {
         trustDirection: DirectoryClientTypes.TrustDirection? = nil,
         trustPassword: Swift.String? = nil,
         trustType: DirectoryClientTypes.TrustType? = nil
-    )
-    {
+    ) {
         self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
         self.directoryId = directoryId
         self.remoteDomainName = remoteDomainName
@@ -1966,8 +1911,7 @@ public struct CreateTrustOutput: Swift.Sendable {
 
     public init(
         trustId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustId = trustId
     }
 }
@@ -2022,8 +1966,7 @@ public struct DeleteConditionalForwarderInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         remoteDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.remoteDomainName = remoteDomainName
     }
@@ -2043,8 +1986,7 @@ public struct DeleteDirectoryInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -2056,8 +1998,7 @@ public struct DeleteDirectoryOutput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -2069,8 +2010,7 @@ public struct DeleteLogSubscriptionInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -2088,8 +2028,7 @@ public struct DeleteSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotId = snapshotId
     }
 }
@@ -2101,8 +2040,7 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotId = snapshotId
     }
 }
@@ -2118,8 +2056,7 @@ public struct DeleteTrustInput: Swift.Sendable {
     public init(
         deleteAssociatedConditionalForwarder: Swift.Bool? = false,
         trustId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteAssociatedConditionalForwarder = deleteAssociatedConditionalForwarder
         self.trustId = trustId
     }
@@ -2132,8 +2069,7 @@ public struct DeleteTrustOutput: Swift.Sendable {
 
     public init(
         trustId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustId = trustId
     }
 }
@@ -2149,8 +2085,7 @@ public struct DeregisterCertificateInput: Swift.Sendable {
     public init(
         certificateId: Swift.String? = nil,
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.directoryId = directoryId
     }
@@ -2173,8 +2108,7 @@ public struct DeregisterEventTopicInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         topicName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.topicName = topicName
     }
@@ -2197,8 +2131,7 @@ public struct DescribeCertificateInput: Swift.Sendable {
     public init(
         certificateId: Swift.String? = nil,
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.directoryId = directoryId
     }
@@ -2210,8 +2143,7 @@ public struct DescribeCertificateOutput: Swift.Sendable {
 
     public init(
         certificate: DirectoryClientTypes.Certificate? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
@@ -2232,8 +2164,7 @@ public struct DescribeClientAuthenticationSettingsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: DirectoryClientTypes.ClientAuthenticationType? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -2250,8 +2181,7 @@ public struct DescribeClientAuthenticationSettingsOutput: Swift.Sendable {
     public init(
         clientAuthenticationSettingsInfo: [DirectoryClientTypes.ClientAuthenticationSettingInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientAuthenticationSettingsInfo = clientAuthenticationSettingsInfo
         self.nextToken = nextToken
     }
@@ -2268,8 +2198,7 @@ public struct DescribeConditionalForwardersInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         remoteDomainNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.remoteDomainNames = remoteDomainNames
     }
@@ -2282,16 +2211,15 @@ public struct DescribeConditionalForwardersOutput: Swift.Sendable {
 
     public init(
         conditionalForwarders: [DirectoryClientTypes.ConditionalForwarder]? = nil
-    )
-    {
+    ) {
         self.conditionalForwarders = conditionalForwarders
     }
 }
 
 /// The NextToken value is not valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -2310,8 +2238,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -2330,8 +2257,7 @@ public struct DescribeDirectoriesInput: Swift.Sendable {
         directoryIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryIds = directoryIds
         self.limit = limit
         self.nextToken = nextToken
@@ -2362,8 +2288,7 @@ extension DirectoryClientTypes {
             securityGroupId: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.connectIps = connectIps
             self.customerUserName = customerUserName
@@ -2468,8 +2393,7 @@ extension DirectoryClientTypes {
             radiusTimeout: Swift.Int? = nil,
             sharedSecret: Swift.String? = nil,
             useSameUsername: Swift.Bool = false
-        )
-        {
+        ) {
             self.authenticationProtocol = authenticationProtocol
             self.displayLabel = displayLabel
             self.radiusPort = radiusPort
@@ -2537,8 +2461,7 @@ extension DirectoryClientTypes {
             securityGroupId: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.securityGroupId = securityGroupId
             self.subnetIds = subnetIds
@@ -2571,8 +2494,7 @@ extension DirectoryClientTypes {
             radiusSettings: DirectoryClientTypes.RadiusSettings? = nil,
             radiusStatus: DirectoryClientTypes.RadiusStatus? = nil,
             vpcSettings: DirectoryClientTypes.DirectoryVpcSettingsDescription? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
@@ -2595,8 +2517,7 @@ extension DirectoryClientTypes {
         public init(
             additionalRegions: [Swift.String]? = nil,
             primaryRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalRegions = additionalRegions
             self.primaryRegion = primaryRegion
         }
@@ -2781,8 +2702,7 @@ extension DirectoryClientTypes {
             stageReason: Swift.String? = nil,
             type: DirectoryClientTypes.DirectoryType? = nil,
             vpcSettings: DirectoryClientTypes.DirectoryVpcSettingsDescription? = nil
-        )
-        {
+        ) {
             self.accessUrl = accessUrl
             self.alias = alias
             self.connectSettings = connectSettings
@@ -2828,8 +2748,7 @@ public struct DescribeDirectoriesOutput: Swift.Sendable {
     public init(
         directoryDescriptions: [DirectoryClientTypes.DirectoryDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryDescriptions = directoryDescriptions
         self.nextToken = nextToken
     }
@@ -2842,8 +2761,7 @@ public struct DescribeDirectoryDataAccessInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -2854,8 +2772,7 @@ public struct DescribeDirectoryDataAccessOutput: Swift.Sendable {
 
     public init(
         dataAccessStatus: DirectoryClientTypes.DataAccessStatus? = nil
-    )
-    {
+    ) {
         self.dataAccessStatus = dataAccessStatus
     }
 }
@@ -2876,8 +2793,7 @@ public struct DescribeDomainControllersInput: Swift.Sendable {
         domainControllerIds: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.domainControllerIds = domainControllerIds
         self.limit = limit
@@ -2968,8 +2884,7 @@ extension DirectoryClientTypes {
             statusReason: Swift.String? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.directoryId = directoryId
             self.dnsIpAddr = dnsIpAddr
@@ -2993,8 +2908,7 @@ public struct DescribeDomainControllersOutput: Swift.Sendable {
     public init(
         domainControllers: [DirectoryClientTypes.DomainController]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainControllers = domainControllers
         self.nextToken = nextToken
     }
@@ -3010,8 +2924,7 @@ public struct DescribeEventTopicsInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         topicNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.topicNames = topicNames
     }
@@ -3073,8 +2986,7 @@ extension DirectoryClientTypes {
             status: DirectoryClientTypes.TopicStatus? = nil,
             topicArn: Swift.String? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
             self.status = status
@@ -3091,8 +3003,7 @@ public struct DescribeEventTopicsOutput: Swift.Sendable {
 
     public init(
         eventTopics: [DirectoryClientTypes.EventTopic]? = nil
-    )
-    {
+    ) {
         self.eventTopics = eventTopics
     }
 }
@@ -3139,8 +3050,7 @@ public struct DescribeLDAPSSettingsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: DirectoryClientTypes.LDAPSType? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -3198,8 +3108,7 @@ extension DirectoryClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             ldapsStatus: DirectoryClientTypes.LDAPSStatus? = nil,
             ldapsStatusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.ldapsStatus = ldapsStatus
             self.ldapsStatusReason = ldapsStatusReason
@@ -3216,8 +3125,7 @@ public struct DescribeLDAPSSettingsOutput: Swift.Sendable {
     public init(
         ldapsSettingsInfo: [DirectoryClientTypes.LDAPSSettingInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ldapsSettingsInfo = ldapsSettingsInfo
         self.nextToken = nextToken
     }
@@ -3236,8 +3144,7 @@ public struct DescribeRegionsInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         regionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.regionName = regionName
@@ -3306,8 +3213,7 @@ extension DirectoryClientTypes {
             status: DirectoryClientTypes.DirectoryStage? = nil,
             statusLastUpdatedDateTime: Foundation.Date? = nil,
             vpcSettings: DirectoryClientTypes.DirectoryVpcSettings? = nil
-        )
-        {
+        ) {
             self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
             self.directoryId = directoryId
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3330,8 +3236,7 @@ public struct DescribeRegionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         regionsDescription: [DirectoryClientTypes.RegionDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.regionsDescription = regionsDescription
     }
@@ -3388,8 +3293,7 @@ public struct DescribeSettingsInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: DirectoryClientTypes.DirectoryConfigurationStatus? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.status = status
@@ -3435,8 +3339,7 @@ extension DirectoryClientTypes {
             requestStatusMessage: Swift.String? = nil,
             requestedValue: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.appliedValue = appliedValue
             self.dataType = dataType
@@ -3464,8 +3367,7 @@ public struct DescribeSettingsOutput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         settingEntries: [DirectoryClientTypes.SettingEntry]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.settingEntries = settingEntries
@@ -3488,8 +3390,7 @@ public struct DescribeSharedDirectoriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         ownerDirectoryId: Swift.String? = nil,
         sharedDirectoryIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.ownerDirectoryId = ownerDirectoryId
@@ -3506,8 +3407,7 @@ public struct DescribeSharedDirectoriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sharedDirectories: [DirectoryClientTypes.SharedDirectory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sharedDirectories = sharedDirectories
     }
@@ -3529,8 +3429,7 @@ public struct DescribeSnapshotsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         snapshotIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -3623,8 +3522,7 @@ extension DirectoryClientTypes {
             startTime: Foundation.Date? = nil,
             status: DirectoryClientTypes.SnapshotStatus? = nil,
             type: DirectoryClientTypes.SnapshotType? = nil
-        )
-        {
+        ) {
             self.directoryId = directoryId
             self.name = name
             self.snapshotId = snapshotId
@@ -3645,8 +3543,7 @@ public struct DescribeSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshots: [DirectoryClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshots = snapshots
     }
@@ -3668,8 +3565,7 @@ public struct DescribeTrustsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trustIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -3772,8 +3668,7 @@ extension DirectoryClientTypes {
             trustState: DirectoryClientTypes.TrustState? = nil,
             trustStateReason: Swift.String? = nil,
             trustType: DirectoryClientTypes.TrustType? = nil
-        )
-        {
+        ) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3799,8 +3694,7 @@ public struct DescribeTrustsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trusts: [DirectoryClientTypes.Trust]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trusts = trusts
     }
@@ -3849,8 +3743,7 @@ public struct DescribeUpdateDirectoryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         regionName: Swift.String? = nil,
         updateType: DirectoryClientTypes.UpdateType? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.regionName = regionName
@@ -3867,8 +3760,7 @@ extension DirectoryClientTypes {
 
         public init(
             osVersion: DirectoryClientTypes.OSVersion? = nil
-        )
-        {
+        ) {
             self.osVersion = osVersion
         }
     }
@@ -3883,8 +3775,7 @@ extension DirectoryClientTypes {
 
         public init(
             osUpdateSettings: DirectoryClientTypes.OSUpdateSettings? = nil
-        )
-        {
+        ) {
             self.osUpdateSettings = osUpdateSettings
         }
     }
@@ -3952,8 +3843,7 @@ extension DirectoryClientTypes {
             startTime: Foundation.Date? = nil,
             status: DirectoryClientTypes.UpdateStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.initiatedBy = initiatedBy
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.newValue = newValue
@@ -3975,17 +3865,16 @@ public struct DescribeUpdateDirectoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         updateActivities: [DirectoryClientTypes.UpdateInfoEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.updateActivities = updateActivities
     }
 }
 
 /// The directory is already updated to desired update type settings.
-public struct DirectoryInDesiredStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryInDesiredStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4004,8 +3893,7 @@ public struct DirectoryInDesiredStateException: ClientRuntime.ModeledError, AWSC
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -4044,8 +3932,7 @@ extension DirectoryClientTypes {
             connectedDirectoriesCurrentCount: Swift.Int? = nil,
             connectedDirectoriesLimit: Swift.Int? = nil,
             connectedDirectoriesLimitReached: Swift.Bool = false
-        )
-        {
+        ) {
             self.cloudOnlyDirectoriesCurrentCount = cloudOnlyDirectoriesCurrentCount
             self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
             self.cloudOnlyDirectoriesLimitReached = cloudOnlyDirectoriesLimitReached
@@ -4060,9 +3947,9 @@ extension DirectoryClientTypes {
 }
 
 /// The specified directory has not been shared with this Amazon Web Services account.
-public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4081,17 +3968,16 @@ public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// Client authentication is already enabled.
-public struct InvalidClientAuthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientAuthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4110,8 +3996,7 @@ public struct InvalidClientAuthStatusException: ClientRuntime.ModeledError, AWSC
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -4128,8 +4013,7 @@ public struct DisableClientAuthenticationInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         type: DirectoryClientTypes.ClientAuthenticationType? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.type = type
     }
@@ -4147,8 +4031,7 @@ public struct DisableDirectoryDataAccessInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -4159,9 +4042,9 @@ public struct DisableDirectoryDataAccessOutput: Swift.Sendable {
 }
 
 /// The LDAP activities could not be performed because they are limited by the LDAPS status.
-public struct InvalidLDAPSStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLDAPSStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4180,8 +4063,7 @@ public struct InvalidLDAPSStatusException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -4198,8 +4080,7 @@ public struct DisableLDAPSInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         type: DirectoryClientTypes.LDAPSType? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.type = type
     }
@@ -4218,8 +4099,7 @@ public struct DisableRadiusInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -4244,8 +4124,7 @@ public struct DisableSsoInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         password: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.password = password
         self.userName = userName
@@ -4264,9 +4143,9 @@ public struct DisableSsoOutput: Swift.Sendable {
 }
 
 /// Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
-public struct NoAvailableCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoAvailableCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4285,8 +4164,7 @@ public struct NoAvailableCertificateException: ClientRuntime.ModeledError, AWSCl
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -4303,8 +4181,7 @@ public struct EnableClientAuthenticationInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         type: DirectoryClientTypes.ClientAuthenticationType? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.type = type
     }
@@ -4322,8 +4199,7 @@ public struct EnableDirectoryDataAccessInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -4344,8 +4220,7 @@ public struct EnableLDAPSInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         type: DirectoryClientTypes.LDAPSType? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.type = type
     }
@@ -4368,8 +4243,7 @@ public struct EnableRadiusInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         radiusSettings: DirectoryClientTypes.RadiusSettings? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.radiusSettings = radiusSettings
     }
@@ -4395,8 +4269,7 @@ public struct EnableSsoInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         password: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.password = password
         self.userName = userName
@@ -4427,8 +4300,7 @@ public struct GetDirectoryLimitsOutput: Swift.Sendable {
 
     public init(
         directoryLimits: DirectoryClientTypes.DirectoryLimits? = nil
-    )
-    {
+    ) {
         self.directoryLimits = directoryLimits
     }
 }
@@ -4441,8 +4313,7 @@ public struct GetSnapshotLimitsInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -4462,8 +4333,7 @@ extension DirectoryClientTypes {
             manualSnapshotsCurrentCount: Swift.Int? = nil,
             manualSnapshotsLimit: Swift.Int? = nil,
             manualSnapshotsLimitReached: Swift.Bool = false
-        )
-        {
+        ) {
             self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
             self.manualSnapshotsLimit = manualSnapshotsLimit
             self.manualSnapshotsLimitReached = manualSnapshotsLimitReached
@@ -4478,8 +4348,7 @@ public struct GetSnapshotLimitsOutput: Swift.Sendable {
 
     public init(
         snapshotLimits: DirectoryClientTypes.SnapshotLimits? = nil
-    )
-    {
+    ) {
         self.snapshotLimits = snapshotLimits
     }
 }
@@ -4497,8 +4366,7 @@ public struct ListCertificatesInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -4514,8 +4382,7 @@ public struct ListCertificatesOutput: Swift.Sendable {
     public init(
         certificatesInfo: [DirectoryClientTypes.CertificateInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificatesInfo = certificatesInfo
         self.nextToken = nextToken
     }
@@ -4534,8 +4401,7 @@ public struct ListIpRoutesInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -4607,8 +4473,7 @@ extension DirectoryClientTypes {
             directoryId: Swift.String? = nil,
             ipRouteStatusMsg: DirectoryClientTypes.IpRouteStatusMsg? = nil,
             ipRouteStatusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.addedDateTime = addedDateTime
             self.cidrIp = cidrIp
             self.description = description
@@ -4628,8 +4493,7 @@ public struct ListIpRoutesOutput: Swift.Sendable {
     public init(
         ipRoutesInfo: [DirectoryClientTypes.IpRouteInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipRoutesInfo = ipRoutesInfo
         self.nextToken = nextToken
     }
@@ -4647,8 +4511,7 @@ public struct ListLogSubscriptionsInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -4670,8 +4533,7 @@ extension DirectoryClientTypes {
             directoryId: Swift.String? = nil,
             logGroupName: Swift.String? = nil,
             subscriptionCreatedDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.directoryId = directoryId
             self.logGroupName = logGroupName
             self.subscriptionCreatedDateTime = subscriptionCreatedDateTime
@@ -4688,8 +4550,7 @@ public struct ListLogSubscriptionsOutput: Swift.Sendable {
     public init(
         logSubscriptions: [DirectoryClientTypes.LogSubscription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logSubscriptions = logSubscriptions
         self.nextToken = nextToken
     }
@@ -4708,8 +4569,7 @@ public struct ListSchemaExtensionsInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.limit = limit
         self.nextToken = nextToken
@@ -4793,8 +4653,7 @@ extension DirectoryClientTypes {
             schemaExtensionStatus: DirectoryClientTypes.SchemaExtensionStatus? = nil,
             schemaExtensionStatusReason: Swift.String? = nil,
             startDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.description = description
             self.directoryId = directoryId
             self.endDateTime = endDateTime
@@ -4815,8 +4674,7 @@ public struct ListSchemaExtensionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaExtensionsInfo: [DirectoryClientTypes.SchemaExtensionInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaExtensionsInfo = schemaExtensionsInfo
     }
@@ -4835,8 +4693,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -4852,17 +4709,16 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [DirectoryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
 }
 
 /// The certificate PEM that was provided has incorrect encoding.
-public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4881,8 +4737,7 @@ public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -4905,8 +4760,7 @@ public struct RegisterCertificateInput: Swift.Sendable {
         clientCertAuthSettings: DirectoryClientTypes.ClientCertAuthSettings? = nil,
         directoryId: Swift.String? = nil,
         type: DirectoryClientTypes.CertificateType? = nil
-    )
-    {
+    ) {
         self.certificateData = certificateData
         self.clientCertAuthSettings = clientCertAuthSettings
         self.directoryId = directoryId
@@ -4920,8 +4774,7 @@ public struct RegisterCertificateOutput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -4938,8 +4791,7 @@ public struct RegisterEventTopicInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         topicName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.topicName = topicName
     }
@@ -4958,8 +4810,7 @@ public struct RejectSharedDirectoryInput: Swift.Sendable {
 
     public init(
         sharedDirectoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sharedDirectoryId = sharedDirectoryId
     }
 }
@@ -4970,8 +4821,7 @@ public struct RejectSharedDirectoryOutput: Swift.Sendable {
 
     public init(
         sharedDirectoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sharedDirectoryId = sharedDirectoryId
     }
 }
@@ -4987,8 +4837,7 @@ public struct RemoveIpRoutesInput: Swift.Sendable {
     public init(
         cidrIps: [Swift.String]? = nil,
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrIps = cidrIps
         self.directoryId = directoryId
     }
@@ -5006,8 +4855,7 @@ public struct RemoveRegionInput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -5028,8 +4876,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeys = tagKeys
     }
@@ -5041,9 +4888,9 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 }
 
 /// The new password provided by the user does not meet the password complexity requirements defined in your directory.
-public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5062,17 +4909,16 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The user provided a username that does not exist in your directory.
-public struct UserDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5091,8 +4937,7 @@ public struct UserDoesNotExistException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -5113,8 +4958,7 @@ public struct ResetUserPasswordInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         newPassword: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.newPassword = newPassword
         self.userName = userName
@@ -5139,8 +4983,7 @@ public struct RestoreFromSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotId = snapshotId
     }
 }
@@ -5152,9 +4995,9 @@ public struct RestoreFromSnapshotOutput: Swift.Sendable {
 }
 
 /// The specified shared target is not valid.
-public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5173,17 +5016,16 @@ public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// Exception encountered while trying to access your Amazon Web Services organization.
-public struct OrganizationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5202,17 +5044,16 @@ public struct OrganizationsException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The maximum number of Amazon Web Services accounts that you can share with this directory has been reached.
-public struct ShareLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ShareLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5231,8 +5072,7 @@ public struct ShareLimitExceededException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -5278,8 +5118,7 @@ extension DirectoryClientTypes {
         public init(
             id: Swift.String? = nil,
             type: DirectoryClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -5304,8 +5143,7 @@ public struct ShareDirectoryInput: Swift.Sendable {
         shareMethod: DirectoryClientTypes.ShareMethod? = nil,
         shareNotes: Swift.String? = nil,
         shareTarget: DirectoryClientTypes.ShareTarget? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.shareMethod = shareMethod
         self.shareNotes = shareNotes
@@ -5324,8 +5162,7 @@ public struct ShareDirectoryOutput: Swift.Sendable {
 
     public init(
         sharedDirectoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sharedDirectoryId = sharedDirectoryId
     }
 }
@@ -5349,8 +5186,7 @@ public struct StartSchemaExtensionInput: Swift.Sendable {
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         ldifContent: Swift.String? = nil
-    )
-    {
+    ) {
         self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
         self.description = description
         self.directoryId = directoryId
@@ -5364,8 +5200,7 @@ public struct StartSchemaExtensionOutput: Swift.Sendable {
 
     public init(
         schemaExtensionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaExtensionId = schemaExtensionId
     }
 }
@@ -5384,8 +5219,7 @@ extension DirectoryClientTypes {
         public init(
             id: Swift.String? = nil,
             type: DirectoryClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -5403,8 +5237,7 @@ public struct UnshareDirectoryInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         unshareTarget: DirectoryClientTypes.UnshareTarget? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.unshareTarget = unshareTarget
     }
@@ -5416,8 +5249,7 @@ public struct UnshareDirectoryOutput: Swift.Sendable {
 
     public init(
         sharedDirectoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sharedDirectoryId = sharedDirectoryId
     }
 }
@@ -5438,8 +5270,7 @@ public struct UpdateConditionalForwarderInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         dnsIpAddrs: [Swift.String]? = nil,
         remoteDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.dnsIpAddrs = dnsIpAddrs
         self.remoteDomainName = remoteDomainName
@@ -5469,8 +5300,7 @@ public struct UpdateDirectorySetupInput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         osUpdateSettings: DirectoryClientTypes.OSUpdateSettings? = nil,
         updateType: DirectoryClientTypes.UpdateType? = nil
-    )
-    {
+    ) {
         self.createSnapshotBeforeUpdate = createSnapshotBeforeUpdate
         self.directoryId = directoryId
         self.osUpdateSettings = osUpdateSettings
@@ -5484,9 +5314,9 @@ public struct UpdateDirectorySetupOutput: Swift.Sendable {
 }
 
 /// The maximum allowed number of domain controllers per directory was exceeded. The default limit per directory is 20 domain controllers.
-public struct DomainControllerLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainControllerLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5505,8 +5335,7 @@ public struct DomainControllerLimitExceededException: ClientRuntime.ModeledError
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -5523,8 +5352,7 @@ public struct UpdateNumberOfDomainControllersInput: Swift.Sendable {
     public init(
         desiredNumber: Swift.Int? = nil,
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredNumber = desiredNumber
         self.directoryId = directoryId
     }
@@ -5547,8 +5375,7 @@ public struct UpdateRadiusInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         radiusSettings: DirectoryClientTypes.RadiusSettings? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.radiusSettings = radiusSettings
     }
@@ -5561,9 +5388,9 @@ public struct UpdateRadiusOutput: Swift.Sendable {
 }
 
 /// The specified directory setting is not compatible with other settings.
-public struct IncompatibleSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5582,17 +5409,16 @@ public struct IncompatibleSettingsException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// The specified directory setting is not supported.
-public struct UnsupportedSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5611,8 +5437,7 @@ public struct UnsupportedSettingsException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -5632,8 +5457,7 @@ extension DirectoryClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -5651,8 +5475,7 @@ public struct UpdateSettingsInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         settings: [DirectoryClientTypes.Setting]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.settings = settings
     }
@@ -5664,8 +5487,7 @@ public struct UpdateSettingsOutput: Swift.Sendable {
 
     public init(
         directoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
     }
 }
@@ -5680,8 +5502,7 @@ public struct UpdateTrustInput: Swift.Sendable {
     public init(
         selectiveAuth: DirectoryClientTypes.SelectiveAuth? = nil,
         trustId: Swift.String? = nil
-    )
-    {
+    ) {
         self.selectiveAuth = selectiveAuth
         self.trustId = trustId
     }
@@ -5696,8 +5517,7 @@ public struct UpdateTrustOutput: Swift.Sendable {
     public init(
         requestId: Swift.String? = nil,
         trustId: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestId = requestId
         self.trustId = trustId
     }
@@ -5711,8 +5531,7 @@ public struct VerifyTrustInput: Swift.Sendable {
 
     public init(
         trustId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustId = trustId
     }
 }
@@ -5724,8 +5543,7 @@ public struct VerifyTrustOutput: Swift.Sendable {
 
     public init(
         trustId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustId = trustId
     }
 }

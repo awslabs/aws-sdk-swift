@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have permission to perform this operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -97,8 +96,7 @@ extension OutpostsClientTypes {
             municipality: Swift.String? = nil,
             postalCode: Swift.String? = nil,
             stateOrRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
             self.addressLine3 = addressLine3
@@ -152,8 +150,7 @@ extension OutpostsClientTypes {
 
         public init(
             rackElevation: Swift.Float? = nil
-        )
-        {
+        ) {
             self.rackElevation = rackElevation
         }
     }
@@ -199,8 +196,7 @@ extension OutpostsClientTypes {
         public init(
             count: Swift.Int = 0,
             instanceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.instanceType = instanceType
         }
@@ -266,8 +262,7 @@ extension OutpostsClientTypes {
             instanceTypeCapacities: [OutpostsClientTypes.AssetInstanceTypeCapacity]? = nil,
             maxVcpus: Swift.Int? = nil,
             state: OutpostsClientTypes.ComputeAssetState? = nil
-        )
-        {
+        ) {
             self.hostId = hostId
             self.instanceFamilies = instanceFamilies
             self.instanceTypeCapacities = instanceTypeCapacities
@@ -298,8 +293,7 @@ extension OutpostsClientTypes {
             assetType: OutpostsClientTypes.AssetType? = nil,
             computeAttributes: OutpostsClientTypes.ComputeAttributes? = nil,
             rackId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.assetLocation = assetLocation
             self.assetType = assetType
@@ -371,8 +365,7 @@ extension OutpostsClientTypes {
             awsServiceName: OutpostsClientTypes.AWSServiceName? = nil,
             instanceId: Swift.String? = nil,
             instanceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.assetId = assetId
             self.awsServiceName = awsServiceName
@@ -429,8 +422,7 @@ extension OutpostsClientTypes {
             accountId: Swift.String? = nil,
             awsServiceName: OutpostsClientTypes.AWSServiceName? = nil,
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.awsServiceName = awsServiceName
             self.instanceId = instanceId
@@ -468,9 +460,9 @@ extension OutpostsClientTypes {
 }
 
 /// Updating or deleting this resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource causing the conflict.
         public internal(set) var resourceId: Swift.String? = nil
@@ -491,8 +483,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: OutpostsClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -500,9 +491,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An internal error has occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -517,16 +508,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified request is not valid.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -541,16 +531,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A parameter is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -565,8 +554,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -582,8 +570,7 @@ public struct CancelCapacityTaskInput: Swift.Sendable {
     public init(
         capacityTaskId: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityTaskId = capacityTaskId
         self.outpostIdentifier = outpostIdentifier
     }
@@ -601,8 +588,7 @@ public struct CancelOrderInput: Swift.Sendable {
 
     public init(
         orderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.orderId = orderId
     }
 }
@@ -663,8 +649,7 @@ extension OutpostsClientTypes {
         public init(
             reason: Swift.String? = nil,
             type: OutpostsClientTypes.CapacityTaskFailureType? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.type = type
         }
@@ -742,8 +727,7 @@ extension OutpostsClientTypes {
             lastModifiedDate: Foundation.Date? = nil,
             orderId: Swift.String? = nil,
             outpostId: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
             self.completionDate = completionDate
@@ -770,8 +754,7 @@ extension OutpostsClientTypes {
             family: Swift.String? = nil,
             maxSize: Swift.String? = nil,
             quantity: Swift.String? = nil
-        )
-        {
+        ) {
             self.family = family
             self.maxSize = maxSize
             self.quantity = quantity
@@ -864,8 +847,7 @@ extension OutpostsClientTypes {
             supportedStorage: [OutpostsClientTypes.SupportedStorageEnum]? = nil,
             supportedUplinkGbps: [Swift.Int]? = nil,
             weightLbs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.catalogItemId = catalogItemId
             self.ec2Capacities = ec2Capacities
             self.itemStatus = itemStatus
@@ -930,8 +912,7 @@ extension OutpostsClientTypes {
             serverEndpoint: Swift.String? = nil,
             serverPublicKey: Swift.String? = nil,
             serverTunnelAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedIps = allowedIps
             self.clientPublicKey = clientPublicKey
             self.clientTunnelAddress = clientTunnelAddress
@@ -943,9 +924,9 @@ extension OutpostsClientTypes {
 }
 
 /// You have exceeded a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -960,8 +941,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -978,8 +958,7 @@ extension OutpostsClientTypes {
         public init(
             catalogItemId: Swift.String? = nil,
             quantity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.catalogItemId = catalogItemId
             self.quantity = quantity
         }
@@ -1068,8 +1047,7 @@ public struct CreateOrderInput: Swift.Sendable {
         outpostIdentifier: Swift.String? = nil,
         paymentOption: OutpostsClientTypes.PaymentOption? = nil,
         paymentTerm: OutpostsClientTypes.PaymentTerm? = nil
-    )
-    {
+    ) {
         self.lineItems = lineItems
         self.outpostIdentifier = outpostIdentifier
         self.paymentOption = paymentOption
@@ -1089,8 +1067,7 @@ extension OutpostsClientTypes {
         public init(
             assetId: Swift.String? = nil,
             macAddressList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.macAddressList = macAddressList
         }
@@ -1147,8 +1124,7 @@ extension OutpostsClientTypes {
         public init(
             shipmentCarrier: OutpostsClientTypes.ShipmentCarrier? = nil,
             shipmentTrackingNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.shipmentCarrier = shipmentCarrier
             self.shipmentTrackingNumber = shipmentTrackingNumber
         }
@@ -1235,8 +1211,7 @@ extension OutpostsClientTypes {
             quantity: Swift.Int? = nil,
             shipmentInformation: OutpostsClientTypes.ShipmentInformation? = nil,
             status: OutpostsClientTypes.LineItemStatus? = nil
-        )
-        {
+        ) {
             self.assetInformationList = assetInformationList
             self.catalogItemId = catalogItemId
             self.lineItemId = lineItemId
@@ -1382,8 +1357,7 @@ extension OutpostsClientTypes {
             paymentOption: OutpostsClientTypes.PaymentOption? = nil,
             paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
             status: OutpostsClientTypes.OrderStatus? = nil
-        )
-        {
+        ) {
             self.lineItems = lineItems
             self.orderFulfilledDate = orderFulfilledDate
             self.orderId = orderId
@@ -1403,8 +1377,7 @@ public struct CreateOrderOutput: Swift.Sendable {
 
     public init(
         order: OutpostsClientTypes.Order? = nil
-    )
-    {
+    ) {
         self.order = order
     }
 }
@@ -1464,8 +1437,7 @@ public struct CreateOutpostInput: Swift.Sendable {
         siteId: Swift.String? = nil,
         supportedHardwareType: OutpostsClientTypes.SupportedHardwareType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.availabilityZoneId = availabilityZoneId
         self.description = description
@@ -1518,8 +1490,7 @@ extension OutpostsClientTypes {
             siteId: Swift.String? = nil,
             supportedHardwareType: OutpostsClientTypes.SupportedHardwareType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.description = description
@@ -1542,8 +1513,7 @@ public struct CreateOutpostOutput: Swift.Sendable {
 
     public init(
         outpost: OutpostsClientTypes.Outpost? = nil
-    )
-    {
+    ) {
         self.outpost = outpost
     }
 }
@@ -1682,6 +1652,7 @@ extension OutpostsClientTypes {
     public enum PowerConnector: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ah530p7w
         case ah532p6w
+        case cs8365c
         case iec309
         case l630p
         case sdkUnknown(Swift.String)
@@ -1690,6 +1661,7 @@ extension OutpostsClientTypes {
             return [
                 .ah530p7w,
                 .ah532p6w,
+                .cs8365c,
                 .iec309,
                 .l630p
             ]
@@ -1704,6 +1676,7 @@ extension OutpostsClientTypes {
             switch self {
             case .ah530p7w: return "AH530P7W"
             case .ah532p6w: return "AH532P6W"
+            case .cs8365c: return "CS8365C"
             case .iec309: return "IEC309"
             case .l630p: return "L6_30P"
             case let .sdkUnknown(s): return s
@@ -1926,8 +1899,7 @@ extension OutpostsClientTypes {
             powerPhase: OutpostsClientTypes.PowerPhase? = nil,
             uplinkCount: OutpostsClientTypes.UplinkCount? = nil,
             uplinkGbps: OutpostsClientTypes.UplinkGbps? = nil
-        )
-        {
+        ) {
             self.fiberOpticCableType = fiberOpticCableType
             self.maximumSupportedWeightLbs = maximumSupportedWeightLbs
             self.opticalStandard = opticalStandard
@@ -1966,8 +1938,7 @@ public struct CreateSiteInput: Swift.Sendable {
         rackPhysicalProperties: OutpostsClientTypes.RackPhysicalProperties? = nil,
         shippingAddress: OutpostsClientTypes.Address? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.notes = notes
@@ -2017,8 +1988,7 @@ extension OutpostsClientTypes {
             siteArn: Swift.String? = nil,
             siteId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.description = description
             self.name = name
@@ -2040,8 +2010,7 @@ public struct CreateSiteOutput: Swift.Sendable {
 
     public init(
         site: OutpostsClientTypes.Site? = nil
-    )
-    {
+    ) {
         self.site = site
     }
 }
@@ -2053,8 +2022,7 @@ public struct DeleteOutpostInput: Swift.Sendable {
 
     public init(
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.outpostId = outpostId
     }
 }
@@ -2071,8 +2039,7 @@ public struct DeleteSiteInput: Swift.Sendable {
 
     public init(
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.siteId = siteId
     }
 }
@@ -2093,8 +2060,7 @@ public struct GetCapacityTaskInput: Swift.Sendable {
     public init(
         capacityTaskId: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityTaskId = capacityTaskId
         self.outpostIdentifier = outpostIdentifier
     }
@@ -2115,8 +2081,7 @@ extension OutpostsClientTypes {
             accountIds: [Swift.String]? = nil,
             instances: [Swift.String]? = nil,
             services: [OutpostsClientTypes.AWSServiceName]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.instances = instances
             self.services = services
@@ -2138,8 +2103,7 @@ extension OutpostsClientTypes {
         public init(
             count: Swift.Int = 0,
             instanceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.instanceType = instanceType
         }
@@ -2224,8 +2188,7 @@ public struct GetCapacityTaskOutput: Swift.Sendable {
         outpostId: Swift.String? = nil,
         requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil,
         taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances? = nil
-    )
-    {
+    ) {
         self.capacityTaskId = capacityTaskId
         self.capacityTaskStatus = capacityTaskStatus
         self.completionDate = completionDate
@@ -2248,8 +2211,7 @@ public struct GetCatalogItemInput: Swift.Sendable {
 
     public init(
         catalogItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogItemId = catalogItemId
     }
 }
@@ -2260,8 +2222,7 @@ public struct GetCatalogItemOutput: Swift.Sendable {
 
     public init(
         catalogItem: OutpostsClientTypes.CatalogItem? = nil
-    )
-    {
+    ) {
         self.catalogItem = catalogItem
     }
 }
@@ -2273,8 +2234,7 @@ public struct GetConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -2288,8 +2248,7 @@ public struct GetConnectionOutput: Swift.Sendable {
     public init(
         connectionDetails: OutpostsClientTypes.ConnectionDetails? = nil,
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionDetails = connectionDetails
         self.connectionId = connectionId
     }
@@ -2302,8 +2261,7 @@ public struct GetOrderInput: Swift.Sendable {
 
     public init(
         orderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.orderId = orderId
     }
 }
@@ -2314,8 +2272,7 @@ public struct GetOrderOutput: Swift.Sendable {
 
     public init(
         order: OutpostsClientTypes.Order? = nil
-    )
-    {
+    ) {
         self.order = order
     }
 }
@@ -2327,8 +2284,7 @@ public struct GetOutpostInput: Swift.Sendable {
 
     public init(
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.outpostId = outpostId
     }
 }
@@ -2339,8 +2295,7 @@ public struct GetOutpostOutput: Swift.Sendable {
 
     public init(
         outpost: OutpostsClientTypes.Outpost? = nil
-    )
-    {
+    ) {
         self.outpost = outpost
     }
 }
@@ -2358,8 +2313,7 @@ public struct GetOutpostInstanceTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.outpostId = outpostId
@@ -2378,8 +2332,7 @@ extension OutpostsClientTypes {
         public init(
             instanceType: Swift.String? = nil,
             vcpUs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.vcpUs = vcpUs
         }
@@ -2401,8 +2354,7 @@ public struct GetOutpostInstanceTypesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         outpostArn: Swift.String? = nil,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceTypes = instanceTypes
         self.nextToken = nextToken
         self.outpostArn = outpostArn
@@ -2426,8 +2378,7 @@ public struct GetOutpostSupportedInstanceTypesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         orderId: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.orderId = orderId
@@ -2444,8 +2395,7 @@ public struct GetOutpostSupportedInstanceTypesOutput: Swift.Sendable {
     public init(
         instanceTypes: [OutpostsClientTypes.InstanceTypeItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceTypes = instanceTypes
         self.nextToken = nextToken
     }
@@ -2458,8 +2408,7 @@ public struct GetSiteInput: Swift.Sendable {
 
     public init(
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.siteId = siteId
     }
 }
@@ -2470,8 +2419,7 @@ public struct GetSiteOutput: Swift.Sendable {
 
     public init(
         site: OutpostsClientTypes.Site? = nil
-    )
-    {
+    ) {
         self.site = site
     }
 }
@@ -2487,8 +2435,7 @@ public struct GetSiteAddressInput: Swift.Sendable {
     public init(
         addressType: OutpostsClientTypes.AddressType? = nil,
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addressType = addressType
         self.siteId = siteId
     }
@@ -2506,8 +2453,7 @@ public struct GetSiteAddressOutput: Swift.Sendable {
         address: OutpostsClientTypes.Address? = nil,
         addressType: OutpostsClientTypes.AddressType? = nil,
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.address = address
         self.addressType = addressType
         self.siteId = siteId
@@ -2539,8 +2485,7 @@ public struct ListAssetInstancesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIdFilter = accountIdFilter
         self.assetIdFilter = assetIdFilter
         self.awsServiceFilter = awsServiceFilter
@@ -2560,8 +2505,7 @@ public struct ListAssetInstancesOutput: Swift.Sendable {
     public init(
         assetInstances: [OutpostsClientTypes.AssetInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetInstances = assetInstances
         self.nextToken = nextToken
     }
@@ -2586,8 +2530,7 @@ public struct ListAssetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil,
         statusFilter: [OutpostsClientTypes.AssetState]? = nil
-    )
-    {
+    ) {
         self.hostIdFilter = hostIdFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2605,8 +2548,7 @@ public struct ListAssetsOutput: Swift.Sendable {
     public init(
         assets: [OutpostsClientTypes.AssetInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.nextToken = nextToken
     }
@@ -2629,8 +2571,7 @@ public struct ListBlockingInstancesForCapacityTaskInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityTaskId = capacityTaskId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2647,8 +2588,7 @@ public struct ListBlockingInstancesForCapacityTaskOutput: Swift.Sendable {
     public init(
         blockingInstances: [OutpostsClientTypes.BlockingInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blockingInstances = blockingInstances
         self.nextToken = nextToken
     }
@@ -2669,8 +2609,7 @@ public struct ListCapacityTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostIdentifierFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityTaskStatusFilter = capacityTaskStatusFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2687,8 +2626,7 @@ public struct ListCapacityTasksOutput: Swift.Sendable {
     public init(
         capacityTasks: [OutpostsClientTypes.CapacityTaskSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityTasks = capacityTasks
         self.nextToken = nextToken
     }
@@ -2712,8 +2650,7 @@ public struct ListCatalogItemsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         supportedStorageFilter: [OutpostsClientTypes.SupportedStorageEnum]? = nil
-    )
-    {
+    ) {
         self.ec2FamilyFilter = ec2FamilyFilter
         self.itemClassFilter = itemClassFilter
         self.maxResults = maxResults
@@ -2731,8 +2668,7 @@ public struct ListCatalogItemsOutput: Swift.Sendable {
     public init(
         catalogItems: [OutpostsClientTypes.CatalogItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogItems = catalogItems
         self.nextToken = nextToken
     }
@@ -2750,8 +2686,7 @@ public struct ListOrdersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostIdentifierFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.outpostIdentifierFilter = outpostIdentifierFilter
@@ -2798,8 +2733,7 @@ extension OutpostsClientTypes {
             orderType: OutpostsClientTypes.OrderType? = nil,
             outpostId: Swift.String? = nil,
             status: OutpostsClientTypes.OrderStatus? = nil
-        )
-        {
+        ) {
             self.lineItemCountsByStatus = lineItemCountsByStatus
             self.orderFulfilledDate = orderFulfilledDate
             self.orderId = orderId
@@ -2820,8 +2754,7 @@ public struct ListOrdersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         orders: [OutpostsClientTypes.OrderSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.orders = orders
     }
@@ -2845,8 +2778,7 @@ public struct ListOutpostsInput: Swift.Sendable {
         lifeCycleStatusFilter: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZoneFilter = availabilityZoneFilter
         self.availabilityZoneIdFilter = availabilityZoneIdFilter
         self.lifeCycleStatusFilter = lifeCycleStatusFilter
@@ -2864,8 +2796,7 @@ public struct ListOutpostsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outposts: [OutpostsClientTypes.Outpost]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outposts = outposts
     }
@@ -2889,8 +2820,7 @@ public struct ListSitesInput: Swift.Sendable {
         operatingAddressCityFilter: [Swift.String]? = nil,
         operatingAddressCountryCodeFilter: [Swift.String]? = nil,
         operatingAddressStateOrRegionFilter: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.operatingAddressCityFilter = operatingAddressCityFilter
@@ -2908,8 +2838,7 @@ public struct ListSitesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sites: [OutpostsClientTypes.Site]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sites = sites
     }
@@ -2922,8 +2851,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2934,8 +2862,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2967,8 +2894,7 @@ public struct StartCapacityTaskInput: Swift.Sendable {
         orderId: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil,
         taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.instancePools = instancePools
         self.instancesToExclude = instancesToExclude
@@ -3021,8 +2947,7 @@ public struct StartCapacityTaskOutput: Swift.Sendable {
         outpostId: Swift.String? = nil,
         requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil,
         taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances? = nil
-    )
-    {
+    ) {
         self.capacityTaskId = capacityTaskId
         self.capacityTaskStatus = capacityTaskStatus
         self.completionDate = completionDate
@@ -3056,8 +2981,7 @@ public struct StartConnectionInput: Swift.Sendable {
         clientPublicKey: Swift.String? = nil,
         deviceSerialNumber: Swift.String? = nil,
         networkInterfaceDeviceIndex: Swift.Int? = 0
-    )
-    {
+    ) {
         self.assetId = assetId
         self.clientPublicKey = clientPublicKey
         self.deviceSerialNumber = deviceSerialNumber
@@ -3074,8 +2998,7 @@ public struct StartConnectionOutput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         underlayIpAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.underlayIpAddress = underlayIpAddress
     }
@@ -3092,8 +3015,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3115,8 +3037,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3143,8 +3064,7 @@ public struct UpdateOutpostInput: Swift.Sendable {
         name: Swift.String? = nil,
         outpostId: Swift.String? = nil,
         supportedHardwareType: OutpostsClientTypes.SupportedHardwareType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.outpostId = outpostId
@@ -3158,8 +3078,7 @@ public struct UpdateOutpostOutput: Swift.Sendable {
 
     public init(
         outpost: OutpostsClientTypes.Outpost? = nil
-    )
-    {
+    ) {
         self.outpost = outpost
     }
 }
@@ -3180,8 +3099,7 @@ public struct UpdateSiteInput: Swift.Sendable {
         name: Swift.String? = nil,
         notes: Swift.String? = nil,
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.notes = notes
@@ -3195,8 +3113,7 @@ public struct UpdateSiteOutput: Swift.Sendable {
 
     public init(
         site: OutpostsClientTypes.Site? = nil
-    )
-    {
+    ) {
         self.site = site
     }
 }
@@ -3216,8 +3133,7 @@ public struct UpdateSiteAddressInput: Swift.Sendable {
         address: OutpostsClientTypes.Address? = nil,
         addressType: OutpostsClientTypes.AddressType? = nil,
         siteId: Swift.String? = nil
-    )
-    {
+    ) {
         self.address = address
         self.addressType = addressType
         self.siteId = siteId
@@ -3233,8 +3149,7 @@ public struct UpdateSiteAddressOutput: Swift.Sendable {
     public init(
         address: OutpostsClientTypes.Address? = nil,
         addressType: OutpostsClientTypes.AddressType? = nil
-    )
-    {
+    ) {
         self.address = address
         self.addressType = addressType
     }
@@ -3289,6 +3204,8 @@ public struct UpdateSiteRackPhysicalPropertiesInput: Swift.Sendable {
     /// * AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase
     ///
     /// * AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase
+    ///
+    /// * CS8365C – (common in US); 3P+E, 50A; three phase
     public var powerConnector: OutpostsClientTypes.PowerConnector?
     /// The power draw, in kVA, available at the hardware placement position for the rack.
     public var powerDrawKva: OutpostsClientTypes.PowerDrawKva?
@@ -3325,8 +3242,7 @@ public struct UpdateSiteRackPhysicalPropertiesInput: Swift.Sendable {
         siteId: Swift.String? = nil,
         uplinkCount: OutpostsClientTypes.UplinkCount? = nil,
         uplinkGbps: OutpostsClientTypes.UplinkGbps? = nil
-    )
-    {
+    ) {
         self.fiberOpticCableType = fiberOpticCableType
         self.maximumSupportedWeightLbs = maximumSupportedWeightLbs
         self.opticalStandard = opticalStandard
@@ -3346,8 +3262,7 @@ public struct UpdateSiteRackPhysicalPropertiesOutput: Swift.Sendable {
 
     public init(
         site: OutpostsClientTypes.Site? = nil
-    )
-    {
+    ) {
         self.site = site
     }
 }

@@ -37,9 +37,9 @@ public struct SetStatusOutput: Swift.Sendable {
 }
 
 /// An internal service error occurred.
-public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -55,16 +55,15 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -80,16 +79,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified pipeline has been deleted.
-public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -105,16 +103,15 @@ public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -130,8 +127,7 @@ public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -150,8 +146,7 @@ extension DataPipelineClientTypes {
         public init(
             id: Swift.String? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.stringValue = stringValue
         }
@@ -172,8 +167,7 @@ public struct ActivatePipelineInput: Swift.Sendable {
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineId: Swift.String? = nil,
         startTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.parameterValues = parameterValues
         self.pipelineId = pipelineId
         self.startTimestamp = startTimestamp
@@ -200,8 +194,7 @@ extension DataPipelineClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -220,8 +213,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         pipelineId: Swift.String? = nil,
         tags: [DataPipelineClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.pipelineId = pipelineId
         self.tags = tags
     }
@@ -251,8 +243,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [DataPipelineClientTypes.Tag]? = nil,
         uniqueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -268,8 +259,7 @@ public struct CreatePipelineOutput: Swift.Sendable {
 
     public init(
         pipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineId = pipelineId
     }
 }
@@ -285,8 +275,7 @@ public struct DeactivatePipelineInput: Swift.Sendable {
     public init(
         cancelActive: Swift.Bool? = nil,
         pipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cancelActive = cancelActive
         self.pipelineId = pipelineId
     }
@@ -306,8 +295,7 @@ public struct DeletePipelineInput: Swift.Sendable {
 
     public init(
         pipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineId = pipelineId
     }
 }
@@ -330,8 +318,7 @@ public struct DescribeObjectsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         objectIds: [Swift.String]? = nil,
         pipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluateExpressions = evaluateExpressions
         self.marker = marker
         self.objectIds = objectIds
@@ -355,8 +342,7 @@ extension DataPipelineClientTypes {
             key: Swift.String? = nil,
             refValue: Swift.String? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.refValue = refValue
             self.stringValue = stringValue
@@ -382,8 +368,7 @@ extension DataPipelineClientTypes {
             fields: [DataPipelineClientTypes.Field]? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.id = id
             self.name = name
@@ -405,8 +390,7 @@ public struct DescribeObjectsOutput: Swift.Sendable {
         hasMoreResults: Swift.Bool = false,
         marker: Swift.String? = nil,
         pipelineObjects: [DataPipelineClientTypes.PipelineObject]? = nil
-    )
-    {
+    ) {
         self.hasMoreResults = hasMoreResults
         self.marker = marker
         self.pipelineObjects = pipelineObjects
@@ -421,8 +405,7 @@ public struct DescribePipelinesInput: Swift.Sendable {
 
     public init(
         pipelineIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.pipelineIds = pipelineIds
     }
 }
@@ -451,8 +434,7 @@ extension DataPipelineClientTypes {
             name: Swift.String? = nil,
             pipelineId: Swift.String? = nil,
             tags: [DataPipelineClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.fields = fields
             self.name = name
@@ -470,16 +452,15 @@ public struct DescribePipelinesOutput: Swift.Sendable {
 
     public init(
         pipelineDescriptionList: [DataPipelineClientTypes.PipelineDescription]? = nil
-    )
-    {
+    ) {
         self.pipelineDescriptionList = pipelineDescriptionList
     }
 }
 
 /// The specified task was not found.
-public struct TaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -495,8 +476,7 @@ public struct TaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -517,8 +497,7 @@ public struct EvaluateExpressionInput: Swift.Sendable {
         expression: Swift.String? = nil,
         objectId: Swift.String? = nil,
         pipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.expression = expression
         self.objectId = objectId
         self.pipelineId = pipelineId
@@ -533,8 +512,7 @@ public struct EvaluateExpressionOutput: Swift.Sendable {
 
     public init(
         evaluatedExpression: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluatedExpression = evaluatedExpression
     }
 }
@@ -550,8 +528,7 @@ public struct GetPipelineDefinitionInput: Swift.Sendable {
     public init(
         pipelineId: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineId = pipelineId
         self.version = version
     }
@@ -571,8 +548,7 @@ extension DataPipelineClientTypes {
         public init(
             key: Swift.String? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.stringValue = stringValue
         }
@@ -593,8 +569,7 @@ extension DataPipelineClientTypes {
         public init(
             attributes: [DataPipelineClientTypes.ParameterAttribute]? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.id = id
         }
@@ -614,8 +589,7 @@ public struct GetPipelineDefinitionOutput: Swift.Sendable {
         parameterObjects: [DataPipelineClientTypes.ParameterObject]? = nil,
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineObjects: [DataPipelineClientTypes.PipelineObject]? = nil
-    )
-    {
+    ) {
         self.parameterObjects = parameterObjects
         self.parameterValues = parameterValues
         self.pipelineObjects = pipelineObjects
@@ -629,8 +603,7 @@ public struct ListPipelinesInput: Swift.Sendable {
 
     public init(
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
     }
 }
@@ -647,8 +620,7 @@ extension DataPipelineClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -669,8 +641,7 @@ public struct ListPipelinesOutput: Swift.Sendable {
         hasMoreResults: Swift.Bool = false,
         marker: Swift.String? = nil,
         pipelineIdList: [DataPipelineClientTypes.PipelineIdName]? = nil
-    )
-    {
+    ) {
         self.hasMoreResults = hasMoreResults
         self.marker = marker
         self.pipelineIdList = pipelineIdList
@@ -689,8 +660,7 @@ extension DataPipelineClientTypes {
         public init(
             document: Swift.String? = nil,
             signature: Swift.String? = nil
-        )
-        {
+        ) {
             self.document = document
             self.signature = signature
         }
@@ -711,8 +681,7 @@ public struct PollForTaskInput: Swift.Sendable {
         hostname: Swift.String? = nil,
         instanceIdentity: DataPipelineClientTypes.InstanceIdentity? = nil,
         workerGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostname = hostname
         self.instanceIdentity = instanceIdentity
         self.workerGroup = workerGroup
@@ -737,8 +706,7 @@ extension DataPipelineClientTypes {
             objects: [Swift.String: DataPipelineClientTypes.PipelineObject]? = nil,
             pipelineId: Swift.String? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attemptId = attemptId
             self.objects = objects
             self.pipelineId = pipelineId
@@ -754,8 +722,7 @@ public struct PollForTaskOutput: Swift.Sendable {
 
     public init(
         taskObject: DataPipelineClientTypes.TaskObject? = nil
-    )
-    {
+    ) {
         self.taskObject = taskObject
     }
 }
@@ -778,8 +745,7 @@ public struct PutPipelineDefinitionInput: Swift.Sendable {
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineId: Swift.String? = nil,
         pipelineObjects: [DataPipelineClientTypes.PipelineObject]? = nil
-    )
-    {
+    ) {
         self.parameterObjects = parameterObjects
         self.parameterValues = parameterValues
         self.pipelineId = pipelineId
@@ -799,8 +765,7 @@ extension DataPipelineClientTypes {
         public init(
             errors: [Swift.String]? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errors = errors
             self.id = id
         }
@@ -819,8 +784,7 @@ extension DataPipelineClientTypes {
         public init(
             id: Swift.String? = nil,
             warnings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.warnings = warnings
         }
@@ -841,8 +805,7 @@ public struct PutPipelineDefinitionOutput: Swift.Sendable {
         errored: Swift.Bool = false,
         validationErrors: [DataPipelineClientTypes.ValidationError]? = nil,
         validationWarnings: [DataPipelineClientTypes.ValidationWarning]? = nil
-    )
-    {
+    ) {
         self.errored = errored
         self.validationErrors = validationErrors
         self.validationWarnings = validationWarnings
@@ -933,8 +896,7 @@ extension DataPipelineClientTypes {
         public init(
             type: DataPipelineClientTypes.OperatorType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.type = type
             self.values = values
         }
@@ -953,8 +915,7 @@ extension DataPipelineClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             `operator`: DataPipelineClientTypes.Operator? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.`operator` = `operator`
         }
@@ -970,8 +931,7 @@ extension DataPipelineClientTypes {
 
         public init(
             selectors: [DataPipelineClientTypes.Selector]? = nil
-        )
-        {
+        ) {
             self.selectors = selectors
         }
     }
@@ -998,8 +958,7 @@ public struct QueryObjectsInput: Swift.Sendable {
         pipelineId: Swift.String? = nil,
         query: DataPipelineClientTypes.Query? = nil,
         sphere: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.pipelineId = pipelineId
@@ -1021,8 +980,7 @@ public struct QueryObjectsOutput: Swift.Sendable {
         hasMoreResults: Swift.Bool = false,
         ids: [Swift.String]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.hasMoreResults = hasMoreResults
         self.ids = ids
         self.marker = marker
@@ -1041,8 +999,7 @@ public struct RemoveTagsInput: Swift.Sendable {
     public init(
         pipelineId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.pipelineId = pipelineId
         self.tagKeys = tagKeys
     }
@@ -1065,8 +1022,7 @@ public struct ReportTaskProgressInput: Swift.Sendable {
     public init(
         fields: [DataPipelineClientTypes.Field]? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fields = fields
         self.taskId = taskId
     }
@@ -1080,8 +1036,7 @@ public struct ReportTaskProgressOutput: Swift.Sendable {
 
     public init(
         canceled: Swift.Bool = false
-    )
-    {
+    ) {
         self.canceled = canceled
     }
 }
@@ -1100,8 +1055,7 @@ public struct ReportTaskRunnerHeartbeatInput: Swift.Sendable {
         hostname: Swift.String? = nil,
         taskrunnerId: Swift.String? = nil,
         workerGroup: Swift.String? = nil
-    )
-    {
+    ) {
         self.hostname = hostname
         self.taskrunnerId = taskrunnerId
         self.workerGroup = workerGroup
@@ -1116,8 +1070,7 @@ public struct ReportTaskRunnerHeartbeatOutput: Swift.Sendable {
 
     public init(
         terminate: Swift.Bool = false
-    )
-    {
+    ) {
         self.terminate = terminate
     }
 }
@@ -1138,8 +1091,7 @@ public struct SetStatusInput: Swift.Sendable {
         objectIds: [Swift.String]? = nil,
         pipelineId: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.objectIds = objectIds
         self.pipelineId = pipelineId
         self.status = status
@@ -1199,8 +1151,7 @@ public struct SetTaskStatusInput: Swift.Sendable {
         errorStackTrace: Swift.String? = nil,
         taskId: Swift.String? = nil,
         taskStatus: DataPipelineClientTypes.TaskStatus? = nil
-    )
-    {
+    ) {
         self.errorId = errorId
         self.errorMessage = errorMessage
         self.errorStackTrace = errorStackTrace
@@ -1233,8 +1184,7 @@ public struct ValidatePipelineDefinitionInput: Swift.Sendable {
         parameterValues: [DataPipelineClientTypes.ParameterValue]? = nil,
         pipelineId: Swift.String? = nil,
         pipelineObjects: [DataPipelineClientTypes.PipelineObject]? = nil
-    )
-    {
+    ) {
         self.parameterObjects = parameterObjects
         self.parameterValues = parameterValues
         self.pipelineId = pipelineId
@@ -1256,8 +1206,7 @@ public struct ValidatePipelineDefinitionOutput: Swift.Sendable {
         errored: Swift.Bool = false,
         validationErrors: [DataPipelineClientTypes.ValidationError]? = nil,
         validationWarnings: [DataPipelineClientTypes.ValidationWarning]? = nil
-    )
-    {
+    ) {
         self.errored = errored
         self.validationErrors = validationErrors
         self.validationWarnings = validationWarnings

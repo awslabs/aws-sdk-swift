@@ -139,9 +139,9 @@ public struct UpdateCampaignSourceOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -160,8 +160,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -177,9 +176,9 @@ extension ConnectCampaignsV2ClientTypes {
 }
 
 /// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -198,17 +197,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
 }
 
 /// Request processing failed because of an error or failure with the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -227,17 +225,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -256,17 +253,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
 }
 
 /// Request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -285,17 +281,16 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -314,17 +309,16 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -343,8 +337,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -367,8 +360,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectSourceEmailAddress: Swift.String? = nil,
             sourceEmailAddressDisplayName: Swift.String? = nil,
             wisdomTemplateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectSourceEmailAddress = connectSourceEmailAddress
             self.sourceEmailAddressDisplayName = sourceEmailAddressDisplayName
             self.wisdomTemplateArn = wisdomTemplateArn
@@ -408,8 +400,7 @@ extension ConnectCampaignsV2ClientTypes {
             capacity: Swift.Double? = nil,
             defaultOutboundConfig: ConnectCampaignsV2ClientTypes.EmailOutboundConfig? = nil,
             outboundMode: ConnectCampaignsV2ClientTypes.EmailOutboundMode? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.defaultOutboundConfig = defaultOutboundConfig
             self.outboundMode = outboundMode
@@ -431,8 +422,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             connectSourcePhoneNumberArn: Swift.String? = nil,
             wisdomTemplateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
             self.wisdomTemplateArn = wisdomTemplateArn
         }
@@ -466,8 +456,7 @@ extension ConnectCampaignsV2ClientTypes {
             capacity: Swift.Double? = nil,
             defaultOutboundConfig: ConnectCampaignsV2ClientTypes.SmsOutboundConfig? = nil,
             outboundMode: ConnectCampaignsV2ClientTypes.SmsOutboundMode? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.defaultOutboundConfig = defaultOutboundConfig
             self.outboundMode = outboundMode
@@ -488,8 +477,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             awaitAnswerMachinePrompt: Swift.Bool? = nil,
             enableAnswerMachineDetection: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
         }
@@ -512,8 +500,7 @@ extension ConnectCampaignsV2ClientTypes {
             answerMachineDetectionConfig: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig? = nil,
             connectContactFlowId: Swift.String? = nil,
             connectSourcePhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
@@ -531,8 +518,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             bandwidthAllocation: Swift.Double? = nil
-        )
-        {
+        ) {
             self.bandwidthAllocation = bandwidthAllocation
         }
     }
@@ -548,8 +534,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             bandwidthAllocation: Swift.Double? = nil
-        )
-        {
+        ) {
             self.bandwidthAllocation = bandwidthAllocation
         }
     }
@@ -589,8 +574,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectQueueId: Swift.String? = nil,
             defaultOutboundConfig: ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig? = nil,
             outboundMode: ConnectCampaignsV2ClientTypes.TelephonyOutboundMode? = nil
-        )
-        {
+        ) {
             self.capacity = capacity
             self.connectQueueId = connectQueueId
             self.defaultOutboundConfig = defaultOutboundConfig
@@ -614,8 +598,7 @@ extension ConnectCampaignsV2ClientTypes {
             email: ConnectCampaignsV2ClientTypes.EmailChannelSubtypeConfig? = nil,
             sms: ConnectCampaignsV2ClientTypes.SmsChannelSubtypeConfig? = nil,
             telephony: ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeConfig? = nil
-        )
-        {
+        ) {
             self.email = email
             self.sms = sms
             self.telephony = telephony
@@ -668,8 +651,7 @@ extension ConnectCampaignsV2ClientTypes {
             frequency: Swift.Int? = nil,
             maxCountPerRecipient: Swift.Int? = nil,
             unit: ConnectCampaignsV2ClientTypes.CommunicationLimitTimeUnit? = nil
-        )
-        {
+        ) {
             self.frequency = frequency
             self.maxCountPerRecipient = maxCountPerRecipient
             self.unit = unit
@@ -696,8 +678,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             allChannelSubtypes: ConnectCampaignsV2ClientTypes.CommunicationLimits? = nil
-        )
-        {
+        ) {
             self.allChannelSubtypes = allChannelSubtypes
         }
     }
@@ -762,8 +743,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             endTime: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -797,8 +777,7 @@ extension ConnectCampaignsV2ClientTypes {
             endDate: Swift.String? = nil,
             name: Swift.String? = nil,
             startDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDate = endDate
             self.name = name
             self.startDate = startDate
@@ -829,8 +808,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             openHours: ConnectCampaignsV2ClientTypes.OpenHours? = nil,
             restrictedPeriods: ConnectCampaignsV2ClientTypes.RestrictedPeriods? = nil
-        )
-        {
+        ) {
             self.openHours = openHours
             self.restrictedPeriods = restrictedPeriods
         }
@@ -879,8 +857,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             defaultTimeZone: Swift.String? = nil,
             localTimeZoneDetection: [ConnectCampaignsV2ClientTypes.LocalTimeZoneDetectionType]? = nil
-        )
-        {
+        ) {
             self.defaultTimeZone = defaultTimeZone
             self.localTimeZoneDetection = localTimeZoneDetection
         }
@@ -906,8 +883,7 @@ extension ConnectCampaignsV2ClientTypes {
             localTimeZoneConfig: ConnectCampaignsV2ClientTypes.LocalTimeZoneConfig? = nil,
             sms: ConnectCampaignsV2ClientTypes.TimeWindow? = nil,
             telephony: ConnectCampaignsV2ClientTypes.TimeWindow? = nil
-        )
-        {
+        ) {
             self.email = email
             self.localTimeZoneConfig = localTimeZoneConfig
             self.sms = sms
@@ -933,11 +909,25 @@ extension ConnectCampaignsV2ClientTypes {
             endTime: Foundation.Date? = nil,
             refreshFrequency: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.refreshFrequency = refreshFrequency
             self.startTime = startTime
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Event trigger of the campaign
+    public struct EventTrigger: Swift.Sendable {
+        /// Amazon Resource Names(ARN)
+        public var customerProfilesDomainArn: Swift.String?
+
+        public init(
+            customerProfilesDomainArn: Swift.String? = nil
+        ) {
+            self.customerProfilesDomainArn = customerProfilesDomainArn
         }
     }
 }
@@ -948,6 +938,8 @@ extension ConnectCampaignsV2ClientTypes {
     public enum Source: Swift.Sendable {
         /// Amazon Resource Names(ARN)
         case customerprofilessegmentarn(Swift.String)
+        /// Event trigger of the campaign
+        case eventtrigger(ConnectCampaignsV2ClientTypes.EventTrigger)
         case sdkUnknown(Swift.String)
     }
 }
@@ -986,8 +978,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
         source: ConnectCampaignsV2ClientTypes.Source? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelSubtypeConfig = channelSubtypeConfig
         self.communicationLimitsOverride = communicationLimitsOverride
         self.communicationTimeConfig = communicationTimeConfig
@@ -1013,8 +1004,7 @@ public struct CreateCampaignOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.tags = tags
@@ -1029,8 +1019,7 @@ public struct DeleteCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1080,8 +1069,7 @@ public struct DeleteCampaignChannelSubtypeConfigInput: Swift.Sendable {
     public init(
         channelSubtype: ConnectCampaignsV2ClientTypes.ChannelSubtype? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelSubtype = channelSubtype
         self.id = id
     }
@@ -1136,9 +1124,9 @@ extension ConnectCampaignsV2ClientTypes {
 }
 
 /// The request could not be processed because of conflict in the current state of the campaign.
-public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// State of a campaign
@@ -1161,8 +1149,7 @@ public struct InvalidCampaignStateException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         state: ConnectCampaignsV2ClientTypes.CampaignState? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.state = state
         self.properties.xAmzErrorType = xAmzErrorType
@@ -1208,8 +1195,7 @@ public struct DeleteCampaignCommunicationLimitsInput: Swift.Sendable {
     public init(
         config: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfigType? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.id = id
     }
@@ -1260,17 +1246,16 @@ public struct DeleteCampaignCommunicationTimeInput: Swift.Sendable {
     public init(
         config: ConnectCampaignsV2ClientTypes.CommunicationTimeConfigType? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.id = id
     }
 }
 
 /// The request could not be processed because of conflict in the current state.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// A header that defines the error encountered while processing the request.
@@ -1289,8 +1274,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         xAmzErrorType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.xAmzErrorType = xAmzErrorType
     }
@@ -1337,8 +1321,7 @@ public struct DeleteConnectInstanceConfigInput: Swift.Sendable {
     public init(
         campaignDeletionPolicy: ConnectCampaignsV2ClientTypes.CampaignDeletionPolicy? = nil,
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignDeletionPolicy = campaignDeletionPolicy
         self.connectInstanceId = connectInstanceId
     }
@@ -1354,8 +1337,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             domainArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
         }
     }
@@ -1371,8 +1353,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             knowledgeBaseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
         }
     }
@@ -1402,8 +1383,7 @@ public struct DeleteConnectInstanceIntegrationInput: Swift.Sendable {
     public init(
         connectInstanceId: Swift.String? = nil,
         integrationIdentifier: ConnectCampaignsV2ClientTypes.IntegrationIdentifier? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.integrationIdentifier = integrationIdentifier
     }
@@ -1417,8 +1397,7 @@ public struct DeleteInstanceOnboardingJobInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -1431,8 +1410,7 @@ public struct DescribeCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1481,8 +1459,7 @@ extension ConnectCampaignsV2ClientTypes {
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
             source: ConnectCampaignsV2ClientTypes.Source? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelSubtypeConfig = channelSubtypeConfig
             self.communicationLimitsOverride = communicationLimitsOverride
@@ -1505,8 +1482,7 @@ public struct DescribeCampaignOutput: Swift.Sendable {
 
     public init(
         campaign: ConnectCampaignsV2ClientTypes.Campaign? = nil
-    )
-    {
+    ) {
         self.campaign = campaign
     }
 }
@@ -1519,8 +1495,7 @@ public struct GetCampaignStateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1532,8 +1507,7 @@ public struct GetCampaignStateOutput: Swift.Sendable {
 
     public init(
         state: ConnectCampaignsV2ClientTypes.CampaignState? = nil
-    )
-    {
+    ) {
         self.state = state
     }
 }
@@ -1546,8 +1520,7 @@ public struct GetCampaignStateBatchInput: Swift.Sendable {
 
     public init(
         campaignIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.campaignIds = campaignIds
     }
 }
@@ -1596,8 +1569,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             campaignId: Swift.String? = nil,
             failureCode: ConnectCampaignsV2ClientTypes.GetCampaignStateBatchFailureCode? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.failureCode = failureCode
         }
@@ -1616,8 +1588,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             campaignId: Swift.String? = nil,
             state: ConnectCampaignsV2ClientTypes.CampaignState? = nil
-        )
-        {
+        ) {
             self.campaignId = campaignId
             self.state = state
         }
@@ -1634,8 +1605,7 @@ public struct GetCampaignStateBatchOutput: Swift.Sendable {
     public init(
         failedRequests: [ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse]? = nil,
         successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulCampaignStateResponse]? = nil
-    )
-    {
+    ) {
         self.failedRequests = failedRequests
         self.successfulRequests = successfulRequests
     }
@@ -1649,8 +1619,7 @@ public struct GetConnectInstanceConfigInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -1698,8 +1667,7 @@ extension ConnectCampaignsV2ClientTypes {
             enabled: Swift.Bool = false,
             encryptionType: ConnectCampaignsV2ClientTypes.EncryptionType? = nil,
             keyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.encryptionType = encryptionType
             self.keyArn = keyArn
@@ -1725,8 +1693,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectInstanceId: Swift.String? = nil,
             encryptionConfig: ConnectCampaignsV2ClientTypes.EncryptionConfig? = nil,
             serviceLinkedRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectInstanceId = connectInstanceId
             self.encryptionConfig = encryptionConfig
             self.serviceLinkedRoleArn = serviceLinkedRoleArn
@@ -1741,8 +1708,7 @@ public struct GetConnectInstanceConfigOutput: Swift.Sendable {
 
     public init(
         connectInstanceConfig: ConnectCampaignsV2ClientTypes.InstanceConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceConfig = connectInstanceConfig
     }
 }
@@ -1755,8 +1721,7 @@ public struct GetInstanceOnboardingJobStatusInput: Swift.Sendable {
 
     public init(
         connectInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
     }
 }
@@ -1853,8 +1818,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectInstanceId: Swift.String? = nil,
             failureCode: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobFailureCode? = nil,
             status: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatusCode? = nil
-        )
-        {
+        ) {
             self.connectInstanceId = connectInstanceId
             self.failureCode = failureCode
             self.status = status
@@ -1869,8 +1833,7 @@ public struct GetInstanceOnboardingJobStatusOutput: Swift.Sendable {
 
     public init(
         connectInstanceOnboardingJobStatus: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus? = nil
-    )
-    {
+    ) {
         self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
     }
 }
@@ -1917,8 +1880,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             `operator`: ConnectCampaignsV2ClientTypes.InstanceIdFilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -1934,8 +1896,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             instanceIdFilter: ConnectCampaignsV2ClientTypes.InstanceIdFilter? = nil
-        )
-        {
+        ) {
             self.instanceIdFilter = instanceIdFilter
         }
     }
@@ -1954,8 +1915,7 @@ public struct ListCampaignsInput: Swift.Sendable {
         filters: ConnectCampaignsV2ClientTypes.CampaignFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1994,8 +1954,7 @@ extension ConnectCampaignsV2ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelSubtypes = channelSubtypes
             self.connectCampaignFlowArn = connectCampaignFlowArn
@@ -2017,8 +1976,7 @@ public struct ListCampaignsOutput: Swift.Sendable {
     public init(
         campaignSummaryList: [ConnectCampaignsV2ClientTypes.CampaignSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignSummaryList = campaignSummaryList
         self.nextToken = nextToken
     }
@@ -2038,8 +1996,7 @@ public struct ListConnectInstanceIntegrationsInput: Swift.Sendable {
         connectInstanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2096,8 +2053,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             domainArn: Swift.String? = nil,
             objectTypeNames: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.objectTypeNames = objectTypeNames
         }
@@ -2114,8 +2070,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             knowledgeBaseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
         }
     }
@@ -2143,8 +2098,7 @@ public struct ListConnectInstanceIntegrationsOutput: Swift.Sendable {
     public init(
         integrationSummaryList: [ConnectCampaignsV2ClientTypes.IntegrationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationSummaryList = integrationSummaryList
         self.nextToken = nextToken
     }
@@ -2158,8 +2112,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2171,8 +2124,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2185,8 +2137,7 @@ public struct PauseCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2205,8 +2156,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             domainArn: Swift.String? = nil,
             objectTypeNames: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.objectTypeNames = objectTypeNames
         }
@@ -2223,8 +2173,7 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             knowledgeBaseArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
         }
     }
@@ -2254,8 +2203,7 @@ public struct PutConnectInstanceIntegrationInput: Swift.Sendable {
     public init(
         connectInstanceId: Swift.String? = nil,
         integrationConfig: ConnectCampaignsV2ClientTypes.IntegrationConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.integrationConfig = integrationConfig
     }
@@ -2281,8 +2229,7 @@ extension ConnectCampaignsV2ClientTypes {
             destinationEmailAddress: Swift.String? = nil,
             templateArn: Swift.String? = nil,
             templateParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectSourceEmailAddress = connectSourceEmailAddress
             self.destinationEmailAddress = destinationEmailAddress
             self.templateArn = templateArn
@@ -2316,8 +2263,7 @@ extension ConnectCampaignsV2ClientTypes {
             destinationPhoneNumber: Swift.String? = nil,
             templateArn: Swift.String? = nil,
             templateParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
             self.destinationPhoneNumber = destinationPhoneNumber
             self.templateArn = templateArn
@@ -2351,8 +2297,7 @@ extension ConnectCampaignsV2ClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             connectSourcePhoneNumber: Swift.String? = nil,
             destinationPhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.attributes = attributes
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
@@ -2398,8 +2343,7 @@ extension ConnectCampaignsV2ClientTypes {
             channelSubtypeParameters: ConnectCampaignsV2ClientTypes.ChannelSubtypeParameters? = nil,
             clientToken: Swift.String? = nil,
             expirationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.channelSubtypeParameters = channelSubtypeParameters
             self.clientToken = clientToken
             self.expirationTime = expirationTime
@@ -2419,8 +2363,7 @@ public struct PutOutboundRequestBatchInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         outboundRequests: [ConnectCampaignsV2ClientTypes.OutboundRequest]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.outboundRequests = outboundRequests
     }
@@ -2481,8 +2424,7 @@ extension ConnectCampaignsV2ClientTypes {
             clientToken: Swift.String? = nil,
             failureCode: ConnectCampaignsV2ClientTypes.FailureCode? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.failureCode = failureCode
             self.id = id
@@ -2502,8 +2444,7 @@ extension ConnectCampaignsV2ClientTypes {
         public init(
             clientToken: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientToken = clientToken
             self.id = id
         }
@@ -2520,8 +2461,152 @@ public struct PutOutboundRequestBatchOutput: Swift.Sendable {
     public init(
         failedRequests: [ConnectCampaignsV2ClientTypes.FailedRequest]? = nil,
         successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulRequest]? = nil
-    )
-    {
+    ) {
+        self.failedRequests = failedRequests
+        self.successfulRequests = successfulRequests
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Information about a profile outbound request
+    public struct ProfileOutboundRequest: Swift.Sendable {
+        /// Client provided parameter used for idempotency. Its value must be unique for each request.
+        /// This member is required.
+        public var clientToken: Swift.String?
+        /// Timestamp with no UTC offset or timezone
+        public var expirationTime: Foundation.Date?
+        /// Identifier of the customer profile
+        /// This member is required.
+        public var profileId: Swift.String?
+
+        public init(
+            clientToken: Swift.String? = nil,
+            expirationTime: Foundation.Date? = nil,
+            profileId: Swift.String? = nil
+        ) {
+            self.clientToken = clientToken
+            self.expirationTime = expirationTime
+            self.profileId = profileId
+        }
+    }
+}
+
+/// The request for PutProfileOutboundRequestBatch API
+public struct PutProfileOutboundRequestBatchInput: Swift.Sendable {
+    /// Identifier representing a Campaign
+    /// This member is required.
+    public var id: Swift.String?
+    /// List of profile outbound requests
+    /// This member is required.
+    public var profileOutboundRequests: [ConnectCampaignsV2ClientTypes.ProfileOutboundRequest]?
+
+    public init(
+        id: Swift.String? = nil,
+        profileOutboundRequests: [ConnectCampaignsV2ClientTypes.ProfileOutboundRequest]? = nil
+    ) {
+        self.id = id
+        self.profileOutboundRequests = profileOutboundRequests
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Predefined code indicating the error that caused the failure
+    public enum ProfileOutboundRequestFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The specified resource conflicts with another resource
+        case conflict
+        /// The request failed to satisfy the constraints specified by the service
+        case invalidInput
+        /// Request throttled due to large number of requests
+        case requestThrottled
+        /// The specified resource was not found
+        case resourceNotFound
+        /// Unexpected error during processing of request
+        case unknownError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileOutboundRequestFailureCode] {
+            return [
+                .conflict,
+                .invalidInput,
+                .requestThrottled,
+                .resourceNotFound,
+                .unknownError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .conflict: return "Conflict"
+            case .invalidInput: return "InvalidInput"
+            case .requestThrottled: return "RequestThrottled"
+            case .resourceNotFound: return "ResourceNotFound"
+            case .unknownError: return "UnknownError"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Failure details for a profile outbound request
+    public struct FailedProfileOutboundRequest: Swift.Sendable {
+        /// Client provided parameter used for idempotency. Its value must be unique for each request.
+        public var clientToken: Swift.String?
+        /// Predefined code indicating the error that caused the failure
+        public var failureCode: ConnectCampaignsV2ClientTypes.ProfileOutboundRequestFailureCode?
+        /// Identifier of the profile outbound request
+        public var id: Swift.String?
+
+        public init(
+            clientToken: Swift.String? = nil,
+            failureCode: ConnectCampaignsV2ClientTypes.ProfileOutboundRequestFailureCode? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.clientToken = clientToken
+            self.failureCode = failureCode
+            self.id = id
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Success details for a profile outbound request
+    public struct SuccessfulProfileOutboundRequest: Swift.Sendable {
+        /// Client provided parameter used for idempotency. Its value must be unique for each request.
+        public var clientToken: Swift.String?
+        /// Identifier of the profile outbound request
+        public var id: Swift.String?
+
+        public init(
+            clientToken: Swift.String? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.clientToken = clientToken
+            self.id = id
+        }
+    }
+}
+
+/// The response for PutProfileOutboundRequestBatch API
+public struct PutProfileOutboundRequestBatchOutput: Swift.Sendable {
+    /// List of failed profile outbound requests
+    public var failedRequests: [ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest]?
+    /// List of successful profile outbound requests
+    public var successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest]?
+
+    public init(
+        failedRequests: [ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest]? = nil,
+        successfulRequests: [ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest]? = nil
+    ) {
         self.failedRequests = failedRequests
         self.successfulRequests = successfulRequests
     }
@@ -2535,8 +2620,7 @@ public struct ResumeCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2549,8 +2633,7 @@ public struct StartCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2567,8 +2650,7 @@ public struct StartInstanceOnboardingJobInput: Swift.Sendable {
     public init(
         connectInstanceId: Swift.String? = nil,
         encryptionConfig: ConnectCampaignsV2ClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.connectInstanceId = connectInstanceId
         self.encryptionConfig = encryptionConfig
     }
@@ -2581,8 +2663,7 @@ public struct StartInstanceOnboardingJobOutput: Swift.Sendable {
 
     public init(
         connectInstanceOnboardingJobStatus: ConnectCampaignsV2ClientTypes.InstanceOnboardingJobStatus? = nil
-    )
-    {
+    ) {
         self.connectInstanceOnboardingJobStatus = connectInstanceOnboardingJobStatus
     }
 }
@@ -2595,8 +2676,7 @@ public struct StopCampaignInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2613,8 +2693,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -2632,8 +2711,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -2651,8 +2729,7 @@ public struct UpdateCampaignChannelSubtypeConfigInput: Swift.Sendable {
     public init(
         channelSubtypeConfig: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelSubtypeConfig = channelSubtypeConfig
         self.id = id
     }
@@ -2670,8 +2747,7 @@ public struct UpdateCampaignCommunicationLimitsInput: Swift.Sendable {
     public init(
         communicationLimitsOverride: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.communicationLimitsOverride = communicationLimitsOverride
         self.id = id
     }
@@ -2689,8 +2765,7 @@ public struct UpdateCampaignCommunicationTimeInput: Swift.Sendable {
     public init(
         communicationTimeConfig: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.communicationTimeConfig = communicationTimeConfig
         self.id = id
     }
@@ -2708,8 +2783,7 @@ public struct UpdateCampaignFlowAssociationInput: Swift.Sendable {
     public init(
         connectCampaignFlowArn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectCampaignFlowArn = connectCampaignFlowArn
         self.id = id
     }
@@ -2727,8 +2801,7 @@ public struct UpdateCampaignNameInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
     }
@@ -2746,8 +2819,7 @@ public struct UpdateCampaignScheduleInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil
-    )
-    {
+    ) {
         self.id = id
         self.schedule = schedule
     }
@@ -2765,8 +2837,7 @@ public struct UpdateCampaignSourceInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         source: ConnectCampaignsV2ClientTypes.Source? = nil
-    )
-    {
+    ) {
         self.id = id
         self.source = source
     }
@@ -3023,6 +3094,16 @@ extension PutOutboundRequestBatchInput {
     }
 }
 
+extension PutProfileOutboundRequestBatchInput {
+
+    static func urlPathProvider(_ value: PutProfileOutboundRequestBatchInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v2/campaigns/\(id.urlPercentEncoding())/profile-outbound-requests"
+    }
+}
+
 extension ResumeCampaignInput {
 
     static func urlPathProvider(_ value: ResumeCampaignInput) -> Swift.String? {
@@ -3224,6 +3305,14 @@ extension PutOutboundRequestBatchInput {
     static func write(value: PutOutboundRequestBatchInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["outboundRequests"].writeList(value.outboundRequests, memberWritingClosure: ConnectCampaignsV2ClientTypes.OutboundRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PutProfileOutboundRequestBatchInput {
+
+    static func write(value: PutProfileOutboundRequestBatchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["profileOutboundRequests"].writeList(value.profileOutboundRequests, memberWritingClosure: ConnectCampaignsV2ClientTypes.ProfileOutboundRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3484,6 +3573,19 @@ extension PutOutboundRequestBatchOutput {
         var value = PutOutboundRequestBatchOutput()
         value.failedRequests = try reader["failedRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.FailedRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.successfulRequests = try reader["successfulRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.SuccessfulRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutProfileOutboundRequestBatchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutProfileOutboundRequestBatchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutProfileOutboundRequestBatchOutput()
+        value.failedRequests = try reader["failedRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successfulRequests = try reader["successfulRequests"].readListIfPresent(memberReadingClosure: ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3910,6 +4012,26 @@ enum PutConnectInstanceIntegrationOutputError {
 }
 
 enum PutOutboundRequestBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidCampaignStateException": return try InvalidCampaignStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutProfileOutboundRequestBatchOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4572,6 +4694,8 @@ extension ConnectCampaignsV2ClientTypes.Source {
         switch value {
             case let .customerprofilessegmentarn(customerprofilessegmentarn):
                 try writer["customerProfilesSegmentArn"].write(customerprofilessegmentarn)
+            case let .eventtrigger(eventtrigger):
+                try writer["eventTrigger"].write(eventtrigger, with: ConnectCampaignsV2ClientTypes.EventTrigger.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -4583,9 +4707,26 @@ extension ConnectCampaignsV2ClientTypes.Source {
         switch name {
             case "customerProfilesSegmentArn":
                 return .customerprofilessegmentarn(try reader["customerProfilesSegmentArn"].read())
+            case "eventTrigger":
+                return .eventtrigger(try reader["eventTrigger"].read(with: ConnectCampaignsV2ClientTypes.EventTrigger.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.EventTrigger {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EventTrigger?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customerProfilesDomainArn"].write(value.customerProfilesDomainArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.EventTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.EventTrigger()
+        value.customerProfilesDomainArn = try reader["customerProfilesDomainArn"].readIfPresent()
+        return value
     }
 }
 
@@ -5003,6 +5144,29 @@ extension ConnectCampaignsV2ClientTypes.FailedRequest {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.SuccessfulProfileOutboundRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.FailedProfileOutboundRequest()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.IntegrationIdentifier {
 
     static func write(value: ConnectCampaignsV2ClientTypes.IntegrationIdentifier?, to writer: SmithyJSON.Writer) throws {
@@ -5140,6 +5304,16 @@ extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["connectSourcePhoneNumber"].write(value.connectSourcePhoneNumber)
         try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.ProfileOutboundRequest {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.ProfileOutboundRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expirationTime"].writeTimestamp(value.expirationTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["profileId"].write(value.profileId)
     }
 }
 

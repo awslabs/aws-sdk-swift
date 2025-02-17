@@ -15,7 +15,6 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 
 class MapEncodeFormURLGeneratorTests {
-
     @Test
     fun `001 encode different types of maps`() {
         val context = setupTests("awsquery/query-maps.smithy", "aws.protocoltests.query#AwsQuery")
@@ -41,7 +40,10 @@ extension QueryMapsInput {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AWSQueryProtocolGenerator()

@@ -122,9 +122,9 @@ extension MarketplaceCommerceAnalyticsClientTypes {
 }
 
 /// This exception is thrown when an internal service error occurs.
-public struct MarketplaceCommerceAnalyticsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MarketplaceCommerceAnalyticsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This message describes details of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -140,8 +140,7 @@ public struct MarketplaceCommerceAnalyticsException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -226,8 +225,7 @@ public struct GenerateDataSetInput: Swift.Sendable {
         destinationS3Prefix: Swift.String? = nil,
         roleNameArn: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerDefinedValues = customerDefinedValues
         self.dataSetPublicationDate = dataSetPublicationDate
         self.dataSetType = dataSetType
@@ -245,8 +243,7 @@ public struct GenerateDataSetOutput: Swift.Sendable {
 
     public init(
         dataSetRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetRequestId = dataSetRequestId
     }
 }
@@ -315,8 +312,7 @@ public struct StartSupportDataExportInput: Swift.Sendable {
         fromDate: Foundation.Date? = nil,
         roleNameArn: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerDefinedValues = customerDefinedValues
         self.dataSetType = dataSetType
         self.destinationS3BucketName = destinationS3BucketName
@@ -335,8 +331,7 @@ public struct StartSupportDataExportOutput: Swift.Sendable {
 
     public init(
         dataSetRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetRequestId = dataSetRequestId
     }
 }

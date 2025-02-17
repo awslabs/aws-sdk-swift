@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
@@ -34,8 +35,8 @@ import protocol ClientRuntime.ModeledError
 import protocol Smithy.RequestMessageSerializer
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -55,9 +56,9 @@ import struct Smithy.URIQueryItem
 import struct SmithyRetries.DefaultRetryStrategy
 
 /// Amazon Polly can't find the specified lexicon. This could be caused by a lexicon that is missing, its name is misspelled or specifying a lexicon that is in a different region. Verify that the lexicon exists, is in the region (see [ListLexicons]) and that you spelled its name is spelled correctly. Then try again.
-public struct LexiconNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LexiconNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -72,16 +73,15 @@ public struct LexiconNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An unknown condition has caused a service failure.
-public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -96,8 +96,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -109,8 +108,7 @@ public struct DeleteLexiconInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -121,9 +119,9 @@ public struct DeleteLexiconOutput: Swift.Sendable {
 }
 
 /// The NextToken is invalid. Verify that it's spelled correctly, and then try again.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -138,8 +136,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -198,6 +195,7 @@ extension PollyClientTypes {
         case enIe
         case enIn
         case enNz
+        case enSg
         case enUs
         case enZa
         case esEs
@@ -243,6 +241,7 @@ extension PollyClientTypes {
                 .enIe,
                 .enIn,
                 .enNz,
+                .enSg,
                 .enUs,
                 .enZa,
                 .esEs,
@@ -294,6 +293,7 @@ extension PollyClientTypes {
             case .enIe: return "en-IE"
             case .enIn: return "en-IN"
             case .enNz: return "en-NZ"
+            case .enSg: return "en-SG"
             case .enUs: return "en-US"
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
@@ -340,8 +340,7 @@ public struct DescribeVoicesInput: Swift.Sendable {
         includeAdditionalLanguageCodes: Swift.Bool? = false,
         languageCode: PollyClientTypes.LanguageCode? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
         self.languageCode = languageCode
@@ -423,6 +422,7 @@ extension PollyClientTypes {
         case ivy
         case jacek
         case jan
+        case jasmine
         case jitka
         case joanna
         case joey
@@ -525,6 +525,7 @@ extension PollyClientTypes {
                 .ivy,
                 .jacek,
                 .jan,
+                .jasmine,
                 .jitka,
                 .joanna,
                 .joey,
@@ -633,6 +634,7 @@ extension PollyClientTypes {
             case .ivy: return "Ivy"
             case .jacek: return "Jacek"
             case .jan: return "Jan"
+            case .jasmine: return "Jasmine"
             case .jitka: return "Jitka"
             case .joanna: return "Joanna"
             case .joey: return "Joey"
@@ -722,8 +724,7 @@ extension PollyClientTypes {
             languageName: Swift.String? = nil,
             name: Swift.String? = nil,
             supportedEngines: [PollyClientTypes.Engine]? = nil
-        )
-        {
+        ) {
             self.additionalLanguageCodes = additionalLanguageCodes
             self.gender = gender
             self.id = id
@@ -744,17 +745,16 @@ public struct DescribeVoicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voices: [PollyClientTypes.Voice]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voices = voices
     }
 }
 
 /// This engine is not compatible with the voice that you have designated. Choose a new voice that is compatible with the engine or change the engine and restart the operation.
-public struct EngineNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EngineNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -769,8 +769,7 @@ public struct EngineNotSupportedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -782,8 +781,7 @@ public struct GetLexiconInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -800,8 +798,7 @@ extension PollyClientTypes {
         public init(
             content: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.name = name
         }
@@ -837,8 +834,7 @@ extension PollyClientTypes {
             lexemesCount: Swift.Int = 0,
             lexiconArn: Swift.String? = nil,
             size: Swift.Int = 0
-        )
-        {
+        ) {
             self.alphabet = alphabet
             self.languageCode = languageCode
             self.lastModified = lastModified
@@ -858,17 +854,16 @@ public struct GetLexiconOutput: Swift.Sendable {
     public init(
         lexicon: PollyClientTypes.Lexicon? = nil,
         lexiconAttributes: PollyClientTypes.LexiconAttributes? = nil
-    )
-    {
+    ) {
         self.lexicon = lexicon
         self.lexiconAttributes = lexiconAttributes
     }
 }
 
 /// The provided Task ID is not valid. Please provide a valid Task ID and try again.
-public struct InvalidTaskIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTaskIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -883,16 +878,15 @@ public struct InvalidTaskIdException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Speech Synthesis task with requested Task ID cannot be found.
-public struct SynthesisTaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SynthesisTaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -907,8 +901,7 @@ public struct SynthesisTaskNotFoundException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -920,8 +913,7 @@ public struct GetSpeechSynthesisTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -1111,8 +1103,7 @@ extension PollyClientTypes {
             taskStatusReason: Swift.String? = nil,
             textType: PollyClientTypes.TextType? = nil,
             voiceId: PollyClientTypes.VoiceId? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.engine = engine
             self.languageCode = languageCode
@@ -1138,16 +1129,15 @@ public struct GetSpeechSynthesisTaskOutput: Swift.Sendable {
 
     public init(
         synthesisTask: PollyClientTypes.SynthesisTask? = nil
-    )
-    {
+    ) {
         self.synthesisTask = synthesisTask
     }
 }
 
 /// Amazon Polly can't find the specified lexicon. Verify that the lexicon's name is spelled correctly, and then try again.
-public struct InvalidLexiconException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLexiconException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1162,16 +1152,15 @@ public struct InvalidLexiconException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided Amazon S3 bucket name is invalid. Please check your input with S3 bucket naming requirements and try again.
-public struct InvalidS3BucketException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3BucketException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1186,16 +1175,15 @@ public struct InvalidS3BucketException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided Amazon S3 key prefix is invalid. Please provide a valid S3 object key name.
-public struct InvalidS3KeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3KeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1210,16 +1198,15 @@ public struct InvalidS3KeyException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified sample rate is not valid.
-public struct InvalidSampleRateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSampleRateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1234,16 +1221,15 @@ public struct InvalidSampleRateException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided SNS topic ARN is invalid. Please provide a valid SNS topic ARN and try again.
-public struct InvalidSnsTopicArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSnsTopicArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1258,16 +1244,15 @@ public struct InvalidSnsTopicArnException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The SSML you provided is invalid. Verify the SSML syntax, spelling of tags and values, and then try again.
-public struct InvalidSsmlException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSsmlException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1282,16 +1267,15 @@ public struct InvalidSsmlException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The language specified is not currently supported by Amazon Polly in this capacity.
-public struct LanguageNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LanguageNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1306,8 +1290,7 @@ public struct LanguageNotSupportedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1324,8 +1307,7 @@ extension PollyClientTypes {
         public init(
             attributes: PollyClientTypes.LexiconAttributes? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.name = name
         }
@@ -1333,9 +1315,9 @@ extension PollyClientTypes {
 }
 
 /// The maximum size of the specified lexicon would be exceeded by this operation.
-public struct LexiconSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LexiconSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1350,8 +1332,7 @@ public struct LexiconSizeExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1362,8 +1343,7 @@ public struct ListLexiconsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1377,8 +1357,7 @@ public struct ListLexiconsOutput: Swift.Sendable {
     public init(
         lexicons: [PollyClientTypes.LexiconDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lexicons = lexicons
         self.nextToken = nextToken
     }
@@ -1396,8 +1375,7 @@ public struct ListSpeechSynthesisTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: PollyClientTypes.TaskStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -1413,17 +1391,16 @@ public struct ListSpeechSynthesisTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         synthesisTasks: [PollyClientTypes.SynthesisTask]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.synthesisTasks = synthesisTasks
     }
 }
 
 /// Speech marks are not supported for the OutputFormat selected. Speech marks are only available for content in json format.
-public struct MarksNotSupportedForFormatException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MarksNotSupportedForFormatException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1438,16 +1415,15 @@ public struct MarksNotSupportedForFormatException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum size of the lexeme would be exceeded by this operation.
-public struct MaxLexemeLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxLexemeLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1462,16 +1438,15 @@ public struct MaxLexemeLengthExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of lexicons would be exceeded by this operation.
-public struct MaxLexiconsNumberExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxLexiconsNumberExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1486,16 +1461,15 @@ public struct MaxLexiconsNumberExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
-public struct UnsupportedPlsAlphabetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedPlsAlphabetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1510,16 +1484,15 @@ public struct UnsupportedPlsAlphabetException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The language specified in the lexicon is unsupported. For a list of supported languages, see [Lexicon Attributes](https://docs.aws.amazon.com/polly/latest/dg/API_LexiconAttributes.html).
-public struct UnsupportedPlsLanguageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedPlsLanguageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1534,8 +1507,7 @@ public struct UnsupportedPlsLanguageException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1551,8 +1523,7 @@ public struct PutLexiconInput: Swift.Sendable {
     public init(
         content: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.name = name
     }
@@ -1569,9 +1540,9 @@ public struct PutLexiconOutput: Swift.Sendable {
 }
 
 /// SSML speech marks are not supported for plain text-type input.
-public struct SsmlMarksNotSupportedForTextTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SsmlMarksNotSupportedForTextTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1586,16 +1557,15 @@ public struct SsmlMarksNotSupportedForTextTypeException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value of the "Text" parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
-public struct TextLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TextLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1610,8 +1580,7 @@ public struct TextLengthExceededException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1659,8 +1628,7 @@ public struct StartSpeechSynthesisTaskInput: Swift.Sendable {
         text: Swift.String? = nil,
         textType: PollyClientTypes.TextType? = nil,
         voiceId: PollyClientTypes.VoiceId? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.languageCode = languageCode
         self.lexiconNames = lexiconNames
@@ -1682,8 +1650,7 @@ public struct StartSpeechSynthesisTaskOutput: Swift.Sendable {
 
     public init(
         synthesisTask: PollyClientTypes.SynthesisTask? = nil
-    )
-    {
+    ) {
         self.synthesisTask = synthesisTask
     }
 }
@@ -1721,8 +1688,7 @@ public struct SynthesizeSpeechInput: Swift.Sendable {
         text: Swift.String? = nil,
         textType: PollyClientTypes.TextType? = nil,
         voiceId: PollyClientTypes.VoiceId? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.languageCode = languageCode
         self.lexiconNames = lexiconNames
@@ -1752,11 +1718,10 @@ public struct SynthesizeSpeechOutput: Swift.Sendable {
     public var requestCharacters: Swift.Int
 
     public init(
-        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         contentType: Swift.String? = nil,
         requestCharacters: Swift.Int = 0
-    )
-    {
+    ) {
         self.audioStream = audioStream
         self.contentType = contentType
         self.requestCharacters = requestCharacters
@@ -2581,6 +2546,8 @@ extension SynthesizeSpeechInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2598,8 +2565,11 @@ extension SynthesizeSpeechInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SynthesizeSpeechOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Polly", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SynthesizeSpeechOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SynthesizeSpeechOutput>())
         builder.serialize(SynthesizeSpeechInputGETQueryItemMiddleware())
         var metricsAttributes = Smithy.Attributes()
@@ -2695,6 +2665,8 @@ extension SynthesizeSpeechInput {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2715,12 +2687,15 @@ extension SynthesizeSpeechInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SynthesizeSpeechOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SynthesizeSpeechOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(serviceID: serviceName, version: PollyClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Polly", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SynthesizeSpeechOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SynthesizeSpeechOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(serviceID: serviceName, version: PollyClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Polly")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SynthesizeSpeech")

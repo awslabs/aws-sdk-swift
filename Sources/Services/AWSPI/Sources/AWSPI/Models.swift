@@ -61,6 +61,8 @@ extension PIClientTypes {
         public var dimensions: [Swift.String: Swift.String]?
         /// The Performance Insights metric name.
         public var displayName: Swift.String?
+        /// The filter for the Performance Insights metric.
+        public var filter: [Swift.String: Swift.String]?
         /// The Performance Insights metric.
         public var metric: Swift.String?
         /// The value of the metric. For example, 9 for db.load.avg.
@@ -69,12 +71,13 @@ extension PIClientTypes {
         public init(
             dimensions: [Swift.String: Swift.String]? = nil,
             displayName: Swift.String? = nil,
+            filter: [Swift.String: Swift.String]? = nil,
             metric: Swift.String? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.displayName = displayName
+            self.filter = filter
             self.metric = metric
             self.value = value
         }
@@ -90,8 +93,7 @@ extension PIClientTypes {
 
         public init(
             performanceInsightsMetric: PIClientTypes.PerformanceInsightsMetric? = nil
-        )
-        {
+        ) {
             self.performanceInsightsMetric = performanceInsightsMetric
         }
     }
@@ -138,8 +140,7 @@ extension PIClientTypes {
         public init(
             recommendationDescription: Swift.String? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.recommendationDescription = recommendationDescription
             self.recommendationId = recommendationId
         }
@@ -258,8 +259,7 @@ extension PIClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -290,8 +290,7 @@ extension PIClientTypes {
             startTime: Foundation.Date? = nil,
             status: PIClientTypes.AnalysisStatus? = nil,
             tags: [PIClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.analysisReportId = analysisReportId
             self.createTime = createTime
             self.endTime = endTime
@@ -335,9 +334,9 @@ extension PIClientTypes {
 }
 
 /// The request failed due to an unknown error.
-public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -352,16 +351,15 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One of the arguments provided is invalid for this request.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -376,16 +374,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user is not authorized to perform this request.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -400,8 +397,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -428,8 +424,7 @@ public struct CreatePerformanceAnalysisReportInput: Swift.Sendable {
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: Foundation.Date? = nil,
         tags: [PIClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.identifier = identifier
         self.serviceType = serviceType
@@ -444,8 +439,7 @@ public struct CreatePerformanceAnalysisReportOutput: Swift.Sendable {
 
     public init(
         analysisReportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisReportId = analysisReportId
     }
 }
@@ -464,8 +458,7 @@ extension PIClientTypes {
         public init(
             timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -487,8 +480,7 @@ public struct DeletePerformanceAnalysisReportInput: Swift.Sendable {
         analysisReportId: Swift.String? = nil,
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.analysisReportId = analysisReportId
         self.identifier = identifier
         self.serviceType = serviceType
@@ -527,6 +519,18 @@ extension PIClientTypes {
         ///
         ///
         ///
+        ///
+        /// * db.blocking_sql.id - The ID for each of the SQL queries blocking the most DB load.
+        ///
+        /// * db.blocking_sql.sql - The SQL text for each of the SQL queries blocking the most DB load.
+        ///
+        /// * db.blocking_session.id - The ID for each of the sessions blocking the most DB load.
+        ///
+        /// * db.blocking_object.id - The ID for each of the object resources acquired by other sessions that are blocking the most DB load.
+        ///
+        /// * db.blocking_object.type - The object type for each of the object resources acquired by other sessions that are blocking the most DB load.
+        ///
+        /// * db.blocking_object.value - The value for each of the object resources acquired by other sessions that are blocking the most DB load.
         ///
         /// * db.host.id - The host ID of the connected client (all engines).
         ///
@@ -621,7 +625,15 @@ extension PIClientTypes {
         ///
         ///
         ///
+        /// * db.blocking_sql - The SQL queries blocking the most DB load.
+        ///
+        /// * db.blocking_session - The sessions blocking the most DB load.
+        ///
+        /// * db.blocking_object - The object resources acquired by other sessions that are blocking the most DB load.
+        ///
         /// * db.host - The host name of the connected client (all engines).
+        ///
+        /// * db.plans - The execution plans for the query (only Aurora PostgreSQL).
         ///
         /// * db.query - The query that is currently running (only Amazon DocumentDB).
         ///
@@ -649,8 +661,7 @@ extension PIClientTypes {
             dimensions: [Swift.String]? = nil,
             group: Swift.String? = nil,
             limit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.group = group
             self.limit = limit
@@ -659,7 +670,7 @@ extension PIClientTypes {
 }
 
 public struct DescribeDimensionKeysInput: Swift.Sendable {
-    /// Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }.
+    /// Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }. The only supported statistic function is .avg.
     public var additionalMetrics: [Swift.String]?
     /// The date and time specifying the end of the requested time series data. The value specified is exclusive, which means that data points less than (but not equal to) EndTime are returned. The value for EndTime must be later than the value for StartTime.
     /// This member is required.
@@ -734,8 +745,7 @@ public struct DescribeDimensionKeysInput: Swift.Sendable {
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.additionalMetrics = additionalMetrics
         self.endTime = endTime
         self.filter = filter
@@ -769,8 +779,7 @@ extension PIClientTypes {
             dimensions: [Swift.String: Swift.String]? = nil,
             partitions: [Swift.Double]? = nil,
             total: Swift.Double? = nil
-        )
-        {
+        ) {
             self.additionalMetrics = additionalMetrics
             self.dimensions = dimensions
             self.partitions = partitions
@@ -789,8 +798,7 @@ extension PIClientTypes {
 
         public init(
             dimensions: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
         }
     }
@@ -814,8 +822,7 @@ public struct DescribeDimensionKeysOutput: Swift.Sendable {
         keys: [PIClientTypes.DimensionKeyDescription]? = nil,
         nextToken: Swift.String? = nil,
         partitionKeys: [PIClientTypes.ResponsePartitionKey]? = nil
-    )
-    {
+    ) {
         self.alignedEndTime = alignedEndTime
         self.alignedStartTime = alignedStartTime
         self.keys = keys
@@ -865,8 +872,7 @@ extension PIClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -884,8 +890,7 @@ extension PIClientTypes {
         public init(
             dimensions: [PIClientTypes.DimensionDetail]? = nil,
             group: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.group = group
         }
@@ -921,8 +926,7 @@ extension PIClientTypes {
             dimension: Swift.String? = nil,
             status: PIClientTypes.DetailStatus? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimension = dimension
             self.status = status
             self.value = value
@@ -992,8 +996,7 @@ extension PIClientTypes {
 
         public init(
             status: PIClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1002,6 +1005,10 @@ extension PIClientTypes {
 public struct GetDimensionKeyDetailsInput: Swift.Sendable {
     /// The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid:
     ///
+    /// * db.execution_plan (Amazon RDS and Aurora only)
+    ///
+    /// * db.lock_snapshot (Aurora only)
+    ///
     /// * db.query (Amazon DocumentDB only)
     ///
     /// * db.sql (Amazon RDS and Aurora only)
@@ -1009,15 +1016,23 @@ public struct GetDimensionKeyDetailsInput: Swift.Sendable {
     public var group: Swift.String?
     /// The ID of the dimension group from which to retrieve dimension details. For dimension group db.sql, the group ID is db.sql.id. The following group ID values are valid:
     ///
+    /// * db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only)
+    ///
     /// * db.sql.id for dimension group db.sql (Aurora and RDS only)
     ///
     /// * db.query.id for dimension group db.query (DocumentDB only)
+    ///
+    /// * For the dimension group db.lock_snapshot, the GroupIdentifier is the epoch timestamp when Performance Insights captured the snapshot, in seconds. You can retrieve this value with the GetResourceMetrics operation for a 1 second period.
     /// This member is required.
     public var groupIdentifier: Swift.String?
     /// The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Region. When a DB instance is the data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
     /// This member is required.
     public var identifier: Swift.String?
     /// A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Performance Insights returns all dimension data within the specified dimension group. Specify dimension names for the following dimension groups:
+    ///
+    /// * db.execution_plan - Specify the dimension name db.execution_plan.raw_plan or the short dimension name raw_plan (Amazon RDS and Aurora only)
+    ///
+    /// * db.lock_snapshot - Specify the dimension name db.lock_snapshot.lock_trees or the short dimension name lock_trees. (Aurora only)
     ///
     /// * db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only).
     ///
@@ -1033,8 +1048,7 @@ public struct GetDimensionKeyDetailsInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         requestedDimensions: [Swift.String]? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupIdentifier = groupIdentifier
         self.identifier = identifier
@@ -1049,8 +1063,7 @@ public struct GetDimensionKeyDetailsOutput: Swift.Sendable {
 
     public init(
         dimensions: [PIClientTypes.DimensionKeyDetail]? = nil
-    )
-    {
+    ) {
         self.dimensions = dimensions
     }
 }
@@ -1105,8 +1118,7 @@ public struct GetPerformanceAnalysisReportInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         textFormat: PIClientTypes.TextFormat? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.analysisReportId = analysisReportId
         self.identifier = identifier
@@ -1126,8 +1138,7 @@ public struct GetResourceMetadataInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.serviceType = serviceType
     }
@@ -1142,8 +1153,7 @@ public struct GetResourceMetadataOutput: Swift.Sendable {
     public init(
         features: [Swift.String: PIClientTypes.FeatureMetadata]? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.features = features
         self.identifier = identifier
     }
@@ -1183,8 +1193,7 @@ extension PIClientTypes {
             filter: [Swift.String: Swift.String]? = nil,
             groupBy: PIClientTypes.DimensionGroup? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.groupBy = groupBy
             self.metric = metric
@@ -1228,7 +1237,7 @@ public struct GetResourceMetricsInput: Swift.Sendable {
     /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved.
+    /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
     /// An array of one or more queries to perform. Each query must specify a Performance Insights metric and specify an aggregate function, and you can provide filtering criteria. You must append the aggregate function to the metric. For example, to find the average for the metric db.load you must use db.load.avg. Valid values for aggregate functions include .avg, .min, .max, and .sum.
     /// This member is required.
@@ -1273,8 +1282,7 @@ public struct GetResourceMetricsInput: Swift.Sendable {
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.identifier = identifier
         self.maxResults = maxResults
@@ -1311,8 +1319,7 @@ extension PIClientTypes {
         public init(
             dimensions: [Swift.String: Swift.String]? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metric = metric
         }
@@ -1331,8 +1338,7 @@ extension PIClientTypes {
         public init(
             dataPoints: [PIClientTypes.DataPoint]? = nil,
             key: PIClientTypes.ResponseResourceMetricKey? = nil
-        )
-        {
+        ) {
             self.dataPoints = dataPoints
             self.key = key
         }
@@ -1357,8 +1363,7 @@ public struct GetResourceMetricsOutput: Swift.Sendable {
         identifier: Swift.String? = nil,
         metricList: [PIClientTypes.MetricKeyDataPoints]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alignedEndTime = alignedEndTime
         self.alignedStartTime = alignedStartTime
         self.identifier = identifier
@@ -1391,8 +1396,7 @@ public struct ListAvailableResourceDimensionsInput: Swift.Sendable {
         metrics: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.authorizedActions = authorizedActions
         self.identifier = identifier
         self.maxResults = maxResults
@@ -1414,8 +1418,7 @@ extension PIClientTypes {
         public init(
             groups: [PIClientTypes.DimensionGroupDetail]? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.metric = metric
         }
@@ -1431,8 +1434,7 @@ public struct ListAvailableResourceDimensionsOutput: Swift.Sendable {
     public init(
         metricDimensions: [PIClientTypes.MetricDimensionGroups]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricDimensions = metricDimensions
         self.nextToken = nextToken
     }
@@ -1467,8 +1469,7 @@ public struct ListAvailableResourceMetricsInput: Swift.Sendable {
         metricTypes: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.maxResults = maxResults
         self.metricTypes = metricTypes
@@ -1492,8 +1493,7 @@ extension PIClientTypes {
             description: Swift.String? = nil,
             metric: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.metric = metric
             self.unit = unit
@@ -1510,8 +1510,7 @@ public struct ListAvailableResourceMetricsOutput: Swift.Sendable {
     public init(
         metrics: [PIClientTypes.ResponseResourceMetric]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metrics = metrics
         self.nextToken = nextToken
     }
@@ -1537,8 +1536,7 @@ public struct ListPerformanceAnalysisReportsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.listTags = listTags
         self.maxResults = maxResults
@@ -1556,8 +1554,7 @@ public struct ListPerformanceAnalysisReportsOutput: Swift.Sendable {
     public init(
         analysisReports: [PIClientTypes.AnalysisReportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisReports = analysisReports
         self.nextToken = nextToken
     }
@@ -1574,8 +1571,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.serviceType = serviceType
     }
@@ -1587,8 +1583,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [PIClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1608,8 +1603,7 @@ public struct TagResourceInput: Swift.Sendable {
         resourceARN: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         tags: [PIClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.serviceType = serviceType
         self.tags = tags
@@ -1636,8 +1630,7 @@ public struct UntagResourceInput: Swift.Sendable {
         resourceARN: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.serviceType = serviceType
         self.tagKeys = tagKeys
@@ -1689,8 +1682,7 @@ extension PIClientTypes {
             severity: PIClientTypes.Severity? = nil,
             startTime: Foundation.Date? = nil,
             supportingInsights: [PIClientTypes.Insight]? = nil
-        )
-        {
+        ) {
             self.baselineData = baselineData
             self.context = context
             self.description = description
@@ -1746,8 +1738,7 @@ extension PIClientTypes {
             serviceType: PIClientTypes.ServiceType? = nil,
             startTime: Foundation.Date? = nil,
             status: PIClientTypes.AnalysisStatus? = nil
-        )
-        {
+        ) {
             self.analysisReportId = analysisReportId
             self.createTime = createTime
             self.endTime = endTime
@@ -1766,8 +1757,7 @@ public struct GetPerformanceAnalysisReportOutput: Swift.Sendable {
 
     public init(
         analysisReport: PIClientTypes.AnalysisReport? = nil
-    )
-    {
+    ) {
         self.analysisReport = analysisReport
     }
 }
@@ -2509,6 +2499,7 @@ extension PIClientTypes.PerformanceInsightsMetric {
         value.metric = try reader["Metric"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.filter = try reader["Filter"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.value = try reader["Value"].readIfPresent()
         return value
     }

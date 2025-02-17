@@ -169,8 +169,7 @@ extension ForecastClientTypes {
             attributeName: Swift.String? = nil,
             operation: ForecastClientTypes.Operation? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.operation = operation
             self.value = value
@@ -323,8 +322,7 @@ extension ForecastClientTypes {
         public init(
             configuration: [Swift.String: [Swift.String]]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.name = name
         }
@@ -332,9 +330,9 @@ extension ForecastClientTypes {
 }
 
 /// We can't process the request because it includes an invalid value or a value that exceeds the valid range.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -349,16 +347,15 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The limit on the number of resources per account has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -373,16 +370,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is already a resource with this name. Try again with a different name.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -397,16 +393,15 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource is in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -421,16 +416,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// We can't find a resource with that Amazon Resource Name (ARN). Check the ARN and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -445,8 +439,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -492,8 +485,7 @@ extension ForecastClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             transformations: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.transformations = transformations
         }
@@ -516,8 +508,7 @@ extension ForecastClientTypes {
             additionalDatasets: [ForecastClientTypes.AdditionalDataset]? = nil,
             attributeConfigs: [ForecastClientTypes.AttributeConfig]? = nil,
             datasetGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalDatasets = additionalDatasets
             self.attributeConfigs = attributeConfigs
             self.datasetGroupArn = datasetGroupArn
@@ -539,8 +530,7 @@ extension ForecastClientTypes {
         public init(
             kmsKeyArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.roleArn = roleArn
         }
@@ -557,8 +547,7 @@ extension ForecastClientTypes {
 
         public init(
             monitorName: Swift.String? = nil
-        )
-        {
+        ) {
             self.monitorName = monitorName
         }
     }
@@ -630,8 +619,7 @@ extension ForecastClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -764,8 +752,7 @@ extension ForecastClientTypes {
             dayOfWeek: ForecastClientTypes.DayOfWeek? = nil,
             hour: Swift.Int? = nil,
             month: ForecastClientTypes.Month? = nil
-        )
-        {
+        ) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.hour = hour
@@ -844,8 +831,7 @@ public struct CreateAutoPredictorInput: Swift.Sendable {
         referencePredictorArn: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil,
         timeAlignmentBoundary: ForecastClientTypes.TimeAlignmentBoundary? = nil
-    )
-    {
+    ) {
         self.dataConfig = dataConfig
         self.encryptionConfig = encryptionConfig
         self.explainPredictor = explainPredictor
@@ -868,8 +854,7 @@ public struct CreateAutoPredictorOutput: Swift.Sendable {
 
     public init(
         predictorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorArn = predictorArn
     }
 }
@@ -1000,8 +985,7 @@ extension ForecastClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeType: ForecastClientTypes.AttributeType? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeType = attributeType
         }
@@ -1017,8 +1001,7 @@ extension ForecastClientTypes {
 
         public init(
             attributes: [ForecastClientTypes.SchemaAttribute]? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
         }
     }
@@ -1081,8 +1064,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         encryptionConfig: ForecastClientTypes.EncryptionConfig? = nil,
         schema: ForecastClientTypes.Schema? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataFrequency = dataFrequency
         self.datasetName = datasetName
         self.datasetType = datasetType
@@ -1099,8 +1081,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -1136,8 +1117,7 @@ public struct CreateDatasetGroupInput: Swift.Sendable {
         datasetGroupName: Swift.String? = nil,
         domain: ForecastClientTypes.Domain? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.datasetArns = datasetArns
         self.datasetGroupName = datasetGroupName
         self.domain = domain
@@ -1151,8 +1131,7 @@ public struct CreateDatasetGroupOutput: Swift.Sendable {
 
     public init(
         datasetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
     }
 }
@@ -1174,8 +1153,7 @@ extension ForecastClientTypes {
             kmsKeyArn: Swift.String? = nil,
             path: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.path = path
             self.roleArn = roleArn
@@ -1193,8 +1171,7 @@ extension ForecastClientTypes {
 
         public init(
             s3Config: ForecastClientTypes.S3Config? = nil
-        )
-        {
+        ) {
             self.s3Config = s3Config
         }
     }
@@ -1290,8 +1267,7 @@ public struct CreateDatasetImportJobInput: Swift.Sendable {
         timeZone: Swift.String? = nil,
         timestampFormat: Swift.String? = nil,
         useGeolocationForTimeZone: Swift.Bool? = false
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.datasetArn = datasetArn
         self.datasetImportJobName = datasetImportJobName
@@ -1311,8 +1287,7 @@ public struct CreateDatasetImportJobOutput: Swift.Sendable {
 
     public init(
         datasetImportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetImportJobArn = datasetImportJobArn
     }
 }
@@ -1389,8 +1364,7 @@ extension ForecastClientTypes {
         public init(
             timePointGranularity: ForecastClientTypes.TimePointGranularity? = nil,
             timeSeriesGranularity: ForecastClientTypes.TimeSeriesGranularity? = nil
-        )
-        {
+        ) {
             self.timePointGranularity = timePointGranularity
             self.timeSeriesGranularity = timeSeriesGranularity
         }
@@ -1442,8 +1416,7 @@ public struct CreateExplainabilityInput: Swift.Sendable {
         schema: ForecastClientTypes.Schema? = nil,
         startDateTime: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.enableVisualization = enableVisualization
         self.endDateTime = endDateTime
@@ -1462,8 +1435,7 @@ public struct CreateExplainabilityOutput: Swift.Sendable {
 
     public init(
         explainabilityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilityArn = explainabilityArn
     }
 }
@@ -1478,8 +1450,7 @@ extension ForecastClientTypes {
 
         public init(
             s3Config: ForecastClientTypes.S3Config? = nil
-        )
-        {
+        ) {
             self.s3Config = s3Config
         }
     }
@@ -1518,8 +1489,7 @@ public struct CreateExplainabilityExportInput: Swift.Sendable {
         explainabilityExportName: Swift.String? = nil,
         format: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.explainabilityArn = explainabilityArn
         self.explainabilityExportName = explainabilityExportName
@@ -1534,8 +1504,7 @@ public struct CreateExplainabilityExportOutput: Swift.Sendable {
 
     public init(
         explainabilityExportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilityExportArn = explainabilityExportArn
     }
 }
@@ -1555,8 +1524,7 @@ extension ForecastClientTypes {
             dataSource: ForecastClientTypes.DataSource? = nil,
             format: Swift.String? = nil,
             schema: ForecastClientTypes.Schema? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.format = format
             self.schema = schema
@@ -1579,8 +1547,7 @@ extension ForecastClientTypes {
 
         public init(
             timeSeriesIdentifiers: ForecastClientTypes.TimeSeriesIdentifiers? = nil
-        )
-        {
+        ) {
             self.timeSeriesIdentifiers = timeSeriesIdentifiers
         }
     }
@@ -1626,8 +1593,7 @@ public struct CreateForecastInput: Swift.Sendable {
         predictorArn: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil,
         timeSeriesSelector: ForecastClientTypes.TimeSeriesSelector? = nil
-    )
-    {
+    ) {
         self.forecastName = forecastName
         self.forecastTypes = forecastTypes
         self.predictorArn = predictorArn
@@ -1642,8 +1608,7 @@ public struct CreateForecastOutput: Swift.Sendable {
 
     public init(
         forecastArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastArn = forecastArn
     }
 }
@@ -1683,8 +1648,7 @@ public struct CreateForecastExportJobInput: Swift.Sendable {
         forecastExportJobName: Swift.String? = nil,
         format: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.forecastArn = forecastArn
         self.forecastExportJobName = forecastExportJobName
@@ -1699,8 +1663,7 @@ public struct CreateForecastExportJobOutput: Swift.Sendable {
 
     public init(
         forecastExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastExportJobArn = forecastExportJobArn
     }
 }
@@ -1719,8 +1682,7 @@ public struct CreateMonitorInput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.monitorName = monitorName
         self.resourceArn = resourceArn
         self.tags = tags
@@ -1733,8 +1695,7 @@ public struct CreateMonitorOutput: Swift.Sendable {
 
     public init(
         monitorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
     }
 }
@@ -1780,8 +1741,7 @@ extension ForecastClientTypes {
         public init(
             backTestWindowOffset: Swift.Int? = nil,
             numberOfBacktestWindows: Swift.Int? = nil
-        )
-        {
+        ) {
             self.backTestWindowOffset = backTestWindowOffset
             self.numberOfBacktestWindows = numberOfBacktestWindows
         }
@@ -1854,8 +1814,7 @@ extension ForecastClientTypes {
         public init(
             featurizationMethodName: ForecastClientTypes.FeaturizationMethodName? = nil,
             featurizationMethodParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.featurizationMethodName = featurizationMethodName
             self.featurizationMethodParameters = featurizationMethodParameters
         }
@@ -1891,8 +1850,7 @@ extension ForecastClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             featurizationPipeline: [ForecastClientTypes.FeaturizationMethod]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.featurizationPipeline = featurizationPipeline
         }
@@ -1930,8 +1888,7 @@ extension ForecastClientTypes {
             featurizations: [ForecastClientTypes.Featurization]? = nil,
             forecastDimensions: [Swift.String]? = nil,
             forecastFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.featurizations = featurizations
             self.forecastDimensions = forecastDimensions
             self.forecastFrequency = forecastFrequency
@@ -1953,8 +1910,7 @@ extension ForecastClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2017,8 +1973,7 @@ extension ForecastClientTypes {
             minValue: Swift.Double? = nil,
             name: Swift.String? = nil,
             scalingType: ForecastClientTypes.ScalingType? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -2048,8 +2003,7 @@ extension ForecastClientTypes {
             minValue: Swift.Int? = nil,
             name: Swift.String? = nil,
             scalingType: ForecastClientTypes.ScalingType? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -2073,8 +2027,7 @@ extension ForecastClientTypes {
             categoricalParameterRanges: [ForecastClientTypes.CategoricalParameterRange]? = nil,
             continuousParameterRanges: [ForecastClientTypes.ContinuousParameterRange]? = nil,
             integerParameterRanges: [ForecastClientTypes.IntegerParameterRange]? = nil
-        )
-        {
+        ) {
             self.categoricalParameterRanges = categoricalParameterRanges
             self.continuousParameterRanges = continuousParameterRanges
             self.integerParameterRanges = integerParameterRanges
@@ -2091,8 +2044,7 @@ extension ForecastClientTypes {
 
         public init(
             parameterRanges: ForecastClientTypes.ParameterRanges? = nil
-        )
-        {
+        ) {
             self.parameterRanges = parameterRanges
         }
     }
@@ -2244,8 +2196,7 @@ extension ForecastClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2265,8 +2216,7 @@ extension ForecastClientTypes {
         public init(
             datasetGroupArn: Swift.String? = nil,
             supplementaryFeatures: [ForecastClientTypes.SupplementaryFeature]? = nil
-        )
-        {
+        ) {
             self.datasetGroupArn = datasetGroupArn
             self.supplementaryFeatures = supplementaryFeatures
         }
@@ -2355,8 +2305,7 @@ public struct CreatePredictorInput: Swift.Sendable {
         predictorName: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil,
         trainingParameters: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.algorithmArn = algorithmArn
         self.autoMLOverrideStrategy = autoMLOverrideStrategy
         self.encryptionConfig = encryptionConfig
@@ -2381,8 +2330,7 @@ public struct CreatePredictorOutput: Swift.Sendable {
 
     public init(
         predictorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorArn = predictorArn
     }
 }
@@ -2420,8 +2368,7 @@ public struct CreatePredictorBacktestExportJobInput: Swift.Sendable {
         predictorArn: Swift.String? = nil,
         predictorBacktestExportJobName: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.format = format
         self.predictorArn = predictorArn
@@ -2436,8 +2383,7 @@ public struct CreatePredictorBacktestExportJobOutput: Swift.Sendable {
 
     public init(
         predictorBacktestExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
     }
 }
@@ -2465,8 +2411,7 @@ public struct CreateWhatIfAnalysisInput: Swift.Sendable {
         tags: [ForecastClientTypes.Tag]? = nil,
         timeSeriesSelector: ForecastClientTypes.TimeSeriesSelector? = nil,
         whatIfAnalysisName: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastArn = forecastArn
         self.tags = tags
         self.timeSeriesSelector = timeSeriesSelector
@@ -2480,8 +2425,7 @@ public struct CreateWhatIfAnalysisOutput: Swift.Sendable {
 
     public init(
         whatIfAnalysisArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfAnalysisArn = whatIfAnalysisArn
     }
 }
@@ -2506,8 +2450,7 @@ extension ForecastClientTypes {
             s3Config: ForecastClientTypes.S3Config? = nil,
             schema: ForecastClientTypes.Schema? = nil,
             timestampFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.s3Config = s3Config
             self.schema = schema
@@ -2569,8 +2512,7 @@ extension ForecastClientTypes {
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil,
             condition: ForecastClientTypes.Condition? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
             self.condition = condition
@@ -2590,8 +2532,7 @@ extension ForecastClientTypes {
         public init(
             action: ForecastClientTypes.Action? = nil,
             timeSeriesConditions: [ForecastClientTypes.TimeSeriesCondition]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.timeSeriesConditions = timeSeriesConditions
         }
@@ -2618,8 +2559,7 @@ public struct CreateWhatIfForecastInput: Swift.Sendable {
         timeSeriesTransformations: [ForecastClientTypes.TimeSeriesTransformation]? = nil,
         whatIfAnalysisArn: Swift.String? = nil,
         whatIfForecastName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.timeSeriesReplacementsDataSource = timeSeriesReplacementsDataSource
         self.timeSeriesTransformations = timeSeriesTransformations
@@ -2634,8 +2574,7 @@ public struct CreateWhatIfForecastOutput: Swift.Sendable {
 
     public init(
         whatIfForecastArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfForecastArn = whatIfForecastArn
     }
 }
@@ -2661,8 +2600,7 @@ public struct CreateWhatIfForecastExportInput: Swift.Sendable {
         tags: [ForecastClientTypes.Tag]? = nil,
         whatIfForecastArns: [Swift.String]? = nil,
         whatIfForecastExportName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.format = format
         self.tags = tags
@@ -2677,8 +2615,7 @@ public struct CreateWhatIfForecastExportOutput: Swift.Sendable {
 
     public init(
         whatIfForecastExportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfForecastExportArn = whatIfForecastExportArn
     }
 }
@@ -2690,8 +2627,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -2703,8 +2639,7 @@ public struct DeleteDatasetGroupInput: Swift.Sendable {
 
     public init(
         datasetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
     }
 }
@@ -2716,8 +2651,7 @@ public struct DeleteDatasetImportJobInput: Swift.Sendable {
 
     public init(
         datasetImportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetImportJobArn = datasetImportJobArn
     }
 }
@@ -2729,8 +2663,7 @@ public struct DeleteExplainabilityInput: Swift.Sendable {
 
     public init(
         explainabilityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilityArn = explainabilityArn
     }
 }
@@ -2742,8 +2675,7 @@ public struct DeleteExplainabilityExportInput: Swift.Sendable {
 
     public init(
         explainabilityExportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilityExportArn = explainabilityExportArn
     }
 }
@@ -2755,8 +2687,7 @@ public struct DeleteForecastInput: Swift.Sendable {
 
     public init(
         forecastArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastArn = forecastArn
     }
 }
@@ -2768,8 +2699,7 @@ public struct DeleteForecastExportJobInput: Swift.Sendable {
 
     public init(
         forecastExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastExportJobArn = forecastExportJobArn
     }
 }
@@ -2781,8 +2711,7 @@ public struct DeleteMonitorInput: Swift.Sendable {
 
     public init(
         monitorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
     }
 }
@@ -2794,8 +2723,7 @@ public struct DeletePredictorInput: Swift.Sendable {
 
     public init(
         predictorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorArn = predictorArn
     }
 }
@@ -2807,8 +2735,7 @@ public struct DeletePredictorBacktestExportJobInput: Swift.Sendable {
 
     public init(
         predictorBacktestExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
     }
 }
@@ -2820,8 +2747,7 @@ public struct DeleteResourceTreeInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2833,8 +2759,7 @@ public struct DeleteWhatIfAnalysisInput: Swift.Sendable {
 
     public init(
         whatIfAnalysisArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfAnalysisArn = whatIfAnalysisArn
     }
 }
@@ -2846,8 +2771,7 @@ public struct DeleteWhatIfForecastInput: Swift.Sendable {
 
     public init(
         whatIfForecastArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfForecastArn = whatIfForecastArn
     }
 }
@@ -2859,8 +2783,7 @@ public struct DeleteWhatIfForecastExportInput: Swift.Sendable {
 
     public init(
         whatIfForecastExportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfForecastExportArn = whatIfForecastExportArn
     }
 }
@@ -2872,8 +2795,7 @@ public struct DescribeAutoPredictorInput: Swift.Sendable {
 
     public init(
         predictorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorArn = predictorArn
     }
 }
@@ -2898,8 +2820,7 @@ extension ForecastClientTypes {
         public init(
             explainabilityArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.explainabilityArn = explainabilityArn
             self.status = status
         }
@@ -2928,8 +2849,7 @@ extension ForecastClientTypes {
         public init(
             monitorArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.monitorArn = monitorArn
             self.status = status
         }
@@ -2977,8 +2897,7 @@ extension ForecastClientTypes {
         public init(
             arn: Swift.String? = nil,
             state: ForecastClientTypes.State? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.state = state
         }
@@ -3063,8 +2982,7 @@ public struct DescribeAutoPredictorOutput: Swift.Sendable {
         referencePredictorSummary: ForecastClientTypes.ReferencePredictorSummary? = nil,
         status: Swift.String? = nil,
         timeAlignmentBoundary: ForecastClientTypes.TimeAlignmentBoundary? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.dataConfig = dataConfig
         self.datasetImportJobArns = datasetImportJobArns
@@ -3094,8 +3012,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -3144,8 +3061,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
         lastModificationTime: Foundation.Date? = nil,
         schema: ForecastClientTypes.Schema? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.dataFrequency = dataFrequency
         self.datasetArn = datasetArn
@@ -3166,8 +3082,7 @@ public struct DescribeDatasetGroupInput: Swift.Sendable {
 
     public init(
         datasetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroupArn = datasetGroupArn
     }
 }
@@ -3207,8 +3122,7 @@ public struct DescribeDatasetGroupOutput: Swift.Sendable {
         domain: ForecastClientTypes.Domain? = nil,
         lastModificationTime: Foundation.Date? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.datasetArns = datasetArns
         self.datasetGroupArn = datasetGroupArn
@@ -3226,8 +3140,7 @@ public struct DescribeDatasetImportJobInput: Swift.Sendable {
 
     public init(
         datasetImportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetImportJobArn = datasetImportJobArn
     }
 }
@@ -3274,8 +3187,7 @@ extension ForecastClientTypes {
             max: Swift.String? = nil,
             min: Swift.String? = nil,
             stddev: Swift.Double? = nil
-        )
-        {
+        ) {
             self.avg = avg
             self.count = count
             self.countDistinct = countDistinct
@@ -3368,8 +3280,7 @@ public struct DescribeDatasetImportJobOutput: Swift.Sendable {
         timeZone: Swift.String? = nil,
         timestampFormat: Swift.String? = nil,
         useGeolocationForTimeZone: Swift.Bool = false
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.dataSize = dataSize
         self.dataSource = dataSource
@@ -3397,8 +3308,7 @@ public struct DescribeExplainabilityInput: Swift.Sendable {
 
     public init(
         explainabilityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilityArn = explainabilityArn
     }
 }
@@ -3466,8 +3376,7 @@ public struct DescribeExplainabilityOutput: Swift.Sendable {
         schema: ForecastClientTypes.Schema? = nil,
         startDateTime: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.dataSource = dataSource
         self.enableVisualization = enableVisualization
@@ -3492,8 +3401,7 @@ public struct DescribeExplainabilityExportInput: Swift.Sendable {
 
     public init(
         explainabilityExportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilityExportArn = explainabilityExportArn
     }
 }
@@ -3546,8 +3454,7 @@ public struct DescribeExplainabilityExportOutput: Swift.Sendable {
         lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.destination = destination
         self.explainabilityArn = explainabilityArn
@@ -3567,8 +3474,7 @@ public struct DescribeForecastInput: Swift.Sendable {
 
     public init(
         forecastArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastArn = forecastArn
     }
 }
@@ -3630,8 +3536,7 @@ public struct DescribeForecastOutput: Swift.Sendable {
         predictorArn: Swift.String? = nil,
         status: Swift.String? = nil,
         timeSeriesSelector: ForecastClientTypes.TimeSeriesSelector? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.datasetGroupArn = datasetGroupArn
         self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
@@ -3653,8 +3558,7 @@ public struct DescribeForecastExportJobInput: Swift.Sendable {
 
     public init(
         forecastExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastExportJobArn = forecastExportJobArn
     }
 }
@@ -3710,8 +3614,7 @@ public struct DescribeForecastExportJobOutput: Swift.Sendable {
         lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.destination = destination
         self.forecastArn = forecastArn
@@ -3731,8 +3634,7 @@ public struct DescribeMonitorInput: Swift.Sendable {
 
     public init(
         monitorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorArn = monitorArn
     }
 }
@@ -3749,8 +3651,7 @@ extension ForecastClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -3766,8 +3667,7 @@ extension ForecastClientTypes {
 
         public init(
             baselineMetrics: [ForecastClientTypes.BaselineMetric]? = nil
-        )
-        {
+        ) {
             self.baselineMetrics = baselineMetrics
         }
     }
@@ -3782,8 +3682,7 @@ extension ForecastClientTypes {
 
         public init(
             predictorBaseline: ForecastClientTypes.PredictorBaseline? = nil
-        )
-        {
+        ) {
             self.predictorBaseline = predictorBaseline
         }
     }
@@ -3825,8 +3724,7 @@ public struct DescribeMonitorOutput: Swift.Sendable {
         monitorName: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseline = baseline
         self.creationTime = creationTime
         self.estimatedEvaluationTimeRemainingInMinutes = estimatedEvaluationTimeRemainingInMinutes
@@ -3848,8 +3746,7 @@ public struct DescribePredictorInput: Swift.Sendable {
 
     public init(
         predictorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorArn = predictorArn
     }
 }
@@ -3878,8 +3775,7 @@ extension ForecastClientTypes {
             status: Swift.String? = nil,
             testWindowEnd: Foundation.Date? = nil,
             testWindowStart: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.message = message
             self.status = status
             self.testWindowEnd = testWindowEnd
@@ -3900,8 +3796,7 @@ extension ForecastClientTypes {
         public init(
             algorithmArn: Swift.String? = nil,
             testWindows: [ForecastClientTypes.TestWindowSummary]? = nil
-        )
-        {
+        ) {
             self.algorithmArn = algorithmArn
             self.testWindows = testWindows
         }
@@ -3917,8 +3812,7 @@ extension ForecastClientTypes {
 
         public init(
             predictorExecutions: [ForecastClientTypes.PredictorExecution]? = nil
-        )
-        {
+        ) {
             self.predictorExecutions = predictorExecutions
         }
     }
@@ -4020,8 +3914,7 @@ public struct DescribePredictorOutput: Swift.Sendable {
         predictorName: Swift.String? = nil,
         status: Swift.String? = nil,
         trainingParameters: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.algorithmArn = algorithmArn
         self.autoMLAlgorithmArns = autoMLAlgorithmArns
         self.autoMLOverrideStrategy = autoMLOverrideStrategy
@@ -4056,8 +3949,7 @@ public struct DescribePredictorBacktestExportJobInput: Swift.Sendable {
 
     public init(
         predictorBacktestExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorBacktestExportJobArn = predictorBacktestExportJobArn
     }
 }
@@ -4110,8 +4002,7 @@ public struct DescribePredictorBacktestExportJobOutput: Swift.Sendable {
         predictorBacktestExportJobArn: Swift.String? = nil,
         predictorBacktestExportJobName: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.destination = destination
         self.format = format
@@ -4131,8 +4022,7 @@ public struct DescribeWhatIfAnalysisInput: Swift.Sendable {
 
     public init(
         whatIfAnalysisArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfAnalysisArn = whatIfAnalysisArn
     }
 }
@@ -4194,8 +4084,7 @@ public struct DescribeWhatIfAnalysisOutput: Swift.Sendable {
         timeSeriesSelector: ForecastClientTypes.TimeSeriesSelector? = nil,
         whatIfAnalysisArn: Swift.String? = nil,
         whatIfAnalysisName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
         self.forecastArn = forecastArn
@@ -4215,8 +4104,7 @@ public struct DescribeWhatIfForecastInput: Swift.Sendable {
 
     public init(
         whatIfForecastArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfForecastArn = whatIfForecastArn
     }
 }
@@ -4278,8 +4166,7 @@ public struct DescribeWhatIfForecastOutput: Swift.Sendable {
         whatIfAnalysisArn: Swift.String? = nil,
         whatIfForecastArn: Swift.String? = nil,
         whatIfForecastName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
         self.forecastTypes = forecastTypes
@@ -4301,8 +4188,7 @@ public struct DescribeWhatIfForecastExportInput: Swift.Sendable {
 
     public init(
         whatIfForecastExportArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.whatIfForecastExportArn = whatIfForecastExportArn
     }
 }
@@ -4361,8 +4247,7 @@ public struct DescribeWhatIfForecastExportOutput: Swift.Sendable {
         whatIfForecastArns: [Swift.String]? = nil,
         whatIfForecastExportArn: Swift.String? = nil,
         whatIfForecastExportName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.destination = destination
         self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
@@ -4383,8 +4268,7 @@ public struct GetAccuracyMetricsInput: Swift.Sendable {
 
     public init(
         predictorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.predictorArn = predictorArn
     }
 }
@@ -4439,8 +4323,7 @@ extension ForecastClientTypes {
             mase: Swift.Double? = nil,
             rmse: Swift.Double? = nil,
             wape: Swift.Double? = nil
-        )
-        {
+        ) {
             self.forecastType = forecastType
             self.mape = mape
             self.mase = mase
@@ -4462,8 +4345,7 @@ extension ForecastClientTypes {
         public init(
             lossValue: Swift.Double? = nil,
             quantile: Swift.Double? = nil
-        )
-        {
+        ) {
             self.lossValue = lossValue
             self.quantile = quantile
         }
@@ -4489,8 +4371,7 @@ extension ForecastClientTypes {
             errorMetrics: [ForecastClientTypes.ErrorMetric]? = nil,
             rmse: Swift.Double? = nil,
             weightedQuantileLosses: [ForecastClientTypes.WeightedQuantileLoss]? = nil
-        )
-        {
+        ) {
             self.averageWeightedQuantileLoss = averageWeightedQuantileLoss
             self.errorMetrics = errorMetrics
             self.rmse = rmse
@@ -4524,8 +4405,7 @@ extension ForecastClientTypes {
             metrics: ForecastClientTypes.Metrics? = nil,
             testWindowEnd: Foundation.Date? = nil,
             testWindowStart: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.evaluationType = evaluationType
             self.itemCount = itemCount
             self.metrics = metrics
@@ -4547,8 +4427,7 @@ extension ForecastClientTypes {
         public init(
             algorithmArn: Swift.String? = nil,
             testWindows: [ForecastClientTypes.WindowSummary]? = nil
-        )
-        {
+        ) {
             self.algorithmArn = algorithmArn
             self.testWindows = testWindows
         }
@@ -4570,8 +4449,7 @@ public struct GetAccuracyMetricsOutput: Swift.Sendable {
         isAutoPredictor: Swift.Bool? = nil,
         optimizationMetric: ForecastClientTypes.OptimizationMetric? = nil,
         predictorEvaluationResults: [ForecastClientTypes.EvaluationResult]? = nil
-    )
-    {
+    ) {
         self.autoMLOverrideStrategy = autoMLOverrideStrategy
         self.isAutoPredictor = isAutoPredictor
         self.optimizationMetric = optimizationMetric
@@ -4580,9 +4458,9 @@ public struct GetAccuracyMetricsOutput: Swift.Sendable {
 }
 
 /// The token is not valid. Tokens expire after 24 hours.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4597,8 +4475,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4612,8 +4489,7 @@ public struct ListDatasetGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4637,8 +4513,7 @@ extension ForecastClientTypes {
             datasetGroupArn: Swift.String? = nil,
             datasetGroupName: Swift.String? = nil,
             lastModificationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.datasetGroupName = datasetGroupName
@@ -4656,8 +4531,7 @@ public struct ListDatasetGroupsOutput: Swift.Sendable {
     public init(
         datasetGroups: [ForecastClientTypes.DatasetGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetGroups = datasetGroups
         self.nextToken = nextToken
     }
@@ -4710,8 +4584,7 @@ extension ForecastClientTypes {
             condition: ForecastClientTypes.FilterConditionString? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.key = key
             self.value = value
@@ -4740,8 +4613,7 @@ public struct ListDatasetImportJobsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4796,8 +4668,7 @@ extension ForecastClientTypes {
             lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataSource = dataSource
             self.datasetImportJobArn = datasetImportJobArn
@@ -4819,8 +4690,7 @@ public struct ListDatasetImportJobsOutput: Swift.Sendable {
     public init(
         datasetImportJobs: [ForecastClientTypes.DatasetImportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetImportJobs = datasetImportJobs
         self.nextToken = nextToken
     }
@@ -4835,8 +4705,7 @@ public struct ListDatasetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4866,8 +4735,7 @@ extension ForecastClientTypes {
             datasetType: ForecastClientTypes.DatasetType? = nil,
             domain: ForecastClientTypes.Domain? = nil,
             lastModificationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -4887,8 +4755,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasets: [ForecastClientTypes.DatasetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasets = datasets
         self.nextToken = nextToken
     }
@@ -4912,8 +4779,7 @@ public struct ListExplainabilitiesInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4968,8 +4834,7 @@ extension ForecastClientTypes {
             message: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.explainabilityArn = explainabilityArn
             self.explainabilityConfig = explainabilityConfig
@@ -4991,8 +4856,7 @@ public struct ListExplainabilitiesOutput: Swift.Sendable {
     public init(
         explainabilities: [ForecastClientTypes.ExplainabilitySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilities = explainabilities
         self.nextToken = nextToken
     }
@@ -5016,8 +4880,7 @@ public struct ListExplainabilityExportsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5069,8 +4932,7 @@ extension ForecastClientTypes {
             lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.destination = destination
             self.explainabilityExportArn = explainabilityExportArn
@@ -5091,8 +4953,7 @@ public struct ListExplainabilityExportsOutput: Swift.Sendable {
     public init(
         explainabilityExports: [ForecastClientTypes.ExplainabilityExportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainabilityExports = explainabilityExports
         self.nextToken = nextToken
     }
@@ -5119,8 +4980,7 @@ public struct ListForecastExportJobsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5175,8 +5035,7 @@ extension ForecastClientTypes {
             lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.destination = destination
             self.forecastExportJobArn = forecastExportJobArn
@@ -5197,8 +5056,7 @@ public struct ListForecastExportJobsOutput: Swift.Sendable {
     public init(
         forecastExportJobs: [ForecastClientTypes.ForecastExportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecastExportJobs = forecastExportJobs
         self.nextToken = nextToken
     }
@@ -5225,8 +5083,7 @@ public struct ListForecastsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5287,8 +5144,7 @@ extension ForecastClientTypes {
             message: Swift.String? = nil,
             predictorArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdUsingAutoPredictor = createdUsingAutoPredictor
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
@@ -5311,8 +5167,7 @@ public struct ListForecastsOutput: Swift.Sendable {
     public init(
         forecasts: [ForecastClientTypes.ForecastSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.forecasts = forecasts
         self.nextToken = nextToken
     }
@@ -5343,8 +5198,7 @@ public struct ListMonitorEvaluationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         monitorArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.monitorArn = monitorArn
@@ -5364,8 +5218,7 @@ extension ForecastClientTypes {
         public init(
             metricName: Swift.String? = nil,
             metricValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.metricValue = metricValue
         }
@@ -5387,8 +5240,7 @@ extension ForecastClientTypes {
             datasetImportJobArn: Swift.String? = nil,
             forecastArn: Swift.String? = nil,
             predictorArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.datasetImportJobArn = datasetImportJobArn
             self.forecastArn = forecastArn
             self.predictorArn = predictorArn
@@ -5408,8 +5260,7 @@ extension ForecastClientTypes {
         public init(
             datetime: Foundation.Date? = nil,
             detail: Swift.String? = nil
-        )
-        {
+        ) {
             self.datetime = datetime
             self.detail = detail
         }
@@ -5455,8 +5306,7 @@ extension ForecastClientTypes {
             resourceArn: Swift.String? = nil,
             windowEndDatetime: Foundation.Date? = nil,
             windowStartDatetime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.evaluationState = evaluationState
             self.evaluationTime = evaluationTime
             self.message = message
@@ -5481,8 +5331,7 @@ public struct ListMonitorEvaluationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         predictorMonitorEvaluations: [ForecastClientTypes.PredictorMonitorEvaluation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.predictorMonitorEvaluations = predictorMonitorEvaluations
     }
@@ -5509,8 +5358,7 @@ public struct ListMonitorsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5559,8 +5407,7 @@ extension ForecastClientTypes {
             monitorName: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModificationTime = lastModificationTime
             self.monitorArn = monitorArn
@@ -5580,8 +5427,7 @@ public struct ListMonitorsOutput: Swift.Sendable {
     public init(
         monitors: [ForecastClientTypes.MonitorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitors = monitors
         self.nextToken = nextToken
     }
@@ -5605,8 +5451,7 @@ public struct ListPredictorBacktestExportJobsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5658,8 +5503,7 @@ extension ForecastClientTypes {
             predictorBacktestExportJobArn: Swift.String? = nil,
             predictorBacktestExportJobName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.destination = destination
             self.lastModificationTime = lastModificationTime
@@ -5680,8 +5524,7 @@ public struct ListPredictorBacktestExportJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         predictorBacktestExportJobs: [ForecastClientTypes.PredictorBacktestExportJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.predictorBacktestExportJobs = predictorBacktestExportJobs
     }
@@ -5708,8 +5551,7 @@ public struct ListPredictorsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5770,8 +5612,7 @@ extension ForecastClientTypes {
             predictorName: Swift.String? = nil,
             referencePredictorSummary: ForecastClientTypes.ReferencePredictorSummary? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
             self.isAutoPredictor = isAutoPredictor
@@ -5794,8 +5635,7 @@ public struct ListPredictorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         predictors: [ForecastClientTypes.PredictorSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.predictors = predictors
     }
@@ -5808,8 +5648,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5820,8 +5659,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5847,8 +5685,7 @@ public struct ListWhatIfAnalysesInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5903,8 +5740,7 @@ extension ForecastClientTypes {
             status: Swift.String? = nil,
             whatIfAnalysisArn: Swift.String? = nil,
             whatIfAnalysisName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.forecastArn = forecastArn
             self.lastModificationTime = lastModificationTime
@@ -5925,8 +5761,7 @@ public struct ListWhatIfAnalysesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         whatIfAnalyses: [ForecastClientTypes.WhatIfAnalysisSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.whatIfAnalyses = whatIfAnalyses
     }
@@ -5953,8 +5788,7 @@ public struct ListWhatIfForecastExportsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6012,8 +5846,7 @@ extension ForecastClientTypes {
             whatIfForecastArns: [Swift.String]? = nil,
             whatIfForecastExportArn: Swift.String? = nil,
             whatIfForecastExportName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.destination = destination
             self.lastModificationTime = lastModificationTime
@@ -6035,8 +5868,7 @@ public struct ListWhatIfForecastExportsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         whatIfForecastExports: [ForecastClientTypes.WhatIfForecastExportSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.whatIfForecastExports = whatIfForecastExports
     }
@@ -6063,8 +5895,7 @@ public struct ListWhatIfForecastsInput: Swift.Sendable {
         filters: [ForecastClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6119,8 +5950,7 @@ extension ForecastClientTypes {
             whatIfAnalysisArn: Swift.String? = nil,
             whatIfForecastArn: Swift.String? = nil,
             whatIfForecastName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModificationTime = lastModificationTime
             self.message = message
@@ -6141,8 +5971,7 @@ public struct ListWhatIfForecastsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         whatIfForecasts: [ForecastClientTypes.WhatIfForecastSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.whatIfForecasts = whatIfForecasts
     }
@@ -6155,8 +5984,7 @@ public struct ResumeResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6168,8 +5996,7 @@ public struct StopResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6199,8 +6026,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ForecastClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6222,8 +6048,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6250,8 +6075,7 @@ public struct UpdateDatasetGroupInput: Swift.Sendable {
     public init(
         datasetArns: [Swift.String]? = nil,
         datasetGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArns = datasetArns
         self.datasetGroupArn = datasetGroupArn
     }

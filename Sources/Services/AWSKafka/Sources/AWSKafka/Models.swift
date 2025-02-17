@@ -51,8 +51,7 @@ extension KafkaClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             volumeThroughput: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.volumeThroughput = volumeThroughput
         }
@@ -75,8 +74,7 @@ extension KafkaClientTypes {
             kafkaBrokerNodeId: Swift.String? = nil,
             provisionedThroughput: KafkaClientTypes.ProvisionedThroughput? = nil,
             volumeSizeGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.kafkaBrokerNodeId = kafkaBrokerNodeId
             self.provisionedThroughput = provisionedThroughput
             self.volumeSizeGB = volumeSizeGB
@@ -154,8 +152,7 @@ extension KafkaClientTypes {
             owner: Swift.String? = nil,
             state: KafkaClientTypes.VpcConnectionState? = nil,
             vpcConnectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authentication = authentication
             self.creationTime = creationTime
             self.owner = owner
@@ -231,8 +228,7 @@ extension KafkaClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -247,8 +243,7 @@ extension KafkaClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -263,8 +258,7 @@ extension KafkaClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -282,8 +276,7 @@ extension KafkaClientTypes {
         public init(
             iam: KafkaClientTypes.VpcConnectivityIam? = nil,
             scram: KafkaClientTypes.VpcConnectivityScram? = nil
-        )
-        {
+        ) {
             self.iam = iam
             self.scram = scram
         }
@@ -299,8 +292,7 @@ extension KafkaClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -318,8 +310,7 @@ extension KafkaClientTypes {
         public init(
             sasl: KafkaClientTypes.VpcConnectivitySasl? = nil,
             tls: KafkaClientTypes.VpcConnectivityTls? = nil
-        )
-        {
+        ) {
             self.sasl = sasl
             self.tls = tls
         }
@@ -335,8 +326,7 @@ extension KafkaClientTypes {
 
         public init(
             clientAuthentication: KafkaClientTypes.VpcConnectivityClientAuthentication? = nil
-        )
-        {
+        ) {
             self.clientAuthentication = clientAuthentication
         }
     }
@@ -354,8 +344,7 @@ extension KafkaClientTypes {
         public init(
             publicAccess: KafkaClientTypes.PublicAccess? = nil,
             vpcConnectivity: KafkaClientTypes.VpcConnectivity? = nil
-        )
-        {
+        ) {
             self.publicAccess = publicAccess
             self.vpcConnectivity = vpcConnectivity
         }
@@ -374,8 +363,7 @@ extension KafkaClientTypes {
         public init(
             provisionedThroughput: KafkaClientTypes.ProvisionedThroughput? = nil,
             volumeSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.provisionedThroughput = provisionedThroughput
             self.volumeSize = volumeSize
         }
@@ -391,8 +379,7 @@ extension KafkaClientTypes {
 
         public init(
             ebsStorageInfo: KafkaClientTypes.EBSStorageInfo? = nil
-        )
-        {
+        ) {
             self.ebsStorageInfo = ebsStorageInfo
         }
     }
@@ -427,8 +414,7 @@ extension KafkaClientTypes {
             securityGroups: [Swift.String]? = nil,
             storageInfo: KafkaClientTypes.StorageInfo? = nil,
             zoneIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.brokerAZDistribution = brokerAZDistribution
             self.clientSubnets = clientSubnets
             self.connectivityInfo = connectivityInfo
@@ -449,8 +435,7 @@ extension KafkaClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -465,8 +450,7 @@ extension KafkaClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -484,8 +468,7 @@ extension KafkaClientTypes {
         public init(
             iam: KafkaClientTypes.Iam? = nil,
             scram: KafkaClientTypes.Scram? = nil
-        )
-        {
+        ) {
             self.iam = iam
             self.scram = scram
         }
@@ -504,8 +487,7 @@ extension KafkaClientTypes {
         public init(
             certificateAuthorityArnList: [Swift.String]? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArnList = certificateAuthorityArnList
             self.enabled = enabled
         }
@@ -520,8 +502,7 @@ extension KafkaClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -542,8 +523,7 @@ extension KafkaClientTypes {
             sasl: KafkaClientTypes.Sasl? = nil,
             tls: KafkaClientTypes.Tls? = nil,
             unauthenticated: KafkaClientTypes.Unauthenticated? = nil
-        )
-        {
+        ) {
             self.sasl = sasl
             self.tls = tls
             self.unauthenticated = unauthenticated
@@ -566,8 +546,7 @@ extension KafkaClientTypes {
             configurationArn: Swift.String? = nil,
             configurationRevision: Swift.Int? = nil,
             kafkaVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationArn = configurationArn
             self.configurationRevision = configurationRevision
             self.kafkaVersion = kafkaVersion
@@ -618,8 +597,7 @@ extension KafkaClientTypes {
 
         public init(
             dataVolumeKMSKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataVolumeKMSKeyId = dataVolumeKMSKeyId
         }
     }
@@ -670,8 +648,7 @@ extension KafkaClientTypes {
         public init(
             clientBroker: KafkaClientTypes.ClientBroker? = nil,
             inCluster: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.clientBroker = clientBroker
             self.inCluster = inCluster
         }
@@ -690,8 +667,7 @@ extension KafkaClientTypes {
         public init(
             encryptionAtRest: KafkaClientTypes.EncryptionAtRest? = nil,
             encryptionInTransit: KafkaClientTypes.EncryptionInTransit? = nil
-        )
-        {
+        ) {
             self.encryptionAtRest = encryptionAtRest
             self.encryptionInTransit = encryptionInTransit
         }
@@ -744,8 +720,7 @@ extension KafkaClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             logGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logGroup = logGroup
         }
@@ -762,8 +737,7 @@ extension KafkaClientTypes {
         public init(
             deliveryStream: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
         }
@@ -782,8 +756,7 @@ extension KafkaClientTypes {
             bucket: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.enabled = enabled
             self.`prefix` = `prefix`
@@ -802,8 +775,7 @@ extension KafkaClientTypes {
             cloudWatchLogs: KafkaClientTypes.CloudWatchLogs? = nil,
             firehose: KafkaClientTypes.Firehose? = nil,
             s3: KafkaClientTypes.S3? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.firehose = firehose
             self.s3 = s3
@@ -819,8 +791,7 @@ extension KafkaClientTypes {
 
         public init(
             brokerLogs: KafkaClientTypes.BrokerLogs? = nil
-        )
-        {
+        ) {
             self.brokerLogs = brokerLogs
         }
     }
@@ -836,8 +807,7 @@ extension KafkaClientTypes {
 
         public init(
             enabledInBroker: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabledInBroker = enabledInBroker
         }
     }
@@ -853,8 +823,7 @@ extension KafkaClientTypes {
 
         public init(
             enabledInBroker: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabledInBroker = enabledInBroker
         }
     }
@@ -872,8 +841,7 @@ extension KafkaClientTypes {
         public init(
             jmxExporter: KafkaClientTypes.JmxExporterInfo? = nil,
             nodeExporter: KafkaClientTypes.NodeExporterInfo? = nil
-        )
-        {
+        ) {
             self.jmxExporter = jmxExporter
             self.nodeExporter = nodeExporter
         }
@@ -890,8 +858,7 @@ extension KafkaClientTypes {
 
         public init(
             prometheus: KafkaClientTypes.PrometheusInfo? = nil
-        )
-        {
+        ) {
             self.prometheus = prometheus
         }
     }
@@ -971,8 +938,7 @@ extension KafkaClientTypes {
             storageMode: KafkaClientTypes.StorageMode? = nil,
             zookeeperConnectString: Swift.String? = nil,
             zookeeperConnectStringTls: Swift.String? = nil
-        )
-        {
+        ) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
@@ -998,8 +964,7 @@ extension KafkaClientTypes {
 
         public init(
             iam: KafkaClientTypes.Iam? = nil
-        )
-        {
+        ) {
             self.iam = iam
         }
     }
@@ -1014,8 +979,7 @@ extension KafkaClientTypes {
 
         public init(
             sasl: KafkaClientTypes.ServerlessSasl? = nil
-        )
-        {
+        ) {
             self.sasl = sasl
         }
     }
@@ -1034,8 +998,7 @@ extension KafkaClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1055,8 +1018,7 @@ extension KafkaClientTypes {
         public init(
             clientAuthentication: KafkaClientTypes.ServerlessClientAuthentication? = nil,
             vpcConfigs: [KafkaClientTypes.VpcConfig]? = nil
-        )
-        {
+        ) {
             self.clientAuthentication = clientAuthentication
             self.vpcConfigs = vpcConfigs
         }
@@ -1120,8 +1082,7 @@ extension KafkaClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -1167,8 +1128,7 @@ extension KafkaClientTypes {
             state: KafkaClientTypes.ClusterState? = nil,
             stateInfo: KafkaClientTypes.StateInfo? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeOperationArn = activeOperationArn
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -1194,8 +1154,7 @@ extension KafkaClientTypes {
 
         public init(
             enabledInBroker: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabledInBroker = enabledInBroker
         }
     }
@@ -1211,8 +1170,7 @@ extension KafkaClientTypes {
 
         public init(
             enabledInBroker: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabledInBroker = enabledInBroker
         }
     }
@@ -1230,8 +1188,7 @@ extension KafkaClientTypes {
         public init(
             jmxExporter: KafkaClientTypes.JmxExporter? = nil,
             nodeExporter: KafkaClientTypes.NodeExporter? = nil
-        )
-        {
+        ) {
             self.jmxExporter = jmxExporter
             self.nodeExporter = nodeExporter
         }
@@ -1248,8 +1205,7 @@ extension KafkaClientTypes {
 
         public init(
             prometheus: KafkaClientTypes.Prometheus? = nil
-        )
-        {
+        ) {
             self.prometheus = prometheus
         }
     }
@@ -1319,8 +1275,7 @@ extension KafkaClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             zookeeperConnectString: Swift.String? = nil,
             zookeeperConnectStringTls: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -1357,8 +1312,7 @@ extension KafkaClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorString: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorString = errorString
         }
@@ -1374,8 +1328,7 @@ extension KafkaClientTypes {
 
         public init(
             stepStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepStatus = stepStatus
         }
     }
@@ -1393,8 +1346,7 @@ extension KafkaClientTypes {
         public init(
             stepInfo: KafkaClientTypes.ClusterOperationStepInfo? = nil,
             stepName: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepInfo = stepInfo
             self.stepName = stepName
         }
@@ -1413,8 +1365,7 @@ extension KafkaClientTypes {
         public init(
             createdBrokerIds: [Swift.Double]? = nil,
             deletedBrokerIds: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.createdBrokerIds = createdBrokerIds
             self.deletedBrokerIds = deletedBrokerIds
         }
@@ -1435,8 +1386,7 @@ extension KafkaClientTypes {
         public init(
             arn: Swift.String? = nil,
             revision: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.revision = revision
         }
@@ -1488,8 +1438,7 @@ extension KafkaClientTypes {
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoring? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil
-        )
-        {
+        ) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.clientAuthentication = clientAuthentication
@@ -1549,8 +1498,7 @@ extension KafkaClientTypes {
         public init(
             principalId: Swift.String? = nil,
             type: KafkaClientTypes.UserIdentityType? = nil
-        )
-        {
+        ) {
             self.principalId = principalId
             self.type = type
         }
@@ -1575,8 +1523,7 @@ extension KafkaClientTypes {
             owner: Swift.String? = nil,
             userIdentity: KafkaClientTypes.UserIdentity? = nil,
             vpcConnectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.owner = owner
             self.userIdentity = userIdentity
@@ -1627,8 +1574,7 @@ extension KafkaClientTypes {
             sourceClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
             targetClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
             vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo? = nil
-        )
-        {
+        ) {
             self.clientRequestId = clientRequestId
             self.clusterArn = clusterArn
             self.creationTime = creationTime
@@ -1672,8 +1618,7 @@ extension KafkaClientTypes {
             operationState: Swift.String? = nil,
             operationType: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.clusterType = clusterType
             self.endTime = endTime
@@ -1697,8 +1642,7 @@ extension KafkaClientTypes {
         public init(
             sourceVersion: Swift.String? = nil,
             targetVersions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.sourceVersion = sourceVersion
             self.targetVersions = targetVersions
         }
@@ -1722,8 +1666,7 @@ extension KafkaClientTypes {
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             revision: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.revision = revision
@@ -1798,8 +1741,7 @@ extension KafkaClientTypes {
             latestRevision: KafkaClientTypes.ConfigurationRevision? = nil,
             name: Swift.String? = nil,
             state: KafkaClientTypes.ConfigurationState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -1821,8 +1763,7 @@ extension KafkaClientTypes {
 
         public init(
             mskClusterArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.mskClusterArn = mskClusterArn
         }
     }
@@ -1841,8 +1782,7 @@ extension KafkaClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1863,8 +1803,7 @@ extension KafkaClientTypes {
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
             vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
-        )
-        {
+        ) {
             self.amazonMskCluster = amazonMskCluster
             self.vpcConfig = vpcConfig
         }
@@ -1886,8 +1825,7 @@ extension KafkaClientTypes {
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
             kafkaClusterAlias: Swift.String? = nil,
             vpcConfig: KafkaClientTypes.KafkaClusterClientVpcConfig? = nil
-        )
-        {
+        ) {
             self.amazonMskCluster = amazonMskCluster
             self.kafkaClusterAlias = kafkaClusterAlias
             self.vpcConfig = vpcConfig
@@ -1907,8 +1845,7 @@ extension KafkaClientTypes {
         public init(
             amazonMskCluster: KafkaClientTypes.AmazonMskCluster? = nil,
             kafkaClusterAlias: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonMskCluster = amazonMskCluster
             self.kafkaClusterAlias = kafkaClusterAlias
         }
@@ -1953,8 +1890,7 @@ extension KafkaClientTypes {
         public init(
             status: KafkaClientTypes.KafkaVersionStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.version = version
         }
@@ -1985,8 +1921,7 @@ extension KafkaClientTypes {
             clientVpcIpAddress: Swift.String? = nil,
             currentBrokerSoftwareInfo: KafkaClientTypes.BrokerSoftwareInfo? = nil,
             endpoints: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attachedENIId = attachedENIId
             self.brokerId = brokerId
             self.clientSubnet = clientSubnet
@@ -2006,8 +1941,7 @@ extension KafkaClientTypes {
 
         public init(
             endpoints: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.endpoints = endpoints
         }
     }
@@ -2061,8 +1995,7 @@ extension KafkaClientTypes {
             endpoints: [Swift.String]? = nil,
             zookeeperId: Swift.Double? = nil,
             zookeeperVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachedENIId = attachedENIId
             self.clientVpcIpAddress = clientVpcIpAddress
             self.endpoints = endpoints
@@ -2099,8 +2032,7 @@ extension KafkaClientTypes {
             nodeARN: Swift.String? = nil,
             nodeType: KafkaClientTypes.NodeType? = nil,
             zookeeperNodeInfo: KafkaClientTypes.ZookeeperNodeInfo? = nil
-        )
-        {
+        ) {
             self.addedToClusterTime = addedToClusterTime
             self.brokerNodeInfo = brokerNodeInfo
             self.controllerNodeInfo = controllerNodeInfo
@@ -2131,8 +2063,7 @@ extension KafkaClientTypes {
             consumerGroupsToReplicate: [Swift.String]? = nil,
             detectAndCopyNewConsumerGroups: Swift.Bool? = nil,
             synchroniseConsumerGroupOffsets: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.consumerGroupsToExclude = consumerGroupsToExclude
             self.consumerGroupsToReplicate = consumerGroupsToReplicate
             self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
@@ -2219,8 +2150,7 @@ extension KafkaClientTypes {
 
         public init(
             type: KafkaClientTypes.ReplicationStartingPositionType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -2265,8 +2195,7 @@ extension KafkaClientTypes {
 
         public init(
             type: KafkaClientTypes.ReplicationTopicNameConfigurationType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -2300,8 +2229,7 @@ extension KafkaClientTypes {
             topicNameConfiguration: KafkaClientTypes.ReplicationTopicNameConfiguration? = nil,
             topicsToExclude: [Swift.String]? = nil,
             topicsToReplicate: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
             self.copyTopicConfigurations = copyTopicConfigurations
             self.detectAndCopyNewTopics = detectAndCopyNewTopics
@@ -2339,8 +2267,7 @@ extension KafkaClientTypes {
             targetCompressionType: KafkaClientTypes.TargetCompressionType? = nil,
             targetKafkaClusterArn: Swift.String? = nil,
             topicReplication: KafkaClientTypes.TopicReplication? = nil
-        )
-        {
+        ) {
             self.consumerGroupReplication = consumerGroupReplication
             self.sourceKafkaClusterArn = sourceKafkaClusterArn
             self.targetCompressionType = targetCompressionType
@@ -2371,8 +2298,7 @@ extension KafkaClientTypes {
             targetCompressionType: KafkaClientTypes.TargetCompressionType? = nil,
             targetKafkaClusterAlias: Swift.String? = nil,
             topicReplication: KafkaClientTypes.TopicReplication? = nil
-        )
-        {
+        ) {
             self.consumerGroupReplication = consumerGroupReplication
             self.sourceKafkaClusterAlias = sourceKafkaClusterAlias
             self.targetCompressionType = targetCompressionType
@@ -2394,8 +2320,7 @@ extension KafkaClientTypes {
         public init(
             sourceKafkaClusterAlias: Swift.String? = nil,
             targetKafkaClusterAlias: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceKafkaClusterAlias = sourceKafkaClusterAlias
             self.targetKafkaClusterAlias = targetKafkaClusterAlias
         }
@@ -2474,8 +2399,7 @@ extension KafkaClientTypes {
             replicatorName: Swift.String? = nil,
             replicatorResourceArn: Swift.String? = nil,
             replicatorState: KafkaClientTypes.ReplicatorState? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.currentVersion = currentVersion
             self.isReplicatorReference = isReplicatorReference
@@ -2504,8 +2428,7 @@ extension KafkaClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.secretArn = secretArn
@@ -2539,8 +2462,7 @@ extension KafkaClientTypes {
             targetClusterArn: Swift.String? = nil,
             vpcConnectionArn: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.authentication = authentication
             self.creationTime = creationTime
             self.state = state
@@ -2552,9 +2474,9 @@ extension KafkaClientTypes {
 }
 
 /// Returns information about an error.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2573,17 +2495,16 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2602,17 +2523,16 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2631,17 +2551,16 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2660,17 +2579,16 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2689,17 +2607,16 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2718,17 +2635,16 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2747,8 +2663,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
@@ -2766,8 +2681,7 @@ public struct BatchAssociateScramSecretInput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         secretArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.secretArnList = secretArnList
     }
@@ -2782,8 +2696,7 @@ public struct BatchAssociateScramSecretOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         unprocessedScramSecrets: [KafkaClientTypes.UnprocessedScramSecret]? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.unprocessedScramSecrets = unprocessedScramSecrets
     }
@@ -2801,8 +2714,7 @@ public struct BatchDisassociateScramSecretInput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         secretArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.secretArnList = secretArnList
     }
@@ -2817,8 +2729,7 @@ public struct BatchDisassociateScramSecretOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         unprocessedScramSecrets: [KafkaClientTypes.UnprocessedScramSecret]? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.unprocessedScramSecrets = unprocessedScramSecrets
     }
@@ -2842,8 +2753,7 @@ extension KafkaClientTypes {
             sourceClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
             targetClusterInfo: KafkaClientTypes.MutableClusterInfo? = nil,
             vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfo? = nil
-        )
-        {
+        ) {
             self.operationSteps = operationSteps
             self.sourceClusterInfo = sourceClusterInfo
             self.targetClusterInfo = targetClusterInfo
@@ -2870,8 +2780,7 @@ extension KafkaClientTypes {
             owner: Swift.String? = nil,
             userIdentity: KafkaClientTypes.UserIdentity? = nil,
             vpcConnectionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.owner = owner
             self.userIdentity = userIdentity
@@ -2889,8 +2798,7 @@ extension KafkaClientTypes {
 
         public init(
             vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfoServerless? = nil
-        )
-        {
+        ) {
             self.vpcConnectionInfo = vpcConnectionInfo
         }
     }
@@ -2932,8 +2840,7 @@ extension KafkaClientTypes {
             provisioned: KafkaClientTypes.ClusterOperationV2Provisioned? = nil,
             serverless: KafkaClientTypes.ClusterOperationV2Serverless? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.clusterType = clusterType
             self.endTime = endTime
@@ -2949,9 +2856,9 @@ extension KafkaClientTypes {
 }
 
 /// Returns information about an error.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the error.
         public internal(set) var invalidParameter: Swift.String? = nil
         /// The description of the error.
@@ -2970,8 +2877,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         invalidParameter: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.invalidParameter = invalidParameter
         self.properties.message = message
     }
@@ -2999,8 +2905,7 @@ extension KafkaClientTypes {
             consumerGroupsToReplicate: [Swift.String]? = nil,
             detectAndCopyNewConsumerGroups: Swift.Bool? = nil,
             synchroniseConsumerGroupOffsets: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.consumerGroupsToExclude = consumerGroupsToExclude
             self.consumerGroupsToReplicate = consumerGroupsToReplicate
             self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
@@ -3051,8 +2956,7 @@ public struct CreateClusterInput: Swift.Sendable {
         openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
         storageMode: KafkaClientTypes.StorageMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.brokerNodeGroupInfo = brokerNodeGroupInfo
         self.clientAuthentication = clientAuthentication
         self.clusterName = clusterName
@@ -3080,8 +2984,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         state: KafkaClientTypes.ClusterState? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterName = clusterName
         self.state = state
@@ -3127,8 +3030,7 @@ extension KafkaClientTypes {
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil
-        )
-        {
+        ) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo
@@ -3156,8 +3058,7 @@ extension KafkaClientTypes {
         public init(
             clientAuthentication: KafkaClientTypes.ServerlessClientAuthentication? = nil,
             vpcConfigs: [KafkaClientTypes.VpcConfig]? = nil
-        )
-        {
+        ) {
             self.clientAuthentication = clientAuthentication
             self.vpcConfigs = vpcConfigs
         }
@@ -3180,8 +3081,7 @@ public struct CreateClusterV2Input: Swift.Sendable {
         provisioned: KafkaClientTypes.ProvisionedRequest? = nil,
         serverless: KafkaClientTypes.ServerlessRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.provisioned = provisioned
         self.serverless = serverless
@@ -3204,8 +3104,7 @@ public struct CreateClusterV2Output: Swift.Sendable {
         clusterName: Swift.String? = nil,
         clusterType: KafkaClientTypes.ClusterType? = nil,
         state: KafkaClientTypes.ClusterState? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterName = clusterName
         self.clusterType = clusterType
@@ -3230,8 +3129,7 @@ public struct CreateConfigurationInput: Swift.Sendable {
         kafkaVersions: [Swift.String]? = nil,
         name: Swift.String? = nil,
         serverProperties: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.description = description
         self.kafkaVersions = kafkaVersions
         self.name = name
@@ -3257,8 +3155,7 @@ public struct CreateConfigurationOutput: Swift.Sendable {
         latestRevision: KafkaClientTypes.ConfigurationRevision? = nil,
         name: Swift.String? = nil,
         state: KafkaClientTypes.ConfigurationState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.latestRevision = latestRevision
@@ -3293,8 +3190,7 @@ public struct CreateReplicatorInput: Swift.Sendable {
         replicatorName: Swift.String? = nil,
         serviceExecutionRoleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.kafkaClusters = kafkaClusters
         self.replicationInfoList = replicationInfoList
@@ -3316,8 +3212,7 @@ public struct CreateReplicatorOutput: Swift.Sendable {
         replicatorArn: Swift.String? = nil,
         replicatorName: Swift.String? = nil,
         replicatorState: KafkaClientTypes.ReplicatorState? = nil
-    )
-    {
+    ) {
         self.replicatorArn = replicatorArn
         self.replicatorName = replicatorName
         self.replicatorState = replicatorState
@@ -3350,8 +3245,7 @@ public struct CreateVpcConnectionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         targetClusterArn: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.clientSubnets = clientSubnets
         self.securityGroups = securityGroups
@@ -3388,8 +3282,7 @@ public struct CreateVpcConnectionOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         vpcConnectionArn: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.clientSubnets = clientSubnets
         self.creationTime = creationTime
@@ -3411,8 +3304,7 @@ public struct DeleteClusterInput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
     }
@@ -3427,8 +3319,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         state: KafkaClientTypes.ClusterState? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.state = state
     }
@@ -3441,8 +3332,7 @@ public struct DeleteClusterPolicyInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -3459,8 +3349,7 @@ public struct DeleteConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3474,8 +3363,7 @@ public struct DeleteConfigurationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         state: KafkaClientTypes.ConfigurationState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.state = state
     }
@@ -3491,8 +3379,7 @@ public struct DeleteReplicatorInput: Swift.Sendable {
     public init(
         currentVersion: Swift.String? = nil,
         replicatorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentVersion = currentVersion
         self.replicatorArn = replicatorArn
     }
@@ -3507,8 +3394,7 @@ public struct DeleteReplicatorOutput: Swift.Sendable {
     public init(
         replicatorArn: Swift.String? = nil,
         replicatorState: KafkaClientTypes.ReplicatorState? = nil
-    )
-    {
+    ) {
         self.replicatorArn = replicatorArn
         self.replicatorState = replicatorState
     }
@@ -3521,8 +3407,7 @@ public struct DeleteVpcConnectionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3536,8 +3421,7 @@ public struct DeleteVpcConnectionOutput: Swift.Sendable {
     public init(
         state: KafkaClientTypes.VpcConnectionState? = nil,
         vpcConnectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.state = state
         self.vpcConnectionArn = vpcConnectionArn
     }
@@ -3550,8 +3434,7 @@ public struct DescribeClusterInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -3562,8 +3445,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
 
     public init(
         clusterInfo: KafkaClientTypes.ClusterInfo? = nil
-    )
-    {
+    ) {
         self.clusterInfo = clusterInfo
     }
 }
@@ -3575,8 +3457,7 @@ public struct DescribeClusterOperationInput: Swift.Sendable {
 
     public init(
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterOperationArn = clusterOperationArn
     }
 }
@@ -3587,8 +3468,7 @@ public struct DescribeClusterOperationOutput: Swift.Sendable {
 
     public init(
         clusterOperationInfo: KafkaClientTypes.ClusterOperationInfo? = nil
-    )
-    {
+    ) {
         self.clusterOperationInfo = clusterOperationInfo
     }
 }
@@ -3600,8 +3480,7 @@ public struct DescribeClusterOperationV2Input: Swift.Sendable {
 
     public init(
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterOperationArn = clusterOperationArn
     }
 }
@@ -3612,8 +3491,7 @@ public struct DescribeClusterOperationV2Output: Swift.Sendable {
 
     public init(
         clusterOperationInfo: KafkaClientTypes.ClusterOperationV2? = nil
-    )
-    {
+    ) {
         self.clusterOperationInfo = clusterOperationInfo
     }
 }
@@ -3625,8 +3503,7 @@ public struct DescribeClusterV2Input: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -3637,8 +3514,7 @@ public struct DescribeClusterV2Output: Swift.Sendable {
 
     public init(
         clusterInfo: KafkaClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.clusterInfo = clusterInfo
     }
 }
@@ -3650,8 +3526,7 @@ public struct DescribeConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3680,8 +3555,7 @@ public struct DescribeConfigurationOutput: Swift.Sendable {
         latestRevision: KafkaClientTypes.ConfigurationRevision? = nil,
         name: Swift.String? = nil,
         state: KafkaClientTypes.ConfigurationState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -3703,8 +3577,7 @@ public struct DescribeConfigurationRevisionInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         revision: Swift.Int? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.revision = revision
     }
@@ -3728,8 +3601,7 @@ public struct DescribeConfigurationRevisionOutput: Swift.Sendable {
         description: Swift.String? = nil,
         revision: Swift.Int? = nil,
         serverProperties: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -3745,8 +3617,7 @@ public struct DescribeReplicatorInput: Swift.Sendable {
 
     public init(
         replicatorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicatorArn = replicatorArn
     }
 }
@@ -3763,8 +3634,7 @@ extension KafkaClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -3813,8 +3683,7 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
         serviceExecutionRoleArn: Swift.String? = nil,
         stateInfo: KafkaClientTypes.ReplicationStateInfo? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.currentVersion = currentVersion
         self.isReplicatorReference = isReplicatorReference
@@ -3838,8 +3707,7 @@ public struct DescribeVpcConnectionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3874,8 +3742,7 @@ public struct DescribeVpcConnectionOutput: Swift.Sendable {
         targetClusterArn: Swift.String? = nil,
         vpcConnectionArn: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.creationTime = creationTime
         self.securityGroups = securityGroups
@@ -3895,8 +3762,7 @@ public struct GetBootstrapBrokersInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -3934,8 +3800,7 @@ public struct GetBootstrapBrokersOutput: Swift.Sendable {
         bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivitySaslScram: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivityTls: Swift.String? = nil
-    )
-    {
+    ) {
         self.bootstrapBrokerString = bootstrapBrokerString
         self.bootstrapBrokerStringPublicSaslIam = bootstrapBrokerStringPublicSaslIam
         self.bootstrapBrokerStringPublicSaslScram = bootstrapBrokerStringPublicSaslScram
@@ -3956,8 +3821,7 @@ public struct GetClusterPolicyInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -3971,8 +3835,7 @@ public struct GetClusterPolicyOutput: Swift.Sendable {
     public init(
         currentVersion: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentVersion = currentVersion
         self.policy = policy
     }
@@ -3984,8 +3847,7 @@ public struct GetCompatibleKafkaVersionsInput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -3996,8 +3858,7 @@ public struct GetCompatibleKafkaVersionsOutput: Swift.Sendable {
 
     public init(
         compatibleKafkaVersions: [KafkaClientTypes.CompatibleKafkaVersion]? = nil
-    )
-    {
+    ) {
         self.compatibleKafkaVersions = compatibleKafkaVersions
     }
 }
@@ -4015,8 +3876,7 @@ public struct ListClientVpcConnectionsInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4032,8 +3892,7 @@ public struct ListClientVpcConnectionsOutput: Swift.Sendable {
     public init(
         clientVpcConnections: [KafkaClientTypes.ClientVpcConnection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientVpcConnections = clientVpcConnections
         self.nextToken = nextToken
     }
@@ -4052,8 +3911,7 @@ public struct ListClusterOperationsInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4069,8 +3927,7 @@ public struct ListClusterOperationsOutput: Swift.Sendable {
     public init(
         clusterOperationInfoList: [KafkaClientTypes.ClusterOperationInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterOperationInfoList = clusterOperationInfoList
         self.nextToken = nextToken
     }
@@ -4089,8 +3946,7 @@ public struct ListClusterOperationsV2Input: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4106,8 +3962,7 @@ public struct ListClusterOperationsV2Output: Swift.Sendable {
     public init(
         clusterOperationInfoList: [KafkaClientTypes.ClusterOperationV2Summary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterOperationInfoList = clusterOperationInfoList
         self.nextToken = nextToken
     }
@@ -4125,8 +3980,7 @@ public struct ListClustersInput: Swift.Sendable {
         clusterNameFilter: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterNameFilter = clusterNameFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4142,8 +3996,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusterInfoList: [KafkaClientTypes.ClusterInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterInfoList = clusterInfoList
         self.nextToken = nextToken
     }
@@ -4164,8 +4017,7 @@ public struct ListClustersV2Input: Swift.Sendable {
         clusterTypeFilter: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterNameFilter = clusterNameFilter
         self.clusterTypeFilter = clusterTypeFilter
         self.maxResults = maxResults
@@ -4182,8 +4034,7 @@ public struct ListClustersV2Output: Swift.Sendable {
     public init(
         clusterInfoList: [KafkaClientTypes.Cluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterInfoList = clusterInfoList
         self.nextToken = nextToken
     }
@@ -4202,8 +4053,7 @@ public struct ListConfigurationRevisionsInput: Swift.Sendable {
         arn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4219,8 +4069,7 @@ public struct ListConfigurationRevisionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         revisions: [KafkaClientTypes.ConfigurationRevision]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.revisions = revisions
     }
@@ -4235,8 +4084,7 @@ public struct ListConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4251,8 +4099,7 @@ public struct ListConfigurationsOutput: Swift.Sendable {
     public init(
         configurations: [KafkaClientTypes.Configuration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
         self.nextToken = nextToken
     }
@@ -4267,8 +4114,7 @@ public struct ListKafkaVersionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4281,8 +4127,7 @@ public struct ListKafkaVersionsOutput: Swift.Sendable {
     public init(
         kafkaVersions: [KafkaClientTypes.KafkaVersion]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kafkaVersions = kafkaVersions
         self.nextToken = nextToken
     }
@@ -4301,8 +4146,7 @@ public struct ListNodesInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4318,8 +4162,7 @@ public struct ListNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodeInfoList: [KafkaClientTypes.NodeInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodeInfoList = nodeInfoList
     }
@@ -4337,8 +4180,7 @@ public struct ListReplicatorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicatorNameFilter: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.replicatorNameFilter = replicatorNameFilter
@@ -4354,8 +4196,7 @@ public struct ListReplicatorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replicators: [KafkaClientTypes.ReplicatorSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replicators = replicators
     }
@@ -4374,8 +4215,7 @@ public struct ListScramSecretsInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4391,8 +4231,7 @@ public struct ListScramSecretsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         secretArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.secretArnList = secretArnList
     }
@@ -4405,8 +4244,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4417,8 +4255,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4432,8 +4269,7 @@ public struct ListVpcConnectionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4448,8 +4284,7 @@ public struct ListVpcConnectionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcConnections: [KafkaClientTypes.VpcConnection]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcConnections = vpcConnections
     }
@@ -4469,8 +4304,7 @@ public struct PutClusterPolicyInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
         self.policy = policy
@@ -4483,8 +4317,7 @@ public struct PutClusterPolicyOutput: Swift.Sendable {
 
     public init(
         currentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentVersion = currentVersion
     }
 }
@@ -4501,8 +4334,7 @@ public struct RebootBrokerInput: Swift.Sendable {
     public init(
         brokerIds: [Swift.String]? = nil,
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerIds = brokerIds
         self.clusterArn = clusterArn
     }
@@ -4517,8 +4349,7 @@ public struct RebootBrokerOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4535,8 +4366,7 @@ public struct RejectClientVpcConnectionInput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         vpcConnectionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.vpcConnectionArn = vpcConnectionArn
     }
@@ -4558,8 +4388,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4584,8 +4413,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4606,8 +4434,7 @@ public struct UpdateBrokerCountInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil,
         targetNumberOfBrokerNodes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
         self.targetNumberOfBrokerNodes = targetNumberOfBrokerNodes
@@ -4623,8 +4450,7 @@ public struct UpdateBrokerCountOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4645,8 +4471,7 @@ public struct UpdateBrokerStorageInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil,
         targetBrokerEBSVolumeInfo: [KafkaClientTypes.BrokerEBSVolumeInfo]? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
         self.targetBrokerEBSVolumeInfo = targetBrokerEBSVolumeInfo
@@ -4662,8 +4487,7 @@ public struct UpdateBrokerStorageOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4684,8 +4508,7 @@ public struct UpdateBrokerTypeInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil,
         targetInstanceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
         self.targetInstanceType = targetInstanceType
@@ -4701,8 +4524,7 @@ public struct UpdateBrokerTypeOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4723,8 +4545,7 @@ public struct UpdateClusterConfigurationInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         configurationInfo: KafkaClientTypes.ConfigurationInfo? = nil,
         currentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.configurationInfo = configurationInfo
         self.currentVersion = currentVersion
@@ -4740,8 +4561,7 @@ public struct UpdateClusterConfigurationOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4765,8 +4585,7 @@ public struct UpdateClusterKafkaVersionInput: Swift.Sendable {
         configurationInfo: KafkaClientTypes.ConfigurationInfo? = nil,
         currentVersion: Swift.String? = nil,
         targetKafkaVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.configurationInfo = configurationInfo
         self.currentVersion = currentVersion
@@ -4783,8 +4602,7 @@ public struct UpdateClusterKafkaVersionOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4804,8 +4622,7 @@ public struct UpdateConfigurationInput: Swift.Sendable {
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         serverProperties: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.serverProperties = serverProperties
@@ -4821,8 +4638,7 @@ public struct UpdateConfigurationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         latestRevision: KafkaClientTypes.ConfigurationRevision? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.latestRevision = latestRevision
     }
@@ -4844,8 +4660,7 @@ public struct UpdateConnectivityInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         connectivityInfo: KafkaClientTypes.ConnectivityInfo? = nil,
         currentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.connectivityInfo = connectivityInfo
         self.currentVersion = currentVersion
@@ -4861,8 +4676,7 @@ public struct UpdateConnectivityOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4888,8 +4702,7 @@ public struct UpdateMonitoringInput: Swift.Sendable {
         enhancedMonitoring: KafkaClientTypes.EnhancedMonitoring? = nil,
         loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
         openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
         self.enhancedMonitoring = enhancedMonitoring
@@ -4907,8 +4720,7 @@ public struct UpdateMonitoringOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -4940,8 +4752,7 @@ extension KafkaClientTypes {
             detectAndCopyNewTopics: Swift.Bool? = nil,
             topicsToExclude: [Swift.String]? = nil,
             topicsToReplicate: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
             self.copyTopicConfigurations = copyTopicConfigurations
             self.detectAndCopyNewTopics = detectAndCopyNewTopics
@@ -4977,8 +4788,7 @@ public struct UpdateReplicationInfoInput: Swift.Sendable {
         sourceKafkaClusterArn: Swift.String? = nil,
         targetKafkaClusterArn: Swift.String? = nil,
         topicReplication: KafkaClientTypes.TopicReplicationUpdate? = nil
-    )
-    {
+    ) {
         self.consumerGroupReplication = consumerGroupReplication
         self.currentVersion = currentVersion
         self.replicatorArn = replicatorArn
@@ -4997,8 +4807,7 @@ public struct UpdateReplicationInfoOutput: Swift.Sendable {
     public init(
         replicatorArn: Swift.String? = nil,
         replicatorState: KafkaClientTypes.ReplicatorState? = nil
-    )
-    {
+    ) {
         self.replicatorArn = replicatorArn
         self.replicatorState = replicatorState
     }
@@ -5021,8 +4830,7 @@ public struct UpdateSecurityInput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         currentVersion: Swift.String? = nil,
         encryptionInfo: KafkaClientTypes.EncryptionInfo? = nil
-    )
-    {
+    ) {
         self.clientAuthentication = clientAuthentication
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
@@ -5039,8 +4847,7 @@ public struct UpdateSecurityOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }
@@ -5067,8 +4874,7 @@ public struct UpdateStorageInput: Swift.Sendable {
         provisionedThroughput: KafkaClientTypes.ProvisionedThroughput? = nil,
         storageMode: KafkaClientTypes.StorageMode? = nil,
         volumeSizeGB: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.currentVersion = currentVersion
         self.provisionedThroughput = provisionedThroughput
@@ -5086,8 +4892,7 @@ public struct UpdateStorageOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         clusterOperationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterOperationArn = clusterOperationArn
     }

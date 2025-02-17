@@ -69,8 +69,7 @@ extension SyntheticsClientTypes {
         public init(
             encryptionMode: SyntheticsClientTypes.EncryptionMode? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionMode = encryptionMode
             self.kmsKeyArn = kmsKeyArn
         }
@@ -86,8 +85,7 @@ extension SyntheticsClientTypes {
 
         public init(
             s3Encryption: SyntheticsClientTypes.S3EncryptionConfig? = nil
-        )
-        {
+        ) {
             self.s3Encryption = s3Encryption
         }
     }
@@ -102,17 +100,16 @@ extension SyntheticsClientTypes {
 
         public init(
             s3Encryption: SyntheticsClientTypes.S3EncryptionConfig? = nil
-        )
-        {
+        ) {
             self.s3Encryption = s3Encryption
         }
     }
 }
 
 /// A conflicting operation is already in progress.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -127,16 +124,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An unknown internal error occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -151,16 +147,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One of the specified resources was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -175,16 +170,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request exceeded a service quota value.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -199,16 +193,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A parameter could not be validated.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -223,8 +216,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -240,8 +232,7 @@ public struct AssociateResourceInput: Swift.Sendable {
     public init(
         groupIdentifier: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupIdentifier = groupIdentifier
         self.resourceArn = resourceArn
     }
@@ -253,9 +244,9 @@ public struct AssociateResourceOutput: Swift.Sendable {
 }
 
 /// The request was not valid.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -270,8 +261,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -289,8 +279,7 @@ extension SyntheticsClientTypes {
         public init(
             ignoreCoordinates: [Swift.String]? = nil,
             screenshotName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ignoreCoordinates = ignoreCoordinates
             self.screenshotName = screenshotName
         }
@@ -309,8 +298,7 @@ extension SyntheticsClientTypes {
         public init(
             handler: Swift.String? = nil,
             sourceLocationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.handler = handler
             self.sourceLocationArn = sourceLocationArn
         }
@@ -361,8 +349,7 @@ extension SyntheticsClientTypes {
             activeTracing: Swift.Bool? = nil,
             memoryInMB: Swift.Int? = nil,
             timeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeTracing = activeTracing
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
@@ -382,8 +369,7 @@ extension SyntheticsClientTypes {
         public init(
             durationInSeconds: Swift.Int? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
         }
@@ -514,8 +500,7 @@ extension SyntheticsClientTypes {
             state: SyntheticsClientTypes.CanaryState? = nil,
             stateReason: Swift.String? = nil,
             stateReasonCode: SyntheticsClientTypes.CanaryStateReasonCode? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
@@ -541,8 +526,7 @@ extension SyntheticsClientTypes {
             lastModified: Foundation.Date? = nil,
             lastStarted: Foundation.Date? = nil,
             lastStopped: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.created = created
             self.lastModified = lastModified
             self.lastStarted = lastStarted
@@ -563,8 +547,7 @@ extension SyntheticsClientTypes {
         public init(
             baseCanaryRunId: Swift.String? = nil,
             baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil
-        )
-        {
+        ) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
         }
@@ -575,6 +558,8 @@ extension SyntheticsClientTypes {
 
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public struct VpcConfigOutput: Swift.Sendable {
+        /// Indicates whether this canary allows outbound IPv6 traffic if it is connected to dual-stack subnets.
+        public var ipv6AllowedForDualStack: Swift.Bool?
         /// The IDs of the security groups for this canary.
         public var securityGroupIds: [Swift.String]?
         /// The IDs of the subnets where this canary is to run.
@@ -583,11 +568,12 @@ extension SyntheticsClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -655,8 +641,7 @@ extension SyntheticsClientTypes {
             timeline: SyntheticsClientTypes.CanaryTimeline? = nil,
             visualReference: SyntheticsClientTypes.VisualReferenceOutput? = nil,
             vpcConfig: SyntheticsClientTypes.VpcConfigOutput? = nil
-        )
-        {
+        ) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
@@ -755,8 +740,7 @@ extension SyntheticsClientTypes {
             state: SyntheticsClientTypes.CanaryRunState? = nil,
             stateReason: Swift.String? = nil,
             stateReasonCode: SyntheticsClientTypes.CanaryRunStateReasonCode? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
@@ -776,8 +760,7 @@ extension SyntheticsClientTypes {
         public init(
             completed: Foundation.Date? = nil,
             started: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completed = completed
             self.started = started
         }
@@ -805,8 +788,7 @@ extension SyntheticsClientTypes {
             name: Swift.String? = nil,
             status: SyntheticsClientTypes.CanaryRunStatus? = nil,
             timeline: SyntheticsClientTypes.CanaryRunTimeline? = nil
-        )
-        {
+        ) {
             self.artifactS3Location = artifactS3Location
             self.id = id
             self.name = name
@@ -828,8 +810,7 @@ extension SyntheticsClientTypes {
         public init(
             canaryName: Swift.String? = nil,
             lastRun: SyntheticsClientTypes.CanaryRun? = nil
-        )
-        {
+        ) {
             self.canaryName = canaryName
             self.lastRun = lastRun
         }
@@ -862,8 +843,7 @@ extension SyntheticsClientTypes {
             s3Key: Swift.String? = nil,
             s3Version: Swift.String? = nil,
             zipFile: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.handler = handler
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -891,8 +871,7 @@ extension SyntheticsClientTypes {
             environmentVariables: [Swift.String: Swift.String]? = nil,
             memoryInMB: Swift.Int? = nil,
             timeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeTracing = activeTracing
             self.environmentVariables = environmentVariables
             self.memoryInMB = memoryInMB
@@ -914,8 +893,7 @@ extension SyntheticsClientTypes {
         public init(
             durationInSeconds: Swift.Int? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
         }
@@ -923,9 +901,9 @@ extension SyntheticsClientTypes {
 }
 
 /// One of the input resources is larger than is allowed.
-public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -940,8 +918,7 @@ public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -976,16 +953,19 @@ extension SyntheticsClientTypes {
 
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public struct VpcConfigInput: Swift.Sendable {
+        /// Set this to true to allow outbound IPv6 traffic on VPC canaries that are connected to dual-stack subnets. The default is false
+        public var ipv6AllowedForDualStack: Swift.Bool?
         /// The IDs of the security groups for this canary.
         public var securityGroupIds: [Swift.String]?
         /// The IDs of the subnets where this canary is to run.
         public var subnetIds: [Swift.String]?
 
         public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1057,8 +1037,7 @@ public struct CreateCanaryInput: Swift.Sendable {
         successRetentionPeriodInDays: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
-    )
-    {
+    ) {
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
         self.code = code
@@ -1082,8 +1061,7 @@ public struct CreateCanaryOutput: Swift.Sendable {
 
     public init(
         canary: SyntheticsClientTypes.Canary? = nil
-    )
-    {
+    ) {
         self.canary = canary
     }
 }
@@ -1098,8 +1076,7 @@ public struct CreateGroupInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.tags = tags
     }
@@ -1129,8 +1106,7 @@ extension SyntheticsClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -1147,8 +1123,7 @@ public struct CreateGroupOutput: Swift.Sendable {
 
     public init(
         group: SyntheticsClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -1163,8 +1138,7 @@ public struct DeleteCanaryInput: Swift.Sendable {
     public init(
         deleteLambda: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteLambda = deleteLambda
         self.name = name
     }
@@ -1182,8 +1156,7 @@ public struct DeleteGroupInput: Swift.Sendable {
 
     public init(
         groupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupIdentifier = groupIdentifier
     }
 }
@@ -1205,8 +1178,7 @@ public struct DescribeCanariesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.names = names
         self.nextToken = nextToken
@@ -1222,8 +1194,7 @@ public struct DescribeCanariesOutput: Swift.Sendable {
     public init(
         canaries: [SyntheticsClientTypes.Canary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.canaries = canaries
         self.nextToken = nextToken
     }
@@ -1241,8 +1212,7 @@ public struct DescribeCanariesLastRunInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.names = names
         self.nextToken = nextToken
@@ -1258,8 +1228,7 @@ public struct DescribeCanariesLastRunOutput: Swift.Sendable {
     public init(
         canariesLastRun: [SyntheticsClientTypes.CanaryLastRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.canariesLastRun = canariesLastRun
         self.nextToken = nextToken
     }
@@ -1274,8 +1243,7 @@ public struct DescribeRuntimeVersionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1299,8 +1267,7 @@ extension SyntheticsClientTypes {
             description: Swift.String? = nil,
             releaseDate: Foundation.Date? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deprecationDate = deprecationDate
             self.description = description
             self.releaseDate = releaseDate
@@ -1318,8 +1285,7 @@ public struct DescribeRuntimeVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runtimeVersions: [SyntheticsClientTypes.RuntimeVersion]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runtimeVersions = runtimeVersions
     }
@@ -1336,8 +1302,7 @@ public struct DisassociateResourceInput: Swift.Sendable {
     public init(
         groupIdentifier: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupIdentifier = groupIdentifier
         self.resourceArn = resourceArn
     }
@@ -1355,8 +1320,7 @@ public struct GetCanaryInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1367,8 +1331,7 @@ public struct GetCanaryOutput: Swift.Sendable {
 
     public init(
         canary: SyntheticsClientTypes.Canary? = nil
-    )
-    {
+    ) {
         self.canary = canary
     }
 }
@@ -1386,8 +1349,7 @@ public struct GetCanaryRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -1403,8 +1365,7 @@ public struct GetCanaryRunsOutput: Swift.Sendable {
     public init(
         canaryRuns: [SyntheticsClientTypes.CanaryRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.canaryRuns = canaryRuns
         self.nextToken = nextToken
     }
@@ -1417,8 +1378,7 @@ public struct GetGroupInput: Swift.Sendable {
 
     public init(
         groupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupIdentifier = groupIdentifier
     }
 }
@@ -1429,8 +1389,7 @@ public struct GetGroupOutput: Swift.Sendable {
 
     public init(
         group: SyntheticsClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -1450,8 +1409,7 @@ extension SyntheticsClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -1460,9 +1418,9 @@ extension SyntheticsClientTypes {
 }
 
 /// An internal failure occurred. Try the operation again.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1477,8 +1435,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1496,8 +1453,7 @@ public struct ListAssociatedGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -1513,8 +1469,7 @@ public struct ListAssociatedGroupsOutput: Swift.Sendable {
     public init(
         groups: [SyntheticsClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
@@ -1533,8 +1488,7 @@ public struct ListGroupResourcesInput: Swift.Sendable {
         groupIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupIdentifier = groupIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1550,8 +1504,7 @@ public struct ListGroupResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -1566,8 +1519,7 @@ public struct ListGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1582,17 +1534,16 @@ public struct ListGroupsOutput: Swift.Sendable {
     public init(
         groups: [SyntheticsClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
 }
 
 /// The specified resource was not found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1607,16 +1558,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There were too many simultaneous requests. Try the operation again.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1631,8 +1581,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1644,8 +1593,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1656,8 +1604,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1669,8 +1616,7 @@ public struct StartCanaryInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1687,8 +1633,7 @@ public struct StopCanaryInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1709,8 +1654,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1732,8 +1676,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1748,7 +1691,7 @@ extension SyntheticsClientTypes {
 
     /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
     public struct VisualReferenceInput: Swift.Sendable {
-        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the [ CanaryRun](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html) from any past run of this canary.
+        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the [ CanaryRun](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html) from a run of this a canary in the past 31 days. If you specify the Id of a canary run older than 31 days, the operation returns a 400 validation exception error..
         /// This member is required.
         public var baseCanaryRunId: Swift.String?
         /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
@@ -1757,8 +1700,7 @@ extension SyntheticsClientTypes {
         public init(
             baseCanaryRunId: Swift.String? = nil,
             baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil
-        )
-        {
+        ) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
         }
@@ -1822,8 +1764,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         successRetentionPeriodInDays: Swift.Int? = nil,
         visualReference: SyntheticsClientTypes.VisualReferenceInput? = nil,
         vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
-    )
-    {
+    ) {
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
         self.code = code
@@ -2986,6 +2927,7 @@ extension SyntheticsClientTypes.VpcConfigOutput {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipv6AllowedForDualStack = try reader["Ipv6AllowedForDualStack"].readIfPresent()
         return value
     }
 }
@@ -3173,6 +3115,7 @@ extension SyntheticsClientTypes.VpcConfigInput {
 
     static func write(value: SyntheticsClientTypes.VpcConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Ipv6AllowedForDualStack"].write(value.ipv6AllowedForDualStack)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

@@ -55,9 +55,9 @@ public struct UpdateWorkspaceAliasOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -74,16 +74,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -108,8 +107,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -117,9 +115,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unexpected error occurred during the processing of the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -139,17 +137,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The request references a resources that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -174,8 +171,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -183,9 +179,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Completing the request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -218,8 +214,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -229,9 +224,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -257,8 +252,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -280,8 +274,7 @@ extension AmpClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -325,9 +318,9 @@ extension AmpClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The field that caused the error, if applicable.
         public internal(set) var fieldList: [AmpClientTypes.ValidationExceptionField]? = nil
         /// Description of the error.
@@ -351,8 +344,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [AmpClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: AmpClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -374,8 +366,7 @@ public struct CreateAlertManagerDefinitionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         data: Foundation.Data? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.data = data
         self.workspaceId = workspaceId
@@ -443,8 +434,7 @@ extension AmpClientTypes {
         public init(
             statusCode: AmpClientTypes.AlertManagerDefinitionStatusCode? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
             self.statusReason = statusReason
         }
@@ -459,8 +449,7 @@ public struct CreateAlertManagerDefinitionOutput: Swift.Sendable {
 
     public init(
         status: AmpClientTypes.AlertManagerDefinitionStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -476,8 +465,7 @@ public struct DeleteAlertManagerDefinitionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.workspaceId = workspaceId
     }
@@ -491,8 +479,7 @@ public struct DescribeAlertManagerDefinitionInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -519,8 +506,7 @@ extension AmpClientTypes {
             data: Foundation.Data? = nil,
             modifiedAt: Foundation.Date? = nil,
             status: AmpClientTypes.AlertManagerDefinitionStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.data = data
             self.modifiedAt = modifiedAt
@@ -537,8 +523,7 @@ public struct DescribeAlertManagerDefinitionOutput: Swift.Sendable {
 
     public init(
         alertManagerDefinition: AmpClientTypes.AlertManagerDefinitionDescription? = nil
-    )
-    {
+    ) {
         self.alertManagerDefinition = alertManagerDefinition
     }
 }
@@ -558,8 +543,7 @@ public struct PutAlertManagerDefinitionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         data: Foundation.Data? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.data = data
         self.workspaceId = workspaceId
@@ -574,8 +558,7 @@ public struct PutAlertManagerDefinitionOutput: Swift.Sendable {
 
     public init(
         status: AmpClientTypes.AlertManagerDefinitionStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -594,8 +577,7 @@ public struct GetDefaultScraperConfigurationOutput: Swift.Sendable {
 
     public init(
         configuration: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
     }
 }
@@ -607,8 +589,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -619,8 +600,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -635,8 +615,7 @@ extension AmpClientTypes {
 
         public init(
             workspaceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.workspaceArn = workspaceArn
         }
     }
@@ -649,6 +628,25 @@ extension AmpClientTypes {
         /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         case ampconfiguration(AmpClientTypes.AmpConfiguration)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension AmpClientTypes {
+
+    /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+    public struct RoleConfiguration: Swift.Sendable {
+        /// A ARN identifying the source role configuration.
+        public var sourceRoleArn: Swift.String?
+        /// A ARN identifying the target role configuration.
+        public var targetRoleArn: Swift.String?
+
+        public init(
+            sourceRoleArn: Swift.String? = nil,
+            targetRoleArn: Swift.String? = nil
+        ) {
+            self.sourceRoleArn = sourceRoleArn
+            self.targetRoleArn = targetRoleArn
+        }
     }
 }
 
@@ -679,8 +677,7 @@ extension AmpClientTypes {
             clusterArn: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -707,6 +704,8 @@ public struct CreateScraperInput: Swift.Sendable {
     /// The Amazon Managed Service for Prometheus workspace to send metrics to.
     /// This member is required.
     public var destination: AmpClientTypes.Destination?
+    /// The scraper role configuration for the workspace.
+    public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// The configuration file to use in the new scraper. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
@@ -720,14 +719,15 @@ public struct CreateScraperInput: Swift.Sendable {
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         destination: AmpClientTypes.Destination? = nil,
+        roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
         scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
         source: AmpClientTypes.Source? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.destination = destination
+        self.roleConfiguration = roleConfiguration
         self.scrapeConfiguration = scrapeConfiguration
         self.source = source
         self.tags = tags
@@ -796,8 +796,7 @@ extension AmpClientTypes {
 
         public init(
             statusCode: AmpClientTypes.ScraperStatusCode? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
         }
     }
@@ -822,8 +821,7 @@ public struct CreateScraperOutput: Swift.Sendable {
         scraperId: Swift.String? = nil,
         status: AmpClientTypes.ScraperStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.scraperId = scraperId
         self.status = status
@@ -842,8 +840,7 @@ public struct DeleteScraperInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         scraperId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.scraperId = scraperId
     }
@@ -861,8 +858,7 @@ public struct DeleteScraperOutput: Swift.Sendable {
     public init(
         scraperId: Swift.String? = nil,
         status: AmpClientTypes.ScraperStatus? = nil
-    )
-    {
+    ) {
         self.scraperId = scraperId
         self.status = status
     }
@@ -876,8 +872,7 @@ public struct DescribeScraperInput: Swift.Sendable {
 
     public init(
         scraperId: Swift.String? = nil
-    )
-    {
+    ) {
         self.scraperId = scraperId
     }
 }
@@ -903,6 +898,8 @@ extension AmpClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         /// This member is required.
         public var roleArn: Swift.String?
+        /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+        public var roleConfiguration: AmpClientTypes.RoleConfiguration?
         /// The configuration in use by the scraper.
         /// This member is required.
         public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
@@ -927,20 +924,21 @@ extension AmpClientTypes {
             destination: AmpClientTypes.Destination? = nil,
             lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
+            roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
             scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
             scraperId: Swift.String? = nil,
             source: AmpClientTypes.Source? = nil,
             status: AmpClientTypes.ScraperStatus? = nil,
             statusReason: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
+            self.roleConfiguration = roleConfiguration
             self.scrapeConfiguration = scrapeConfiguration
             self.scraperId = scraperId
             self.source = source
@@ -959,8 +957,7 @@ public struct DescribeScraperOutput: Swift.Sendable {
 
     public init(
         scraper: AmpClientTypes.ScraperDescription? = nil
-    )
-    {
+    ) {
         self.scraper = scraper
     }
 }
@@ -978,8 +975,7 @@ public struct ListScrapersInput: Swift.Sendable {
         filters: [Swift.String: [Swift.String]]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1007,6 +1003,8 @@ extension AmpClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
         /// This member is required.
         public var roleArn: Swift.String?
+        /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+        public var roleConfiguration: AmpClientTypes.RoleConfiguration?
         /// The ID of the scraper.
         /// This member is required.
         public var scraperId: Swift.String?
@@ -1028,19 +1026,20 @@ extension AmpClientTypes {
             destination: AmpClientTypes.Destination? = nil,
             lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
+            roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
             scraperId: Swift.String? = nil,
             source: AmpClientTypes.Source? = nil,
             status: AmpClientTypes.ScraperStatus? = nil,
             statusReason: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
+            self.roleConfiguration = roleConfiguration
             self.scraperId = scraperId
             self.source = source
             self.status = status
@@ -1061,8 +1060,7 @@ public struct ListScrapersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scrapers: [AmpClientTypes.ScraperSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scrapers = scrapers
     }
@@ -1075,6 +1073,8 @@ public struct UpdateScraperInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
     public var destination: AmpClientTypes.Destination?
+    /// The scraper role configuration for the workspace.
+    public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// Contains the base-64 encoded YAML configuration for the scraper. For more information about configuring a scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
     /// The ID of the scraper to update.
@@ -1085,13 +1085,14 @@ public struct UpdateScraperInput: Swift.Sendable {
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         destination: AmpClientTypes.Destination? = nil,
+        roleConfiguration: AmpClientTypes.RoleConfiguration? = nil,
         scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
         scraperId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.destination = destination
+        self.roleConfiguration = roleConfiguration
         self.scrapeConfiguration = scrapeConfiguration
         self.scraperId = scraperId
     }
@@ -1115,8 +1116,7 @@ public struct UpdateScraperOutput: Swift.Sendable {
         scraperId: Swift.String? = nil,
         status: AmpClientTypes.ScraperStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.scraperId = scraperId
         self.status = status
@@ -1135,8 +1135,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1158,8 +1157,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1186,8 +1184,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.kmsKeyArn = kmsKeyArn
@@ -1249,8 +1246,7 @@ extension AmpClientTypes {
 
         public init(
             statusCode: AmpClientTypes.WorkspaceStatusCode? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
         }
     }
@@ -1278,8 +1274,7 @@ public struct CreateWorkspaceOutput: Swift.Sendable {
         status: AmpClientTypes.WorkspaceStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.kmsKeyArn = kmsKeyArn
         self.status = status
@@ -1299,8 +1294,7 @@ public struct DeleteWorkspaceInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.workspaceId = workspaceId
     }
@@ -1314,8 +1308,7 @@ public struct DescribeWorkspaceInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -1354,8 +1347,7 @@ extension AmpClientTypes {
             status: AmpClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
@@ -1376,8 +1368,7 @@ public struct DescribeWorkspaceOutput: Swift.Sendable {
 
     public init(
         workspace: AmpClientTypes.WorkspaceDescription? = nil
-    )
-    {
+    ) {
         self.workspace = workspace
     }
 }
@@ -1395,8 +1386,7 @@ public struct ListWorkspacesInput: Swift.Sendable {
         alias: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1434,8 +1424,7 @@ extension AmpClientTypes {
             status: AmpClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             workspaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
@@ -1458,8 +1447,7 @@ public struct ListWorkspacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workspaces: [AmpClientTypes.WorkspaceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workspaces = workspaces
     }
@@ -1480,8 +1468,7 @@ public struct CreateLoggingConfigurationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         logGroupArn: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.logGroupArn = logGroupArn
         self.workspaceId = workspaceId
@@ -1549,8 +1536,7 @@ extension AmpClientTypes {
         public init(
             statusCode: AmpClientTypes.LoggingConfigurationStatusCode? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
             self.statusReason = statusReason
         }
@@ -1565,8 +1551,7 @@ public struct CreateLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         status: AmpClientTypes.LoggingConfigurationStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1582,8 +1567,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.workspaceId = workspaceId
     }
@@ -1597,8 +1581,7 @@ public struct DescribeLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -1629,8 +1612,7 @@ extension AmpClientTypes {
             modifiedAt: Foundation.Date? = nil,
             status: AmpClientTypes.LoggingConfigurationStatus? = nil,
             workspace: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.logGroupArn = logGroupArn
             self.modifiedAt = modifiedAt
@@ -1648,8 +1630,7 @@ public struct DescribeLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: AmpClientTypes.LoggingConfigurationMetadata? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -1669,8 +1650,7 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         logGroupArn: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.logGroupArn = logGroupArn
         self.workspaceId = workspaceId
@@ -1685,8 +1665,7 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         status: AmpClientTypes.LoggingConfigurationStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1713,8 +1692,7 @@ public struct CreateRuleGroupsNamespaceInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.data = data
         self.name = name
@@ -1784,8 +1762,7 @@ extension AmpClientTypes {
         public init(
             statusCode: AmpClientTypes.RuleGroupsNamespaceStatusCode? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
             self.statusReason = statusReason
         }
@@ -1811,8 +1788,7 @@ public struct CreateRuleGroupsNamespaceOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: AmpClientTypes.RuleGroupsNamespaceStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.status = status
@@ -1835,8 +1811,7 @@ public struct DeleteRuleGroupsNamespaceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.workspaceId = workspaceId
@@ -1855,8 +1830,7 @@ public struct DescribeRuleGroupsNamespaceInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.workspaceId = workspaceId
     }
@@ -1895,8 +1869,7 @@ extension AmpClientTypes {
             name: Swift.String? = nil,
             status: AmpClientTypes.RuleGroupsNamespaceStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.data = data
@@ -1916,8 +1889,7 @@ public struct DescribeRuleGroupsNamespaceOutput: Swift.Sendable {
 
     public init(
         ruleGroupsNamespace: AmpClientTypes.RuleGroupsNamespaceDescription? = nil
-    )
-    {
+    ) {
         self.ruleGroupsNamespace = ruleGroupsNamespace
     }
 }
@@ -1939,8 +1911,7 @@ public struct ListRuleGroupsNamespacesInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -1977,8 +1948,7 @@ extension AmpClientTypes {
             name: Swift.String? = nil,
             status: AmpClientTypes.RuleGroupsNamespaceStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
@@ -2000,8 +1970,7 @@ public struct ListRuleGroupsNamespacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleGroupsNamespaces: [AmpClientTypes.RuleGroupsNamespaceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleGroupsNamespaces = ruleGroupsNamespaces
     }
@@ -2026,8 +1995,7 @@ public struct PutRuleGroupsNamespaceInput: Swift.Sendable {
         data: Foundation.Data? = nil,
         name: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.data = data
         self.name = name
@@ -2054,8 +2022,7 @@ public struct PutRuleGroupsNamespaceOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: AmpClientTypes.RuleGroupsNamespaceStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
         self.status = status
@@ -2077,8 +2044,7 @@ public struct UpdateWorkspaceAliasInput: Swift.Sendable {
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.clientToken = clientToken
         self.workspaceId = workspaceId
@@ -2528,6 +2494,7 @@ extension CreateScraperInput {
         try writer["alias"].write(value.alias)
         try writer["clientToken"].write(value.clientToken)
         try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
+        try writer["roleConfiguration"].write(value.roleConfiguration, with: AmpClientTypes.RoleConfiguration.write(value:to:))
         try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
         try writer["source"].write(value.source, with: AmpClientTypes.Source.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2587,6 +2554,7 @@ extension UpdateScraperInput {
         try writer["alias"].write(value.alias)
         try writer["clientToken"].write(value.clientToken)
         try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
+        try writer["roleConfiguration"].write(value.roleConfiguration, with: AmpClientTypes.RoleConfiguration.write(value:to:))
         try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
     }
 }
@@ -2778,7 +2746,7 @@ extension GetDefaultScraperConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDefaultScraperConfigurationOutput()
-        value.configuration = try reader["configuration"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.configuration = try reader["configuration"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         return value
     }
 }
@@ -3578,7 +3546,7 @@ extension AmpClientTypes.AlertManagerDefinitionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.AlertManagerDefinitionDescription()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AlertManagerDefinitionStatus.read(from:))
-        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -3607,7 +3575,7 @@ extension AmpClientTypes.RuleGroupsNamespaceDescription {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
-        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -3632,6 +3600,24 @@ extension AmpClientTypes.ScraperDescription {
         value.scrapeConfiguration = try reader["scrapeConfiguration"].readIfPresent(with: AmpClientTypes.ScrapeConfiguration.read(from:))
         value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
         value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
+        value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.RoleConfiguration {
+
+    static func write(value: AmpClientTypes.RoleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceRoleArn"].write(value.sourceRoleArn)
+        try writer["targetRoleArn"].write(value.targetRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RoleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.RoleConfiguration()
+        value.sourceRoleArn = try reader["sourceRoleArn"].readIfPresent()
+        value.targetRoleArn = try reader["targetRoleArn"].readIfPresent()
         return value
     }
 }
@@ -3790,6 +3776,7 @@ extension AmpClientTypes.ScraperSummary {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
         value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
+        value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
         return value
     }
 }

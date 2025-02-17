@@ -45,6 +45,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
     private static let transientCRTErrorCodes: [Int32] = [
         2058, // httpConnectionClosed
         2070, // httpServerClosed
+        2087, // AWS_ERROR_HTTP_STREAM_MANAGER_CONNECTION_ACQUIRE_FAILURE
     ]
 
     // HTTP status codes that the Retry Behavior 2.0 specification say should be treated as transient errors.

@@ -42,8 +42,7 @@ extension IoTWirelessClientTypes {
         public init(
             appSKey: Swift.String? = nil,
             nwkSKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.appSKey = appSKey
             self.nwkSKey = nwkSKey
         }
@@ -65,8 +64,7 @@ extension IoTWirelessClientTypes {
             devAddr: Swift.String? = nil,
             fCntStart: Swift.Int? = nil,
             sessionKeys: IoTWirelessClientTypes.SessionKeysAbpV1_0_x? = nil
-        )
-        {
+        ) {
             self.devAddr = devAddr
             self.fCntStart = fCntStart
             self.sessionKeys = sessionKeys
@@ -92,8 +90,7 @@ extension IoTWirelessClientTypes {
             fNwkSIntKey: Swift.String? = nil,
             nwkSEncKey: Swift.String? = nil,
             sNwkSIntKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.appSKey = appSKey
             self.fNwkSIntKey = fNwkSIntKey
             self.nwkSEncKey = nwkSEncKey
@@ -117,8 +114,7 @@ extension IoTWirelessClientTypes {
             devAddr: Swift.String? = nil,
             fCntStart: Swift.Int? = nil,
             sessionKeys: IoTWirelessClientTypes.SessionKeysAbpV1_1? = nil
-        )
-        {
+        ) {
             self.devAddr = devAddr
             self.fCntStart = fCntStart
             self.sessionKeys = sessionKeys
@@ -127,9 +123,9 @@ extension IoTWirelessClientTypes {
 }
 
 /// User does not have permission to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -144,8 +140,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -162,8 +157,7 @@ extension IoTWirelessClientTypes {
         public init(
             horizontalAccuracy: Swift.Float? = nil,
             verticalAccuracy: Swift.Float? = nil
-        )
-        {
+        ) {
             self.horizontalAccuracy = horizontalAccuracy
             self.verticalAccuracy = verticalAccuracy
         }
@@ -243,8 +237,7 @@ extension IoTWirelessClientTypes {
             destinationName: Swift.String? = nil,
             fPort: Swift.Int? = nil,
             type: IoTWirelessClientTypes.ApplicationConfigType? = nil
-        )
-        {
+        ) {
             self.destinationName = destinationName
             self.fPort = fPort
             self.type = type
@@ -253,9 +246,9 @@ extension IoTWirelessClientTypes {
 }
 
 /// Adding, updating, or deleting the resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Id of the resource in the conflicting operation.
         public internal(set) var resourceId: Swift.String? = nil
@@ -276,8 +269,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -285,9 +277,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unexpected error occurred while processing a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -302,16 +294,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Id of the not found resource.
         public internal(set) var resourceId: Swift.String? = nil
@@ -332,8 +323,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -341,9 +331,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was denied because it exceeded the allowed API request rate.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -358,16 +348,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input did not meet the specified constraints.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -382,8 +371,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -400,8 +388,7 @@ extension IoTWirelessClientTypes {
         public init(
             amazonId: Swift.String? = nil,
             appServerPrivateKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonId = amazonId
             self.appServerPrivateKey = appServerPrivateKey
         }
@@ -427,8 +414,7 @@ extension IoTWirelessClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -448,8 +434,7 @@ public struct AssociateAwsAccountWithPartnerAccountInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkAccountInfo? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.sidewalk = sidewalk
         self.tags = tags
@@ -465,8 +450,7 @@ public struct AssociateAwsAccountWithPartnerAccountOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkAccountInfo? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.sidewalk = sidewalk
     }
@@ -483,8 +467,7 @@ public struct AssociateMulticastGroupWithFuotaTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         multicastGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.multicastGroupId = multicastGroupId
     }
@@ -506,8 +489,7 @@ public struct AssociateWirelessDeviceWithFuotaTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         wirelessDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.wirelessDeviceId = wirelessDeviceId
     }
@@ -529,8 +511,7 @@ public struct AssociateWirelessDeviceWithMulticastGroupInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         wirelessDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.wirelessDeviceId = wirelessDeviceId
     }
@@ -552,8 +533,7 @@ public struct AssociateWirelessDeviceWithThingInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         thingArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.thingArn = thingArn
     }
@@ -575,8 +555,7 @@ public struct AssociateWirelessGatewayWithCertificateInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         iotCertificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.iotCertificateId = iotCertificateId
     }
@@ -588,8 +567,7 @@ public struct AssociateWirelessGatewayWithCertificateOutput: Swift.Sendable {
 
     public init(
         iotCertificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.iotCertificateId = iotCertificateId
     }
 }
@@ -605,8 +583,7 @@ public struct AssociateWirelessGatewayWithThingInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         thingArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.thingArn = thingArn
     }
@@ -662,8 +639,7 @@ extension IoTWirelessClientTypes {
         public init(
             dataRate: Swift.Int? = nil,
             frequencies: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.dataRate = dataRate
             self.frequencies = frequencies
         }
@@ -677,8 +653,7 @@ public struct CancelMulticastGroupSessionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -702,8 +677,7 @@ extension IoTWirelessClientTypes {
         public init(
             cdmaChannel: Swift.Int? = nil,
             pnOffset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cdmaChannel = cdmaChannel
             self.pnOffset = pnOffset
         }
@@ -730,8 +704,7 @@ extension IoTWirelessClientTypes {
             cdmaChannel: Swift.Int? = nil,
             pilotPower: Swift.Int? = nil,
             pnOffset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.baseStationId = baseStationId
             self.cdmaChannel = cdmaChannel
             self.pilotPower = pilotPower
@@ -776,8 +749,7 @@ extension IoTWirelessClientTypes {
             pilotPower: Swift.Int? = nil,
             registrationZone: Swift.Int? = nil,
             systemId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.baseLat = baseLat
             self.baseLng = baseLng
             self.baseStationId = baseStationId
@@ -805,8 +777,7 @@ extension IoTWirelessClientTypes {
         public init(
             bcch: Swift.Int? = nil,
             bsic: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bcch = bcch
             self.bsic = bsic
         }
@@ -827,8 +798,7 @@ extension IoTWirelessClientTypes {
         public init(
             geranCid: Swift.Int? = nil,
             lac: Swift.Int? = nil
-        )
-        {
+        ) {
             self.geranCid = geranCid
             self.lac = lac
         }
@@ -855,8 +825,7 @@ extension IoTWirelessClientTypes {
             bsic: Swift.Int? = nil,
             globalIdentity: IoTWirelessClientTypes.GlobalIdentity? = nil,
             rxLevel: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bcch = bcch
             self.bsic = bsic
             self.globalIdentity = globalIdentity
@@ -899,8 +868,7 @@ extension IoTWirelessClientTypes {
             mcc: Swift.Int? = nil,
             mnc: Swift.Int? = nil,
             rxLevel: Swift.Int? = nil
-        )
-        {
+        ) {
             self.geranCid = geranCid
             self.gsmLocalId = gsmLocalId
             self.gsmNmr = gsmNmr
@@ -927,8 +895,7 @@ extension IoTWirelessClientTypes {
         public init(
             earfcn: Swift.Int? = nil,
             pci: Swift.Int? = nil
-        )
-        {
+        ) {
             self.earfcn = earfcn
             self.pci = pci
         }
@@ -959,8 +926,7 @@ extension IoTWirelessClientTypes {
             pci: Swift.Int? = nil,
             rsrp: Swift.Int? = nil,
             rsrq: Swift.Float? = nil
-        )
-        {
+        ) {
             self.earfcn = earfcn
             self.eutranCid = eutranCid
             self.pci = pci
@@ -1009,8 +975,7 @@ extension IoTWirelessClientTypes {
             rsrp: Swift.Int? = nil,
             rsrq: Swift.Float? = nil,
             tac: Swift.Int? = nil
-        )
-        {
+        ) {
             self.eutranCid = eutranCid
             self.lteLocalId = lteLocalId
             self.lteNmr = lteNmr
@@ -1039,8 +1004,7 @@ extension IoTWirelessClientTypes {
         public init(
             cellParams: Swift.Int? = nil,
             uarfcn: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cellParams = cellParams
             self.uarfcn = uarfcn
         }
@@ -1070,8 +1034,7 @@ extension IoTWirelessClientTypes {
             rscp: Swift.Int? = nil,
             uarfcn: Swift.Int? = nil,
             utranCid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cellParams = cellParams
             self.pathLoss = pathLoss
             self.rscp = rscp
@@ -1117,8 +1080,7 @@ extension IoTWirelessClientTypes {
             tdscdmaNmr: [IoTWirelessClientTypes.TdscdmaNmrObj]? = nil,
             tdscdmaTimingAdvance: Swift.Int? = nil,
             utranCid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lac = lac
             self.mcc = mcc
             self.mnc = mnc
@@ -1146,8 +1108,7 @@ extension IoTWirelessClientTypes {
         public init(
             psc: Swift.Int? = nil,
             uarfcndl: Swift.Int? = nil
-        )
-        {
+        ) {
             self.psc = psc
             self.uarfcndl = uarfcndl
         }
@@ -1178,8 +1139,7 @@ extension IoTWirelessClientTypes {
             rscp: Swift.Int? = nil,
             uarfcndl: Swift.Int? = nil,
             utranCid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.pathLoss = pathLoss
             self.psc = psc
             self.rscp = rscp
@@ -1222,8 +1182,7 @@ extension IoTWirelessClientTypes {
             utranCid: Swift.Int? = nil,
             wcdmaLocalId: IoTWirelessClientTypes.WcdmaLocalId? = nil,
             wcdmaNmr: [IoTWirelessClientTypes.WcdmaNmrObj]? = nil
-        )
-        {
+        ) {
             self.lac = lac
             self.mcc = mcc
             self.mnc = mnc
@@ -1257,8 +1216,7 @@ extension IoTWirelessClientTypes {
             lte: [IoTWirelessClientTypes.LteObj]? = nil,
             tdscdma: [IoTWirelessClientTypes.TdscdmaObj]? = nil,
             wcdma: [IoTWirelessClientTypes.WcdmaObj]? = nil
-        )
-        {
+        ) {
             self.cdma = cdma
             self.gsm = gsm
             self.lte = lte
@@ -1312,8 +1270,7 @@ extension IoTWirelessClientTypes {
         public init(
             signingAlg: IoTWirelessClientTypes.SigningAlg? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.signingAlg = signingAlg
             self.value = value
         }
@@ -1387,8 +1344,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             gatewayEuiEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.gatewayEuiEventTopic = gatewayEuiEventTopic
         }
     }
@@ -1406,8 +1362,7 @@ extension IoTWirelessClientTypes {
         public init(
             loRaWAN: IoTWirelessClientTypes.LoRaWANConnectionStatusEventNotificationConfigurations? = nil,
             wirelessGatewayIdEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
             self.wirelessGatewayIdEventTopic = wirelessGatewayIdEventTopic
         }
@@ -1423,8 +1378,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             wirelessGatewayEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.wirelessGatewayEventTopic = wirelessGatewayEventTopic
         }
     }
@@ -1439,8 +1393,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             loRaWAN: IoTWirelessClientTypes.LoRaWANConnectionStatusResourceTypeEventConfiguration? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
         }
     }
@@ -1503,8 +1456,7 @@ public struct CreateDestinationInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.expression = expression
@@ -1524,8 +1476,7 @@ public struct CreateDestinationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -1594,8 +1545,7 @@ extension IoTWirelessClientTypes {
             supportsClassB: Swift.Bool = false,
             supportsClassC: Swift.Bool = false,
             supportsJoin: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.classBTimeout = classBTimeout
             self.classCTimeout = classCTimeout
             self.factoryPresetFreqsList = factoryPresetFreqsList
@@ -1646,8 +1596,7 @@ public struct CreateDeviceProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkCreateDeviceProfile? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.loRaWAN = loRaWAN
         self.name = name
@@ -1665,8 +1614,7 @@ public struct CreateDeviceProfileOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -1744,8 +1692,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             rfRegion: IoTWirelessClientTypes.SupportedRfRegion? = nil
-        )
-        {
+        ) {
             self.rfRegion = rfRegion
         }
     }
@@ -1789,8 +1736,7 @@ public struct CreateFuotaTaskInput: Swift.Sendable {
         name: Swift.String? = nil,
         redundancyPercent: Swift.Int? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.descriptor = descriptor
@@ -1814,8 +1760,7 @@ public struct CreateFuotaTaskOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -1863,8 +1808,7 @@ extension IoTWirelessClientTypes {
         public init(
             gatewayList: [Swift.String]? = nil,
             transmissionInterval: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gatewayList = gatewayList
             self.transmissionInterval = transmissionInterval
         }
@@ -1886,8 +1830,7 @@ extension IoTWirelessClientTypes {
             dlClass: IoTWirelessClientTypes.DlClass? = nil,
             participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast? = nil,
             rfRegion: IoTWirelessClientTypes.SupportedRfRegion? = nil
-        )
-        {
+        ) {
             self.dlClass = dlClass
             self.participatingGateways = participatingGateways
             self.rfRegion = rfRegion
@@ -1914,8 +1857,7 @@ public struct CreateMulticastGroupInput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANMulticast? = nil,
         name: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.loRaWAN = loRaWAN
@@ -1933,8 +1875,7 @@ public struct CreateMulticastGroupOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -2048,8 +1989,7 @@ extension IoTWirelessClientTypes {
             logLevel: IoTWirelessClientTypes.LogLevel? = nil,
             multicastFrameInfo: IoTWirelessClientTypes.MulticastFrameInfo? = nil,
             wirelessDeviceFrameInfo: IoTWirelessClientTypes.WirelessDeviceFrameInfo? = nil
-        )
-        {
+        ) {
             self.logLevel = logLevel
             self.multicastFrameInfo = multicastFrameInfo
             self.wirelessDeviceFrameInfo = wirelessDeviceFrameInfo
@@ -2085,8 +2025,7 @@ public struct CreateNetworkAnalyzerConfigurationInput: Swift.Sendable {
         traceContent: IoTWirelessClientTypes.TraceContent? = nil,
         wirelessDevices: [Swift.String]? = nil,
         wirelessGateways: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.multicastGroups = multicastGroups
@@ -2107,8 +2046,7 @@ public struct CreateNetworkAnalyzerConfigurationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -2135,8 +2073,7 @@ extension IoTWirelessClientTypes {
             drMin: Swift.Int? = nil,
             prAllowed: Swift.Bool = false,
             raAllowed: Swift.Bool = false
-        )
-        {
+        ) {
             self.addGwMetadata = addGwMetadata
             self.drMax = drMax
             self.drMin = drMin
@@ -2161,8 +2098,7 @@ public struct CreateServiceProfileInput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANServiceProfile? = nil,
         name: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.loRaWAN = loRaWAN
         self.name = name
@@ -2179,8 +2115,7 @@ public struct CreateServiceProfileOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -2201,8 +2136,7 @@ extension IoTWirelessClientTypes {
             clockSync: Swift.Int? = nil,
             gnss: Swift.Int? = nil,
             stream: Swift.Int? = nil
-        )
-        {
+        ) {
             self.clockSync = clockSync
             self.gnss = gnss
             self.stream = stream
@@ -2231,8 +2165,7 @@ extension IoTWirelessClientTypes {
             fuota: Swift.Int? = nil,
             multicast: Swift.Int? = nil,
             positioning: IoTWirelessClientTypes.Positioning? = nil
-        )
-        {
+        ) {
             self.applications = applications
             self.clockSync = clockSync
             self.fuota = fuota
@@ -2260,8 +2193,7 @@ extension IoTWirelessClientTypes {
             appKey: Swift.String? = nil,
             genAppKey: Swift.String? = nil,
             joinEui: Swift.String? = nil
-        )
-        {
+        ) {
             self.appEui = appEui
             self.appKey = appKey
             self.genAppKey = genAppKey
@@ -2285,8 +2217,7 @@ extension IoTWirelessClientTypes {
             appKey: Swift.String? = nil,
             joinEui: Swift.String? = nil,
             nwkKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.appKey = appKey
             self.joinEui = joinEui
             self.nwkKey = nwkKey
@@ -2324,8 +2255,7 @@ extension IoTWirelessClientTypes {
             otaaV1_0_x: IoTWirelessClientTypes.OtaaV1_0_x? = nil,
             otaaV1_1: IoTWirelessClientTypes.OtaaV1_1? = nil,
             serviceProfileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.abpV1_0_x = abpV1_0_x
             self.abpV1_1 = abpV1_1
             self.devEui = devEui
@@ -2376,8 +2306,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             deviceProfileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceProfileId = deviceProfileId
         }
     }
@@ -2444,8 +2373,7 @@ public struct CreateWirelessDeviceInput: Swift.Sendable {
         sidewalk: IoTWirelessClientTypes.SidewalkCreateWirelessDevice? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil,
         type: IoTWirelessClientTypes.WirelessDeviceType? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.destinationName = destinationName
@@ -2467,8 +2395,7 @@ public struct CreateWirelessDeviceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -2501,8 +2428,7 @@ extension IoTWirelessClientTypes {
             netIdFilters: [Swift.String]? = nil,
             rfRegion: Swift.String? = nil,
             subBands: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.beaconing = beaconing
             self.gatewayEui = gatewayEui
             self.joinEuiFilters = joinEuiFilters
@@ -2533,8 +2459,7 @@ public struct CreateWirelessGatewayInput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANGateway? = nil,
         name: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.loRaWAN = loRaWAN
@@ -2552,8 +2477,7 @@ public struct CreateWirelessGatewayOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -2570,8 +2494,7 @@ public struct CreateWirelessGatewayTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         wirelessGatewayTaskDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.wirelessGatewayTaskDefinitionId = wirelessGatewayTaskDefinitionId
     }
@@ -2627,8 +2550,7 @@ public struct CreateWirelessGatewayTaskOutput: Swift.Sendable {
     public init(
         status: IoTWirelessClientTypes.WirelessGatewayTaskStatus? = nil,
         wirelessGatewayTaskDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.wirelessGatewayTaskDefinitionId = wirelessGatewayTaskDefinitionId
     }
@@ -2649,8 +2571,7 @@ extension IoTWirelessClientTypes {
             model: Swift.String? = nil,
             packageVersion: Swift.String? = nil,
             station: Swift.String? = nil
-        )
-        {
+        ) {
             self.model = model
             self.packageVersion = packageVersion
             self.station = station
@@ -2676,8 +2597,7 @@ extension IoTWirelessClientTypes {
             sigKeyCrc: Swift.Int? = nil,
             updateSignature: Swift.String? = nil,
             updateVersion: IoTWirelessClientTypes.LoRaWANGatewayVersion? = nil
-        )
-        {
+        ) {
             self.currentVersion = currentVersion
             self.sigKeyCrc = sigKeyCrc
             self.updateSignature = updateSignature
@@ -2701,8 +2621,7 @@ extension IoTWirelessClientTypes {
             loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateGatewayTaskCreate? = nil,
             updateDataRole: Swift.String? = nil,
             updateDataSource: Swift.String? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
             self.updateDataRole = updateDataRole
             self.updateDataSource = updateDataSource
@@ -2729,8 +2648,7 @@ public struct CreateWirelessGatewayTaskDefinitionInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil,
         update: IoTWirelessClientTypes.UpdateWirelessGatewayTaskCreate? = nil
-    )
-    {
+    ) {
         self.autoCreateTasks = autoCreateTasks
         self.clientRequestToken = clientRequestToken
         self.name = name
@@ -2748,8 +2666,7 @@ public struct CreateWirelessGatewayTaskDefinitionOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -2777,8 +2694,7 @@ extension IoTWirelessClientTypes {
             deviceTypeId: Swift.String? = nil,
             factorySupport: Swift.Bool? = nil,
             maxAllowedSignature: Swift.Int? = nil
-        )
-        {
+        ) {
             self.apId = apId
             self.certificateId = certificateId
             self.deviceTypeId = deviceTypeId
@@ -2795,8 +2711,7 @@ public struct DeleteDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2813,8 +2728,7 @@ public struct DeleteDeviceProfileInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2831,8 +2745,7 @@ public struct DeleteFuotaTaskInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2849,8 +2762,7 @@ public struct DeleteMulticastGroupInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2867,8 +2779,7 @@ public struct DeleteNetworkAnalyzerConfigurationInput: Swift.Sendable {
 
     public init(
         configurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
     }
 }
@@ -2892,8 +2803,7 @@ public struct DeleteQueuedMessagesInput: Swift.Sendable {
         id: Swift.String? = nil,
         messageId: Swift.String? = nil,
         wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType? = nil
-    )
-    {
+    ) {
         self.id = id
         self.messageId = messageId
         self.wirelessDeviceType = wirelessDeviceType
@@ -2912,8 +2822,7 @@ public struct DeleteServiceProfileInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2930,8 +2839,7 @@ public struct DeleteWirelessDeviceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2948,8 +2856,7 @@ public struct DeleteWirelessDeviceImportTaskInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2966,8 +2873,7 @@ public struct DeleteWirelessGatewayInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2984,8 +2890,7 @@ public struct DeleteWirelessGatewayTaskInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3002,8 +2907,7 @@ public struct DeleteWirelessGatewayTaskDefinitionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3023,8 +2927,7 @@ public struct DeregisterWirelessDeviceInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.wirelessDeviceType = wirelessDeviceType
     }
@@ -3059,8 +2962,7 @@ extension IoTWirelessClientTypes {
             expressionType: IoTWirelessClientTypes.ExpressionType? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.expression = expression
@@ -3086,8 +2988,7 @@ extension IoTWirelessClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -3133,8 +3034,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             amazonIdEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.amazonIdEventTopic = amazonIdEventTopic
         }
     }
@@ -3152,8 +3052,7 @@ extension IoTWirelessClientTypes {
         public init(
             sidewalk: IoTWirelessClientTypes.SidewalkEventNotificationConfigurations? = nil,
             wirelessDeviceIdEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.sidewalk = sidewalk
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
         }
@@ -3169,8 +3068,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             wirelessDeviceEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.wirelessDeviceEventTopic = wirelessDeviceEventTopic
         }
     }
@@ -3185,8 +3083,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             sidewalk: IoTWirelessClientTypes.SidewalkResourceTypeEventConfiguration? = nil
-        )
-        {
+        ) {
             self.sidewalk = sidewalk
         }
     }
@@ -3269,8 +3166,7 @@ extension IoTWirelessClientTypes {
         public init(
             name: IoTWirelessClientTypes.DimensionName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -3314,8 +3210,7 @@ public struct DisassociateAwsAccountFromPartnerAccountInput: Swift.Sendable {
     public init(
         partnerAccountId: Swift.String? = nil,
         partnerType: IoTWirelessClientTypes.PartnerType? = nil
-    )
-    {
+    ) {
         self.partnerAccountId = partnerAccountId
         self.partnerType = partnerType
     }
@@ -3337,8 +3232,7 @@ public struct DisassociateMulticastGroupFromFuotaTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         multicastGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.multicastGroupId = multicastGroupId
     }
@@ -3360,8 +3254,7 @@ public struct DisassociateWirelessDeviceFromFuotaTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         wirelessDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.wirelessDeviceId = wirelessDeviceId
     }
@@ -3383,8 +3276,7 @@ public struct DisassociateWirelessDeviceFromMulticastGroupInput: Swift.Sendable 
     public init(
         id: Swift.String? = nil,
         wirelessDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.wirelessDeviceId = wirelessDeviceId
     }
@@ -3402,8 +3294,7 @@ public struct DisassociateWirelessDeviceFromThingInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3420,8 +3311,7 @@ public struct DisassociateWirelessGatewayFromCertificateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3438,8 +3328,7 @@ public struct DisassociateWirelessGatewayFromThingInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3495,8 +3384,7 @@ extension IoTWirelessClientTypes {
         public init(
             downlinkFrequency: Swift.Int? = nil,
             gatewayId: Swift.String? = nil
-        )
-        {
+        ) {
             self.downlinkFrequency = downlinkFrequency
             self.gatewayId = gatewayId
         }
@@ -3521,8 +3409,7 @@ extension IoTWirelessClientTypes {
             downlinkMode: IoTWirelessClientTypes.DownlinkMode? = nil,
             gatewayList: [IoTWirelessClientTypes.GatewayListItem]? = nil,
             transmissionInterval: Swift.Int? = nil
-        )
-        {
+        ) {
             self.downlinkMode = downlinkMode
             self.gatewayList = gatewayList
             self.transmissionInterval = transmissionInterval
@@ -3542,8 +3429,7 @@ extension IoTWirelessClientTypes {
         public init(
             fPort: Swift.Int? = nil,
             participatingGateways: IoTWirelessClientTypes.ParticipatingGateways? = nil
-        )
-        {
+        ) {
             self.fPort = fPort
             self.participatingGateways = participatingGateways
         }
@@ -3568,8 +3454,7 @@ extension IoTWirelessClientTypes {
             messageId: Swift.String? = nil,
             receivedAt: Swift.String? = nil,
             transmitMode: Swift.Int? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
             self.messageId = messageId
             self.receivedAt = receivedAt
@@ -3626,8 +3511,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             devEuiEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.devEuiEventTopic = devEuiEventTopic
         }
     }
@@ -3645,8 +3529,7 @@ extension IoTWirelessClientTypes {
         public init(
             loRaWAN: IoTWirelessClientTypes.LoRaWANJoinEventNotificationConfigurations? = nil,
             wirelessDeviceIdEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
         }
@@ -3665,8 +3548,7 @@ extension IoTWirelessClientTypes {
         public init(
             sidewalk: IoTWirelessClientTypes.SidewalkEventNotificationConfigurations? = nil,
             wirelessDeviceIdEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.sidewalk = sidewalk
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
         }
@@ -3685,8 +3567,7 @@ extension IoTWirelessClientTypes {
         public init(
             sidewalk: IoTWirelessClientTypes.SidewalkEventNotificationConfigurations? = nil,
             wirelessDeviceIdEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.sidewalk = sidewalk
             self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
         }
@@ -3714,8 +3595,7 @@ extension IoTWirelessClientTypes {
             join: IoTWirelessClientTypes.JoinEventConfiguration? = nil,
             messageDeliveryStatus: IoTWirelessClientTypes.MessageDeliveryStatusEventConfiguration? = nil,
             proximity: IoTWirelessClientTypes.ProximityEventConfiguration? = nil
-        )
-        {
+        ) {
             self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
             self.join = join
@@ -3810,8 +3690,7 @@ extension IoTWirelessClientTypes {
             identifier: Swift.String? = nil,
             identifierType: IoTWirelessClientTypes.IdentifierType? = nil,
             partnerType: IoTWirelessClientTypes.EventNotificationPartnerType? = nil
-        )
-        {
+        ) {
             self.events = events
             self.identifier = identifier
             self.identifierType = identifierType
@@ -3930,8 +3809,7 @@ extension IoTWirelessClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -3980,8 +3858,7 @@ extension IoTWirelessClientTypes {
         public init(
             event: IoTWirelessClientTypes.FuotaTaskEvent? = nil,
             logLevel: IoTWirelessClientTypes.LogLevel? = nil
-        )
-        {
+        ) {
             self.event = event
             self.logLevel = logLevel
         }
@@ -4032,8 +3909,7 @@ extension IoTWirelessClientTypes {
             events: [IoTWirelessClientTypes.FuotaTaskEventLogOption]? = nil,
             logLevel: IoTWirelessClientTypes.LogLevel? = nil,
             type: IoTWirelessClientTypes.FuotaTaskType? = nil
-        )
-        {
+        ) {
             self.events = events
             self.logLevel = logLevel
             self.type = type
@@ -4087,8 +3963,7 @@ public struct GetDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4114,8 +3989,7 @@ public struct GetDestinationOutput: Swift.Sendable {
         expressionType: IoTWirelessClientTypes.ExpressionType? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.expression = expression
@@ -4132,8 +4006,7 @@ public struct GetDeviceProfileInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4153,8 +4026,7 @@ extension IoTWirelessClientTypes {
             applicationServerPublicKey: Swift.String? = nil,
             dakCertificateMetadata: [IoTWirelessClientTypes.DakCertificateMetadata]? = nil,
             qualificationStatus: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.applicationServerPublicKey = applicationServerPublicKey
             self.dakCertificateMetadata = dakCertificateMetadata
             self.qualificationStatus = qualificationStatus
@@ -4185,8 +4057,7 @@ public struct GetDeviceProfileOutput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile? = nil,
         name: Swift.String? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkGetDeviceProfile? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.loRaWAN = loRaWAN
@@ -4209,8 +4080,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             wirelessDeviceEventTopic: IoTWirelessClientTypes.EventNotificationTopicStatus? = nil
-        )
-        {
+        ) {
             self.wirelessDeviceEventTopic = wirelessDeviceEventTopic
         }
     }
@@ -4225,8 +4095,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             loRaWAN: IoTWirelessClientTypes.LoRaWANJoinResourceTypeEventConfiguration? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
         }
     }
@@ -4241,8 +4110,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             sidewalk: IoTWirelessClientTypes.SidewalkResourceTypeEventConfiguration? = nil
-        )
-        {
+        ) {
             self.sidewalk = sidewalk
         }
     }
@@ -4257,8 +4125,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             sidewalk: IoTWirelessClientTypes.SidewalkResourceTypeEventConfiguration? = nil
-        )
-        {
+        ) {
             self.sidewalk = sidewalk
         }
     }
@@ -4282,8 +4149,7 @@ public struct GetEventConfigurationByResourceTypesOutput: Swift.Sendable {
         join: IoTWirelessClientTypes.JoinResourceTypeEventConfiguration? = nil,
         messageDeliveryStatus: IoTWirelessClientTypes.MessageDeliveryStatusResourceTypeEventConfiguration? = nil,
         proximity: IoTWirelessClientTypes.ProximityResourceTypeEventConfiguration? = nil
-    )
-    {
+    ) {
         self.connectionStatus = connectionStatus
         self.deviceRegistrationState = deviceRegistrationState
         self.join = join
@@ -4299,8 +4165,7 @@ public struct GetFuotaTaskInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4317,8 +4182,7 @@ extension IoTWirelessClientTypes {
         public init(
             rfRegion: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.rfRegion = rfRegion
             self.startTime = startTime
         }
@@ -4367,8 +4231,7 @@ public struct GetFuotaTaskOutput: Swift.Sendable {
         name: Swift.String? = nil,
         redundancyPercent: Swift.Int? = nil,
         status: IoTWirelessClientTypes.FuotaTaskStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -4443,8 +4306,7 @@ extension IoTWirelessClientTypes {
         public init(
             event: IoTWirelessClientTypes.WirelessDeviceEvent? = nil,
             logLevel: IoTWirelessClientTypes.LogLevel? = nil
-        )
-        {
+        ) {
             self.event = event
             self.logLevel = logLevel
         }
@@ -4468,8 +4330,7 @@ extension IoTWirelessClientTypes {
             events: [IoTWirelessClientTypes.WirelessDeviceEventLogOption]? = nil,
             logLevel: IoTWirelessClientTypes.LogLevel? = nil,
             type: IoTWirelessClientTypes.WirelessDeviceType? = nil
-        )
-        {
+        ) {
             self.events = events
             self.logLevel = logLevel
             self.type = type
@@ -4521,8 +4382,7 @@ extension IoTWirelessClientTypes {
         public init(
             event: IoTWirelessClientTypes.WirelessGatewayEvent? = nil,
             logLevel: IoTWirelessClientTypes.LogLevel? = nil
-        )
-        {
+        ) {
             self.event = event
             self.logLevel = logLevel
         }
@@ -4573,8 +4433,7 @@ extension IoTWirelessClientTypes {
             events: [IoTWirelessClientTypes.WirelessGatewayEventLogOption]? = nil,
             logLevel: IoTWirelessClientTypes.LogLevel? = nil,
             type: IoTWirelessClientTypes.WirelessGatewayType? = nil
-        )
-        {
+        ) {
             self.events = events
             self.logLevel = logLevel
             self.type = type
@@ -4597,8 +4456,7 @@ public struct GetLogLevelsByResourceTypesOutput: Swift.Sendable {
         fuotaTaskLogOptions: [IoTWirelessClientTypes.FuotaTaskLogOption]? = nil,
         wirelessDeviceLogOptions: [IoTWirelessClientTypes.WirelessDeviceLogOption]? = nil,
         wirelessGatewayLogOptions: [IoTWirelessClientTypes.WirelessGatewayLogOption]? = nil
-    )
-    {
+    ) {
         self.defaultLogLevel = defaultLogLevel
         self.fuotaTaskLogOptions = fuotaTaskLogOptions
         self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
@@ -4649,8 +4507,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             status: IoTWirelessClientTypes.SummaryMetricConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -4662,8 +4519,7 @@ public struct GetMetricConfigurationOutput: Swift.Sendable {
 
     public init(
         summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration? = nil
-    )
-    {
+    ) {
         self.summaryMetric = summaryMetric
     }
 }
@@ -4811,8 +4667,7 @@ extension IoTWirelessClientTypes {
             metricName: IoTWirelessClientTypes.MetricName? = nil,
             queryId: Swift.String? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.aggregationPeriod = aggregationPeriod
             self.dimensions = dimensions
             self.endTimestamp = endTimestamp
@@ -4829,8 +4684,7 @@ public struct GetMetricsInput: Swift.Sendable {
 
     public init(
         summaryMetricQueries: [IoTWirelessClientTypes.SummaryMetricQuery]? = nil
-    )
-    {
+    ) {
         self.summaryMetricQueries = summaryMetricQueries
     }
 }
@@ -4888,8 +4742,7 @@ extension IoTWirelessClientTypes {
             p90: Swift.Double? = nil,
             std: Swift.Double? = nil,
             sum: Swift.Double? = nil
-        )
-        {
+        ) {
             self.avg = avg
             self.max = max
             self.min = min
@@ -4939,8 +4792,7 @@ extension IoTWirelessClientTypes {
             timestamps: [Foundation.Date]? = nil,
             unit: Swift.String? = nil,
             values: [IoTWirelessClientTypes.MetricQueryValue]? = nil
-        )
-        {
+        ) {
             self.aggregationPeriod = aggregationPeriod
             self.dimensions = dimensions
             self.endTimestamp = endTimestamp
@@ -4962,8 +4814,7 @@ public struct GetMetricsOutput: Swift.Sendable {
 
     public init(
         summaryMetricQueryResults: [IoTWirelessClientTypes.SummaryMetricQueryResult]? = nil
-    )
-    {
+    ) {
         self.summaryMetricQueryResults = summaryMetricQueryResults
     }
 }
@@ -4975,8 +4826,7 @@ public struct GetMulticastGroupInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5002,8 +4852,7 @@ extension IoTWirelessClientTypes {
             numberOfDevicesRequested: Swift.Int? = nil,
             participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast? = nil,
             rfRegion: IoTWirelessClientTypes.SupportedRfRegion? = nil
-        )
-        {
+        ) {
             self.dlClass = dlClass
             self.numberOfDevicesInGroup = numberOfDevicesInGroup
             self.numberOfDevicesRequested = numberOfDevicesRequested
@@ -5037,8 +4886,7 @@ public struct GetMulticastGroupOutput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANMulticastGet? = nil,
         name: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.description = description
@@ -5056,8 +4904,7 @@ public struct GetMulticastGroupSessionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5083,8 +4930,7 @@ extension IoTWirelessClientTypes {
             pingSlotPeriod: Swift.Int? = nil,
             sessionStartTime: Foundation.Date? = nil,
             sessionTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dlDr = dlDr
             self.dlFreq = dlFreq
             self.pingSlotPeriod = pingSlotPeriod
@@ -5100,8 +4946,7 @@ public struct GetMulticastGroupSessionOutput: Swift.Sendable {
 
     public init(
         loRaWAN: IoTWirelessClientTypes.LoRaWANMulticastSession? = nil
-    )
-    {
+    ) {
         self.loRaWAN = loRaWAN
     }
 }
@@ -5113,8 +4958,7 @@ public struct GetNetworkAnalyzerConfigurationInput: Swift.Sendable {
 
     public init(
         configurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
     }
 }
@@ -5143,8 +4987,7 @@ public struct GetNetworkAnalyzerConfigurationOutput: Swift.Sendable {
         traceContent: IoTWirelessClientTypes.TraceContent? = nil,
         wirelessDevices: [Swift.String]? = nil,
         wirelessGateways: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.multicastGroups = multicastGroups
@@ -5166,8 +5009,7 @@ public struct GetPartnerAccountInput: Swift.Sendable {
     public init(
         partnerAccountId: Swift.String? = nil,
         partnerType: IoTWirelessClientTypes.PartnerType? = nil
-    )
-    {
+    ) {
         self.partnerAccountId = partnerAccountId
         self.partnerType = partnerType
     }
@@ -5188,8 +5030,7 @@ extension IoTWirelessClientTypes {
             amazonId: Swift.String? = nil,
             arn: Swift.String? = nil,
             fingerprint: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonId = amazonId
             self.arn = arn
             self.fingerprint = fingerprint
@@ -5211,8 +5052,7 @@ public struct GetPartnerAccountOutput: Swift.Sendable {
     public init(
         accountLinked: Swift.Bool = false,
         sidewalk: IoTWirelessClientTypes.SidewalkAccountInfoWithFingerprint? = nil
-    )
-    {
+    ) {
         self.accountLinked = accountLinked
         self.sidewalk = sidewalk
     }
@@ -5259,8 +5099,7 @@ public struct GetPositionInput: Swift.Sendable {
     public init(
         resourceIdentifier: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
     }
@@ -5340,8 +5179,7 @@ public struct GetPositionOutput: Swift.Sendable {
         solverType: IoTWirelessClientTypes.PositionSolverType? = nil,
         solverVersion: Swift.String? = nil,
         timestamp: Swift.String? = nil
-    )
-    {
+    ) {
         self.accuracy = accuracy
         self.position = position
         self.solverProvider = solverProvider
@@ -5363,8 +5201,7 @@ public struct GetPositionConfigurationInput: Swift.Sendable {
     public init(
         resourceIdentifier: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
     }
@@ -5446,8 +5283,7 @@ extension IoTWirelessClientTypes {
             provider: IoTWirelessClientTypes.PositionSolverProvider? = nil,
             status: IoTWirelessClientTypes.PositionConfigurationStatus? = nil,
             type: IoTWirelessClientTypes.PositionSolverType? = nil
-        )
-        {
+        ) {
             self.fec = fec
             self.provider = provider
             self.status = status
@@ -5465,8 +5301,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             semtechGnss: IoTWirelessClientTypes.SemtechGnssDetail? = nil
-        )
-        {
+        ) {
             self.semtechGnss = semtechGnss
         }
     }
@@ -5482,8 +5317,7 @@ public struct GetPositionConfigurationOutput: Swift.Sendable {
     public init(
         destination: Swift.String? = nil,
         solvers: IoTWirelessClientTypes.PositionSolverDetails? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.solvers = solvers
     }
@@ -5514,8 +5348,7 @@ extension IoTWirelessClientTypes {
             captureTimeAccuracy: Swift.Float? = nil,
             payload: Swift.String? = nil,
             use2DSolver: Swift.Bool = false
-        )
-        {
+        ) {
             self.assistAltitude = assistAltitude
             self.assistPosition = assistPosition
             self.captureTime = captureTime
@@ -5536,8 +5369,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             ipAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
         }
     }
@@ -5557,8 +5389,7 @@ extension IoTWirelessClientTypes {
         public init(
             macAddress: Swift.String? = nil,
             rss: Swift.Int? = nil
-        )
-        {
+        ) {
             self.macAddress = macAddress
             self.rss = rss
         }
@@ -5583,8 +5414,7 @@ public struct GetPositionEstimateInput: Swift.Sendable {
         ip: IoTWirelessClientTypes.Ip? = nil,
         timestamp: Foundation.Date? = nil,
         wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]? = nil
-    )
-    {
+    ) {
         self.cellTowers = cellTowers
         self.gnss = gnss
         self.ip = ip
@@ -5599,8 +5429,7 @@ public struct GetPositionEstimateOutput: Swift.Sendable {
 
     public init(
         geoJsonPayload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.geoJsonPayload = geoJsonPayload
     }
 }
@@ -5619,8 +5448,7 @@ public struct GetResourceEventConfigurationInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         identifierType: IoTWirelessClientTypes.IdentifierType? = nil,
         partnerType: IoTWirelessClientTypes.EventNotificationPartnerType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.identifierType = identifierType
         self.partnerType = partnerType
@@ -5645,8 +5473,7 @@ public struct GetResourceEventConfigurationOutput: Swift.Sendable {
         join: IoTWirelessClientTypes.JoinEventConfiguration? = nil,
         messageDeliveryStatus: IoTWirelessClientTypes.MessageDeliveryStatusEventConfiguration? = nil,
         proximity: IoTWirelessClientTypes.ProximityEventConfiguration? = nil
-    )
-    {
+    ) {
         self.connectionStatus = connectionStatus
         self.deviceRegistrationState = deviceRegistrationState
         self.join = join
@@ -5666,8 +5493,7 @@ public struct GetResourceLogLevelInput: Swift.Sendable {
     public init(
         resourceIdentifier: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
     }
@@ -5679,8 +5505,7 @@ public struct GetResourceLogLevelOutput: Swift.Sendable {
 
     public init(
         logLevel: IoTWirelessClientTypes.LogLevel? = nil
-    )
-    {
+    ) {
         self.logLevel = logLevel
     }
 }
@@ -5696,8 +5521,7 @@ public struct GetResourcePositionInput: Swift.Sendable {
     public init(
         resourceIdentifier: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
     }
@@ -5709,8 +5533,7 @@ public struct GetResourcePositionOutput: Swift.Sendable {
 
     public init(
         geoJsonPayload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.geoJsonPayload = geoJsonPayload
     }
 }
@@ -5750,8 +5573,7 @@ public struct GetServiceEndpointInput: Swift.Sendable {
 
     public init(
         serviceType: IoTWirelessClientTypes.WirelessGatewayServiceType? = nil
-    )
-    {
+    ) {
         self.serviceType = serviceType
     }
 }
@@ -5768,8 +5590,7 @@ public struct GetServiceEndpointOutput: Swift.Sendable {
         serverTrust: Swift.String? = nil,
         serviceEndpoint: Swift.String? = nil,
         serviceType: IoTWirelessClientTypes.WirelessGatewayServiceType? = nil
-    )
-    {
+    ) {
         self.serverTrust = serverTrust
         self.serviceEndpoint = serviceEndpoint
         self.serviceType = serviceType
@@ -5783,8 +5604,7 @@ public struct GetServiceProfileInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5852,8 +5672,7 @@ extension IoTWirelessClientTypes {
             ulBucketSize: Swift.Int? = nil,
             ulRate: Swift.Int? = nil,
             ulRatePolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.addGwMetadata = addGwMetadata
             self.channelMask = channelMask
             self.devStatusReqFreq = devStatusReqFreq
@@ -5892,8 +5711,7 @@ public struct GetServiceProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANGetServiceProfileInfo? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.loRaWAN = loRaWAN
@@ -5947,8 +5765,7 @@ public struct GetWirelessDeviceInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         identifierType: IoTWirelessClientTypes.WirelessDeviceIdType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.identifierType = identifierType
     }
@@ -6019,8 +5836,7 @@ extension IoTWirelessClientTypes {
             sidewalkId: Swift.String? = nil,
             sidewalkManufacturingSn: Swift.String? = nil,
             status: IoTWirelessClientTypes.WirelessDeviceSidewalkStatus? = nil
-        )
-        {
+        ) {
             self.amazonId = amazonId
             self.certificateId = certificateId
             self.deviceCertificates = deviceCertificates
@@ -6069,8 +5885,7 @@ public struct GetWirelessDeviceOutput: Swift.Sendable {
         thingArn: Swift.String? = nil,
         thingName: Swift.String? = nil,
         type: IoTWirelessClientTypes.WirelessDeviceType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.destinationName = destinationName
@@ -6092,8 +5907,7 @@ public struct GetWirelessDeviceImportTaskInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6110,8 +5924,7 @@ extension IoTWirelessClientTypes {
         public init(
             deviceCreationFileList: [Swift.String]? = nil,
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceCreationFileList = deviceCreationFileList
             self.role = role
         }
@@ -6195,8 +6008,7 @@ public struct GetWirelessDeviceImportTaskOutput: Swift.Sendable {
         sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo? = nil,
         status: IoTWirelessClientTypes.ImportTaskStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.destinationName = destinationName
@@ -6218,8 +6030,7 @@ public struct GetWirelessDeviceStatisticsInput: Swift.Sendable {
 
     public init(
         wirelessDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.wirelessDeviceId = wirelessDeviceId
     }
 }
@@ -6239,8 +6050,7 @@ extension IoTWirelessClientTypes {
             gatewayEui: Swift.String? = nil,
             rssi: Swift.Double? = nil,
             snr: Swift.Double? = nil
-        )
-        {
+        ) {
             self.gatewayEui = gatewayEui
             self.rssi = rssi
             self.snr = snr
@@ -6272,8 +6082,7 @@ extension IoTWirelessClientTypes {
             rfRegion: Swift.String? = nil,
             rssi: Swift.Double? = nil,
             snr: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dlAllowed = dlAllowed
             self.id = id
             self.providerNetId = providerNetId
@@ -6311,8 +6120,7 @@ extension IoTWirelessClientTypes {
             gateways: [IoTWirelessClientTypes.LoRaWANGatewayMetadata]? = nil,
             publicGateways: [IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata]? = nil,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataRate = dataRate
             self.devEui = devEui
             self.fPort = fPort
@@ -6342,8 +6150,7 @@ extension IoTWirelessClientTypes {
             deviceState: IoTWirelessClientTypes.DeviceState? = nil,
             event: IoTWirelessClientTypes.Event? = nil,
             rssi: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batteryLevel = batteryLevel
             self.deviceState = deviceState
             self.event = event
@@ -6367,8 +6174,7 @@ public struct GetWirelessDeviceStatisticsOutput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceMetadata? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkDeviceMetadata? = nil,
         wirelessDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastUplinkReceivedAt = lastUplinkReceivedAt
         self.loRaWAN = loRaWAN
         self.sidewalk = sidewalk
@@ -6419,8 +6225,7 @@ public struct GetWirelessGatewayInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         identifierType: IoTWirelessClientTypes.WirelessGatewayIdType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.identifierType = identifierType
     }
@@ -6450,8 +6255,7 @@ public struct GetWirelessGatewayOutput: Swift.Sendable {
         name: Swift.String? = nil,
         thingArn: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.id = id
@@ -6469,8 +6273,7 @@ public struct GetWirelessGatewayCertificateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6484,8 +6287,7 @@ public struct GetWirelessGatewayCertificateOutput: Swift.Sendable {
     public init(
         iotCertificateId: Swift.String? = nil,
         loRaWANNetworkServerCertificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.iotCertificateId = iotCertificateId
         self.loRaWANNetworkServerCertificateId = loRaWANNetworkServerCertificateId
     }
@@ -6498,8 +6300,7 @@ public struct GetWirelessGatewayFirmwareInformationInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6513,8 +6314,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             currentVersion: IoTWirelessClientTypes.LoRaWANGatewayVersion? = nil
-        )
-        {
+        ) {
             self.currentVersion = currentVersion
         }
     }
@@ -6526,8 +6326,7 @@ public struct GetWirelessGatewayFirmwareInformationOutput: Swift.Sendable {
 
     public init(
         loRaWAN: IoTWirelessClientTypes.LoRaWANGatewayCurrentVersion? = nil
-    )
-    {
+    ) {
         self.loRaWAN = loRaWAN
     }
 }
@@ -6539,8 +6338,7 @@ public struct GetWirelessGatewayStatisticsInput: Swift.Sendable {
 
     public init(
         wirelessGatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.wirelessGatewayId = wirelessGatewayId
     }
 }
@@ -6557,8 +6355,7 @@ public struct GetWirelessGatewayStatisticsOutput: Swift.Sendable {
         connectionStatus: IoTWirelessClientTypes.ConnectionStatus? = nil,
         lastUplinkReceivedAt: Swift.String? = nil,
         wirelessGatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionStatus = connectionStatus
         self.lastUplinkReceivedAt = lastUplinkReceivedAt
         self.wirelessGatewayId = wirelessGatewayId
@@ -6572,8 +6369,7 @@ public struct GetWirelessGatewayTaskInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6596,8 +6392,7 @@ public struct GetWirelessGatewayTaskOutput: Swift.Sendable {
         taskCreatedAt: Swift.String? = nil,
         wirelessGatewayId: Swift.String? = nil,
         wirelessGatewayTaskDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastUplinkReceivedAt = lastUplinkReceivedAt
         self.status = status
         self.taskCreatedAt = taskCreatedAt
@@ -6613,8 +6408,7 @@ public struct GetWirelessGatewayTaskDefinitionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -6634,8 +6428,7 @@ public struct GetWirelessGatewayTaskDefinitionOutput: Swift.Sendable {
         autoCreateTasks: Swift.Bool = false,
         name: Swift.String? = nil,
         update: IoTWirelessClientTypes.UpdateWirelessGatewayTaskCreate? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.autoCreateTasks = autoCreateTasks
         self.name = name
@@ -6696,8 +6489,7 @@ extension IoTWirelessClientTypes {
             onboardingStatus: IoTWirelessClientTypes.OnboardStatus? = nil,
             onboardingStatusReason: Swift.String? = nil,
             sidewalkManufacturingSn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdateTime = lastUpdateTime
             self.onboardingStatus = onboardingStatus
             self.onboardingStatusReason = onboardingStatusReason
@@ -6715,8 +6507,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             sidewalk: IoTWirelessClientTypes.ImportedSidewalkDevice? = nil
-        )
-        {
+        ) {
             self.sidewalk = sidewalk
         }
     }
@@ -6731,8 +6522,7 @@ public struct ListDestinationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6747,8 +6537,7 @@ public struct ListDestinationsOutput: Swift.Sendable {
     public init(
         destinationList: [IoTWirelessClientTypes.Destinations]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationList = destinationList
         self.nextToken = nextToken
     }
@@ -6766,8 +6555,7 @@ public struct ListDeviceProfilesInput: Swift.Sendable {
         deviceProfileType: IoTWirelessClientTypes.DeviceProfileType? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceProfileType = deviceProfileType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6783,8 +6571,7 @@ public struct ListDeviceProfilesOutput: Swift.Sendable {
     public init(
         deviceProfileList: [IoTWirelessClientTypes.DeviceProfile]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceProfileList = deviceProfileList
         self.nextToken = nextToken
     }
@@ -6806,8 +6593,7 @@ public struct ListDevicesForWirelessDeviceImportTaskInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         status: IoTWirelessClientTypes.OnboardStatus? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6827,8 +6613,7 @@ public struct ListDevicesForWirelessDeviceImportTaskOutput: Swift.Sendable {
         destinationName: Swift.String? = nil,
         importedWirelessDeviceList: [IoTWirelessClientTypes.ImportedWirelessDevice]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationName = destinationName
         self.importedWirelessDeviceList = importedWirelessDeviceList
         self.nextToken = nextToken
@@ -6848,8 +6633,7 @@ public struct ListEventConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.EventNotificationResourceType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceType = resourceType
@@ -6865,8 +6649,7 @@ public struct ListEventConfigurationsOutput: Swift.Sendable {
     public init(
         eventConfigurationsList: [IoTWirelessClientTypes.EventConfigurationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventConfigurationsList = eventConfigurationsList
         self.nextToken = nextToken
     }
@@ -6881,8 +6664,7 @@ public struct ListFuotaTasksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6897,8 +6679,7 @@ public struct ListFuotaTasksOutput: Swift.Sendable {
     public init(
         fuotaTaskList: [IoTWirelessClientTypes.FuotaTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fuotaTaskList = fuotaTaskList
         self.nextToken = nextToken
     }
@@ -6913,8 +6694,7 @@ public struct ListMulticastGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6935,8 +6715,7 @@ extension IoTWirelessClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -6953,8 +6732,7 @@ public struct ListMulticastGroupsOutput: Swift.Sendable {
     public init(
         multicastGroupList: [IoTWirelessClientTypes.MulticastGroup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.multicastGroupList = multicastGroupList
         self.nextToken = nextToken
     }
@@ -6973,8 +6751,7 @@ public struct ListMulticastGroupsByFuotaTaskInput: Swift.Sendable {
         id: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6990,8 +6767,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -7006,8 +6782,7 @@ public struct ListMulticastGroupsByFuotaTaskOutput: Swift.Sendable {
     public init(
         multicastGroupList: [IoTWirelessClientTypes.MulticastGroupByFuotaTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.multicastGroupList = multicastGroupList
         self.nextToken = nextToken
     }
@@ -7022,8 +6797,7 @@ public struct ListNetworkAnalyzerConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7041,8 +6815,7 @@ extension IoTWirelessClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -7058,8 +6831,7 @@ public struct ListNetworkAnalyzerConfigurationsOutput: Swift.Sendable {
     public init(
         networkAnalyzerConfigurationList: [IoTWirelessClientTypes.NetworkAnalyzerConfigurations]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkAnalyzerConfigurationList = networkAnalyzerConfigurationList
         self.nextToken = nextToken
     }
@@ -7074,8 +6846,7 @@ public struct ListPartnerAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7090,8 +6861,7 @@ public struct ListPartnerAccountsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sidewalk: [IoTWirelessClientTypes.SidewalkAccountInfoWithFingerprint]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sidewalk = sidewalk
     }
@@ -7110,8 +6880,7 @@ public struct ListPositionConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceType = resourceType
@@ -7136,8 +6905,7 @@ extension IoTWirelessClientTypes {
             resourceIdentifier: Swift.String? = nil,
             resourceType: IoTWirelessClientTypes.PositionResourceType? = nil,
             solvers: IoTWirelessClientTypes.PositionSolverDetails? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -7156,8 +6924,7 @@ public struct ListPositionConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         positionConfigurationList: [IoTWirelessClientTypes.PositionConfigurationItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.positionConfigurationList = positionConfigurationList
     }
@@ -7179,8 +6946,7 @@ public struct ListQueuedMessagesInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7197,8 +6963,7 @@ public struct ListQueuedMessagesOutput: Swift.Sendable {
     public init(
         downlinkQueueMessagesList: [IoTWirelessClientTypes.DownlinkQueueMessage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.downlinkQueueMessagesList = downlinkQueueMessagesList
         self.nextToken = nextToken
     }
@@ -7213,8 +6978,7 @@ public struct ListServiceProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7235,8 +6999,7 @@ extension IoTWirelessClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -7253,8 +7016,7 @@ public struct ListServiceProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceProfileList: [IoTWirelessClientTypes.ServiceProfile]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceProfileList = serviceProfileList
     }
@@ -7267,8 +7029,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7279,8 +7040,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7294,8 +7054,7 @@ public struct ListWirelessDeviceImportTasksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7340,8 +7099,7 @@ extension IoTWirelessClientTypes {
             sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo? = nil,
             status: IoTWirelessClientTypes.ImportTaskStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.destinationName = destinationName
@@ -7366,8 +7124,7 @@ public struct ListWirelessDeviceImportTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         wirelessDeviceImportTaskList: [IoTWirelessClientTypes.WirelessDeviceImportTask]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.wirelessDeviceImportTaskList = wirelessDeviceImportTaskList
     }
@@ -7400,8 +7157,7 @@ public struct ListWirelessDevicesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceProfileId: Swift.String? = nil,
         wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType? = nil
-    )
-    {
+    ) {
         self.destinationName = destinationName
         self.deviceProfileId = deviceProfileId
         self.fuotaTaskId = fuotaTaskId
@@ -7422,8 +7178,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             devEui: Swift.String? = nil
-        )
-        {
+        ) {
             self.devEui = devEui
         }
     }
@@ -7453,8 +7208,7 @@ extension IoTWirelessClientTypes {
             sidewalkId: Swift.String? = nil,
             sidewalkManufacturingSn: Swift.String? = nil,
             status: IoTWirelessClientTypes.WirelessDeviceSidewalkStatus? = nil
-        )
-        {
+        ) {
             self.amazonId = amazonId
             self.deviceCertificates = deviceCertificates
             self.deviceProfileId = deviceProfileId
@@ -7504,8 +7258,7 @@ extension IoTWirelessClientTypes {
             name: Swift.String? = nil,
             sidewalk: IoTWirelessClientTypes.SidewalkListDevice? = nil,
             type: IoTWirelessClientTypes.WirelessDeviceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.destinationName = destinationName
             self.fuotaDeviceStatus = fuotaDeviceStatus
@@ -7530,8 +7283,7 @@ public struct ListWirelessDevicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         wirelessDeviceList: [IoTWirelessClientTypes.WirelessDeviceStatistics]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.wirelessDeviceList = wirelessDeviceList
     }
@@ -7546,8 +7298,7 @@ public struct ListWirelessGatewaysInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7577,8 +7328,7 @@ extension IoTWirelessClientTypes {
             lastUplinkReceivedAt: Swift.String? = nil,
             loRaWAN: IoTWirelessClientTypes.LoRaWANGateway? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -7598,8 +7348,7 @@ public struct ListWirelessGatewaysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         wirelessGatewayList: [IoTWirelessClientTypes.WirelessGatewayStatistics]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.wirelessGatewayList = wirelessGatewayList
     }
@@ -7643,8 +7392,7 @@ public struct ListWirelessGatewayTaskDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         taskDefinitionType: IoTWirelessClientTypes.WirelessGatewayTaskDefinitionType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.taskDefinitionType = taskDefinitionType
@@ -7663,8 +7411,7 @@ extension IoTWirelessClientTypes {
         public init(
             currentVersion: IoTWirelessClientTypes.LoRaWANGatewayVersion? = nil,
             updateVersion: IoTWirelessClientTypes.LoRaWANGatewayVersion? = nil
-        )
-        {
+        ) {
             self.currentVersion = currentVersion
             self.updateVersion = updateVersion
         }
@@ -7686,8 +7433,7 @@ extension IoTWirelessClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateGatewayTaskEntry? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.loRaWAN = loRaWAN
@@ -7704,8 +7450,7 @@ public struct ListWirelessGatewayTaskDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskDefinitions: [IoTWirelessClientTypes.UpdateWirelessGatewayTaskEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskDefinitions = taskDefinitions
     }
@@ -7725,8 +7470,7 @@ extension IoTWirelessClientTypes {
         public init(
             fec: IoTWirelessClientTypes.PositionConfigurationFec? = nil,
             status: IoTWirelessClientTypes.PositionConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.fec = fec
             self.status = status
         }
@@ -7742,8 +7486,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             semtechGnss: IoTWirelessClientTypes.SemtechGnssConfiguration? = nil
-        )
-        {
+        ) {
             self.semtechGnss = semtechGnss
         }
     }
@@ -7767,8 +7510,7 @@ public struct PutPositionConfigurationInput: Swift.Sendable {
         resourceIdentifier: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil,
         solvers: IoTWirelessClientTypes.PositionSolverConfigurations? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
@@ -7797,8 +7539,7 @@ public struct PutResourceLogLevelInput: Swift.Sendable {
         logLevel: IoTWirelessClientTypes.LogLevel? = nil,
         resourceIdentifier: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.logLevel = logLevel
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
@@ -7831,8 +7572,7 @@ public struct ResetResourceLogLevelInput: Swift.Sendable {
     public init(
         resourceIdentifier: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
     }
@@ -7852,8 +7592,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             fPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fPort = fPort
         }
     }
@@ -7868,8 +7607,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             loRaWAN: IoTWirelessClientTypes.LoRaWANMulticastMetadata? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
         }
     }
@@ -7890,8 +7628,7 @@ public struct SendDataToMulticastGroupInput: Swift.Sendable {
         id: Swift.String? = nil,
         payloadData: Swift.String? = nil,
         wirelessMetadata: IoTWirelessClientTypes.MulticastWirelessMetadata? = nil
-    )
-    {
+    ) {
         self.id = id
         self.payloadData = payloadData
         self.wirelessMetadata = wirelessMetadata
@@ -7904,8 +7641,7 @@ public struct SendDataToMulticastGroupOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -7961,8 +7697,7 @@ extension IoTWirelessClientTypes {
             ackModeRetryDurationSecs: Swift.Int? = nil,
             messageType: IoTWirelessClientTypes.MessageType? = nil,
             seq: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ackModeRetryDurationSecs = ackModeRetryDurationSecs
             self.messageType = messageType
             self.seq = seq
@@ -7982,8 +7717,7 @@ extension IoTWirelessClientTypes {
         public init(
             loRaWAN: IoTWirelessClientTypes.LoRaWANSendDataToDevice? = nil,
             sidewalk: IoTWirelessClientTypes.SidewalkSendDataToDevice? = nil
-        )
-        {
+        ) {
             self.loRaWAN = loRaWAN
             self.sidewalk = sidewalk
         }
@@ -8008,8 +7742,7 @@ public struct SendDataToWirelessDeviceInput: Swift.Sendable {
         payloadData: Swift.String? = nil,
         transmitMode: Swift.Int? = nil,
         wirelessMetadata: IoTWirelessClientTypes.WirelessMetadata? = nil
-    )
-    {
+    ) {
         self.id = id
         self.payloadData = payloadData
         self.transmitMode = transmitMode
@@ -8023,8 +7756,7 @@ public struct SendDataToWirelessDeviceOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -8042,8 +7774,7 @@ public struct StartBulkAssociateWirelessDeviceWithMulticastGroupInput: Swift.Sen
         id: Swift.String? = nil,
         queryString: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.queryString = queryString
         self.tags = tags
@@ -8068,8 +7799,7 @@ public struct StartBulkDisassociateWirelessDeviceFromMulticastGroupInput: Swift.
         id: Swift.String? = nil,
         queryString: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.queryString = queryString
         self.tags = tags
@@ -8090,8 +7820,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.startTime = startTime
         }
     }
@@ -8107,8 +7836,7 @@ public struct StartFuotaTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANStartFuotaTask? = nil
-    )
-    {
+    ) {
         self.id = id
         self.loRaWAN = loRaWAN
     }
@@ -8130,8 +7858,7 @@ public struct StartMulticastGroupSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANMulticastSession? = nil
-    )
-    {
+    ) {
         self.id = id
         self.loRaWAN = loRaWAN
     }
@@ -8151,8 +7878,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             sidewalkManufacturingSn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
         }
     }
@@ -8178,8 +7904,7 @@ public struct StartSingleWirelessDeviceImportTaskInput: Swift.Sendable {
         deviceName: Swift.String? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkSingleStartImportInfo? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.destinationName = destinationName
         self.deviceName = deviceName
@@ -8197,8 +7922,7 @@ public struct StartSingleWirelessDeviceImportTaskOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
@@ -8216,8 +7940,7 @@ extension IoTWirelessClientTypes {
         public init(
             deviceCreationFile: Swift.String? = nil,
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceCreationFile = deviceCreationFile
             self.role = role
         }
@@ -8241,8 +7964,7 @@ public struct StartWirelessDeviceImportTaskInput: Swift.Sendable {
         destinationName: Swift.String? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkStartImportInfo? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.destinationName = destinationName
         self.sidewalk = sidewalk
@@ -8259,17 +7981,16 @@ public struct StartWirelessDeviceImportTaskOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
 }
 
 /// The request was denied because the resource can't have any more tags.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Name of the resource that exceeds maximum number of tags allowed.
         public internal(set) var resourceName: Swift.String? = nil
@@ -8287,8 +8008,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -8305,8 +8025,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8324,8 +8043,7 @@ public struct TestWirelessDeviceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -8336,8 +8054,7 @@ public struct TestWirelessDeviceOutput: Swift.Sendable {
 
     public init(
         result: Swift.String? = nil
-    )
-    {
+    ) {
         self.result = result
     }
 }
@@ -8353,8 +8070,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8384,8 +8100,7 @@ public struct UpdateDestinationInput: Swift.Sendable {
         expressionType: IoTWirelessClientTypes.ExpressionType? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.expression = expression
         self.expressionType = expressionType
@@ -8417,8 +8132,7 @@ public struct UpdateEventConfigurationByResourceTypesInput: Swift.Sendable {
         join: IoTWirelessClientTypes.JoinResourceTypeEventConfiguration? = nil,
         messageDeliveryStatus: IoTWirelessClientTypes.MessageDeliveryStatusResourceTypeEventConfiguration? = nil,
         proximity: IoTWirelessClientTypes.ProximityResourceTypeEventConfiguration? = nil
-    )
-    {
+    ) {
         self.connectionStatus = connectionStatus
         self.deviceRegistrationState = deviceRegistrationState
         self.join = join
@@ -8466,8 +8180,7 @@ public struct UpdateFuotaTaskInput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask? = nil,
         name: Swift.String? = nil,
         redundancyPercent: Swift.Int? = nil
-    )
-    {
+    ) {
         self.description = description
         self.descriptor = descriptor
         self.firmwareUpdateImage = firmwareUpdateImage
@@ -8501,8 +8214,7 @@ public struct UpdateLogLevelsByResourceTypesInput: Swift.Sendable {
         fuotaTaskLogOptions: [IoTWirelessClientTypes.FuotaTaskLogOption]? = nil,
         wirelessDeviceLogOptions: [IoTWirelessClientTypes.WirelessDeviceLogOption]? = nil,
         wirelessGatewayLogOptions: [IoTWirelessClientTypes.WirelessGatewayLogOption]? = nil
-    )
-    {
+    ) {
         self.defaultLogLevel = defaultLogLevel
         self.fuotaTaskLogOptions = fuotaTaskLogOptions
         self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
@@ -8521,8 +8233,7 @@ public struct UpdateMetricConfigurationInput: Swift.Sendable {
 
     public init(
         summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration? = nil
-    )
-    {
+    ) {
         self.summaryMetric = summaryMetric
     }
 }
@@ -8548,8 +8259,7 @@ public struct UpdateMulticastGroupInput: Swift.Sendable {
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANMulticast? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.loRaWAN = loRaWAN
@@ -8593,8 +8303,7 @@ public struct UpdateNetworkAnalyzerConfigurationInput: Swift.Sendable {
         wirelessDevicesToRemove: [Swift.String]? = nil,
         wirelessGatewaysToAdd: [Swift.String]? = nil,
         wirelessGatewaysToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.configurationName = configurationName
         self.description = description
         self.multicastGroupsToAdd = multicastGroupsToAdd
@@ -8621,8 +8330,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             appServerPrivateKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.appServerPrivateKey = appServerPrivateKey
         }
     }
@@ -8648,8 +8356,7 @@ public struct UpdatePartnerAccountInput: Swift.Sendable {
         partnerAccountId: Swift.String? = nil,
         partnerType: IoTWirelessClientTypes.PartnerType? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkUpdateAccount? = nil
-    )
-    {
+    ) {
         self.partnerAccountId = partnerAccountId
         self.partnerType = partnerType
         self.sidewalk = sidewalk
@@ -8677,8 +8384,7 @@ public struct UpdatePositionInput: Swift.Sendable {
         position: [Swift.Float]? = nil,
         resourceIdentifier: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
-    )
-    {
+    ) {
         self.position = position
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
@@ -8720,8 +8426,7 @@ public struct UpdateResourceEventConfigurationInput: Swift.Sendable {
         messageDeliveryStatus: IoTWirelessClientTypes.MessageDeliveryStatusEventConfiguration? = nil,
         partnerType: IoTWirelessClientTypes.EventNotificationPartnerType? = nil,
         proximity: IoTWirelessClientTypes.ProximityEventConfiguration? = nil
-    )
-    {
+    ) {
         self.connectionStatus = connectionStatus
         self.deviceRegistrationState = deviceRegistrationState
         self.identifier = identifier
@@ -8752,8 +8457,7 @@ public struct UpdateResourcePositionInput: Swift.Sendable {
         geoJsonPayload: Foundation.Data? = nil,
         resourceIdentifier: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
-    )
-    {
+    ) {
         self.geoJsonPayload = geoJsonPayload
         self.resourceIdentifier = resourceIdentifier
         self.resourceType = resourceType
@@ -8774,8 +8478,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             fCntStart: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fCntStart = fCntStart
         }
     }
@@ -8790,8 +8493,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             fCntStart: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fCntStart = fCntStart
         }
     }
@@ -8809,8 +8511,7 @@ extension IoTWirelessClientTypes {
         public init(
             applications: [IoTWirelessClientTypes.ApplicationConfig]? = nil,
             positioning: IoTWirelessClientTypes.Positioning? = nil
-        )
-        {
+        ) {
             self.applications = applications
             self.positioning = positioning
         }
@@ -8838,8 +8539,7 @@ extension IoTWirelessClientTypes {
             deviceProfileId: Swift.String? = nil,
             fPorts: IoTWirelessClientTypes.UpdateFPorts? = nil,
             serviceProfileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.abpV1_0_x = abpV1_0_x
             self.abpV1_1 = abpV1_1
             self.deviceProfileId = deviceProfileId
@@ -8871,8 +8571,7 @@ public struct UpdateWirelessDeviceInput: Swift.Sendable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice? = nil,
         name: Swift.String? = nil,
         positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.destinationName = destinationName
         self.id = id
@@ -8896,8 +8595,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             deviceCreationFile: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceCreationFile = deviceCreationFile
         }
     }
@@ -8914,8 +8612,7 @@ public struct UpdateWirelessDeviceImportTaskInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkUpdateImportInfo? = nil
-    )
-    {
+    ) {
         self.id = id
         self.sidewalk = sidewalk
     }
@@ -8948,8 +8645,7 @@ public struct UpdateWirelessGatewayInput: Swift.Sendable {
         maxEirp: Swift.Float? = nil,
         name: Swift.String? = nil,
         netIdFilters: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.joinEuiFilters = joinEuiFilters

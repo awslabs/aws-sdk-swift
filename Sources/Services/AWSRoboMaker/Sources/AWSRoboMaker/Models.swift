@@ -60,9 +60,9 @@ extension RoboMakerClientTypes {
 }
 
 /// AWS RoboMaker experienced a service issue. Try your call again.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -77,16 +77,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A parameter specified in a request is not valid, is unsupported, or cannot be used. The returned message provides an explanation of the error value.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -101,16 +100,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// AWS RoboMaker is temporarily unable to process the request. Try your call again.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -125,8 +123,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -138,8 +135,7 @@ public struct BatchDeleteWorldsInput: Swift.Sendable {
 
     public init(
         worlds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.worlds = worlds
     }
 }
@@ -150,16 +146,15 @@ public struct BatchDeleteWorldsOutput: Swift.Sendable {
 
     public init(
         unprocessedWorlds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.unprocessedWorlds = unprocessedWorlds
     }
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -174,8 +169,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -187,8 +181,7 @@ public struct BatchDescribeSimulationJobInput: Swift.Sendable {
 
     public init(
         jobs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
     }
 }
@@ -237,8 +230,7 @@ extension RoboMakerClientTypes {
             computeType: RoboMakerClientTypes.ComputeType? = nil,
             gpuUnitLimit: Swift.Int? = nil,
             simulationUnitLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.computeType = computeType
             self.gpuUnitLimit = gpuUnitLimit
             self.simulationUnitLimit = simulationUnitLimit
@@ -258,8 +250,7 @@ extension RoboMakerClientTypes {
         public init(
             etag: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.etag = etag
             self.s3Key = s3Key
         }
@@ -319,8 +310,7 @@ extension RoboMakerClientTypes {
             s3Bucket: Swift.String? = nil,
             s3Keys: [RoboMakerClientTypes.S3KeyOutput]? = nil,
             type: RoboMakerClientTypes.DataSourceType? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.name = name
             self.s3Bucket = s3Bucket
@@ -485,8 +475,7 @@ extension RoboMakerClientTypes {
 
         public init(
             recordAllRosTopics: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.recordAllRosTopics = recordAllRosTopics
         }
     }
@@ -507,8 +496,7 @@ extension RoboMakerClientTypes {
             networkInterfaceId: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             publicIpAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInterfaceId = networkInterfaceId
             self.privateIpAddress = privateIpAddress
             self.publicIpAddress = publicIpAddress
@@ -528,8 +516,7 @@ extension RoboMakerClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Prefix = s3Prefix
         }
@@ -553,8 +540,7 @@ extension RoboMakerClientTypes {
             applicationPort: Swift.Int? = nil,
             enableOnPublicIp: Swift.Bool = false,
             jobPort: Swift.Int? = nil
-        )
-        {
+        ) {
             self.applicationPort = applicationPort
             self.enableOnPublicIp = enableOnPublicIp
             self.jobPort = jobPort
@@ -571,8 +557,7 @@ extension RoboMakerClientTypes {
 
         public init(
             portMappings: [RoboMakerClientTypes.PortMapping]? = nil
-        )
-        {
+        ) {
             self.portMappings = portMappings
         }
     }
@@ -602,8 +587,7 @@ extension RoboMakerClientTypes {
             packageName: Swift.String? = nil,
             portForwardingConfig: RoboMakerClientTypes.PortForwardingConfig? = nil,
             streamUI: Swift.Bool = false
-        )
-        {
+        ) {
             self.command = command
             self.environmentVariables = environmentVariables
             self.launchFile = launchFile
@@ -666,8 +650,7 @@ extension RoboMakerClientTypes {
             name: Swift.String? = nil,
             streamOutputToCloudWatch: Swift.Bool? = nil,
             streamUI: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.command = command
             self.exitBehavior = exitBehavior
             self.name = name
@@ -724,8 +707,7 @@ extension RoboMakerClientTypes {
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             uploadBehavior: RoboMakerClientTypes.UploadBehavior? = nil
-        )
-        {
+        ) {
             self.name = name
             self.path = path
             self.uploadBehavior = uploadBehavior
@@ -764,8 +746,7 @@ extension RoboMakerClientTypes {
             uploadConfigurations: [RoboMakerClientTypes.UploadConfiguration]? = nil,
             useDefaultTools: Swift.Bool? = nil,
             useDefaultUploadConfigurations: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
@@ -786,8 +767,7 @@ extension RoboMakerClientTypes {
 
         public init(
             world: Swift.String? = nil
-        )
-        {
+        ) {
             self.world = world
         }
     }
@@ -827,8 +807,7 @@ extension RoboMakerClientTypes {
             useDefaultTools: Swift.Bool? = nil,
             useDefaultUploadConfigurations: Swift.Bool? = nil,
             worldConfigs: [RoboMakerClientTypes.WorldConfig]? = nil
-        )
-        {
+        ) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
@@ -912,8 +891,7 @@ extension RoboMakerClientTypes {
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -991,8 +969,7 @@ extension RoboMakerClientTypes {
             status: RoboMakerClientTypes.SimulationJobStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             vpcConfig: RoboMakerClientTypes.VPCConfigResponse? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clientRequestToken = clientRequestToken
             self.compute = compute
@@ -1027,8 +1004,7 @@ public struct BatchDescribeSimulationJobOutput: Swift.Sendable {
     public init(
         jobs: [RoboMakerClientTypes.SimulationJob]? = nil,
         unprocessedJobs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.unprocessedJobs = unprocessedJobs
     }
@@ -1046,8 +1022,7 @@ extension RoboMakerClientTypes {
         public init(
             maxConcurrency: Swift.Int? = nil,
             timeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrency = maxConcurrency
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -1062,8 +1037,7 @@ public struct CancelDeploymentJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -1081,8 +1055,7 @@ public struct CancelSimulationJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -1099,8 +1072,7 @@ public struct CancelSimulationJobBatchInput: Swift.Sendable {
 
     public init(
         batch: Swift.String? = nil
-    )
-    {
+    ) {
         self.batch = batch
     }
 }
@@ -1117,8 +1089,7 @@ public struct CancelWorldExportJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -1135,8 +1106,7 @@ public struct CancelWorldGenerationJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -1161,8 +1131,7 @@ extension RoboMakerClientTypes {
             computeType: RoboMakerClientTypes.ComputeType? = nil,
             gpuUnitLimit: Swift.Int? = nil,
             simulationUnitLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.computeType = computeType
             self.gpuUnitLimit = gpuUnitLimit
             self.simulationUnitLimit = simulationUnitLimit
@@ -1171,9 +1140,9 @@ extension RoboMakerClientTypes {
 }
 
 /// The failure percentage threshold percentage was met.
-public struct ConcurrentDeploymentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentDeploymentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1188,16 +1157,15 @@ public struct ConcurrentDeploymentException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request uses the same client token as a previous, but non-identical request. Do not reuse a client token with different requests, unless the requests are identical.
-public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1212,16 +1180,15 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1236,8 +1203,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1265,8 +1231,7 @@ extension RoboMakerClientTypes {
             packageName: Swift.String? = nil,
             postLaunchFile: Swift.String? = nil,
             preLaunchFile: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentVariables = environmentVariables
             self.launchFile = launchFile
             self.packageName = packageName
@@ -1294,8 +1259,7 @@ extension RoboMakerClientTypes {
             application: Swift.String? = nil,
             applicationVersion: Swift.String? = nil,
             launchConfig: RoboMakerClientTypes.DeploymentLaunchConfig? = nil
-        )
-        {
+        ) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
@@ -1320,8 +1284,7 @@ extension RoboMakerClientTypes {
             bucket: Swift.String? = nil,
             etag: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.etag = etag
             self.key = key
@@ -1347,8 +1310,7 @@ extension RoboMakerClientTypes {
             downloadConditionFile: RoboMakerClientTypes.S3Object? = nil,
             failureThresholdPercentage: Swift.Int? = nil,
             robotDeploymentTimeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.concurrentDeploymentPercentage = concurrentDeploymentPercentage
             self.downloadConditionFile = downloadConditionFile
             self.failureThresholdPercentage = failureThresholdPercentage
@@ -1379,8 +1341,7 @@ public struct CreateDeploymentJobInput: Swift.Sendable {
         deploymentConfig: RoboMakerClientTypes.DeploymentConfig? = nil,
         fleet: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.deploymentApplicationConfigs = deploymentApplicationConfigs
         self.deploymentConfig = deploymentConfig
@@ -1556,8 +1517,7 @@ public struct CreateDeploymentJobOutput: Swift.Sendable {
         fleet: Swift.String? = nil,
         status: RoboMakerClientTypes.DeploymentStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -1581,8 +1541,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.tags = tags
     }
@@ -1604,8 +1563,7 @@ public struct CreateFleetOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.name = name
@@ -1614,9 +1572,9 @@ public struct CreateFleetOutput: Swift.Sendable {
 }
 
 /// The specified resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1631,8 +1589,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1656,8 +1613,7 @@ public struct CreateRobotInput: Swift.Sendable {
         greengrassGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.architecture = architecture
         self.greengrassGroupId = greengrassGroupId
         self.name = name
@@ -1687,8 +1643,7 @@ public struct CreateRobotOutput: Swift.Sendable {
         greengrassGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.architecture = architecture
         self.arn = arn
         self.createdAt = createdAt
@@ -1707,8 +1662,7 @@ extension RoboMakerClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -1793,8 +1747,7 @@ extension RoboMakerClientTypes {
         public init(
             name: RoboMakerClientTypes.RobotSoftwareSuiteType? = nil,
             version: RoboMakerClientTypes.RobotSoftwareSuiteVersionType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -1816,8 +1769,7 @@ extension RoboMakerClientTypes {
             architecture: RoboMakerClientTypes.Architecture? = nil,
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -1845,8 +1797,7 @@ public struct CreateRobotApplicationInput: Swift.Sendable {
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.SourceConfig]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.environment = environment
         self.name = name
         self.robotSoftwareSuite = robotSoftwareSuite
@@ -1873,8 +1824,7 @@ extension RoboMakerClientTypes {
             etag: Swift.String? = nil,
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.etag = etag
             self.s3Bucket = s3Bucket
@@ -1913,8 +1863,7 @@ public struct CreateRobotApplicationOutput: Swift.Sendable {
         sources: [RoboMakerClientTypes.Source]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.lastUpdatedAt = lastUpdatedAt
@@ -1943,8 +1892,7 @@ public struct CreateRobotApplicationVersionInput: Swift.Sendable {
         currentRevisionId: Swift.String? = nil,
         imageDigest: Swift.String? = nil,
         s3Etags: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.application = application
         self.currentRevisionId = currentRevisionId
         self.imageDigest = imageDigest
@@ -1979,8 +1927,7 @@ public struct CreateRobotApplicationVersionOutput: Swift.Sendable {
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.Source]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.lastUpdatedAt = lastUpdatedAt
@@ -2030,8 +1977,7 @@ extension RoboMakerClientTypes {
         public init(
             name: RoboMakerClientTypes.RenderingEngineType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -2082,8 +2028,7 @@ extension RoboMakerClientTypes {
         public init(
             name: RoboMakerClientTypes.SimulationSoftwareSuiteType? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -2117,8 +2062,7 @@ public struct CreateSimulationApplicationInput: Swift.Sendable {
         simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.SourceConfig]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.environment = environment
         self.name = name
         self.renderingEngine = renderingEngine
@@ -2165,8 +2109,7 @@ public struct CreateSimulationApplicationOutput: Swift.Sendable {
         sources: [RoboMakerClientTypes.Source]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.lastUpdatedAt = lastUpdatedAt
@@ -2197,8 +2140,7 @@ public struct CreateSimulationApplicationVersionInput: Swift.Sendable {
         currentRevisionId: Swift.String? = nil,
         imageDigest: Swift.String? = nil,
         s3Etags: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.application = application
         self.currentRevisionId = currentRevisionId
         self.imageDigest = imageDigest
@@ -2239,8 +2181,7 @@ public struct CreateSimulationApplicationVersionOutput: Swift.Sendable {
         simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.Source]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.lastUpdatedAt = lastUpdatedAt
@@ -2255,9 +2196,9 @@ public struct CreateSimulationApplicationVersionOutput: Swift.Sendable {
 }
 
 /// The request has failed due to a temporary failure of the server.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2272,8 +2213,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2302,8 +2242,7 @@ extension RoboMakerClientTypes {
             s3Bucket: Swift.String? = nil,
             s3Keys: [Swift.String]? = nil,
             type: RoboMakerClientTypes.DataSourceType? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.name = name
             self.s3Bucket = s3Bucket
@@ -2329,8 +2268,7 @@ extension RoboMakerClientTypes {
             assignPublicIp: Swift.Bool = false,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -2379,8 +2317,7 @@ public struct CreateSimulationJobInput: Swift.Sendable {
         simulationApplications: [RoboMakerClientTypes.SimulationApplicationConfig]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: RoboMakerClientTypes.VPCConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.compute = compute
         self.dataSources = dataSources
@@ -2453,8 +2390,7 @@ public struct CreateSimulationJobOutput: Swift.Sendable {
         status: RoboMakerClientTypes.SimulationJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: RoboMakerClientTypes.VPCConfigResponse? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.compute = compute
@@ -2519,8 +2455,7 @@ extension RoboMakerClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             useDefaultApplications: Swift.Bool? = nil,
             vpcConfig: RoboMakerClientTypes.VPCConfig? = nil
-        )
-        {
+        ) {
             self.compute = compute
             self.dataSources = dataSources
             self.failureBehavior = failureBehavior
@@ -2558,8 +2493,7 @@ public struct CreateWorldExportJobInput: Swift.Sendable {
         outputLocation: RoboMakerClientTypes.OutputLocation? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         worlds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.iamRole = iamRole
         self.outputLocation = outputLocation
@@ -2677,8 +2611,7 @@ public struct CreateWorldExportJobOutput: Swift.Sendable {
         outputLocation: RoboMakerClientTypes.OutputLocation? = nil,
         status: RoboMakerClientTypes.WorldExportJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.createdAt = createdAt
@@ -2702,8 +2635,7 @@ extension RoboMakerClientTypes {
         public init(
             floorplanCount: Swift.Int? = nil,
             interiorCountPerFloorplan: Swift.Int? = nil
-        )
-        {
+        ) {
             self.floorplanCount = floorplanCount
             self.interiorCountPerFloorplan = interiorCountPerFloorplan
         }
@@ -2730,8 +2662,7 @@ public struct CreateWorldGenerationJobInput: Swift.Sendable {
         template: Swift.String? = nil,
         worldCount: RoboMakerClientTypes.WorldCount? = nil,
         worldTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.tags = tags
         self.template = template
@@ -2855,8 +2786,7 @@ public struct CreateWorldGenerationJobOutput: Swift.Sendable {
         template: Swift.String? = nil,
         worldCount: RoboMakerClientTypes.WorldCount? = nil,
         worldTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.createdAt = createdAt
@@ -2883,8 +2813,7 @@ extension RoboMakerClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
         }
@@ -2909,8 +2838,7 @@ public struct CreateWorldTemplateInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         templateBody: Swift.String? = nil,
         templateLocation: RoboMakerClientTypes.TemplateLocation? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.tags = tags
@@ -2937,8 +2865,7 @@ public struct CreateWorldTemplateOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.createdAt = createdAt
@@ -2955,8 +2882,7 @@ public struct DeleteFleetInput: Swift.Sendable {
 
     public init(
         fleet: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
     }
 }
@@ -2975,8 +2901,7 @@ public struct DeleteRobotInput: Swift.Sendable {
 
     public init(
         robot: Swift.String? = nil
-    )
-    {
+    ) {
         self.robot = robot
     }
 }
@@ -2997,8 +2922,7 @@ public struct DeleteRobotApplicationInput: Swift.Sendable {
     public init(
         application: Swift.String? = nil,
         applicationVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.applicationVersion = applicationVersion
     }
@@ -3019,8 +2943,7 @@ public struct DeleteSimulationApplicationInput: Swift.Sendable {
     public init(
         application: Swift.String? = nil,
         applicationVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.applicationVersion = applicationVersion
     }
@@ -3038,8 +2961,7 @@ public struct DeleteWorldTemplateInput: Swift.Sendable {
 
     public init(
         template: Swift.String? = nil
-    )
-    {
+    ) {
         self.template = template
     }
 }
@@ -3079,8 +3001,7 @@ extension RoboMakerClientTypes {
             failureReason: Swift.String? = nil,
             fleet: Swift.String? = nil,
             status: RoboMakerClientTypes.DeploymentStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -3105,8 +3026,7 @@ public struct DeregisterRobotInput: Swift.Sendable {
     public init(
         fleet: Swift.String? = nil,
         robot: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
         self.robot = robot
     }
@@ -3122,8 +3042,7 @@ public struct DeregisterRobotOutput: Swift.Sendable {
     public init(
         fleet: Swift.String? = nil,
         robot: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
         self.robot = robot
     }
@@ -3137,8 +3056,7 @@ public struct DescribeDeploymentJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -3205,8 +3123,7 @@ extension RoboMakerClientTypes {
             estimatedTimeRemainingSeconds: Swift.Int? = nil,
             percentDone: Swift.Float? = nil,
             targetResource: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentProgress = currentProgress
             self.estimatedTimeRemainingSeconds = estimatedTimeRemainingSeconds
             self.percentDone = percentDone
@@ -3286,8 +3203,7 @@ extension RoboMakerClientTypes {
             failureReason: Swift.String? = nil,
             progressDetail: RoboMakerClientTypes.ProgressDetail? = nil,
             status: RoboMakerClientTypes.RobotStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.deploymentFinishTime = deploymentFinishTime
             self.deploymentStartTime = deploymentStartTime
@@ -3333,8 +3249,7 @@ public struct DescribeDeploymentJobOutput: Swift.Sendable {
         robotDeploymentSummary: [RoboMakerClientTypes.RobotDeployment]? = nil,
         status: RoboMakerClientTypes.DeploymentStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -3356,8 +3271,7 @@ public struct DescribeFleetInput: Swift.Sendable {
 
     public init(
         fleet: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
     }
 }
@@ -3395,8 +3309,7 @@ extension RoboMakerClientTypes {
             lastDeploymentTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: RoboMakerClientTypes.RobotStatus? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
@@ -3438,8 +3351,7 @@ public struct DescribeFleetOutput: Swift.Sendable {
         name: Swift.String? = nil,
         robots: [RoboMakerClientTypes.Robot]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.lastDeploymentJob = lastDeploymentJob
@@ -3459,8 +3371,7 @@ public struct DescribeRobotInput: Swift.Sendable {
 
     public init(
         robot: Swift.String? = nil
-    )
-    {
+    ) {
         self.robot = robot
     }
 }
@@ -3499,8 +3410,7 @@ public struct DescribeRobotOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: RoboMakerClientTypes.RobotStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.architecture = architecture
         self.arn = arn
         self.createdAt = createdAt
@@ -3524,8 +3434,7 @@ public struct DescribeRobotApplicationInput: Swift.Sendable {
     public init(
         application: Swift.String? = nil,
         applicationVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.applicationVersion = applicationVersion
     }
@@ -3564,8 +3473,7 @@ public struct DescribeRobotApplicationOutput: Swift.Sendable {
         sources: [RoboMakerClientTypes.Source]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.imageDigest = imageDigest
@@ -3589,8 +3497,7 @@ public struct DescribeSimulationApplicationInput: Swift.Sendable {
     public init(
         application: Swift.String? = nil,
         applicationVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.applicationVersion = applicationVersion
     }
@@ -3635,8 +3542,7 @@ public struct DescribeSimulationApplicationOutput: Swift.Sendable {
         sources: [RoboMakerClientTypes.Source]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.imageDigest = imageDigest
@@ -3659,8 +3565,7 @@ public struct DescribeSimulationJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -3731,8 +3636,7 @@ public struct DescribeSimulationJobOutput: Swift.Sendable {
         status: RoboMakerClientTypes.SimulationJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: RoboMakerClientTypes.VPCConfigResponse? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.compute = compute
@@ -3764,8 +3668,7 @@ public struct DescribeSimulationJobBatchInput: Swift.Sendable {
 
     public init(
         batch: Swift.String? = nil
-    )
-    {
+    ) {
         self.batch = batch
     }
 }
@@ -3800,8 +3703,7 @@ extension RoboMakerClientTypes {
             robotApplicationNames: [Swift.String]? = nil,
             simulationApplicationNames: [Swift.String]? = nil,
             status: RoboMakerClientTypes.SimulationJobStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.computeType = computeType
             self.dataSourceNames = dataSourceNames
@@ -3832,8 +3734,7 @@ extension RoboMakerClientTypes {
             failureCode: RoboMakerClientTypes.SimulationJobErrorCode? = nil,
             failureReason: Swift.String? = nil,
             request: RoboMakerClientTypes.SimulationJobRequest? = nil
-        )
-        {
+        ) {
             self.failedAt = failedAt
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -3957,8 +3858,7 @@ public struct DescribeSimulationJobBatchOutput: Swift.Sendable {
         pendingRequests: [RoboMakerClientTypes.SimulationJobRequest]? = nil,
         status: RoboMakerClientTypes.SimulationJobBatchStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.batchPolicy = batchPolicy
         self.clientRequestToken = clientRequestToken
@@ -3981,8 +3881,7 @@ public struct DescribeWorldInput: Swift.Sendable {
 
     public init(
         world: Swift.String? = nil
-    )
-    {
+    ) {
         self.world = world
     }
 }
@@ -4008,8 +3907,7 @@ public struct DescribeWorldOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         template: Swift.String? = nil,
         worldDescriptionBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.generationJob = generationJob
@@ -4026,8 +3924,7 @@ public struct DescribeWorldExportJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -4065,8 +3962,7 @@ public struct DescribeWorldExportJobOutput: Swift.Sendable {
         status: RoboMakerClientTypes.WorldExportJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         worlds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.createdAt = createdAt
@@ -4087,8 +3983,7 @@ public struct DescribeWorldGenerationJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -4108,8 +4003,7 @@ extension RoboMakerClientTypes {
             failureCode: RoboMakerClientTypes.WorldGenerationJobErrorCode? = nil,
             failureCount: Swift.Int = 0,
             sampleFailureReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureCount = failureCount
             self.sampleFailureReason = sampleFailureReason
@@ -4129,8 +4023,7 @@ extension RoboMakerClientTypes {
         public init(
             failures: [RoboMakerClientTypes.WorldFailure]? = nil,
             totalFailureCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.failures = failures
             self.totalFailureCount = totalFailureCount
         }
@@ -4152,8 +4045,7 @@ extension RoboMakerClientTypes {
             failureSummary: RoboMakerClientTypes.FailureSummary? = nil,
             finishedCount: Swift.Int = 0,
             succeededWorlds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.failureSummary = failureSummary
             self.finishedCount = finishedCount
             self.succeededWorlds = succeededWorlds
@@ -4197,8 +4089,7 @@ public struct DescribeWorldGenerationJobOutput: Swift.Sendable {
         template: Swift.String? = nil,
         worldCount: RoboMakerClientTypes.WorldCount? = nil,
         worldTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.createdAt = createdAt
@@ -4220,8 +4111,7 @@ public struct DescribeWorldTemplateInput: Swift.Sendable {
 
     public init(
         template: Swift.String? = nil
-    )
-    {
+    ) {
         self.template = template
     }
 }
@@ -4250,8 +4140,7 @@ public struct DescribeWorldTemplateOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientRequestToken = clientRequestToken
         self.createdAt = createdAt
@@ -4274,8 +4163,7 @@ extension RoboMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -4306,8 +4194,7 @@ extension RoboMakerClientTypes {
             lastDeploymentStatus: RoboMakerClientTypes.DeploymentStatus? = nil,
             lastDeploymentTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastDeploymentJob = lastDeploymentJob
@@ -4327,8 +4214,7 @@ public struct GetWorldTemplateBodyInput: Swift.Sendable {
     public init(
         generationJob: Swift.String? = nil,
         template: Swift.String? = nil
-    )
-    {
+    ) {
         self.generationJob = generationJob
         self.template = template
     }
@@ -4340,8 +4226,7 @@ public struct GetWorldTemplateBodyOutput: Swift.Sendable {
 
     public init(
         templateBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateBody = templateBody
     }
 }
@@ -4359,8 +4244,7 @@ public struct ListDeploymentJobsInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4377,8 +4261,7 @@ public struct ListDeploymentJobsOutput: Swift.Sendable {
     public init(
         deploymentJobs: [RoboMakerClientTypes.DeploymentJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentJobs = deploymentJobs
         self.nextToken = nextToken
     }
@@ -4397,8 +4280,7 @@ public struct ListFleetsInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4415,8 +4297,7 @@ public struct ListFleetsOutput: Swift.Sendable {
     public init(
         fleetDetails: [RoboMakerClientTypes.Fleet]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetDetails = fleetDetails
         self.nextToken = nextToken
     }
@@ -4437,8 +4318,7 @@ public struct ListRobotApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         versionQualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4467,8 +4347,7 @@ extension RoboMakerClientTypes {
             name: Swift.String? = nil,
             robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -4487,8 +4366,7 @@ public struct ListRobotApplicationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         robotApplicationSummaries: [RoboMakerClientTypes.RobotApplicationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.robotApplicationSummaries = robotApplicationSummaries
     }
@@ -4507,8 +4385,7 @@ public struct ListRobotsInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4525,8 +4402,7 @@ public struct ListRobotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         robots: [RoboMakerClientTypes.Robot]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.robots = robots
     }
@@ -4547,8 +4423,7 @@ public struct ListSimulationApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         versionQualifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4580,8 +4455,7 @@ extension RoboMakerClientTypes {
             robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
             simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -4601,8 +4475,7 @@ public struct ListSimulationApplicationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         simulationApplicationSummaries: [RoboMakerClientTypes.SimulationApplicationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.simulationApplicationSummaries = simulationApplicationSummaries
     }
@@ -4620,8 +4493,7 @@ public struct ListSimulationJobBatchesInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4655,8 +4527,7 @@ extension RoboMakerClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             pendingRequestCount: Swift.Int = 0,
             status: RoboMakerClientTypes.SimulationJobBatchStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdRequestCount = createdRequestCount
@@ -4677,8 +4548,7 @@ public struct ListSimulationJobBatchesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         simulationJobBatchSummaries: [RoboMakerClientTypes.SimulationJobBatchSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.simulationJobBatchSummaries = simulationJobBatchSummaries
     }
@@ -4696,8 +4566,7 @@ public struct ListSimulationJobsInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4714,8 +4583,7 @@ public struct ListSimulationJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         simulationJobSummaries: [RoboMakerClientTypes.SimulationJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.simulationJobSummaries = simulationJobSummaries
     }
@@ -4728,8 +4596,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4740,8 +4607,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4758,8 +4624,7 @@ public struct ListWorldExportJobsInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4787,8 +4652,7 @@ extension RoboMakerClientTypes {
             outputLocation: RoboMakerClientTypes.OutputLocation? = nil,
             status: RoboMakerClientTypes.WorldExportJobStatus? = nil,
             worlds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.outputLocation = outputLocation
@@ -4808,8 +4672,7 @@ public struct ListWorldExportJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         worldExportJobSummaries: [RoboMakerClientTypes.WorldExportJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.worldExportJobSummaries = worldExportJobSummaries
     }
@@ -4827,8 +4690,7 @@ public struct ListWorldGenerationJobsInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4862,8 +4724,7 @@ extension RoboMakerClientTypes {
             succeededWorldCount: Swift.Int = 0,
             template: Swift.String? = nil,
             worldCount: RoboMakerClientTypes.WorldCount? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.failedWorldCount = failedWorldCount
@@ -4885,8 +4746,7 @@ public struct ListWorldGenerationJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         worldGenerationJobSummaries: [RoboMakerClientTypes.WorldGenerationJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.worldGenerationJobSummaries = worldGenerationJobSummaries
     }
@@ -4904,8 +4764,7 @@ public struct ListWorldsInput: Swift.Sendable {
         filters: [RoboMakerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4930,8 +4789,7 @@ extension RoboMakerClientTypes {
             createdAt: Foundation.Date? = nil,
             generationJob: Swift.String? = nil,
             template: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.generationJob = generationJob
@@ -4949,8 +4807,7 @@ public struct ListWorldsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         worldSummaries: [RoboMakerClientTypes.WorldSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.worldSummaries = worldSummaries
     }
@@ -4965,8 +4822,7 @@ public struct ListWorldTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4993,8 +4849,7 @@ extension RoboMakerClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -5013,8 +4868,7 @@ public struct ListWorldTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templateSummaries: [RoboMakerClientTypes.TemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templateSummaries = templateSummaries
     }
@@ -5032,8 +4886,7 @@ public struct RegisterRobotInput: Swift.Sendable {
     public init(
         fleet: Swift.String? = nil,
         robot: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
         self.robot = robot
     }
@@ -5049,8 +4902,7 @@ public struct RegisterRobotOutput: Swift.Sendable {
     public init(
         fleet: Swift.String? = nil,
         robot: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleet = fleet
         self.robot = robot
     }
@@ -5063,8 +4915,7 @@ public struct RestartSimulationJobInput: Swift.Sendable {
 
     public init(
         job: Swift.String? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -5090,8 +4941,7 @@ public struct StartSimulationJobBatchInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         createSimulationJobRequests: [RoboMakerClientTypes.SimulationJobRequest]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.batchPolicy = batchPolicy
         self.clientRequestToken = clientRequestToken
         self.createSimulationJobRequests = createSimulationJobRequests
@@ -5135,8 +4985,7 @@ public struct StartSimulationJobBatchOutput: Swift.Sendable {
         pendingRequests: [RoboMakerClientTypes.SimulationJobRequest]? = nil,
         status: RoboMakerClientTypes.SimulationJobBatchStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.batchPolicy = batchPolicy
         self.clientRequestToken = clientRequestToken
@@ -5163,8 +5012,7 @@ public struct SyncDeploymentJobInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         fleet: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.fleet = fleet
     }
@@ -5198,8 +5046,7 @@ public struct SyncDeploymentJobOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         fleet: Swift.String? = nil,
         status: RoboMakerClientTypes.DeploymentStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.deploymentApplicationConfigs = deploymentApplicationConfigs
@@ -5222,8 +5069,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5245,8 +5091,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5277,8 +5122,7 @@ public struct UpdateRobotApplicationInput: Swift.Sendable {
         environment: RoboMakerClientTypes.Environment? = nil,
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.SourceConfig]? = nil
-    )
-    {
+    ) {
         self.application = application
         self.currentRevisionId = currentRevisionId
         self.environment = environment
@@ -5314,8 +5158,7 @@ public struct UpdateRobotApplicationOutput: Swift.Sendable {
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.Source]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.lastUpdatedAt = lastUpdatedAt
@@ -5354,8 +5197,7 @@ public struct UpdateSimulationApplicationInput: Swift.Sendable {
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
         simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.SourceConfig]? = nil
-    )
-    {
+    ) {
         self.application = application
         self.currentRevisionId = currentRevisionId
         self.environment = environment
@@ -5399,8 +5241,7 @@ public struct UpdateSimulationApplicationOutput: Swift.Sendable {
         simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite? = nil,
         sources: [RoboMakerClientTypes.Source]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environment = environment
         self.lastUpdatedAt = lastUpdatedAt
@@ -5430,8 +5271,7 @@ public struct UpdateWorldTemplateInput: Swift.Sendable {
         template: Swift.String? = nil,
         templateBody: Swift.String? = nil,
         templateLocation: RoboMakerClientTypes.TemplateLocation? = nil
-    )
-    {
+    ) {
         self.name = name
         self.template = template
         self.templateBody = templateBody
@@ -5454,8 +5294,7 @@ public struct UpdateWorldTemplateOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.lastUpdatedAt = lastUpdatedAt

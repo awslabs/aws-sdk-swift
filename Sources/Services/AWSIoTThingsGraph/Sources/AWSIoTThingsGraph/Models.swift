@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 ///
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,8 +114,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +133,7 @@ public struct AssociateEntityToThingInput: Swift.Sendable {
         entityId: Swift.String? = nil,
         namespaceVersion: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.namespaceVersion = namespaceVersion
         self.thingName = thingName
@@ -151,9 +146,9 @@ public struct AssociateEntityToThingOutput: Swift.Sendable {
 }
 
 ///
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -168,16 +163,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -192,8 +186,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -238,8 +231,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             language: IoTThingsGraphClientTypes.DefinitionLanguage? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.language = language
             self.text = text
         }
@@ -256,8 +248,7 @@ public struct CreateFlowTemplateInput: Swift.Sendable {
     public init(
         compatibleNamespaceVersion: Swift.Int? = nil,
         definition: IoTThingsGraphClientTypes.DefinitionDocument? = nil
-    )
-    {
+    ) {
         self.compatibleNamespaceVersion = compatibleNamespaceVersion
         self.definition = definition
     }
@@ -281,8 +272,7 @@ extension IoTThingsGraphClientTypes {
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             revisionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -297,8 +287,7 @@ public struct CreateFlowTemplateOutput: Swift.Sendable {
 
     public init(
         summary: IoTThingsGraphClientTypes.FlowTemplateSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -315,8 +304,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             cloudMetricEnabled: Swift.Bool = false,
             metricRuleRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudMetricEnabled = cloudMetricEnabled
             self.metricRuleRoleArn = metricRuleRoleArn
         }
@@ -337,8 +325,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -400,8 +387,7 @@ public struct CreateSystemInstanceInput: Swift.Sendable {
         s3BucketName: Swift.String? = nil,
         tags: [IoTThingsGraphClientTypes.Tag]? = nil,
         target: IoTThingsGraphClientTypes.DeploymentTarget? = nil
-    )
-    {
+    ) {
         self.definition = definition
         self.flowActionsRoleArn = flowActionsRoleArn
         self.greengrassGroupName = greengrassGroupName
@@ -492,8 +478,7 @@ extension IoTThingsGraphClientTypes {
             status: IoTThingsGraphClientTypes.SystemInstanceDeploymentStatus? = nil,
             target: IoTThingsGraphClientTypes.DeploymentTarget? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.greengrassGroupId = greengrassGroupId
@@ -513,8 +498,7 @@ public struct CreateSystemInstanceOutput: Swift.Sendable {
 
     public init(
         summary: IoTThingsGraphClientTypes.SystemInstanceSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -529,8 +513,7 @@ public struct CreateSystemTemplateInput: Swift.Sendable {
     public init(
         compatibleNamespaceVersion: Swift.Int? = nil,
         definition: IoTThingsGraphClientTypes.DefinitionDocument? = nil
-    )
-    {
+    ) {
         self.compatibleNamespaceVersion = compatibleNamespaceVersion
         self.definition = definition
     }
@@ -554,8 +537,7 @@ extension IoTThingsGraphClientTypes {
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             revisionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -570,16 +552,15 @@ public struct CreateSystemTemplateOutput: Swift.Sendable {
 
     public init(
         summary: IoTThingsGraphClientTypes.SystemTemplateSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
 
 ///
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -594,8 +575,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -607,8 +587,7 @@ public struct DeleteFlowTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -632,8 +611,7 @@ public struct DeleteNamespaceOutput: Swift.Sendable {
     public init(
         namespaceArn: Swift.String? = nil,
         namespaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespaceArn = namespaceArn
         self.namespaceName = namespaceName
     }
@@ -645,8 +623,7 @@ public struct DeleteSystemInstanceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -663,8 +640,7 @@ public struct DeleteSystemTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -686,8 +662,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             id: Swift.String? = nil,
             revisionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.revisionNumber = revisionNumber
         }
@@ -700,8 +675,7 @@ public struct DeploySystemInstanceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -716,8 +690,7 @@ public struct DeploySystemInstanceOutput: Swift.Sendable {
     public init(
         greengrassDeploymentId: Swift.String? = nil,
         summary: IoTThingsGraphClientTypes.SystemInstanceSummary? = nil
-    )
-    {
+    ) {
         self.greengrassDeploymentId = greengrassDeploymentId
         self.summary = summary
     }
@@ -730,8 +703,7 @@ public struct DeprecateFlowTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -748,8 +720,7 @@ public struct DeprecateSystemTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -765,8 +736,7 @@ public struct DescribeNamespaceInput: Swift.Sendable {
 
     public init(
         namespaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.namespaceName = namespaceName
     }
 }
@@ -789,8 +759,7 @@ public struct DescribeNamespaceOutput: Swift.Sendable {
         namespaceVersion: Swift.Int? = nil,
         trackingNamespaceName: Swift.String? = nil,
         trackingNamespaceVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.namespaceArn = namespaceArn
         self.namespaceName = namespaceName
         self.namespaceVersion = namespaceVersion
@@ -863,8 +832,7 @@ public struct DissociateEntityFromThingInput: Swift.Sendable {
     public init(
         entityType: IoTThingsGraphClientTypes.EntityType? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityType = entityType
         self.thingName = thingName
     }
@@ -896,8 +864,7 @@ extension IoTThingsGraphClientTypes {
             definition: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
             id: Swift.String? = nil,
             type: IoTThingsGraphClientTypes.EntityType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.definition = definition
@@ -954,8 +921,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             name: IoTThingsGraphClientTypes.EntityFilterName? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1054,8 +1020,7 @@ extension IoTThingsGraphClientTypes {
             messageId: Swift.String? = nil,
             payload: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.messageId = messageId
             self.payload = payload
@@ -1123,8 +1088,7 @@ extension IoTThingsGraphClientTypes {
             status: IoTThingsGraphClientTypes.FlowExecutionStatus? = nil,
             systemInstanceId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.flowExecutionId = flowExecutionId
             self.flowTemplateId = flowTemplateId
@@ -1150,8 +1114,7 @@ extension IoTThingsGraphClientTypes {
             definition: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
             summary: IoTThingsGraphClientTypes.FlowTemplateSummary? = nil,
             validatedNamespaceVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.summary = summary
             self.validatedNamespaceVersion = validatedNamespaceVersion
@@ -1199,8 +1162,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             name: IoTThingsGraphClientTypes.FlowTemplateFilterName? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1217,8 +1179,7 @@ public struct GetEntitiesInput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         namespaceVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.namespaceVersion = namespaceVersion
     }
@@ -1230,8 +1191,7 @@ public struct GetEntitiesOutput: Swift.Sendable {
 
     public init(
         descriptions: [IoTThingsGraphClientTypes.EntityDescription]? = nil
-    )
-    {
+    ) {
         self.descriptions = descriptions
     }
 }
@@ -1246,8 +1206,7 @@ public struct GetFlowTemplateInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         revisionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.id = id
         self.revisionNumber = revisionNumber
     }
@@ -1259,8 +1218,7 @@ public struct GetFlowTemplateOutput: Swift.Sendable {
 
     public init(
         description: IoTThingsGraphClientTypes.FlowTemplateDescription? = nil
-    )
-    {
+    ) {
         self.description = description
     }
 }
@@ -1278,8 +1236,7 @@ public struct GetFlowTemplateRevisionsInput: Swift.Sendable {
         id: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1295,8 +1252,7 @@ public struct GetFlowTemplateRevisionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTThingsGraphClientTypes.FlowTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -1383,8 +1339,7 @@ public struct GetNamespaceDeletionStatusOutput: Swift.Sendable {
         namespaceArn: Swift.String? = nil,
         namespaceName: Swift.String? = nil,
         status: IoTThingsGraphClientTypes.NamespaceDeletionStatus? = nil
-    )
-    {
+    ) {
         self.errorCode = errorCode
         self.errorMessage = errorMessage
         self.namespaceArn = namespaceArn
@@ -1400,8 +1355,7 @@ public struct GetSystemInstanceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1433,8 +1387,7 @@ extension IoTThingsGraphClientTypes {
             summary: IoTThingsGraphClientTypes.SystemInstanceSummary? = nil,
             validatedDependencyRevisions: [IoTThingsGraphClientTypes.DependencyRevision]? = nil,
             validatedNamespaceVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.flowActionsRoleArn = flowActionsRoleArn
             self.metricsConfiguration = metricsConfiguration
@@ -1452,8 +1405,7 @@ public struct GetSystemInstanceOutput: Swift.Sendable {
 
     public init(
         description: IoTThingsGraphClientTypes.SystemInstanceDescription? = nil
-    )
-    {
+    ) {
         self.description = description
     }
 }
@@ -1468,8 +1420,7 @@ public struct GetSystemTemplateInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         revisionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.id = id
         self.revisionNumber = revisionNumber
     }
@@ -1490,8 +1441,7 @@ extension IoTThingsGraphClientTypes {
             definition: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
             summary: IoTThingsGraphClientTypes.SystemTemplateSummary? = nil,
             validatedNamespaceVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.summary = summary
             self.validatedNamespaceVersion = validatedNamespaceVersion
@@ -1505,8 +1455,7 @@ public struct GetSystemTemplateOutput: Swift.Sendable {
 
     public init(
         description: IoTThingsGraphClientTypes.SystemTemplateDescription? = nil
-    )
-    {
+    ) {
         self.description = description
     }
 }
@@ -1524,8 +1473,7 @@ public struct GetSystemTemplateRevisionsInput: Swift.Sendable {
         id: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1541,8 +1489,7 @@ public struct GetSystemTemplateRevisionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTThingsGraphClientTypes.SystemTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -1555,8 +1502,7 @@ public struct GetUploadStatusInput: Swift.Sendable {
 
     public init(
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.uploadId = uploadId
     }
 }
@@ -1620,8 +1566,7 @@ public struct GetUploadStatusOutput: Swift.Sendable {
         namespaceVersion: Swift.Int? = nil,
         uploadId: Swift.String? = nil,
         uploadStatus: IoTThingsGraphClientTypes.UploadStatus? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.failureReason = failureReason
         self.namespaceArn = namespaceArn
@@ -1645,8 +1590,7 @@ public struct ListFlowExecutionMessagesInput: Swift.Sendable {
         flowExecutionId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowExecutionId = flowExecutionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1662,8 +1606,7 @@ public struct ListFlowExecutionMessagesOutput: Swift.Sendable {
     public init(
         messages: [IoTThingsGraphClientTypes.FlowExecutionMessage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.messages = messages
         self.nextToken = nextToken
     }
@@ -1682,8 +1625,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -1699,8 +1641,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [IoTThingsGraphClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -1725,8 +1666,7 @@ public struct SearchEntitiesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespaceVersion: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityTypes = entityTypes
         self.filters = filters
         self.maxResults = maxResults
@@ -1744,8 +1684,7 @@ public struct SearchEntitiesOutput: Swift.Sendable {
     public init(
         descriptions: [IoTThingsGraphClientTypes.EntityDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.descriptions = descriptions
         self.nextToken = nextToken
     }
@@ -1773,8 +1712,7 @@ public struct SearchFlowExecutionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         systemInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.flowExecutionId = flowExecutionId
         self.maxResults = maxResults
@@ -1793,8 +1731,7 @@ public struct SearchFlowExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTThingsGraphClientTypes.FlowExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -1812,8 +1749,7 @@ public struct SearchFlowTemplatesInput: Swift.Sendable {
         filters: [IoTThingsGraphClientTypes.FlowTemplateFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1829,8 +1765,7 @@ public struct SearchFlowTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTThingsGraphClientTypes.FlowTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -1880,8 +1815,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             name: IoTThingsGraphClientTypes.SystemInstanceFilterName? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1900,8 +1834,7 @@ public struct SearchSystemInstancesInput: Swift.Sendable {
         filters: [IoTThingsGraphClientTypes.SystemInstanceFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1917,8 +1850,7 @@ public struct SearchSystemInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTThingsGraphClientTypes.SystemInstanceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -1964,8 +1896,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             name: IoTThingsGraphClientTypes.SystemTemplateFilterName? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1984,8 +1915,7 @@ public struct SearchSystemTemplatesInput: Swift.Sendable {
         filters: [IoTThingsGraphClientTypes.SystemTemplateFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2001,8 +1931,7 @@ public struct SearchSystemTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTThingsGraphClientTypes.SystemTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -2024,8 +1953,7 @@ public struct SearchThingsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespaceVersion: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.maxResults = maxResults
         self.namespaceVersion = namespaceVersion
@@ -2045,8 +1973,7 @@ extension IoTThingsGraphClientTypes {
         public init(
             thingArn: Swift.String? = nil,
             thingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.thingArn = thingArn
             self.thingName = thingName
         }
@@ -2062,8 +1989,7 @@ public struct SearchThingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         things: [IoTThingsGraphClientTypes.Thing]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.things = things
     }
@@ -2080,8 +2006,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [IoTThingsGraphClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2098,8 +2023,7 @@ public struct UndeploySystemInstanceInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2110,8 +2034,7 @@ public struct UndeploySystemInstanceOutput: Swift.Sendable {
 
     public init(
         summary: IoTThingsGraphClientTypes.SystemInstanceSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -2127,8 +2050,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2153,8 +2075,7 @@ public struct UpdateFlowTemplateInput: Swift.Sendable {
         compatibleNamespaceVersion: Swift.Int? = nil,
         definition: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.compatibleNamespaceVersion = compatibleNamespaceVersion
         self.definition = definition
         self.id = id
@@ -2167,8 +2088,7 @@ public struct UpdateFlowTemplateOutput: Swift.Sendable {
 
     public init(
         summary: IoTThingsGraphClientTypes.FlowTemplateSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -2187,8 +2107,7 @@ public struct UpdateSystemTemplateInput: Swift.Sendable {
         compatibleNamespaceVersion: Swift.Int? = nil,
         definition: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.compatibleNamespaceVersion = compatibleNamespaceVersion
         self.definition = definition
         self.id = id
@@ -2201,8 +2120,7 @@ public struct UpdateSystemTemplateOutput: Swift.Sendable {
 
     public init(
         summary: IoTThingsGraphClientTypes.SystemTemplateSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -2219,8 +2137,7 @@ public struct UploadEntityDefinitionsInput: Swift.Sendable {
         deprecateExistingEntities: Swift.Bool? = false,
         document: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
         syncWithPublicNamespace: Swift.Bool? = false
-    )
-    {
+    ) {
         self.deprecateExistingEntities = deprecateExistingEntities
         self.document = document
         self.syncWithPublicNamespace = syncWithPublicNamespace
@@ -2234,8 +2151,7 @@ public struct UploadEntityDefinitionsOutput: Swift.Sendable {
 
     public init(
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.uploadId = uploadId
     }
 }

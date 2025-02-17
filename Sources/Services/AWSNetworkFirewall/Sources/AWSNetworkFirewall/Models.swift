@@ -37,8 +37,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -54,8 +53,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             dimensions: [NetworkFirewallClientTypes.Dimension]? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
         }
     }
@@ -70,8 +68,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             publishMetricAction: NetworkFirewallClientTypes.PublishMetricAction? = nil
-        )
-        {
+        ) {
             self.publishMetricAction = publishMetricAction
         }
     }
@@ -98,8 +95,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             addressDefinition: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressDefinition = addressDefinition
         }
     }
@@ -157,8 +153,7 @@ extension NetworkFirewallClientTypes {
             analysisDetail: Swift.String? = nil,
             identifiedRuleIds: [Swift.String]? = nil,
             identifiedType: NetworkFirewallClientTypes.IdentifiedType? = nil
-        )
-        {
+        ) {
             self.analysisDetail = analysisDetail
             self.identifiedRuleIds = identifiedRuleIds
             self.identifiedType = identifiedType
@@ -167,9 +162,9 @@ extension NetworkFirewallClientTypes {
 }
 
 /// Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -184,16 +179,15 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
-public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -208,8 +202,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -221,9 +214,9 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 /// * You tried to update a property with a value that isn't among the available types.
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -238,16 +231,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The token you provided is stale or isn't valid for the operation.
-public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -262,16 +254,15 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unable to locate a resource using the parameters that you provided.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -286,16 +277,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unable to process the request due to throttling limitations.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -310,8 +300,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -332,8 +321,7 @@ public struct AssociateFirewallPolicyInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
@@ -356,8 +344,7 @@ public struct AssociateFirewallPolicyOutput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
@@ -366,9 +353,9 @@ public struct AssociateFirewallPolicyOutput: Swift.Sendable {
 }
 
 /// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -383,8 +370,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -434,8 +420,7 @@ extension NetworkFirewallClientTypes {
         public init(
             ipAddressType: NetworkFirewallClientTypes.IPAddressType? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddressType = ipAddressType
             self.subnetId = subnetId
         }
@@ -458,8 +443,7 @@ public struct AssociateSubnetsInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.subnetMappings = subnetMappings
@@ -482,8 +466,7 @@ public struct AssociateSubnetsOutput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.subnetMappings = subnetMappings
@@ -550,8 +533,7 @@ extension NetworkFirewallClientTypes {
             status: NetworkFirewallClientTypes.AttachmentStatus? = nil,
             statusMessage: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointId = endpointId
             self.status = status
             self.statusMessage = statusMessage
@@ -569,8 +551,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             resolvedCIDRCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.resolvedCIDRCount = resolvedCIDRCount
         }
     }
@@ -591,8 +572,7 @@ extension NetworkFirewallClientTypes {
             availableCIDRCount: Swift.Int? = nil,
             ipSetReferences: [Swift.String: NetworkFirewallClientTypes.IPSetMetadata]? = nil,
             utilizedCIDRCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availableCIDRCount = availableCIDRCount
             self.ipSetReferences = ipSetReferences
             self.utilizedCIDRCount = utilizedCIDRCount
@@ -609,8 +589,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             cidRs: NetworkFirewallClientTypes.CIDRSummary? = nil
-        )
-        {
+        ) {
             self.cidRs = cidRs
         }
     }
@@ -634,8 +613,7 @@ extension NetworkFirewallClientTypes {
             certificateSerial: Swift.String? = nil,
             status: Swift.String? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateSerial = certificateSerial
             self.status = status
@@ -700,8 +678,7 @@ extension NetworkFirewallClientTypes {
         public init(
             revokedStatusAction: NetworkFirewallClientTypes.RevocationCheckAction? = nil,
             unknownStatusAction: NetworkFirewallClientTypes.RevocationCheckAction? = nil
-        )
-        {
+        ) {
             self.revokedStatusAction = revokedStatusAction
             self.unknownStatusAction = unknownStatusAction
         }
@@ -741,9 +718,9 @@ extension NetworkFirewallClientTypes {
 }
 
 /// Unable to perform the operation because doing so would violate a limit setting.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -758,8 +735,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -806,8 +782,7 @@ extension NetworkFirewallClientTypes {
         public init(
             keyId: Swift.String? = nil,
             type: NetworkFirewallClientTypes.EncryptionType? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
             self.type = type
         }
@@ -828,8 +803,7 @@ extension NetworkFirewallClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -873,8 +847,7 @@ public struct CreateFirewallInput: Swift.Sendable {
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteProtection = deleteProtection
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
@@ -934,8 +907,7 @@ extension NetworkFirewallClientTypes {
             subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.deleteProtection = deleteProtection
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
@@ -1028,8 +1000,7 @@ extension NetworkFirewallClientTypes {
         public init(
             syncStatus: NetworkFirewallClientTypes.PerObjectSyncStatus? = nil,
             updateToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.syncStatus = syncStatus
             self.updateToken = updateToken
         }
@@ -1055,8 +1026,7 @@ extension NetworkFirewallClientTypes {
         public init(
             attachment: NetworkFirewallClientTypes.Attachment? = nil,
             config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]? = nil
-        )
-        {
+        ) {
             self.attachment = attachment
             self.config = config
         }
@@ -1083,8 +1053,7 @@ extension NetworkFirewallClientTypes {
             configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState? = nil,
             status: NetworkFirewallClientTypes.FirewallStatusValue? = nil,
             syncStates: [Swift.String: NetworkFirewallClientTypes.SyncState]? = nil
-        )
-        {
+        ) {
             self.capacityUsageSummary = capacityUsageSummary
             self.configurationSyncStateSummary = configurationSyncStateSummary
             self.status = status
@@ -1102,8 +1071,7 @@ public struct CreateFirewallOutput: Swift.Sendable {
     public init(
         firewall: NetworkFirewallClientTypes.Firewall? = nil,
         firewallStatus: NetworkFirewallClientTypes.FirewallStatus? = nil
-    )
-    {
+    ) {
         self.firewall = firewall
         self.firewallStatus = firewallStatus
     }
@@ -1119,8 +1087,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             definition: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definition = definition
         }
     }
@@ -1135,8 +1102,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             ruleVariables: [Swift.String: NetworkFirewallClientTypes.IPSet]? = nil
-        )
-        {
+        ) {
             self.ruleVariables = ruleVariables
         }
     }
@@ -1151,8 +1117,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             tcpIdleTimeoutSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.tcpIdleTimeoutSeconds = tcpIdleTimeoutSeconds
         }
     }
@@ -1240,8 +1205,7 @@ extension NetworkFirewallClientTypes {
             flowTimeouts: NetworkFirewallClientTypes.FlowTimeouts? = nil,
             ruleOrder: NetworkFirewallClientTypes.RuleOrder? = nil,
             streamExceptionPolicy: NetworkFirewallClientTypes.StreamExceptionPolicy? = nil
-        )
-        {
+        ) {
             self.flowTimeouts = flowTimeouts
             self.ruleOrder = ruleOrder
             self.streamExceptionPolicy = streamExceptionPolicy
@@ -1284,8 +1248,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             action: NetworkFirewallClientTypes.OverrideAction? = nil
-        )
-        {
+        ) {
             self.action = action
         }
     }
@@ -1307,8 +1270,7 @@ extension NetworkFirewallClientTypes {
             `override`: NetworkFirewallClientTypes.StatefulRuleGroupOverride? = nil,
             priority: Swift.Int? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.`override` = `override`
             self.priority = priority
             self.resourceArn = resourceArn
@@ -1334,8 +1296,7 @@ extension NetworkFirewallClientTypes {
         public init(
             actionDefinition: NetworkFirewallClientTypes.ActionDefinition? = nil,
             actionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionDefinition = actionDefinition
             self.actionName = actionName
         }
@@ -1356,8 +1317,7 @@ extension NetworkFirewallClientTypes {
         public init(
             priority: Swift.Int? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.resourceArn = resourceArn
         }
@@ -1410,8 +1370,7 @@ extension NetworkFirewallClientTypes {
             statelessFragmentDefaultActions: [Swift.String]? = nil,
             statelessRuleGroupReferences: [NetworkFirewallClientTypes.StatelessRuleGroupReference]? = nil,
             tlsInspectionConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyVariables = policyVariables
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
@@ -1448,8 +1407,7 @@ public struct CreateFirewallPolicyInput: Swift.Sendable {
         firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy? = nil,
         firewallPolicyName: Swift.String? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.dryRun = dryRun
         self.encryptionConfiguration = encryptionConfiguration
@@ -1533,8 +1491,7 @@ extension NetworkFirewallClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             numberOfAssociations: Swift.Int? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
             self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
             self.description = description
@@ -1561,8 +1518,7 @@ public struct CreateFirewallPolicyOutput: Swift.Sendable {
     public init(
         firewallPolicyResponse: NetworkFirewallClientTypes.FirewallPolicyResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallPolicyResponse = firewallPolicyResponse
         self.updateToken = updateToken
     }
@@ -1577,8 +1533,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             referenceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.referenceArn = referenceArn
         }
     }
@@ -1593,8 +1548,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             ipSetReferences: [Swift.String: NetworkFirewallClientTypes.IPSetReference]? = nil
-        )
-        {
+        ) {
             self.ipSetReferences = ipSetReferences
         }
     }
@@ -1680,8 +1634,7 @@ extension NetworkFirewallClientTypes {
             generatedRulesType: NetworkFirewallClientTypes.GeneratedRulesType? = nil,
             targetTypes: [NetworkFirewallClientTypes.TargetType]? = nil,
             targets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.generatedRulesType = generatedRulesType
             self.targetTypes = targetTypes
             self.targets = targets
@@ -1885,8 +1838,7 @@ extension NetworkFirewallClientTypes {
             `protocol`: NetworkFirewallClientTypes.StatefulRuleProtocol? = nil,
             source: Swift.String? = nil,
             sourcePort: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationPort = destinationPort
             self.direction = direction
@@ -1910,8 +1862,7 @@ extension NetworkFirewallClientTypes {
         public init(
             keyword: Swift.String? = nil,
             settings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyword = keyword
             self.settings = settings
         }
@@ -1944,8 +1895,7 @@ extension NetworkFirewallClientTypes {
             action: NetworkFirewallClientTypes.StatefulAction? = nil,
             header: NetworkFirewallClientTypes.Header? = nil,
             ruleOptions: [NetworkFirewallClientTypes.RuleOption]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.header = header
             self.ruleOptions = ruleOptions
@@ -1967,8 +1917,7 @@ extension NetworkFirewallClientTypes {
         public init(
             fromPort: Swift.Int = 0,
             toPort: Swift.Int = 0
-        )
-        {
+        ) {
             self.fromPort = fromPort
             self.toPort = toPort
         }
@@ -2039,8 +1988,7 @@ extension NetworkFirewallClientTypes {
         public init(
             flags: [NetworkFirewallClientTypes.TCPFlag]? = nil,
             masks: [NetworkFirewallClientTypes.TCPFlag]? = nil
-        )
-        {
+        ) {
             self.flags = flags
             self.masks = masks
         }
@@ -2071,8 +2019,7 @@ extension NetworkFirewallClientTypes {
             sourcePorts: [NetworkFirewallClientTypes.PortRange]? = nil,
             sources: [NetworkFirewallClientTypes.Address]? = nil,
             tcpFlags: [NetworkFirewallClientTypes.TCPFlagField]? = nil
-        )
-        {
+        ) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
             self.protocols = protocols
@@ -2106,8 +2053,7 @@ extension NetworkFirewallClientTypes {
         public init(
             actions: [Swift.String]? = nil,
             matchAttributes: NetworkFirewallClientTypes.MatchAttributes? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.matchAttributes = matchAttributes
         }
@@ -2128,8 +2074,7 @@ extension NetworkFirewallClientTypes {
         public init(
             priority: Swift.Int? = nil,
             ruleDefinition: NetworkFirewallClientTypes.RuleDefinition? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.ruleDefinition = ruleDefinition
         }
@@ -2149,8 +2094,7 @@ extension NetworkFirewallClientTypes {
         public init(
             customActions: [NetworkFirewallClientTypes.CustomAction]? = nil,
             statelessRules: [NetworkFirewallClientTypes.StatelessRule]? = nil
-        )
-        {
+        ) {
             self.customActions = customActions
             self.statelessRules = statelessRules
         }
@@ -2175,8 +2119,7 @@ extension NetworkFirewallClientTypes {
             rulesString: Swift.String? = nil,
             statefulRules: [NetworkFirewallClientTypes.StatefulRule]? = nil,
             statelessRulesAndCustomActions: NetworkFirewallClientTypes.StatelessRulesAndCustomActions? = nil
-        )
-        {
+        ) {
             self.rulesSourceList = rulesSourceList
             self.rulesString = rulesString
             self.statefulRules = statefulRules
@@ -2194,8 +2137,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             definition: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definition = definition
         }
     }
@@ -2213,8 +2155,7 @@ extension NetworkFirewallClientTypes {
         public init(
             ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]? = nil,
             portSets: [Swift.String: NetworkFirewallClientTypes.PortSet]? = nil
-        )
-        {
+        ) {
             self.ipSets = ipSets
             self.portSets = portSets
         }
@@ -2230,8 +2171,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             ruleOrder: NetworkFirewallClientTypes.RuleOrder? = nil
-        )
-        {
+        ) {
             self.ruleOrder = ruleOrder
         }
     }
@@ -2256,8 +2196,7 @@ extension NetworkFirewallClientTypes {
             ruleVariables: NetworkFirewallClientTypes.RuleVariables? = nil,
             rulesSource: NetworkFirewallClientTypes.RulesSource? = nil,
             statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions? = nil
-        )
-        {
+        ) {
             self.referenceSets = referenceSets
             self.ruleVariables = ruleVariables
             self.rulesSource = rulesSource
@@ -2278,8 +2217,7 @@ extension NetworkFirewallClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceUpdateToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceUpdateToken = sourceUpdateToken
         }
@@ -2363,8 +2301,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
-    )
-    {
+    ) {
         self.analyzeRuleGroup = analyzeRuleGroup
         self.capacity = capacity
         self.description = description
@@ -2433,8 +2370,7 @@ extension NetworkFirewallClientTypes {
             sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
             type: NetworkFirewallClientTypes.RuleGroupType? = nil
-        )
-        {
+        ) {
             self.analysisResults = analysisResults
             self.capacity = capacity
             self.consumedCapacity = consumedCapacity
@@ -2465,8 +2401,7 @@ public struct CreateRuleGroupOutput: Swift.Sendable {
     public init(
         ruleGroupResponse: NetworkFirewallClientTypes.RuleGroupResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleGroupResponse = ruleGroupResponse
         self.updateToken = updateToken
     }
@@ -2493,8 +2428,7 @@ extension NetworkFirewallClientTypes {
             protocols: [Swift.Int]? = nil,
             sourcePorts: [NetworkFirewallClientTypes.PortRange]? = nil,
             sources: [NetworkFirewallClientTypes.Address]? = nil
-        )
-        {
+        ) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
             self.protocols = protocols
@@ -2513,8 +2447,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
         }
     }
@@ -2545,8 +2478,7 @@ extension NetworkFirewallClientTypes {
             checkCertificateRevocationStatus: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions? = nil,
             scopes: [NetworkFirewallClientTypes.ServerCertificateScope]? = nil,
             serverCertificates: [NetworkFirewallClientTypes.ServerCertificate]? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.checkCertificateRevocationStatus = checkCertificateRevocationStatus
             self.scopes = scopes
@@ -2564,8 +2496,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             serverCertificateConfigurations: [NetworkFirewallClientTypes.ServerCertificateConfiguration]? = nil
-        )
-        {
+        ) {
             self.serverCertificateConfigurations = serverCertificateConfigurations
         }
     }
@@ -2591,8 +2522,7 @@ public struct CreateTLSInspectionConfigurationInput: Swift.Sendable {
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration? = nil,
         tlsInspectionConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
         self.tags = tags
@@ -2643,8 +2573,7 @@ extension NetworkFirewallClientTypes {
             tlsInspectionConfigurationId: Swift.String? = nil,
             tlsInspectionConfigurationName: Swift.String? = nil,
             tlsInspectionConfigurationStatus: NetworkFirewallClientTypes.ResourceStatus? = nil
-        )
-        {
+        ) {
             self.certificateAuthority = certificateAuthority
             self.certificates = certificates
             self.description = description
@@ -2671,17 +2600,16 @@ public struct CreateTLSInspectionConfigurationOutput: Swift.Sendable {
     public init(
         tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
         self.updateToken = updateToken
     }
 }
 
 /// The operation you requested isn't supported by Network Firewall.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2696,8 +2624,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2711,8 +2638,7 @@ public struct DeleteFirewallInput: Swift.Sendable {
     public init(
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
     }
@@ -2727,8 +2653,7 @@ public struct DeleteFirewallOutput: Swift.Sendable {
     public init(
         firewall: NetworkFirewallClientTypes.Firewall? = nil,
         firewallStatus: NetworkFirewallClientTypes.FirewallStatus? = nil
-    )
-    {
+    ) {
         self.firewall = firewall
         self.firewallStatus = firewallStatus
     }
@@ -2743,8 +2668,7 @@ public struct DeleteFirewallPolicyInput: Swift.Sendable {
     public init(
         firewallPolicyArn: Swift.String? = nil,
         firewallPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallPolicyArn = firewallPolicyArn
         self.firewallPolicyName = firewallPolicyName
     }
@@ -2757,16 +2681,15 @@ public struct DeleteFirewallPolicyOutput: Swift.Sendable {
 
     public init(
         firewallPolicyResponse: NetworkFirewallClientTypes.FirewallPolicyResponse? = nil
-    )
-    {
+    ) {
         self.firewallPolicyResponse = firewallPolicyResponse
     }
 }
 
 /// The policy statement failed validation.
-public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2781,8 +2704,7 @@ public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2794,8 +2716,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2817,8 +2738,7 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
-    )
-    {
+    ) {
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName
         self.type = type
@@ -2832,8 +2752,7 @@ public struct DeleteRuleGroupOutput: Swift.Sendable {
 
     public init(
         ruleGroupResponse: NetworkFirewallClientTypes.RuleGroupResponse? = nil
-    )
-    {
+    ) {
         self.ruleGroupResponse = ruleGroupResponse
     }
 }
@@ -2847,8 +2766,7 @@ public struct DeleteTLSInspectionConfigurationInput: Swift.Sendable {
     public init(
         tlsInspectionConfigurationArn: Swift.String? = nil,
         tlsInspectionConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
         self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
     }
@@ -2861,8 +2779,7 @@ public struct DeleteTLSInspectionConfigurationOutput: Swift.Sendable {
 
     public init(
         tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil
-    )
-    {
+    ) {
         self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
     }
 }
@@ -2876,8 +2793,7 @@ public struct DescribeFirewallInput: Swift.Sendable {
     public init(
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
     }
@@ -2895,8 +2811,7 @@ public struct DescribeFirewallOutput: Swift.Sendable {
         firewall: NetworkFirewallClientTypes.Firewall? = nil,
         firewallStatus: NetworkFirewallClientTypes.FirewallStatus? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewall = firewall
         self.firewallStatus = firewallStatus
         self.updateToken = updateToken
@@ -2912,8 +2827,7 @@ public struct DescribeFirewallPolicyInput: Swift.Sendable {
     public init(
         firewallPolicyArn: Swift.String? = nil,
         firewallPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallPolicyArn = firewallPolicyArn
         self.firewallPolicyName = firewallPolicyName
     }
@@ -2933,8 +2847,7 @@ public struct DescribeFirewallPolicyOutput: Swift.Sendable {
         firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy? = nil,
         firewallPolicyResponse: NetworkFirewallClientTypes.FirewallPolicyResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallPolicy = firewallPolicy
         self.firewallPolicyResponse = firewallPolicyResponse
         self.updateToken = updateToken
@@ -2950,8 +2863,7 @@ public struct DescribeLoggingConfigurationInput: Swift.Sendable {
     public init(
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
     }
@@ -3051,8 +2963,7 @@ extension NetworkFirewallClientTypes {
             logDestination: [Swift.String: Swift.String]? = nil,
             logDestinationType: NetworkFirewallClientTypes.LogDestinationType? = nil,
             logType: NetworkFirewallClientTypes.LogType? = nil
-        )
-        {
+        ) {
             self.logDestination = logDestination
             self.logDestinationType = logDestinationType
             self.logType = logType
@@ -3070,8 +2981,7 @@ extension NetworkFirewallClientTypes {
 
         public init(
             logDestinationConfigs: [NetworkFirewallClientTypes.LogDestinationConfig]? = nil
-        )
-        {
+        ) {
             self.logDestinationConfigs = logDestinationConfigs
         }
     }
@@ -3086,8 +2996,7 @@ public struct DescribeLoggingConfigurationOutput: Swift.Sendable {
     public init(
         firewallArn: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.loggingConfiguration = loggingConfiguration
     }
@@ -3100,8 +3009,7 @@ public struct DescribeResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3112,8 +3020,7 @@ public struct DescribeResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -3133,8 +3040,7 @@ public struct DescribeRuleGroupInput: Swift.Sendable {
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
-    )
-    {
+    ) {
         self.analyzeRuleGroup = analyzeRuleGroup
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName
@@ -3156,8 +3062,7 @@ public struct DescribeRuleGroupOutput: Swift.Sendable {
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupResponse: NetworkFirewallClientTypes.RuleGroupResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleGroup = ruleGroup
         self.ruleGroupResponse = ruleGroupResponse
         self.updateToken = updateToken
@@ -3176,8 +3081,7 @@ public struct DescribeRuleGroupMetadataInput: Swift.Sendable {
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
-    )
-    {
+    ) {
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName
         self.type = type
@@ -3210,8 +3114,7 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
         ruleGroupName: Swift.String? = nil,
         statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
-    )
-    {
+    ) {
         self.capacity = capacity
         self.description = description
         self.lastModifiedTime = lastModifiedTime
@@ -3231,8 +3134,7 @@ public struct DescribeTLSInspectionConfigurationInput: Swift.Sendable {
     public init(
         tlsInspectionConfigurationArn: Swift.String? = nil,
         tlsInspectionConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
         self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
     }
@@ -3252,8 +3154,7 @@ public struct DescribeTLSInspectionConfigurationOutput: Swift.Sendable {
         tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration? = nil,
         tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.tlsInspectionConfiguration = tlsInspectionConfiguration
         self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
         self.updateToken = updateToken
@@ -3276,8 +3177,7 @@ public struct DisassociateSubnetsInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.subnetIds = subnetIds
@@ -3300,8 +3200,7 @@ public struct DisassociateSubnetsOutput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.subnetMappings = subnetMappings
@@ -3321,8 +3220,7 @@ extension NetworkFirewallClientTypes {
         public init(
             firewallArn: Swift.String? = nil,
             firewallName: Swift.String? = nil
-        )
-        {
+        ) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
         }
@@ -3341,8 +3239,7 @@ extension NetworkFirewallClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -3358,8 +3255,7 @@ public struct ListFirewallPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3374,8 +3270,7 @@ public struct ListFirewallPoliciesOutput: Swift.Sendable {
     public init(
         firewallPolicies: [NetworkFirewallClientTypes.FirewallPolicyMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallPolicies = firewallPolicies
         self.nextToken = nextToken
     }
@@ -3393,8 +3288,7 @@ public struct ListFirewallsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         vpcIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.vpcIds = vpcIds
@@ -3410,8 +3304,7 @@ public struct ListFirewallsOutput: Swift.Sendable {
     public init(
         firewalls: [NetworkFirewallClientTypes.FirewallMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewalls = firewalls
         self.nextToken = nextToken
     }
@@ -3493,8 +3386,7 @@ public struct ListRuleGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scope: NetworkFirewallClientTypes.ResourceManagedStatus? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
-    )
-    {
+    ) {
         self.managedType = managedType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3515,8 +3407,7 @@ extension NetworkFirewallClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -3532,8 +3423,7 @@ public struct ListRuleGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleGroups: [NetworkFirewallClientTypes.RuleGroupMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleGroups = ruleGroups
     }
@@ -3552,8 +3442,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -3569,8 +3458,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -3585,8 +3473,7 @@ public struct ListTLSInspectionConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3604,8 +3491,7 @@ extension NetworkFirewallClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -3621,17 +3507,16 @@ public struct ListTLSInspectionConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tlsInspectionConfigurations: [NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tlsInspectionConfigurations = tlsInspectionConfigurations
     }
 }
 
 /// Unable to send logs to a configured logging destination.
-public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3646,8 +3531,7 @@ public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3679,8 +3563,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -3702,8 +3585,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3725,8 +3607,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3738,9 +3619,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// Unable to change the resource because your account doesn't own it.
-public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3755,8 +3636,7 @@ public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3777,8 +3657,7 @@ public struct UpdateFirewallDeleteProtectionInput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteProtection = deleteProtection
         self.firewallArn = firewallArn
         self.firewallName = firewallName
@@ -3801,8 +3680,7 @@ public struct UpdateFirewallDeleteProtectionOutput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteProtection = deleteProtection
         self.firewallArn = firewallArn
         self.firewallName = firewallName
@@ -3825,8 +3703,7 @@ public struct UpdateFirewallDescriptionInput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.firewallArn = firewallArn
         self.firewallName = firewallName
@@ -3849,8 +3726,7 @@ public struct UpdateFirewallDescriptionOutput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.firewallArn = firewallArn
         self.firewallName = firewallName
@@ -3873,8 +3749,7 @@ public struct UpdateFirewallEncryptionConfigurationInput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.firewallArn = firewallArn
         self.firewallName = firewallName
@@ -3897,8 +3772,7 @@ public struct UpdateFirewallEncryptionConfigurationOutput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.firewallArn = firewallArn
         self.firewallName = firewallName
@@ -3932,8 +3806,7 @@ public struct UpdateFirewallPolicyInput: Swift.Sendable {
         firewallPolicyArn: Swift.String? = nil,
         firewallPolicyName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.dryRun = dryRun
         self.encryptionConfiguration = encryptionConfiguration
@@ -3955,8 +3828,7 @@ public struct UpdateFirewallPolicyOutput: Swift.Sendable {
     public init(
         firewallPolicyResponse: NetworkFirewallClientTypes.FirewallPolicyResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallPolicyResponse = firewallPolicyResponse
         self.updateToken = updateToken
     }
@@ -3978,8 +3850,7 @@ public struct UpdateFirewallPolicyChangeProtectionInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         firewallPolicyChangeProtection: Swift.Bool? = false,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
@@ -4002,8 +3873,7 @@ public struct UpdateFirewallPolicyChangeProtectionOutput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         firewallPolicyChangeProtection: Swift.Bool = false,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
@@ -4023,8 +3893,7 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.loggingConfiguration = loggingConfiguration
@@ -4043,8 +3912,7 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.loggingConfiguration = loggingConfiguration
@@ -4088,8 +3956,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyzeRuleGroup = analyzeRuleGroup
         self.description = description
         self.dryRun = dryRun
@@ -4115,8 +3982,7 @@ public struct UpdateRuleGroupOutput: Swift.Sendable {
     public init(
         ruleGroupResponse: NetworkFirewallClientTypes.RuleGroupResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleGroupResponse = ruleGroupResponse
         self.updateToken = updateToken
     }
@@ -4138,8 +4004,7 @@ public struct UpdateSubnetChangeProtectionInput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         subnetChangeProtection: Swift.Bool? = false,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.subnetChangeProtection = subnetChangeProtection
@@ -4162,8 +4027,7 @@ public struct UpdateSubnetChangeProtectionOutput: Swift.Sendable {
         firewallName: Swift.String? = nil,
         subnetChangeProtection: Swift.Bool = false,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.subnetChangeProtection = subnetChangeProtection
@@ -4194,8 +4058,7 @@ public struct UpdateTLSInspectionConfigurationInput: Swift.Sendable {
         tlsInspectionConfigurationArn: Swift.String? = nil,
         tlsInspectionConfigurationName: Swift.String? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
         self.tlsInspectionConfiguration = tlsInspectionConfiguration
@@ -4216,8 +4079,7 @@ public struct UpdateTLSInspectionConfigurationOutput: Swift.Sendable {
     public init(
         tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil,
         updateToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
         self.updateToken = updateToken
     }

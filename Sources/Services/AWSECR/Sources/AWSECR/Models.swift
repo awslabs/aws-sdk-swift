@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The specified parameter is invalid. Review the available parameters for the API request.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -46,16 +46,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
-public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -71,16 +70,15 @@ public struct RepositoryNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// These errors are usually caused by a server-side issue.
-public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -96,8 +94,7 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -116,8 +113,7 @@ public struct BatchCheckLayerAvailabilityInput: Swift.Sendable {
         layerDigests: [Swift.String]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerDigests = layerDigests
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -168,8 +164,7 @@ extension ECRClientTypes {
             failureCode: ECRClientTypes.LayerFailureCode? = nil,
             failureReason: Swift.String? = nil,
             layerDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.layerDigest = layerDigest
@@ -224,8 +219,7 @@ extension ECRClientTypes {
             layerDigest: Swift.String? = nil,
             layerSize: Swift.Int? = nil,
             mediaType: Swift.String? = nil
-        )
-        {
+        ) {
             self.layerAvailability = layerAvailability
             self.layerDigest = layerDigest
             self.layerSize = layerSize
@@ -243,8 +237,7 @@ public struct BatchCheckLayerAvailabilityOutput: Swift.Sendable {
     public init(
         failures: [ECRClientTypes.LayerFailure]? = nil,
         layers: [ECRClientTypes.Layer]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.layers = layers
     }
@@ -262,8 +255,7 @@ extension ECRClientTypes {
         public init(
             imageDigest: Swift.String? = nil,
             imageTag: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageDigest = imageDigest
             self.imageTag = imageTag
         }
@@ -285,8 +277,7 @@ public struct BatchDeleteImageInput: Swift.Sendable {
         imageIds: [ECRClientTypes.ImageIdentifier]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageIds = imageIds
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -361,8 +352,7 @@ extension ECRClientTypes {
             failureCode: ECRClientTypes.ImageFailureCode? = nil,
             failureReason: Swift.String? = nil,
             imageId: ECRClientTypes.ImageIdentifier? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.imageId = imageId
@@ -379,17 +369,16 @@ public struct BatchDeleteImageOutput: Swift.Sendable {
     public init(
         failures: [ECRClientTypes.ImageFailure]? = nil,
         imageIds: [ECRClientTypes.ImageIdentifier]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.imageIds = imageIds
     }
 }
 
 /// The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -405,16 +394,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The image or images were unable to be pulled using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
-public struct UnableToGetUpstreamImageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToGetUpstreamImageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -429,8 +417,7 @@ public struct UnableToGetUpstreamImageException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -452,8 +439,7 @@ public struct BatchGetImageInput: Swift.Sendable {
         imageIds: [ECRClientTypes.ImageIdentifier]? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptedMediaTypes = acceptedMediaTypes
         self.imageIds = imageIds
         self.registryId = registryId
@@ -482,8 +468,7 @@ extension ECRClientTypes {
             imageManifestMediaType: Swift.String? = nil,
             registryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageId = imageId
             self.imageManifest = imageManifest
             self.imageManifestMediaType = imageManifestMediaType
@@ -502,17 +487,16 @@ public struct BatchGetImageOutput: Swift.Sendable {
     public init(
         failures: [ECRClientTypes.ImageFailure]? = nil,
         images: [ECRClientTypes.Image]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.images = images
     }
 }
 
 /// There was an exception validating this request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -527,8 +511,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -540,8 +523,7 @@ public struct BatchGetRepositoryScanningConfigurationInput: Swift.Sendable {
 
     public init(
         repositoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.repositoryNames = repositoryNames
     }
 }
@@ -587,8 +569,7 @@ extension ECRClientTypes {
             failureCode: ECRClientTypes.ScanningConfigurationFailureCode? = nil,
             failureReason: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.repositoryName = repositoryName
@@ -636,8 +617,7 @@ extension ECRClientTypes {
         public init(
             filter: Swift.String? = nil,
             filterType: ECRClientTypes.ScanningRepositoryFilterType? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.filterType = filterType
         }
@@ -697,8 +677,7 @@ extension ECRClientTypes {
             repositoryName: Swift.String? = nil,
             scanFrequency: ECRClientTypes.ScanFrequency? = nil,
             scanOnPush: Swift.Bool = false
-        )
-        {
+        ) {
             self.appliedScanFilters = appliedScanFilters
             self.repositoryArn = repositoryArn
             self.repositoryName = repositoryName
@@ -717,17 +696,16 @@ public struct BatchGetRepositoryScanningConfigurationOutput: Swift.Sendable {
     public init(
         failures: [ECRClientTypes.RepositoryScanningConfigurationFailure]? = nil,
         scanningConfigurations: [ECRClientTypes.RepositoryScanningConfiguration]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.scanningConfigurations = scanningConfigurations
     }
 }
 
 /// The specified layer upload does not contain any layer parts.
-public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -743,16 +721,15 @@ public struct EmptyUploadException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The layer digest calculation performed by Amazon ECR upon receipt of the image layer does not match the digest specified.
-public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -768,16 +745,15 @@ public struct InvalidLayerException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed due to a KMS exception.
-public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code returned by KMS.
         public internal(set) var kmsError: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -795,17 +771,16 @@ public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     public init(
         kmsError: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.kmsError = kmsError
         self.properties.message = message
     }
 }
 
 /// The image layer already exists in the associated repository.
-public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -821,16 +796,15 @@ public struct LayerAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Layer parts must be at least 5 MiB in size.
-public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -846,16 +820,15 @@ public struct LayerPartTooSmallException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The upload could not be found, or the specified upload ID is not valid for this repository.
-public struct UploadNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UploadNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -871,8 +844,7 @@ public struct UploadNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -895,8 +867,7 @@ public struct CompleteLayerUploadInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerDigests = layerDigests
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -919,8 +890,7 @@ public struct CompleteLayerUploadOutput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerDigest = layerDigest
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -929,9 +899,9 @@ public struct CompleteLayerUploadOutput: Swift.Sendable {
 }
 
 /// A pull through cache rule with these settings already exists for the private registry.
-public struct PullThroughCacheRuleAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullThroughCacheRuleAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -946,16 +916,15 @@ public struct PullThroughCacheRuleAlreadyExistsException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The ARN of the secret specified in the pull through cache rule was not found. Update the pull through cache rule with a valid secret ARN and try again.
-public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -970,16 +939,15 @@ public struct SecretNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The secret is unable to be accessed. Verify the resource permissions for the secret and try again.
-public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -994,16 +962,15 @@ public struct UnableToAccessSecretException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The secret is accessible but is unable to be decrypted. Verify the resource permisisons and try again.
-public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1018,16 +985,15 @@ public struct UnableToDecryptSecretValueException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified upstream registry isn't supported.
-public struct UnsupportedUpstreamRegistryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedUpstreamRegistryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1042,8 +1008,7 @@ public struct UnsupportedUpstreamRegistryException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1124,8 +1089,7 @@ public struct CreatePullThroughCacheRuleInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
         upstreamRegistryUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
@@ -1155,8 +1119,7 @@ public struct CreatePullThroughCacheRuleOutput: Swift.Sendable {
         registryId: Swift.String? = nil,
         upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
         upstreamRegistryUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
@@ -1167,9 +1130,9 @@ public struct CreatePullThroughCacheRuleOutput: Swift.Sendable {
 }
 
 /// An invalid parameter has been specified. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1184,16 +1147,15 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified repository already exists in the specified registry.
-public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1209,16 +1171,15 @@ public struct RepositoryAlreadyExistsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1233,8 +1194,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1284,8 +1244,7 @@ extension ECRClientTypes {
         public init(
             encryptionType: ECRClientTypes.EncryptionType? = nil,
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.kmsKey = kmsKey
         }
@@ -1301,8 +1260,7 @@ extension ECRClientTypes {
 
         public init(
             scanOnPush: Swift.Bool = false
-        )
-        {
+        ) {
             self.scanOnPush = scanOnPush
         }
     }
@@ -1351,8 +1309,7 @@ extension ECRClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1381,8 +1338,7 @@ public struct CreateRepositoryInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         tags: [ECRClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTagMutability = imageTagMutability
@@ -1422,8 +1378,7 @@ extension ECRClientTypes {
             repositoryArn: Swift.String? = nil,
             repositoryName: Swift.String? = nil,
             repositoryUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
@@ -1442,16 +1397,15 @@ public struct CreateRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: ECRClientTypes.Repository? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
 
 /// The repository creation template already exists. Specify a unique prefix and try again.
-public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1466,8 +1420,7 @@ public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1514,8 +1467,7 @@ extension ECRClientTypes {
         public init(
             encryptionType: ECRClientTypes.EncryptionType? = nil,
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.kmsKey = kmsKey
         }
@@ -1554,8 +1506,7 @@ public struct CreateRepositoryCreationTemplateInput: Swift.Sendable {
         `prefix`: Swift.String? = nil,
         repositoryPolicy: Swift.String? = nil,
         resourceTags: [ECRClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appliedFor = appliedFor
         self.customRoleArn = customRoleArn
         self.description = description
@@ -1607,8 +1558,7 @@ extension ECRClientTypes {
             repositoryPolicy: Swift.String? = nil,
             resourceTags: [ECRClientTypes.Tag]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.appliedFor = appliedFor
             self.createdAt = createdAt
             self.customRoleArn = customRoleArn
@@ -1633,17 +1583,16 @@ public struct CreateRepositoryCreationTemplateOutput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryCreationTemplate = repositoryCreationTemplate
     }
 }
 
 /// The lifecycle policy could not be found, and no policy is set to the repository.
-public struct LifecyclePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecyclePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1658,8 +1607,7 @@ public struct LifecyclePolicyNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1674,8 +1622,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -1696,8 +1643,7 @@ public struct DeleteLifecyclePolicyOutput: Swift.Sendable {
         lifecyclePolicyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastEvaluatedAt = lastEvaluatedAt
         self.lifecyclePolicyText = lifecyclePolicyText
         self.registryId = registryId
@@ -1706,9 +1652,9 @@ public struct DeleteLifecyclePolicyOutput: Swift.Sendable {
 }
 
 /// The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
-public struct PullThroughCacheRuleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullThroughCacheRuleNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1723,8 +1669,7 @@ public struct PullThroughCacheRuleNotFoundException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1739,8 +1684,7 @@ public struct DeletePullThroughCacheRuleInput: Swift.Sendable {
     public init(
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
     }
@@ -1764,8 +1708,7 @@ public struct DeletePullThroughCacheRuleOutput: Swift.Sendable {
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
         upstreamRegistryUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
@@ -1775,9 +1718,9 @@ public struct DeletePullThroughCacheRuleOutput: Swift.Sendable {
 }
 
 /// The registry doesn't have an associated registry policy.
-public struct RegistryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RegistryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1792,8 +1735,7 @@ public struct RegistryPolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1812,17 +1754,16 @@ public struct DeleteRegistryPolicyOutput: Swift.Sendable {
     public init(
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
     }
 }
 
 /// The specified repository contains images. To delete a repository that contains images, you must force the deletion with the force parameter.
-public struct RepositoryNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1838,8 +1779,7 @@ public struct RepositoryNotEmptyException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1857,8 +1797,7 @@ public struct DeleteRepositoryInput: Swift.Sendable {
         force: Swift.Bool? = false,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -1871,16 +1810,15 @@ public struct DeleteRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: ECRClientTypes.Repository? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
 
 /// The specified repository creation template can't be found. Verify the registry ID and prefix and try again.
-public struct TemplateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TemplateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1895,8 +1833,7 @@ public struct TemplateNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1908,8 +1845,7 @@ public struct DeleteRepositoryCreationTemplateInput: Swift.Sendable {
 
     public init(
         `prefix`: Swift.String? = nil
-    )
-    {
+    ) {
         self.`prefix` = `prefix`
     }
 }
@@ -1923,17 +1859,16 @@ public struct DeleteRepositoryCreationTemplateOutput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryCreationTemplate = repositoryCreationTemplate
     }
 }
 
 /// The specified repository and registry combination does not have an associated repository policy.
-public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1949,8 +1884,7 @@ public struct RepositoryPolicyNotFoundException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1965,8 +1899,7 @@ public struct DeleteRepositoryPolicyInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -1984,8 +1917,7 @@ public struct DeleteRepositoryPolicyOutput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -1993,9 +1925,9 @@ public struct DeleteRepositoryPolicyOutput: Swift.Sendable {
 }
 
 /// The image requested does not exist in the specified repository.
-public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2010,8 +1942,7 @@ public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2030,8 +1961,7 @@ public struct DescribeImageReplicationStatusInput: Swift.Sendable {
         imageId: ECRClientTypes.ImageIdentifier? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -2088,8 +2018,7 @@ extension ECRClientTypes {
             region: Swift.String? = nil,
             registryId: Swift.String? = nil,
             status: ECRClientTypes.ReplicationStatus? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.region = region
             self.registryId = registryId
@@ -2110,8 +2039,7 @@ public struct DescribeImageReplicationStatusOutput: Swift.Sendable {
         imageId: ECRClientTypes.ImageIdentifier? = nil,
         replicationStatuses: [ECRClientTypes.ImageReplicationStatus]? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.replicationStatuses = replicationStatuses
         self.repositoryName = repositoryName
@@ -2159,8 +2087,7 @@ extension ECRClientTypes {
 
         public init(
             tagStatus: ECRClientTypes.TagStatus? = nil
-        )
-        {
+        ) {
             self.tagStatus = tagStatus
         }
     }
@@ -2188,8 +2115,7 @@ public struct DescribeImagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.imageIds = imageIds
         self.maxResults = maxResults
@@ -2255,8 +2181,7 @@ extension ECRClientTypes {
             findingSeverityCounts: [Swift.String: Swift.Int]? = nil,
             imageScanCompletedAt: Foundation.Date? = nil,
             vulnerabilitySourceUpdatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.findingSeverityCounts = findingSeverityCounts
             self.imageScanCompletedAt = imageScanCompletedAt
             self.vulnerabilitySourceUpdatedAt = vulnerabilitySourceUpdatedAt
@@ -2272,6 +2197,7 @@ extension ECRClientTypes {
         case failed
         case findingsUnavailable
         case inProgress
+        case limitExceeded
         case pending
         case scanEligibilityExpired
         case unsupportedImage
@@ -2284,6 +2210,7 @@ extension ECRClientTypes {
                 .failed,
                 .findingsUnavailable,
                 .inProgress,
+                .limitExceeded,
                 .pending,
                 .scanEligibilityExpired,
                 .unsupportedImage
@@ -2302,6 +2229,7 @@ extension ECRClientTypes {
             case .failed: return "FAILED"
             case .findingsUnavailable: return "FINDINGS_UNAVAILABLE"
             case .inProgress: return "IN_PROGRESS"
+            case .limitExceeded: return "LIMIT_EXCEEDED"
             case .pending: return "PENDING"
             case .scanEligibilityExpired: return "SCAN_ELIGIBILITY_EXPIRED"
             case .unsupportedImage: return "UNSUPPORTED_IMAGE"
@@ -2323,8 +2251,7 @@ extension ECRClientTypes {
         public init(
             description: Swift.String? = nil,
             status: ECRClientTypes.ScanStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.status = status
         }
@@ -2370,8 +2297,7 @@ extension ECRClientTypes {
             lastRecordedPullTime: Foundation.Date? = nil,
             registryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
             self.imageManifestMediaType = imageManifestMediaType
@@ -2396,17 +2322,16 @@ public struct DescribeImagesOutput: Swift.Sendable {
     public init(
         imageDetails: [ECRClientTypes.ImageDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageDetails = imageDetails
         self.nextToken = nextToken
     }
 }
 
 /// The specified image scan could not be found. Ensure that image scanning is enabled on the repository and try again.
-public struct ScanNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScanNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2421,8 +2346,7 @@ public struct ScanNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2447,8 +2371,7 @@ public struct DescribeImageScanFindingsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2475,8 +2398,7 @@ extension ECRClientTypes {
             scoringVector: Swift.String? = nil,
             source: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
             self.source = source
@@ -2518,8 +2440,7 @@ extension ECRClientTypes {
             release: Swift.String? = nil,
             sourceLayerHash: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arch = arch
             self.epoch = epoch
             self.filePath = filePath
@@ -2569,8 +2490,7 @@ extension ECRClientTypes {
             vendorUpdatedAt: Foundation.Date? = nil,
             vulnerabilityId: Swift.String? = nil,
             vulnerablePackages: [ECRClientTypes.VulnerablePackage]? = nil
-        )
-        {
+        ) {
             self.cvss = cvss
             self.referenceUrls = referenceUrls
             self.relatedVulnerabilities = relatedVulnerabilities
@@ -2597,8 +2517,7 @@ extension ECRClientTypes {
         public init(
             text: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.url = url
         }
@@ -2614,8 +2533,7 @@ extension ECRClientTypes {
 
         public init(
             recommendation: ECRClientTypes.Recommendation? = nil
-        )
-        {
+        ) {
             self.recommendation = recommendation
         }
     }
@@ -2651,8 +2569,7 @@ extension ECRClientTypes {
             pushedAt: Foundation.Date? = nil,
             registry: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.author = author
             self.imageHash = imageHash
@@ -2674,8 +2591,7 @@ extension ECRClientTypes {
 
         public init(
             awsEcrContainerImage: ECRClientTypes.AwsEcrContainerImageDetails? = nil
-        )
-        {
+        ) {
             self.awsEcrContainerImage = awsEcrContainerImage
         }
     }
@@ -2699,8 +2615,7 @@ extension ECRClientTypes {
             id: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.id = id
             self.tags = tags
@@ -2721,8 +2636,7 @@ extension ECRClientTypes {
         public init(
             metric: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.reason = reason
         }
@@ -2750,8 +2664,7 @@ extension ECRClientTypes {
             scoreSource: Swift.String? = nil,
             scoringVector: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.adjustments = adjustments
             self.score = score
             self.scoreSource = scoreSource
@@ -2770,8 +2683,7 @@ extension ECRClientTypes {
 
         public init(
             cvss: ECRClientTypes.CvssScoreDetails? = nil
-        )
-        {
+        ) {
             self.cvss = cvss
         }
     }
@@ -2834,8 +2746,7 @@ extension ECRClientTypes {
             title: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.description = description
             self.exploitAvailable = exploitAvailable
@@ -2870,8 +2781,7 @@ extension ECRClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2899,8 +2809,7 @@ extension ECRClientTypes {
             name: Swift.String? = nil,
             severity: ECRClientTypes.FindingSeverity? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.description = description
             self.name = name
@@ -2931,8 +2840,7 @@ extension ECRClientTypes {
             findings: [ECRClientTypes.ImageScanFinding]? = nil,
             imageScanCompletedAt: Foundation.Date? = nil,
             vulnerabilitySourceUpdatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.enhancedFindings = enhancedFindings
             self.findingSeverityCounts = findingSeverityCounts
             self.findings = findings
@@ -2963,8 +2871,7 @@ public struct DescribeImageScanFindingsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.imageScanFindings = imageScanFindings
         self.imageScanStatus = imageScanStatus
@@ -2989,8 +2896,7 @@ public struct DescribePullThroughCacheRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecrRepositoryPrefixes = ecrRepositoryPrefixes
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3025,8 +2931,7 @@ extension ECRClientTypes {
             updatedAt: Foundation.Date? = nil,
             upstreamRegistry: ECRClientTypes.UpstreamRegistry? = nil,
             upstreamRegistryUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
@@ -3047,8 +2952,7 @@ public struct DescribePullThroughCacheRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pullThroughCacheRules: [ECRClientTypes.PullThroughCacheRule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pullThroughCacheRules = pullThroughCacheRules
     }
@@ -3073,8 +2977,7 @@ extension ECRClientTypes {
         public init(
             region: Swift.String? = nil,
             registryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.region = region
             self.registryId = registryId
         }
@@ -3121,8 +3024,7 @@ extension ECRClientTypes {
         public init(
             filter: Swift.String? = nil,
             filterType: ECRClientTypes.RepositoryFilterType? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.filterType = filterType
         }
@@ -3142,8 +3044,7 @@ extension ECRClientTypes {
         public init(
             destinations: [ECRClientTypes.ReplicationDestination]? = nil,
             repositoryFilters: [ECRClientTypes.RepositoryFilter]? = nil
-        )
-        {
+        ) {
             self.destinations = destinations
             self.repositoryFilters = repositoryFilters
         }
@@ -3160,8 +3061,7 @@ extension ECRClientTypes {
 
         public init(
             rules: [ECRClientTypes.ReplicationRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -3176,8 +3076,7 @@ public struct DescribeRegistryOutput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         replicationConfiguration: ECRClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.replicationConfiguration = replicationConfiguration
     }
@@ -3198,8 +3097,7 @@ public struct DescribeRepositoriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.registryId = registryId
@@ -3216,8 +3114,7 @@ public struct DescribeRepositoriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositories: [ECRClientTypes.Repository]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositories = repositories
     }
@@ -3235,8 +3132,7 @@ public struct DescribeRepositoryCreationTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         prefixes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.prefixes = prefixes
@@ -3255,8 +3151,7 @@ public struct DescribeRepositoryCreationTemplatesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryCreationTemplates: [ECRClientTypes.RepositoryCreationTemplate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registryId = registryId
         self.repositoryCreationTemplates = repositoryCreationTemplates
@@ -3264,29 +3159,27 @@ public struct DescribeRepositoryCreationTemplatesOutput: Swift.Sendable {
 }
 
 public struct GetAccountSettingInput: Swift.Sendable {
-    /// Basic scan type version name.
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
     /// This member is required.
     public var name: Swift.String?
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
 
 public struct GetAccountSettingOutput: Swift.Sendable {
-    /// Retrieves the basic scan type version name.
+    /// Retrieves the name of the account setting.
     public var name: Swift.String?
-    /// Retrieves the value that specifies what basic scan type is being used: AWS_NATIVE or CLAIR.
+    /// The setting value for the setting name. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
     public var value: Swift.String?
 
     public init(
         name: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.value = value
     }
@@ -3299,8 +3192,7 @@ public struct GetAuthorizationTokenInput: Swift.Sendable {
 
     public init(
         registryIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.registryIds = registryIds
     }
 }
@@ -3320,8 +3212,7 @@ extension ECRClientTypes {
             authorizationToken: Swift.String? = nil,
             expiresAt: Foundation.Date? = nil,
             proxyEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationToken = authorizationToken
             self.expiresAt = expiresAt
             self.proxyEndpoint = proxyEndpoint
@@ -3335,16 +3226,15 @@ public struct GetAuthorizationTokenOutput: Swift.Sendable {
 
     public init(
         authorizationData: [ECRClientTypes.AuthorizationData]? = nil
-    )
-    {
+    ) {
         self.authorizationData = authorizationData
     }
 }
 
 /// The specified layer is not available because it is not associated with an image. Unassociated image layers may be cleaned up at any time.
-public struct LayerInaccessibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayerInaccessibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3360,16 +3250,15 @@ public struct LayerInaccessibleException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified layers could not be found, or the specified layer is not valid for this repository.
-public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3385,16 +3274,15 @@ public struct LayersNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was an issue getting the upstream layer matching the pull through cache rule.
-public struct UnableToGetUpstreamLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnableToGetUpstreamLayerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3409,8 +3297,7 @@ public struct UnableToGetUpstreamLayerException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3429,8 +3316,7 @@ public struct GetDownloadUrlForLayerInput: Swift.Sendable {
         layerDigest: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerDigest = layerDigest
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -3446,8 +3332,7 @@ public struct GetDownloadUrlForLayerOutput: Swift.Sendable {
     public init(
         downloadUrl: Swift.String? = nil,
         layerDigest: Swift.String? = nil
-    )
-    {
+    ) {
         self.downloadUrl = downloadUrl
         self.layerDigest = layerDigest
     }
@@ -3463,8 +3348,7 @@ public struct GetLifecyclePolicyInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -3485,8 +3369,7 @@ public struct GetLifecyclePolicyOutput: Swift.Sendable {
         lifecyclePolicyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastEvaluatedAt = lastEvaluatedAt
         self.lifecyclePolicyText = lifecyclePolicyText
         self.registryId = registryId
@@ -3495,9 +3378,9 @@ public struct GetLifecyclePolicyOutput: Swift.Sendable {
 }
 
 /// There is no dry run for this repository.
-public struct LifecyclePolicyPreviewNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecyclePolicyPreviewNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3512,8 +3395,7 @@ public struct LifecyclePolicyPreviewNotFoundException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3527,8 +3409,7 @@ extension ECRClientTypes {
 
         public init(
             tagStatus: ECRClientTypes.TagStatus? = nil
-        )
-        {
+        ) {
             self.tagStatus = tagStatus
         }
     }
@@ -3556,8 +3437,7 @@ public struct GetLifecyclePolicyPreviewInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.imageIds = imageIds
         self.maxResults = maxResults
@@ -3602,8 +3482,7 @@ extension ECRClientTypes {
 
         public init(
             type: ECRClientTypes.ImageActionType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -3630,8 +3509,7 @@ extension ECRClientTypes {
             imageDigest: Swift.String? = nil,
             imagePushedAt: Foundation.Date? = nil,
             imageTags: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.appliedRulePriority = appliedRulePriority
             self.imageDigest = imageDigest
@@ -3685,8 +3563,7 @@ extension ECRClientTypes {
 
         public init(
             expiringImageTotalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.expiringImageTotalCount = expiringImageTotalCount
         }
     }
@@ -3716,8 +3593,7 @@ public struct GetLifecyclePolicyPreviewOutput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         status: ECRClientTypes.LifecyclePolicyPreviewStatus? = nil,
         summary: ECRClientTypes.LifecyclePolicyPreviewSummary? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyText = lifecyclePolicyText
         self.nextToken = nextToken
         self.previewResults = previewResults
@@ -3742,8 +3618,7 @@ public struct GetRegistryPolicyOutput: Swift.Sendable {
     public init(
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
     }
@@ -3768,8 +3643,7 @@ extension ECRClientTypes {
         public init(
             repositoryFilters: [ECRClientTypes.ScanningRepositoryFilter]? = nil,
             scanFrequency: ECRClientTypes.ScanFrequency? = nil
-        )
-        {
+        ) {
             self.repositoryFilters = repositoryFilters
             self.scanFrequency = scanFrequency
         }
@@ -3817,8 +3691,7 @@ extension ECRClientTypes {
         public init(
             rules: [ECRClientTypes.RegistryScanningRule]? = nil,
             scanType: ECRClientTypes.ScanType? = nil
-        )
-        {
+        ) {
             self.rules = rules
             self.scanType = scanType
         }
@@ -3834,8 +3707,7 @@ public struct GetRegistryScanningConfigurationOutput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         scanningConfiguration: ECRClientTypes.RegistryScanningConfiguration? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.scanningConfiguration = scanningConfiguration
     }
@@ -3851,8 +3723,7 @@ public struct GetRepositoryPolicyInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -3870,8 +3741,7 @@ public struct GetRepositoryPolicyOutput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -3888,8 +3758,7 @@ public struct InitiateLayerUploadInput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryName = repositoryName
     }
@@ -3904,8 +3773,7 @@ public struct InitiateLayerUploadOutput: Swift.Sendable {
     public init(
         partSize: Swift.Int? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.partSize = partSize
         self.uploadId = uploadId
     }
@@ -3920,8 +3788,7 @@ extension ECRClientTypes {
 
         public init(
             tagStatus: ECRClientTypes.TagStatus? = nil
-        )
-        {
+        ) {
             self.tagStatus = tagStatus
         }
     }
@@ -3946,8 +3813,7 @@ public struct ListImagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3965,8 +3831,7 @@ public struct ListImagesOutput: Swift.Sendable {
     public init(
         imageIds: [ECRClientTypes.ImageIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageIds = imageIds
         self.nextToken = nextToken
     }
@@ -3979,8 +3844,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3991,50 +3855,47 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ECRClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 public struct PutAccountSettingInput: Swift.Sendable {
-    /// Basic scan type version name.
+    /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
     /// This member is required.
     public var name: Swift.String?
-    /// Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
+    /// Setting value that is specified. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
     /// This member is required.
     public var value: Swift.String?
 
     public init(
         name: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.value = value
     }
 }
 
 public struct PutAccountSettingOutput: Swift.Sendable {
-    /// Retrieves the the basic scan type version name.
+    /// Retrieves the name of the account setting.
     public var name: Swift.String?
-    /// Retrieves the basic scan type value, either AWS_NATIVE or -.
+    /// Retrieves the value of the specified account setting.
     public var value: Swift.String?
 
     public init(
         name: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.value = value
     }
 }
 
 /// The specified image has already been pushed, and there were no changes to the manifest or image tag after the last push.
-public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4050,16 +3911,15 @@ public struct ImageAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified image digest does not match the digest that Amazon ECR calculated for the image.
-public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4074,16 +3934,15 @@ public struct ImageDigestDoesNotMatchException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified image is tagged with a tag that already exists. The repository is configured for tag immutability.
-public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4098,16 +3957,15 @@ public struct ImageTagAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The manifest list is referencing an image that does not exist.
-public struct ReferencedImagesNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReferencedImagesNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4122,8 +3980,7 @@ public struct ReferencedImagesNotFoundException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4151,8 +4008,7 @@ public struct PutImageInput: Swift.Sendable {
         imageTag: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageDigest = imageDigest
         self.imageManifest = imageManifest
         self.imageManifestMediaType = imageManifestMediaType
@@ -4168,8 +4024,7 @@ public struct PutImageOutput: Swift.Sendable {
 
     public init(
         image: ECRClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.image = image
     }
 }
@@ -4188,8 +4043,7 @@ public struct PutImageScanningConfigurationInput: Swift.Sendable {
         imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageScanningConfiguration = imageScanningConfiguration
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4208,8 +4062,7 @@ public struct PutImageScanningConfigurationOutput: Swift.Sendable {
         imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageScanningConfiguration = imageScanningConfiguration
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4230,8 +4083,7 @@ public struct PutImageTagMutabilityInput: Swift.Sendable {
         imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageTagMutability = imageTagMutability
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4250,8 +4102,7 @@ public struct PutImageTagMutabilityOutput: Swift.Sendable {
         imageTagMutability: ECRClientTypes.ImageTagMutability? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageTagMutability = imageTagMutability
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4272,8 +4123,7 @@ public struct PutLifecyclePolicyInput: Swift.Sendable {
         lifecyclePolicyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyText = lifecyclePolicyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4292,8 +4142,7 @@ public struct PutLifecyclePolicyOutput: Swift.Sendable {
         lifecyclePolicyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyText = lifecyclePolicyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4307,8 +4156,7 @@ public struct PutRegistryPolicyInput: Swift.Sendable {
 
     public init(
         policyText: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
     }
 }
@@ -4322,8 +4170,7 @@ public struct PutRegistryPolicyOutput: Swift.Sendable {
     public init(
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
     }
@@ -4338,8 +4185,7 @@ public struct PutRegistryScanningConfigurationInput: Swift.Sendable {
     public init(
         rules: [ECRClientTypes.RegistryScanningRule]? = nil,
         scanType: ECRClientTypes.ScanType? = nil
-    )
-    {
+    ) {
         self.rules = rules
         self.scanType = scanType
     }
@@ -4351,8 +4197,7 @@ public struct PutRegistryScanningConfigurationOutput: Swift.Sendable {
 
     public init(
         registryScanningConfiguration: ECRClientTypes.RegistryScanningConfiguration? = nil
-    )
-    {
+    ) {
         self.registryScanningConfiguration = registryScanningConfiguration
     }
 }
@@ -4364,8 +4209,7 @@ public struct PutReplicationConfigurationInput: Swift.Sendable {
 
     public init(
         replicationConfiguration: ECRClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.replicationConfiguration = replicationConfiguration
     }
 }
@@ -4376,8 +4220,7 @@ public struct PutReplicationConfigurationOutput: Swift.Sendable {
 
     public init(
         replicationConfiguration: ECRClientTypes.ReplicationConfiguration? = nil
-    )
-    {
+    ) {
         self.replicationConfiguration = replicationConfiguration
     }
 }
@@ -4399,8 +4242,7 @@ public struct SetRepositoryPolicyInput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.policyText = policyText
         self.registryId = registryId
@@ -4420,8 +4262,7 @@ public struct SetRepositoryPolicyOutput: Swift.Sendable {
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyText = policyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4429,9 +4270,9 @@ public struct SetRepositoryPolicyOutput: Swift.Sendable {
 }
 
 /// The image is of a type that cannot be scanned.
-public struct UnsupportedImageTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedImageTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4446,8 +4287,7 @@ public struct UnsupportedImageTypeException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4466,8 +4306,7 @@ public struct StartImageScanInput: Swift.Sendable {
         imageId: ECRClientTypes.ImageIdentifier? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4489,8 +4328,7 @@ public struct StartImageScanOutput: Swift.Sendable {
         imageScanStatus: ECRClientTypes.ImageScanStatus? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageId = imageId
         self.imageScanStatus = imageScanStatus
         self.registryId = registryId
@@ -4499,9 +4337,9 @@ public struct StartImageScanOutput: Swift.Sendable {
 }
 
 /// The previous lifecycle policy preview request has not completed. Wait and try again.
-public struct LifecyclePolicyPreviewInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecyclePolicyPreviewInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4516,8 +4354,7 @@ public struct LifecyclePolicyPreviewInProgressException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4535,8 +4372,7 @@ public struct StartLifecyclePolicyPreviewInput: Swift.Sendable {
         lifecyclePolicyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyText = lifecyclePolicyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4558,8 +4394,7 @@ public struct StartLifecyclePolicyPreviewOutput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         status: ECRClientTypes.LifecyclePolicyPreviewStatus? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyText = lifecyclePolicyText
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4578,8 +4413,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ECRClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4601,8 +4435,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4627,8 +4460,7 @@ public struct UpdatePullThroughCacheRuleInput: Swift.Sendable {
         credentialArn: Swift.String? = nil,
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
@@ -4650,8 +4482,7 @@ public struct UpdatePullThroughCacheRuleOutput: Swift.Sendable {
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
@@ -4690,8 +4521,7 @@ public struct UpdateRepositoryCreationTemplateInput: Swift.Sendable {
         `prefix`: Swift.String? = nil,
         repositoryPolicy: Swift.String? = nil,
         resourceTags: [ECRClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appliedFor = appliedFor
         self.customRoleArn = customRoleArn
         self.description = description
@@ -4713,17 +4543,16 @@ public struct UpdateRepositoryCreationTemplateOutput: Swift.Sendable {
     public init(
         registryId: Swift.String? = nil,
         repositoryCreationTemplate: ECRClientTypes.RepositoryCreationTemplate? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
         self.repositoryCreationTemplate = repositoryCreationTemplate
     }
 }
 
 /// The layer part size is not valid, or the first byte specified is not consecutive to the last byte of a previous layer part upload.
-public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The last valid byte received from the layer part upload that is associated with the exception.
         public internal(set) var lastValidByteReceived: Swift.Int? = nil
         /// The error message associated with the exception.
@@ -4751,8 +4580,7 @@ public struct InvalidLayerPartException: ClientRuntime.ModeledError, AWSClientRu
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.lastValidByteReceived = lastValidByteReceived
         self.properties.message = message
         self.properties.registryId = registryId
@@ -4787,8 +4615,7 @@ public struct UploadLayerPartInput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layerPartBlob = layerPartBlob
         self.partFirstByte = partFirstByte
         self.partLastByte = partLastByte
@@ -4813,8 +4640,7 @@ public struct UploadLayerPartOutput: Swift.Sendable {
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastByteReceived = lastByteReceived
         self.registryId = registryId
         self.repositoryName = repositoryName
@@ -4832,8 +4658,7 @@ public struct ValidatePullThroughCacheRuleInput: Swift.Sendable {
     public init(
         ecrRepositoryPrefix: Swift.String? = nil,
         registryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.registryId = registryId
     }
@@ -4860,8 +4685,7 @@ public struct ValidatePullThroughCacheRuleOutput: Swift.Sendable {
         isValid: Swift.Bool = false,
         registryId: Swift.String? = nil,
         upstreamRegistryUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentialArn = credentialArn
         self.ecrRepositoryPrefix = ecrRepositoryPrefix
         self.failure = failure

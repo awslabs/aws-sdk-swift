@@ -90,9 +90,9 @@ public struct SetVaultNotificationsOutput: Swift.Sendable {
 }
 
 /// Returned if a parameter of the request is incorrectly specified.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400 Bad Request
         public internal(set) var code: Swift.String? = nil
         /// Returned if a parameter of the request is incorrectly specified.
@@ -114,8 +114,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -123,9 +122,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Returned if a required header or parameter is missing from the request.
-public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400 Bad Request
         public internal(set) var code: Swift.String? = nil
         /// Returned if no authentication data is found for the request.
@@ -147,8 +146,7 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -156,9 +154,9 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 404 Not Found
         public internal(set) var code: Swift.String? = nil
         /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
@@ -180,8 +178,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -189,9 +186,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Returned if the service cannot complete the request.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 500 Internal Server Error
         public internal(set) var code: Swift.String? = nil
         /// Returned if the service cannot complete the request.
@@ -213,8 +210,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -237,8 +233,7 @@ public struct AbortMultipartUploadInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         uploadId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.uploadId = uploadId
         self.vaultName = vaultName
@@ -257,8 +252,7 @@ public struct AbortVaultLockInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -318,8 +312,7 @@ extension GlacierClientTypes {
             id: Swift.String? = nil,
             type: GlacierClientTypes.ModelType? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.emailAddress = emailAddress
             self.id = id
@@ -379,8 +372,7 @@ extension GlacierClientTypes {
         public init(
             grantee: GlacierClientTypes.Grantee? = nil,
             permission: GlacierClientTypes.Permission? = nil
-        )
-        {
+        ) {
             self.grantee = grantee
             self.permission = permission
         }
@@ -420,9 +412,9 @@ extension GlacierClientTypes {
 }
 
 /// Returned if the request results in a vault or account limit being exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 400 Bad Request
         public internal(set) var code: Swift.String? = nil
         /// Returned if the request results in a vault limit or tags limit being exceeded.
@@ -444,8 +436,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -467,8 +458,7 @@ public struct AddTagsToVaultInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.tags = tags
         self.vaultName = vaultName
@@ -541,8 +531,7 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
         checksum: Swift.String? = nil,
         uploadId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.archiveSize = archiveSize
         self.checksum = checksum
@@ -564,8 +553,7 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         checksum: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.checksum = checksum
         self.location = location
@@ -588,8 +576,7 @@ public struct CompleteVaultLockInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         lockId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.lockId = lockId
         self.vaultName = vaultName
@@ -608,8 +595,7 @@ public struct CreateVaultInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -622,8 +608,7 @@ public struct CreateVaultOutput: Swift.Sendable {
 
     public init(
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.location = location
     }
 }
@@ -684,8 +669,7 @@ extension GlacierClientTypes {
             quoteCharacter: Swift.String? = nil,
             quoteEscapeCharacter: Swift.String? = nil,
             recordDelimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.comments = comments
             self.fieldDelimiter = fieldDelimiter
             self.fileHeaderInfo = fileHeaderInfo
@@ -746,8 +730,7 @@ extension GlacierClientTypes {
             quoteEscapeCharacter: Swift.String? = nil,
             quoteFields: GlacierClientTypes.QuoteFields? = nil,
             recordDelimiter: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldDelimiter = fieldDelimiter
             self.quoteCharacter = quoteCharacter
             self.quoteEscapeCharacter = quoteEscapeCharacter
@@ -769,8 +752,7 @@ extension GlacierClientTypes {
         public init(
             bytesPerHour: Swift.Int? = nil,
             strategy: Swift.String? = nil
-        )
-        {
+        ) {
             self.bytesPerHour = bytesPerHour
             self.strategy = strategy
         }
@@ -786,8 +768,7 @@ extension GlacierClientTypes {
 
         public init(
             rules: [GlacierClientTypes.DataRetrievalRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -809,8 +790,7 @@ public struct DeleteArchiveInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         archiveId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.archiveId = archiveId
         self.vaultName = vaultName
@@ -829,8 +809,7 @@ public struct DeleteVaultInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -848,8 +827,7 @@ public struct DeleteVaultAccessPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -867,8 +845,7 @@ public struct DeleteVaultNotificationsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -890,8 +867,7 @@ public struct DescribeJobInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
         self.vaultName = vaultName
@@ -919,8 +895,7 @@ extension GlacierClientTypes {
             limit: Swift.String? = nil,
             marker: Swift.String? = nil,
             startDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDate = endDate
             self.format = format
             self.limit = limit
@@ -974,8 +949,7 @@ extension GlacierClientTypes {
             encryptionType: GlacierClientTypes.EncryptionType? = nil,
             kmsContext: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.kmsContext = kmsContext
             self.kmsKeyId = kmsKeyId
@@ -1045,8 +1019,7 @@ extension GlacierClientTypes {
             storageClass: GlacierClientTypes.StorageClass? = nil,
             tagging: [Swift.String: Swift.String]? = nil,
             userMetadata: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessControlList = accessControlList
             self.bucketName = bucketName
             self.cannedACL = cannedACL
@@ -1068,8 +1041,7 @@ extension GlacierClientTypes {
 
         public init(
             s3: GlacierClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -1110,8 +1082,7 @@ extension GlacierClientTypes {
 
         public init(
             csv: GlacierClientTypes.CSVInput? = nil
-        )
-        {
+        ) {
             self.csv = csv
         }
     }
@@ -1126,8 +1097,7 @@ extension GlacierClientTypes {
 
         public init(
             csv: GlacierClientTypes.CSVOutput? = nil
-        )
-        {
+        ) {
             self.csv = csv
         }
     }
@@ -1151,8 +1121,7 @@ extension GlacierClientTypes {
             expressionType: GlacierClientTypes.ExpressionType? = nil,
             inputSerialization: GlacierClientTypes.InputSerialization? = nil,
             outputSerialization: GlacierClientTypes.OutputSerialization? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.expressionType = expressionType
             self.inputSerialization = inputSerialization
@@ -1274,8 +1243,7 @@ public struct DescribeJobOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         tier: Swift.String? = nil,
         vaultARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.archiveId = archiveId
         self.archiveSHA256TreeHash = archiveSHA256TreeHash
@@ -1312,8 +1280,7 @@ public struct DescribeVaultInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -1341,8 +1308,7 @@ public struct DescribeVaultOutput: Swift.Sendable {
         sizeInBytes: Swift.Int = 0,
         vaultARN: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.lastInventoryDate = lastInventoryDate
         self.numberOfArchives = numberOfArchives
@@ -1376,8 +1342,7 @@ extension GlacierClientTypes {
             sizeInBytes: Swift.Int = 0,
             vaultARN: Swift.String? = nil,
             vaultName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.lastInventoryDate = lastInventoryDate
             self.numberOfArchives = numberOfArchives
@@ -1396,8 +1361,7 @@ public struct GetDataRetrievalPolicyInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -1409,8 +1373,7 @@ public struct GetDataRetrievalPolicyOutput: Swift.Sendable {
 
     public init(
         policy: GlacierClientTypes.DataRetrievalPolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1442,8 +1405,7 @@ public struct GetJobOutputInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         range: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobId = jobId
         self.range = range
@@ -1477,13 +1439,12 @@ public struct GetJobOutputOutput: Swift.Sendable {
     public init(
         acceptRanges: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         checksum: Swift.String? = nil,
         contentRange: Swift.String? = nil,
         contentType: Swift.String? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.acceptRanges = acceptRanges
         self.archiveDescription = archiveDescription
         self.body = body
@@ -1506,8 +1467,7 @@ public struct GetVaultAccessPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -1522,8 +1482,7 @@ extension GlacierClientTypes {
 
         public init(
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
         }
     }
@@ -1536,8 +1495,7 @@ public struct GetVaultAccessPolicyOutput: Swift.Sendable {
 
     public init(
         policy: GlacierClientTypes.VaultAccessPolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1554,8 +1512,7 @@ public struct GetVaultLockInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -1577,8 +1534,7 @@ public struct GetVaultLockOutput: Swift.Sendable {
         expirationDate: Swift.String? = nil,
         policy: Swift.String? = nil,
         state: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.expirationDate = expirationDate
         self.policy = policy
@@ -1598,8 +1554,7 @@ public struct GetVaultNotificationsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -1617,8 +1572,7 @@ extension GlacierClientTypes {
         public init(
             events: [Swift.String]? = nil,
             snsTopic: Swift.String? = nil
-        )
-        {
+        ) {
             self.events = events
             self.snsTopic = snsTopic
         }
@@ -1632,16 +1586,15 @@ public struct GetVaultNotificationsOutput: Swift.Sendable {
 
     public init(
         vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig? = nil
-    )
-    {
+    ) {
         self.vaultNotificationConfig = vaultNotificationConfig
     }
 }
 
 /// Returned if there is insufficient capacity to process this expedited request. This error only applies to expedited retrievals and not to standard or bulk retrievals.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         public internal(set) var type: Swift.String? = nil
@@ -1660,8 +1613,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -1669,9 +1621,9 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
-public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// PolicyEnforcedException
         public internal(set) var code: Swift.String? = nil
         /// InitiateJob request denied by current data retrieval policy.
@@ -1693,8 +1645,7 @@ public struct PolicyEnforcedException: ClientRuntime.ModeledError, AWSClientRunt
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -1719,8 +1670,7 @@ extension GlacierClientTypes {
             limit: Swift.String? = nil,
             marker: Swift.String? = nil,
             startDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDate = endDate
             self.limit = limit
             self.marker = marker
@@ -1765,8 +1715,7 @@ extension GlacierClientTypes {
             snsTopic: Swift.String? = nil,
             tier: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.archiveId = archiveId
             self.description = description
             self.format = format
@@ -1796,8 +1745,7 @@ public struct InitiateJobInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         jobParameters: GlacierClientTypes.JobParameters? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.jobParameters = jobParameters
         self.vaultName = vaultName
@@ -1817,8 +1765,7 @@ public struct InitiateJobOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         jobOutputPath: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobOutputPath = jobOutputPath
         self.location = location
@@ -1843,8 +1790,7 @@ public struct InitiateMultipartUploadInput: Swift.Sendable {
         archiveDescription: Swift.String? = nil,
         partSize: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.archiveDescription = archiveDescription
         self.partSize = partSize
@@ -1862,8 +1808,7 @@ public struct InitiateMultipartUploadOutput: Swift.Sendable {
     public init(
         location: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.location = location
         self.uploadId = uploadId
     }
@@ -1878,8 +1823,7 @@ extension GlacierClientTypes {
 
         public init(
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
         }
     }
@@ -1900,8 +1844,7 @@ public struct InitiateVaultLockInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         policy: GlacierClientTypes.VaultLockPolicy? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.policy = policy
         self.vaultName = vaultName
@@ -1915,8 +1858,7 @@ public struct InitiateVaultLockOutput: Swift.Sendable {
 
     public init(
         lockId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lockId = lockId
     }
 }
@@ -1945,8 +1887,7 @@ public struct ListJobsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         statuscode: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.completed = completed
         self.limit = limit
@@ -2039,8 +1980,7 @@ extension GlacierClientTypes {
             statusMessage: Swift.String? = nil,
             tier: Swift.String? = nil,
             vaultARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.archiveId = archiveId
             self.archiveSHA256TreeHash = archiveSHA256TreeHash
@@ -2076,8 +2016,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobList: [GlacierClientTypes.GlacierJobDescription]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobList = jobList
         self.marker = marker
     }
@@ -2101,8 +2040,7 @@ public struct ListMultipartUploadsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.limit = limit
         self.marker = marker
@@ -2131,8 +2069,7 @@ extension GlacierClientTypes {
             multipartUploadId: Swift.String? = nil,
             partSizeInBytes: Swift.Int = 0,
             vaultARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.archiveDescription = archiveDescription
             self.creationDate = creationDate
             self.multipartUploadId = multipartUploadId
@@ -2152,8 +2089,7 @@ public struct ListMultipartUploadsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         uploadsList: [GlacierClientTypes.UploadListElement]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.uploadsList = uploadsList
     }
@@ -2181,8 +2117,7 @@ public struct ListPartsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         uploadId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.limit = limit
         self.marker = marker
@@ -2203,8 +2138,7 @@ extension GlacierClientTypes {
         public init(
             rangeInBytes: Swift.String? = nil,
             sha256TreeHash: Swift.String? = nil
-        )
-        {
+        ) {
             self.rangeInBytes = rangeInBytes
             self.sha256TreeHash = sha256TreeHash
         }
@@ -2236,8 +2170,7 @@ public struct ListPartsOutput: Swift.Sendable {
         partSizeInBytes: Swift.Int = 0,
         parts: [GlacierClientTypes.PartListElement]? = nil,
         vaultARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveDescription = archiveDescription
         self.creationDate = creationDate
         self.marker = marker
@@ -2255,8 +2188,7 @@ public struct ListProvisionedCapacityInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -2276,8 +2208,7 @@ extension GlacierClientTypes {
             capacityId: Swift.String? = nil,
             expirationDate: Swift.String? = nil,
             startDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityId = capacityId
             self.expirationDate = expirationDate
             self.startDate = startDate
@@ -2291,8 +2222,7 @@ public struct ListProvisionedCapacityOutput: Swift.Sendable {
 
     public init(
         provisionedCapacityList: [GlacierClientTypes.ProvisionedCapacityDescription]? = nil
-    )
-    {
+    ) {
         self.provisionedCapacityList = provisionedCapacityList
     }
 }
@@ -2309,8 +2239,7 @@ public struct ListTagsForVaultInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
     }
@@ -2323,8 +2252,7 @@ public struct ListTagsForVaultOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2343,8 +2271,7 @@ public struct ListVaultsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.limit = limit
         self.marker = marker
@@ -2361,8 +2288,7 @@ public struct ListVaultsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         vaultList: [GlacierClientTypes.DescribeVaultOutput]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.vaultList = vaultList
     }
@@ -2375,8 +2301,7 @@ public struct PurchaseProvisionedCapacityInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -2387,8 +2312,7 @@ public struct PurchaseProvisionedCapacityOutput: Swift.Sendable {
 
     public init(
         capacityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityId = capacityId
     }
 }
@@ -2408,8 +2332,7 @@ public struct RemoveTagsFromVaultInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.tagKeys = tagKeys
         self.vaultName = vaultName
@@ -2427,8 +2350,7 @@ public struct SetDataRetrievalPolicyInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         policy: GlacierClientTypes.DataRetrievalPolicy? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.policy = policy
     }
@@ -2449,8 +2371,7 @@ public struct SetVaultAccessPolicyInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         policy: GlacierClientTypes.VaultAccessPolicy? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.policy = policy
         self.vaultName = vaultName
@@ -2472,8 +2393,7 @@ public struct SetVaultNotificationsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         vaultName: Swift.String? = nil,
         vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.vaultName = vaultName
         self.vaultNotificationConfig = vaultNotificationConfig
@@ -2481,9 +2401,9 @@ public struct SetVaultNotificationsInput: Swift.Sendable {
 }
 
 /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
-public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// 408 Request Timeout
         public internal(set) var code: Swift.String? = nil
         /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
@@ -2505,8 +2425,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
         code: Swift.String? = nil,
         message: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.type = type
@@ -2534,8 +2453,7 @@ public struct UploadArchiveInput: Swift.Sendable {
         body: Smithy.ByteStream? = nil,
         checksum: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.archiveDescription = archiveDescription
         self.body = body
@@ -2557,8 +2475,7 @@ public struct UploadArchiveOutput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         checksum: Swift.String? = nil,
         location: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.checksum = checksum
         self.location = location
@@ -2590,8 +2507,7 @@ public struct UploadMultipartPartInput: Swift.Sendable {
         range: Swift.String? = nil,
         uploadId: Swift.String? = nil,
         vaultName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.body = body
         self.checksum = checksum
@@ -2608,8 +2524,7 @@ public struct UploadMultipartPartOutput: Swift.Sendable {
 
     public init(
         checksum: Swift.String? = nil
-    )
-    {
+    ) {
         self.checksum = checksum
     }
 }

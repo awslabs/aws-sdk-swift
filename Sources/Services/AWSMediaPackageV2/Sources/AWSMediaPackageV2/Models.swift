@@ -44,9 +44,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -61,8 +61,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -158,9 +157,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 /// Updating or deleting this resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The type of ConflictException.
         public internal(set) var conflictExceptionType: MediaPackageV2ClientTypes.ConflictExceptionType? = nil
         public internal(set) var message: Swift.String? = nil
@@ -178,17 +177,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         conflictExceptionType: MediaPackageV2ClientTypes.ConflictExceptionType? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.conflictExceptionType = conflictExceptionType
         self.properties.message = message
     }
 }
 
 /// Indicates that an error from the service occurred while trying to process a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -203,8 +201,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -245,9 +242,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 /// The specified resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The specified resource type wasn't found.
         public internal(set) var resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
@@ -265,17 +262,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceTypeNotFound = resourceTypeNotFound
     }
 }
 
 /// The request throughput limit was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -290,8 +286,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -497,9 +492,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 /// The input failed to meet the constraints specified by the AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The type of ValidationException.
         public internal(set) var validationExceptionType: MediaPackageV2ClientTypes.ValidationExceptionType? = nil
@@ -517,8 +512,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         validationExceptionType: MediaPackageV2ClientTypes.ValidationExceptionType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.validationExceptionType = validationExceptionType
     }
@@ -546,8 +540,7 @@ public struct CancelHarvestJobInput: Swift.Sendable {
         eTag: Swift.String? = nil,
         harvestJobName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.eTag = eTag
@@ -586,8 +579,7 @@ extension MediaPackageV2ClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             modifiedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.createdAt = createdAt
@@ -608,8 +600,7 @@ public struct DeleteChannelPolicyInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -631,8 +622,7 @@ public struct GetChannelPolicyInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -653,8 +643,7 @@ public struct GetChannelPolicyOutput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.policy = policy
@@ -676,8 +665,7 @@ public struct PutChannelPolicyInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.policy = policy
@@ -690,9 +678,9 @@ public struct PutChannelPolicyOutput: Swift.Sendable {
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -707,8 +695,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -722,8 +709,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             mqcsInputSwitching: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.mqcsInputSwitching = mqcsInputSwitching
         }
     }
@@ -767,8 +753,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             publishMQCS: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.publishMQCS = publishMQCS
         }
     }
@@ -808,8 +793,7 @@ public struct CreateChannelInput: Swift.Sendable {
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.clientToken = clientToken
@@ -833,8 +817,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             id: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.url = url
         }
@@ -889,8 +872,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         modifiedAt: Foundation.Date? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -917,8 +899,7 @@ public struct DeleteChannelInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -940,8 +921,7 @@ public struct GetChannelInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -995,8 +975,7 @@ public struct GetChannelOutput: Swift.Sendable {
         modifiedAt: Foundation.Date? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -1025,8 +1004,7 @@ public struct ListChannelsInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1069,8 +1047,7 @@ extension MediaPackageV2ClientTypes {
             description: Swift.String? = nil,
             inputType: MediaPackageV2ClientTypes.InputType? = nil,
             modifiedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1091,8 +1068,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.ChannelListConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1177,8 +1153,7 @@ extension MediaPackageV2ClientTypes {
             manifestFilter: Swift.String? = nil,
             start: Foundation.Date? = nil,
             timeDelaySeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.clipStartTime = clipStartTime
             self.end = end
             self.manifestFilter = manifestFilter
@@ -1239,8 +1214,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash? = nil
-        )
-        {
+        ) {
             self.adMarkerDash = adMarkerDash
         }
     }
@@ -1319,8 +1293,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             timingMode: MediaPackageV2ClientTypes.DashUtcTimingMode? = nil,
             timingSource: Swift.String? = nil
-        )
-        {
+        ) {
             self.timingMode = timingMode
             self.timingSource = timingSource
         }
@@ -1369,8 +1342,7 @@ extension MediaPackageV2ClientTypes {
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
-        )
-        {
+        ) {
             self.drmSignaling = drmSignaling
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1438,8 +1410,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             endpointErrorConditions: [MediaPackageV2ClientTypes.EndpointErrorCondition]? = nil
-        )
-        {
+        ) {
             self.endpointErrorConditions = endpointErrorConditions
         }
     }
@@ -1456,8 +1427,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls? = nil
-        )
-        {
+        ) {
             self.adMarkerHls = adMarkerHls
         }
     }
@@ -1476,8 +1446,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             precise: Swift.Bool? = nil,
             timeOffset: Swift.Float? = nil
-        )
-        {
+        ) {
             self.precise = precise
             self.timeOffset = timeOffset
         }
@@ -1512,8 +1481,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1553,8 +1521,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1636,8 +1603,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             cmafEncryptionMethod: MediaPackageV2ClientTypes.CmafEncryptionMethod? = nil,
             tsEncryptionMethod: MediaPackageV2ClientTypes.TsEncryptionMethod? = nil
-        )
-        {
+        ) {
             self.cmafEncryptionMethod = cmafEncryptionMethod
             self.tsEncryptionMethod = tsEncryptionMethod
         }
@@ -1817,8 +1783,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             presetSpeke20Audio: MediaPackageV2ClientTypes.PresetSpeke20Audio? = nil,
             presetSpeke20Video: MediaPackageV2ClientTypes.PresetSpeke20Video? = nil
-        )
-        {
+        ) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
         }
@@ -1851,8 +1816,7 @@ extension MediaPackageV2ClientTypes {
             resourceId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.drmSystems = drmSystems
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
@@ -1882,8 +1846,7 @@ extension MediaPackageV2ClientTypes {
             encryptionMethod: MediaPackageV2ClientTypes.EncryptionMethod? = nil,
             keyRotationIntervalSeconds: Swift.Int? = nil,
             spekeKeyProvider: MediaPackageV2ClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -1951,8 +1914,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             scteFilter: [MediaPackageV2ClientTypes.ScteFilter]? = nil
-        )
-        {
+        ) {
             self.scteFilter = scteFilter
         }
     }
@@ -1985,8 +1947,7 @@ extension MediaPackageV2ClientTypes {
             segmentName: Swift.String? = nil,
             tsIncludeDvbSubtitles: Swift.Bool? = nil,
             tsUseAudioRenditionGroup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.includeIframeOnlyStreams = includeIframeOnlyStreams
             self.scte = scte
@@ -2045,8 +2006,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.clientToken = clientToken
@@ -2109,8 +2069,7 @@ extension MediaPackageV2ClientTypes {
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
             url: Swift.String? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
-        )
-        {
+        ) {
             self.drmSignaling = drmSignaling
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2159,8 +2118,7 @@ extension MediaPackageV2ClientTypes {
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2205,8 +2163,7 @@ extension MediaPackageV2ClientTypes {
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2278,8 +2235,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2314,8 +2270,7 @@ public struct DeleteOriginEndpointInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2342,8 +2297,7 @@ public struct GetOriginEndpointInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2409,8 +2363,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2447,8 +2400,7 @@ public struct ListOriginEndpointsInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.maxResults = maxResults
@@ -2469,8 +2421,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             manifestName: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
             self.url = url
         }
@@ -2493,8 +2444,7 @@ extension MediaPackageV2ClientTypes {
             childManifestName: Swift.String? = nil,
             manifestName: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.manifestName = manifestName
             self.url = url
@@ -2518,8 +2468,7 @@ extension MediaPackageV2ClientTypes {
             childManifestName: Swift.String? = nil,
             manifestName: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.manifestName = manifestName
             self.url = url
@@ -2574,8 +2523,7 @@ extension MediaPackageV2ClientTypes {
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
             modifiedAt: Foundation.Date? = nil,
             originEndpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2601,8 +2549,7 @@ public struct ListOriginEndpointsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.OriginEndpointListConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2623,8 +2570,7 @@ public struct DeleteOriginEndpointPolicyInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2651,8 +2597,7 @@ public struct GetOriginEndpointPolicyInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2678,8 +2623,7 @@ public struct GetOriginEndpointPolicyOutput: Swift.Sendable {
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2706,8 +2650,7 @@ public struct PutOriginEndpointPolicyInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2763,8 +2706,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.containerType = containerType
@@ -2839,8 +2781,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2883,8 +2824,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         eTag: Swift.String? = nil,
         inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.description = description
@@ -2942,8 +2882,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
         modifiedAt: Foundation.Date? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2976,8 +2915,7 @@ public struct CreateChannelGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.clientToken = clientToken
         self.description = description
@@ -3017,8 +2955,7 @@ public struct CreateChannelGroupOutput: Swift.Sendable {
         egressDomain: Swift.String? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
@@ -3037,8 +2974,7 @@ public struct DeleteChannelGroupInput: Swift.Sendable {
 
     public init(
         channelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
     }
 }
@@ -3055,8 +2991,7 @@ public struct GetChannelGroupInput: Swift.Sendable {
 
     public init(
         channelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
     }
 }
@@ -3093,8 +3028,7 @@ public struct GetChannelGroupOutput: Swift.Sendable {
         egressDomain: Swift.String? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
@@ -3120,8 +3054,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             destinationPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.destinationPath = destinationPath
         }
@@ -3138,8 +3071,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             s3Destination: MediaPackageV2ClientTypes.S3DestinationConfig? = nil
-        )
-        {
+        ) {
             self.s3Destination = s3Destination
         }
     }
@@ -3155,8 +3087,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             manifestName: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
         }
     }
@@ -3172,8 +3103,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             manifestName: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
         }
     }
@@ -3189,8 +3119,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             manifestName: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
         }
     }
@@ -3211,8 +3140,7 @@ extension MediaPackageV2ClientTypes {
             dashManifests: [MediaPackageV2ClientTypes.HarvestedDashManifest]? = nil,
             hlsManifests: [MediaPackageV2ClientTypes.HarvestedHlsManifest]? = nil,
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest]? = nil
-        )
-        {
+        ) {
             self.dashManifests = dashManifests
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
@@ -3234,8 +3162,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -3282,8 +3209,7 @@ public struct CreateHarvestJobInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.clientToken = clientToken
@@ -3395,8 +3321,7 @@ public struct CreateHarvestJobOutput: Swift.Sendable {
         scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
         status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -3435,8 +3360,7 @@ public struct GetHarvestJobInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         harvestJobName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.harvestJobName = harvestJobName
@@ -3504,8 +3428,7 @@ public struct GetHarvestJobOutput: Swift.Sendable {
         scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
         status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -3547,8 +3470,7 @@ public struct ListHarvestJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.maxResults = maxResults
@@ -3617,8 +3539,7 @@ extension MediaPackageV2ClientTypes {
             originEndpointName: Swift.String? = nil,
             scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
             status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3647,8 +3568,7 @@ public struct ListHarvestJobsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.HarvestJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3663,8 +3583,7 @@ public struct ListChannelGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3679,8 +3598,7 @@ public struct ListChannelGroupsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.ChannelGroupListConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3699,8 +3617,7 @@ public struct UpdateChannelGroupInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.description = description
         self.eTag = eTag
@@ -3739,8 +3656,7 @@ public struct UpdateChannelGroupOutput: Swift.Sendable {
         egressDomain: Swift.String? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
@@ -3759,8 +3675,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3771,8 +3686,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3788,8 +3702,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3806,8 +3719,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

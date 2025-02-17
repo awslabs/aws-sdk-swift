@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The limit for the number of attachment sets created in a short period of time has been exceeded.
-public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The limit for the number of attachment sets created in a short period of time has been exceeded.
         public internal(set) var message: Swift.String? = nil
     }
@@ -45,16 +45,15 @@ public struct AttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
-public struct AttachmentSetExpired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentSetExpired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The expiration time of the attachment set has passed. The set expires one hour after it is created.
         public internal(set) var message: Swift.String? = nil
     }
@@ -70,16 +69,15 @@ public struct AttachmentSetExpired: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An attachment set with the specified ID could not be found.
-public struct AttachmentSetIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentSetIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An attachment set with the specified ID could not be found.
         public internal(set) var message: Swift.String? = nil
     }
@@ -95,16 +93,15 @@ public struct AttachmentSetIdNotFound: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
-public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
         public internal(set) var message: Swift.String? = nil
     }
@@ -120,16 +117,15 @@ public struct AttachmentSetSizeLimitExceeded: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal server error occurred.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An internal server error occurred.
         public internal(set) var message: Swift.String? = nil
     }
@@ -145,8 +141,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -163,8 +158,7 @@ extension SupportClientTypes {
         public init(
             data: Foundation.Data? = nil,
             fileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.fileName = fileName
         }
@@ -181,8 +175,7 @@ public struct AddAttachmentsToSetInput: Swift.Sendable {
     public init(
         attachmentSetId: Swift.String? = nil,
         attachments: [SupportClientTypes.Attachment]? = nil
-    )
-    {
+    ) {
         self.attachmentSetId = attachmentSetId
         self.attachments = attachments
     }
@@ -198,17 +191,16 @@ public struct AddAttachmentsToSetOutput: Swift.Sendable {
     public init(
         attachmentSetId: Swift.String? = nil,
         expiryTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentSetId = attachmentSetId
         self.expiryTime = expiryTime
     }
 }
 
 /// The requested caseId couldn't be located.
-public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The requested CaseId could not be located.
         public internal(set) var message: Swift.String? = nil
     }
@@ -224,8 +216,7 @@ public struct CaseIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -246,8 +237,7 @@ public struct AddCommunicationToCaseInput: Swift.Sendable {
         caseId: Swift.String? = nil,
         ccEmailAddresses: [Swift.String]? = nil,
         communicationBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentSetId = attachmentSetId
         self.caseId = caseId
         self.ccEmailAddresses = ccEmailAddresses
@@ -262,8 +252,7 @@ public struct AddCommunicationToCaseOutput: Swift.Sendable {
 
     public init(
         result: Swift.Bool = false
-    )
-    {
+    ) {
         self.result = result
     }
 }
@@ -280,8 +269,7 @@ extension SupportClientTypes {
         public init(
             attachmentId: Swift.String? = nil,
             fileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentId = attachmentId
             self.fileName = fileName
         }
@@ -289,9 +277,9 @@ extension SupportClientTypes {
 }
 
 /// An attachment with the specified ID could not be found.
-public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An attachment with the specified ID could not be found.
         public internal(set) var message: Swift.String? = nil
     }
@@ -307,16 +295,15 @@ public struct AttachmentIdNotFound: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The case creation limit for the account has been exceeded.
-public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message that indicates that you have exceeded the number of cases you can have open.
         public internal(set) var message: Swift.String? = nil
     }
@@ -332,8 +319,7 @@ public struct CaseCreationLimitExceeded: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -370,8 +356,7 @@ public struct CreateCaseInput: Swift.Sendable {
         serviceCode: Swift.String? = nil,
         severityCode: Swift.String? = nil,
         subject: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentSetId = attachmentSetId
         self.categoryCode = categoryCode
         self.ccEmailAddresses = ccEmailAddresses
@@ -391,16 +376,15 @@ public struct CreateCaseOutput: Swift.Sendable {
 
     public init(
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
     }
 }
 
 /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
-public struct DescribeAttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DescribeAttachmentLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
         public internal(set) var message: Swift.String? = nil
     }
@@ -416,8 +400,7 @@ public struct DescribeAttachmentLimitExceeded: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -429,8 +412,7 @@ public struct DescribeAttachmentInput: Swift.Sendable {
 
     public init(
         attachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentId = attachmentId
     }
 }
@@ -442,8 +424,7 @@ public struct DescribeAttachmentOutput: Swift.Sendable {
 
     public init(
         attachment: SupportClientTypes.Attachment? = nil
-    )
-    {
+    ) {
         self.attachment = attachment
     }
 }
@@ -478,8 +459,7 @@ public struct DescribeCasesInput: Swift.Sendable {
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterTime = afterTime
         self.beforeTime = beforeTime
         self.caseIdList = caseIdList
@@ -513,8 +493,7 @@ extension SupportClientTypes {
             caseId: Swift.String? = nil,
             submittedBy: Swift.String? = nil,
             timeCreated: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentSet = attachmentSet
             self.body = body
             self.caseId = caseId
@@ -536,8 +515,7 @@ extension SupportClientTypes {
         public init(
             communications: [SupportClientTypes.Communication]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.communications = communications
             self.nextToken = nextToken
         }
@@ -645,8 +623,7 @@ extension SupportClientTypes {
             subject: Swift.String? = nil,
             submittedBy: Swift.String? = nil,
             timeCreated: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseId = caseId
             self.categoryCode = categoryCode
             self.ccEmailAddresses = ccEmailAddresses
@@ -673,8 +650,7 @@ public struct DescribeCasesOutput: Swift.Sendable {
     public init(
         cases: [SupportClientTypes.CaseDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cases = cases
         self.nextToken = nextToken
     }
@@ -699,8 +675,7 @@ public struct DescribeCommunicationsInput: Swift.Sendable {
         caseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterTime = afterTime
         self.beforeTime = beforeTime
         self.caseId = caseId
@@ -719,17 +694,16 @@ public struct DescribeCommunicationsOutput: Swift.Sendable {
     public init(
         communications: [SupportClientTypes.Communication]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.communications = communications
         self.nextToken = nextToken
     }
 }
 
 /// You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -744,8 +718,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -769,8 +742,7 @@ public struct DescribeCreateCaseOptionsInput: Swift.Sendable {
         issueType: Swift.String? = nil,
         language: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.categoryCode = categoryCode
         self.issueType = issueType
         self.language = language
@@ -790,8 +762,7 @@ extension SupportClientTypes {
         public init(
             endDateTime: Swift.String? = nil,
             startDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endDateTime = endDateTime
             self.startDateTime = startDateTime
         }
@@ -810,8 +781,7 @@ extension SupportClientTypes {
         public init(
             endTime: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -839,8 +809,7 @@ extension SupportClientTypes {
             datesWithoutSupport: [SupportClientTypes.DateInterval]? = nil,
             supportedHours: [SupportClientTypes.SupportedHour]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.datesWithoutSupport = datesWithoutSupport
             self.supportedHours = supportedHours
             self.type = type
@@ -863,8 +832,7 @@ public struct DescribeCreateCaseOptionsOutput: Swift.Sendable {
     public init(
         communicationTypes: [SupportClientTypes.CommunicationTypeOptions]? = nil,
         languageAvailability: Swift.String? = nil
-    )
-    {
+    ) {
         self.communicationTypes = communicationTypes
         self.languageAvailability = languageAvailability
     }
@@ -879,8 +847,7 @@ public struct DescribeServicesInput: Swift.Sendable {
     public init(
         language: Swift.String? = nil,
         serviceCodeList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.language = language
         self.serviceCodeList = serviceCodeList
     }
@@ -898,8 +865,7 @@ extension SupportClientTypes {
         public init(
             code: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -921,8 +887,7 @@ extension SupportClientTypes {
             categories: [SupportClientTypes.Category]? = nil,
             code: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.code = code
             self.name = name
@@ -937,8 +902,7 @@ public struct DescribeServicesOutput: Swift.Sendable {
 
     public init(
         services: [SupportClientTypes.Service]? = nil
-    )
-    {
+    ) {
         self.services = services
     }
 }
@@ -949,8 +913,7 @@ public struct DescribeSeverityLevelsInput: Swift.Sendable {
 
     public init(
         language: Swift.String? = nil
-    )
-    {
+    ) {
         self.language = language
     }
 }
@@ -980,8 +943,7 @@ extension SupportClientTypes {
         public init(
             code: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -995,8 +957,7 @@ public struct DescribeSeverityLevelsOutput: Swift.Sendable {
 
     public init(
         severityLevels: [SupportClientTypes.SeverityLevel]? = nil
-    )
-    {
+    ) {
         self.severityLevels = severityLevels
     }
 }
@@ -1016,8 +977,7 @@ public struct DescribeSupportedLanguagesInput: Swift.Sendable {
         categoryCode: Swift.String? = nil,
         issueType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.categoryCode = categoryCode
         self.issueType = issueType
         self.serviceCode = serviceCode
@@ -1039,8 +999,7 @@ extension SupportClientTypes {
             code: Swift.String? = nil,
             display: Swift.String? = nil,
             language: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.display = display
             self.language = language
@@ -1054,8 +1013,7 @@ public struct DescribeSupportedLanguagesOutput: Swift.Sendable {
 
     public init(
         supportedLanguages: [SupportClientTypes.SupportedLanguage]? = nil
-    )
-    {
+    ) {
         self.supportedLanguages = supportedLanguages
     }
 }
@@ -1067,8 +1025,7 @@ public struct DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Sendable {
 
     public init(
         checkIds: [Swift.String?]? = nil
-    )
-    {
+    ) {
         self.checkIds = checkIds
     }
 }
@@ -1101,8 +1058,7 @@ extension SupportClientTypes {
             checkId: Swift.String? = nil,
             millisUntilNextRefreshable: Swift.Int = 0,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.checkId = checkId
             self.millisUntilNextRefreshable = millisUntilNextRefreshable
             self.status = status
@@ -1118,8 +1074,7 @@ public struct DescribeTrustedAdvisorCheckRefreshStatusesOutput: Swift.Sendable {
 
     public init(
         statuses: [SupportClientTypes.TrustedAdvisorCheckRefreshStatus]? = nil
-    )
-    {
+    ) {
         self.statuses = statuses
     }
 }
@@ -1157,8 +1112,7 @@ public struct DescribeTrustedAdvisorCheckResultInput: Swift.Sendable {
     public init(
         checkId: Swift.String? = nil,
         language: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkId = checkId
         self.language = language
     }
@@ -1178,8 +1132,7 @@ extension SupportClientTypes {
         public init(
             estimatedMonthlySavings: Swift.Double = 0.0,
             estimatedPercentMonthlySavings: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
         }
@@ -1195,8 +1148,7 @@ extension SupportClientTypes {
 
         public init(
             costOptimizing: SupportClientTypes.TrustedAdvisorCostOptimizingSummary? = nil
-        )
-        {
+        ) {
             self.costOptimizing = costOptimizing
         }
     }
@@ -1226,8 +1178,7 @@ extension SupportClientTypes {
             region: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.isSuppressed = isSuppressed
             self.metadata = metadata
             self.region = region
@@ -1259,8 +1210,7 @@ extension SupportClientTypes {
             resourcesIgnored: Swift.Int = 0,
             resourcesProcessed: Swift.Int = 0,
             resourcesSuppressed: Swift.Int = 0
-        )
-        {
+        ) {
             self.resourcesFlagged = resourcesFlagged
             self.resourcesIgnored = resourcesIgnored
             self.resourcesProcessed = resourcesProcessed
@@ -1299,8 +1249,7 @@ extension SupportClientTypes {
             resourcesSummary: SupportClientTypes.TrustedAdvisorResourcesSummary? = nil,
             status: Swift.String? = nil,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.categorySpecificSummary = categorySpecificSummary
             self.checkId = checkId
             self.flaggedResources = flaggedResources
@@ -1318,8 +1267,7 @@ public struct DescribeTrustedAdvisorCheckResultOutput: Swift.Sendable {
 
     public init(
         result: SupportClientTypes.TrustedAdvisorCheckResult? = nil
-    )
-    {
+    ) {
         self.result = result
     }
 }
@@ -1353,8 +1301,7 @@ public struct DescribeTrustedAdvisorChecksInput: Swift.Sendable {
 
     public init(
         language: Swift.String? = nil
-    )
-    {
+    ) {
         self.language = language
     }
 }
@@ -1385,8 +1332,7 @@ extension SupportClientTypes {
             id: Swift.String? = nil,
             metadata: [Swift.String?]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.description = description
             self.id = id
@@ -1404,8 +1350,7 @@ public struct DescribeTrustedAdvisorChecksOutput: Swift.Sendable {
 
     public init(
         checks: [SupportClientTypes.TrustedAdvisorCheckDescription]? = nil
-    )
-    {
+    ) {
         self.checks = checks
     }
 }
@@ -1417,8 +1362,7 @@ public struct DescribeTrustedAdvisorCheckSummariesInput: Swift.Sendable {
 
     public init(
         checkIds: [Swift.String?]? = nil
-    )
-    {
+    ) {
         self.checkIds = checkIds
     }
 }
@@ -1452,8 +1396,7 @@ extension SupportClientTypes {
             resourcesSummary: SupportClientTypes.TrustedAdvisorResourcesSummary? = nil,
             status: Swift.String? = nil,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.categorySpecificSummary = categorySpecificSummary
             self.checkId = checkId
             self.hasFlaggedResources = hasFlaggedResources
@@ -1472,8 +1415,7 @@ public struct DescribeTrustedAdvisorCheckSummariesOutput: Swift.Sendable {
 
     public init(
         summaries: [SupportClientTypes.TrustedAdvisorCheckSummary]? = nil
-    )
-    {
+    ) {
         self.summaries = summaries
     }
 }
@@ -1486,8 +1428,7 @@ public struct RefreshTrustedAdvisorCheckInput: Swift.Sendable {
 
     public init(
         checkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkId = checkId
     }
 }
@@ -1500,8 +1441,7 @@ public struct RefreshTrustedAdvisorCheckOutput: Swift.Sendable {
 
     public init(
         status: SupportClientTypes.TrustedAdvisorCheckRefreshStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1512,8 +1452,7 @@ public struct ResolveCaseInput: Swift.Sendable {
 
     public init(
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
     }
 }
@@ -1528,8 +1467,7 @@ public struct ResolveCaseOutput: Swift.Sendable {
     public init(
         finalCaseStatus: Swift.String? = nil,
         initialCaseStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.finalCaseStatus = finalCaseStatus
         self.initialCaseStatus = initialCaseStatus
     }

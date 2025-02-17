@@ -29,9 +29,9 @@ import struct Smithy.Document
 import struct Smithy.URIQueryItem
 
 /// Access to the Apache Airflow Web UI or CLI has been denied due to insufficient permissions. To learn more, see [Accessing an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/access-policies.html).
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,16 +46,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// ResourceNotFoundException: The resource is not available.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -70,8 +69,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -83,8 +81,7 @@ public struct CreateCliTokenInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -98,8 +95,7 @@ public struct CreateCliTokenOutput: Swift.Sendable {
     public init(
         cliToken: Swift.String? = nil,
         webServerHostname: Swift.String? = nil
-    )
-    {
+    ) {
         self.cliToken = cliToken
         self.webServerHostname = webServerHostname
     }
@@ -111,9 +107,9 @@ extension CreateCliTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// InternalServerException: An internal error has occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -128,16 +124,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// ValidationException: The provided input is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -152,8 +147,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -239,8 +233,7 @@ extension MWAAClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             logLevel: MWAAClientTypes.LoggingLevel? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logLevel = logLevel
         }
@@ -268,8 +261,7 @@ extension MWAAClientTypes {
             taskLogs: MWAAClientTypes.ModuleLoggingConfigurationInput? = nil,
             webserverLogs: MWAAClientTypes.ModuleLoggingConfigurationInput? = nil,
             workerLogs: MWAAClientTypes.ModuleLoggingConfigurationInput? = nil
-        )
-        {
+        ) {
             self.dagProcessingLogs = dagProcessingLogs
             self.schedulerLogs = schedulerLogs
             self.taskLogs = taskLogs
@@ -291,8 +283,7 @@ extension MWAAClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -332,7 +323,7 @@ extension MWAAClientTypes {
 public struct CreateEnvironmentInput: Swift.Sendable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
@@ -416,8 +407,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.airflowConfigurationOptions = airflowConfigurationOptions
         self.airflowVersion = airflowVersion
         self.dagS3Path = dagS3Path
@@ -457,8 +447,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -470,8 +459,7 @@ public struct CreateWebLoginTokenInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -491,8 +479,7 @@ public struct CreateWebLoginTokenOutput: Swift.Sendable {
         iamIdentity: Swift.String? = nil,
         webServerHostname: Swift.String? = nil,
         webToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.airflowIdentity = airflowIdentity
         self.iamIdentity = iamIdentity
         self.webServerHostname = webServerHostname
@@ -512,8 +499,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -530,8 +516,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -548,8 +533,7 @@ extension MWAAClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -606,8 +590,7 @@ extension MWAAClientTypes {
             error: MWAAClientTypes.UpdateError? = nil,
             source: Swift.String? = nil,
             status: MWAAClientTypes.UpdateStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.error = error
             self.source = source
@@ -631,8 +614,7 @@ extension MWAAClientTypes {
             cloudWatchLogGroupArn: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             logLevel: MWAAClientTypes.LoggingLevel? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.enabled = enabled
             self.logLevel = logLevel
@@ -661,8 +643,7 @@ extension MWAAClientTypes {
             taskLogs: MWAAClientTypes.ModuleLoggingConfiguration? = nil,
             webserverLogs: MWAAClientTypes.ModuleLoggingConfiguration? = nil,
             workerLogs: MWAAClientTypes.ModuleLoggingConfiguration? = nil
-        )
-        {
+        ) {
             self.dagProcessingLogs = dagProcessingLogs
             self.schedulerLogs = schedulerLogs
             self.taskLogs = taskLogs
@@ -737,7 +718,7 @@ extension MWAAClientTypes {
     public struct Environment: Swift.Sendable {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
         public var airflowVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public var arn: Swift.String?
@@ -866,8 +847,7 @@ extension MWAAClientTypes {
             webserverUrl: Swift.String? = nil,
             webserverVpcEndpointService: Swift.String? = nil,
             weeklyMaintenanceWindowStart: Swift.String? = nil
-        )
-        {
+        ) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.arn = arn
@@ -917,16 +897,15 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: MWAAClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
 
 /// An exception indicating that a client-side error occurred during the Apache Airflow REST API call.
-public struct RestApiClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RestApiClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error response data from the Apache Airflow REST API call, provided as a JSON object.
         public internal(set) var restApiResponse: Smithy.Document? = nil
         /// The HTTP status code returned by the Apache Airflow REST API call.
@@ -945,8 +924,7 @@ public struct RestApiClientException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         restApiResponse: Smithy.Document? = nil,
         restApiStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.restApiResponse = restApiResponse
         self.properties.restApiStatusCode = restApiStatusCode
     }
@@ -958,9 +936,9 @@ extension RestApiClientException: Swift.CustomDebugStringConvertible {
 }
 
 /// An exception indicating that a server-side error occurred during the Apache Airflow REST API call.
-public struct RestApiServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RestApiServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error response data from the Apache Airflow REST API call, provided as a JSON object.
         public internal(set) var restApiResponse: Smithy.Document? = nil
         /// The HTTP status code returned by the Apache Airflow REST API call.
@@ -979,8 +957,7 @@ public struct RestApiServerException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         restApiResponse: Smithy.Document? = nil,
         restApiStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.restApiResponse = restApiResponse
         self.properties.restApiStatusCode = restApiStatusCode
     }
@@ -1050,8 +1027,7 @@ public struct InvokeRestApiInput: Swift.Sendable {
         name: Swift.String? = nil,
         path: Swift.String? = nil,
         queryParameters: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.body = body
         self.method = method
         self.name = name
@@ -1074,8 +1050,7 @@ public struct InvokeRestApiOutput: Swift.Sendable {
     public init(
         restApiResponse: Smithy.Document? = nil,
         restApiStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.restApiResponse = restApiResponse
         self.restApiStatusCode = restApiStatusCode
     }
@@ -1095,8 +1070,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1112,8 +1086,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -1126,8 +1099,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1138,8 +1110,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1159,8 +1130,7 @@ extension MWAAClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1186,8 +1156,7 @@ extension MWAAClientTypes {
             minimum: Swift.Double? = nil,
             sampleCount: Swift.Int? = nil,
             sum: Swift.Double? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
             self.sampleCount = sampleCount
@@ -1329,8 +1298,7 @@ extension MWAAClientTypes {
             timestamp: Foundation.Date? = nil,
             unit: MWAAClientTypes.Unit? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.statisticValues = statisticValues
@@ -1354,8 +1322,7 @@ public struct PublishMetricsInput: Swift.Sendable {
     public init(
         environmentName: Swift.String? = nil,
         metricData: [MWAAClientTypes.MetricDatum]? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
         self.metricData = metricData
     }
@@ -1378,8 +1345,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1401,8 +1367,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1423,8 +1388,7 @@ extension MWAAClientTypes {
 
         public init(
             securityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
         }
     }
@@ -1433,7 +1397,7 @@ extension MWAAClientTypes {
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     public var dagS3Path: Swift.String?
@@ -1500,8 +1464,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         startupScriptS3Path: Swift.String? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.airflowConfigurationOptions = airflowConfigurationOptions
         self.airflowVersion = airflowVersion
         self.dagS3Path = dagS3Path
@@ -1538,8 +1501,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }

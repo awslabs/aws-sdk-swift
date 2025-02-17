@@ -73,8 +73,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             alarmARN: Swift.String? = nil,
             alarmName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmARN = alarmARN
             self.alarmName = alarmName
         }
@@ -82,9 +81,9 @@ extension ApplicationAutoScalingClientTypes {
 }
 
 /// Concurrent updates caused an exception, for example, if you request an update to an Application Auto Scaling resource that already has a pending update.
-public struct ConcurrentUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -99,16 +98,15 @@ public struct ConcurrentUpdateException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service encountered an internal error.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -123,16 +121,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
-public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -147,16 +144,15 @@ public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception was thrown for a validation issue. Review the available parameters for the API request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -171,8 +167,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -440,8 +435,7 @@ public struct DeleteScalingPolicyInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.resourceId = resourceId
         self.scalableDimension = scalableDimension
@@ -557,8 +551,7 @@ public struct DeleteScheduledActionInput: Swift.Sendable {
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         scheduledActionName: Swift.String? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.scalableDimension = scalableDimension
         self.scheduledActionName = scheduledActionName
@@ -670,8 +663,7 @@ public struct DeregisterScalableTargetInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.scalableDimension = scalableDimension
         self.serviceNamespace = serviceNamespace
@@ -684,9 +676,9 @@ public struct DeregisterScalableTargetOutput: Swift.Sendable {
 }
 
 /// The next token supplied was invalid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -701,8 +693,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -810,8 +801,7 @@ public struct DescribeScalableTargetsInput: Swift.Sendable {
         resourceIds: [Swift.String]? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceIds = resourceIds
@@ -835,8 +825,7 @@ extension ApplicationAutoScalingClientTypes {
             dynamicScalingInSuspended: Swift.Bool? = nil,
             dynamicScalingOutSuspended: Swift.Bool? = nil,
             scheduledScalingSuspended: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dynamicScalingInSuspended = dynamicScalingInSuspended
             self.dynamicScalingOutSuspended = dynamicScalingOutSuspended
             self.scheduledScalingSuspended = scheduledScalingSuspended
@@ -971,8 +960,7 @@ extension ApplicationAutoScalingClientTypes {
             scalableTargetARN: Swift.String? = nil,
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
             suspendedState: ApplicationAutoScalingClientTypes.SuspendedState? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -996,8 +984,7 @@ public struct DescribeScalableTargetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalableTargets: [ApplicationAutoScalingClientTypes.ScalableTarget]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalableTargets = scalableTargets
     }
@@ -1109,8 +1096,7 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
-    )
-    {
+    ) {
         self.includeNotScaledActivities = includeNotScaledActivities
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1149,8 +1135,7 @@ extension ApplicationAutoScalingClientTypes {
             currentCapacity: Swift.Int? = nil,
             maxCapacity: Swift.Int? = nil,
             minCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.code = code
             self.currentCapacity = currentCapacity
             self.maxCapacity = maxCapacity
@@ -1334,8 +1319,7 @@ extension ApplicationAutoScalingClientTypes {
             startTime: Foundation.Date? = nil,
             statusCode: ApplicationAutoScalingClientTypes.ScalingActivityStatusCode? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.activityId = activityId
             self.cause = cause
             self.description = description
@@ -1361,17 +1345,16 @@ public struct DescribeScalingActivitiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingActivities: [ApplicationAutoScalingClientTypes.ScalingActivity]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingActivities = scalingActivities
     }
 }
 
 /// Failed access to resources caused an exception. This exception is thrown when Application Auto Scaling is unable to retrieve the alarms associated with a scaling policy due to a client error, for example, if the role ARN specified for a scalable target does not have permission to call the CloudWatch [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) on your behalf.
-public struct FailedResourceAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FailedResourceAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1386,8 +1369,7 @@ public struct FailedResourceAccessException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1498,8 +1480,7 @@ public struct DescribeScalingPoliciesInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.policyNames = policyNames
@@ -1584,8 +1565,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1607,8 +1587,7 @@ extension ApplicationAutoScalingClientTypes {
             dimensions: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
@@ -1633,8 +1612,7 @@ extension ApplicationAutoScalingClientTypes {
             metric: ApplicationAutoScalingClientTypes.PredictiveScalingMetric? = nil,
             stat: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.stat = stat
             self.unit = unit
@@ -1664,8 +1642,7 @@ extension ApplicationAutoScalingClientTypes {
             label: Swift.String? = nil,
             metricStat: ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat? = nil,
             returnData: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.id = id
             self.label = label
@@ -1685,8 +1662,7 @@ extension ApplicationAutoScalingClientTypes {
 
         public init(
             metricDataQueries: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery]? = nil
-        )
-        {
+        ) {
             self.metricDataQueries = metricDataQueries
         }
     }
@@ -1705,8 +1681,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             predefinedMetricType: Swift.String? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -1726,8 +1701,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             predefinedMetricType: Swift.String? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -1747,8 +1721,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             predefinedMetricType: Swift.String? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -1783,8 +1756,7 @@ extension ApplicationAutoScalingClientTypes {
             predefinedMetricPairSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification? = nil,
             predefinedScalingMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.customizedCapacityMetricSpecification = customizedCapacityMetricSpecification
             self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
             self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
@@ -1827,7 +1799,7 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes {
 
-    /// Represents a predictive scaling policy configuration.
+    /// Represents a predictive scaling policy configuration. Predictive scaling is supported on Amazon ECS services.
     public struct PredictiveScalingPolicyConfiguration: Swift.Sendable {
         /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity. Defaults to HonorMaxCapacity if not specified.
         public var maxCapacityBreachBehavior: ApplicationAutoScalingClientTypes.PredictiveScalingMaxCapacityBreachBehavior?
@@ -1847,8 +1819,7 @@ extension ApplicationAutoScalingClientTypes {
             metricSpecifications: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification]? = nil,
             mode: ApplicationAutoScalingClientTypes.PredictiveScalingMode? = nil,
             schedulingBufferTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxCapacityBreachBehavior = maxCapacityBreachBehavior
             self.maxCapacityBuffer = maxCapacityBuffer
             self.metricSpecifications = metricSpecifications
@@ -1921,8 +1892,7 @@ extension ApplicationAutoScalingClientTypes {
             metricIntervalLowerBound: Swift.Double? = nil,
             metricIntervalUpperBound: Swift.Double? = nil,
             scalingAdjustment: Swift.Int? = nil
-        )
-        {
+        ) {
             self.metricIntervalLowerBound = metricIntervalLowerBound
             self.metricIntervalUpperBound = metricIntervalUpperBound
             self.scalingAdjustment = scalingAdjustment
@@ -1951,8 +1921,7 @@ extension ApplicationAutoScalingClientTypes {
             metricAggregationType: ApplicationAutoScalingClientTypes.MetricAggregationType? = nil,
             minAdjustmentMagnitude: Swift.Int? = nil,
             stepAdjustments: [ApplicationAutoScalingClientTypes.StepAdjustment]? = nil
-        )
-        {
+        ) {
             self.adjustmentType = adjustmentType
             self.cooldown = cooldown
             self.metricAggregationType = metricAggregationType
@@ -1976,8 +1945,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1998,8 +1966,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2021,8 +1988,7 @@ extension ApplicationAutoScalingClientTypes {
             dimensions: [ApplicationAutoScalingClientTypes.TargetTrackingMetricDimension]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
@@ -2047,8 +2013,7 @@ extension ApplicationAutoScalingClientTypes {
             metric: ApplicationAutoScalingClientTypes.TargetTrackingMetric? = nil,
             stat: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.stat = stat
             self.unit = unit
@@ -2078,8 +2043,7 @@ extension ApplicationAutoScalingClientTypes {
             label: Swift.String? = nil,
             metricStat: ApplicationAutoScalingClientTypes.TargetTrackingMetricStat? = nil,
             returnData: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.id = id
             self.label = label
@@ -2158,8 +2122,7 @@ extension ApplicationAutoScalingClientTypes {
             namespace: Swift.String? = nil,
             statistic: ApplicationAutoScalingClientTypes.MetricStatistic? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.metrics = metrics
@@ -2294,8 +2257,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             predefinedMetricType: ApplicationAutoScalingClientTypes.MetricType? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -2327,8 +2289,7 @@ extension ApplicationAutoScalingClientTypes {
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.customizedMetricSpecification = customizedMetricSpecification
             self.disableScaleIn = disableScaleIn
             self.predefinedMetricSpecification = predefinedMetricSpecification
@@ -2469,8 +2430,7 @@ extension ApplicationAutoScalingClientTypes {
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
             stepScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.StepScalingPolicyConfiguration? = nil,
             targetTrackingScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.TargetTrackingScalingPolicyConfiguration? = nil
-        )
-        {
+        ) {
             self.alarms = alarms
             self.creationTime = creationTime
             self.policyARN = policyARN
@@ -2495,8 +2455,7 @@ public struct DescribeScalingPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingPolicies: [ApplicationAutoScalingClientTypes.ScalingPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingPolicies = scalingPolicies
     }
@@ -2608,8 +2567,7 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         scheduledActionNames: [Swift.String]? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -2631,8 +2589,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             maxCapacity: Swift.Int? = nil,
             minCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
         }
@@ -2777,8 +2734,7 @@ extension ApplicationAutoScalingClientTypes {
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
             startTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endTime = endTime
             self.resourceId = resourceId
@@ -2803,8 +2759,7 @@ public struct DescribeScheduledActionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduledActions: [ApplicationAutoScalingClientTypes.ScheduledAction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduledActions = scheduledActions
     }
@@ -2837,8 +2792,7 @@ public struct GetPredictiveScalingForecastInput: Swift.Sendable {
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.policyName = policyName
         self.resourceId = resourceId
@@ -2862,8 +2816,7 @@ extension ApplicationAutoScalingClientTypes {
         public init(
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.timestamps = timestamps
             self.values = values
         }
@@ -2888,8 +2841,7 @@ extension ApplicationAutoScalingClientTypes {
             metricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification? = nil,
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.metricSpecification = metricSpecification
             self.timestamps = timestamps
             self.values = values
@@ -2909,8 +2861,7 @@ public struct GetPredictiveScalingForecastOutput: Swift.Sendable {
         capacityForecast: ApplicationAutoScalingClientTypes.CapacityForecast? = nil,
         loadForecast: [ApplicationAutoScalingClientTypes.LoadForecast]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.capacityForecast = capacityForecast
         self.loadForecast = loadForecast
         self.updateTime = updateTime
@@ -2918,9 +2869,9 @@ public struct GetPredictiveScalingForecastOutput: Swift.Sendable {
 }
 
 /// The specified resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the Application Auto Scaling resource. This value is an Amazon Resource Name (ARN).
         public internal(set) var resourceName: Swift.String? = nil
@@ -2938,8 +2889,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -2952,8 +2902,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2964,16 +2913,15 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 /// A per-account resource limit is exceeded. For more information, see [Application Auto Scaling service quotas](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-limits.html).
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2988,8 +2936,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3109,8 +3056,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
         stepScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.StepScalingPolicyConfiguration? = nil,
         targetTrackingScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.TargetTrackingScalingPolicyConfiguration? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.policyType = policyType
         self.predictiveScalingPolicyConfiguration = predictiveScalingPolicyConfiguration
@@ -3132,8 +3078,7 @@ public struct PutScalingPolicyOutput: Swift.Sendable {
     public init(
         alarms: [ApplicationAutoScalingClientTypes.Alarm]? = nil,
         policyARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarms = alarms
         self.policyARN = policyARN
     }
@@ -3266,8 +3211,7 @@ public struct PutScheduledActionInput: Swift.Sendable {
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
         startTime: Foundation.Date? = nil,
         timezone: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.resourceId = resourceId
         self.scalableDimension = scalableDimension
@@ -3431,8 +3375,7 @@ public struct RegisterScalableTargetInput: Swift.Sendable {
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
         suspendedState: ApplicationAutoScalingClientTypes.SuspendedState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxCapacity = maxCapacity
         self.minCapacity = minCapacity
         self.resourceId = resourceId
@@ -3450,16 +3393,15 @@ public struct RegisterScalableTargetOutput: Swift.Sendable {
 
     public init(
         scalableTargetARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.scalableTargetARN = scalableTargetARN
     }
 }
 
 /// The request contains too many tags. Try the request again with fewer tags.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the Application Auto Scaling resource. This value is an Amazon Resource Name (ARN).
         public internal(set) var resourceName: Swift.String? = nil
@@ -3477,8 +3419,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -3495,8 +3436,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -3518,8 +3458,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }

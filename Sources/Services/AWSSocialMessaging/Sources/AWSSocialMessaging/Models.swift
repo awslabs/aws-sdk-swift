@@ -28,9 +28,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedByMetaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedByMetaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct AccessDeniedByMetaException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when performing an action because a dependency would be broken.
-public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more parameters provided to the action are not valid.
-public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,16 +114,15 @@ public struct InvalidParametersException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottledRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,8 +137,7 @@ public struct ThrottledRequestException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -160,8 +155,7 @@ extension SocialMessagingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -228,8 +222,7 @@ extension SocialMessagingClientTypes {
             id: Swift.String? = nil,
             tags: [SocialMessagingClientTypes.Tag]? = nil,
             twoFactorPin: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataLocalizationRegion = dataLocalizationRegion
             self.id = id
             self.tags = tags
@@ -250,12 +243,15 @@ extension SocialMessagingClientTypes {
         /// The ARN of the event destination.
         /// This member is required.
         public var eventDestinationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to import phone numbers and write events.
+        public var roleArn: Swift.String?
 
         public init(
-            eventDestinationArn: Swift.String? = nil
-        )
-        {
+            eventDestinationArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        ) {
             self.eventDestinationArn = eventDestinationArn
+            self.roleArn = roleArn
         }
     }
 }
@@ -275,8 +271,7 @@ extension SocialMessagingClientTypes {
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             tags: [SocialMessagingClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.eventDestinations = eventDestinations
             self.id = id
             self.tags = tags
@@ -304,8 +299,7 @@ extension SocialMessagingClientTypes {
             phoneNumberParent: Swift.String? = nil,
             phoneNumbers: [SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization]? = nil,
             waba: SocialMessagingClientTypes.WabaSetupFinalization? = nil
-        )
-        {
+        ) {
             self.associateInProgressToken = associateInProgressToken
             self.phoneNumberParent = phoneNumberParent
             self.phoneNumbers = phoneNumbers
@@ -329,8 +323,7 @@ extension SocialMessagingClientTypes {
 
         public init(
             accessToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
         }
     }
@@ -345,8 +338,7 @@ public struct AssociateWhatsAppBusinessAccountInput: Swift.Sendable {
     public init(
         setupFinalization: SocialMessagingClientTypes.WhatsAppSetupFinalization? = nil,
         signupCallback: SocialMessagingClientTypes.WhatsAppSignupCallback? = nil
-    )
-    {
+    ) {
         self.setupFinalization = setupFinalization
         self.signupCallback = signupCallback
     }
@@ -415,8 +407,7 @@ extension SocialMessagingClientTypes {
             phoneNumber: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             qualityRating: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.displayPhoneNumber = displayPhoneNumber
             self.displayPhoneNumberName = displayPhoneNumberName
@@ -438,16 +429,19 @@ extension SocialMessagingClientTypes {
         public var registrationStatus: SocialMessagingClientTypes.RegistrationStatus?
         /// The details for unregistered WhatsApp phone numbers.
         public var unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]?
+        /// The Amazon Resource Name (ARN) of the WhatsApp Business Account ID.
+        public var wabaId: Swift.String?
 
         public init(
             accountName: Swift.String? = nil,
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
-            unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]? = nil
-        )
-        {
+            unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]? = nil,
+            wabaId: Swift.String? = nil
+        ) {
             self.accountName = accountName
             self.registrationStatus = registrationStatus
             self.unregisteredWhatsAppPhoneNumbers = unregisteredWhatsAppPhoneNumbers
+            self.wabaId = wabaId
         }
     }
 }
@@ -464,8 +458,7 @@ extension SocialMessagingClientTypes {
         public init(
             associateInProgressToken: Swift.String? = nil,
             linkedAccountsWithIncompleteSetup: [Swift.String: SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData]? = nil
-        )
-        {
+        ) {
             self.associateInProgressToken = associateInProgressToken
             self.linkedAccountsWithIncompleteSetup = linkedAccountsWithIncompleteSetup
         }
@@ -486,17 +479,16 @@ public struct AssociateWhatsAppBusinessAccountOutput: Swift.Sendable {
     public init(
         signupCallbackResult: SocialMessagingClientTypes.WhatsAppSignupCallbackResult? = nil,
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.signupCallbackResult = signupCallbackResult
         self.statusCode = statusCode
     }
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -511,16 +503,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -535,8 +526,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -552,8 +542,7 @@ public struct DeleteWhatsAppMessageMediaInput: Swift.Sendable {
     public init(
         mediaId: Swift.String? = nil,
         originationPhoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaId = mediaId
         self.originationPhoneNumberId = originationPhoneNumberId
     }
@@ -565,8 +554,7 @@ public struct DeleteWhatsAppMessageMediaOutput: Swift.Sendable {
 
     public init(
         success: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.success = success
     }
 }
@@ -578,8 +566,7 @@ public struct DisassociateWhatsAppBusinessAccountInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -596,8 +583,7 @@ public struct GetLinkedWhatsAppBusinessAccountInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -636,8 +622,7 @@ extension SocialMessagingClientTypes {
             phoneNumber: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             qualityRating: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.displayPhoneNumber = displayPhoneNumber
             self.displayPhoneNumberName = displayPhoneNumberName
@@ -687,8 +672,7 @@ extension SocialMessagingClientTypes {
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
             wabaId: Swift.String? = nil,
             wabaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.eventDestinations = eventDestinations
             self.id = id
@@ -707,8 +691,7 @@ public struct GetLinkedWhatsAppBusinessAccountOutput: Swift.Sendable {
 
     public init(
         account: SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount? = nil
-    )
-    {
+    ) {
         self.account = account
     }
 }
@@ -720,8 +703,7 @@ public struct GetLinkedWhatsAppBusinessAccountPhoneNumberInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -735,8 +717,7 @@ public struct GetLinkedWhatsAppBusinessAccountPhoneNumberOutput: Swift.Sendable 
     public init(
         linkedWhatsAppBusinessAccountId: Swift.String? = nil,
         phoneNumber: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail? = nil
-    )
-    {
+    ) {
         self.linkedWhatsAppBusinessAccountId = linkedWhatsAppBusinessAccountId
         self.phoneNumber = phoneNumber
     }
@@ -756,8 +737,7 @@ extension SocialMessagingClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.key = key
         }
@@ -784,8 +764,7 @@ extension SocialMessagingClientTypes {
         public init(
             headers: [Swift.String: Swift.String]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.headers = headers
             self.url = url
         }
@@ -818,8 +797,7 @@ public struct GetWhatsAppMessageMediaInput: Swift.Sendable {
         mediaId: Swift.String? = nil,
         metadataOnly: Swift.Bool? = nil,
         originationPhoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationS3File = destinationS3File
         self.destinationS3PresignedUrl = destinationS3PresignedUrl
         self.mediaId = mediaId
@@ -842,8 +820,7 @@ public struct GetWhatsAppMessageMediaOutput: Swift.Sendable {
     public init(
         fileSize: Swift.Int? = nil,
         mimeType: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileSize = fileSize
         self.mimeType = mimeType
     }
@@ -858,8 +835,7 @@ public struct ListLinkedWhatsAppBusinessAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -899,8 +875,7 @@ extension SocialMessagingClientTypes {
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
             wabaId: Swift.String? = nil,
             wabaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.eventDestinations = eventDestinations
             self.id = id
@@ -921,8 +896,7 @@ public struct ListLinkedWhatsAppBusinessAccountsOutput: Swift.Sendable {
     public init(
         linkedAccounts: [SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.linkedAccounts = linkedAccounts
         self.nextToken = nextToken
     }
@@ -939,8 +913,7 @@ public struct PutWhatsAppBusinessAccountEventDestinationsInput: Swift.Sendable {
     public init(
         eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDestinations = eventDestinations
         self.id = id
     }
@@ -964,8 +937,7 @@ public struct PostWhatsAppMessageMediaInput: Swift.Sendable {
         originationPhoneNumberId: Swift.String? = nil,
         sourceS3File: SocialMessagingClientTypes.S3File? = nil,
         sourceS3PresignedUrl: SocialMessagingClientTypes.S3PresignedUrl? = nil
-    )
-    {
+    ) {
         self.originationPhoneNumberId = originationPhoneNumberId
         self.sourceS3File = sourceS3File
         self.sourceS3PresignedUrl = sourceS3PresignedUrl
@@ -983,8 +955,7 @@ public struct PostWhatsAppMessageMediaOutput: Swift.Sendable {
 
     public init(
         mediaId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaId = mediaId
     }
 }
@@ -1004,8 +975,7 @@ public struct SendWhatsAppMessageInput: Swift.Sendable {
         message: Foundation.Data? = nil,
         metaApiVersion: Swift.String? = nil,
         originationPhoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.metaApiVersion = metaApiVersion
         self.originationPhoneNumberId = originationPhoneNumberId
@@ -1023,8 +993,7 @@ public struct SendWhatsAppMessageOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -1036,8 +1005,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1051,8 +1019,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         statusCode: Swift.Int? = nil,
         tags: [SocialMessagingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.statusCode = statusCode
         self.tags = tags
     }
@@ -1069,8 +1036,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SocialMessagingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1082,8 +1048,7 @@ public struct TagResourceOutput: Swift.Sendable {
 
     public init(
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.statusCode = statusCode
     }
 }
@@ -1099,8 +1064,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1112,16 +1076,15 @@ public struct UntagResourceOutput: Swift.Sendable {
 
     public init(
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.statusCode = statusCode
     }
 }
 
 /// The request contains an invalid parameter value.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1136,8 +1099,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1913,6 +1875,7 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
         value.accountName = try reader["accountName"].readIfPresent()
         value.registrationStatus = try reader["registrationStatus"].readIfPresent()
         value.unregisteredWhatsAppPhoneNumbers = try reader["unregisteredWhatsAppPhoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.wabaId = try reader["wabaId"].readIfPresent()
         return value
     }
 }
@@ -1971,12 +1934,14 @@ extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
     static func write(value: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["eventDestinationArn"].write(value.eventDestinationArn)
+        try writer["roleArn"].write(value.roleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination()
         value.eventDestinationArn = try reader["eventDestinationArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
 }

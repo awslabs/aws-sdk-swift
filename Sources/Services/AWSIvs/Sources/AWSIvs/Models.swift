@@ -56,9 +56,9 @@ public struct PutMetadataOutput: Swift.Sendable {
 }
 
 ///
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// User does not have sufficient access to perform this action.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -74,8 +74,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
@@ -87,8 +86,7 @@ public struct BatchGetChannelInput: Swift.Sendable {
 
     public init(
         arns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arns = arns
     }
 }
@@ -227,8 +225,7 @@ extension IvsClientTypes {
             enabled: Swift.Bool = false,
             maximumResolution: IvsClientTypes.MultitrackMaximumResolution? = nil,
             policy: IvsClientTypes.MultitrackPolicy? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.maximumResolution = maximumResolution
             self.policy = policy
@@ -277,8 +274,7 @@ extension IvsClientTypes {
         public init(
             endpoint: Swift.String? = nil,
             passphrase: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.passphrase = passphrase
         }
@@ -376,8 +372,7 @@ extension IvsClientTypes {
             srt: IvsClientTypes.Srt? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: IvsClientTypes.ChannelType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.authorized = authorized
             self.containerFormat = containerFormat
@@ -412,8 +407,7 @@ extension IvsClientTypes {
             arn: Swift.String? = nil,
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.code = code
             self.message = message
@@ -430,8 +424,7 @@ public struct BatchGetChannelOutput: Swift.Sendable {
     public init(
         channels: [IvsClientTypes.Channel]? = nil,
         errors: [IvsClientTypes.BatchError]? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.errors = errors
     }
@@ -444,8 +437,7 @@ public struct BatchGetStreamKeyInput: Swift.Sendable {
 
     public init(
         arns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arns = arns
     }
 }
@@ -468,8 +460,7 @@ extension IvsClientTypes {
             channelArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelArn = channelArn
             self.tags = tags
@@ -492,17 +483,16 @@ public struct BatchGetStreamKeyOutput: Swift.Sendable {
     public init(
         errors: [IvsClientTypes.BatchError]? = nil,
         streamKeys: [IvsClientTypes.StreamKey]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.streamKeys = streamKeys
     }
 }
 
 ///
-public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Your account is pending verification.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -518,16 +508,15 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Request was denied due to request throttling.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -543,16 +532,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -568,8 +556,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
@@ -591,8 +578,7 @@ extension IvsClientTypes {
             channelArn: Swift.String? = nil,
             viewerId: Swift.String? = nil,
             viewerSessionVersionsLessThanOrEqualTo: Swift.Int = 0
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.viewerId = viewerId
             self.viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualTo
@@ -607,8 +593,7 @@ public struct BatchStartViewerSessionRevocationInput: Swift.Sendable {
 
     public init(
         viewerSessions: [IvsClientTypes.BatchStartViewerSessionRevocationViewerSession]? = nil
-    )
-    {
+    ) {
         self.viewerSessions = viewerSessions
     }
 }
@@ -633,8 +618,7 @@ extension IvsClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             viewerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.code = code
             self.message = message
@@ -649,16 +633,15 @@ public struct BatchStartViewerSessionRevocationOutput: Swift.Sendable {
 
     public init(
         errors: [IvsClientTypes.BatchStartViewerSessionRevocationError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
 
 ///
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Request references a resource which does not exist.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -674,16 +657,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Request would cause a service quota to be exceeded.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -699,8 +681,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
@@ -741,8 +722,7 @@ public struct CreateChannelInput: Swift.Sendable {
         recordingConfigurationArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: IvsClientTypes.ChannelType? = nil
-    )
-    {
+    ) {
         self.authorized = authorized
         self.containerFormat = containerFormat
         self.insecureIngest = insecureIngest
@@ -766,8 +746,7 @@ public struct CreateChannelOutput: Swift.Sendable {
     public init(
         channel: IvsClientTypes.Channel? = nil,
         streamKey: IvsClientTypes.StreamKey? = nil
-    )
-    {
+    ) {
         self.channel = channel
         self.streamKey = streamKey
     }
@@ -791,8 +770,7 @@ public struct CreatePlaybackRestrictionPolicyInput: Swift.Sendable {
         enableStrictOriginEnforcement: Swift.Bool? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedCountries = allowedCountries
         self.allowedOrigins = allowedOrigins
         self.enableStrictOriginEnforcement = enableStrictOriginEnforcement
@@ -828,8 +806,7 @@ extension IvsClientTypes {
             enableStrictOriginEnforcement: Swift.Bool? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedCountries = allowedCountries
             self.allowedOrigins = allowedOrigins
             self.arn = arn
@@ -846,16 +823,15 @@ public struct CreatePlaybackRestrictionPolicyOutput: Swift.Sendable {
 
     public init(
         playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy? = nil
-    )
-    {
+    ) {
         self.playbackRestrictionPolicy = playbackRestrictionPolicy
     }
 }
 
 ///
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Updating or deleting a resource can cause an inconsistent state.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -871,16 +847,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
 
 ///
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Unexpected error during processing of request.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -896,8 +871,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
@@ -912,8 +886,7 @@ extension IvsClientTypes {
 
         public init(
             bucketName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
         }
     }
@@ -928,8 +901,7 @@ extension IvsClientTypes {
 
         public init(
             s3: IvsClientTypes.S3DestinationConfiguration? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -1014,8 +986,7 @@ extension IvsClientTypes {
         public init(
             renditionSelection: IvsClientTypes.RenditionConfigurationRenditionSelection? = nil,
             renditions: [IvsClientTypes.RenditionConfigurationRendition]? = nil
-        )
-        {
+        ) {
             self.renditionSelection = renditionSelection
             self.renditions = renditions
         }
@@ -1133,8 +1104,7 @@ extension IvsClientTypes {
             resolution: IvsClientTypes.ThumbnailConfigurationResolution? = nil,
             storage: [IvsClientTypes.ThumbnailConfigurationStorage]? = nil,
             targetIntervalSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.recordingMode = recordingMode
             self.resolution = resolution
             self.storage = storage
@@ -1165,8 +1135,7 @@ public struct CreateRecordingConfigurationInput: Swift.Sendable {
         renditionConfiguration: IvsClientTypes.RenditionConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         thumbnailConfiguration: IvsClientTypes.ThumbnailConfiguration? = nil
-    )
-    {
+    ) {
         self.destinationConfiguration = destinationConfiguration
         self.name = name
         self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
@@ -1241,8 +1210,7 @@ extension IvsClientTypes {
             state: IvsClientTypes.RecordingConfigurationState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             thumbnailConfiguration: IvsClientTypes.ThumbnailConfiguration? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.destinationConfiguration = destinationConfiguration
             self.name = name
@@ -1261,8 +1229,7 @@ public struct CreateRecordingConfigurationOutput: Swift.Sendable {
 
     public init(
         recordingConfiguration: IvsClientTypes.RecordingConfiguration? = nil
-    )
-    {
+    ) {
         self.recordingConfiguration = recordingConfiguration
     }
 }
@@ -1277,8 +1244,7 @@ public struct CreateStreamKeyInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.tags = tags
     }
@@ -1290,8 +1256,7 @@ public struct CreateStreamKeyOutput: Swift.Sendable {
 
     public init(
         streamKey: IvsClientTypes.StreamKey? = nil
-    )
-    {
+    ) {
         self.streamKey = streamKey
     }
 }
@@ -1303,8 +1268,7 @@ public struct DeleteChannelInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1316,8 +1280,7 @@ public struct DeletePlaybackKeyPairInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1334,8 +1297,7 @@ public struct DeletePlaybackRestrictionPolicyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1347,8 +1309,7 @@ public struct DeleteRecordingConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1360,8 +1321,7 @@ public struct DeleteStreamKeyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1373,8 +1333,7 @@ public struct GetChannelInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1385,8 +1344,7 @@ public struct GetChannelOutput: Swift.Sendable {
 
     public init(
         channel: IvsClientTypes.Channel? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -1398,8 +1356,7 @@ public struct GetPlaybackKeyPairInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1422,8 +1379,7 @@ extension IvsClientTypes {
             fingerprint: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.fingerprint = fingerprint
             self.name = name
@@ -1438,8 +1394,7 @@ public struct GetPlaybackKeyPairOutput: Swift.Sendable {
 
     public init(
         keyPair: IvsClientTypes.PlaybackKeyPair? = nil
-    )
-    {
+    ) {
         self.keyPair = keyPair
     }
 }
@@ -1451,8 +1406,7 @@ public struct GetPlaybackRestrictionPolicyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1463,8 +1417,7 @@ public struct GetPlaybackRestrictionPolicyOutput: Swift.Sendable {
 
     public init(
         playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy? = nil
-    )
-    {
+    ) {
         self.playbackRestrictionPolicy = playbackRestrictionPolicy
     }
 }
@@ -1476,8 +1429,7 @@ public struct GetRecordingConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1488,16 +1440,15 @@ public struct GetRecordingConfigurationOutput: Swift.Sendable {
 
     public init(
         recordingConfiguration: IvsClientTypes.RecordingConfiguration? = nil
-    )
-    {
+    ) {
         self.recordingConfiguration = recordingConfiguration
     }
 }
 
 ///
-public struct ChannelNotBroadcasting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelNotBroadcasting: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The stream is offline for the given channel ARN.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -1513,8 +1464,7 @@ public struct ChannelNotBroadcasting: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
@@ -1526,8 +1476,7 @@ public struct GetStreamInput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -1620,8 +1569,7 @@ extension IvsClientTypes {
             state: IvsClientTypes.StreamState? = nil,
             streamId: Swift.String? = nil,
             viewerCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.health = health
             self.playbackUrl = playbackUrl
@@ -1639,8 +1587,7 @@ public struct GetStreamOutput: Swift.Sendable {
 
     public init(
         stream: IvsClientTypes.Stream? = nil
-    )
-    {
+    ) {
         self.stream = stream
     }
 }
@@ -1652,8 +1599,7 @@ public struct GetStreamKeyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1664,8 +1610,7 @@ public struct GetStreamKeyOutput: Swift.Sendable {
 
     public init(
         streamKey: IvsClientTypes.StreamKey? = nil
-    )
-    {
+    ) {
         self.streamKey = streamKey
     }
 }
@@ -1680,8 +1625,7 @@ public struct GetStreamSessionInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.streamId = streamId
     }
@@ -1708,8 +1652,7 @@ extension IvsClientTypes {
             sampleRate: Swift.Int = 0,
             targetBitrate: Swift.Int = 0,
             track: Swift.String? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.codec = codec
             self.sampleRate = sampleRate
@@ -1758,8 +1701,7 @@ extension IvsClientTypes {
             track: Swift.String? = nil,
             videoHeight: Swift.Int = 0,
             videoWidth: Swift.Int = 0
-        )
-        {
+        ) {
             self.avcLevel = avcLevel
             self.avcProfile = avcProfile
             self.codec = codec
@@ -1787,8 +1729,7 @@ extension IvsClientTypes {
         public init(
             audio: IvsClientTypes.AudioConfiguration? = nil,
             video: IvsClientTypes.VideoConfiguration? = nil
-        )
-        {
+        ) {
             self.audio = audio
             self.video = video
         }
@@ -1809,8 +1750,7 @@ extension IvsClientTypes {
         public init(
             audioConfigurations: [IvsClientTypes.AudioConfiguration]? = nil,
             videoConfigurations: [IvsClientTypes.VideoConfiguration]? = nil
-        )
-        {
+        ) {
             self.audioConfigurations = audioConfigurations
             self.videoConfigurations = videoConfigurations
         }
@@ -1851,8 +1791,7 @@ extension IvsClientTypes {
             eventTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.eventTime = eventTime
             self.name = name
@@ -1891,8 +1830,7 @@ extension IvsClientTypes {
             startTime: Foundation.Date? = nil,
             streamId: Swift.String? = nil,
             truncatedEvents: [IvsClientTypes.StreamEvent]? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.endTime = endTime
             self.ingestConfiguration = ingestConfiguration
@@ -1911,8 +1849,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
 
     public init(
         streamSession: IvsClientTypes.StreamSession? = nil
-    )
-    {
+    ) {
         self.streamSession = streamSession
     }
 }
@@ -1930,8 +1867,7 @@ public struct ImportPlaybackKeyPairInput: Swift.Sendable {
         name: Swift.String? = nil,
         publicKeyMaterial: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.publicKeyMaterial = publicKeyMaterial
         self.tags = tags
@@ -1944,8 +1880,7 @@ public struct ImportPlaybackKeyPairOutput: Swift.Sendable {
 
     public init(
         keyPair: IvsClientTypes.PlaybackKeyPair? = nil
-    )
-    {
+    ) {
         self.keyPair = keyPair
     }
 }
@@ -1968,8 +1903,7 @@ public struct ListChannelsInput: Swift.Sendable {
         filterByRecordingConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterByName = filterByName
         self.filterByPlaybackRestrictionPolicyArn = filterByPlaybackRestrictionPolicyArn
         self.filterByRecordingConfigurationArn = filterByRecordingConfigurationArn
@@ -2014,8 +1948,7 @@ extension IvsClientTypes {
             recordingConfigurationArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: IvsClientTypes.ChannelType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.authorized = authorized
             self.insecureIngest = insecureIngest
@@ -2040,8 +1973,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         channels: [IvsClientTypes.ChannelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -2056,8 +1988,7 @@ public struct ListPlaybackKeyPairsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2078,8 +2009,7 @@ extension IvsClientTypes {
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
             self.tags = tags
@@ -2097,8 +2027,7 @@ public struct ListPlaybackKeyPairsOutput: Swift.Sendable {
     public init(
         keyPairs: [IvsClientTypes.PlaybackKeyPairSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyPairs = keyPairs
         self.nextToken = nextToken
     }
@@ -2113,8 +2042,7 @@ public struct ListPlaybackRestrictionPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2147,8 +2075,7 @@ extension IvsClientTypes {
             enableStrictOriginEnforcement: Swift.Bool? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedCountries = allowedCountries
             self.allowedOrigins = allowedOrigins
             self.arn = arn
@@ -2169,8 +2096,7 @@ public struct ListPlaybackRestrictionPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         playbackRestrictionPolicies: [IvsClientTypes.PlaybackRestrictionPolicySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.playbackRestrictionPolicies = playbackRestrictionPolicies
     }
@@ -2185,8 +2111,7 @@ public struct ListRecordingConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2216,8 +2141,7 @@ extension IvsClientTypes {
             name: Swift.String? = nil,
             state: IvsClientTypes.RecordingConfigurationState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.destinationConfiguration = destinationConfiguration
             self.name = name
@@ -2237,8 +2161,7 @@ public struct ListRecordingConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recordingConfigurations: [IvsClientTypes.RecordingConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recordingConfigurations = recordingConfigurations
     }
@@ -2257,8 +2180,7 @@ public struct ListStreamKeysInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2280,8 +2202,7 @@ extension IvsClientTypes {
             arn: Swift.String? = nil,
             channelArn: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelArn = channelArn
             self.tags = tags
@@ -2299,8 +2220,7 @@ public struct ListStreamKeysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         streamKeys: [IvsClientTypes.StreamKeySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streamKeys = streamKeys
     }
@@ -2315,8 +2235,7 @@ extension IvsClientTypes {
 
         public init(
             health: IvsClientTypes.StreamHealth? = nil
-        )
-        {
+        ) {
             self.health = health
         }
     }
@@ -2334,8 +2253,7 @@ public struct ListStreamsInput: Swift.Sendable {
         filterBy: IvsClientTypes.StreamFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterBy = filterBy
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2366,8 +2284,7 @@ extension IvsClientTypes {
             state: IvsClientTypes.StreamState? = nil,
             streamId: Swift.String? = nil,
             viewerCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.health = health
             self.startTime = startTime
@@ -2388,8 +2305,7 @@ public struct ListStreamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         streams: [IvsClientTypes.StreamSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streams = streams
     }
@@ -2408,8 +2324,7 @@ public struct ListStreamSessionsInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2434,8 +2349,7 @@ extension IvsClientTypes {
             hasErrorEvent: Swift.Bool = false,
             startTime: Foundation.Date? = nil,
             streamId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.hasErrorEvent = hasErrorEvent
             self.startTime = startTime
@@ -2454,8 +2368,7 @@ public struct ListStreamSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         streamSessions: [IvsClientTypes.StreamSessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streamSessions = streamSessions
     }
@@ -2468,8 +2381,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2481,8 +2393,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2498,8 +2409,7 @@ public struct PutMetadataInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         metadata: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.metadata = metadata
     }
@@ -2524,8 +2434,7 @@ public struct StartViewerSessionRevocationInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         viewerId: Swift.String? = nil,
         viewerSessionVersionsLessThanOrEqualTo: Swift.Int = 0
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.viewerId = viewerId
         self.viewerSessionVersionsLessThanOrEqualTo = viewerSessionVersionsLessThanOrEqualTo
@@ -2538,9 +2447,9 @@ public struct StartViewerSessionRevocationOutput: Swift.Sendable {
 }
 
 ///
-public struct StreamUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StreamUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The stream is temporarily unavailable.
         public internal(set) var exceptionMessage: Swift.String? = nil
     }
@@ -2556,8 +2465,7 @@ public struct StreamUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         exceptionMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.exceptionMessage = exceptionMessage
     }
 }
@@ -2569,8 +2477,7 @@ public struct StopStreamInput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -2591,8 +2498,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2614,8 +2520,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2663,8 +2568,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         preset: IvsClientTypes.TranscodePreset? = nil,
         recordingConfigurationArn: Swift.String? = nil,
         type: IvsClientTypes.ChannelType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authorized = authorized
         self.containerFormat = containerFormat
@@ -2685,8 +2589,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
     public init(
         channel: IvsClientTypes.Channel? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -2710,8 +2613,7 @@ public struct UpdatePlaybackRestrictionPolicyInput: Swift.Sendable {
         arn: Swift.String? = nil,
         enableStrictOriginEnforcement: Swift.Bool? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedCountries = allowedCountries
         self.allowedOrigins = allowedOrigins
         self.arn = arn
@@ -2726,8 +2628,7 @@ public struct UpdatePlaybackRestrictionPolicyOutput: Swift.Sendable {
 
     public init(
         playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy? = nil
-    )
-    {
+    ) {
         self.playbackRestrictionPolicy = playbackRestrictionPolicy
     }
 }

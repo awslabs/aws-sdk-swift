@@ -57,8 +57,7 @@ extension MediaTailorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -106,8 +105,7 @@ extension MediaTailorClientTypes {
         public init(
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
         }
@@ -132,8 +130,7 @@ extension MediaTailorClientTypes {
             availsExpected: Swift.Int? = nil,
             spliceEventId: Swift.Int? = nil,
             uniqueProgramId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availNum = availNum
             self.availsExpected = availsExpected
             self.spliceEventId = spliceEventId
@@ -172,8 +169,7 @@ extension MediaTailorClientTypes {
             segmentsExpected: Swift.Int? = nil,
             subSegmentNum: Swift.Int? = nil,
             subSegmentsExpected: Swift.Int? = nil
-        )
-        {
+        ) {
             self.segmentNum = segmentNum
             self.segmentationEventId = segmentationEventId
             self.segmentationTypeId = segmentationTypeId
@@ -195,8 +191,7 @@ extension MediaTailorClientTypes {
 
         public init(
             segmentationDescriptors: [MediaTailorClientTypes.SegmentationDescriptor]? = nil
-        )
-        {
+        ) {
             self.segmentationDescriptors = segmentationDescriptors
         }
     }
@@ -227,8 +222,7 @@ extension MediaTailorClientTypes {
             slate: MediaTailorClientTypes.SlateSource? = nil,
             spliceInsertMessage: MediaTailorClientTypes.SpliceInsertMessage? = nil,
             timeSignalMessage: MediaTailorClientTypes.TimeSignalMessage? = nil
-        )
-        {
+        ) {
             self.adBreakMetadata = adBreakMetadata
             self.messageType = messageType
             self.offsetMillis = offsetMillis
@@ -300,8 +294,7 @@ extension MediaTailorClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             relatedResourceArns: [Swift.String]? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.alertCode = alertCode
             self.alertMessage = alertMessage
             self.category = category
@@ -324,8 +317,7 @@ extension MediaTailorClientTypes {
         public init(
             endOffsetMillis: Swift.Int? = nil,
             startOffsetMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endOffsetMillis = endOffsetMillis
             self.startOffsetMillis = startOffsetMillis
         }
@@ -359,8 +351,7 @@ extension MediaTailorClientTypes {
             scheduledStartTimeMillis: Swift.Int? = nil,
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.adBreaks = adBreaks
             self.clipRange = clipRange
             self.durationMillis = durationMillis
@@ -384,8 +375,7 @@ extension MediaTailorClientTypes {
         public init(
             alternateMedia: [MediaTailorClientTypes.AlternateMedia]? = nil,
             audience: Swift.String? = nil
-        )
-        {
+        ) {
             self.alternateMedia = alternateMedia
             self.audience = audience
         }
@@ -432,8 +422,7 @@ extension MediaTailorClientTypes {
         public init(
             dynamicVariable: Swift.String? = nil,
             `operator`: MediaTailorClientTypes.Operator? = nil
-        )
-        {
+        ) {
             self.dynamicVariable = dynamicVariable
             self.`operator` = `operator`
         }
@@ -475,8 +464,7 @@ extension MediaTailorClientTypes {
 
         public init(
             logTypes: [MediaTailorClientTypes.LogType]? = nil
-        )
-        {
+        ) {
             self.logTypes = logTypes
         }
     }
@@ -500,8 +488,7 @@ extension MediaTailorClientTypes {
             minBufferTimeSeconds: Swift.Int? = nil,
             minUpdatePeriodSeconds: Swift.Int? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
@@ -551,8 +538,7 @@ extension MediaTailorClientTypes {
         public init(
             adMarkupType: [MediaTailorClientTypes.AdMarkupType]? = nil,
             manifestWindowSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adMarkupType = adMarkupType
             self.manifestWindowSeconds = manifestWindowSeconds
         }
@@ -583,8 +569,7 @@ extension MediaTailorClientTypes {
             manifestName: Swift.String? = nil,
             playbackUrl: Swift.String? = nil,
             sourceGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashPlaylistSettings = dashPlaylistSettings
             self.hlsPlaylistSettings = hlsPlaylistSettings
             self.manifestName = manifestName
@@ -643,8 +628,7 @@ extension MediaTailorClientTypes {
             playbackMode: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             tier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.audiences = audiences
             self.channelName = channelName
@@ -708,8 +692,7 @@ extension MediaTailorClientTypes {
             path: Swift.String? = nil,
             sourceGroup: Swift.String? = nil,
             type: MediaTailorClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.path = path
             self.sourceGroup = sourceGroup
             self.type = type
@@ -748,8 +731,7 @@ extension MediaTailorClientTypes {
             liveSourceName: Swift.String? = nil,
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.httpPackageConfigurations = httpPackageConfigurations
@@ -757,6 +739,80 @@ extension MediaTailorClientTypes {
             self.liveSourceName = liveSourceName
             self.sourceLocationName = sourceLocationName
             self.tags = tags
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum LoggingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case legacyCloudwatch
+        case vendedLogs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LoggingStrategy] {
+            return [
+                .legacyCloudwatch,
+                .vendedLogs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .legacyCloudwatch: return "LEGACY_CLOUDWATCH"
+            case .vendedLogs: return "VENDED_LOGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum StreamingMediaFileConditioning: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case transcode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StreamingMediaFileConditioning] {
+            return [
+                .none,
+                .transcode
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .transcode: return "TRANSCODE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns.
+    public struct AdConditioningConfiguration: Swift.Sendable {
+        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS. TRANSCODE indicates that MediaTailor must transcode the ads. NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow. For more information about ad conditioning see [https://docs.aws.amazon.com/precondition-ads.html](https://docs.aws.amazon.com/precondition-ads.html).
+        /// This member is required.
+        public var streamingMediaFileConditioning: MediaTailorClientTypes.StreamingMediaFileConditioning?
+
+        public init(
+            streamingMediaFileConditioning: MediaTailorClientTypes.StreamingMediaFileConditioning? = nil
+        ) {
+            self.streamingMediaFileConditioning = streamingMediaFileConditioning
         }
     }
 }
@@ -837,8 +893,7 @@ extension MediaTailorClientTypes {
             fillPolicy: MediaTailorClientTypes.FillPolicy? = nil,
             mode: MediaTailorClientTypes.Mode? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.fillPolicy = fillPolicy
             self.mode = mode
             self.value = value
@@ -858,8 +913,7 @@ extension MediaTailorClientTypes {
         public init(
             endUrl: Swift.String? = nil,
             startUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.endUrl = endUrl
             self.startUrl = startUrl
         }
@@ -878,8 +932,7 @@ extension MediaTailorClientTypes {
         public init(
             adSegmentUrlPrefix: Swift.String? = nil,
             contentSegmentUrlPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.adSegmentUrlPrefix = adSegmentUrlPrefix
             self.contentSegmentUrlPrefix = contentSegmentUrlPrefix
         }
@@ -930,8 +983,7 @@ extension MediaTailorClientTypes {
             manifestEndpointPrefix: Swift.String? = nil,
             mpdLocation: Swift.String? = nil,
             originManifestType: MediaTailorClientTypes.OriginManifestType? = nil
-        )
-        {
+        ) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
             self.mpdLocation = mpdLocation
             self.originManifestType = originManifestType
@@ -948,8 +1000,7 @@ extension MediaTailorClientTypes {
 
         public init(
             manifestEndpointPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
         }
     }
@@ -997,8 +1048,7 @@ extension MediaTailorClientTypes {
         public init(
             adDecisionServerUrl: Swift.String? = nil,
             maxDurationSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.maxDurationSeconds = maxDurationSeconds
         }
@@ -1007,16 +1057,19 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// Returns Amazon CloudWatch log settings for a playback configuration.
+    /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public struct LogConfiguration: Swift.Sendable {
-        /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
+        /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+        public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+        /// The percentage of session logs that MediaTailor sends to your configured log destination. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
         /// This member is required.
         public var percentEnabled: Swift.Int?
 
         public init(
+            enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
             percentEnabled: Swift.Int? = nil
-        )
-        {
+        ) {
+            self.enabledLoggingStrategies = enabledLoggingStrategies
             self.percentEnabled = percentEnabled
         }
     }
@@ -1031,8 +1084,7 @@ extension MediaTailorClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1047,8 +1099,7 @@ extension MediaTailorClientTypes {
 
         public init(
             adMarkerPassthrough: MediaTailorClientTypes.AdMarkerPassthrough? = nil
-        )
-        {
+        ) {
             self.adMarkerPassthrough = adMarkerPassthrough
         }
     }
@@ -1058,6 +1109,8 @@ extension MediaTailorClientTypes {
 
     /// A playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     public struct PlaybackConfiguration: Swift.Sendable {
+        /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+        public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public var adDecisionServerUrl: Swift.String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -1066,7 +1119,7 @@ extension MediaTailorClientTypes {
         public var bumper: MediaTailorClientTypes.Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
         public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-        /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+        /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
         public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
         /// The configuration for a DASH source.
         public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
@@ -1076,7 +1129,7 @@ extension MediaTailorClientTypes {
         public var insertionMode: MediaTailorClientTypes.InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
-        /// The Amazon CloudWatch log settings for a playback configuration.
+        /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
         public var logConfiguration: MediaTailorClientTypes.LogConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public var manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -1100,6 +1153,7 @@ extension MediaTailorClientTypes {
         public var videoContentSourceUrl: Swift.String?
 
         public init(
+            adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
             adDecisionServerUrl: Swift.String? = nil,
             availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
             bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -1120,8 +1174,8 @@ extension MediaTailorClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             transcodeProfileName: Swift.String? = nil,
             videoContentSourceUrl: Swift.String? = nil
-        )
-        {
+        ) {
+            self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1155,15 +1209,14 @@ extension MediaTailorClientTypes {
         /// The time when MediaTailor no longer considers the prefetched ads for use in an ad break. MediaTailor automatically deletes prefetch schedules no less than seven days after the end time. If you'd like to manually delete the prefetch schedule, you can call DeletePrefetchSchedule.
         /// This member is required.
         public var endTime: Foundation.Date?
-        /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrives them from the ad decision server.
+        /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrieves them from the ad decision server.
         public var startTime: Foundation.Date?
 
         public init(
             availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]? = nil,
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.availMatchingCriteria = availMatchingCriteria
             self.endTime = endTime
             self.startTime = startTime
@@ -1187,8 +1240,7 @@ extension MediaTailorClientTypes {
             dynamicVariables: [Swift.String: Swift.String]? = nil,
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
             self.startTime = startTime
@@ -1225,8 +1277,7 @@ extension MediaTailorClientTypes {
             playbackConfigurationName: Swift.String? = nil,
             retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
             streamId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
@@ -1255,8 +1306,7 @@ extension MediaTailorClientTypes {
             approximateStartTime: Foundation.Date? = nil,
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.sourceLocationName = sourceLocationName
@@ -1340,8 +1390,7 @@ extension MediaTailorClientTypes {
             scheduleEntryType: MediaTailorClientTypes.ScheduleEntryType? = nil,
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.arn = arn
@@ -1369,8 +1418,7 @@ extension MediaTailorClientTypes {
         public init(
             baseUrl: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseUrl = baseUrl
             self.name = name
         }
@@ -1424,8 +1472,7 @@ extension MediaTailorClientTypes {
             headerName: Swift.String? = nil,
             secretArn: Swift.String? = nil,
             secretStringKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.headerName = headerName
             self.secretArn = secretArn
             self.secretStringKey = secretStringKey
@@ -1445,8 +1492,7 @@ extension MediaTailorClientTypes {
         public init(
             accessType: MediaTailorClientTypes.AccessType? = nil,
             secretsManagerAccessTokenConfiguration: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration? = nil
-        )
-        {
+        ) {
             self.accessType = accessType
             self.secretsManagerAccessTokenConfiguration = secretsManagerAccessTokenConfiguration
         }
@@ -1462,8 +1508,7 @@ extension MediaTailorClientTypes {
 
         public init(
             baseUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseUrl = baseUrl
         }
     }
@@ -1479,8 +1524,7 @@ extension MediaTailorClientTypes {
 
         public init(
             baseUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseUrl = baseUrl
         }
     }
@@ -1522,8 +1566,7 @@ extension MediaTailorClientTypes {
             segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
@@ -1568,8 +1611,7 @@ extension MediaTailorClientTypes {
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.httpPackageConfigurations = httpPackageConfigurations
@@ -1591,17 +1633,16 @@ extension MediaTailorClientTypes {
 
         public init(
             offsetMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.offsetMillis = offsetMillis
         }
     }
 }
 
 /// A request contains unexpected data.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1616,8 +1657,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1629,8 +1669,7 @@ public struct DeleteChannelPolicyInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -1647,8 +1686,7 @@ public struct GetChannelPolicyInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -1659,8 +1697,7 @@ public struct GetChannelPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1676,8 +1713,7 @@ public struct PutChannelPolicyInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.policy = policy
     }
@@ -1699,8 +1735,7 @@ public struct ConfigureLogsForChannelInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         logTypes: [MediaTailorClientTypes.LogType]? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.logTypes = logTypes
     }
@@ -1715,8 +1750,7 @@ public struct ConfigureLogsForChannelOutput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         logTypes: [MediaTailorClientTypes.LogType]? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.logTypes = logTypes
     }
@@ -1742,8 +1776,7 @@ extension MediaTailorClientTypes {
             hlsPlaylistSettings: MediaTailorClientTypes.HlsPlaylistSettings? = nil,
             manifestName: Swift.String? = nil,
             sourceGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashPlaylistSettings = dashPlaylistSettings
             self.hlsPlaylistSettings = hlsPlaylistSettings
             self.manifestName = manifestName
@@ -1820,8 +1853,7 @@ extension MediaTailorClientTypes {
 
         public init(
             maxTimeDelaySeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxTimeDelaySeconds = maxTimeDelaySeconds
         }
     }
@@ -1857,8 +1889,7 @@ public struct CreateChannelInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: MediaTailorClientTypes.Tier? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.audiences = audiences
         self.channelName = channelName
         self.fillerSlate = fillerSlate
@@ -1938,8 +1969,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: Swift.String? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.audiences = audiences
         self.channelName = channelName
@@ -1962,8 +1992,7 @@ public struct DeleteChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -1980,8 +2009,7 @@ public struct DescribeChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -2029,8 +2057,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: Swift.String? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.audiences = audiences
         self.channelName = channelName
@@ -2066,8 +2093,7 @@ public struct GetChannelScheduleInput: Swift.Sendable {
         durationMinutes: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.audience = audience
         self.channelName = channelName
         self.durationMinutes = durationMinutes
@@ -2085,8 +2111,7 @@ public struct GetChannelScheduleOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.ScheduleEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2101,8 +2126,7 @@ public struct ListChannelsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2117,8 +2141,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.Channel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2176,8 +2199,7 @@ extension MediaTailorClientTypes {
             relativeProgram: Swift.String? = nil,
             scheduledStartTimeMillis: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.durationMillis = durationMillis
             self.relativePosition = relativePosition
             self.relativeProgram = relativeProgram
@@ -2200,8 +2222,7 @@ extension MediaTailorClientTypes {
         public init(
             clipRange: MediaTailorClientTypes.ClipRange? = nil,
             transition: MediaTailorClientTypes.Transition? = nil
-        )
-        {
+        ) {
             self.clipRange = clipRange
             self.transition = transition
         }
@@ -2239,8 +2260,7 @@ public struct CreateProgramInput: Swift.Sendable {
         scheduleConfiguration: MediaTailorClientTypes.ScheduleConfiguration? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.audienceMedia = audienceMedia
         self.channelName = channelName
@@ -2291,8 +2311,7 @@ public struct CreateProgramOutput: Swift.Sendable {
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.arn = arn
         self.audienceMedia = audienceMedia
@@ -2319,8 +2338,7 @@ public struct DeleteProgramInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         programName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.programName = programName
     }
@@ -2342,8 +2360,7 @@ public struct DescribeProgramInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         programName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.programName = programName
     }
@@ -2388,8 +2405,7 @@ public struct DescribeProgramOutput: Swift.Sendable {
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.arn = arn
         self.audienceMedia = audienceMedia
@@ -2417,8 +2433,7 @@ extension MediaTailorClientTypes {
         public init(
             durationMillis: Swift.Int? = nil,
             scheduledStartTimeMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationMillis = durationMillis
             self.scheduledStartTimeMillis = scheduledStartTimeMillis
         }
@@ -2437,8 +2452,7 @@ extension MediaTailorClientTypes {
         public init(
             clipRange: MediaTailorClientTypes.ClipRange? = nil,
             transition: MediaTailorClientTypes.UpdateProgramTransition? = nil
-        )
-        {
+        ) {
             self.clipRange = clipRange
             self.transition = transition
         }
@@ -2466,8 +2480,7 @@ public struct UpdateProgramInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         programName: Swift.String? = nil,
         scheduleConfiguration: MediaTailorClientTypes.UpdateProgramScheduleConfiguration? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.audienceMedia = audienceMedia
         self.channelName = channelName
@@ -2515,8 +2528,7 @@ public struct UpdateProgramOutput: Swift.Sendable {
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.arn = arn
         self.audienceMedia = audienceMedia
@@ -2539,8 +2551,7 @@ public struct StartChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -2557,8 +2568,7 @@ public struct StopChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -2588,8 +2598,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
         outputs: [MediaTailorClientTypes.RequestOutputItem]? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.audiences = audiences
         self.channelName = channelName
         self.fillerSlate = fillerSlate
@@ -2637,8 +2646,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: Swift.String? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.audiences = audiences
         self.channelName = channelName
@@ -2656,7 +2664,9 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
 /// Configures Amazon CloudWatch log settings for a playback configuration.
 public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
-    /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
+    /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in [Enable logging from AWS services, Logging that requires additional permissions [V2]](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html#AWS-vended-logs-permissions-V2).
+    public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+    /// The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
     /// This member is required.
     public var percentEnabled: Swift.Int?
     /// The name of the playback configuration.
@@ -2664,16 +2674,19 @@ public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
+        self.enabledLoggingStrategies = enabledLoggingStrategies
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
 }
 
 public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
+    /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+    public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
     /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
     /// This member is required.
     public var percentEnabled: Swift.Int?
@@ -2681,10 +2694,11 @@ public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
+        self.enabledLoggingStrategies = enabledLoggingStrategies
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -2708,8 +2722,7 @@ public struct CreateLiveSourceInput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
@@ -2741,8 +2754,7 @@ public struct CreateLiveSourceOutput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -2775,8 +2787,7 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
         playbackConfigurationName: Swift.String? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
@@ -2806,8 +2817,7 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
         playbackConfigurationName: Swift.String? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
@@ -2840,8 +2850,7 @@ public struct CreateSourceLocationInput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
         self.httpConfiguration = httpConfiguration
@@ -2881,8 +2890,7 @@ public struct CreateSourceLocationOutput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.arn = arn
         self.creationTime = creationTime
@@ -2913,8 +2921,7 @@ public struct CreateVodSourceInput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.sourceLocationName = sourceLocationName
         self.tags = tags
@@ -2946,8 +2953,7 @@ public struct CreateVodSourceOutput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -2970,8 +2976,7 @@ extension MediaTailorClientTypes {
         public init(
             mpdLocation: Swift.String? = nil,
             originManifestType: MediaTailorClientTypes.OriginManifestType? = nil
-        )
-        {
+        ) {
             self.mpdLocation = mpdLocation
             self.originManifestType = originManifestType
         }
@@ -2989,8 +2994,7 @@ public struct DeleteLiveSourceInput: Swift.Sendable {
     public init(
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
     }
@@ -3008,8 +3012,7 @@ public struct DeletePlaybackConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3030,8 +3033,7 @@ public struct DeletePrefetchScheduleInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -3049,8 +3051,7 @@ public struct DeleteSourceLocationInput: Swift.Sendable {
 
     public init(
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
     }
 }
@@ -3071,8 +3072,7 @@ public struct DeleteVodSourceInput: Swift.Sendable {
     public init(
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
         self.vodSourceName = vodSourceName
     }
@@ -3094,8 +3094,7 @@ public struct DescribeLiveSourceInput: Swift.Sendable {
     public init(
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
     }
@@ -3125,8 +3124,7 @@ public struct DescribeLiveSourceOutput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -3144,8 +3142,7 @@ public struct DescribeSourceLocationInput: Swift.Sendable {
 
     public init(
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
     }
 }
@@ -3180,8 +3177,7 @@ public struct DescribeSourceLocationOutput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.arn = arn
         self.creationTime = creationTime
@@ -3205,8 +3201,7 @@ public struct DescribeVodSourceInput: Swift.Sendable {
     public init(
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
         self.vodSourceName = vodSourceName
     }
@@ -3239,8 +3234,7 @@ public struct DescribeVodSourceOutput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreakOpportunities = adBreakOpportunities
         self.arn = arn
         self.creationTime = creationTime
@@ -3259,13 +3253,14 @@ public struct GetPlaybackConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
 
 public struct GetPlaybackConfigurationOutput: Swift.Sendable {
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+    public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3274,7 +3269,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
@@ -3284,7 +3279,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
     public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
-    /// The Amazon CloudWatch log settings for a playback configuration.
+    /// The configuration that defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public var logConfiguration: MediaTailorClientTypes.LogConfiguration?
     /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
     public var manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -3308,6 +3303,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     public var videoContentSourceUrl: Swift.String?
 
     public init(
+        adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3328,8 +3324,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
-    )
-    {
+    ) {
+        self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3364,8 +3360,7 @@ public struct GetPrefetchScheduleInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -3392,8 +3387,7 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
         playbackConfigurationName: Swift.String? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
@@ -3416,8 +3410,7 @@ public struct ListAlertsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -3433,8 +3426,7 @@ public struct ListAlertsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.Alert]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3453,8 +3445,7 @@ public struct ListLiveSourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sourceLocationName = sourceLocationName
@@ -3470,8 +3461,7 @@ public struct ListLiveSourcesOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.LiveSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3486,8 +3476,7 @@ public struct ListPlaybackConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3502,8 +3491,7 @@ public struct ListPlaybackConfigurationsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.PlaybackConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3525,8 +3513,7 @@ public struct ListPrefetchSchedulesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.playbackConfigurationName = playbackConfigurationName
@@ -3543,8 +3530,7 @@ public struct ListPrefetchSchedulesOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.PrefetchSchedule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3559,8 +3545,7 @@ public struct ListSourceLocationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3575,8 +3560,7 @@ public struct ListSourceLocationsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.SourceLocation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3589,8 +3573,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3601,8 +3584,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3620,8 +3602,7 @@ public struct ListVodSourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sourceLocationName = sourceLocationName
@@ -3637,8 +3618,7 @@ public struct ListVodSourcesOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.VodSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3659,8 +3639,7 @@ public struct UpdateLiveSourceInput: Swift.Sendable {
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
@@ -3691,8 +3670,7 @@ public struct UpdateLiveSourceOutput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -3704,6 +3682,8 @@ public struct UpdateLiveSourceOutput: Swift.Sendable {
 }
 
 public struct PutPlaybackConfigurationInput: Swift.Sendable {
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+    public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3712,7 +3692,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut?
@@ -3737,6 +3717,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
     public var videoContentSourceUrl: Swift.String?
 
     public init(
+        adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3752,8 +3733,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
-    )
-    {
+    ) {
+        self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3773,6 +3754,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
 }
 
 public struct PutPlaybackConfigurationOutput: Swift.Sendable {
+    /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+    public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3781,7 +3764,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var bumper: MediaTailorClientTypes.Bumper?
     /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     public var cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
-    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+    /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see [Domain Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
     public var configurationAliases: [Swift.String: [Swift.String: Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
@@ -3791,7 +3774,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
     public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
-    /// The Amazon CloudWatch log settings for a playback configuration.
+    /// The configuration that defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public var logConfiguration: MediaTailorClientTypes.LogConfiguration?
     /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
     public var manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -3815,6 +3798,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     public var videoContentSourceUrl: Swift.String?
 
     public init(
+        adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3835,8 +3819,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
-    )
-    {
+    ) {
+        self.adConditioningConfiguration = adConditioningConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3880,8 +3864,7 @@ public struct UpdateSourceLocationInput: Swift.Sendable {
         httpConfiguration: MediaTailorClientTypes.HttpConfiguration? = nil,
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
         self.httpConfiguration = httpConfiguration
@@ -3920,8 +3903,7 @@ public struct UpdateSourceLocationOutput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.arn = arn
         self.creationTime = creationTime
@@ -3945,8 +3927,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3963,8 +3944,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3985,8 +3965,7 @@ public struct UpdateVodSourceInput: Swift.Sendable {
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.sourceLocationName = sourceLocationName
         self.vodSourceName = vodSourceName
@@ -4017,8 +3996,7 @@ public struct UpdateVodSourceOutput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -4648,6 +4626,7 @@ extension ConfigureLogsForPlaybackConfigurationInput {
 
     static func write(value: ConfigureLogsForPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EnabledLoggingStrategies"].writeList(value.enabledLoggingStrategies, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.LoggingStrategy>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PercentEnabled"].write(value.percentEnabled)
         try writer["PlaybackConfigurationName"].write(value.playbackConfigurationName)
     }
@@ -4742,6 +4721,7 @@ extension PutPlaybackConfigurationInput {
 
     static func write(value: PutPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdConditioningConfiguration"].write(value.adConditioningConfiguration, with: MediaTailorClientTypes.AdConditioningConfiguration.write(value:to:))
         try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
         try writer["AvailSuppression"].write(value.availSuppression, with: MediaTailorClientTypes.AvailSuppression.write(value:to:))
         try writer["Bumper"].write(value.bumper, with: MediaTailorClientTypes.Bumper.write(value:to:))
@@ -4836,6 +4816,7 @@ extension ConfigureLogsForPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ConfigureLogsForPlaybackConfigurationOutput()
+        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
         return value
@@ -5153,6 +5134,7 @@ extension GetPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetPlaybackConfigurationOutput()
+        value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -5311,6 +5293,7 @@ extension PutPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutPlaybackConfigurationOutput()
+        value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -6613,6 +6596,7 @@ extension MediaTailorClientTypes.LogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.LogConfiguration()
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
+        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6643,6 +6627,21 @@ extension MediaTailorClientTypes.AdMarkerPassthrough {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.AdMarkerPassthrough()
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.AdConditioningConfiguration {
+
+    static func write(value: MediaTailorClientTypes.AdConditioningConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StreamingMediaFileConditioning"].write(value.streamingMediaFileConditioning)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdConditioningConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdConditioningConfiguration()
+        value.streamingMediaFileConditioning = try reader["StreamingMediaFileConditioning"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6724,6 +6723,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.transcodeProfileName = try reader["TranscodeProfileName"].readIfPresent()
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
+        value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
         return value
     }
 }

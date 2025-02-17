@@ -22,7 +22,10 @@ import software.amazon.smithy.swift.codegen.model.getTrait
  * Transforms the model to add the ClientContextParamsTrait to the service.
  */
 class AWSClientContextParamsTransformer : SwiftIntegration {
-    override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
+    override fun preprocessModel(
+        model: Model,
+        settings: SwiftSettings,
+    ): Model {
         val transformer = ModelTransformer.create()
         return transformer.mapShapes(model) { shape ->
             when (shape) {
@@ -34,17 +37,22 @@ class AWSClientContextParamsTransformer : SwiftIntegration {
 
                     shape.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { ruleSet ->
                         val endpointRuleSet = EndpointRuleSet.fromNode(ruleSet)
-                        endpointRuleSet.parameters.toList().filter {
-                            it.builtIn?.orElse(null)?.let { builtIn ->
-                                builtIn.split("::").size == 3
-                            } ?: false
-                        }.map {
-                            val definition = ClientContextParamDefinition.builder().type(it.type.toShapeType())
-                                .documentation(it.documentation.orElse(null))
-                            it.name.toString() to definition.build()
-                        }.forEach {
-                            builder.putParameter(it.first, it.second)
-                        }
+                        endpointRuleSet.parameters
+                            .toList()
+                            .filter {
+                                it.builtIn?.orElse(null)?.let { builtIn ->
+                                    builtIn.split("::").size == 3
+                                } ?: false
+                            }.map {
+                                val definition =
+                                    ClientContextParamDefinition
+                                        .builder()
+                                        .type(it.type.toShapeType())
+                                        .documentation(it.documentation.orElse(null))
+                                it.name.toString() to definition.build()
+                            }.forEach {
+                                builder.putParameter(it.first, it.second)
+                            }
                     }
 
                     shapeBuilder.addTrait(builder.build())
@@ -57,10 +65,9 @@ class AWSClientContextParamsTransformer : SwiftIntegration {
     }
 }
 
-fun ParameterType.toShapeType(): ShapeType? {
-    return when (this) {
+fun ParameterType.toShapeType(): ShapeType? =
+    when (this) {
         ParameterType.STRING -> ShapeType.STRING
         ParameterType.BOOLEAN -> ShapeType.BOOLEAN
         ParameterType.STRING_ARRAY -> ShapeType.LIST
     }
-}

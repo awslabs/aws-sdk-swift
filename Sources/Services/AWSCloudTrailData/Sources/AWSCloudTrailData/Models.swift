@@ -40,8 +40,7 @@ extension CloudTrailDataClientTypes {
             eventData: Swift.String? = nil,
             eventDataChecksum: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventData = eventData
             self.eventDataChecksum = eventDataChecksum
             self.id = id
@@ -63,8 +62,7 @@ extension CloudTrailDataClientTypes {
         public init(
             eventID: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventID = eventID
             self.id = id
         }
@@ -72,9 +70,9 @@ extension CloudTrailDataClientTypes {
 }
 
 /// The caller's account ID must be the same as the channel owner's account ID.
-public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -89,16 +87,15 @@ public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The channel could not be found.
-public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -113,16 +110,15 @@ public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The schema type of the event is not supported.
-public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -137,16 +133,15 @@ public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Two or more entries in the request have the same event ID.
-public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -161,16 +156,15 @@ public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified channel ARN is not a valid channel ARN.
-public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -185,16 +179,15 @@ public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation requested is not supported in this region or account.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -209,8 +202,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -229,8 +221,7 @@ public struct PutAuditEventsInput: Swift.Sendable {
         auditEvents: [CloudTrailDataClientTypes.AuditEvent]? = nil,
         channelArn: Swift.String? = nil,
         externalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditEvents = auditEvents
         self.channelArn = channelArn
         self.externalId = externalId
@@ -255,8 +246,7 @@ extension CloudTrailDataClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -275,8 +265,7 @@ public struct PutAuditEventsOutput: Swift.Sendable {
     public init(
         failed: [CloudTrailDataClientTypes.ResultErrorEntry]? = nil,
         successful: [CloudTrailDataClientTypes.AuditEventResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }

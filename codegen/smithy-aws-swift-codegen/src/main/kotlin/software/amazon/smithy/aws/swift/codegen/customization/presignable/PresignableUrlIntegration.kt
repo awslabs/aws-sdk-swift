@@ -22,6 +22,7 @@ import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputQueryItemMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_URL
@@ -33,37 +34,53 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
-internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
-    "com.amazonaws.polly#Parrot_v1" to setOf(
-        "com.amazonaws.polly#SynthesizeSpeech"
-    ),
-    "com.amazonaws.s3#AmazonS3" to setOf(
-        "com.amazonaws.s3#GetObject",
-        "com.amazonaws.s3#PutObject",
+internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> =
+    mapOf(
+        "com.amazonaws.polly#Parrot_v1" to
+            setOf(
+                "com.amazonaws.polly#SynthesizeSpeech",
+            ),
+        "com.amazonaws.s3#AmazonS3" to
+            setOf(
+                "com.amazonaws.s3#GetObject",
+                "com.amazonaws.s3#PutObject",
+                "com.amazonaws.s3#UploadPart",
+            ),
     )
-)
 
-class PresignableUrlIntegration(private val presignedOperations: Map<String, Set<String>> = PRESIGNABLE_URL_OPERATIONS) : SwiftIntegration {
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
+class PresignableUrlIntegration(
+    private val presignedOperations: Map<String, Set<String>> = PRESIGNABLE_URL_OPERATIONS,
+) : SwiftIntegration {
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean {
         val currentServiceId = model.expectShape<ServiceShape>(settings.service).id.toString()
 
         return presignedOperations.keys.contains(currentServiceId)
     }
 
-    override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(
+        ctx: SwiftCodegenContext,
+        protocolGenerationContext: ProtocolGenerator.GenerationContext,
+        delegator: SwiftDelegator,
+    ) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
         if (!AWSAuthUtils.isSupportedAuthentication(ctx.model, service)) return
 
         val operationsToGenerate = presignedOperations.getOrDefault(service.id.toString(), setOf())
 
-        val presignOperations = service.allOperations
-            .map { ctx.model.expectShape<OperationShape>(it) }
-            .filter { operationShape -> operationsToGenerate.contains(operationShape.id.toString()) }
-            .map { operationShape ->
-                check(AWSAuthUtils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
-                PresignableOperation(service.id.toString(), operationShape.id.toString())
-            }
+        val presignOperations =
+            service.allOperations
+                .map { ctx.model.expectShape<OperationShape>(it) }
+                .filter { operationShape -> operationsToGenerate.contains(operationShape.id.toString()) }
+                .map { operationShape ->
+                    check(
+                        AWSAuthUtils.hasSigV4AuthScheme(ctx.model, service, operationShape),
+                    ) { "Operation does not have valid auth trait" }
+                    PresignableOperation(service.id.toString(), operationShape.id.toString())
+                }
         presignOperations.forEach { presignableOperation ->
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
@@ -97,18 +114,23 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         op: OperationShape,
         inputType: String,
         outputType: String,
-        serviceConfig: AWSServiceConfig
+        serviceConfig: AWSServiceConfig,
     ) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
         val operationMiddleware = resolveOperationMiddleware(protocolGenerator, protocolGeneratorContext, op)
 
-        val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
+        val httpBindingResolver =
+            protocolGenerator.getProtocolHttpBindingResolver(
+                protocolGeneratorContext,
+                protocolGenerator.defaultContentType,
+            )
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
-                "public func presignURL(config: \$L, expiration: \$N) async throws -> \$T {", "}",
+                "public func presignURL(config: \$L, expiration: \$N) async throws -> \$T {",
+                "}",
                 serviceConfig.typeName,
                 FoundationTypes.TimeInterval,
                 FoundationTypes.URL,
@@ -126,19 +148,17 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 }
 
                 val operationStackName = "operation"
-                val generator = MiddlewareExecutionGenerator(
-                    protocolGeneratorContext,
-                    writer,
-                    httpBindingResolver,
-                    protocolGenerator.customizations,
-                    operationMiddleware,
-                    operationStackName,
-                    ::overrideHttpMethod
-                )
-                generator.render(serviceShape, op, PRESIGN_URL) { writer, _ ->
-                    writer.write("return nil")
-                }
-
+                val generator =
+                    MiddlewareExecutionGenerator(
+                        protocolGeneratorContext,
+                        writer,
+                        httpBindingResolver,
+                        protocolGenerator.customizations,
+                        operationMiddleware,
+                        operationStackName,
+                        ::overrideHttpMethod,
+                    )
+                generator.render(serviceShape, op, PRESIGN_URL)
                 writer.write("return try await op.presignRequest(input: input).endpoint.url")
             }
         }
@@ -148,7 +168,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         writer: SwiftWriter,
         clientName: String,
         op: OperationShape,
-        inputType: String
+        inputType: String,
     ) {
         writer.apply {
             openBlock("extension $clientName {", "}") {
@@ -161,7 +181,10 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 ) {
                     write("let presignedURL = try await input.presignURL(config: config, expiration: expiration)")
                     openBlock("guard let presignedURL else {", "}") {
-                        write("throw \$N.unknownError(\"Could not generate presigned URL for the operation ${op.toUpperCamelCase()}.\")", SmithyTypes.ClientError)
+                        write(
+                            "throw \$N.unknownError(\"Could not generate presigned URL for the operation ${op.toUpperCamelCase()}.\")",
+                            SmithyTypes.ClientError,
+                        )
                     }
                     write("return presignedURL")
                 }
@@ -169,7 +192,11 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         }
     }
 
-    private fun renderDocForPresignURLAPI(writer: SwiftWriter, op: OperationShape, inputType: String) {
+    private fun renderDocForPresignURLAPI(
+        writer: SwiftWriter,
+        op: OperationShape,
+        inputType: String,
+    ) {
         writer.apply {
             write("/// Presigns the URL for ${op.toUpperCamelCase()} operation with the given input object $inputType.")
             write("/// The presigned URL will be valid for the given expiration, in seconds.")
@@ -184,7 +211,11 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         }
     }
 
-    private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, context: ProtocolGenerator.GenerationContext, op: OperationShape): OperationMiddleware {
+    private fun resolveOperationMiddleware(
+        protocolGenerator: ProtocolGenerator,
+        context: ProtocolGenerator.GenerationContext,
+        op: OperationShape,
+    ): OperationMiddleware {
         val inputSymbol = MiddlewareShapeUtils.inputSymbol(context.symbolProvider, context.model, op)
         val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
         operationMiddlewareCopy.removeMiddleware(op, "UserAgentMiddleware")
@@ -204,13 +235,20 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
                 operationMiddlewareCopy.appendMiddleware(op, PutObjectPresignedURLMiddlewareRenderable())
             }
+            "com.amazonaws.s3#UploadPart" -> {
+                operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
+                operationMiddlewareCopy.appendMiddleware(op, OperationInputQueryItemMiddleware(context.model, context.symbolProvider))
+            }
         }
 
         return operationMiddlewareCopy
     }
 
-    private fun renderMiddlewareClassForQueryString(codegenContext: SwiftCodegenContext, delegator: SwiftDelegator, op: OperationShape) {
-
+    private fun renderMiddlewareClassForQueryString(
+        codegenContext: SwiftCodegenContext,
+        delegator: SwiftDelegator,
+        op: OperationShape,
+    ) {
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
 
@@ -222,25 +260,31 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val outputSymbol = ctx.symbolProvider.toSymbol(outputShape)
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
         val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
-        val headerMiddlewareSymbol = Symbol.builder()
-            .definitionFile(filename)
-            .name(inputSymbol.name)
-            .build()
+        val headerMiddlewareSymbol =
+            Symbol
+                .builder()
+                .definitionFile(filename)
+                .name(inputSymbol.name)
+                .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
-            val queryItemMiddleware = InputTypeGETQueryItemMiddleware(
-                ctx,
-                inputSymbol,
-                outputSymbol,
-                outputErrorSymbol,
-                inputShape,
-                writer
-            )
+            val queryItemMiddleware =
+                InputTypeGETQueryItemMiddleware(
+                    ctx,
+                    inputSymbol,
+                    outputSymbol,
+                    outputErrorSymbol,
+                    inputShape,
+                    writer,
+                )
             MiddlewareGenerator(writer, queryItemMiddleware).generate()
         }
     }
 
-    private fun renderMiddlewareClassForPutObject(codegenContext: SwiftCodegenContext, delegator: SwiftDelegator, op: OperationShape) {
-
+    private fun renderMiddlewareClassForPutObject(
+        codegenContext: SwiftCodegenContext,
+        delegator: SwiftDelegator,
+        op: OperationShape,
+    ) {
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
 
@@ -252,25 +296,27 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val outputSymbol = ctx.symbolProvider.toSymbol(outputShape)
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
         val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
-        val headerMiddlewareSymbol = Symbol.builder()
-            .definitionFile(filename)
-            .name(inputSymbol.name)
-            .build()
+        val headerMiddlewareSymbol =
+            Symbol
+                .builder()
+                .definitionFile(filename)
+                .name(inputSymbol.name)
+                .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
-            val queryItemMiddleware = PutObjectPresignedURLMiddleware(
-                inputSymbol,
-                outputSymbol,
-                outputErrorSymbol,
-                writer
-            )
+            val queryItemMiddleware =
+                PutObjectPresignedURLMiddleware(
+                    inputSymbol,
+                    outputSymbol,
+                    outputErrorSymbol,
+                    writer,
+                )
             MiddlewareGenerator(writer, queryItemMiddleware).generate()
         }
     }
 
-    private fun overrideHttpMethod(operation: OperationShape): String {
-        return when (operation.id.toString()) {
-            "com.amazonaws.s3#PutObject" -> "put"
+    private fun overrideHttpMethod(operation: OperationShape): String =
+        when (operation.id.toString()) {
+            "com.amazonaws.s3#PutObject", "com.amazonaws.s3#UploadPart" -> "put"
             else -> "get"
         }
-    }
 }

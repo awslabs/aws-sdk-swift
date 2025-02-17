@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -84,8 +83,7 @@ extension WisdomClientTypes {
         public init(
             appIntegrationArn: Swift.String? = nil,
             objectFields: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appIntegrationArn = appIntegrationArn
             self.objectFields = objectFields
         }
@@ -93,9 +91,9 @@ extension WisdomClientTypes {
 }
 
 /// The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -110,16 +108,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The specified resource name.
         public internal(set) var resourceName: Swift.String? = nil
@@ -137,17 +134,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
 }
 
 /// You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -162,16 +158,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by a service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -186,8 +181,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -249,8 +243,7 @@ public struct CreateAssistantAssociationInput: Swift.Sendable {
         associationType: WisdomClientTypes.AssociationType? = nil,
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.association = association
         self.associationType = associationType
@@ -271,8 +264,7 @@ extension WisdomClientTypes {
         public init(
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -322,8 +314,7 @@ extension WisdomClientTypes {
             associationData: WisdomClientTypes.AssistantAssociationOutputData? = nil,
             associationType: WisdomClientTypes.AssociationType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
             self.assistantAssociationId = assistantAssociationId
@@ -341,8 +332,7 @@ public struct CreateAssistantAssociationOutput: Swift.Sendable {
 
     public init(
         assistantAssociation: WisdomClientTypes.AssistantAssociationData? = nil
-    )
-    {
+    ) {
         self.assistantAssociation = assistantAssociation
     }
 }
@@ -358,8 +348,7 @@ public struct DeleteAssistantAssociationInput: Swift.Sendable {
     public init(
         assistantAssociationId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantAssociationId = assistantAssociationId
         self.assistantId = assistantId
     }
@@ -381,8 +370,7 @@ public struct GetAssistantAssociationInput: Swift.Sendable {
     public init(
         assistantAssociationId: Swift.String? = nil,
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantAssociationId = assistantAssociationId
         self.assistantId = assistantId
     }
@@ -394,8 +382,7 @@ public struct GetAssistantAssociationOutput: Swift.Sendable {
 
     public init(
         assistantAssociation: WisdomClientTypes.AssistantAssociationData? = nil
-    )
-    {
+    ) {
         self.assistantAssociation = assistantAssociation
     }
 }
@@ -413,8 +400,7 @@ public struct ListAssistantAssociationsInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -454,8 +440,7 @@ extension WisdomClientTypes {
             associationData: WisdomClientTypes.AssistantAssociationOutputData? = nil,
             associationType: WisdomClientTypes.AssociationType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
             self.assistantAssociationId = assistantAssociationId
@@ -477,8 +462,7 @@ public struct ListAssistantAssociationsOutput: Swift.Sendable {
     public init(
         assistantAssociationSummaries: [WisdomClientTypes.AssistantAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantAssociationSummaries = assistantAssociationSummaries
         self.nextToken = nextToken
     }
@@ -493,8 +477,7 @@ extension WisdomClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -549,8 +532,7 @@ public struct CreateAssistantInput: Swift.Sendable {
         serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: WisdomClientTypes.AssistantType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -569,8 +551,7 @@ extension WisdomClientTypes {
 
         public init(
             topicIntegrationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicIntegrationArn = topicIntegrationArn
         }
     }
@@ -655,8 +636,7 @@ extension WisdomClientTypes {
             status: WisdomClientTypes.AssistantStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: WisdomClientTypes.AssistantType? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
@@ -676,8 +656,7 @@ public struct CreateAssistantOutput: Swift.Sendable {
 
     public init(
         assistant: WisdomClientTypes.AssistantData? = nil
-    )
-    {
+    ) {
         self.assistant = assistant
     }
 }
@@ -689,8 +668,7 @@ public struct DeleteAssistantInput: Swift.Sendable {
 
     public init(
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
     }
 }
@@ -707,8 +685,7 @@ public struct GetAssistantInput: Swift.Sendable {
 
     public init(
         assistantId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
     }
 }
@@ -719,8 +696,7 @@ public struct GetAssistantOutput: Swift.Sendable {
 
     public init(
         assistant: WisdomClientTypes.AssistantData? = nil
-    )
-    {
+    ) {
         self.assistant = assistant
     }
 }
@@ -742,8 +718,7 @@ public struct GetRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         sessionId: Swift.String? = nil,
         waitTimeSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.sessionId = sessionId
@@ -769,8 +744,7 @@ extension WisdomClientTypes {
             contentId: Swift.String? = nil,
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.knowledgeBaseArn = knowledgeBaseArn
@@ -791,8 +765,7 @@ extension WisdomClientTypes {
         public init(
             beginOffsetInclusive: Swift.Int = 0,
             endOffsetExclusive: Swift.Int = 0
-        )
-        {
+        ) {
             self.beginOffsetInclusive = beginOffsetInclusive
             self.endOffsetExclusive = endOffsetExclusive
         }
@@ -811,8 +784,7 @@ extension WisdomClientTypes {
         public init(
             highlights: [WisdomClientTypes.Highlight]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.highlights = highlights
             self.text = text
         }
@@ -840,8 +812,7 @@ extension WisdomClientTypes {
             contentReference: WisdomClientTypes.ContentReference? = nil,
             excerpt: WisdomClientTypes.DocumentText? = nil,
             title: WisdomClientTypes.DocumentText? = nil
-        )
-        {
+        ) {
             self.contentReference = contentReference
             self.excerpt = excerpt
             self.title = title
@@ -930,8 +901,7 @@ extension WisdomClientTypes {
             relevanceLevel: WisdomClientTypes.RelevanceLevel? = nil,
             relevanceScore: Swift.Double = 0.0,
             type: WisdomClientTypes.RecommendationType? = nil
-        )
-        {
+        ) {
             self.document = document
             self.recommendationId = recommendationId
             self.relevanceLevel = relevanceLevel
@@ -950,8 +920,7 @@ extension WisdomClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -1060,8 +1029,7 @@ extension WisdomClientTypes {
             recommendationIds: [Swift.String]? = nil,
             source: WisdomClientTypes.RecommendationSourceType? = nil,
             type: WisdomClientTypes.RecommendationTriggerType? = nil
-        )
-        {
+        ) {
             self.data = data
             self.id = id
             self.recommendationIds = recommendationIds
@@ -1081,8 +1049,7 @@ public struct GetRecommendationsOutput: Swift.Sendable {
     public init(
         recommendations: [WisdomClientTypes.RecommendationData]? = nil,
         triggers: [WisdomClientTypes.RecommendationTrigger]? = nil
-    )
-    {
+    ) {
         self.recommendations = recommendations
         self.triggers = triggers
     }
@@ -1097,8 +1064,7 @@ public struct ListAssistantsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1142,8 +1108,7 @@ extension WisdomClientTypes {
             status: WisdomClientTypes.AssistantStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: WisdomClientTypes.AssistantType? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
@@ -1167,8 +1132,7 @@ public struct ListAssistantsOutput: Swift.Sendable {
     public init(
         assistantSummaries: [WisdomClientTypes.AssistantSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantSummaries = assistantSummaries
         self.nextToken = nextToken
     }
@@ -1189,8 +1153,7 @@ public struct NotifyRecommendationsReceivedInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         recommendationIds: [Swift.String]? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.recommendationIds = recommendationIds
         self.sessionId = sessionId
@@ -1209,8 +1172,7 @@ extension WisdomClientTypes {
         public init(
             message: Swift.String? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.recommendationId = recommendationId
         }
@@ -1226,17 +1188,16 @@ public struct NotifyRecommendationsReceivedOutput: Swift.Sendable {
     public init(
         errors: [WisdomClientTypes.NotifyRecommendationsReceivedError]? = nil,
         recommendationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.recommendationIds = recommendationIds
     }
 }
 
 /// The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
-public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1251,8 +1212,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1274,8 +1234,7 @@ public struct QueryAssistantInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1305,8 +1264,7 @@ extension WisdomClientTypes {
             document: WisdomClientTypes.Document? = nil,
             relevanceScore: Swift.Double = 0.0,
             resultId: Swift.String? = nil
-        )
-        {
+        ) {
             self.document = document
             self.relevanceScore = relevanceScore
             self.resultId = resultId
@@ -1324,8 +1282,7 @@ public struct QueryAssistantOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [WisdomClientTypes.ResultData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -1401,8 +1358,7 @@ extension WisdomClientTypes {
             field: WisdomClientTypes.FilterField? = nil,
             `operator`: WisdomClientTypes.FilterOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.`operator` = `operator`
             self.value = value
@@ -1420,8 +1376,7 @@ extension WisdomClientTypes {
 
         public init(
             filters: [WisdomClientTypes.Filter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -1444,8 +1399,7 @@ public struct SearchSessionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: WisdomClientTypes.SearchExpression? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1475,8 +1429,7 @@ extension WisdomClientTypes {
             assistantId: Swift.String? = nil,
             sessionArn: Swift.String? = nil,
             sessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.sessionArn = sessionArn
@@ -1495,8 +1448,7 @@ public struct SearchSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessionSummaries: [WisdomClientTypes.SessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessionSummaries = sessionSummaries
     }
@@ -1522,8 +1474,7 @@ public struct CreateSessionInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.clientToken = clientToken
         self.description = description
@@ -1541,8 +1492,7 @@ extension WisdomClientTypes {
 
         public init(
             topicIntegrationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicIntegrationArn = topicIntegrationArn
         }
     }
@@ -1575,8 +1525,7 @@ extension WisdomClientTypes {
             sessionArn: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.integrationConfiguration = integrationConfiguration
             self.name = name
@@ -1593,8 +1542,7 @@ public struct CreateSessionOutput: Swift.Sendable {
 
     public init(
         session: WisdomClientTypes.SessionData? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -1610,8 +1558,7 @@ public struct GetSessionInput: Swift.Sendable {
     public init(
         assistantId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assistantId = assistantId
         self.sessionId = sessionId
     }
@@ -1623,8 +1570,7 @@ public struct GetSessionOutput: Swift.Sendable {
 
     public init(
         session: WisdomClientTypes.SessionData? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -1638,8 +1584,7 @@ extension WisdomClientTypes {
 
         public init(
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
         }
     }
@@ -1685,8 +1630,7 @@ public struct CreateContentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         title: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.knowledgeBaseId = knowledgeBaseId
         self.metadata = metadata
@@ -1802,8 +1746,7 @@ extension WisdomClientTypes {
             title: Swift.String? = nil,
             url: Swift.String? = nil,
             urlExpiry: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
@@ -1833,8 +1776,7 @@ public struct CreateContentOutput: Swift.Sendable {
 
     public init(
         content: WisdomClientTypes.ContentData? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -1850,8 +1792,7 @@ public struct DeleteContentInput: Swift.Sendable {
     public init(
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -1873,8 +1814,7 @@ public struct GetContentInput: Swift.Sendable {
     public init(
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -1886,8 +1826,7 @@ public struct GetContentOutput: Swift.Sendable {
 
     public init(
         content: WisdomClientTypes.ContentData? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -1903,8 +1842,7 @@ public struct GetContentSummaryInput: Swift.Sendable {
     public init(
         contentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -1959,8 +1897,7 @@ extension WisdomClientTypes {
             status: WisdomClientTypes.ContentStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
@@ -1982,8 +1919,7 @@ public struct GetContentSummaryOutput: Swift.Sendable {
 
     public init(
         contentSummary: WisdomClientTypes.ContentSummary? = nil
-    )
-    {
+    ) {
         self.contentSummary = contentSummary
     }
 }
@@ -2001,8 +1937,7 @@ public struct ListContentsInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2019,17 +1954,16 @@ public struct ListContentsOutput: Swift.Sendable {
     public init(
         contentSummaries: [WisdomClientTypes.ContentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentSummaries = contentSummaries
         self.nextToken = nextToken
     }
 }
 
 /// The provided revisionId does not match, indicating the content has been modified since it was last read.
-public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2044,8 +1978,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2079,8 +2012,7 @@ public struct UpdateContentInput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         title: Swift.String? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentId = contentId
         self.knowledgeBaseId = knowledgeBaseId
         self.metadata = metadata
@@ -2098,8 +2030,7 @@ public struct UpdateContentOutput: Swift.Sendable {
 
     public init(
         content: WisdomClientTypes.ContentData? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -2154,8 +2085,7 @@ extension WisdomClientTypes {
 
         public init(
             templateUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.templateUri = templateUri
         }
     }
@@ -2200,8 +2130,7 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
         serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration? = nil,
         sourceConfiguration: WisdomClientTypes.SourceConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.knowledgeBaseType = knowledgeBaseType
@@ -2298,8 +2227,7 @@ extension WisdomClientTypes {
             sourceConfiguration: WisdomClientTypes.SourceConfiguration? = nil,
             status: WisdomClientTypes.KnowledgeBaseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
@@ -2321,8 +2249,7 @@ public struct CreateKnowledgeBaseOutput: Swift.Sendable {
 
     public init(
         knowledgeBase: WisdomClientTypes.KnowledgeBaseData? = nil
-    )
-    {
+    ) {
         self.knowledgeBase = knowledgeBase
     }
 }
@@ -2353,8 +2280,7 @@ extension WisdomClientTypes {
         public init(
             criteria: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.values = values
         }
@@ -2412,8 +2338,7 @@ public struct CreateQuickResponseInput: Swift.Sendable {
         name: Swift.String? = nil,
         shortcutKey: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.clientToken = clientToken
         self.content = content
@@ -2456,8 +2381,7 @@ extension WisdomClientTypes {
         public init(
             markdown: WisdomClientTypes.QuickResponseContentProvider? = nil,
             plainText: WisdomClientTypes.QuickResponseContentProvider? = nil
-        )
-        {
+        ) {
             self.markdown = markdown
             self.plainText = plainText
         }
@@ -2584,8 +2508,7 @@ extension WisdomClientTypes {
             shortcutKey: Swift.String? = nil,
             status: WisdomClientTypes.QuickResponseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.contentType = contentType
             self.contents = contents
@@ -2619,8 +2542,7 @@ public struct CreateQuickResponseOutput: Swift.Sendable {
 
     public init(
         quickResponse: WisdomClientTypes.QuickResponseData? = nil
-    )
-    {
+    ) {
         self.quickResponse = quickResponse
     }
 }
@@ -2636,8 +2558,7 @@ public struct DeleteImportJobInput: Swift.Sendable {
     public init(
         importJobId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobId = importJobId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -2655,8 +2576,7 @@ public struct DeleteKnowledgeBaseInput: Swift.Sendable {
 
     public init(
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
     }
 }
@@ -2677,8 +2597,7 @@ public struct DeleteQuickResponseInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         quickResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.quickResponseId = quickResponseId
     }
@@ -2729,8 +2648,7 @@ extension WisdomClientTypes {
         public init(
             configuration: WisdomClientTypes.Configuration? = nil,
             source: WisdomClientTypes.ExternalSource? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.source = source
         }
@@ -2748,8 +2666,7 @@ public struct GetImportJobInput: Swift.Sendable {
     public init(
         importJobId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobId = importJobId
         self.knowledgeBaseId = knowledgeBaseId
     }
@@ -2877,8 +2794,7 @@ extension WisdomClientTypes {
             uploadId: Swift.String? = nil,
             url: Swift.String? = nil,
             urlExpiry: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.externalSourceConfiguration = externalSourceConfiguration
             self.failedRecordReport = failedRecordReport
@@ -2907,8 +2823,7 @@ public struct GetImportJobOutput: Swift.Sendable {
 
     public init(
         importJob: WisdomClientTypes.ImportJobData? = nil
-    )
-    {
+    ) {
         self.importJob = importJob
     }
 }
@@ -2920,8 +2835,7 @@ public struct GetKnowledgeBaseInput: Swift.Sendable {
 
     public init(
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
     }
 }
@@ -2932,8 +2846,7 @@ public struct GetKnowledgeBaseOutput: Swift.Sendable {
 
     public init(
         knowledgeBase: WisdomClientTypes.KnowledgeBaseData? = nil
-    )
-    {
+    ) {
         self.knowledgeBase = knowledgeBase
     }
 }
@@ -2949,8 +2862,7 @@ public struct GetQuickResponseInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         quickResponseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.quickResponseId = quickResponseId
     }
@@ -2962,8 +2874,7 @@ public struct GetQuickResponseOutput: Swift.Sendable {
 
     public init(
         quickResponse: WisdomClientTypes.QuickResponseData? = nil
-    )
-    {
+    ) {
         self.quickResponse = quickResponse
     }
 }
@@ -3012,8 +2923,7 @@ extension WisdomClientTypes {
             metadata: [Swift.String: Swift.String]? = nil,
             status: WisdomClientTypes.ImportJobStatus? = nil,
             uploadId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.externalSourceConfiguration = externalSourceConfiguration
             self.importJobId = importJobId
@@ -3041,8 +2951,7 @@ public struct ListImportJobsInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3059,8 +2968,7 @@ public struct ListImportJobsOutput: Swift.Sendable {
     public init(
         importJobSummaries: [WisdomClientTypes.ImportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobSummaries = importJobSummaries
         self.nextToken = nextToken
     }
@@ -3075,8 +2983,7 @@ public struct ListKnowledgeBasesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3123,8 +3030,7 @@ extension WisdomClientTypes {
             sourceConfiguration: WisdomClientTypes.SourceConfiguration? = nil,
             status: WisdomClientTypes.KnowledgeBaseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
@@ -3149,8 +3055,7 @@ public struct ListKnowledgeBasesOutput: Swift.Sendable {
     public init(
         knowledgeBaseSummaries: [WisdomClientTypes.KnowledgeBaseSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseSummaries = knowledgeBaseSummaries
         self.nextToken = nextToken
     }
@@ -3169,8 +3074,7 @@ public struct ListQuickResponsesInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3238,8 +3142,7 @@ extension WisdomClientTypes {
             quickResponseId: Swift.String? = nil,
             status: WisdomClientTypes.QuickResponseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.contentType = contentType
             self.createdTime = createdTime
@@ -3273,8 +3176,7 @@ public struct ListQuickResponsesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         quickResponseSummaries: [WisdomClientTypes.QuickResponseSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.quickResponseSummaries = quickResponseSummaries
     }
@@ -3331,8 +3233,7 @@ public struct UpdateQuickResponseInput: Swift.Sendable {
         removeGroupingConfiguration: Swift.Bool? = nil,
         removeShortcutKey: Swift.Bool? = nil,
         shortcutKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.content = content
         self.contentType = contentType
@@ -3361,8 +3262,7 @@ public struct UpdateQuickResponseOutput: Swift.Sendable {
 
     public init(
         quickResponse: WisdomClientTypes.QuickResponseData? = nil
-    )
-    {
+    ) {
         self.quickResponse = quickResponse
     }
 }
@@ -3374,8 +3274,7 @@ public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Sendable {
 
     public init(
         knowledgeBaseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
     }
 }
@@ -3402,8 +3301,7 @@ public struct SearchContentInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: WisdomClientTypes.SearchExpression? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3421,8 +3319,7 @@ public struct SearchContentOutput: Swift.Sendable {
     public init(
         contentSummaries: [WisdomClientTypes.ContentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentSummaries = contentSummaries
         self.nextToken = nextToken
     }
@@ -3501,8 +3398,7 @@ extension WisdomClientTypes {
             name: Swift.String? = nil,
             `operator`: WisdomClientTypes.QuickResponseFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.includeNoExistence = includeNoExistence
             self.name = name
             self.`operator` = `operator`
@@ -3577,8 +3473,7 @@ extension WisdomClientTypes {
         public init(
             name: Swift.String? = nil,
             order: WisdomClientTypes.Order? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
         }
@@ -3678,8 +3573,7 @@ extension WisdomClientTypes {
             `operator`: WisdomClientTypes.QuickResponseQueryOperator? = nil,
             priority: WisdomClientTypes.Priority? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowFuzziness = allowFuzziness
             self.name = name
             self.`operator` = `operator`
@@ -3704,8 +3598,7 @@ extension WisdomClientTypes {
             filters: [WisdomClientTypes.QuickResponseFilterField]? = nil,
             orderOnField: WisdomClientTypes.QuickResponseOrderField? = nil,
             queries: [WisdomClientTypes.QuickResponseQueryField]? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.orderOnField = orderOnField
             self.queries = queries
@@ -3733,8 +3626,7 @@ public struct SearchQuickResponsesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: WisdomClientTypes.QuickResponseSearchExpression? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.knowledgeBaseId = knowledgeBaseId
         self.maxResults = maxResults
@@ -3829,8 +3721,7 @@ extension WisdomClientTypes {
             shortcutKey: Swift.String? = nil,
             status: WisdomClientTypes.QuickResponseStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributesInterpolated = attributesInterpolated
             self.attributesNotInterpolated = attributesNotInterpolated
             self.channels = channels
@@ -3870,8 +3761,7 @@ public struct SearchQuickResponsesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [WisdomClientTypes.QuickResponseSearchResultData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -3891,8 +3781,7 @@ public struct StartContentUploadInput: Swift.Sendable {
         contentType: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
         presignedUrlTimeToLive: Swift.Int? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.knowledgeBaseId = knowledgeBaseId
         self.presignedUrlTimeToLive = presignedUrlTimeToLive
@@ -3918,8 +3807,7 @@ public struct StartContentUploadOutput: Swift.Sendable {
         uploadId: Swift.String? = nil,
         url: Swift.String? = nil,
         urlExpiry: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.headersToInclude = headersToInclude
         self.uploadId = uploadId
         self.url = url
@@ -3960,8 +3848,7 @@ public struct StartImportJobInput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         uploadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.externalSourceConfiguration = externalSourceConfiguration
         self.importJobType = importJobType
@@ -3977,8 +3864,7 @@ public struct StartImportJobOutput: Swift.Sendable {
 
     public init(
         importJob: WisdomClientTypes.ImportJobData? = nil
-    )
-    {
+    ) {
         self.importJob = importJob
     }
 }
@@ -3994,8 +3880,7 @@ public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Sendable {
     public init(
         knowledgeBaseId: Swift.String? = nil,
         templateUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.knowledgeBaseId = knowledgeBaseId
         self.templateUri = templateUri
     }
@@ -4007,8 +3892,7 @@ public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Sendable {
 
     public init(
         knowledgeBase: WisdomClientTypes.KnowledgeBaseData? = nil
-    )
-    {
+    ) {
         self.knowledgeBase = knowledgeBase
     }
 }
@@ -4020,8 +3904,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4032,16 +3915,15 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 /// Amazon Connect Wisdom throws this exception if you have too many tags in your tag set.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The specified resource name.
         public internal(set) var resourceName: Swift.String? = nil
@@ -4059,8 +3941,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -4077,8 +3958,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4100,8 +3980,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

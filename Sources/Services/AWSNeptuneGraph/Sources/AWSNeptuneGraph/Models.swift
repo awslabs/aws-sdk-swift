@@ -40,9 +40,9 @@ public struct CancelQueryOutput: Swift.Sendable {
 }
 
 /// Raised in case of an authentication or authorization failure.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -59,16 +59,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A failure occurred on the server.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -85,16 +84,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified resource could not be located.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -111,16 +109,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The exception was interrupted by throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -137,8 +134,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -188,9 +184,9 @@ extension NeptuneGraphClientTypes {
 }
 
 /// A resource could not be validated.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -210,8 +206,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: NeptuneGraphClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -228,8 +223,7 @@ public struct CancelQueryInput: Swift.Sendable {
     public init(
         graphIdentifier: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.queryId = queryId
     }
@@ -262,9 +256,9 @@ extension NeptuneGraphClientTypes {
 }
 
 /// Raised when a conflict is encountered.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -284,8 +278,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         reason: NeptuneGraphClientTypes.ConflictExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -330,9 +323,9 @@ extension NeptuneGraphClientTypes {
 }
 
 /// Request cannot be processed due to known reasons. Eg. partition full.
-public struct UnprocessableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnprocessableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the unprocessable exception.
@@ -352,8 +345,7 @@ public struct UnprocessableException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         reason: NeptuneGraphClientTypes.UnprocessableExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -473,8 +465,7 @@ public struct ExecuteQueryInput: Swift.Sendable {
         planCache: NeptuneGraphClientTypes.PlanCacheType? = nil,
         queryString: Swift.String? = nil,
         queryTimeoutMilliseconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.explainMode = explainMode
         self.graphIdentifier = graphIdentifier
         self.language = language
@@ -492,8 +483,7 @@ public struct ExecuteQueryOutput: Swift.Sendable {
 
     public init(
         payload: Smithy.ByteStream? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -537,8 +527,7 @@ public struct GetGraphSummaryInput: Swift.Sendable {
     public init(
         graphIdentifier: Swift.String? = nil,
         mode: NeptuneGraphClientTypes.GraphSummaryMode? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.mode = mode
     }
@@ -556,8 +545,7 @@ extension NeptuneGraphClientTypes {
         public init(
             count: Swift.Int? = nil,
             edgeProperties: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.edgeProperties = edgeProperties
         }
@@ -579,8 +567,7 @@ extension NeptuneGraphClientTypes {
             count: Swift.Int? = nil,
             distinctOutgoingEdgeLabels: [Swift.String]? = nil,
             nodeProperties: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.distinctOutgoingEdgeLabels = distinctOutgoingEdgeLabels
             self.nodeProperties = nodeProperties
@@ -636,8 +623,7 @@ extension NeptuneGraphClientTypes {
             numNodes: Swift.Int? = nil,
             totalEdgePropertyValues: Swift.Int? = nil,
             totalNodePropertyValues: Swift.Int? = nil
-        )
-        {
+        ) {
             self.edgeLabels = edgeLabels
             self.edgeProperties = edgeProperties
             self.edgeStructures = edgeStructures
@@ -668,8 +654,7 @@ public struct GetGraphSummaryOutput: Swift.Sendable {
         graphSummary: NeptuneGraphClientTypes.GraphDataSummary? = nil,
         lastStatisticsComputationTime: Foundation.Date? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphSummary = graphSummary
         self.lastStatisticsComputationTime = lastStatisticsComputationTime
         self.version = version
@@ -687,8 +672,7 @@ public struct GetQueryInput: Swift.Sendable {
     public init(
         graphIdentifier: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.queryId = queryId
     }
@@ -744,8 +728,7 @@ public struct GetQueryOutput: Swift.Sendable {
         queryString: Swift.String? = nil,
         state: NeptuneGraphClientTypes.QueryState? = nil,
         waited: Swift.Int? = nil
-    )
-    {
+    ) {
         self.elapsed = elapsed
         self.id = id
         self.queryString = queryString
@@ -755,9 +738,9 @@ public struct GetQueryOutput: Swift.Sendable {
 }
 
 /// A service quota was exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Service quota code of the resource for which quota was exceeded.
@@ -785,8 +768,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -805,8 +787,7 @@ extension NeptuneGraphClientTypes {
 
         public init(
             dimension: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dimension = dimension
         }
     }
@@ -841,8 +822,7 @@ public struct CreateGraphInput: Swift.Sendable {
         replicaCount: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
         self.graphName = graphName
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -952,8 +932,7 @@ public struct CreateGraphOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.GraphStatus? = nil,
         statusReason: Swift.String? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.buildNumber = buildNumber
         self.createTime = createTime
@@ -983,8 +962,7 @@ public struct DeleteGraphInput: Swift.Sendable {
     public init(
         graphIdentifier: Swift.String? = nil,
         skipSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.skipSnapshot = skipSnapshot
     }
@@ -1041,8 +1019,7 @@ public struct DeleteGraphOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.GraphStatus? = nil,
         statusReason: Swift.String? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.buildNumber = buildNumber
         self.createTime = createTime
@@ -1068,8 +1045,7 @@ public struct GetGraphInput: Swift.Sendable {
 
     public init(
         graphIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
     }
 }
@@ -1125,8 +1101,7 @@ public struct GetGraphOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.GraphStatus? = nil,
         statusReason: Swift.String? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.buildNumber = buildNumber
         self.createTime = createTime
@@ -1154,8 +1129,7 @@ public struct ListGraphsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1200,8 +1174,7 @@ extension NeptuneGraphClientTypes {
             publicConnectivity: Swift.Bool? = nil,
             replicaCount: Swift.Int? = nil,
             status: NeptuneGraphClientTypes.GraphStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.deletionProtection = deletionProtection
             self.endpoint = endpoint
@@ -1226,8 +1199,7 @@ public struct ListGraphsOutput: Swift.Sendable {
     public init(
         graphs: [NeptuneGraphClientTypes.GraphSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphs = graphs
         self.nextToken = nextToken
     }
@@ -1244,8 +1216,7 @@ public struct ResetGraphInput: Swift.Sendable {
     public init(
         graphIdentifier: Swift.String? = nil,
         skipSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.skipSnapshot = skipSnapshot
     }
@@ -1302,8 +1273,7 @@ public struct ResetGraphOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.GraphStatus? = nil,
         statusReason: Swift.String? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.buildNumber = buildNumber
         self.createTime = createTime
@@ -1348,8 +1318,7 @@ public struct RestoreGraphFromSnapshotInput: Swift.Sendable {
         replicaCount: Swift.Int? = nil,
         snapshotIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
         self.graphName = graphName
         self.provisionedMemory = provisionedMemory
@@ -1411,8 +1380,7 @@ public struct RestoreGraphFromSnapshotOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.GraphStatus? = nil,
         statusReason: Swift.String? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.buildNumber = buildNumber
         self.createTime = createTime
@@ -1447,8 +1415,7 @@ public struct UpdateGraphInput: Swift.Sendable {
         graphIdentifier: Swift.String? = nil,
         provisionedMemory: Swift.Int? = nil,
         publicConnectivity: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
         self.graphIdentifier = graphIdentifier
         self.provisionedMemory = provisionedMemory
@@ -1507,8 +1474,7 @@ public struct UpdateGraphOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.GraphStatus? = nil,
         statusReason: Swift.String? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.buildNumber = buildNumber
         self.createTime = createTime
@@ -1576,8 +1542,7 @@ public struct ListQueriesInput: Swift.Sendable {
         graphIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         state: NeptuneGraphClientTypes.QueryStateInput? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.maxResults = maxResults
         self.state = state
@@ -1605,8 +1570,7 @@ extension NeptuneGraphClientTypes {
             queryString: Swift.String? = nil,
             state: NeptuneGraphClientTypes.QueryState? = nil,
             waited: Swift.Int? = nil
-        )
-        {
+        ) {
             self.elapsed = elapsed
             self.id = id
             self.queryString = queryString
@@ -1623,8 +1587,7 @@ public struct ListQueriesOutput: Swift.Sendable {
 
     public init(
         queries: [NeptuneGraphClientTypes.QuerySummary]? = nil
-    )
-    {
+    ) {
         self.queries = queries
     }
 }
@@ -1636,8 +1599,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1648,8 +1610,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1670,8 +1631,7 @@ public struct CreatePrivateGraphEndpointInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.subnetIds = subnetIds
         self.vpcId = vpcId
@@ -1732,8 +1692,7 @@ public struct CreatePrivateGraphEndpointOutput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         vpcEndpointId: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.subnetIds = subnetIds
         self.vpcEndpointId = vpcEndpointId
@@ -1752,8 +1711,7 @@ public struct DeletePrivateGraphEndpointInput: Swift.Sendable {
     public init(
         graphIdentifier: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.vpcId = vpcId
     }
@@ -1777,8 +1735,7 @@ public struct DeletePrivateGraphEndpointOutput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         vpcEndpointId: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.subnetIds = subnetIds
         self.vpcEndpointId = vpcEndpointId
@@ -1797,8 +1754,7 @@ public struct GetPrivateGraphEndpointInput: Swift.Sendable {
     public init(
         graphIdentifier: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.vpcId = vpcId
     }
@@ -1822,8 +1778,7 @@ public struct GetPrivateGraphEndpointOutput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         vpcEndpointId: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.subnetIds = subnetIds
         self.vpcEndpointId = vpcEndpointId
@@ -1844,8 +1799,7 @@ public struct ListPrivateGraphEndpointsInput: Swift.Sendable {
         graphIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1873,8 +1827,7 @@ extension NeptuneGraphClientTypes {
             subnetIds: [Swift.String]? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.subnetIds = subnetIds
             self.vpcEndpointId = vpcEndpointId
@@ -1893,8 +1846,7 @@ public struct ListPrivateGraphEndpointsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         privateGraphEndpoints: [NeptuneGraphClientTypes.PrivateGraphEndpointSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.privateGraphEndpoints = privateGraphEndpoints
     }
@@ -1914,8 +1866,7 @@ public struct CreateGraphSnapshotInput: Swift.Sendable {
         graphIdentifier: Swift.String? = nil,
         snapshotName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.snapshotName = snapshotName
         self.tags = tags
@@ -1984,8 +1935,7 @@ public struct CreateGraphSnapshotOutput: Swift.Sendable {
         snapshotCreateTime: Foundation.Date? = nil,
         sourceGraphId: Swift.String? = nil,
         status: NeptuneGraphClientTypes.SnapshotStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -2003,8 +1953,7 @@ public struct DeleteGraphSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotIdentifier = snapshotIdentifier
     }
 }
@@ -2036,8 +1985,7 @@ public struct DeleteGraphSnapshotOutput: Swift.Sendable {
         snapshotCreateTime: Foundation.Date? = nil,
         sourceGraphId: Swift.String? = nil,
         status: NeptuneGraphClientTypes.SnapshotStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -2055,8 +2003,7 @@ public struct GetGraphSnapshotInput: Swift.Sendable {
 
     public init(
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotIdentifier = snapshotIdentifier
     }
 }
@@ -2088,8 +2035,7 @@ public struct GetGraphSnapshotOutput: Swift.Sendable {
         snapshotCreateTime: Foundation.Date? = nil,
         sourceGraphId: Swift.String? = nil,
         status: NeptuneGraphClientTypes.SnapshotStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -2112,8 +2058,7 @@ public struct ListGraphSnapshotsInput: Swift.Sendable {
         graphIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphIdentifier = graphIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2150,8 +2095,7 @@ extension NeptuneGraphClientTypes {
             snapshotCreateTime: Foundation.Date? = nil,
             sourceGraphId: Swift.String? = nil,
             status: NeptuneGraphClientTypes.SnapshotStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -2173,8 +2117,7 @@ public struct ListGraphSnapshotsOutput: Swift.Sendable {
     public init(
         graphSnapshots: [NeptuneGraphClientTypes.GraphSnapshotSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphSnapshots = graphSnapshots
         self.nextToken = nextToken
     }
@@ -2191,8 +2134,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2210,8 +2152,7 @@ public struct CancelExportTaskInput: Swift.Sendable {
 
     public init(
         taskIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskIdentifier = taskIdentifier
     }
 }
@@ -2352,8 +2293,7 @@ public struct CancelExportTaskOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.ExportTaskStatus? = nil,
         statusReason: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.format = format
         self.graphId = graphId
@@ -2373,8 +2313,7 @@ public struct CancelImportTaskInput: Swift.Sendable {
 
     public init(
         taskIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskIdentifier = taskIdentifier
     }
 }
@@ -2498,8 +2437,7 @@ public struct CancelImportTaskOutput: Swift.Sendable {
         source: Swift.String? = nil,
         status: NeptuneGraphClientTypes.ImportTaskStatus? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.format = format
         self.graphId = graphId
         self.parquetType = parquetType
@@ -2556,8 +2494,7 @@ extension NeptuneGraphClientTypes {
             preserveEdgeIds: Swift.Bool? = nil,
             s3ExportKmsKeyId: Swift.String? = nil,
             s3ExportPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.preserveDefaultVertexLabels = preserveDefaultVertexLabels
             self.preserveEdgeIds = preserveEdgeIds
             self.s3ExportKmsKeyId = s3ExportKmsKeyId
@@ -2592,7 +2529,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Sendable {
     public var importOptions: NeptuneGraphClientTypes.ImportOptions?
     /// Specifies a KMS key to use to encrypt data imported into the new graph.
     public var kmsKeyIdentifier: Swift.String?
-    /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the max of the min-provisioned-memory and max-provisioned memory is used to create the graph. If neither value is specified 128 m-NCUs are used.
+    /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used.
     public var maxProvisionedMemory: Swift.Int?
     /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
     public var minProvisionedMemory: Swift.Int?
@@ -2630,8 +2567,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Sendable {
         source: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vectorSearchConfiguration: NeptuneGraphClientTypes.VectorSearchConfiguration? = nil
-    )
-    {
+    ) {
         self.blankNodeHandling = blankNodeHandling
         self.deletionProtection = deletionProtection
         self.failOnError = failOnError
@@ -2682,8 +2618,7 @@ public struct CreateGraphUsingImportTaskOutput: Swift.Sendable {
         source: Swift.String? = nil,
         status: NeptuneGraphClientTypes.ImportTaskStatus? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.format = format
         self.graphId = graphId
         self.importOptions = importOptions
@@ -2702,8 +2637,7 @@ public struct GetExportTaskInput: Swift.Sendable {
 
     public init(
         taskIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskIdentifier = taskIdentifier
     }
 }
@@ -2752,8 +2686,7 @@ extension NeptuneGraphClientTypes {
             multiValueHandling: NeptuneGraphClientTypes.MultiValueHandlingType? = .pickFirst,
             outputType: Swift.String? = nil,
             sourcePropertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.multiValueHandling = multiValueHandling
             self.outputType = outputType
             self.sourcePropertyName = sourcePropertyName
@@ -2770,8 +2703,7 @@ extension NeptuneGraphClientTypes {
 
         public init(
             properties: [Swift.String: NeptuneGraphClientTypes.ExportFilterPropertyAttributes]? = nil
-        )
-        {
+        ) {
             self.properties = properties
         }
     }
@@ -2789,8 +2721,7 @@ extension NeptuneGraphClientTypes {
         public init(
             edgeFilter: [Swift.String: NeptuneGraphClientTypes.ExportFilterElement]? = nil,
             vertexFilter: [Swift.String: NeptuneGraphClientTypes.ExportFilterElement]? = nil
-        )
-        {
+        ) {
             self.edgeFilter = edgeFilter
             self.vertexFilter = vertexFilter
         }
@@ -2821,8 +2752,7 @@ extension NeptuneGraphClientTypes {
             progressPercentage: Swift.Int? = nil,
             startTime: Foundation.Date? = nil,
             timeElapsedSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.numEdgesWritten = numEdgesWritten
             self.numVerticesWritten = numVerticesWritten
             self.progressPercentage = progressPercentage
@@ -2875,8 +2805,7 @@ public struct GetExportTaskOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.ExportTaskStatus? = nil,
         statusReason: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.exportFilter = exportFilter
         self.exportTaskDetails = exportTaskDetails
@@ -2898,8 +2827,7 @@ public struct GetImportTaskInput: Swift.Sendable {
 
     public init(
         taskIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskIdentifier = taskIdentifier
     }
 }
@@ -2941,8 +2869,7 @@ extension NeptuneGraphClientTypes {
             statementCount: Swift.Int? = nil,
             status: Swift.String? = nil,
             timeElapsedSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dictionaryEntryCount = dictionaryEntryCount
             self.errorCount = errorCount
             self.errorDetails = errorDetails
@@ -3015,8 +2942,7 @@ public struct GetImportTaskOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.ImportTaskStatus? = nil,
         statusReason: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attemptNumber = attemptNumber
         self.format = format
         self.graphId = graphId
@@ -3032,16 +2958,19 @@ public struct GetImportTaskOutput: Swift.Sendable {
 }
 
 public struct ListExportTasksInput: Swift.Sendable {
+    /// The unique identifier of the Neptune Analytics graph.
+    public var graphIdentifier: Swift.String?
     /// The maximum number of export tasks to return.
     public var maxResults: Swift.Int?
     /// Pagination token used to paginate input.
     public var nextToken: Swift.String?
 
     public init(
+        graphIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
+        self.graphIdentifier = graphIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3087,8 +3016,7 @@ extension NeptuneGraphClientTypes {
             status: NeptuneGraphClientTypes.ExportTaskStatus? = nil,
             statusReason: Swift.String? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.format = format
             self.graphId = graphId
@@ -3112,8 +3040,7 @@ public struct ListExportTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [NeptuneGraphClientTypes.ExportTaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -3128,8 +3055,7 @@ public struct ListImportTasksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3166,8 +3092,7 @@ extension NeptuneGraphClientTypes {
             source: Swift.String? = nil,
             status: NeptuneGraphClientTypes.ImportTaskStatus? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.graphId = graphId
             self.parquetType = parquetType
@@ -3189,8 +3114,7 @@ public struct ListImportTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [NeptuneGraphClientTypes.ImportTaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -3228,8 +3152,7 @@ public struct StartExportTaskInput: Swift.Sendable {
         parquetType: NeptuneGraphClientTypes.ParquetType? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.exportFilter = exportFilter
         self.format = format
@@ -3281,8 +3204,7 @@ public struct StartExportTaskOutput: Swift.Sendable {
         status: NeptuneGraphClientTypes.ExportTaskStatus? = nil,
         statusReason: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.exportFilter = exportFilter
         self.format = format
@@ -3326,8 +3248,7 @@ public struct StartImportTaskInput: Swift.Sendable {
         parquetType: NeptuneGraphClientTypes.ParquetType? = nil,
         roleArn: Swift.String? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.blankNodeHandling = blankNodeHandling
         self.failOnError = failOnError
         self.format = format
@@ -3370,8 +3291,7 @@ public struct StartImportTaskOutput: Swift.Sendable {
         source: Swift.String? = nil,
         status: NeptuneGraphClientTypes.ImportTaskStatus? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.format = format
         self.graphId = graphId
         self.importOptions = importOptions
@@ -3394,8 +3314,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3665,6 +3584,10 @@ extension ListExportTasksInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let graphIdentifier = value.graphIdentifier {
+            let graphIdentifierQueryItem = Smithy.URIQueryItem(name: "graphIdentifier".urlPercentEncoding(), value: Swift.String(graphIdentifier).urlPercentEncoding())
+            items.append(graphIdentifierQueryItem)
         }
         return items
     }

@@ -14,7 +14,6 @@ import software.amazon.smithy.aws.swift.codegen.protocols.awsquery.AWSQueryProto
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 
 class StructDecodeWrappedXMLGeneratorTests {
-
     @Test
     fun `wrapped map decodable`() {
         val context = setupTests("awsquery/flattened-map.smithy", "aws.protocoltests.query#AwsQuery")
@@ -35,7 +34,10 @@ extension FlattenedXmlMapOutput {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AWSQueryProtocolGenerator()

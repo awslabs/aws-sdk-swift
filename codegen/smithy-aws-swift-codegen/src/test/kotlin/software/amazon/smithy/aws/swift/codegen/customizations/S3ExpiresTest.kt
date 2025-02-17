@@ -9,7 +9,6 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 
 class S3ExpiresTest {
-
     @Test
     fun `001 test S3 output members named expires are changed to string type`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#S3", "S3")
@@ -23,8 +22,7 @@ public struct FooOutput: Swift.Sendable {
     public init(
         expires: Swift.String? = nil,
         payload1: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.payload1 = payload1
     }
@@ -46,8 +44,7 @@ public struct FooInput: Swift.Sendable {
     public init(
         expires: Swift.String? = nil,
         payload1: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.payload1 = payload1
     }
@@ -69,8 +66,7 @@ public struct FooOutput: Swift.Sendable {
     public init(
         expires: Foundation.Date? = nil,
         payload1: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.payload1 = payload1
     }
@@ -79,7 +75,11 @@ public struct FooOutput: Swift.Sendable {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String, sdkID: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+        sdkID: String,
+    ): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
 

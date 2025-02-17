@@ -37,19 +37,18 @@ import struct SmithyHTTPAPI.Headers
 
 extension DeadlineClientTypes {
 
-    /// The range for the GPU fleet acceleration.
+    /// Defines the maximum and minimum number of GPU accelerators required for a worker instance..
     public struct AcceleratorCountRange: Swift.Sendable {
-        /// The maximum number of GPUs for the accelerator.
+        /// The maximum number of GPU accelerators in the worker host.
         public var max: Swift.Int?
-        /// The minimum number of GPUs for the accelerator. If you set the value to 0, a worker will still have 1 GPU.
+        /// The minimum number of GPU accelerators in the worker host.
         /// This member is required.
         public var min: Swift.Int?
 
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -93,19 +92,35 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// Values that you can use to select a particular Amazon EC2 instance type.
+    /// Describes a specific GPU accelerator required for an Amazon Elastic Compute Cloud worker host.
     public struct AcceleratorSelection: Swift.Sendable {
-        /// The name of the GPU accelerator.
+        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r550 as the runtime. The available GPU accelerators are:
+        ///
+        /// * t4 - NVIDIA T4 Tensor Core GPU
+        ///
+        /// * a10g - NVIDIA A10G Tensor Core GPU
+        ///
+        /// * l4 - NVIDIA L4 Tensor Core GPU
+        ///
+        /// * l40s - NVIDIA L40S Tensor Core GPU
         /// This member is required.
         public var name: DeadlineClientTypes.AcceleratorName?
-        /// The driver version that the GPU accelerator uses.
+        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs. You can choose from the following runtimes:
+        ///
+        /// * latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.
+        ///
+        /// * grid:r550 - [NVIDIA vGPU software 17](https://docs.nvidia.com/vgpu/17.0/index.html)
+        ///
+        /// * grid:r535 - [NVIDIA vGPU software 16](https://docs.nvidia.com/vgpu/16.0/index.html)
+        ///
+        ///
+        /// If you don't specify a runtime, Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Deadline Cloud raises an exception.
         public var runtime: Swift.String?
 
         public init(
             name: DeadlineClientTypes.AcceleratorName? = nil,
             runtime: Swift.String? = "latest"
-        )
-        {
+        ) {
             self.name = name
             self.runtime = runtime
         }
@@ -114,19 +129,18 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// Provides information about the GPU accelerators and drivers for the instance types in a fleet. If you include the acceleratorCapabilities property in the [ServiceManagedEc2InstanceCapabilities](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_ServiceManagedEc2InstanceCapabilities) object, all of the Amazon EC2 instances will have at least one accelerator.
+    /// Provides information about the GPU accelerators used for jobs processed by a fleet.
     public struct AcceleratorCapabilities: Swift.Sendable {
-        /// The number of GPUs on each worker. The default is 1.
+        /// The number of GPU accelerators specified for worker hosts in this fleet.
         public var count: DeadlineClientTypes.AcceleratorCountRange?
-        /// A list of objects that contain the GPU name of the accelerator and driver for the instance types that support the accelerator.
+        /// A list of accelerator capabilities requested for this fleet. Only Amazon Elastic Compute Cloud instances that provide these capabilities will be used. For example, if you specify both L4 and T4 chips, Deadline Cloud will use Amazon EC2 instances that have either the L4 or the T4 chip installed.
         /// This member is required.
         public var selections: [DeadlineClientTypes.AcceleratorSelection]?
 
         public init(
             count: DeadlineClientTypes.AcceleratorCountRange? = nil,
             selections: [DeadlineClientTypes.AcceleratorSelection]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.selections = selections
         }
@@ -135,7 +149,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The range for memory, in MiB, to use for the accelerator.
+    /// Defines the maximum and minimum amount of memory, in MiB, to use for the accelerator.
     public struct AcceleratorTotalMemoryMiBRange: Swift.Sendable {
         /// The maximum amount of memory to use for the accelerator, measured in MiB.
         public var max: Swift.Int?
@@ -146,8 +160,7 @@ extension DeadlineClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -182,9 +195,9 @@ extension DeadlineClientTypes {
 }
 
 /// You don't have permission to perform the action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Information about the resources in use when the exception was thrown.
         public internal(set) var context: [Swift.String: Swift.String]? = nil
         /// This member is required.
@@ -203,10 +216,30 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         context: [Swift.String: Swift.String]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.context = context
         self.properties.message = message
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about the number of resources used.
+    public struct AcquiredLimit: Swift.Sendable {
+        /// The number of limit resources used.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The unique identifier of the limit.
+        /// This member is required.
+        public var limitId: Swift.String?
+
+        public init(
+            count: Swift.Int? = nil,
+            limitId: Swift.String? = nil
+        ) {
+            self.count = count
+            self.limitId = limitId
+        }
     }
 }
 
@@ -220,8 +253,7 @@ extension DeadlineClientTypes {
 
         public init(
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
         }
     }
@@ -237,8 +269,7 @@ extension DeadlineClientTypes {
 
         public init(
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
         }
     }
@@ -263,8 +294,7 @@ extension DeadlineClientTypes {
             logDriver: Swift.String? = nil,
             options: [Swift.String: Swift.String]? = nil,
             parameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.error = error
             self.logDriver = logDriver
             self.options = options
@@ -282,8 +312,7 @@ extension DeadlineClientTypes {
 
         public init(
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepId = stepId
         }
     }
@@ -323,8 +352,7 @@ extension DeadlineClientTypes {
             parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
             stepId: Swift.String? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.stepId = stepId
             self.taskId = taskId
@@ -367,8 +395,7 @@ extension DeadlineClientTypes {
         public init(
             definition: DeadlineClientTypes.AssignedSessionActionDefinition? = nil,
             sessionActionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.sessionActionId = sessionActionId
         }
@@ -397,8 +424,7 @@ extension DeadlineClientTypes {
             logConfiguration: DeadlineClientTypes.LogConfiguration? = nil,
             queueId: Swift.String? = nil,
             sessionActions: [DeadlineClientTypes.AssignedSessionAction]? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
             self.logConfiguration = logConfiguration
             self.queueId = queueId
@@ -408,9 +434,9 @@ extension DeadlineClientTypes {
 }
 
 /// Deadline Cloud can't process your request right now. Try again later.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds a client should wait before retrying the request.
@@ -429,17 +455,16 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The requested resource can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Information about the resources in use when the exception was thrown.
         public internal(set) var context: [Swift.String: Swift.String]? = nil
         /// This member is required.
@@ -466,8 +491,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.context = context
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -505,9 +529,9 @@ extension DeadlineClientTypes {
 }
 
 /// You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Information about the resources in use when the exception was thrown.
         public internal(set) var context: [Swift.String: Swift.String]? = nil
         /// This member is required.
@@ -545,8 +569,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.context = context
         self.properties.message = message
         self.properties.quotaCode = quotaCode
@@ -558,9 +581,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Your request exceeded a request rate quota.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Information about the resources in use when the exception was thrown.
         public internal(set) var context: [Swift.String: Swift.String]? = nil
         /// This member is required.
@@ -588,8 +611,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.context = context
         self.properties.message = message
         self.properties.quotaCode = quotaCode
@@ -612,8 +634,7 @@ extension DeadlineClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -656,9 +677,9 @@ extension DeadlineClientTypes {
 }
 
 /// The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Information about the resources in use when the exception was thrown.
         public internal(set) var context: [Swift.String: Swift.String]? = nil
         /// A list of fields that failed validation.
@@ -684,8 +705,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [DeadlineClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: DeadlineClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.context = context
         self.properties.fieldList = fieldList
         self.properties.message = message
@@ -780,8 +800,7 @@ public struct AssociateMemberToFarmInput: Swift.Sendable {
         membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
         principalId: Swift.String? = nil,
         principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.identityStoreId = identityStoreId
         self.membershipLevel = membershipLevel
@@ -822,8 +841,7 @@ public struct AssociateMemberToFleetInput: Swift.Sendable {
         membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
         principalId: Swift.String? = nil,
         principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.identityStoreId = identityStoreId
@@ -869,8 +887,7 @@ public struct AssociateMemberToJobInput: Swift.Sendable {
         principalId: Swift.String? = nil,
         principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.identityStoreId = identityStoreId
         self.jobId = jobId
@@ -913,8 +930,7 @@ public struct AssociateMemberToQueueInput: Swift.Sendable {
         principalId: Swift.String? = nil,
         principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.identityStoreId = identityStoreId
         self.membershipLevel = membershipLevel
@@ -940,8 +956,7 @@ public struct AssumeFleetRoleForReadInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
     }
@@ -969,8 +984,7 @@ extension DeadlineClientTypes {
             expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretAccessKey = secretAccessKey
@@ -992,8 +1006,7 @@ public struct AssumeFleetRoleForReadOutput: Swift.Sendable {
 
     public init(
         credentials: DeadlineClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
     }
 }
@@ -1043,9 +1056,9 @@ extension DeadlineClientTypes {
 }
 
 /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Information about the resources in use when the exception was thrown.
         public internal(set) var context: [Swift.String: Swift.String]? = nil
         /// This member is required.
@@ -1076,8 +1089,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         reason: DeadlineClientTypes.ConflictExceptionReason? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.context = context
         self.properties.message = message
         self.properties.reason = reason
@@ -1101,8 +1113,7 @@ public struct AssumeFleetRoleForWorkerInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.workerId = workerId
@@ -1116,8 +1127,7 @@ public struct AssumeFleetRoleForWorkerOutput: Swift.Sendable {
 
     public init(
         credentials: DeadlineClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
     }
 }
@@ -1139,8 +1149,7 @@ public struct AssumeQueueRoleForReadInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.queueId = queueId
     }
@@ -1153,8 +1162,7 @@ public struct AssumeQueueRoleForReadOutput: Swift.Sendable {
 
     public init(
         credentials: DeadlineClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
     }
 }
@@ -1176,8 +1184,7 @@ public struct AssumeQueueRoleForUserInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.queueId = queueId
     }
@@ -1190,8 +1197,7 @@ public struct AssumeQueueRoleForUserOutput: Swift.Sendable {
 
     public init(
         credentials: DeadlineClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
     }
 }
@@ -1221,8 +1227,7 @@ public struct AssumeQueueRoleForWorkerInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.queueId = queueId
@@ -1236,8 +1241,7 @@ public struct AssumeQueueRoleForWorkerOutput: Swift.Sendable {
 
     public init(
         credentials: DeadlineClientTypes.AwsCredentials? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
     }
 }
@@ -1312,7 +1316,7 @@ extension DeadlineClientTypes {
     public struct ManifestProperties: Swift.Sendable {
         /// The file system location name.
         public var fileSystemLocationName: Swift.String?
-        /// The has value of the file.
+        /// The hash value of the file.
         public var inputManifestHash: Swift.String?
         /// The file path.
         public var inputManifestPath: Swift.String?
@@ -1332,8 +1336,7 @@ extension DeadlineClientTypes {
             outputRelativeDirectories: [Swift.String]? = nil,
             rootPath: Swift.String? = nil,
             rootPathFormat: DeadlineClientTypes.PathFormat? = nil
-        )
-        {
+        ) {
             self.fileSystemLocationName = fileSystemLocationName
             self.inputManifestHash = inputManifestHash
             self.inputManifestPath = inputManifestPath
@@ -1363,8 +1366,7 @@ extension DeadlineClientTypes {
         public init(
             fileSystem: DeadlineClientTypes.JobAttachmentsFileSystem? = .copied,
             manifests: [DeadlineClientTypes.ManifestProperties]? = nil
-        )
-        {
+        ) {
             self.fileSystem = fileSystem
             self.manifests = manifests
         }
@@ -1451,8 +1453,7 @@ extension DeadlineClientTypes {
         public init(
             environmentId: Swift.String? = nil,
             jobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
             self.jobId = jobId
         }
@@ -1469,8 +1470,7 @@ extension DeadlineClientTypes {
 
         public init(
             jobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
         }
     }
@@ -1486,8 +1486,7 @@ extension DeadlineClientTypes {
 
         public init(
             jobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
         }
     }
@@ -1507,8 +1506,7 @@ extension DeadlineClientTypes {
         public init(
             jobId: Swift.String? = nil,
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
             self.stepId = stepId
         }
@@ -1550,8 +1548,7 @@ public struct BatchGetJobEntityInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         identifiers: [DeadlineClientTypes.JobEntityIdentifiersUnion]? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.identifiers = identifiers
@@ -1581,8 +1578,7 @@ extension DeadlineClientTypes {
             jobId: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             template: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
             self.jobId = jobId
             self.schemaVersion = schemaVersion
@@ -1610,8 +1606,7 @@ extension DeadlineClientTypes {
         public init(
             attachments: DeadlineClientTypes.Attachments? = nil,
             jobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachments = attachments
             self.jobId = jobId
         }
@@ -1632,8 +1627,7 @@ extension DeadlineClientTypes {
         public init(
             rootPrefix: Swift.String? = nil,
             s3BucketName: Swift.String? = nil
-        )
-        {
+        ) {
             self.rootPrefix = rootPrefix
             self.s3BucketName = s3BucketName
         }
@@ -1654,8 +1648,7 @@ extension DeadlineClientTypes {
         public init(
             group: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.group = group
             self.user = user
         }
@@ -1705,8 +1698,7 @@ extension DeadlineClientTypes {
         public init(
             passwordArn: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.passwordArn = passwordArn
             self.user = user
         }
@@ -1729,8 +1721,7 @@ extension DeadlineClientTypes {
             posix: DeadlineClientTypes.PosixUser? = nil,
             runAs: DeadlineClientTypes.RunAs? = nil,
             windows: DeadlineClientTypes.WindowsUser? = nil
-        )
-        {
+        ) {
             self.posix = posix
             self.runAs = runAs
             self.windows = windows
@@ -1772,8 +1763,7 @@ extension DeadlineClientTypes {
             destinationPath: Swift.String? = nil,
             sourcePath: Swift.String? = nil,
             sourcePathFormat: DeadlineClientTypes.PathFormat? = nil
-        )
-        {
+        ) {
             self.destinationPath = destinationPath
             self.sourcePath = sourcePath
             self.sourcePathFormat = sourcePathFormat
@@ -1820,8 +1810,7 @@ extension DeadlineClientTypes {
             pathMappingRules: [DeadlineClientTypes.PathMappingRule]? = nil,
             queueRoleArn: Swift.String? = nil,
             schemaVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobAttachmentSettings = jobAttachmentSettings
             self.jobId = jobId
             self.jobRunAsUser = jobRunAsUser
@@ -1865,8 +1854,7 @@ extension DeadlineClientTypes {
             schemaVersion: Swift.String? = nil,
             stepId: Swift.String? = nil,
             template: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.dependencies = dependencies
             self.jobId = jobId
             self.schemaVersion = schemaVersion
@@ -1960,8 +1948,7 @@ extension DeadlineClientTypes {
             environmentId: Swift.String? = nil,
             jobId: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.environmentId = environmentId
             self.jobId = jobId
@@ -1988,8 +1975,7 @@ extension DeadlineClientTypes {
             code: DeadlineClientTypes.JobEntityErrorCode? = nil,
             jobId: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.jobId = jobId
             self.message = message
@@ -2015,8 +2001,7 @@ extension DeadlineClientTypes {
             code: DeadlineClientTypes.JobEntityErrorCode? = nil,
             jobId: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.jobId = jobId
             self.message = message
@@ -2046,8 +2031,7 @@ extension DeadlineClientTypes {
             jobId: Swift.String? = nil,
             message: Swift.String? = nil,
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.jobId = jobId
             self.message = message
@@ -2083,8 +2067,7 @@ public struct BatchGetJobEntityOutput: Swift.Sendable {
     public init(
         entities: [DeadlineClientTypes.JobEntity]? = nil,
         errors: [DeadlineClientTypes.GetJobEntityError]? = nil
-    )
-    {
+    ) {
         self.entities = entities
         self.errors = errors
     }
@@ -2136,8 +2119,7 @@ extension DeadlineClientTypes {
             description: Swift.String? = nil,
             thresholdPercentage: Swift.Float? = nil,
             type: DeadlineClientTypes.BudgetActionType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.thresholdPercentage = thresholdPercentage
             self.type = type
@@ -2164,8 +2146,7 @@ extension DeadlineClientTypes {
         public init(
             thresholdPercentage: Swift.Float? = nil,
             type: DeadlineClientTypes.BudgetActionType? = nil
-        )
-        {
+        ) {
             self.thresholdPercentage = thresholdPercentage
             self.type = type
         }
@@ -2186,8 +2167,7 @@ extension DeadlineClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -2247,8 +2227,7 @@ public struct CreateBudgetInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         schedule: DeadlineClientTypes.BudgetSchedule? = nil,
         usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.approximateDollarLimit = approximateDollarLimit
         self.clientToken = clientToken
@@ -2272,8 +2251,7 @@ public struct CreateBudgetOutput: Swift.Sendable {
 
     public init(
         budgetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgetId = budgetId
     }
 }
@@ -2289,8 +2267,7 @@ public struct DeleteBudgetInput: Swift.Sendable {
     public init(
         budgetId: Swift.String? = nil,
         farmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgetId = budgetId
         self.farmId = farmId
     }
@@ -2312,8 +2289,7 @@ public struct GetBudgetInput: Swift.Sendable {
     public init(
         budgetId: Swift.String? = nil,
         farmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgetId = budgetId
         self.farmId = farmId
     }
@@ -2336,8 +2312,7 @@ extension DeadlineClientTypes {
             description: Swift.String? = nil,
             thresholdPercentage: Swift.Float? = nil,
             type: DeadlineClientTypes.BudgetActionType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.thresholdPercentage = thresholdPercentage
             self.type = type
@@ -2389,8 +2364,7 @@ extension DeadlineClientTypes {
 
         public init(
             approximateDollarUsage: Swift.Float? = nil
-        )
-        {
+        ) {
             self.approximateDollarUsage = approximateDollarUsage
         }
     }
@@ -2455,8 +2429,7 @@ public struct GetBudgetOutput: Swift.Sendable {
         updatedBy: Swift.String? = nil,
         usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil,
         usages: DeadlineClientTypes.ConsumedUsages? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.approximateDollarLimit = approximateDollarLimit
         self.budgetId = budgetId
@@ -2495,8 +2468,7 @@ public struct ListBudgetsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         status: DeadlineClientTypes.BudgetStatus? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2556,8 +2528,7 @@ extension DeadlineClientTypes {
             updatedBy: Swift.String? = nil,
             usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil,
             usages: DeadlineClientTypes.ConsumedUsages? = nil
-        )
-        {
+        ) {
             self.approximateDollarLimit = approximateDollarLimit
             self.budgetId = budgetId
             self.createdAt = createdAt
@@ -2588,8 +2559,7 @@ public struct ListBudgetsOutput: Swift.Sendable {
     public init(
         budgets: [DeadlineClientTypes.BudgetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.budgets = budgets
         self.nextToken = nextToken
     }
@@ -2634,8 +2604,7 @@ public struct UpdateBudgetInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         schedule: DeadlineClientTypes.BudgetSchedule? = nil,
         status: DeadlineClientTypes.BudgetStatus? = nil
-    )
-    {
+    ) {
         self.actionsToAdd = actionsToAdd
         self.actionsToRemove = actionsToRemove
         self.approximateDollarLimit = approximateDollarLimit
@@ -2752,8 +2721,7 @@ extension DeadlineClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.key = key
         }
@@ -2779,8 +2747,7 @@ public struct CopyJobTemplateInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         targetS3Location: DeadlineClientTypes.S3Location? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.queueId = queueId
@@ -2824,8 +2791,7 @@ public struct CopyJobTemplateOutput: Swift.Sendable {
 
     public init(
         templateType: DeadlineClientTypes.JobTemplateType? = nil
-    )
-    {
+    ) {
         self.templateType = templateType
     }
 }
@@ -2878,8 +2844,7 @@ public struct CreateFarmInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
@@ -2900,8 +2865,7 @@ public struct CreateFarmOutput: Swift.Sendable {
 
     public init(
         farmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
     }
 }
@@ -2923,8 +2887,7 @@ extension DeadlineClientTypes {
             max: Swift.Float? = nil,
             min: Swift.Float? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
             self.name = name
@@ -2946,8 +2909,7 @@ extension DeadlineClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2967,8 +2929,7 @@ extension DeadlineClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -3020,8 +2981,7 @@ extension DeadlineClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -3065,8 +3025,7 @@ extension DeadlineClientTypes {
             memoryMiB: DeadlineClientTypes.MemoryMiBRange? = nil,
             osFamily: DeadlineClientTypes.CustomerManagedFleetOperatingSystemFamily? = nil,
             vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
-        )
-        {
+        ) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
             self.acceleratorTypes = acceleratorTypes
@@ -3097,8 +3056,7 @@ extension DeadlineClientTypes {
             mode: DeadlineClientTypes.AutoScalingMode? = nil,
             storageProfileId: Swift.String? = nil,
             workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.storageProfileId = storageProfileId
             self.workerCapabilities = workerCapabilities
@@ -3150,8 +3108,7 @@ extension DeadlineClientTypes {
             iops: Swift.Int? = 3000,
             sizeGiB: Swift.Int? = 250,
             throughputMiB: Swift.Int? = 125
-        )
-        {
+        ) {
             self.iops = iops
             self.sizeGiB = sizeGiB
             self.throughputMiB = throughputMiB
@@ -3163,7 +3120,7 @@ extension DeadlineClientTypes {
 
     /// The Amazon EC2 instance capabilities.
     public struct ServiceManagedEc2InstanceCapabilities: Swift.Sendable {
-        /// The GPU accelerator capabilities required for the Amazon EC2 instances. If you include the acceleratorCapabilities property in the [ServiceManagedEc2InstanceCapabilities](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_ServiceManagedEc2InstanceCapabilities) object, all of the Amazon EC2 instances will have at least one accelerator.
+        /// Describes the GPU accelerator capabilities required for worker host instances in this fleet.
         public var acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities?
         /// The allowable Amazon EC2 instance types.
         public var allowedInstanceTypes: [Swift.String]?
@@ -3199,8 +3156,7 @@ extension DeadlineClientTypes {
             osFamily: DeadlineClientTypes.ServiceManagedFleetOperatingSystemFamily? = nil,
             rootEbsVolume: DeadlineClientTypes.Ec2EbsVolume? = nil,
             vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
-        )
-        {
+        ) {
             self.acceleratorCapabilities = acceleratorCapabilities
             self.allowedInstanceTypes = allowedInstanceTypes
             self.cpuArchitectureType = cpuArchitectureType
@@ -3254,8 +3210,7 @@ extension DeadlineClientTypes {
 
         public init(
             type: DeadlineClientTypes.Ec2MarketType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -3275,8 +3230,7 @@ extension DeadlineClientTypes {
         public init(
             instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
             instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil
-        )
-        {
+        ) {
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
         }
@@ -3330,8 +3284,7 @@ public struct CreateFleetInput: Swift.Sendable {
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configuration = configuration
         self.description = description
@@ -3356,8 +3309,7 @@ public struct CreateFleetOutput: Swift.Sendable {
 
     public init(
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetId = fleetId
     }
 }
@@ -3403,6 +3355,8 @@ public struct CreateJobInput: Swift.Sendable {
     public var maxFailedTasksCount: Swift.Int?
     /// The maximum number of retries for each task.
     public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
+    public var maxWorkerCount: Swift.Int?
     /// The parameters for the job.
     public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
     /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
@@ -3428,6 +3382,7 @@ public struct CreateJobInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
         parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
         priority: Swift.Int? = nil,
         queueId: Swift.String? = nil,
@@ -3436,13 +3391,13 @@ public struct CreateJobInput: Swift.Sendable {
         targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus? = nil,
         template: Swift.String? = nil,
         templateType: DeadlineClientTypes.JobTemplateType? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.clientToken = clientToken
         self.farmId = farmId
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
         self.parameters = parameters
         self.priority = priority
         self.queueId = queueId
@@ -3456,7 +3411,7 @@ public struct CreateJobInput: Swift.Sendable {
 
 extension CreateJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
+        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateJobOutput: Swift.Sendable {
@@ -3466,8 +3421,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3493,8 +3447,7 @@ public struct CreateLicenseEndpointInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -3510,9 +3463,60 @@ public struct CreateLicenseEndpointOutput: Swift.Sendable {
 
     public init(
         licenseEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseEndpointId = licenseEndpointId
+    }
+}
+
+public struct CreateLimitInput: Swift.Sendable {
+    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+    /// This member is required.
+    public var amountRequirementName: Swift.String?
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// A description of the limit. A description helps you identify the purpose of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    /// This member is required.
+    public var maxCount: Swift.Int?
+
+    public init(
+        amountRequirementName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil
+    ) {
+        self.amountRequirementName = amountRequirementName
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.maxCount = maxCount
+    }
+}
+
+extension CreateLimitInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateLimitInput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), maxCount: \(Swift.String(describing: maxCount)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateLimitOutput: Swift.Sendable {
+    /// A unique identifier for the limit. Use this identifier in other operations, such as CreateQueueLimitAssociation and DeleteLimit.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        limitId: Swift.String? = nil
+    ) {
+        self.limitId = limitId
     }
 }
 
@@ -3538,8 +3542,7 @@ public struct CreateMonitorInput: Swift.Sendable {
         identityCenterInstanceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         subdomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.displayName = displayName
         self.identityCenterInstanceArn = identityCenterInstanceArn
@@ -3559,8 +3562,7 @@ public struct CreateMonitorOutput: Swift.Sendable {
     public init(
         identityCenterApplicationArn: Swift.String? = nil,
         monitorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityCenterApplicationArn = identityCenterApplicationArn
         self.monitorId = monitorId
     }
@@ -3636,8 +3638,7 @@ public struct CreateQueueInput: Swift.Sendable {
         requiredFileSystemLocationNames: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedStorageProfileIds = allowedStorageProfileIds
         self.clientToken = clientToken
         self.defaultBudgetAction = defaultBudgetAction
@@ -3664,8 +3665,7 @@ public struct CreateQueueOutput: Swift.Sendable {
 
     public init(
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueId = queueId
     }
 }
@@ -3725,8 +3725,7 @@ public struct CreateQueueEnvironmentInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         template: Swift.String? = nil,
         templateType: DeadlineClientTypes.EnvironmentTemplateType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.priority = priority
@@ -3748,8 +3747,7 @@ public struct CreateQueueEnvironmentOutput: Swift.Sendable {
 
     public init(
         queueEnvironmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueEnvironmentId = queueEnvironmentId
     }
 }
@@ -3769,8 +3767,7 @@ public struct CreateQueueFleetAssociationInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.queueId = queueId
@@ -3778,6 +3775,33 @@ public struct CreateQueueFleetAssociationInput: Swift.Sendable {
 }
 
 public struct CreateQueueFleetAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct CreateQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the queue and limit to associate.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to associate with the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue to associate with the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+public struct CreateQueueLimitAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3829,8 +3853,7 @@ extension DeadlineClientTypes {
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             type: DeadlineClientTypes.FileSystemLocationType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.path = path
             self.type = type
@@ -3897,8 +3920,7 @@ public struct CreateStorageProfileInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
         osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.displayName = displayName
         self.farmId = farmId
@@ -3919,8 +3941,7 @@ public struct CreateStorageProfileOutput: Swift.Sendable {
 
     public init(
         storageProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.storageProfileId = storageProfileId
     }
 }
@@ -3937,8 +3958,7 @@ extension DeadlineClientTypes {
         public init(
             ipV4Addresses: [Swift.String]? = nil,
             ipV6Addresses: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.ipV4Addresses = ipV4Addresses
             self.ipV6Addresses = ipV6Addresses
         }
@@ -3957,8 +3977,7 @@ extension DeadlineClientTypes {
         public init(
             hostName: Swift.String? = nil,
             ipAddresses: DeadlineClientTypes.IpAddresses? = nil
-        )
-        {
+        ) {
             self.hostName = hostName
             self.ipAddresses = ipAddresses
         }
@@ -3982,8 +4001,7 @@ public struct CreateWorkerInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.fleetId = fleetId
@@ -3998,8 +4016,7 @@ public struct CreateWorkerOutput: Swift.Sendable {
 
     public init(
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workerId = workerId
     }
 }
@@ -4022,8 +4039,7 @@ extension DeadlineClientTypes {
             dateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             `operator`: DeadlineClientTypes.ComparisonOperator? = nil
-        )
-        {
+        ) {
             self.dateTime = dateTime
             self.name = name
             self.`operator` = `operator`
@@ -4046,8 +4062,7 @@ public struct DeleteQueueFleetAssociationInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.queueId = queueId
@@ -4059,6 +4074,33 @@ public struct DeleteQueueFleetAssociationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the queue and limit to disassociate.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to disassociate.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue to disassociate.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+public struct DeleteQueueLimitAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteFarmInput: Swift.Sendable {
     /// The farm ID of the farm to delete.
     /// This member is required.
@@ -4066,13 +4108,34 @@ public struct DeleteFarmInput: Swift.Sendable {
 
     public init(
         farmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
     }
 }
 
 public struct DeleteFarmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteLimitInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limit to delete.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to delete.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+    }
+}
+
+public struct DeleteLimitOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -4088,8 +4151,7 @@ public struct DeleteStorageProfileInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         storageProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.storageProfileId = storageProfileId
     }
@@ -4111,8 +4173,7 @@ public struct DisassociateMemberFromFarmInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         principalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.principalId = principalId
     }
@@ -4137,8 +4198,7 @@ public struct DeleteFleetInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.fleetId = fleetId
@@ -4165,8 +4225,7 @@ public struct DisassociateMemberFromFleetInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         principalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.principalId = principalId
@@ -4189,8 +4248,7 @@ public struct GetFleetInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
     }
@@ -4208,8 +4266,7 @@ extension DeadlineClientTypes {
         public init(
             amounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
             attributes: [DeadlineClientTypes.FleetAttributeCapability]? = nil
-        )
-        {
+        ) {
             self.amounts = amounts
             self.attributes = attributes
         }
@@ -4319,8 +4376,7 @@ public struct GetFleetOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil,
         workerCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.autoScalingStatus = autoScalingStatus
         self.capabilities = capabilities
         self.configuration = configuration
@@ -4363,8 +4419,7 @@ public struct ListFleetMembersInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.maxResults = maxResults
@@ -4402,8 +4457,7 @@ extension DeadlineClientTypes {
             membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
             principalId: Swift.String? = nil,
             principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
-        )
-        {
+        ) {
             self.farmId = farmId
             self.fleetId = fleetId
             self.identityStoreId = identityStoreId
@@ -4424,8 +4478,7 @@ public struct ListFleetMembersOutput: Swift.Sendable {
     public init(
         members: [DeadlineClientTypes.FleetMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -4453,8 +4506,7 @@ public struct ListFleetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principalId: Swift.String? = nil,
         status: DeadlineClientTypes.FleetStatus? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.farmId = farmId
         self.maxResults = maxResults
@@ -4522,8 +4574,7 @@ extension DeadlineClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil,
             workerCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autoScalingStatus = autoScalingStatus
             self.configuration = configuration
             self.createdAt = createdAt
@@ -4552,8 +4603,7 @@ public struct ListFleetsOutput: Swift.Sendable {
     public init(
         fleets: [DeadlineClientTypes.FleetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleets = fleets
         self.nextToken = nextToken
     }
@@ -4591,8 +4641,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         maxWorkerCount: Swift.Int? = nil,
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configuration = configuration
         self.description = description
@@ -4630,8 +4679,7 @@ public struct DeleteWorkerInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.workerId = workerId
@@ -4658,8 +4706,7 @@ public struct GetWorkerInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.workerId = workerId
@@ -4684,8 +4731,7 @@ extension DeadlineClientTypes {
             ec2InstanceType: Swift.String? = nil,
             hostName: Swift.String? = nil,
             ipAddresses: DeadlineClientTypes.IpAddresses? = nil
-        )
-        {
+        ) {
             self.ec2InstanceArn = ec2InstanceArn
             self.ec2InstanceType = ec2InstanceType
             self.hostName = hostName
@@ -4780,8 +4826,7 @@ public struct GetWorkerOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.farmId = farmId
@@ -4816,8 +4861,7 @@ public struct ListSessionsForWorkerInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.maxResults = maxResults
@@ -4922,8 +4966,7 @@ extension DeadlineClientTypes {
             sessionId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil
-        )
-        {
+        ) {
             self.endedAt = endedAt
             self.jobId = jobId
             self.lifecycleStatus = lifecycleStatus
@@ -4945,8 +4988,7 @@ public struct ListSessionsForWorkerOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [DeadlineClientTypes.WorkerSessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -4969,8 +5011,7 @@ public struct ListWorkersInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.maxResults = maxResults
@@ -5020,8 +5061,7 @@ extension DeadlineClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.farmId = farmId
@@ -5046,8 +5086,7 @@ public struct ListWorkersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workers: [DeadlineClientTypes.WorkerSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workers = workers
     }
@@ -5067,8 +5106,7 @@ extension DeadlineClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -5089,8 +5127,7 @@ extension DeadlineClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -5111,8 +5148,7 @@ extension DeadlineClientTypes {
         public init(
             amounts: [DeadlineClientTypes.WorkerAmountCapability]? = nil,
             attributes: [DeadlineClientTypes.WorkerAttributeCapability]? = nil
-        )
-        {
+        ) {
             self.amounts = amounts
             self.attributes = attributes
         }
@@ -5175,8 +5211,7 @@ public struct UpdateWorkerInput: Swift.Sendable {
         hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil,
         status: DeadlineClientTypes.UpdatedWorkerStatus? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.farmId = farmId
         self.fleetId = fleetId
@@ -5192,8 +5227,7 @@ public struct UpdateWorkerOutput: Swift.Sendable {
 
     public init(
         log: DeadlineClientTypes.LogConfiguration? = nil
-    )
-    {
+    ) {
         self.log = log
     }
 }
@@ -5225,8 +5259,7 @@ extension DeadlineClientTypes {
             progressPercent: Swift.Float? = nil,
             startedAt: Foundation.Date? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completedStatus = completedStatus
             self.endedAt = endedAt
             self.processExitCode = processExitCode
@@ -5261,8 +5294,7 @@ public struct UpdateWorkerScheduleInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         updatedSessionActions: [Swift.String: DeadlineClientTypes.UpdatedSessionActionInfo]? = nil,
         workerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.updatedSessionActions = updatedSessionActions
@@ -5314,8 +5346,7 @@ public struct UpdateWorkerScheduleOutput: Swift.Sendable {
         cancelSessionActions: [Swift.String: [Swift.String]]? = nil,
         desiredWorkerStatus: DeadlineClientTypes.DesiredWorkerStatus? = nil,
         updateIntervalSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.assignedSessions = assignedSessions
         self.cancelSessionActions = cancelSessionActions
         self.desiredWorkerStatus = desiredWorkerStatus
@@ -5330,8 +5361,7 @@ public struct GetFarmInput: Swift.Sendable {
 
     public init(
         farmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
     }
 }
@@ -5368,8 +5398,7 @@ public struct GetFarmOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -5386,6 +5415,87 @@ extension GetFarmOutput: Swift.CustomDebugStringConvertible {
         "GetFarmOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetLimitInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to return.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+    }
+}
+
+public struct GetLimitOutput: Swift.Sendable {
+    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+    /// This member is required.
+    public var amountRequirementName: Swift.String?
+    /// The Unix timestamp of the date and time that the limit was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user identifier of the person that created the limit.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+    /// This member is required.
+    public var currentCount: Swift.Int?
+    /// The description of the limit that helps identify what the limit is used for. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    /// This member is required.
+    public var maxCount: Swift.Int?
+    /// The Unix timestamp of the date and time that the limit was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The user identifier of the person that last updated the limit.
+    public var updatedBy: Swift.String?
+
+    public init(
+        amountRequirementName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        currentCount: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.amountRequirementName = amountRequirementName
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.currentCount = currentCount
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.limitId = limitId
+        self.maxCount = maxCount
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetLimitOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetLimitOutput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), currentCount: \(Swift.String(describing: currentCount)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), limitId: \(Swift.String(describing: limitId)), maxCount: \(Swift.String(describing: maxCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetStorageProfileInput: Swift.Sendable {
     /// The farm ID for the storage profile.
     /// This member is required.
@@ -5397,8 +5507,7 @@ public struct GetStorageProfileInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         storageProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.storageProfileId = storageProfileId
     }
@@ -5436,8 +5545,7 @@ public struct GetStorageProfileOutput: Swift.Sendable {
         storageProfileId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.displayName = displayName
@@ -5467,8 +5575,7 @@ public struct ListFarmMembersInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5501,8 +5608,7 @@ extension DeadlineClientTypes {
             membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
             principalId: Swift.String? = nil,
             principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
-        )
-        {
+        ) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
             self.membershipLevel = membershipLevel
@@ -5522,8 +5628,7 @@ public struct ListFarmMembersOutput: Swift.Sendable {
     public init(
         members: [DeadlineClientTypes.FarmMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -5541,8 +5646,7 @@ public struct ListFarmsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         principalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.principalId = principalId
@@ -5580,8 +5684,7 @@ extension DeadlineClientTypes {
             kmsKeyArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.displayName = displayName
@@ -5603,9 +5706,103 @@ public struct ListFarmsOutput: Swift.Sendable {
     public init(
         farms: [DeadlineClientTypes.FarmSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.farms = farms
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLimitsInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limits.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of limits to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about a specific limit.
+    public struct LimitSummary: Swift.Sendable {
+        /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+        /// This member is required.
+        public var amountRequirementName: Swift.String?
+        /// The Unix timestamp of the date and time that the limit was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user identifier of the person that created the limit.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+        /// This member is required.
+        public var currentCount: Swift.Int?
+        /// The name of the limit used in lists to identify the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The unique identifier of the farm that contains the limit.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The unique identifier of the limit.
+        /// This member is required.
+        public var limitId: Swift.String?
+        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+        /// This member is required.
+        public var maxCount: Swift.Int?
+        /// The Unix timestamp of the date and time that the limit was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The user identifier of the person that last updated the limit.
+        public var updatedBy: Swift.String?
+
+        public init(
+            amountRequirementName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            currentCount: Swift.Int? = nil,
+            displayName: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            limitId: Swift.String? = nil,
+            maxCount: Swift.Int? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.amountRequirementName = amountRequirementName
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.currentCount = currentCount
+            self.displayName = displayName
+            self.farmId = farmId
+            self.limitId = limitId
+            self.maxCount = maxCount
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+public struct ListLimitsOutput: Swift.Sendable {
+    /// A list of limits that the farm contains.
+    /// This member is required.
+    public var limits: [DeadlineClientTypes.LimitSummary]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        limits: [DeadlineClientTypes.LimitSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.limits = limits
         self.nextToken = nextToken
     }
 }
@@ -5623,8 +5820,7 @@ public struct ListStorageProfilesInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5649,8 +5845,7 @@ extension DeadlineClientTypes {
             displayName: Swift.String? = nil,
             osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
             storageProfileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.osFamily = osFamily
             self.storageProfileId = storageProfileId
@@ -5668,8 +5863,7 @@ public struct ListStorageProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageProfiles: [DeadlineClientTypes.StorageProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageProfiles = storageProfiles
     }
@@ -5686,8 +5880,7 @@ public struct DeleteQueueInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.queueId = queueId
     }
@@ -5713,8 +5906,7 @@ public struct DeleteQueueEnvironmentInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         queueEnvironmentId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.queueEnvironmentId = queueEnvironmentId
         self.queueId = queueId
@@ -5741,8 +5933,7 @@ public struct DisassociateMemberFromQueueInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         principalId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.principalId = principalId
         self.queueId = queueId
@@ -5765,8 +5956,7 @@ public struct GetQueueInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.queueId = queueId
     }
@@ -5897,8 +6087,7 @@ public struct GetQueueOutput: Swift.Sendable {
         status: DeadlineClientTypes.QueueStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedStorageProfileIds = allowedStorageProfileIds
         self.blockedReason = blockedReason
         self.createdAt = createdAt
@@ -5938,8 +6127,7 @@ public struct GetQueueEnvironmentInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         queueEnvironmentId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.queueEnvironmentId = queueEnvironmentId
         self.queueId = queueId
@@ -5983,8 +6171,7 @@ public struct GetQueueEnvironmentOutput: Swift.Sendable {
         templateType: DeadlineClientTypes.EnvironmentTemplateType? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.name = name
@@ -6017,8 +6204,7 @@ public struct GetStorageProfileForQueueInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         storageProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.queueId = queueId
         self.storageProfileId = storageProfileId
@@ -6043,8 +6229,7 @@ public struct GetStorageProfileForQueueOutput: Swift.Sendable {
         fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]? = nil,
         osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
         storageProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.fileSystemLocations = fileSystemLocations
         self.osFamily = osFamily
@@ -6076,8 +6261,7 @@ public struct DisassociateMemberFromJobInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         principalId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.principalId = principalId
@@ -6105,8 +6289,7 @@ public struct GetJobInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.queueId = queueId
@@ -6289,6 +6472,8 @@ public struct GetJobOutput: Swift.Sendable {
     public var maxFailedTasksCount: Swift.Int?
     /// The maximum number of retries per failed tasks.
     public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. If you don't set the maxWorkerCount when you create a job, this value is not returned in the response.
+    public var maxWorkerCount: Swift.Int?
     /// The name of the job.
     /// This member is required.
     public var name: Swift.String?
@@ -6325,6 +6510,7 @@ public struct GetJobOutput: Swift.Sendable {
         lifecycleStatusMessage: Swift.String? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
         name: Swift.String? = nil,
         parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
         priority: Swift.Int? = nil,
@@ -6336,8 +6522,7 @@ public struct GetJobOutput: Swift.Sendable {
         taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachments = attachments
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -6348,6 +6533,7 @@ public struct GetJobOutput: Swift.Sendable {
         self.lifecycleStatusMessage = lifecycleStatusMessage
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
         self.name = name
         self.parameters = parameters
         self.priority = priority
@@ -6364,7 +6550,7 @@ public struct GetJobOutput: Swift.Sendable {
 
 extension GetJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSessionInput: Swift.Sendable {
@@ -6386,8 +6572,7 @@ public struct GetSessionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.queueId = queueId
@@ -6440,8 +6625,7 @@ public struct GetSessionOutput: Swift.Sendable {
         updatedBy: Swift.String? = nil,
         workerId: Swift.String? = nil,
         workerLog: DeadlineClientTypes.LogConfiguration? = nil
-    )
-    {
+    ) {
         self.endedAt = endedAt
         self.fleetId = fleetId
         self.hostProperties = hostProperties
@@ -6476,8 +6660,7 @@ public struct GetSessionActionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         sessionActionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.queueId = queueId
@@ -6495,8 +6678,7 @@ extension DeadlineClientTypes {
 
         public init(
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
         }
     }
@@ -6512,8 +6694,7 @@ extension DeadlineClientTypes {
 
         public init(
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
         }
     }
@@ -6528,8 +6709,7 @@ extension DeadlineClientTypes {
 
         public init(
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepId = stepId
         }
     }
@@ -6553,8 +6733,7 @@ extension DeadlineClientTypes {
             parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
             stepId: Swift.String? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.stepId = stepId
             self.taskId = taskId
@@ -6640,6 +6819,8 @@ extension DeadlineClientTypes {
 }
 
 public struct GetSessionActionOutput: Swift.Sendable {
+    /// The limits and their amounts acquired during a session action. If no limits were acquired during the session, this field isn't returned.
+    public var acquiredLimits: [DeadlineClientTypes.AcquiredLimit]?
     /// The session action definition.
     /// This member is required.
     public var definition: DeadlineClientTypes.SessionActionDefinition?
@@ -6666,6 +6847,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
     public var workerUpdatedAt: Foundation.Date?
 
     public init(
+        acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
         definition: DeadlineClientTypes.SessionActionDefinition? = nil,
         endedAt: Foundation.Date? = nil,
         processExitCode: Swift.Int? = nil,
@@ -6676,8 +6858,8 @@ public struct GetSessionActionOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         status: DeadlineClientTypes.SessionActionStatus? = nil,
         workerUpdatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
+        self.acquiredLimits = acquiredLimits
         self.definition = definition
         self.endedAt = endedAt
         self.processExitCode = processExitCode
@@ -6693,7 +6875,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
 
 extension GetSessionActionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSessionActionOutput(definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStepInput: Swift.Sendable {
@@ -6715,8 +6897,7 @@ public struct GetStepInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         stepId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.queueId = queueId
@@ -6746,8 +6927,7 @@ extension DeadlineClientTypes {
             consumersUnresolved: Swift.Int? = nil,
             dependenciesResolved: Swift.Int? = nil,
             dependenciesUnresolved: Swift.Int? = nil
-        )
-        {
+        ) {
             self.consumersResolved = consumersResolved
             self.consumersUnresolved = consumersUnresolved
             self.dependenciesResolved = dependenciesResolved
@@ -6840,8 +7020,7 @@ extension DeadlineClientTypes {
         public init(
             name: Swift.String? = nil,
             type: DeadlineClientTypes.StepParameterType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -6861,8 +7040,7 @@ extension DeadlineClientTypes {
         public init(
             combination: Swift.String? = nil,
             parameters: [DeadlineClientTypes.StepParameter]? = nil
-        )
-        {
+        ) {
             self.combination = combination
             self.parameters = parameters
         }
@@ -6888,8 +7066,7 @@ extension DeadlineClientTypes {
             min: Swift.Double? = nil,
             name: Swift.String? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
             self.name = name
@@ -6914,8 +7091,7 @@ extension DeadlineClientTypes {
             allOf: [Swift.String]? = nil,
             anyOf: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.allOf = allOf
             self.anyOf = anyOf
             self.name = name
@@ -6937,8 +7113,7 @@ extension DeadlineClientTypes {
         public init(
             amounts: [DeadlineClientTypes.StepAmountCapability]? = nil,
             attributes: [DeadlineClientTypes.StepAttributeCapability]? = nil
-        )
-        {
+        ) {
             self.amounts = amounts
             self.attributes = attributes
         }
@@ -7047,8 +7222,7 @@ public struct GetStepOutput: Swift.Sendable {
         taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.dependencyCounts = dependencyCounts
@@ -7097,8 +7271,7 @@ public struct GetTaskInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         stepId: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.queueId = queueId
@@ -7191,8 +7364,7 @@ public struct GetTaskOutput: Swift.Sendable {
         taskId: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.endedAt = endedAt
@@ -7234,8 +7406,7 @@ public struct ListJobMembersInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -7278,8 +7449,7 @@ extension DeadlineClientTypes {
             principalId: Swift.String? = nil,
             principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil,
             queueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
             self.jobId = jobId
@@ -7301,8 +7471,7 @@ public struct ListJobMembersOutput: Swift.Sendable {
     public init(
         members: [DeadlineClientTypes.JobMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -7329,8 +7498,7 @@ public struct ListJobParameterDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -7349,8 +7517,7 @@ public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
     public init(
         jobParameterDefinitions: [Smithy.Document]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobParameterDefinitions = jobParameterDefinitions
         self.nextToken = nextToken
     }
@@ -7376,8 +7543,7 @@ public struct ListJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principalId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7411,6 +7577,8 @@ extension DeadlineClientTypes {
         public var maxFailedTasksCount: Swift.Int?
         /// The maximum number of retries for a job.
         public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1.
+        public var maxWorkerCount: Swift.Int?
         /// The job name.
         /// This member is required.
         public var name: Swift.String?
@@ -7461,6 +7629,7 @@ extension DeadlineClientTypes {
             lifecycleStatusMessage: Swift.String? = nil,
             maxFailedTasksCount: Swift.Int? = nil,
             maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             sourceJobId: Swift.String? = nil,
@@ -7470,8 +7639,7 @@ extension DeadlineClientTypes {
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -7480,6 +7648,7 @@ extension DeadlineClientTypes {
             self.lifecycleStatusMessage = lifecycleStatusMessage
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.name = name
             self.priority = priority
             self.sourceJobId = sourceJobId
@@ -7503,8 +7672,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobs: [DeadlineClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -7537,8 +7705,7 @@ public struct ListSessionActionsInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -7559,8 +7726,7 @@ extension DeadlineClientTypes {
 
         public init(
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
         }
     }
@@ -7576,8 +7742,7 @@ extension DeadlineClientTypes {
 
         public init(
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
         }
     }
@@ -7592,8 +7757,7 @@ extension DeadlineClientTypes {
 
         public init(
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepId = stepId
         }
     }
@@ -7613,8 +7777,7 @@ extension DeadlineClientTypes {
         public init(
             stepId: Swift.String? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepId = stepId
             self.taskId = taskId
         }
@@ -7667,8 +7830,7 @@ extension DeadlineClientTypes {
             startedAt: Foundation.Date? = nil,
             status: DeadlineClientTypes.SessionActionStatus? = nil,
             workerUpdatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.endedAt = endedAt
             self.progressPercent = progressPercent
@@ -7690,8 +7852,7 @@ public struct ListSessionActionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessionActions: [DeadlineClientTypes.SessionActionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessionActions = sessionActions
     }
@@ -7718,8 +7879,7 @@ public struct ListSessionsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -7766,8 +7926,7 @@ extension DeadlineClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endedAt = endedAt
             self.fleetId = fleetId
             self.lifecycleStatus = lifecycleStatus
@@ -7791,8 +7950,7 @@ public struct ListSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [DeadlineClientTypes.SessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -7823,8 +7981,7 @@ public struct ListStepConsumersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil,
         stepId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -7877,8 +8034,7 @@ extension DeadlineClientTypes {
         public init(
             status: DeadlineClientTypes.DependencyConsumerResolutionStatus? = nil,
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.stepId = stepId
         }
@@ -7895,8 +8051,7 @@ public struct ListStepConsumersOutput: Swift.Sendable {
     public init(
         consumers: [DeadlineClientTypes.StepConsumer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumers = consumers
         self.nextToken = nextToken
     }
@@ -7927,8 +8082,7 @@ public struct ListStepDependenciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil,
         stepId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -7952,8 +8106,7 @@ extension DeadlineClientTypes {
         public init(
             status: DeadlineClientTypes.DependencyConsumerResolutionStatus? = nil,
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.stepId = stepId
         }
@@ -7970,8 +8123,7 @@ public struct ListStepDependenciesOutput: Swift.Sendable {
     public init(
         dependencies: [DeadlineClientTypes.StepDependency]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dependencies = dependencies
         self.nextToken = nextToken
     }
@@ -7998,8 +8150,7 @@ public struct ListStepsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -8083,8 +8234,7 @@ extension DeadlineClientTypes {
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.dependencyCounts = dependencyCounts
@@ -8113,8 +8263,7 @@ public struct ListStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         steps: [DeadlineClientTypes.StepSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.steps = steps
     }
@@ -8145,8 +8294,7 @@ public struct ListTasksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil,
         stepId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.jobId = jobId
         self.maxResults = maxResults
@@ -8202,8 +8350,7 @@ extension DeadlineClientTypes {
             taskId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -8235,8 +8382,7 @@ public struct ListTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [DeadlineClientTypes.TaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -8283,6 +8429,8 @@ public struct UpdateJobInput: Swift.Sendable {
     public var maxFailedTasksCount: Swift.Int?
     /// The maximum number of retries for a job.
     public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
+    public var maxWorkerCount: Swift.Int?
     /// The job priority to update.
     public var priority: Swift.Int?
     /// The queue ID of the job to update.
@@ -8298,17 +8446,18 @@ public struct UpdateJobInput: Swift.Sendable {
         lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
         priority: Swift.Int? = nil,
         queueId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.jobId = jobId
         self.lifecycleStatus = lifecycleStatus
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
         self.priority = priority
         self.queueId = queueId
         self.targetTaskRunStatus = targetTaskRunStatus
@@ -8346,8 +8495,7 @@ public struct UpdateSessionInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.jobId = jobId
@@ -8388,8 +8536,7 @@ public struct UpdateStepInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         stepId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.jobId = jobId
@@ -8434,8 +8581,7 @@ public struct UpdateTaskInput: Swift.Sendable {
         stepId: Swift.String? = nil,
         targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.jobId = jobId
@@ -8468,8 +8614,7 @@ public struct ListQueueEnvironmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8495,8 +8640,7 @@ extension DeadlineClientTypes {
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             queueEnvironmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.priority = priority
             self.queueEnvironmentId = queueEnvironmentId
@@ -8514,8 +8658,7 @@ public struct ListQueueEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [DeadlineClientTypes.QueueEnvironmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -8538,8 +8681,7 @@ public struct ListQueueMembersInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8577,8 +8719,7 @@ extension DeadlineClientTypes {
             principalId: Swift.String? = nil,
             principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil,
             queueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
             self.membershipLevel = membershipLevel
@@ -8599,8 +8740,7 @@ public struct ListQueueMembersOutput: Swift.Sendable {
     public init(
         members: [DeadlineClientTypes.QueueMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -8631,8 +8771,7 @@ public struct ListQueuesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principalId: Swift.String? = nil,
         status: DeadlineClientTypes.QueueStatus? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8684,8 +8823,7 @@ extension DeadlineClientTypes {
             status: DeadlineClientTypes.QueueStatus? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockedReason = blockedReason
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8710,8 +8848,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queues: [DeadlineClientTypes.QueueSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queues = queues
     }
@@ -8734,8 +8871,7 @@ public struct ListStorageProfilesForQueueInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8753,8 +8889,7 @@ public struct ListStorageProfilesForQueueOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageProfiles: [DeadlineClientTypes.StorageProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageProfiles = storageProfiles
     }
@@ -8804,8 +8939,7 @@ public struct UpdateQueueInput: Swift.Sendable {
         requiredFileSystemLocationNamesToAdd: [Swift.String]? = nil,
         requiredFileSystemLocationNamesToRemove: [Swift.String]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedStorageProfileIdsToAdd = allowedStorageProfileIdsToAdd
         self.allowedStorageProfileIdsToRemove = allowedStorageProfileIdsToRemove
         self.clientToken = clientToken
@@ -8859,8 +8993,7 @@ public struct UpdateQueueEnvironmentInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         template: Swift.String? = nil,
         templateType: DeadlineClientTypes.EnvironmentTemplateType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.priority = priority
@@ -8894,8 +9027,7 @@ public struct UpdateFarmInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.farmId = farmId
@@ -8908,6 +9040,45 @@ extension UpdateFarmInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateFarmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateLimitInput: Swift.Sendable {
+    /// The new description of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The new display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var displayName: Swift.String?
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to update.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. If more than the new maximum number is currently in use, running jobs finish but no new jobs are started until the number of resources in use is below the new maximum number. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    public var maxCount: Swift.Int?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.limitId = limitId
+        self.maxCount = maxCount
+    }
+}
+
+extension UpdateLimitInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateLimitInput(displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), limitId: \(Swift.String(describing: limitId)), maxCount: \(Swift.String(describing: maxCount)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateLimitOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8938,8 +9109,7 @@ public struct UpdateStorageProfileInput: Swift.Sendable {
         fileSystemLocationsToRemove: [DeadlineClientTypes.FileSystemLocation]? = nil,
         osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily? = nil,
         storageProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.displayName = displayName
         self.farmId = farmId
@@ -8975,8 +9145,7 @@ public struct GetQueueFleetAssociationInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.queueId = queueId
@@ -9047,11 +9216,107 @@ public struct GetQueueFleetAssociationOutput: Swift.Sendable {
         status: DeadlineClientTypes.QueueFleetAssociationStatus? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.fleetId = fleetId
+        self.queueId = queueId
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+public struct GetQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the associated queue and limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit associated with the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue associated with the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum QueueLimitAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case stopped
+        case stopLimitUsageAndCancelTasks
+        case stopLimitUsageAndCompleteTasks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueueLimitAssociationStatus] {
+            return [
+                .active,
+                .stopped,
+                .stopLimitUsageAndCancelTasks,
+                .stopLimitUsageAndCompleteTasks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .stopped: return "STOPPED"
+            case .stopLimitUsageAndCancelTasks: return "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
+            case .stopLimitUsageAndCompleteTasks: return "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetQueueLimitAssociationOutput: Swift.Sendable {
+    /// The Unix timestamp of the date and time that the association was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user identifier of the person that created the association.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The unique identifier of the limit associated with the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue associated with the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The current status of the limit.
+    /// This member is required.
+    public var status: DeadlineClientTypes.QueueLimitAssociationStatus?
+    /// The Unix timestamp of the date and time that the association was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The user identifier of the person that last updated the association.
+    public var updatedBy: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        status: DeadlineClientTypes.QueueLimitAssociationStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.limitId = limitId
         self.queueId = queueId
         self.status = status
         self.updatedAt = updatedAt
@@ -9076,8 +9341,7 @@ public struct GetSessionsStatisticsAggregationInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationId = aggregationId
         self.farmId = farmId
         self.maxResults = maxResults
@@ -9103,8 +9367,7 @@ extension DeadlineClientTypes {
             max: Swift.Double? = nil,
             min: Swift.Double? = nil,
             sum: Swift.Double? = nil
-        )
-        {
+        ) {
             self.avg = avg
             self.max = max
             self.min = min
@@ -9190,8 +9453,7 @@ extension DeadlineClientTypes {
             runtimeInSeconds: DeadlineClientTypes.Stats? = nil,
             usageType: DeadlineClientTypes.UsageType? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggregationEndTime = aggregationEndTime
             self.aggregationStartTime = aggregationStartTime
             self.costInUsd = costInUsd
@@ -9260,8 +9522,7 @@ public struct GetSessionsStatisticsAggregationOutput: Swift.Sendable {
         statistics: [DeadlineClientTypes.Statistics]? = nil,
         status: DeadlineClientTypes.SessionsStatisticsAggregationStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.statistics = statistics
         self.status = status
@@ -9276,8 +9537,7 @@ public struct DeleteLicenseEndpointInput: Swift.Sendable {
 
     public init(
         licenseEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseEndpointId = licenseEndpointId
     }
 }
@@ -9294,8 +9554,7 @@ public struct GetLicenseEndpointInput: Swift.Sendable {
 
     public init(
         licenseEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseEndpointId = licenseEndpointId
     }
 }
@@ -9362,8 +9621,7 @@ public struct GetLicenseEndpointOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dnsName = dnsName
         self.licenseEndpointId = licenseEndpointId
         self.securityGroupIds = securityGroupIds
@@ -9383,8 +9641,7 @@ public struct ListLicenseEndpointsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9408,8 +9665,7 @@ extension DeadlineClientTypes {
             status: DeadlineClientTypes.LicenseEndpointStatus? = nil,
             statusMessage: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.licenseEndpointId = licenseEndpointId
             self.status = status
             self.statusMessage = statusMessage
@@ -9428,8 +9684,7 @@ public struct ListLicenseEndpointsOutput: Swift.Sendable {
     public init(
         licenseEndpoints: [DeadlineClientTypes.LicenseEndpointSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseEndpoints = licenseEndpoints
         self.nextToken = nextToken
     }
@@ -9446,8 +9701,7 @@ public struct DeleteMeteredProductInput: Swift.Sendable {
     public init(
         licenseEndpointId: Swift.String? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseEndpointId = licenseEndpointId
         self.productId = productId
     }
@@ -9471,8 +9725,7 @@ public struct ListMeteredProductsInput: Swift.Sendable {
         licenseEndpointId: Swift.String? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseEndpointId = licenseEndpointId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9501,8 +9754,7 @@ extension DeadlineClientTypes {
             port: Swift.Int? = nil,
             productId: Swift.String? = nil,
             vendor: Swift.String? = nil
-        )
-        {
+        ) {
             self.family = family
             self.port = port
             self.productId = productId
@@ -9521,8 +9773,7 @@ public struct ListMeteredProductsOutput: Swift.Sendable {
     public init(
         meteredProducts: [DeadlineClientTypes.MeteredProductSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.meteredProducts = meteredProducts
         self.nextToken = nextToken
     }
@@ -9539,8 +9790,7 @@ public struct PutMeteredProductInput: Swift.Sendable {
     public init(
         licenseEndpointId: Swift.String? = nil,
         productId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseEndpointId = licenseEndpointId
         self.productId = productId
     }
@@ -9560,8 +9810,7 @@ public struct ListAvailableMeteredProductsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9577,8 +9826,7 @@ public struct ListAvailableMeteredProductsOutput: Swift.Sendable {
     public init(
         meteredProducts: [DeadlineClientTypes.MeteredProductSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.meteredProducts = meteredProducts
         self.nextToken = nextToken
     }
@@ -9603,8 +9851,7 @@ public struct ListQueueFleetAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         queueId: Swift.String? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.maxResults = maxResults
@@ -9653,8 +9900,7 @@ extension DeadlineClientTypes {
             status: DeadlineClientTypes.QueueFleetAssociationStatus? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.fleetId = fleetId
@@ -9676,10 +9922,105 @@ public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queueFleetAssociations: [DeadlineClientTypes.QueueFleetAssociationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queueFleetAssociations = queueFleetAssociations
+    }
+}
+
+public struct ListQueueLimitAssociationsInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limits and associations.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// Specifies that the operation should return only the queue limit associations for the specified limit. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    public var limitId: Swift.String?
+    /// The maximum number of associations to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// Specifies that the operation should return only the queue limit associations for the specified queue. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.queueId = queueId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about the association between a queue and a limit.
+    public struct QueueLimitAssociationSummary: Swift.Sendable {
+        /// The Unix timestamp of the date and time that the association was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user identifier of the person that created the association.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The unique identifier of the limit in the association.
+        /// This member is required.
+        public var limitId: Swift.String?
+        /// The unique identifier of the queue in the association.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The status of task scheduling in the queue-limit association.
+        ///
+        /// * ACTIVE - Association is active.
+        ///
+        /// * STOP_LIMIT_USAGE_AND_COMPLETE_TASKS - Association has stopped scheduling new tasks and is completing current tasks.
+        ///
+        /// * STOP_LIMIT_USAGE_AND_CANCEL_TASKS - Association has stopped scheduling new tasks and is canceling current tasks.
+        ///
+        /// * STOPPED - Association has been stopped.
+        /// This member is required.
+        public var status: DeadlineClientTypes.QueueLimitAssociationStatus?
+        /// The Unix timestamp of the date and time that the association was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The user identifier of the person that updated the association.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            limitId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            status: DeadlineClientTypes.QueueLimitAssociationStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.limitId = limitId
+            self.queueId = queueId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+public struct ListQueueLimitAssociationsOutput: Swift.Sendable {
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+    /// A list of associations between limits and queues in the farm specified in the request.
+    /// This member is required.
+    public var queueLimitAssociations: [DeadlineClientTypes.QueueLimitAssociationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        queueLimitAssociations: [DeadlineClientTypes.QueueLimitAssociationSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.queueLimitAssociations = queueLimitAssociations
     }
 }
 
@@ -9690,8 +10031,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -9702,8 +10042,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -9715,8 +10054,7 @@ public struct DeleteMonitorInput: Swift.Sendable {
 
     public init(
         monitorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorId = monitorId
     }
 }
@@ -9733,8 +10071,7 @@ public struct GetMonitorInput: Swift.Sendable {
 
     public init(
         monitorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitorId = monitorId
     }
 }
@@ -9784,8 +10121,7 @@ public struct GetMonitorOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.displayName = displayName
@@ -9809,8 +10145,7 @@ public struct ListMonitorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -9864,8 +10199,7 @@ extension DeadlineClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.displayName = displayName
@@ -9891,8 +10225,7 @@ public struct ListMonitorsOutput: Swift.Sendable {
     public init(
         monitors: [DeadlineClientTypes.MonitorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitors = monitors
         self.nextToken = nextToken
     }
@@ -9914,8 +10247,7 @@ public struct UpdateMonitorInput: Swift.Sendable {
         monitorId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         subdomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.monitorId = monitorId
         self.roleArn = roleArn
@@ -9946,8 +10278,7 @@ extension DeadlineClientTypes {
             name: Swift.String? = nil,
             `operator`: DeadlineClientTypes.ComparisonOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -9965,8 +10296,7 @@ extension DeadlineClientTypes {
 
         public init(
             searchTerm: Swift.String? = nil
-        )
-        {
+        ) {
             self.searchTerm = searchTerm
         }
     }
@@ -9990,8 +10320,7 @@ extension DeadlineClientTypes {
             name: Swift.String? = nil,
             `operator`: DeadlineClientTypes.ComparisonOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -10071,8 +10400,7 @@ extension DeadlineClientTypes {
         public init(
             name: Swift.String? = nil,
             sortOrder: DeadlineClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sortOrder = sortOrder
         }
@@ -10093,8 +10421,7 @@ extension DeadlineClientTypes {
         public init(
             name: Swift.String? = nil,
             sortOrder: DeadlineClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.name = name
             self.sortOrder = sortOrder
         }
@@ -10111,8 +10438,7 @@ extension DeadlineClientTypes {
 
         public init(
             userIdentityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userIdentityId = userIdentityId
         }
     }
@@ -10154,6 +10480,8 @@ extension DeadlineClientTypes {
         public var maxFailedTasksCount: Swift.Int?
         /// The maximum number of retries for a job.
         public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1.
+        public var maxWorkerCount: Swift.Int?
         /// The job name.
         public var name: Swift.String?
         /// The job priority.
@@ -10201,6 +10529,7 @@ extension DeadlineClientTypes {
             lifecycleStatusMessage: Swift.String? = nil,
             maxFailedTasksCount: Swift.Int? = nil,
             maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             queueId: Swift.String? = nil,
@@ -10209,8 +10538,7 @@ extension DeadlineClientTypes {
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -10220,6 +10548,7 @@ extension DeadlineClientTypes {
             self.lifecycleStatusMessage = lifecycleStatusMessage
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.name = name
             self.priority = priority
             self.queueId = queueId
@@ -10234,7 +10563,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
+        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchJobsOutput: Swift.Sendable {
@@ -10251,8 +10580,7 @@ public struct SearchJobsOutput: Swift.Sendable {
         jobs: [DeadlineClientTypes.JobSearchSummary]? = nil,
         nextItemOffset: Swift.Int? = nil,
         totalResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextItemOffset = nextItemOffset
         self.totalResults = totalResults
@@ -10324,8 +10652,7 @@ extension DeadlineClientTypes {
             targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endedAt = endedAt
             self.jobId = jobId
@@ -10357,8 +10684,7 @@ public struct SearchStepsOutput: Swift.Sendable {
         nextItemOffset: Swift.Int? = nil,
         steps: [DeadlineClientTypes.StepSearchSummary]? = nil,
         totalResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextItemOffset = nextItemOffset
         self.steps = steps
         self.totalResults = totalResults
@@ -10401,8 +10727,7 @@ extension DeadlineClientTypes {
             stepId: Swift.String? = nil,
             targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endedAt = endedAt
             self.failureRetryCount = failureRetryCount
             self.jobId = jobId
@@ -10436,8 +10761,7 @@ public struct SearchTasksOutput: Swift.Sendable {
         nextItemOffset: Swift.Int? = nil,
         tasks: [DeadlineClientTypes.TaskSearchSummary]? = nil,
         totalResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextItemOffset = nextItemOffset
         self.tasks = tasks
         self.totalResults = totalResults
@@ -10474,8 +10798,7 @@ extension DeadlineClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil,
             workerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.fleetId = fleetId
@@ -10502,8 +10825,7 @@ public struct SearchWorkersOutput: Swift.Sendable {
         nextItemOffset: Swift.Int? = nil,
         totalResults: Swift.Int? = nil,
         workers: [DeadlineClientTypes.WorkerSearchSummary]? = nil
-    )
-    {
+    ) {
         self.nextItemOffset = nextItemOffset
         self.totalResults = totalResults
         self.workers = workers
@@ -10669,8 +10991,7 @@ public struct StartSessionsStatisticsAggregationInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         statistics: [DeadlineClientTypes.UsageStatistic]? = nil,
         timezone: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.farmId = farmId
         self.groupBy = groupBy
@@ -10689,8 +11010,7 @@ public struct StartSessionsStatisticsAggregationOutput: Swift.Sendable {
 
     public init(
         aggregationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationId = aggregationId
     }
 }
@@ -10705,8 +11025,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -10728,8 +11047,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -10791,8 +11109,7 @@ public struct UpdateQueueFleetAssociationInput: Swift.Sendable {
         fleetId: Swift.String? = nil,
         queueId: Swift.String? = nil,
         status: DeadlineClientTypes.UpdateQueueFleetAssociationStatus? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.fleetId = fleetId
         self.queueId = queueId
@@ -10801,6 +11118,70 @@ public struct UpdateQueueFleetAssociationInput: Swift.Sendable {
 }
 
 public struct UpdateQueueFleetAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension DeadlineClientTypes {
+
+    public enum UpdateQueueLimitAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case stopLimitUsageAndCancelTasks
+        case stopLimitUsageAndCompleteTasks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateQueueLimitAssociationStatus] {
+            return [
+                .active,
+                .stopLimitUsageAndCancelTasks,
+                .stopLimitUsageAndCompleteTasks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .stopLimitUsageAndCancelTasks: return "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
+            case .stopLimitUsageAndCompleteTasks: return "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the associated queues and limits.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit associated to the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue associated to the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately.
+    /// This member is required.
+    public var status: DeadlineClientTypes.UpdateQueueLimitAssociationStatus?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        status: DeadlineClientTypes.UpdateQueueLimitAssociationStatus? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+        self.status = status
+    }
+}
+
+public struct UpdateQueueLimitAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -10837,8 +11218,7 @@ extension DeadlineClientTypes {
         public init(
             filters: [DeadlineClientTypes.SearchFilterExpression]? = nil,
             `operator`: DeadlineClientTypes.LogicalOperator? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.`operator` = `operator`
         }
@@ -10869,8 +11249,7 @@ public struct SearchJobsInput: Swift.Sendable {
         pageSize: Swift.Int? = nil,
         queueIds: [Swift.String]? = nil,
         sortExpressions: [DeadlineClientTypes.SearchSortExpression]? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.filterExpressions = filterExpressions
         self.itemOffset = itemOffset
@@ -10907,8 +11286,7 @@ public struct SearchStepsInput: Swift.Sendable {
         pageSize: Swift.Int? = nil,
         queueIds: [Swift.String]? = nil,
         sortExpressions: [DeadlineClientTypes.SearchSortExpression]? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.filterExpressions = filterExpressions
         self.itemOffset = itemOffset
@@ -10946,8 +11324,7 @@ public struct SearchTasksInput: Swift.Sendable {
         pageSize: Swift.Int? = nil,
         queueIds: [Swift.String]? = nil,
         sortExpressions: [DeadlineClientTypes.SearchSortExpression]? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.filterExpressions = filterExpressions
         self.itemOffset = itemOffset
@@ -10982,8 +11359,7 @@ public struct SearchWorkersInput: Swift.Sendable {
         itemOffset: Swift.Int? = nil,
         pageSize: Swift.Int? = nil,
         sortExpressions: [DeadlineClientTypes.SearchSortExpression]? = nil
-    )
-    {
+    ) {
         self.farmId = farmId
         self.filterExpressions = filterExpressions
         self.fleetIds = fleetIds
@@ -11276,6 +11652,27 @@ extension CreateLicenseEndpointInput {
     }
 }
 
+extension CreateLimitInput {
+
+    static func urlPathProvider(_ value: CreateLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits"
+    }
+}
+
+extension CreateLimitInput {
+
+    static func headerProvider(_ value: CreateLimitInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
+        }
+        return items
+    }
+}
+
 extension CreateMonitorInput {
 
     static func urlPathProvider(_ value: CreateMonitorInput) -> Swift.String? {
@@ -11346,6 +11743,16 @@ extension CreateQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations"
+    }
+}
+
+extension CreateQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: CreateQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations"
     }
 }
 
@@ -11451,6 +11858,19 @@ extension DeleteLicenseEndpointInput {
     }
 }
 
+extension DeleteLimitInput {
+
+    static func urlPathProvider(_ value: DeleteLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits/\(limitId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteMeteredProductInput {
 
     static func urlPathProvider(_ value: DeleteMeteredProductInput) -> Swift.String? {
@@ -11516,6 +11936,22 @@ extension DeleteQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations/\(queueId.urlPercentEncoding())/\(fleetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations/\(queueId.urlPercentEncoding())/\(limitId.urlPercentEncoding())"
     }
 }
 
@@ -11674,6 +12110,19 @@ extension GetLicenseEndpointInput {
     }
 }
 
+extension GetLimitInput {
+
+    static func urlPathProvider(_ value: GetLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits/\(limitId.urlPercentEncoding())"
+    }
+}
+
 extension GetMonitorInput {
 
     static func urlPathProvider(_ value: GetMonitorInput) -> Swift.String? {
@@ -11726,6 +12175,22 @@ extension GetQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations/\(queueId.urlPercentEncoding())/\(fleetId.urlPercentEncoding())"
+    }
+}
+
+extension GetQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: GetQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations/\(queueId.urlPercentEncoding())/\(limitId.urlPercentEncoding())"
     }
 }
 
@@ -12178,6 +12643,32 @@ extension ListLicenseEndpointsInput {
     }
 }
 
+extension ListLimitsInput {
+
+    static func urlPathProvider(_ value: ListLimitsInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits"
+    }
+}
+
+extension ListLimitsInput {
+
+    static func queryItemProvider(_ value: ListLimitsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListMeteredProductsInput {
 
     static func urlPathProvider(_ value: ListMeteredProductsInput) -> Swift.String? {
@@ -12285,6 +12776,40 @@ extension ListQueueFleetAssociationsInput {
         if let fleetId = value.fleetId {
             let fleetIdQueryItem = Smithy.URIQueryItem(name: "fleetId".urlPercentEncoding(), value: Swift.String(fleetId).urlPercentEncoding())
             items.append(fleetIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListQueueLimitAssociationsInput {
+
+    static func urlPathProvider(_ value: ListQueueLimitAssociationsInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations"
+    }
+}
+
+extension ListQueueLimitAssociationsInput {
+
+    static func queryItemProvider(_ value: ListQueueLimitAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let queueId = value.queueId {
+            let queueIdQueryItem = Smithy.URIQueryItem(name: "queueId".urlPercentEncoding(), value: Swift.String(queueId).urlPercentEncoding())
+            items.append(queueIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let limitId = value.limitId {
+            let limitIdQueryItem = Smithy.URIQueryItem(name: "limitId".urlPercentEncoding(), value: Swift.String(limitId).urlPercentEncoding())
+            items.append(limitIdQueryItem)
         }
         return items
     }
@@ -12872,6 +13397,19 @@ extension UpdateJobInput {
     }
 }
 
+extension UpdateLimitInput {
+
+    static func urlPathProvider(_ value: UpdateLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits/\(limitId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateMonitorInput {
 
     static func urlPathProvider(_ value: UpdateMonitorInput) -> Swift.String? {
@@ -12946,6 +13484,22 @@ extension UpdateQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations/\(queueId.urlPercentEncoding())/\(fleetId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations/\(queueId.urlPercentEncoding())/\(limitId.urlPercentEncoding())"
     }
 }
 
@@ -13199,6 +13753,7 @@ extension CreateJobInput {
         try writer["attachments"].write(value.attachments, with: DeadlineClientTypes.Attachments.write(value:to:))
         try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
         try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
+        try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: DeadlineClientTypes.JobParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["priority"].write(value.priority)
         try writer["sourceJobId"].write(value.sourceJobId)
@@ -13217,6 +13772,17 @@ extension CreateLicenseEndpointInput {
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["vpcId"].write(value.vpcId)
+    }
+}
+
+extension CreateLimitInput {
+
+    static func write(value: CreateLimitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amountRequirementName"].write(value.amountRequirementName)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["maxCount"].write(value.maxCount)
     }
 }
 
@@ -13262,6 +13828,15 @@ extension CreateQueueFleetAssociationInput {
     static func write(value: CreateQueueFleetAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fleetId"].write(value.fleetId)
+        try writer["queueId"].write(value.queueId)
+    }
+}
+
+extension CreateQueueLimitAssociationInput {
+
+    static func write(value: CreateQueueLimitAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["limitId"].write(value.limitId)
         try writer["queueId"].write(value.queueId)
     }
 }
@@ -13399,8 +13974,19 @@ extension UpdateJobInput {
         try writer["lifecycleStatus"].write(value.lifecycleStatus)
         try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
         try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
+        try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["priority"].write(value.priority)
         try writer["targetTaskRunStatus"].write(value.targetTaskRunStatus)
+    }
+}
+
+extension UpdateLimitInput {
+
+    static func write(value: UpdateLimitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["maxCount"].write(value.maxCount)
     }
 }
 
@@ -13444,6 +14030,14 @@ extension UpdateQueueEnvironmentInput {
 extension UpdateQueueFleetAssociationInput {
 
     static func write(value: UpdateQueueFleetAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+}
+
+extension UpdateQueueLimitAssociationInput {
+
+    static func write(value: UpdateQueueLimitAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
@@ -13675,6 +14269,18 @@ extension CreateLicenseEndpointOutput {
     }
 }
 
+extension CreateLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateLimitOutput()
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateMonitorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMonitorOutput {
@@ -13716,6 +14322,13 @@ extension CreateQueueFleetAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQueueFleetAssociationOutput {
         return CreateQueueFleetAssociationOutput()
+    }
+}
+
+extension CreateQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQueueLimitAssociationOutput {
+        return CreateQueueLimitAssociationOutput()
     }
 }
 
@@ -13771,6 +14384,13 @@ extension DeleteLicenseEndpointOutput {
     }
 }
 
+extension DeleteLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLimitOutput {
+        return DeleteLimitOutput()
+    }
+}
+
 extension DeleteMeteredProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMeteredProductOutput {
@@ -13803,6 +14423,13 @@ extension DeleteQueueFleetAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQueueFleetAssociationOutput {
         return DeleteQueueFleetAssociationOutput()
+    }
+}
+
+extension DeleteQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQueueLimitAssociationOutput {
+        return DeleteQueueLimitAssociationOutput()
     }
 }
 
@@ -13937,6 +14564,7 @@ extension GetJobOutput {
         value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent() ?? ""
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.priority = try reader["priority"].readIfPresent() ?? 0
@@ -13966,6 +14594,28 @@ extension GetLicenseEndpointOutput {
         value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetLimitOutput()
+        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -14057,6 +14707,24 @@ extension GetQueueFleetAssociationOutput {
     }
 }
 
+extension GetQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQueueLimitAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQueueLimitAssociationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension GetSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
@@ -14087,6 +14755,7 @@ extension GetSessionActionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSessionActionOutput()
+        value.acquiredLimits = try reader["acquiredLimits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AcquiredLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinition.read(from:))
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.processExitCode = try reader["processExitCode"].readIfPresent()
@@ -14352,6 +15021,19 @@ extension ListLicenseEndpointsOutput {
     }
 }
 
+extension ListLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLimitsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLimitsOutput()
+        value.limits = try reader["limits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.LimitSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMeteredProductsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMeteredProductsOutput {
@@ -14400,6 +15082,19 @@ extension ListQueueFleetAssociationsOutput {
         var value = ListQueueFleetAssociationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.queueFleetAssociations = try reader["queueFleetAssociations"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.QueueFleetAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListQueueLimitAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQueueLimitAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQueueLimitAssociationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.queueLimitAssociations = try reader["queueLimitAssociations"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.QueueLimitAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14689,6 +15384,13 @@ extension UpdateJobOutput {
     }
 }
 
+extension UpdateLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLimitOutput {
+        return UpdateLimitOutput()
+    }
+}
+
 extension UpdateMonitorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMonitorOutput {
@@ -14714,6 +15416,13 @@ extension UpdateQueueFleetAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueueFleetAssociationOutput {
         return UpdateQueueFleetAssociationOutput()
+    }
+}
+
+extension UpdateQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueueLimitAssociationOutput {
+        return UpdateQueueLimitAssociationOutput()
     }
 }
 
@@ -15071,6 +15780,25 @@ enum CreateLicenseEndpointOutputError {
     }
 }
 
+enum CreateLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15128,6 +15856,24 @@ enum CreateQueueEnvironmentOutputError {
 }
 
 enum CreateQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15257,6 +16003,23 @@ enum DeleteLicenseEndpointOutputError {
     }
 }
 
+enum DeleteLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteMeteredProductOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15330,6 +16093,25 @@ enum DeleteQueueEnvironmentOutputError {
 }
 
 enum DeleteQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15548,6 +16330,24 @@ enum GetLicenseEndpointOutputError {
     }
 }
 
+enum GetLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15603,6 +16403,24 @@ enum GetQueueEnvironmentOutputError {
 }
 
 enum GetQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15940,6 +16758,24 @@ enum ListLicenseEndpointsOutputError {
     }
 }
 
+enum ListLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListMeteredProductsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15994,6 +16830,23 @@ enum ListQueueEnvironmentsOutputError {
 }
 
 enum ListQueueFleetAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQueueLimitAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16464,6 +17317,24 @@ enum UpdateJobOutputError {
     }
 }
 
+enum UpdateLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16519,6 +17390,24 @@ enum UpdateQueueEnvironmentOutputError {
 }
 
 enum UpdateQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17609,6 +18498,17 @@ extension DeadlineClientTypes.EnvironmentEnterSessionActionDefinition {
     }
 }
 
+extension DeadlineClientTypes.AcquiredLimit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AcquiredLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.AcquiredLimit()
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension DeadlineClientTypes.Statistics {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.Statistics {
@@ -17872,6 +18772,7 @@ extension DeadlineClientTypes.JobSummary {
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
         value.sourceJobId = try reader["sourceJobId"].readIfPresent()
         return value
     }
@@ -17886,6 +18787,25 @@ extension DeadlineClientTypes.LicenseEndpointSummary {
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.LimitSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.LimitSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.LimitSummary()
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -17934,6 +18854,22 @@ extension DeadlineClientTypes.QueueFleetAssociationSummary {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.QueueLimitAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.QueueLimitAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.QueueLimitAssociationSummary()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -18201,6 +19137,7 @@ extension DeadlineClientTypes.JobSearchSummary {
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.jobParameters = try reader["jobParameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
         value.sourceJobId = try reader["sourceJobId"].readIfPresent()
         return value
     }

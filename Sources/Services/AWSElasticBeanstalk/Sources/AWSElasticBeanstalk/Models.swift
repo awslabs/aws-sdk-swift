@@ -103,9 +103,9 @@ public struct UpdateTagsForResourceOutput: Swift.Sendable {
 }
 
 /// The specified account does not have sufficient privileges for one or more AWS services.
-public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -121,8 +121,7 @@ public struct InsufficientPrivilegesException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -137,8 +136,7 @@ public struct AbortEnvironmentUpdateInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
     }
@@ -259,8 +257,7 @@ extension ElasticBeanstalkClientTypes {
             deleteSourceFromS3: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             maxAgeInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deleteSourceFromS3 = deleteSourceFromS3
             self.enabled = enabled
             self.maxAgeInDays = maxAgeInDays
@@ -284,8 +281,7 @@ extension ElasticBeanstalkClientTypes {
             deleteSourceFromS3: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             maxCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deleteSourceFromS3 = deleteSourceFromS3
             self.enabled = enabled
             self.maxCount = maxCount
@@ -305,8 +301,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             maxAgeRule: ElasticBeanstalkClientTypes.MaxAgeRule? = nil,
             maxCountRule: ElasticBeanstalkClientTypes.MaxCountRule? = nil
-        )
-        {
+        ) {
             self.maxAgeRule = maxAgeRule
             self.maxCountRule = maxCountRule
         }
@@ -325,8 +320,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             serviceRole: Swift.String? = nil,
             versionLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig? = nil
-        )
-        {
+        ) {
             self.serviceRole = serviceRole
             self.versionLifecycleConfig = versionLifecycleConfig
         }
@@ -363,8 +357,7 @@ extension ElasticBeanstalkClientTypes {
             description: Swift.String? = nil,
             resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil,
             versions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.applicationName = applicationName
             self.configurationTemplates = configurationTemplates
@@ -407,8 +400,7 @@ extension ElasticBeanstalkClientTypes {
             p95: Swift.Double? = nil,
             p99: Swift.Double? = nil,
             p999: Swift.Double? = nil
-        )
-        {
+        ) {
             self.p10 = p10
             self.p50 = p50
             self.p75 = p75
@@ -439,8 +431,7 @@ extension ElasticBeanstalkClientTypes {
             status3xx: Swift.Int? = nil,
             status4xx: Swift.Int? = nil,
             status5xx: Swift.Int? = nil
-        )
-        {
+        ) {
             self.status2xx = status2xx
             self.status3xx = status3xx
             self.status4xx = status4xx
@@ -467,8 +458,7 @@ extension ElasticBeanstalkClientTypes {
             latency: ElasticBeanstalkClientTypes.Latency? = nil,
             requestCount: Swift.Int = 0,
             statusCodes: ElasticBeanstalkClientTypes.StatusCodes? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.latency = latency
             self.requestCount = requestCount
@@ -565,8 +555,7 @@ extension ElasticBeanstalkClientTypes {
             sourceLocation: Swift.String? = nil,
             sourceRepository: ElasticBeanstalkClientTypes.SourceRepository? = nil,
             sourceType: ElasticBeanstalkClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.sourceLocation = sourceLocation
             self.sourceRepository = sourceRepository
             self.sourceType = sourceType
@@ -586,8 +575,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
         }
@@ -678,8 +666,7 @@ extension ElasticBeanstalkClientTypes {
             sourceBundle: ElasticBeanstalkClientTypes.S3Location? = nil,
             status: ElasticBeanstalkClientTypes.ApplicationVersionStatus? = nil,
             versionLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationName = applicationName
             self.applicationVersionArn = applicationVersionArn
             self.buildArn = buildArn
@@ -695,9 +682,9 @@ extension ElasticBeanstalkClientTypes {
 }
 
 /// A generic service exception has occurred.
-public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -713,16 +700,15 @@ public struct ElasticBeanstalkServiceException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Cannot modify the managed action in its current state.
-public struct ManagedActionInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ManagedActionInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -738,8 +724,7 @@ public struct ManagedActionInvalidStateException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -758,8 +743,7 @@ public struct ApplyEnvironmentManagedActionInput: Swift.Sendable {
         actionId: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionId = actionId
         self.environmentId = environmentId
         self.environmentName = environmentName
@@ -782,8 +766,7 @@ public struct ApplyEnvironmentManagedActionOutput: Swift.Sendable {
         actionId: Swift.String? = nil,
         actionType: ElasticBeanstalkClientTypes.ActionType? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionDescription = actionDescription
         self.actionId = actionId
         self.actionType = actionType
@@ -803,8 +786,7 @@ public struct AssociateEnvironmentOperationsRoleInput: Swift.Sendable {
     public init(
         environmentName: Swift.String? = nil,
         operationsRole: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
         self.operationsRole = operationsRole
     }
@@ -819,8 +801,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -838,8 +819,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             permittedFileTypes: [Swift.String]? = nil,
             solutionStackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.permittedFileTypes = permittedFileTypes
             self.solutionStackName = solutionStackName
         }
@@ -854,8 +834,7 @@ public struct CheckDNSAvailabilityInput: Swift.Sendable {
 
     public init(
         cnamePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.cnamePrefix = cnamePrefix
     }
 }
@@ -874,17 +853,16 @@ public struct CheckDNSAvailabilityOutput: Swift.Sendable {
     public init(
         available: Swift.Bool? = nil,
         fullyQualifiedCNAME: Swift.String? = nil
-    )
-    {
+    ) {
         self.available = available
         self.fullyQualifiedCNAME = fullyQualifiedCNAME
     }
 }
 
 /// The specified account has reached its limit of environments.
-public struct TooManyEnvironmentsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyEnvironmentsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -900,8 +878,7 @@ public struct TooManyEnvironmentsException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -919,8 +896,7 @@ public struct ComposeEnvironmentsInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         groupName: Swift.String? = nil,
         versionLabels: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.groupName = groupName
         self.versionLabels = versionLabels
@@ -939,8 +915,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             environmentName: Swift.String? = nil,
             linkName: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentName = environmentName
             self.linkName = linkName
         }
@@ -1044,8 +1019,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             port: Swift.Int = 0,
             `protocol`: Swift.String? = nil
-        )
-        {
+        ) {
             self.port = port
             self.`protocol` = `protocol`
         }
@@ -1067,8 +1041,7 @@ extension ElasticBeanstalkClientTypes {
             domain: Swift.String? = nil,
             listeners: [ElasticBeanstalkClientTypes.Listener]? = nil,
             loadBalancerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.listeners = listeners
             self.loadBalancerName = loadBalancerName
@@ -1085,8 +1058,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             loadBalancer: ElasticBeanstalkClientTypes.LoadBalancerDescription? = nil
-        )
-        {
+        ) {
             self.loadBalancer = loadBalancer
         }
     }
@@ -1162,8 +1134,7 @@ extension ElasticBeanstalkClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.version = version
@@ -1261,8 +1232,7 @@ extension ElasticBeanstalkClientTypes {
             templateName: Swift.String? = nil,
             tier: ElasticBeanstalkClientTypes.EnvironmentTier? = nil,
             versionLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.abortableOperationInProgress = abortableOperationInProgress
             self.applicationName = applicationName
             self.cname = cname
@@ -1298,17 +1268,16 @@ public struct ComposeEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [ElasticBeanstalkClientTypes.EnvironmentDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
 }
 
 /// The specified account has reached its limit of applications.
-public struct TooManyApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyApplicationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1324,8 +1293,7 @@ public struct TooManyApplicationsException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1342,8 +1310,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1367,8 +1334,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         description: Swift.String? = nil,
         resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil,
         tags: [ElasticBeanstalkClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.description = description
         self.resourceLifecycleConfig = resourceLifecycleConfig
@@ -1383,16 +1349,15 @@ public struct CreateApplicationOutput: Swift.Sendable {
 
     public init(
         application: ElasticBeanstalkClientTypes.ApplicationDescription? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
 
 /// AWS CodeBuild is not available in the specified region.
-public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1408,8 +1373,7 @@ public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1421,9 +1385,9 @@ public struct CodeBuildNotInServiceRegionException: ClientRuntime.ModeledError, 
 /// * PDX/us-west-2
 ///
 /// * DUB/eu-west-1
-public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1439,16 +1403,15 @@ public struct S3LocationNotInServiceRegionException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified account has reached its limit of application versions.
-public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1464,8 +1427,7 @@ public struct TooManyApplicationVersionsException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1531,8 +1493,7 @@ extension ElasticBeanstalkClientTypes {
             computeType: ElasticBeanstalkClientTypes.ComputeType? = nil,
             image: Swift.String? = nil,
             timeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.artifactName = artifactName
             self.codeBuildServiceRole = codeBuildServiceRole
             self.computeType = computeType
@@ -1575,8 +1536,7 @@ public struct CreateApplicationVersionInput: Swift.Sendable {
         sourceBundle: ElasticBeanstalkClientTypes.S3Location? = nil,
         tags: [ElasticBeanstalkClientTypes.Tag]? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.autoCreateApplication = autoCreateApplication
         self.buildConfiguration = buildConfiguration
@@ -1596,16 +1556,15 @@ public struct CreateApplicationVersionOutput: Swift.Sendable {
 
     public init(
         applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription? = nil
-    )
-    {
+    ) {
         self.applicationVersion = applicationVersion
     }
 }
 
 /// The specified account has reached its limit of Amazon S3 buckets.
-public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1621,16 +1580,15 @@ public struct TooManyBucketsException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified account has reached its limit of configuration templates.
-public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1646,8 +1604,7 @@ public struct TooManyConfigurationTemplatesException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1670,8 +1627,7 @@ extension ElasticBeanstalkClientTypes {
             optionName: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
             self.optionName = optionName
             self.resourceName = resourceName
@@ -1692,8 +1648,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             applicationName: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationName = applicationName
             self.templateName = templateName
         }
@@ -1733,8 +1688,7 @@ public struct CreateConfigurationTemplateInput: Swift.Sendable {
         sourceConfiguration: ElasticBeanstalkClientTypes.SourceConfiguration? = nil,
         tags: [ElasticBeanstalkClientTypes.Tag]? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.description = description
         self.environmentId = environmentId
@@ -1821,8 +1775,7 @@ public struct CreateConfigurationTemplateOutput: Swift.Sendable {
         platformArn: Swift.String? = nil,
         solutionStackName: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.dateCreated = dateCreated
         self.dateUpdated = dateUpdated
@@ -1851,8 +1804,7 @@ extension ElasticBeanstalkClientTypes {
             namespace: Swift.String? = nil,
             optionName: Swift.String? = nil,
             resourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
             self.optionName = optionName
             self.resourceName = resourceName
@@ -1907,8 +1859,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         templateName: Swift.String? = nil,
         tier: ElasticBeanstalkClientTypes.EnvironmentTier? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.cnamePrefix = cnamePrefix
         self.description = description
@@ -2014,8 +1965,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         templateName: Swift.String? = nil,
         tier: ElasticBeanstalkClientTypes.EnvironmentTier? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.abortableOperationInProgress = abortableOperationInProgress
         self.applicationName = applicationName
         self.cname = cname
@@ -2041,9 +1991,9 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 }
 
 /// You have exceeded the maximum number of allowed platforms associated with the account.
-public struct TooManyPlatformsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyPlatformsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2059,8 +2009,7 @@ public struct TooManyPlatformsException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2090,8 +2039,7 @@ public struct CreatePlatformVersionInput: Swift.Sendable {
         platformName: Swift.String? = nil,
         platformVersion: Swift.String? = nil,
         tags: [ElasticBeanstalkClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
         self.optionSettings = optionSettings
         self.platformDefinitionBundle = platformDefinitionBundle
@@ -2110,8 +2058,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -2197,8 +2144,7 @@ extension ElasticBeanstalkClientTypes {
             platformVersion: Swift.String? = nil,
             supportedAddonList: [Swift.String]? = nil,
             supportedTierList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.operatingSystemName = operatingSystemName
             self.operatingSystemVersion = operatingSystemVersion
             self.platformArn = platformArn
@@ -2224,17 +2170,16 @@ public struct CreatePlatformVersionOutput: Swift.Sendable {
     public init(
         builder: ElasticBeanstalkClientTypes.Builder? = nil,
         platformSummary: ElasticBeanstalkClientTypes.PlatformSummary? = nil
-    )
-    {
+    ) {
         self.builder = builder
         self.platformSummary = platformSummary
     }
 }
 
 /// The specified account does not have a subscription to Amazon S3.
-public struct S3SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3SubscriptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2250,8 +2195,7 @@ public struct S3SubscriptionRequiredException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2263,16 +2207,15 @@ public struct CreateStorageLocationOutput: Swift.Sendable {
 
     public init(
         s3Bucket: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3Bucket = s3Bucket
     }
 }
 
 /// Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
-public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2288,8 +2231,7 @@ public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2305,17 +2247,16 @@ public struct DeleteApplicationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         terminateEnvByForce: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.terminateEnvByForce = terminateEnvByForce
     }
 }
 
 /// Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
-public struct SourceBundleDeletionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceBundleDeletionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2331,8 +2272,7 @@ public struct SourceBundleDeletionException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2352,8 +2292,7 @@ public struct DeleteApplicationVersionInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         deleteSourceBundle: Swift.Bool? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.deleteSourceBundle = deleteSourceBundle
         self.versionLabel = versionLabel
@@ -2372,8 +2311,7 @@ public struct DeleteConfigurationTemplateInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.templateName = templateName
     }
@@ -2391,17 +2329,16 @@ public struct DeleteEnvironmentConfigurationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.environmentName = environmentName
     }
 }
 
 /// You cannot delete the platform version because there are still environments running on it.
-public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2417,8 +2354,7 @@ public struct PlatformVersionStillReferencedException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2429,8 +2365,7 @@ public struct DeletePlatformVersionInput: Swift.Sendable {
 
     public init(
         platformArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.platformArn = platformArn
     }
 }
@@ -2441,8 +2376,7 @@ public struct DeletePlatformVersionOutput: Swift.Sendable {
 
     public init(
         platformSummary: ElasticBeanstalkClientTypes.PlatformSummary? = nil
-    )
-    {
+    ) {
         self.platformSummary = platformSummary
     }
 }
@@ -2456,8 +2390,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             maximum: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
         }
     }
@@ -2484,8 +2417,7 @@ extension ElasticBeanstalkClientTypes {
             configurationTemplateQuota: ElasticBeanstalkClientTypes.ResourceQuota? = nil,
             customPlatformQuota: ElasticBeanstalkClientTypes.ResourceQuota? = nil,
             environmentQuota: ElasticBeanstalkClientTypes.ResourceQuota? = nil
-        )
-        {
+        ) {
             self.applicationQuota = applicationQuota
             self.applicationVersionQuota = applicationVersionQuota
             self.configurationTemplateQuota = configurationTemplateQuota
@@ -2501,8 +2433,7 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
 
     public init(
         resourceQuotas: ElasticBeanstalkClientTypes.ResourceQuotas? = nil
-    )
-    {
+    ) {
         self.resourceQuotas = resourceQuotas
     }
 }
@@ -2514,8 +2445,7 @@ public struct DescribeApplicationsInput: Swift.Sendable {
 
     public init(
         applicationNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationNames = applicationNames
     }
 }
@@ -2527,8 +2457,7 @@ public struct DescribeApplicationsOutput: Swift.Sendable {
 
     public init(
         applications: [ElasticBeanstalkClientTypes.ApplicationDescription]? = nil
-    )
-    {
+    ) {
         self.applications = applications
     }
 }
@@ -2549,8 +2478,7 @@ public struct DescribeApplicationVersionsInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         versionLabels: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -2568,8 +2496,7 @@ public struct DescribeApplicationVersionsOutput: Swift.Sendable {
     public init(
         applicationVersions: [ElasticBeanstalkClientTypes.ApplicationVersionDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationVersions = applicationVersions
         self.nextToken = nextToken
     }
@@ -2597,8 +2524,7 @@ public struct DescribeConfigurationOptionsInput: Swift.Sendable {
         platformArn: Swift.String? = nil,
         solutionStackName: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.environmentName = environmentName
         self.options = options
@@ -2620,8 +2546,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             label: Swift.String? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.label = label
             self.pattern = pattern
         }
@@ -2717,8 +2642,7 @@ extension ElasticBeanstalkClientTypes {
             userDefined: Swift.Bool? = nil,
             valueOptions: [Swift.String]? = nil,
             valueType: ElasticBeanstalkClientTypes.ConfigurationOptionValueType? = nil
-        )
-        {
+        ) {
             self.changeSeverity = changeSeverity
             self.defaultValue = defaultValue
             self.maxLength = maxLength
@@ -2747,8 +2671,7 @@ public struct DescribeConfigurationOptionsOutput: Swift.Sendable {
         options: [ElasticBeanstalkClientTypes.ConfigurationOptionDescription]? = nil,
         platformArn: Swift.String? = nil,
         solutionStackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.options = options
         self.platformArn = platformArn
         self.solutionStackName = solutionStackName
@@ -2769,8 +2692,7 @@ public struct DescribeConfigurationSettingsInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.environmentName = environmentName
         self.templateName = templateName
@@ -2821,8 +2743,7 @@ extension ElasticBeanstalkClientTypes {
             platformArn: Swift.String? = nil,
             solutionStackName: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationName = applicationName
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -2844,16 +2765,15 @@ public struct DescribeConfigurationSettingsOutput: Swift.Sendable {
 
     public init(
         configurationSettings: [ElasticBeanstalkClientTypes.ConfigurationSettingsDescription]? = nil
-    )
-    {
+    ) {
         self.configurationSettings = configurationSettings
     }
 }
 
 /// One or more input parameters is not valid. Please correct the input parameters and try the operation again.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2869,8 +2789,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2935,8 +2854,7 @@ public struct DescribeEnvironmentHealthInput: Swift.Sendable {
         attributeNames: [ElasticBeanstalkClientTypes.EnvironmentHealthAttribute]? = nil,
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.environmentId = environmentId
         self.environmentName = environmentName
@@ -2973,8 +2891,7 @@ extension ElasticBeanstalkClientTypes {
             severe: Swift.Int? = nil,
             unknown: Swift.Int? = nil,
             warning: Swift.Int? = nil
-        )
-        {
+        ) {
             self.degraded = degraded
             self.info = info
             self.noData = noData
@@ -3015,8 +2932,7 @@ public struct DescribeEnvironmentHealthOutput: Swift.Sendable {
         instancesHealth: ElasticBeanstalkClientTypes.InstanceHealthSummary? = nil,
         refreshedAt: Foundation.Date? = nil,
         status: ElasticBeanstalkClientTypes.EnvironmentHealth? = nil
-    )
-    {
+    ) {
         self.applicationMetrics = applicationMetrics
         self.causes = causes
         self.color = color
@@ -3044,8 +2960,7 @@ public struct DescribeEnvironmentManagedActionHistoryInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
         self.maxItems = maxItems
@@ -3127,8 +3042,7 @@ extension ElasticBeanstalkClientTypes {
             failureType: ElasticBeanstalkClientTypes.FailureType? = nil,
             finishedTime: Foundation.Date? = nil,
             status: ElasticBeanstalkClientTypes.ActionHistoryStatus? = nil
-        )
-        {
+        ) {
             self.actionDescription = actionDescription
             self.actionId = actionId
             self.actionType = actionType
@@ -3151,8 +3065,7 @@ public struct DescribeEnvironmentManagedActionHistoryOutput: Swift.Sendable {
     public init(
         managedActionHistoryItems: [ElasticBeanstalkClientTypes.ManagedActionHistoryItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedActionHistoryItems = managedActionHistoryItems
         self.nextToken = nextToken
     }
@@ -3171,8 +3084,7 @@ public struct DescribeEnvironmentManagedActionsInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         status: ElasticBeanstalkClientTypes.ActionStatus? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
         self.status = status
@@ -3200,8 +3112,7 @@ extension ElasticBeanstalkClientTypes {
             actionType: ElasticBeanstalkClientTypes.ActionType? = nil,
             status: ElasticBeanstalkClientTypes.ActionStatus? = nil,
             windowStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actionDescription = actionDescription
             self.actionId = actionId
             self.actionType = actionType
@@ -3218,8 +3129,7 @@ public struct DescribeEnvironmentManagedActionsOutput: Swift.Sendable {
 
     public init(
         managedActions: [ElasticBeanstalkClientTypes.ManagedAction]? = nil
-    )
-    {
+    ) {
         self.managedActions = managedActions
     }
 }
@@ -3234,8 +3144,7 @@ public struct DescribeEnvironmentResourcesInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
     }
@@ -3250,8 +3159,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -3266,8 +3174,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3282,8 +3189,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -3298,8 +3204,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3317,8 +3222,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             name: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.url = url
         }
@@ -3334,8 +3238,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3371,8 +3274,7 @@ extension ElasticBeanstalkClientTypes {
             loadBalancers: [ElasticBeanstalkClientTypes.LoadBalancer]? = nil,
             queues: [ElasticBeanstalkClientTypes.Queue]? = nil,
             triggers: [ElasticBeanstalkClientTypes.Trigger]? = nil
-        )
-        {
+        ) {
             self.autoScalingGroups = autoScalingGroups
             self.environmentName = environmentName
             self.instances = instances
@@ -3392,8 +3294,7 @@ public struct DescribeEnvironmentResourcesOutput: Swift.Sendable {
 
     public init(
         environmentResources: ElasticBeanstalkClientTypes.EnvironmentResourceDescription? = nil
-    )
-    {
+    ) {
         self.environmentResources = environmentResources
     }
 }
@@ -3426,8 +3327,7 @@ public struct DescribeEnvironmentsInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.environmentIds = environmentIds
         self.environmentNames = environmentNames
@@ -3449,8 +3349,7 @@ public struct DescribeEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [ElasticBeanstalkClientTypes.EnvironmentDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -3537,8 +3436,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         templateName: Swift.String? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.endTime = endTime
         self.environmentId = environmentId
@@ -3587,8 +3485,7 @@ extension ElasticBeanstalkClientTypes {
             severity: ElasticBeanstalkClientTypes.EventSeverity? = nil,
             templateName: Swift.String? = nil,
             versionLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationName = applicationName
             self.environmentName = environmentName
             self.eventDate = eventDate
@@ -3612,8 +3509,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [ElasticBeanstalkClientTypes.EventDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -3691,8 +3587,7 @@ public struct DescribeInstancesHealthInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.environmentId = environmentId
         self.environmentName = environmentName
@@ -3724,8 +3619,7 @@ extension ElasticBeanstalkClientTypes {
             deploymentTime: Foundation.Date? = nil,
             status: Swift.String? = nil,
             versionLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentId = deploymentId
             self.deploymentTime = deploymentTime
             self.status = status
@@ -3764,8 +3658,7 @@ extension ElasticBeanstalkClientTypes {
             softIRQ: Swift.Double? = nil,
             system: Swift.Double? = nil,
             user: Swift.Double? = nil
-        )
-        {
+        ) {
             self.idle = idle
             self.ioWait = ioWait
             self.irq = irq
@@ -3790,8 +3683,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             cpuUtilization: ElasticBeanstalkClientTypes.CPUUtilization? = nil,
             loadAverage: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.cpuUtilization = cpuUtilization
             self.loadAverage = loadAverage
         }
@@ -3834,8 +3726,7 @@ extension ElasticBeanstalkClientTypes {
             instanceType: Swift.String? = nil,
             launchedAt: Foundation.Date? = nil,
             system: ElasticBeanstalkClientTypes.SystemStatus? = nil
-        )
-        {
+        ) {
             self.applicationMetrics = applicationMetrics
             self.availabilityZone = availabilityZone
             self.causes = causes
@@ -3863,8 +3754,7 @@ public struct DescribeInstancesHealthOutput: Swift.Sendable {
         instanceHealthList: [ElasticBeanstalkClientTypes.SingleInstanceHealth]? = nil,
         nextToken: Swift.String? = nil,
         refreshedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.instanceHealthList = instanceHealthList
         self.nextToken = nextToken
         self.refreshedAt = refreshedAt
@@ -3877,8 +3767,7 @@ public struct DescribePlatformVersionInput: Swift.Sendable {
 
     public init(
         platformArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.platformArn = platformArn
     }
 }
@@ -3895,8 +3784,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             imageId: Swift.String? = nil,
             virtualizationType: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageId = imageId
             self.virtualizationType = virtualizationType
         }
@@ -3915,8 +3803,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -3935,8 +3822,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -4012,8 +3898,7 @@ extension ElasticBeanstalkClientTypes {
             solutionStackName: Swift.String? = nil,
             supportedAddonList: [Swift.String]? = nil,
             supportedTierList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.customAmiList = customAmiList
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -4045,8 +3930,7 @@ public struct DescribePlatformVersionOutput: Swift.Sendable {
 
     public init(
         platformDescription: ElasticBeanstalkClientTypes.PlatformDescription? = nil
-    )
-    {
+    ) {
         self.platformDescription = platformDescription
     }
 }
@@ -4059,8 +3943,7 @@ public struct DisassociateEnvironmentOperationsRoleInput: Swift.Sendable {
 
     public init(
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
     }
 }
@@ -4075,8 +3958,7 @@ public struct ListAvailableSolutionStacksOutput: Swift.Sendable {
     public init(
         solutionStackDetails: [ElasticBeanstalkClientTypes.SolutionStackDescription]? = nil,
         solutionStacks: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.solutionStackDetails = solutionStackDetails
         self.solutionStacks = solutionStacks
     }
@@ -4097,8 +3979,7 @@ extension ElasticBeanstalkClientTypes {
             attribute: Swift.String? = nil,
             `operator`: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.`operator` = `operator`
             self.values = values
@@ -4153,8 +4034,7 @@ public struct ListPlatformBranchesInput: Swift.Sendable {
         filters: [ElasticBeanstalkClientTypes.SearchFilter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -4182,8 +4062,7 @@ extension ElasticBeanstalkClientTypes {
             lifecycleState: Swift.String? = nil,
             platformName: Swift.String? = nil,
             supportedTierList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
             self.branchOrder = branchOrder
             self.lifecycleState = lifecycleState
@@ -4202,8 +4081,7 @@ public struct ListPlatformBranchesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         platformBranchSummaryList: [ElasticBeanstalkClientTypes.PlatformBranchSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.platformBranchSummaryList = platformBranchSummaryList
     }
@@ -4232,8 +4110,7 @@ extension ElasticBeanstalkClientTypes {
             `operator`: Swift.String? = nil,
             type: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.type = type
             self.values = values
@@ -4253,8 +4130,7 @@ public struct ListPlatformVersionsInput: Swift.Sendable {
         filters: [ElasticBeanstalkClientTypes.PlatformFilter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -4270,17 +4146,16 @@ public struct ListPlatformVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         platformSummaryList: [ElasticBeanstalkClientTypes.PlatformSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.platformSummaryList = platformSummaryList
     }
 }
 
 /// A resource doesn't exist for the specified Amazon Resource Name (ARN).
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4296,16 +4171,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
-public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4321,8 +4195,7 @@ public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4334,8 +4207,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4349,8 +4221,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         resourceTags: [ElasticBeanstalkClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceTags = resourceTags
     }
@@ -4366,8 +4237,7 @@ public struct RebuildEnvironmentInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
     }
@@ -4416,8 +4286,7 @@ public struct RequestEnvironmentInfoInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
         self.infoType = infoType
@@ -4434,8 +4303,7 @@ public struct RestartAppServerInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
     }
@@ -4455,8 +4323,7 @@ public struct RetrieveEnvironmentInfoInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
         self.infoType = infoType
@@ -4481,8 +4348,7 @@ extension ElasticBeanstalkClientTypes {
             infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType? = nil,
             message: Swift.String? = nil,
             sampleTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.ec2InstanceId = ec2InstanceId
             self.infoType = infoType
             self.message = message
@@ -4498,8 +4364,7 @@ public struct RetrieveEnvironmentInfoOutput: Swift.Sendable {
 
     public init(
         environmentInfo: [ElasticBeanstalkClientTypes.EnvironmentInfoDescription]? = nil
-    )
-    {
+    ) {
         self.environmentInfo = environmentInfo
     }
 }
@@ -4520,8 +4385,7 @@ public struct SwapEnvironmentCNAMEsInput: Swift.Sendable {
         destinationEnvironmentName: Swift.String? = nil,
         sourceEnvironmentId: Swift.String? = nil,
         sourceEnvironmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationEnvironmentId = destinationEnvironmentId
         self.destinationEnvironmentName = destinationEnvironmentName
         self.sourceEnvironmentId = sourceEnvironmentId
@@ -4552,8 +4416,7 @@ public struct TerminateEnvironmentInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         forceTerminate: Swift.Bool? = nil,
         terminateResources: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.environmentName = environmentName
         self.forceTerminate = forceTerminate
@@ -4649,8 +4512,7 @@ public struct TerminateEnvironmentOutput: Swift.Sendable {
         templateName: Swift.String? = nil,
         tier: ElasticBeanstalkClientTypes.EnvironmentTier? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.abortableOperationInProgress = abortableOperationInProgress
         self.applicationName = applicationName
         self.cname = cname
@@ -4686,8 +4548,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.description = description
     }
@@ -4700,8 +4561,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 
     public init(
         application: ElasticBeanstalkClientTypes.ApplicationDescription? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -4717,8 +4577,7 @@ public struct UpdateApplicationResourceLifecycleInput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.resourceLifecycleConfig = resourceLifecycleConfig
     }
@@ -4733,8 +4592,7 @@ public struct UpdateApplicationResourceLifecycleOutput: Swift.Sendable {
     public init(
         applicationName: Swift.String? = nil,
         resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.resourceLifecycleConfig = resourceLifecycleConfig
     }
@@ -4755,8 +4613,7 @@ public struct UpdateApplicationVersionInput: Swift.Sendable {
         applicationName: Swift.String? = nil,
         description: Swift.String? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.description = description
         self.versionLabel = versionLabel
@@ -4770,8 +4627,7 @@ public struct UpdateApplicationVersionOutput: Swift.Sendable {
 
     public init(
         applicationVersion: ElasticBeanstalkClientTypes.ApplicationVersionDescription? = nil
-    )
-    {
+    ) {
         self.applicationVersion = applicationVersion
     }
 }
@@ -4797,8 +4653,7 @@ public struct UpdateConfigurationTemplateInput: Swift.Sendable {
         optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]? = nil,
         optionsToRemove: [ElasticBeanstalkClientTypes.OptionSpecification]? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.description = description
         self.optionSettings = optionSettings
@@ -4849,8 +4704,7 @@ public struct UpdateConfigurationTemplateOutput: Swift.Sendable {
         platformArn: Swift.String? = nil,
         solutionStackName: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.dateCreated = dateCreated
         self.dateUpdated = dateUpdated
@@ -4904,8 +4758,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         templateName: Swift.String? = nil,
         tier: ElasticBeanstalkClientTypes.EnvironmentTier? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.description = description
         self.environmentId = environmentId
@@ -5009,8 +4862,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
         templateName: Swift.String? = nil,
         tier: ElasticBeanstalkClientTypes.EnvironmentTier? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.abortableOperationInProgress = abortableOperationInProgress
         self.applicationName = applicationName
         self.cname = cname
@@ -5036,9 +4888,9 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 }
 
 /// The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5054,8 +4906,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5073,8 +4924,7 @@ public struct UpdateTagsForResourceInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         tagsToAdd: [ElasticBeanstalkClientTypes.Tag]? = nil,
         tagsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagsToAdd = tagsToAdd
         self.tagsToRemove = tagsToRemove
@@ -5099,8 +4949,7 @@ public struct ValidateConfigurationSettingsInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         optionSettings: [ElasticBeanstalkClientTypes.ConfigurationOptionSetting]? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationName = applicationName
         self.environmentName = environmentName
         self.optionSettings = optionSettings
@@ -5159,8 +5008,7 @@ extension ElasticBeanstalkClientTypes {
             namespace: Swift.String? = nil,
             optionName: Swift.String? = nil,
             severity: ElasticBeanstalkClientTypes.ValidationSeverity? = nil
-        )
-        {
+        ) {
             self.message = message
             self.namespace = namespace
             self.optionName = optionName
@@ -5176,8 +5024,7 @@ public struct ValidateConfigurationSettingsOutput: Swift.Sendable {
 
     public init(
         messages: [ElasticBeanstalkClientTypes.ValidationMessage]? = nil
-    )
-    {
+    ) {
         self.messages = messages
     }
 }

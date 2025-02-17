@@ -50,9 +50,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// Operating denied due to a file permission or access check error.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -69,8 +69,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -214,8 +213,7 @@ extension MgnClientTypes {
             lastUpdateDateTime: Swift.String? = nil,
             progressStatus: MgnClientTypes.ApplicationProgressStatus? = nil,
             totalSourceServers: Swift.Int = 0
-        )
-        {
+        ) {
             self.healthStatus = healthStatus
             self.lastUpdateDateTime = lastUpdateDateTime
             self.progressStatus = progressStatus
@@ -259,8 +257,7 @@ extension MgnClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             waveID: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationAggregatedStatus = applicationAggregatedStatus
             self.applicationID = applicationID
             self.arn = arn
@@ -298,8 +295,7 @@ extension MgnClientTypes {
             message: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.resourceId = resourceId
@@ -309,9 +305,9 @@ extension MgnClientTypes {
 }
 
 /// The request could not be completed due to a conflict with the current state of the target resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// Conflict Exception specific errors.
         public internal(set) var errors: [MgnClientTypes.ErrorDetails]? = nil
@@ -337,8 +333,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.errors = errors
         self.properties.message = message
@@ -348,9 +343,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Resource not found exception.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         /// Resource ID not found error.
@@ -373,8 +368,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -383,9 +377,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request could not be completed because its exceeded the service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
         /// Exceeded the service quota code.
@@ -417,8 +411,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
         self.properties.quotaCode = quotaCode
@@ -430,9 +423,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Uninitialized account exception.
-public struct UninitializedAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UninitializedAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -449,8 +442,7 @@ public struct UninitializedAccountException: ClientRuntime.ModeledError, AWSClie
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -466,8 +458,7 @@ public struct ArchiveApplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationID = applicationID
     }
@@ -506,8 +497,7 @@ public struct ArchiveApplicationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationAggregatedStatus = applicationAggregatedStatus
         self.applicationID = applicationID
         self.arn = arn
@@ -540,8 +530,7 @@ public struct AssociateSourceServersInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationID = applicationID
         self.sourceServerIDs = sourceServerIDs
@@ -569,8 +558,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.description = description
         self.name = name
@@ -616,8 +604,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationAggregatedStatus = applicationAggregatedStatus
         self.applicationID = applicationID
         self.arn = arn
@@ -646,8 +633,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationID = applicationID
     }
@@ -672,8 +658,7 @@ public struct DisassociateSourceServersInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationID = applicationID
         self.sourceServerIDs = sourceServerIDs
@@ -700,8 +685,7 @@ extension MgnClientTypes {
             applicationIDs: [Swift.String]? = nil,
             isArchived: Swift.Bool? = nil,
             waveIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationIDs = applicationIDs
             self.isArchived = isArchived
             self.waveIDs = waveIDs
@@ -724,8 +708,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         filters: MgnClientTypes.ListApplicationsRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
@@ -742,8 +725,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.Application]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -759,8 +741,7 @@ public struct UnarchiveApplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         applicationID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationID = applicationID
     }
@@ -799,8 +780,7 @@ public struct UnarchiveApplicationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationAggregatedStatus = applicationAggregatedStatus
         self.applicationID = applicationID
         self.arn = arn
@@ -835,8 +815,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         applicationID: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationID = applicationID
         self.description = description
@@ -877,8 +856,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationAggregatedStatus = applicationAggregatedStatus
         self.applicationID = applicationID
         self.arn = arn
@@ -909,8 +887,7 @@ extension MgnClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -953,9 +930,9 @@ extension MgnClientTypes {
 }
 
 /// Validate exception.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// Validate exception field list.
         public internal(set) var fieldList: [MgnClientTypes.ValidationExceptionField]? = nil
@@ -978,8 +955,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [MgnClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: MgnClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.fieldList = fieldList
         self.properties.message = message
@@ -1007,8 +983,7 @@ extension MgnClientTypes {
             cloudWatchOutputEnabled: Swift.Bool? = nil,
             outputS3BucketName: Swift.String? = nil,
             s3OutputEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.cloudWatchOutputEnabled = cloudWatchOutputEnabled
             self.outputS3BucketName = outputS3BucketName
@@ -1034,8 +1009,7 @@ public struct CreateConnectorInput: Swift.Sendable {
         ssmCommandConfig: MgnClientTypes.ConnectorSsmCommandConfig? = nil,
         ssmInstanceID: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.ssmCommandConfig = ssmCommandConfig
         self.ssmInstanceID = ssmInstanceID
@@ -1069,8 +1043,7 @@ public struct CreateConnectorOutput: Swift.Sendable {
         ssmCommandConfig: MgnClientTypes.ConnectorSsmCommandConfig? = nil,
         ssmInstanceID: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.connectorID = connectorID
         self.name = name
@@ -1092,8 +1065,7 @@ public struct DeleteConnectorInput: Swift.Sendable {
 
     public init(
         connectorID: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorID = connectorID
     }
 }
@@ -1107,8 +1079,7 @@ extension MgnClientTypes {
 
         public init(
             connectorIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectorIDs = connectorIDs
         }
     }
@@ -1126,8 +1097,7 @@ public struct ListConnectorsInput: Swift.Sendable {
         filters: MgnClientTypes.ListConnectorsRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1157,8 +1127,7 @@ extension MgnClientTypes {
             ssmCommandConfig: MgnClientTypes.ConnectorSsmCommandConfig? = nil,
             ssmInstanceID: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectorID = connectorID
             self.name = name
@@ -1183,8 +1152,7 @@ public struct ListConnectorsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.Connector]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1203,8 +1171,7 @@ public struct UpdateConnectorInput: Swift.Sendable {
         connectorID: Swift.String? = nil,
         name: Swift.String? = nil,
         ssmCommandConfig: MgnClientTypes.ConnectorSsmCommandConfig? = nil
-    )
-    {
+    ) {
         self.connectorID = connectorID
         self.name = name
         self.ssmCommandConfig = ssmCommandConfig
@@ -1232,8 +1199,7 @@ public struct UpdateConnectorOutput: Swift.Sendable {
         ssmCommandConfig: MgnClientTypes.ConnectorSsmCommandConfig? = nil,
         ssmInstanceID: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.connectorID = connectorID
         self.name = name
@@ -1262,8 +1228,7 @@ public struct ListExportErrorsInput: Swift.Sendable {
         exportID: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportID = exportID
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1279,8 +1244,7 @@ extension MgnClientTypes {
 
         public init(
             rawError: Swift.String? = nil
-        )
-        {
+        ) {
             self.rawError = rawError
         }
     }
@@ -1298,8 +1262,7 @@ extension MgnClientTypes {
         public init(
             errorData: MgnClientTypes.ExportErrorData? = nil,
             errorDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorData = errorData
             self.errorDateTime = errorDateTime
         }
@@ -1316,8 +1279,7 @@ public struct ListExportErrorsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.ExportTaskError]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1332,8 +1294,7 @@ extension MgnClientTypes {
 
         public init(
             exportIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.exportIDs = exportIDs
         }
     }
@@ -1352,8 +1313,7 @@ public struct ListExportsInput: Swift.Sendable {
         filters: MgnClientTypes.ListExportsRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1410,8 +1370,7 @@ extension MgnClientTypes {
             applicationsCount: Swift.Int = 0,
             serversCount: Swift.Int = 0,
             wavesCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.applicationsCount = applicationsCount
             self.serversCount = serversCount
             self.wavesCount = wavesCount
@@ -1452,8 +1411,7 @@ extension MgnClientTypes {
             s3Key: Swift.String? = nil,
             status: MgnClientTypes.ExportStatus? = nil,
             summary: MgnClientTypes.ExportTaskSummary? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.exportID = exportID
@@ -1477,8 +1435,7 @@ public struct ListExportsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.ExportTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1499,8 +1456,7 @@ public struct StartExportInput: Swift.Sendable {
         s3Bucket: Swift.String? = nil,
         s3BucketOwner: Swift.String? = nil,
         s3Key: Swift.String? = nil
-    )
-    {
+    ) {
         self.s3Bucket = s3Bucket
         self.s3BucketOwner = s3BucketOwner
         self.s3Key = s3Key
@@ -1514,8 +1470,7 @@ public struct StartExportOutput: Swift.Sendable {
 
     public init(
         exportTask: MgnClientTypes.ExportTask? = nil
-    )
-    {
+    ) {
         self.exportTask = exportTask
     }
 }
@@ -1534,8 +1489,7 @@ public struct ListImportErrorsInput: Swift.Sendable {
         importID: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importID = importID
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1569,8 +1523,7 @@ extension MgnClientTypes {
             rowNumber: Swift.Int = 0,
             sourceServerID: Swift.String? = nil,
             waveID: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountID = accountID
             self.applicationID = applicationID
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
@@ -1626,8 +1579,7 @@ extension MgnClientTypes {
             errorData: MgnClientTypes.ImportErrorData? = nil,
             errorDateTime: Swift.String? = nil,
             errorType: MgnClientTypes.ImportErrorType? = nil
-        )
-        {
+        ) {
             self.errorData = errorData
             self.errorDateTime = errorDateTime
             self.errorType = errorType
@@ -1645,8 +1597,7 @@ public struct ListImportErrorsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.ImportTaskError]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1661,8 +1612,7 @@ extension MgnClientTypes {
 
         public init(
             importIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.importIDs = importIDs
         }
     }
@@ -1681,8 +1631,7 @@ public struct ListImportsInput: Swift.Sendable {
         filters: MgnClientTypes.ListImportsRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1706,8 +1655,7 @@ extension MgnClientTypes {
             s3Bucket: Swift.String? = nil,
             s3BucketOwner: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
             self.s3Key = s3Key
@@ -1762,8 +1710,7 @@ extension MgnClientTypes {
         public init(
             createdCount: Swift.Int = 0,
             modifiedCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.createdCount = createdCount
             self.modifiedCount = modifiedCount
         }
@@ -1782,8 +1729,7 @@ extension MgnClientTypes {
         public init(
             createdCount: Swift.Int = 0,
             modifiedCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.createdCount = createdCount
             self.modifiedCount = modifiedCount
         }
@@ -1802,8 +1748,7 @@ extension MgnClientTypes {
         public init(
             createdCount: Swift.Int = 0,
             modifiedCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.createdCount = createdCount
             self.modifiedCount = modifiedCount
         }
@@ -1825,8 +1770,7 @@ extension MgnClientTypes {
             applications: MgnClientTypes.ImportTaskSummaryApplications? = nil,
             servers: MgnClientTypes.ImportTaskSummaryServers? = nil,
             waves: MgnClientTypes.ImportTaskSummaryWaves? = nil
-        )
-        {
+        ) {
             self.applications = applications
             self.servers = servers
             self.waves = waves
@@ -1861,8 +1805,7 @@ extension MgnClientTypes {
             s3BucketSource: MgnClientTypes.S3BucketSource? = nil,
             status: MgnClientTypes.ImportStatus? = nil,
             summary: MgnClientTypes.ImportTaskSummary? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.importID = importID
@@ -1884,8 +1827,7 @@ public struct ListImportsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.ImportTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1902,8 +1844,7 @@ public struct StartImportInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         s3BucketSource: MgnClientTypes.S3BucketSource? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.s3BucketSource = s3BucketSource
     }
@@ -1916,8 +1857,7 @@ public struct StartImportOutput: Swift.Sendable {
 
     public init(
         importTask: MgnClientTypes.ImportTask? = nil
-    )
-    {
+    ) {
         self.importTask = importTask
     }
 }
@@ -1942,8 +1882,7 @@ public struct DeleteJobInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         jobID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.jobID = jobID
     }
@@ -1970,8 +1909,7 @@ public struct DescribeJobLogItemsInput: Swift.Sendable {
         jobID: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.jobID = jobID
         self.maxResults = maxResults
@@ -2068,8 +2006,7 @@ extension MgnClientTypes {
             rawError: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             targetInstanceID: Swift.String? = nil
-        )
-        {
+        ) {
             self.conversionServerID = conversionServerID
             self.rawError = rawError
             self.sourceServerID = sourceServerID
@@ -2093,8 +2030,7 @@ extension MgnClientTypes {
             event: MgnClientTypes.JobLogEvent? = nil,
             eventData: MgnClientTypes.JobLogEventData? = nil,
             logDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.event = event
             self.eventData = eventData
             self.logDateTime = logDateTime
@@ -2111,8 +2047,7 @@ public struct DescribeJobLogItemsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.JobLog]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2133,8 +2068,7 @@ extension MgnClientTypes {
             fromDate: Swift.String? = nil,
             jobIDs: [Swift.String]? = nil,
             toDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.fromDate = fromDate
             self.jobIDs = jobIDs
             self.toDate = toDate
@@ -2157,8 +2091,7 @@ public struct DescribeJobsInput: Swift.Sendable {
         filters: MgnClientTypes.DescribeJobsRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
@@ -2321,8 +2254,7 @@ extension MgnClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterType: MgnClientTypes.SsmParameterStoreParameterType? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterType = parameterType
         }
@@ -2355,8 +2287,7 @@ extension MgnClientTypes {
             parameters: [Swift.String: [MgnClientTypes.SsmParameterStoreParameter]]? = nil,
             ssmDocumentName: Swift.String? = nil,
             timeoutSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
@@ -2417,8 +2348,7 @@ extension MgnClientTypes {
             failureReason: Swift.String? = nil,
             ssmDocument: MgnClientTypes.SsmDocument? = nil,
             ssmDocumentType: MgnClientTypes.SsmDocumentType? = nil
-        )
-        {
+        ) {
             self.executionID = executionID
             self.executionStatus = executionStatus
             self.failureReason = failureReason
@@ -2440,8 +2370,7 @@ extension MgnClientTypes {
         public init(
             postLaunchActionsLaunchStatusList: [MgnClientTypes.JobPostLaunchActionsLaunchStatus]? = nil,
             ssmAgentDiscoveryDatetime: Swift.String? = nil
-        )
-        {
+        ) {
             self.postLaunchActionsLaunchStatusList = postLaunchActionsLaunchStatusList
             self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
         }
@@ -2467,8 +2396,7 @@ extension MgnClientTypes {
             launchedEc2InstanceID: Swift.String? = nil,
             postLaunchActionsStatus: MgnClientTypes.PostLaunchActionsStatus? = nil,
             sourceServerID: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchStatus = launchStatus
             self.launchedEc2InstanceID = launchedEc2InstanceID
             self.postLaunchActionsStatus = postLaunchActionsStatus
@@ -2572,8 +2500,7 @@ extension MgnClientTypes {
             status: MgnClientTypes.JobStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: MgnClientTypes.JobType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -2601,8 +2528,7 @@ public struct DescribeJobsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2699,8 +2625,7 @@ extension MgnClientTypes {
             iops: Swift.Int? = nil,
             throughput: Swift.Int? = nil,
             volumeType: MgnClientTypes.VolumeType? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.throughput = throughput
             self.volumeType = volumeType
@@ -2746,8 +2671,7 @@ extension MgnClientTypes {
 
         public init(
             osByol: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.osByol = osByol
         }
     }
@@ -2806,8 +2730,7 @@ extension MgnClientTypes {
             s3LogBucket: Swift.String? = nil,
             s3OutputKeyPrefix: Swift.String? = nil,
             ssmDocuments: [MgnClientTypes.SsmDocument]? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
             self.deployment = deployment
             self.s3LogBucket = s3LogBucket
@@ -2891,8 +2814,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         smallVolumeMaxSize: Swift.Int = 0,
         tags: [Swift.String: Swift.String]? = nil,
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.associatePublicIpAddress = associatePublicIpAddress
         self.bootMode = bootMode
         self.copyPrivateIp = copyPrivateIp
@@ -2970,8 +2892,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
         smallVolumeMaxSize: Swift.Int = 0,
         tags: [Swift.String: Swift.String]? = nil,
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associatePublicIpAddress = associatePublicIpAddress
         self.bootMode = bootMode
@@ -3004,8 +2925,7 @@ public struct DeleteLaunchConfigurationTemplateInput: Swift.Sendable {
 
     public init(
         launchConfigurationTemplateID: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
     }
 }
@@ -3027,8 +2947,7 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Sendable {
         launchConfigurationTemplateIDs: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchConfigurationTemplateIDs = launchConfigurationTemplateIDs
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3092,8 +3011,7 @@ extension MgnClientTypes {
             smallVolumeMaxSize: Swift.Int = 0,
             tags: [Swift.String: Swift.String]? = nil,
             targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associatePublicIpAddress = associatePublicIpAddress
             self.bootMode = bootMode
@@ -3129,8 +3047,7 @@ public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.LaunchConfigurationTemplate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3145,8 +3062,7 @@ extension MgnClientTypes {
 
         public init(
             actionIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionIDs = actionIDs
         }
     }
@@ -3168,8 +3084,7 @@ public struct ListTemplateActionsInput: Swift.Sendable {
         launchConfigurationTemplateID: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.maxResults = maxResults
@@ -3221,8 +3136,7 @@ extension MgnClientTypes {
             order: Swift.Int? = nil,
             parameters: [Swift.String: [MgnClientTypes.SsmParameterStoreParameter]]? = nil,
             timeoutSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
@@ -3249,8 +3163,7 @@ public struct ListTemplateActionsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.TemplateActionDocument]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3306,8 +3219,7 @@ public struct PutTemplateActionInput: Swift.Sendable {
         order: Swift.Int? = nil,
         parameters: [Swift.String: [MgnClientTypes.SsmParameterStoreParameter]]? = nil,
         timeoutSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
@@ -3367,8 +3279,7 @@ public struct PutTemplateActionOutput: Swift.Sendable {
         order: Swift.Int? = nil,
         parameters: [Swift.String: [MgnClientTypes.SsmParameterStoreParameter]]? = nil,
         timeoutSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
@@ -3396,8 +3307,7 @@ public struct RemoveTemplateActionInput: Swift.Sendable {
     public init(
         actionID: Swift.String? = nil,
         launchConfigurationTemplateID: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionID = actionID
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
     }
@@ -3454,8 +3364,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         smallVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         smallVolumeMaxSize: Swift.Int = 0,
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.associatePublicIpAddress = associatePublicIpAddress
         self.bootMode = bootMode
         self.copyPrivateIp = copyPrivateIp
@@ -3528,8 +3437,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
         smallVolumeMaxSize: Swift.Int = 0,
         tags: [Swift.String: Swift.String]? = nil,
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associatePublicIpAddress = associatePublicIpAddress
         self.bootMode = bootMode
@@ -3565,8 +3473,7 @@ public struct ListManagedAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3581,8 +3488,7 @@ extension MgnClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
@@ -3599,17 +3505,16 @@ public struct ListManagedAccountsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.ManagedAccount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
 }
 
 /// The server encountered an unexpected condition that prevented it from fulfilling the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The server encountered an unexpected condition that prevented it from fulfilling the request. The request will be retried again after x seconds.
@@ -3628,17 +3533,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// Reached throttling quota exception.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Reached throttling quota exception.
@@ -3663,8 +3567,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -3679,8 +3582,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3691,8 +3593,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3848,8 +3749,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
@@ -3924,8 +3824,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
@@ -3957,8 +3856,7 @@ public struct DeleteReplicationConfigurationTemplateInput: Swift.Sendable {
 
     public init(
         replicationConfigurationTemplateID: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
     }
 }
@@ -3980,8 +3878,7 @@ public struct DescribeReplicationConfigurationTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicationConfigurationTemplateIDs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDs
@@ -4042,8 +3939,7 @@ extension MgnClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             useDedicatedReplicationServer: Swift.Bool? = nil,
             useFipsEndpoint: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -4078,8 +3974,7 @@ public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.ReplicationConfigurationTemplate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4134,8 +4029,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
@@ -4211,8 +4105,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
@@ -4279,8 +4172,7 @@ extension MgnClientTypes {
 
         public init(
             state: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycleState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -4300,8 +4192,7 @@ public struct ChangeServerLifeCycleStateInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         lifeCycle: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.lifeCycle = lifeCycle
         self.sourceServerID = sourceServerID
@@ -4320,8 +4211,7 @@ extension MgnClientTypes {
         public init(
             connectorArn: Swift.String? = nil,
             credentialsSecretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectorArn = connectorArn
             self.credentialsSecretArn = credentialsSecretArn
         }
@@ -4411,8 +4301,7 @@ extension MgnClientTypes {
         public init(
             error: MgnClientTypes.DataReplicationErrorString? = nil,
             rawError: Swift.String? = nil
-        )
-        {
+        ) {
             self.error = error
             self.rawError = rawError
         }
@@ -4525,8 +4414,7 @@ extension MgnClientTypes {
         public init(
             name: MgnClientTypes.DataReplicationInitiationStepName? = nil,
             status: MgnClientTypes.DataReplicationInitiationStepStatus? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -4548,8 +4436,7 @@ extension MgnClientTypes {
             nextAttemptDateTime: Swift.String? = nil,
             startDateTime: Swift.String? = nil,
             steps: [MgnClientTypes.DataReplicationInitiationStep]? = nil
-        )
-        {
+        ) {
             self.nextAttemptDateTime = nextAttemptDateTime
             self.startDateTime = startDateTime
             self.steps = steps
@@ -4637,8 +4524,7 @@ extension MgnClientTypes {
             replicatedStorageBytes: Swift.Int = 0,
             rescannedStorageBytes: Swift.Int = 0,
             totalStorageBytes: Swift.Int = 0
-        )
-        {
+        ) {
             self.backloggedStorageBytes = backloggedStorageBytes
             self.deviceName = deviceName
             self.replicatedStorageBytes = replicatedStorageBytes
@@ -4675,8 +4561,7 @@ extension MgnClientTypes {
             lagDuration: Swift.String? = nil,
             lastSnapshotDateTime: Swift.String? = nil,
             replicatedDisks: [MgnClientTypes.DataReplicationInfoReplicatedDisk]? = nil
-        )
-        {
+        ) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
@@ -4738,8 +4623,7 @@ extension MgnClientTypes {
             ec2InstanceID: Swift.String? = nil,
             firstBoot: MgnClientTypes.FirstBoot? = nil,
             jobID: Swift.String? = nil
-        )
-        {
+        ) {
             self.ec2InstanceID = ec2InstanceID
             self.firstBoot = firstBoot
             self.jobID = jobID
@@ -4756,8 +4640,7 @@ extension MgnClientTypes {
 
         public init(
             apiCallDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
         }
     }
@@ -4775,8 +4658,7 @@ extension MgnClientTypes {
         public init(
             apiCallDateTime: Swift.String? = nil,
             jobID: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
         }
@@ -4792,8 +4674,7 @@ extension MgnClientTypes {
 
         public init(
             apiCallDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
         }
     }
@@ -4814,8 +4695,7 @@ extension MgnClientTypes {
             finalized: MgnClientTypes.LifeCycleLastCutoverFinalized? = nil,
             initiated: MgnClientTypes.LifeCycleLastCutoverInitiated? = nil,
             reverted: MgnClientTypes.LifeCycleLastCutoverReverted? = nil
-        )
-        {
+        ) {
             self.finalized = finalized
             self.initiated = initiated
             self.reverted = reverted
@@ -4832,8 +4712,7 @@ extension MgnClientTypes {
 
         public init(
             apiCallDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
         }
     }
@@ -4851,8 +4730,7 @@ extension MgnClientTypes {
         public init(
             apiCallDateTime: Swift.String? = nil,
             jobID: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
             self.jobID = jobID
         }
@@ -4868,8 +4746,7 @@ extension MgnClientTypes {
 
         public init(
             apiCallDateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiCallDateTime = apiCallDateTime
         }
     }
@@ -4890,8 +4767,7 @@ extension MgnClientTypes {
             finalized: MgnClientTypes.LifeCycleLastTestFinalized? = nil,
             initiated: MgnClientTypes.LifeCycleLastTestInitiated? = nil,
             reverted: MgnClientTypes.LifeCycleLastTestReverted? = nil
-        )
-        {
+        ) {
             self.finalized = finalized
             self.initiated = initiated
             self.reverted = reverted
@@ -4979,8 +4855,7 @@ extension MgnClientTypes {
             lastSeenByServiceDateTime: Swift.String? = nil,
             lastTest: MgnClientTypes.LifeCycleLastTest? = nil,
             state: MgnClientTypes.LifeCycleState? = nil
-        )
-        {
+        ) {
             self.addedToServiceDateTime = addedToServiceDateTime
             self.elapsedReplicationDuration = elapsedReplicationDuration
             self.firstByteDateTime = firstByteDateTime
@@ -5033,8 +4908,7 @@ extension MgnClientTypes {
         public init(
             cores: Swift.Int = 0,
             modelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cores = cores
             self.modelName = modelName
         }
@@ -5053,8 +4927,7 @@ extension MgnClientTypes {
         public init(
             bytes: Swift.Int = 0,
             deviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
             self.deviceName = deviceName
         }
@@ -5082,8 +4955,7 @@ extension MgnClientTypes {
             hostname: Swift.String? = nil,
             vmPath: Swift.String? = nil,
             vmWareUuid: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsInstanceID = awsInstanceID
             self.fqdn = fqdn
             self.hostname = hostname
@@ -5108,8 +4980,7 @@ extension MgnClientTypes {
             ips: [Swift.String]? = nil,
             isPrimary: Swift.Bool? = nil,
             macAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.ips = ips
             self.isPrimary = isPrimary
             self.macAddress = macAddress
@@ -5126,8 +4997,7 @@ extension MgnClientTypes {
 
         public init(
             fullString: Swift.String? = nil
-        )
-        {
+        ) {
             self.fullString = fullString
         }
     }
@@ -5163,8 +5033,7 @@ extension MgnClientTypes {
             os: MgnClientTypes.OS? = nil,
             ramBytes: Swift.Int = 0,
             recommendedInstanceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpus = cpus
             self.disks = disks
             self.identificationHints = identificationHints
@@ -5222,8 +5091,7 @@ public struct ChangeServerLifeCycleStateOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -5256,8 +5124,7 @@ public struct DeleteSourceServerInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -5289,8 +5156,7 @@ extension MgnClientTypes {
             lifeCycleStates: [MgnClientTypes.LifeCycleState]? = nil,
             replicationTypes: [MgnClientTypes.ReplicationType]? = nil,
             sourceServerIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.applicationIDs = applicationIDs
             self.isArchived = isArchived
             self.lifeCycleStates = lifeCycleStates
@@ -5315,8 +5181,7 @@ public struct DescribeSourceServersInput: Swift.Sendable {
         filters: MgnClientTypes.DescribeSourceServersRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
@@ -5371,8 +5236,7 @@ extension MgnClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             userProvidedID: Swift.String? = nil,
             vcenterClientID: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationID = applicationID
             self.arn = arn
             self.connectorAction = connectorAction
@@ -5405,8 +5269,7 @@ public struct DescribeSourceServersOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.SourceServer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5422,8 +5285,7 @@ public struct DisconnectFromServiceInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -5474,8 +5336,7 @@ public struct DisconnectFromServiceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -5508,8 +5369,7 @@ public struct FinalizeCutoverInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -5560,8 +5420,7 @@ public struct FinalizeCutoverOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -5594,8 +5453,7 @@ public struct GetLaunchConfigurationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -5640,8 +5498,7 @@ public struct GetLaunchConfigurationOutput: Swift.Sendable {
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.bootMode = bootMode
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
@@ -5667,8 +5524,7 @@ public struct GetReplicationConfigurationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -5742,8 +5598,7 @@ extension MgnClientTypes {
             isBootDisk: Swift.Bool? = nil,
             stagingDiskType: MgnClientTypes.ReplicationConfigurationReplicatedDiskStagingDiskType? = nil,
             throughput: Swift.Int = 0
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.iops = iops
             self.isBootDisk = isBootDisk
@@ -5804,8 +5659,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
@@ -5839,8 +5693,7 @@ extension MgnClientTypes {
 
         public init(
             actionIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionIDs = actionIDs
         }
     }
@@ -5865,8 +5718,7 @@ public struct ListSourceServerActionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
@@ -5916,8 +5768,7 @@ extension MgnClientTypes {
             order: Swift.Int? = nil,
             parameters: [Swift.String: [MgnClientTypes.SsmParameterStoreParameter]]? = nil,
             timeoutSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
@@ -5943,8 +5794,7 @@ public struct ListSourceServerActionsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.SourceServerActionDocument]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5960,8 +5810,7 @@ public struct MarkAsArchivedInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -6012,8 +5861,7 @@ public struct MarkAsArchivedOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -6046,8 +5894,7 @@ public struct PauseReplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -6098,8 +5945,7 @@ public struct PauseReplicationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -6172,8 +6018,7 @@ public struct PutSourceServerActionInput: Swift.Sendable {
         parameters: [Swift.String: [MgnClientTypes.SsmParameterStoreParameter]]? = nil,
         sourceServerID: Swift.String? = nil,
         timeoutSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.actionID = actionID
         self.actionName = actionName
@@ -6230,8 +6075,7 @@ public struct PutSourceServerActionOutput: Swift.Sendable {
         order: Swift.Int? = nil,
         parameters: [Swift.String: [MgnClientTypes.SsmParameterStoreParameter]]? = nil,
         timeoutSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
@@ -6261,8 +6105,7 @@ public struct RemoveSourceServerActionInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         actionID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.actionID = actionID
         self.sourceServerID = sourceServerID
@@ -6284,8 +6127,7 @@ public struct ResumeReplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -6336,8 +6178,7 @@ public struct ResumeReplicationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -6370,8 +6211,7 @@ public struct RetryDataReplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -6422,8 +6262,7 @@ public struct RetryDataReplicationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -6459,8 +6298,7 @@ public struct StartCutoverInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerIDs = sourceServerIDs
         self.tags = tags
@@ -6478,8 +6316,7 @@ public struct StartCutoverOutput: Swift.Sendable {
 
     public init(
         job: MgnClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -6494,8 +6331,7 @@ public struct StartReplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -6546,8 +6382,7 @@ public struct StartReplicationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -6583,8 +6418,7 @@ public struct StartTestInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerIDs = sourceServerIDs
         self.tags = tags
@@ -6602,8 +6436,7 @@ public struct StartTestOutput: Swift.Sendable {
 
     public init(
         job: MgnClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -6618,8 +6451,7 @@ public struct StopReplicationInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerID = sourceServerID
     }
@@ -6670,8 +6502,7 @@ public struct StopReplicationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -6707,8 +6538,7 @@ public struct TerminateTargetInstancesInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         sourceServerIDs: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.sourceServerIDs = sourceServerIDs
         self.tags = tags
@@ -6726,8 +6556,7 @@ public struct TerminateTargetInstancesOutput: Swift.Sendable {
 
     public init(
         job: MgnClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -6772,8 +6601,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Sendable {
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.bootMode = bootMode
         self.copyPrivateIp = copyPrivateIp
@@ -6828,8 +6656,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Sendable {
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: MgnClientTypes.TargetInstanceTypeRightSizingMethod? = nil
-    )
-    {
+    ) {
         self.bootMode = bootMode
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
@@ -6900,8 +6727,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
@@ -6978,8 +6804,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         stagingAreaTags: [Swift.String: Swift.String]? = nil,
         useDedicatedReplicationServer: Swift.Bool? = nil,
         useFipsEndpoint: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
@@ -7017,8 +6842,7 @@ public struct UpdateSourceServerInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         connectorAction: MgnClientTypes.SourceServerConnectorAction? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.connectorAction = connectorAction
         self.sourceServerID = sourceServerID
@@ -7070,8 +6894,7 @@ public struct UpdateSourceServerOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -7108,8 +6931,7 @@ public struct UpdateSourceServerReplicationTypeInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         replicationType: MgnClientTypes.ReplicationType? = nil,
         sourceServerID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.replicationType = replicationType
         self.sourceServerID = sourceServerID
@@ -7161,8 +6983,7 @@ public struct UpdateSourceServerReplicationTypeOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationID = applicationID
         self.arn = arn
         self.connectorAction = connectorAction
@@ -7196,8 +7017,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -7219,8 +7039,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -7238,8 +7057,7 @@ public struct DeleteVcenterClientInput: Swift.Sendable {
 
     public init(
         vcenterClientID: Swift.String? = nil
-    )
-    {
+    ) {
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -7253,8 +7071,7 @@ public struct DescribeVcenterClientsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7290,8 +7107,7 @@ extension MgnClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             vcenterClientID: Swift.String? = nil,
             vcenterUUID: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.datacenterName = datacenterName
             self.hostname = hostname
@@ -7318,8 +7134,7 @@ public struct DescribeVcenterClientsOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.VcenterClient]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7335,8 +7150,7 @@ public struct ArchiveWaveInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.waveID = waveID
     }
@@ -7427,8 +7241,7 @@ extension MgnClientTypes {
             progressStatus: MgnClientTypes.WaveProgressStatus? = nil,
             replicationStartedDateTime: Swift.String? = nil,
             totalApplications: Swift.Int = 0
-        )
-        {
+        ) {
             self.healthStatus = healthStatus
             self.lastUpdateDateTime = lastUpdateDateTime
             self.progressStatus = progressStatus
@@ -7468,8 +7281,7 @@ public struct ArchiveWaveOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         waveAggregatedStatus: MgnClientTypes.WaveAggregatedStatus? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.description = description
@@ -7501,8 +7313,7 @@ public struct AssociateApplicationsInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         applicationIDs: [Swift.String]? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationIDs = applicationIDs
         self.waveID = waveID
@@ -7530,8 +7341,7 @@ public struct CreateWaveInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.description = description
         self.name = name
@@ -7574,8 +7384,7 @@ public struct CreateWaveOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         waveAggregatedStatus: MgnClientTypes.WaveAggregatedStatus? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.description = description
@@ -7603,8 +7412,7 @@ public struct DeleteWaveInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.waveID = waveID
     }
@@ -7629,8 +7437,7 @@ public struct DisassociateApplicationsInput: Swift.Sendable {
         accountID: Swift.String? = nil,
         applicationIDs: [Swift.String]? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.applicationIDs = applicationIDs
         self.waveID = waveID
@@ -7654,8 +7461,7 @@ extension MgnClientTypes {
         public init(
             isArchived: Swift.Bool? = nil,
             waveIDs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.isArchived = isArchived
             self.waveIDs = waveIDs
         }
@@ -7677,8 +7483,7 @@ public struct ListWavesInput: Swift.Sendable {
         filters: MgnClientTypes.ListWavesRequestFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.filters = filters
         self.maxResults = maxResults
@@ -7718,8 +7523,7 @@ extension MgnClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             waveAggregatedStatus: MgnClientTypes.WaveAggregatedStatus? = nil,
             waveID: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.description = description
@@ -7747,8 +7551,7 @@ public struct ListWavesOutput: Swift.Sendable {
     public init(
         items: [MgnClientTypes.Wave]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -7764,8 +7567,7 @@ public struct UnarchiveWaveInput: Swift.Sendable {
     public init(
         accountID: Swift.String? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.waveID = waveID
     }
@@ -7801,8 +7603,7 @@ public struct UnarchiveWaveOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         waveAggregatedStatus: MgnClientTypes.WaveAggregatedStatus? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.description = description
@@ -7836,8 +7637,7 @@ public struct UpdateWaveInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountID = accountID
         self.description = description
         self.name = name
@@ -7875,8 +7675,7 @@ public struct UpdateWaveOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         waveAggregatedStatus: MgnClientTypes.WaveAggregatedStatus? = nil,
         waveID: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDateTime = creationDateTime
         self.description = description

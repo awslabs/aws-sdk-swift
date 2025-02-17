@@ -54,9 +54,9 @@ public struct DeleteSolNetworkPackageOutput: Swift.Sendable {
 }
 
 /// Insufficient permissions to make request.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -72,16 +72,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unexpected error occurred. Problem on the server.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -97,16 +96,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request references a resource that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -122,16 +120,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception caused by throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -147,16 +144,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unable to process the request because the client provided input failed to satisfy request constraints.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -172,8 +168,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -185,16 +180,15 @@ public struct CancelSolNetworkOperationInput: Swift.Sendable {
 
     public init(
         nsLcmOpOccId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nsLcmOpOccId = nsLcmOpOccId
     }
 }
 
 /// Service quotas have been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -210,8 +204,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -222,8 +215,7 @@ public struct CreateSolFunctionPackageInput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -349,8 +341,7 @@ public struct CreateSolFunctionPackageOutput: Swift.Sendable {
         operationalState: TnbClientTypes.OperationalState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         usageState: TnbClientTypes.UsageState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.onboardingState = onboardingState
@@ -382,8 +373,7 @@ public struct CreateSolNetworkInstanceInput: Swift.Sendable {
         nsName: Swift.String? = nil,
         nsdInfoId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nsDescription = nsDescription
         self.nsName = nsName
         self.nsdInfoId = nsdInfoId
@@ -418,8 +408,7 @@ public struct CreateSolNetworkInstanceOutput: Swift.Sendable {
         nsInstanceName: Swift.String? = nil,
         nsdInfoId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.nsInstanceName = nsInstanceName
@@ -439,8 +428,7 @@ public struct CreateSolNetworkPackageInput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -566,8 +554,7 @@ public struct CreateSolNetworkPackageOutput: Swift.Sendable {
         nsdOperationalState: TnbClientTypes.NsdOperationalState? = nil,
         nsdUsageState: TnbClientTypes.NsdUsageState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.nsdOnboardingState = nsdOnboardingState
@@ -589,8 +576,7 @@ public struct DeleteSolFunctionPackageInput: Swift.Sendable {
 
     public init(
         vnfPkgId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vnfPkgId = vnfPkgId
     }
 }
@@ -602,8 +588,7 @@ public struct DeleteSolNetworkInstanceInput: Swift.Sendable {
 
     public init(
         nsInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nsInstanceId = nsInstanceId
     }
 }
@@ -615,8 +600,7 @@ public struct DeleteSolNetworkPackageInput: Swift.Sendable {
 
     public init(
         nsdInfoId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nsdInfoId = nsdInfoId
     }
 }
@@ -659,8 +643,7 @@ extension TnbClientTypes {
         public init(
             cause: Swift.String? = nil,
             details: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.details = details
         }
@@ -679,8 +662,7 @@ extension TnbClientTypes {
         public init(
             defaultValue: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.name = name
         }
@@ -696,8 +678,7 @@ extension TnbClientTypes {
 
         public init(
             overrides: [TnbClientTypes.ToscaOverride]? = nil
-        )
-        {
+        ) {
             self.overrides = overrides
         }
     }
@@ -710,8 +691,7 @@ public struct GetSolFunctionInstanceInput: Swift.Sendable {
 
     public init(
         vnfInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vnfInstanceId = vnfInstanceId
     }
 }
@@ -731,8 +711,7 @@ extension TnbClientTypes {
             cluster: Swift.String? = nil,
             helmChart: Swift.String? = nil,
             nodeGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.cluster = cluster
             self.helmChart = helmChart
             self.nodeGroup = nodeGroup
@@ -749,8 +728,7 @@ extension TnbClientTypes {
 
         public init(
             metadata: TnbClientTypes.GetSolVnfcResourceInfoMetadata? = nil
-        )
-        {
+        ) {
             self.metadata = metadata
         }
     }
@@ -797,8 +775,7 @@ extension TnbClientTypes {
         public init(
             vnfState: TnbClientTypes.VnfOperationalState? = nil,
             vnfcResourceInfo: [TnbClientTypes.GetSolVnfcResourceInfo]? = nil
-        )
-        {
+        ) {
             self.vnfState = vnfState
             self.vnfcResourceInfo = vnfcResourceInfo
         }
@@ -848,8 +825,7 @@ extension TnbClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
         }
@@ -902,8 +878,7 @@ public struct GetSolFunctionInstanceOutput: Swift.Sendable {
         vnfProvider: Swift.String? = nil,
         vnfdId: Swift.String? = nil,
         vnfdVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.instantiatedVnfInfo = instantiatedVnfInfo
@@ -931,8 +906,7 @@ public struct GetSolFunctionPackageInput: Swift.Sendable {
 
     public init(
         vnfPkgId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vnfPkgId = vnfPkgId
     }
 }
@@ -954,8 +928,7 @@ extension TnbClientTypes {
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil,
             vnfd: TnbClientTypes.FunctionArtifactMeta? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
             self.vnfd = vnfd
@@ -1004,8 +977,7 @@ public struct GetSolFunctionPackageOutput: Swift.Sendable {
         vnfProvider: Swift.String? = nil,
         vnfdId: Swift.String? = nil,
         vnfdVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.metadata = metadata
@@ -1062,8 +1034,7 @@ public struct GetSolFunctionPackageContentInput: Swift.Sendable {
     public init(
         accept: TnbClientTypes.PackageContentType? = nil,
         vnfPkgId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.vnfPkgId = vnfPkgId
     }
@@ -1078,8 +1049,7 @@ public struct GetSolFunctionPackageContentOutput: Swift.Sendable {
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
         packageContent: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.packageContent = packageContent
     }
@@ -1096,8 +1066,7 @@ public struct GetSolFunctionPackageDescriptorInput: Swift.Sendable {
     public init(
         accept: TnbClientTypes.DescriptorContentType? = nil,
         vnfPkgId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.vnfPkgId = vnfPkgId
     }
@@ -1112,8 +1081,7 @@ public struct GetSolFunctionPackageDescriptorOutput: Swift.Sendable {
     public init(
         contentType: TnbClientTypes.DescriptorContentType? = nil,
         vnfd: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.vnfd = vnfd
     }
@@ -1128,8 +1096,7 @@ extension TnbClientTypes {
 
         public init(
             vnfState: TnbClientTypes.VnfOperationalState? = nil
-        )
-        {
+        ) {
             self.vnfState = vnfState
         }
     }
@@ -1142,8 +1109,7 @@ public struct GetSolNetworkInstanceInput: Swift.Sendable {
 
     public init(
         nsInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nsInstanceId = nsInstanceId
     }
 }
@@ -1158,8 +1124,7 @@ extension TnbClientTypes {
 
         public init(
             nsLcmOpOccId: Swift.String? = nil
-        )
-        {
+        ) {
             self.nsLcmOpOccId = nsLcmOpOccId
         }
     }
@@ -1179,8 +1144,7 @@ extension TnbClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
         }
@@ -1283,8 +1247,7 @@ public struct GetSolNetworkInstanceOutput: Swift.Sendable {
         nsdId: Swift.String? = nil,
         nsdInfoId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.lcmOpInfo = lcmOpInfo
@@ -1310,8 +1273,7 @@ public struct GetSolNetworkOperationInput: Swift.Sendable {
 
     public init(
         nsLcmOpOccId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nsLcmOpOccId = nsLcmOpOccId
     }
 }
@@ -1329,8 +1291,7 @@ extension TnbClientTypes {
         public init(
             detail: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.detail = detail
             self.title = title
         }
@@ -1382,8 +1343,7 @@ extension TnbClientTypes {
         public init(
             additionalParamsForNs: Smithy.Document? = nil,
             nsdInfoId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
         }
@@ -1404,8 +1364,7 @@ extension TnbClientTypes {
         public init(
             vnfConfigurableProperties: Smithy.Document? = nil,
             vnfInstanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vnfConfigurableProperties = vnfConfigurableProperties
             self.vnfInstanceId = vnfInstanceId
         }
@@ -1425,8 +1384,7 @@ extension TnbClientTypes {
         public init(
             additionalParamsForNs: Smithy.Document? = nil,
             nsdInfoId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
         }
@@ -1456,8 +1414,7 @@ extension TnbClientTypes {
             lastModified: Foundation.Date? = nil,
             modifyVnfInfoMetadata: TnbClientTypes.ModifyVnfInfoMetadata? = nil,
             updateNsMetadata: TnbClientTypes.UpdateNsMetadata? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.instantiateMetadata = instantiateMetadata
             self.lastModified = lastModified
@@ -1573,8 +1530,7 @@ extension TnbClientTypes {
             taskName: Swift.String? = nil,
             taskStartTime: Foundation.Date? = nil,
             taskStatus: TnbClientTypes.TaskStatus? = nil
-        )
-        {
+        ) {
             self.taskContext = taskContext
             self.taskEndTime = taskEndTime
             self.taskErrorDetails = taskErrorDetails
@@ -1648,8 +1604,7 @@ public struct GetSolNetworkOperationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tasks: [TnbClientTypes.GetSolNetworkOperationTaskDetails]? = nil,
         updateType: TnbClientTypes.UpdateSolNetworkType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.error = error
         self.id = id
@@ -1675,8 +1630,7 @@ public struct GetSolNetworkPackageInput: Swift.Sendable {
 
     public init(
         nsdInfoId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nsdInfoId = nsdInfoId
     }
 }
@@ -1690,8 +1644,7 @@ extension TnbClientTypes {
 
         public init(
             overrides: [TnbClientTypes.ToscaOverride]? = nil
-        )
-        {
+        ) {
             self.overrides = overrides
         }
     }
@@ -1714,8 +1667,7 @@ extension TnbClientTypes {
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil,
             nsd: TnbClientTypes.NetworkArtifactMeta? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
             self.nsd = nsd
@@ -1769,8 +1721,7 @@ public struct GetSolNetworkPackageOutput: Swift.Sendable {
         nsdVersion: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vnfPkgIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.metadata = metadata
@@ -1801,8 +1752,7 @@ public struct GetSolNetworkPackageContentInput: Swift.Sendable {
     public init(
         accept: TnbClientTypes.PackageContentType? = nil,
         nsdInfoId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.nsdInfoId = nsdInfoId
     }
@@ -1817,8 +1767,7 @@ public struct GetSolNetworkPackageContentOutput: Swift.Sendable {
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
         nsdContent: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.nsdContent = nsdContent
     }
@@ -1831,8 +1780,7 @@ public struct GetSolNetworkPackageDescriptorInput: Swift.Sendable {
 
     public init(
         nsdInfoId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nsdInfoId = nsdInfoId
     }
 }
@@ -1846,8 +1794,7 @@ public struct GetSolNetworkPackageDescriptorOutput: Swift.Sendable {
     public init(
         contentType: TnbClientTypes.DescriptorContentType? = nil,
         nsd: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.nsd = nsd
     }
@@ -1869,8 +1816,7 @@ public struct InstantiateSolNetworkInstanceInput: Swift.Sendable {
         dryRun: Swift.Bool? = nil,
         nsInstanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.additionalParamsForNs = additionalParamsForNs
         self.dryRun = dryRun
         self.nsInstanceId = nsInstanceId
@@ -1893,8 +1839,7 @@ public struct InstantiateSolNetworkInstanceOutput: Swift.Sendable {
     public init(
         nsLcmOpOccId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nsLcmOpOccId = nsLcmOpOccId
         self.tags = tags
     }
@@ -1919,8 +1864,7 @@ extension TnbClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
         }
@@ -1963,8 +1907,7 @@ extension TnbClientTypes {
             nsInstanceId: Swift.String? = nil,
             vnfPkgId: Swift.String? = nil,
             vnfPkgName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.instantiatedVnfInfo = instantiatedVnfInfo
@@ -1986,8 +1929,7 @@ public struct ListSolFunctionInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2002,8 +1944,7 @@ public struct ListSolFunctionInstancesOutput: Swift.Sendable {
     public init(
         functionInstances: [TnbClientTypes.ListSolFunctionInstanceInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionInstances = functionInstances
         self.nextToken = nextToken
     }
@@ -2023,8 +1964,7 @@ extension TnbClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
         }
@@ -2072,8 +2012,7 @@ extension TnbClientTypes {
             vnfProvider: Swift.String? = nil,
             vnfdId: Swift.String? = nil,
             vnfdVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.metadata = metadata
@@ -2097,8 +2036,7 @@ public struct ListSolFunctionPackagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2114,8 +2052,7 @@ public struct ListSolFunctionPackagesOutput: Swift.Sendable {
     public init(
         functionPackages: [TnbClientTypes.ListSolFunctionPackageInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionPackages = functionPackages
         self.nextToken = nextToken
     }
@@ -2135,8 +2072,7 @@ extension TnbClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
         }
@@ -2181,8 +2117,7 @@ extension TnbClientTypes {
             nsState: TnbClientTypes.NsState? = nil,
             nsdId: Swift.String? = nil,
             nsdInfoId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.metadata = metadata
@@ -2204,8 +2139,7 @@ public struct ListSolNetworkInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2220,8 +2154,7 @@ public struct ListSolNetworkInstancesOutput: Swift.Sendable {
     public init(
         networkInstances: [TnbClientTypes.ListSolNetworkInstanceInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkInstances = networkInstances
         self.nextToken = nextToken
     }
@@ -2239,8 +2172,7 @@ public struct ListSolNetworkOperationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         nsInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.nsInstanceId = nsInstanceId
@@ -2267,8 +2199,7 @@ extension TnbClientTypes {
             lastModified: Foundation.Date? = nil,
             nsdInfoId: Swift.String? = nil,
             vnfInstanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
             self.nsdInfoId = nsdInfoId
@@ -2312,8 +2243,7 @@ extension TnbClientTypes {
             nsInstanceId: Swift.String? = nil,
             operationState: TnbClientTypes.NsLcmOperationState? = nil,
             updateType: TnbClientTypes.UpdateSolNetworkType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.error = error
             self.id = id
@@ -2335,8 +2265,7 @@ public struct ListSolNetworkOperationsOutput: Swift.Sendable {
     public init(
         networkOperations: [TnbClientTypes.ListSolNetworkOperationsInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkOperations = networkOperations
         self.nextToken = nextToken
     }
@@ -2356,8 +2285,7 @@ extension TnbClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             lastModified: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModified = lastModified
         }
@@ -2412,8 +2340,7 @@ extension TnbClientTypes {
             nsdUsageState: TnbClientTypes.NsdUsageState? = nil,
             nsdVersion: Swift.String? = nil,
             vnfPkgIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.metadata = metadata
@@ -2439,8 +2366,7 @@ public struct ListSolNetworkPackagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2456,8 +2382,7 @@ public struct ListSolNetworkPackagesOutput: Swift.Sendable {
     public init(
         networkPackages: [TnbClientTypes.ListSolNetworkPackageInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkPackages = networkPackages
         self.nextToken = nextToken
     }
@@ -2470,8 +2395,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2483,8 +2407,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2508,8 +2431,7 @@ public struct PutSolFunctionPackageContentInput: Swift.Sendable {
         contentType: TnbClientTypes.PackageContentType? = nil,
         file: Foundation.Data? = nil,
         vnfPkgId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.file = file
         self.vnfPkgId = vnfPkgId
@@ -2530,8 +2452,7 @@ extension TnbClientTypes {
 
         public init(
             vnfd: TnbClientTypes.FunctionArtifactMeta? = nil
-        )
-        {
+        ) {
             self.vnfd = vnfd
         }
     }
@@ -2564,8 +2485,7 @@ public struct PutSolFunctionPackageContentOutput: Swift.Sendable {
         vnfProvider: Swift.String? = nil,
         vnfdId: Swift.String? = nil,
         vnfdVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.metadata = metadata
         self.vnfProductName = vnfProductName
@@ -2589,8 +2509,7 @@ public struct PutSolNetworkPackageContentInput: Swift.Sendable {
         contentType: TnbClientTypes.PackageContentType? = nil,
         file: Foundation.Data? = nil,
         nsdInfoId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.file = file
         self.nsdInfoId = nsdInfoId
@@ -2611,8 +2530,7 @@ extension TnbClientTypes {
 
         public init(
             nsd: TnbClientTypes.NetworkArtifactMeta? = nil
-        )
-        {
+        ) {
             self.nsd = nsd
         }
     }
@@ -2649,8 +2567,7 @@ public struct PutSolNetworkPackageContentOutput: Swift.Sendable {
         nsdName: Swift.String? = nil,
         nsdVersion: Swift.String? = nil,
         vnfPkgIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.metadata = metadata
@@ -2672,8 +2589,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2699,8 +2615,7 @@ public struct TerminateSolNetworkInstanceInput: Swift.Sendable {
     public init(
         nsInstanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nsInstanceId = nsInstanceId
         self.tags = tags
     }
@@ -2720,8 +2635,7 @@ public struct TerminateSolNetworkInstanceOutput: Swift.Sendable {
     public init(
         nsLcmOpOccId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nsLcmOpOccId = nsLcmOpOccId
         self.tags = tags
     }
@@ -2743,8 +2657,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2766,8 +2679,7 @@ public struct UpdateSolFunctionPackageInput: Swift.Sendable {
     public init(
         operationalState: TnbClientTypes.OperationalState? = nil,
         vnfPkgId: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationalState = operationalState
         self.vnfPkgId = vnfPkgId
     }
@@ -2780,8 +2692,7 @@ public struct UpdateSolFunctionPackageOutput: Swift.Sendable {
 
     public init(
         operationalState: TnbClientTypes.OperationalState? = nil
-    )
-    {
+    ) {
         self.operationalState = operationalState
     }
 }
@@ -2800,8 +2711,7 @@ extension TnbClientTypes {
         public init(
             vnfConfigurableProperties: Smithy.Document? = nil,
             vnfInstanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vnfConfigurableProperties = vnfConfigurableProperties
             self.vnfInstanceId = vnfInstanceId
         }
@@ -2821,8 +2731,7 @@ extension TnbClientTypes {
         public init(
             additionalParamsForNs: Smithy.Document? = nil,
             nsdInfoId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
         }
@@ -2853,8 +2762,7 @@ public struct UpdateSolNetworkInstanceInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         updateNs: TnbClientTypes.UpdateSolNetworkServiceData? = nil,
         updateType: TnbClientTypes.UpdateSolNetworkType? = nil
-    )
-    {
+    ) {
         self.modifyVnfInfoData = modifyVnfInfoData
         self.nsInstanceId = nsInstanceId
         self.tags = tags
@@ -2877,8 +2785,7 @@ public struct UpdateSolNetworkInstanceOutput: Swift.Sendable {
     public init(
         nsLcmOpOccId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nsLcmOpOccId = nsLcmOpOccId
         self.tags = tags
     }
@@ -2900,8 +2807,7 @@ public struct UpdateSolNetworkPackageInput: Swift.Sendable {
     public init(
         nsdInfoId: Swift.String? = nil,
         nsdOperationalState: TnbClientTypes.NsdOperationalState? = nil
-    )
-    {
+    ) {
         self.nsdInfoId = nsdInfoId
         self.nsdOperationalState = nsdOperationalState
     }
@@ -2914,8 +2820,7 @@ public struct UpdateSolNetworkPackageOutput: Swift.Sendable {
 
     public init(
         nsdOperationalState: TnbClientTypes.NsdOperationalState? = nil
-    )
-    {
+    ) {
         self.nsdOperationalState = nsdOperationalState
     }
 }
@@ -2934,8 +2839,7 @@ public struct ValidateSolFunctionPackageContentInput: Swift.Sendable {
         contentType: TnbClientTypes.PackageContentType? = nil,
         file: Foundation.Data? = nil,
         vnfPkgId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.file = file
         self.vnfPkgId = vnfPkgId
@@ -2956,8 +2860,7 @@ extension TnbClientTypes {
 
         public init(
             vnfd: TnbClientTypes.FunctionArtifactMeta? = nil
-        )
-        {
+        ) {
             self.vnfd = vnfd
         }
     }
@@ -2990,8 +2893,7 @@ public struct ValidateSolFunctionPackageContentOutput: Swift.Sendable {
         vnfProvider: Swift.String? = nil,
         vnfdId: Swift.String? = nil,
         vnfdVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.metadata = metadata
         self.vnfProductName = vnfProductName
@@ -3015,8 +2917,7 @@ public struct ValidateSolNetworkPackageContentInput: Swift.Sendable {
         contentType: TnbClientTypes.PackageContentType? = nil,
         file: Foundation.Data? = nil,
         nsdInfoId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.file = file
         self.nsdInfoId = nsdInfoId
@@ -3037,8 +2938,7 @@ extension TnbClientTypes {
 
         public init(
             nsd: TnbClientTypes.NetworkArtifactMeta? = nil
-        )
-        {
+        ) {
             self.nsd = nsd
         }
     }
@@ -3075,8 +2975,7 @@ public struct ValidateSolNetworkPackageContentOutput: Swift.Sendable {
         nsdName: Swift.String? = nil,
         nsdVersion: Swift.String? = nil,
         vnfPkgIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.metadata = metadata

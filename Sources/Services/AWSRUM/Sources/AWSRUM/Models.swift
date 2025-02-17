@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You don't have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -132,8 +131,7 @@ extension RUMClientTypes {
             includedPages: [Swift.String]? = nil,
             sessionSampleRate: Swift.Double = 0.0,
             telemetries: [RUMClientTypes.Telemetry]? = nil
-        )
-        {
+        ) {
             self.allowCookies = allowCookies
             self.enableXRay = enableXRay
             self.excludedPages = excludedPages
@@ -185,8 +183,7 @@ extension RUMClientTypes {
 
         public init(
             status: RUMClientTypes.CustomEventsStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -204,8 +201,7 @@ extension RUMClientTypes {
         public init(
             cwLogEnabled: Swift.Bool? = nil,
             cwLogGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.cwLogEnabled = cwLogEnabled
             self.cwLogGroup = cwLogGroup
         }
@@ -221,8 +217,7 @@ extension RUMClientTypes {
 
         public init(
             cwLog: RUMClientTypes.CwLog? = nil
-        )
-        {
+        ) {
             self.cwLog = cwLog
         }
     }
@@ -296,8 +291,7 @@ extension RUMClientTypes {
             name: Swift.String? = nil,
             state: RUMClientTypes.StateEnum? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.created = created
             self.customEvents = customEvents
@@ -327,8 +321,7 @@ extension RUMClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.version = version
@@ -337,9 +330,9 @@ extension RUMClientTypes {
 }
 
 /// This operation attempted to create a resource that already exists.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource that is associated with the error.
@@ -362,8 +355,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -371,9 +363,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Internal service exception.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The value of a parameter in the request caused an error.
@@ -392,17 +384,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// Resource not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource that is associated with the error.
@@ -425,8 +416,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -434,9 +424,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This request exceeds a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -452,16 +442,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was throttled because of quota limits.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
@@ -486,8 +475,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -496,9 +484,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// One of the arguments for the request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -514,8 +502,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -707,8 +694,7 @@ extension RUMClientTypes {
             namespace: Swift.String? = nil,
             unitLabel: Swift.String? = nil,
             valueKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionKeys = dimensionKeys
             self.eventPattern = eventPattern
             self.name = name
@@ -737,8 +723,7 @@ public struct BatchCreateRumMetricDefinitionsInput: Swift.Sendable {
         destination: RUMClientTypes.MetricDestination? = nil,
         destinationArn: Swift.String? = nil,
         metricDefinitions: [RUMClientTypes.MetricDefinitionRequest]? = nil
-    )
-    {
+    ) {
         self.appMonitorName = appMonitorName
         self.destination = destination
         self.destinationArn = destinationArn
@@ -764,8 +749,7 @@ extension RUMClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             metricDefinition: RUMClientTypes.MetricDefinitionRequest? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.metricDefinition = metricDefinition
@@ -802,8 +786,7 @@ extension RUMClientTypes {
             namespace: Swift.String? = nil,
             unitLabel: Swift.String? = nil,
             valueKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionKeys = dimensionKeys
             self.eventPattern = eventPattern
             self.metricDefinitionId = metricDefinitionId
@@ -825,8 +808,7 @@ public struct BatchCreateRumMetricDefinitionsOutput: Swift.Sendable {
     public init(
         errors: [RUMClientTypes.BatchCreateRumMetricDefinitionsError]? = nil,
         metricDefinitions: [RUMClientTypes.MetricDefinition]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.metricDefinitions = metricDefinitions
     }
@@ -850,8 +832,7 @@ public struct BatchDeleteRumMetricDefinitionsInput: Swift.Sendable {
         destination: RUMClientTypes.MetricDestination? = nil,
         destinationArn: Swift.String? = nil,
         metricDefinitionIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.appMonitorName = appMonitorName
         self.destination = destination
         self.destinationArn = destinationArn
@@ -877,8 +858,7 @@ extension RUMClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             metricDefinitionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.metricDefinitionId = metricDefinitionId
@@ -896,8 +876,7 @@ public struct BatchDeleteRumMetricDefinitionsOutput: Swift.Sendable {
     public init(
         errors: [RUMClientTypes.BatchDeleteRumMetricDefinitionsError]? = nil,
         metricDefinitionIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.metricDefinitionIds = metricDefinitionIds
     }
@@ -923,8 +902,7 @@ public struct BatchGetRumMetricDefinitionsInput: Swift.Sendable {
         destinationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appMonitorName = appMonitorName
         self.destination = destination
         self.destinationArn = destinationArn
@@ -942,8 +920,7 @@ public struct BatchGetRumMetricDefinitionsOutput: Swift.Sendable {
     public init(
         metricDefinitions: [RUMClientTypes.MetricDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricDefinitions = metricDefinitions
         self.nextToken = nextToken
     }
@@ -972,8 +949,7 @@ public struct CreateAppMonitorInput: Swift.Sendable {
         domain: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.appMonitorConfiguration = appMonitorConfiguration
         self.customEvents = customEvents
         self.cwLogEnabled = cwLogEnabled
@@ -989,8 +965,7 @@ public struct CreateAppMonitorOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1002,8 +977,7 @@ public struct DeleteAppMonitorInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1027,8 +1001,7 @@ public struct DeleteRumMetricsDestinationInput: Swift.Sendable {
         appMonitorName: Swift.String? = nil,
         destination: RUMClientTypes.MetricDestination? = nil,
         destinationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appMonitorName = appMonitorName
         self.destination = destination
         self.destinationArn = destinationArn
@@ -1047,8 +1020,7 @@ public struct GetAppMonitorInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1059,8 +1031,7 @@ public struct GetAppMonitorOutput: Swift.Sendable {
 
     public init(
         appMonitor: RUMClientTypes.AppMonitor? = nil
-    )
-    {
+    ) {
         self.appMonitor = appMonitor
     }
 }
@@ -1077,8 +1048,7 @@ extension RUMClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1098,8 +1068,7 @@ extension RUMClientTypes {
         public init(
             after: Swift.Int = 0,
             before: Swift.Int = 0
-        )
-        {
+        ) {
             self.after = after
             self.before = before
         }
@@ -1126,8 +1095,7 @@ public struct GetAppMonitorDataInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         timeRange: RUMClientTypes.TimeRange? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.name = name
@@ -1145,8 +1113,7 @@ public struct GetAppMonitorDataOutput: Swift.Sendable {
     public init(
         events: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -1161,8 +1128,7 @@ public struct ListAppMonitorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1189,8 +1155,7 @@ extension RUMClientTypes {
             lastModified: Swift.String? = nil,
             name: Swift.String? = nil,
             state: RUMClientTypes.StateEnum? = nil
-        )
-        {
+        ) {
             self.created = created
             self.id = id
             self.lastModified = lastModified
@@ -1209,8 +1174,7 @@ public struct ListAppMonitorsOutput: Swift.Sendable {
     public init(
         appMonitorSummaries: [RUMClientTypes.AppMonitorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appMonitorSummaries = appMonitorSummaries
         self.nextToken = nextToken
     }
@@ -1229,8 +1193,7 @@ public struct ListRumMetricsDestinationsInput: Swift.Sendable {
         appMonitorName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appMonitorName = appMonitorName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1252,8 +1215,7 @@ extension RUMClientTypes {
             destination: RUMClientTypes.MetricDestination? = nil,
             destinationArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.destinationArn = destinationArn
             self.iamRoleArn = iamRoleArn
@@ -1270,8 +1232,7 @@ public struct ListRumMetricsDestinationsOutput: Swift.Sendable {
     public init(
         destinations: [RUMClientTypes.MetricDestinationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.nextToken = nextToken
     }
@@ -1294,8 +1255,7 @@ public struct PutRumMetricsDestinationInput: Swift.Sendable {
         destination: RUMClientTypes.MetricDestination? = nil,
         destinationArn: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appMonitorName = appMonitorName
         self.destination = destination
         self.destinationArn = destinationArn
@@ -1327,8 +1287,7 @@ public struct UpdateAppMonitorInput: Swift.Sendable {
         cwLogEnabled: Swift.Bool? = nil,
         domain: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appMonitorConfiguration = appMonitorConfiguration
         self.customEvents = customEvents
         self.cwLogEnabled = cwLogEnabled
@@ -1364,8 +1323,7 @@ public struct UpdateRumMetricDefinitionInput: Swift.Sendable {
         destinationArn: Swift.String? = nil,
         metricDefinition: RUMClientTypes.MetricDefinitionRequest? = nil,
         metricDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appMonitorName = appMonitorName
         self.destination = destination
         self.destinationArn = destinationArn
@@ -1386,8 +1344,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1403,8 +1360,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1435,8 +1391,7 @@ extension RUMClientTypes {
             metadata: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.id = id
             self.metadata = metadata
@@ -1458,8 +1413,7 @@ extension RUMClientTypes {
         public init(
             sessionId: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.sessionId = sessionId
             self.userId = userId
         }
@@ -1489,8 +1443,7 @@ public struct PutRumEventsInput: Swift.Sendable {
         id: Swift.String? = nil,
         rumEvents: [RUMClientTypes.RumEvent]? = nil,
         userDetails: RUMClientTypes.UserDetails? = nil
-    )
-    {
+    ) {
         self.appMonitorDetails = appMonitorDetails
         self.batchId = batchId
         self.id = id
@@ -1515,8 +1468,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1538,8 +1490,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

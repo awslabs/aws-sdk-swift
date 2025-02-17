@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The Amazon Web Services account doesn’t have access to this resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The container for the exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public init(
             transactionEventToAddress: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.transactionEventToAddress = transactionEventToAddress
         }
     }
@@ -122,8 +120,7 @@ extension ManagedBlockchainQueryClientTypes {
         public init(
             contractAddress: Swift.String? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil
-        )
-        {
+        ) {
             self.contractAddress = contractAddress
             self.network = network
         }
@@ -180,8 +177,7 @@ extension ManagedBlockchainQueryClientTypes {
             contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier? = nil,
             deployerAddress: Swift.String? = nil,
             tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard? = nil
-        )
-        {
+        ) {
             self.contractIdentifier = contractIdentifier
             self.deployerAddress = deployerAddress
             self.tokenStandard = tokenStandard
@@ -190,9 +186,9 @@ extension ManagedBlockchainQueryClientTypes {
 }
 
 /// The request processing has failed because of an internal error in the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The container for the exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -212,8 +208,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -246,9 +241,9 @@ extension ManagedBlockchainQueryClientTypes {
 }
 
 /// The resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The container for the exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -273,8 +268,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ManagedBlockchainQueryClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -282,9 +276,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The service quota has been exceeded for this resource.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The container for the exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -317,8 +311,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: ManagedBlockchainQueryClientTypes.ResourceType? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -328,9 +321,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The container for the exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -358,8 +351,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -381,8 +373,7 @@ extension ManagedBlockchainQueryClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -425,9 +416,9 @@ extension ManagedBlockchainQueryClientTypes {
 }
 
 /// The resource passed is invalid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The container for the fieldList of the exception.
         public internal(set) var fieldList: [ManagedBlockchainQueryClientTypes.ValidationExceptionField]? = nil
         /// The container for the exception message.
@@ -451,8 +442,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [ManagedBlockchainQueryClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: ManagedBlockchainQueryClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -468,8 +458,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public init(
             time: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.time = time
         }
     }
@@ -485,8 +474,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public init(
             address: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
         }
     }
@@ -508,8 +496,7 @@ extension ManagedBlockchainQueryClientTypes {
             contractAddress: Swift.String? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
             tokenId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contractAddress = contractAddress
             self.network = network
             self.tokenId = tokenId
@@ -534,8 +521,7 @@ extension ManagedBlockchainQueryClientTypes {
             atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
             ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier? = nil,
             tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier? = nil
-        )
-        {
+        ) {
             self.atBlockchainInstant = atBlockchainInstant
             self.ownerIdentifier = ownerIdentifier
             self.tokenIdentifier = tokenIdentifier
@@ -549,8 +535,7 @@ public struct BatchGetTokenBalanceInput: Swift.Sendable {
 
     public init(
         getTokenBalanceInputs: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem]? = nil
-    )
-    {
+    ) {
         self.getTokenBalanceInputs = getTokenBalanceInputs
     }
 }
@@ -613,8 +598,7 @@ extension ManagedBlockchainQueryClientTypes {
             errorType: ManagedBlockchainQueryClientTypes.ErrorType? = nil,
             ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier? = nil,
             tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier? = nil
-        )
-        {
+        ) {
             self.atBlockchainInstant = atBlockchainInstant
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -648,8 +632,7 @@ extension ManagedBlockchainQueryClientTypes {
             lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
             ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier? = nil,
             tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier? = nil
-        )
-        {
+        ) {
             self.atBlockchainInstant = atBlockchainInstant
             self.balance = balance
             self.lastUpdatedTime = lastUpdatedTime
@@ -670,8 +653,7 @@ public struct BatchGetTokenBalanceOutput: Swift.Sendable {
     public init(
         errors: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem]? = nil,
         tokenBalances: [ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.tokenBalances = tokenBalances
     }
@@ -716,8 +698,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public init(
             include: [ManagedBlockchainQueryClientTypes.ConfirmationStatus]? = nil
-        )
-        {
+        ) {
             self.include = include
         }
     }
@@ -741,8 +722,7 @@ extension ManagedBlockchainQueryClientTypes {
             deployerAddress: Swift.String? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
             tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard? = nil
-        )
-        {
+        ) {
             self.deployerAddress = deployerAddress
             self.network = network
             self.tokenStandard = tokenStandard
@@ -765,8 +745,7 @@ extension ManagedBlockchainQueryClientTypes {
             decimals: Swift.Int? = nil,
             name: Swift.String? = nil,
             symbol: Swift.String? = nil
-        )
-        {
+        ) {
             self.decimals = decimals
             self.name = name
             self.symbol = symbol
@@ -810,8 +789,7 @@ public struct GetAssetContractInput: Swift.Sendable {
 
     public init(
         contractIdentifier: ManagedBlockchainQueryClientTypes.ContractIdentifier? = nil
-    )
-    {
+    ) {
         self.contractIdentifier = contractIdentifier
     }
 }
@@ -834,8 +812,7 @@ public struct GetAssetContractOutput: Swift.Sendable {
         deployerAddress: Swift.String? = nil,
         metadata: ManagedBlockchainQueryClientTypes.ContractMetadata? = nil,
         tokenStandard: ManagedBlockchainQueryClientTypes.QueryTokenStandard? = nil
-    )
-    {
+    ) {
         self.contractIdentifier = contractIdentifier
         self.deployerAddress = deployerAddress
         self.metadata = metadata
@@ -857,8 +834,7 @@ public struct GetTokenBalanceInput: Swift.Sendable {
         atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
         ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier? = nil,
         tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier? = nil
-    )
-    {
+    ) {
         self.atBlockchainInstant = atBlockchainInstant
         self.ownerIdentifier = ownerIdentifier
         self.tokenIdentifier = tokenIdentifier
@@ -885,8 +861,7 @@ public struct GetTokenBalanceOutput: Swift.Sendable {
         lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
         ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier? = nil,
         tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier? = nil
-    )
-    {
+    ) {
         self.atBlockchainInstant = atBlockchainInstant
         self.balance = balance
         self.lastUpdatedTime = lastUpdatedTime
@@ -908,8 +883,7 @@ public struct GetTransactionInput: Swift.Sendable {
         network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
         transactionHash: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.network = network
         self.transactionHash = transactionHash
         self.transactionId = transactionId
@@ -992,8 +966,7 @@ extension ManagedBlockchainQueryClientTypes {
             transactionId: Swift.String? = nil,
             transactionIndex: Swift.Int? = nil,
             transactionTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.blockHash = blockHash
             self.blockNumber = blockNumber
             self.confirmationStatus = confirmationStatus
@@ -1025,8 +998,7 @@ public struct GetTransactionOutput: Swift.Sendable {
 
     public init(
         transaction: ManagedBlockchainQueryClientTypes.Transaction? = nil
-    )
-    {
+    ) {
         self.transaction = transaction
     }
 }
@@ -1044,8 +1016,7 @@ public struct ListAssetContractsInput: Swift.Sendable {
         contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contractFilter = contractFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1062,8 +1033,7 @@ public struct ListAssetContractsOutput: Swift.Sendable {
     public init(
         contracts: [ManagedBlockchainQueryClientTypes.AssetContract]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contracts = contracts
         self.nextToken = nextToken
     }
@@ -1139,8 +1109,7 @@ extension ManagedBlockchainQueryClientTypes {
         public init(
             sortBy: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSortBy? = nil,
             sortOrder: ManagedBlockchainQueryClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -1159,8 +1128,7 @@ extension ManagedBlockchainQueryClientTypes {
         public init(
             from: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
             to: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -1177,8 +1145,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public init(
             voutSpent: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.voutSpent = voutSpent
         }
     }
@@ -1213,8 +1180,7 @@ public struct ListFilteredTransactionEventsInput: Swift.Sendable {
         sort: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort? = nil,
         timeFilter: ManagedBlockchainQueryClientTypes.TimeFilter? = nil,
         voutFilter: ManagedBlockchainQueryClientTypes.VoutFilter? = nil
-    )
-    {
+    ) {
         self.addressIdentifierFilter = addressIdentifierFilter
         self.confirmationStatusFilter = confirmationStatusFilter
         self.maxResults = maxResults
@@ -1350,8 +1316,7 @@ extension ManagedBlockchainQueryClientTypes {
             value: Swift.String? = nil,
             voutIndex: Swift.Int? = nil,
             voutSpent: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.blockchainInstant = blockchainInstant
             self.confirmationStatus = confirmationStatus
             self.contractAddress = contractAddress
@@ -1382,8 +1347,7 @@ public struct ListFilteredTransactionEventsOutput: Swift.Sendable {
     public init(
         events: [ManagedBlockchainQueryClientTypes.TransactionEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -1399,8 +1363,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public init(
             address: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
         }
     }
@@ -1422,8 +1385,7 @@ extension ManagedBlockchainQueryClientTypes {
             contractAddress: Swift.String? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
             tokenId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contractAddress = contractAddress
             self.network = network
             self.tokenId = tokenId
@@ -1447,8 +1409,7 @@ public struct ListTokenBalancesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         ownerFilter: ManagedBlockchainQueryClientTypes.OwnerFilter? = nil,
         tokenFilter: ManagedBlockchainQueryClientTypes.TokenFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.ownerFilter = ownerFilter
@@ -1479,8 +1440,7 @@ extension ManagedBlockchainQueryClientTypes {
             lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
             ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier? = nil,
             tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier? = nil
-        )
-        {
+        ) {
             self.atBlockchainInstant = atBlockchainInstant
             self.balance = balance
             self.lastUpdatedTime = lastUpdatedTime
@@ -1500,8 +1460,7 @@ public struct ListTokenBalancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tokenBalances: [ManagedBlockchainQueryClientTypes.TokenBalance]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tokenBalances = tokenBalances
     }
@@ -1526,8 +1485,7 @@ public struct ListTransactionEventsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         transactionHash: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.network = network
         self.nextToken = nextToken
@@ -1546,8 +1504,7 @@ public struct ListTransactionEventsOutput: Swift.Sendable {
     public init(
         events: [ManagedBlockchainQueryClientTypes.TransactionEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -1592,8 +1549,7 @@ extension ManagedBlockchainQueryClientTypes {
         public init(
             sortBy: ManagedBlockchainQueryClientTypes.ListTransactionsSortBy? = nil,
             sortOrder: ManagedBlockchainQueryClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -1629,8 +1585,7 @@ public struct ListTransactionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: ManagedBlockchainQueryClientTypes.ListTransactionsSort? = nil,
         toBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil
-    )
-    {
+    ) {
         self.address = address
         self.confirmationStatusFilter = confirmationStatusFilter
         self.fromBlockchainInstant = fromBlockchainInstant
@@ -1666,8 +1621,7 @@ extension ManagedBlockchainQueryClientTypes {
             transactionHash: Swift.String? = nil,
             transactionId: Swift.String? = nil,
             transactionTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.confirmationStatus = confirmationStatus
             self.network = network
             self.transactionHash = transactionHash
@@ -1687,8 +1641,7 @@ public struct ListTransactionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transactions: [ManagedBlockchainQueryClientTypes.TransactionOutputItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transactions = transactions
     }

@@ -56,8 +56,7 @@ extension GreengrassClientTypes {
             id: Swift.String? = nil,
             metadata: Swift.String? = nil,
             portNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.hostAddress = hostAddress
             self.id = id
             self.metadata = metadata
@@ -83,8 +82,7 @@ extension GreengrassClientTypes {
             connectorArn: Swift.String? = nil,
             id: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectorArn = connectorArn
             self.id = id
             self.parameters = parameters
@@ -113,8 +111,7 @@ extension GreengrassClientTypes {
             id: Swift.String? = nil,
             syncShadow: Swift.Bool? = nil,
             thingArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.id = id
             self.syncShadow = syncShadow
@@ -153,8 +150,7 @@ extension GreengrassClientTypes {
             latestVersionArn: Swift.String? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -188,8 +184,7 @@ extension GreengrassClientTypes {
             id: Swift.String? = nil,
             syncShadow: Swift.Bool? = nil,
             thingArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.id = id
             self.syncShadow = syncShadow
@@ -269,8 +264,7 @@ extension GreengrassClientTypes {
         public init(
             gid: Swift.Int? = nil,
             uid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gid = gid
             self.uid = uid
         }
@@ -289,8 +283,7 @@ extension GreengrassClientTypes {
         public init(
             isolationMode: GreengrassClientTypes.FunctionIsolationMode? = nil,
             runAs: GreengrassClientTypes.FunctionRunAsConfig? = nil
-        )
-        {
+        ) {
             self.isolationMode = isolationMode
             self.runAs = runAs
         }
@@ -340,8 +333,7 @@ extension GreengrassClientTypes {
         public init(
             permission: GreengrassClientTypes.Permission? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.permission = permission
             self.resourceId = resourceId
         }
@@ -366,8 +358,7 @@ extension GreengrassClientTypes {
             execution: GreengrassClientTypes.FunctionExecutionConfig? = nil,
             resourceAccessPolicies: [GreengrassClientTypes.ResourceAccessPolicy]? = nil,
             variables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessSysfs = accessSysfs
             self.execution = execution
             self.resourceAccessPolicies = resourceAccessPolicies
@@ -406,8 +397,7 @@ extension GreengrassClientTypes {
             memorySize: Swift.Int? = nil,
             pinned: Swift.Bool? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.encodingType = encodingType
             self.environment = environment
             self.execArgs = execArgs
@@ -436,8 +426,7 @@ extension GreengrassClientTypes {
             functionArn: Swift.String? = nil,
             functionConfiguration: GreengrassClientTypes.FunctionConfiguration? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.functionArn = functionArn
             self.functionConfiguration = functionConfiguration
             self.id = id
@@ -457,8 +446,7 @@ extension GreengrassClientTypes {
         public init(
             groupCertificateAuthorityArn: Swift.String? = nil,
             groupCertificateAuthorityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
             self.groupCertificateAuthorityId = groupCertificateAuthorityId
         }
@@ -492,8 +480,7 @@ extension GreengrassClientTypes {
             latestVersion: Swift.String? = nil,
             latestVersionArn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -626,8 +613,7 @@ extension GreengrassClientTypes {
             level: GreengrassClientTypes.LoggerLevel? = nil,
             space: Swift.Int? = nil,
             type: GreengrassClientTypes.LoggerType? = nil
-        )
-        {
+        ) {
             self.component = component
             self.id = id
             self.level = level
@@ -649,8 +635,7 @@ extension GreengrassClientTypes {
         public init(
             autoAddGroupOwner: Swift.Bool? = nil,
             groupOwner: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoAddGroupOwner = autoAddGroupOwner
             self.groupOwner = groupOwner
         }
@@ -669,8 +654,7 @@ extension GreengrassClientTypes {
         public init(
             groupOwnerSetting: GreengrassClientTypes.GroupOwnerSetting? = nil,
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupOwnerSetting = groupOwnerSetting
             self.sourcePath = sourcePath
         }
@@ -692,8 +676,7 @@ extension GreengrassClientTypes {
             destinationPath: Swift.String? = nil,
             groupOwnerSetting: GreengrassClientTypes.GroupOwnerSetting? = nil,
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationPath = destinationPath
             self.groupOwnerSetting = groupOwnerSetting
             self.sourcePath = sourcePath
@@ -715,8 +698,7 @@ extension GreengrassClientTypes {
         public init(
             groupOwner: Swift.String? = nil,
             groupPermission: GreengrassClientTypes.Permission? = nil
-        )
-        {
+        ) {
             self.groupOwner = groupOwner
             self.groupPermission = groupPermission
         }
@@ -738,8 +720,7 @@ extension GreengrassClientTypes {
             destinationPath: Swift.String? = nil,
             ownerSetting: GreengrassClientTypes.ResourceDownloadOwnerSetting? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationPath = destinationPath
             self.ownerSetting = ownerSetting
             self.s3Uri = s3Uri
@@ -762,8 +743,7 @@ extension GreengrassClientTypes {
             destinationPath: Swift.String? = nil,
             ownerSetting: GreengrassClientTypes.ResourceDownloadOwnerSetting? = nil,
             sageMakerJobArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationPath = destinationPath
             self.ownerSetting = ownerSetting
             self.sageMakerJobArn = sageMakerJobArn
@@ -783,8 +763,7 @@ extension GreengrassClientTypes {
         public init(
             additionalStagingLabelsToDownload: [Swift.String]? = nil,
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalStagingLabelsToDownload = additionalStagingLabelsToDownload
             self.arn = arn
         }
@@ -812,8 +791,7 @@ extension GreengrassClientTypes {
             s3MachineLearningModelResourceData: GreengrassClientTypes.S3MachineLearningModelResourceData? = nil,
             sageMakerMachineLearningModelResourceData: GreengrassClientTypes.SageMakerMachineLearningModelResourceData? = nil,
             secretsManagerSecretResourceData: GreengrassClientTypes.SecretsManagerSecretResourceData? = nil
-        )
-        {
+        ) {
             self.localDeviceResourceData = localDeviceResourceData
             self.localVolumeResourceData = localVolumeResourceData
             self.s3MachineLearningModelResourceData = s3MachineLearningModelResourceData
@@ -841,8 +819,7 @@ extension GreengrassClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             resourceDataContainer: GreengrassClientTypes.ResourceDataContainer? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.resourceDataContainer = resourceDataContainer
@@ -872,8 +849,7 @@ extension GreengrassClientTypes {
             source: Swift.String? = nil,
             subject: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.source = source
             self.subject = subject
@@ -900,8 +876,7 @@ extension GreengrassClientTypes {
             creationTimestamp: Swift.String? = nil,
             id: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTimestamp = creationTimestamp
             self.id = id
@@ -922,8 +897,7 @@ extension GreengrassClientTypes {
         public init(
             detailedErrorCode: Swift.String? = nil,
             detailedErrorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.detailedErrorCode = detailedErrorCode
             self.detailedErrorMessage = detailedErrorMessage
         }
@@ -931,9 +905,9 @@ extension GreengrassClientTypes {
 }
 
 /// General error information.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Details about the error.
         public internal(set) var errorDetails: [GreengrassClientTypes.ErrorDetail]? = nil
         /// A message containing information about the error.
@@ -952,17 +926,16 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorDetails: [GreengrassClientTypes.ErrorDetail]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorDetails = errorDetails
         self.properties.message = message
     }
 }
 
 /// General error information.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Details about the error.
         public internal(set) var errorDetails: [GreengrassClientTypes.ErrorDetail]? = nil
         /// A message containing information about the error.
@@ -981,8 +954,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         errorDetails: [GreengrassClientTypes.ErrorDetail]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorDetails = errorDetails
         self.properties.message = message
     }
@@ -999,8 +971,7 @@ public struct AssociateRoleToGroupInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.roleArn = roleArn
     }
@@ -1012,8 +983,7 @@ public struct AssociateRoleToGroupOutput: Swift.Sendable {
 
     public init(
         associatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAt = associatedAt
     }
 }
@@ -1025,8 +995,7 @@ public struct AssociateServiceRoleToAccountInput: Swift.Sendable {
 
     public init(
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleArn = roleArn
     }
 }
@@ -1037,8 +1006,7 @@ public struct AssociateServiceRoleToAccountOutput: Swift.Sendable {
 
     public init(
         associatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAt = associatedAt
     }
 }
@@ -1058,8 +1026,7 @@ extension GreengrassClientTypes {
             bulkDeploymentArn: Swift.String? = nil,
             bulkDeploymentId: Swift.String? = nil,
             createdAt: Swift.String? = nil
-        )
-        {
+        ) {
             self.bulkDeploymentArn = bulkDeploymentArn
             self.bulkDeploymentId = bulkDeploymentId
             self.createdAt = createdAt
@@ -1082,8 +1049,7 @@ extension GreengrassClientTypes {
             invalidInputRecords: Swift.Int? = nil,
             recordsProcessed: Swift.Int? = nil,
             retryAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.invalidInputRecords = invalidInputRecords
             self.recordsProcessed = recordsProcessed
             self.retryAttempts = retryAttempts
@@ -1157,8 +1123,7 @@ extension GreengrassClientTypes {
             errorDetails: [GreengrassClientTypes.ErrorDetail]? = nil,
             errorMessage: Swift.String? = nil,
             groupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deploymentArn = deploymentArn
             self.deploymentId = deploymentId
@@ -1251,8 +1216,7 @@ extension GreengrassClientTypes {
 
         public init(
             connectors: [GreengrassClientTypes.Connector]? = nil
-        )
-        {
+        ) {
             self.connectors = connectors
         }
     }
@@ -1267,8 +1231,7 @@ extension GreengrassClientTypes {
 
         public init(
             cores: [GreengrassClientTypes.Core]? = nil
-        )
-        {
+        ) {
             self.cores = cores
         }
     }
@@ -1289,8 +1252,7 @@ public struct CreateConnectorDefinitionInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.ConnectorDefinitionVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -1322,8 +1284,7 @@ public struct CreateConnectorDefinitionOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1347,8 +1308,7 @@ public struct CreateConnectorDefinitionVersionInput: Swift.Sendable {
         amznClientToken: Swift.String? = nil,
         connectorDefinitionId: Swift.String? = nil,
         connectors: [GreengrassClientTypes.Connector]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.connectorDefinitionId = connectorDefinitionId
         self.connectors = connectors
@@ -1370,8 +1330,7 @@ public struct CreateConnectorDefinitionVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1395,8 +1354,7 @@ public struct CreateCoreDefinitionInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.CoreDefinitionVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -1428,8 +1386,7 @@ public struct CreateCoreDefinitionOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1453,8 +1410,7 @@ public struct CreateCoreDefinitionVersionInput: Swift.Sendable {
         amznClientToken: Swift.String? = nil,
         coreDefinitionId: Swift.String? = nil,
         cores: [GreengrassClientTypes.Core]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.coreDefinitionId = coreDefinitionId
         self.cores = cores
@@ -1476,8 +1432,7 @@ public struct CreateCoreDefinitionVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1505,8 +1460,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         deploymentType: GreengrassClientTypes.DeploymentType? = nil,
         groupId: Swift.String? = nil,
         groupVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.deploymentId = deploymentId
         self.deploymentType = deploymentType
@@ -1524,8 +1478,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
     public init(
         deploymentArn: Swift.String? = nil,
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentArn = deploymentArn
         self.deploymentId = deploymentId
     }
@@ -1540,8 +1493,7 @@ extension GreengrassClientTypes {
 
         public init(
             devices: [GreengrassClientTypes.Device]? = nil
-        )
-        {
+        ) {
             self.devices = devices
         }
     }
@@ -1562,8 +1514,7 @@ public struct CreateDeviceDefinitionInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.DeviceDefinitionVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -1595,8 +1546,7 @@ public struct CreateDeviceDefinitionOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1620,8 +1570,7 @@ public struct CreateDeviceDefinitionVersionInput: Swift.Sendable {
         amznClientToken: Swift.String? = nil,
         deviceDefinitionId: Swift.String? = nil,
         devices: [GreengrassClientTypes.Device]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.deviceDefinitionId = deviceDefinitionId
         self.devices = devices
@@ -1643,8 +1592,7 @@ public struct CreateDeviceDefinitionVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1664,8 +1612,7 @@ extension GreengrassClientTypes {
         public init(
             isolationMode: GreengrassClientTypes.FunctionIsolationMode? = nil,
             runAs: GreengrassClientTypes.FunctionRunAsConfig? = nil
-        )
-        {
+        ) {
             self.isolationMode = isolationMode
             self.runAs = runAs
         }
@@ -1681,8 +1628,7 @@ extension GreengrassClientTypes {
 
         public init(
             execution: GreengrassClientTypes.FunctionDefaultExecutionConfig? = nil
-        )
-        {
+        ) {
             self.execution = execution
         }
     }
@@ -1700,8 +1646,7 @@ extension GreengrassClientTypes {
         public init(
             defaultConfig: GreengrassClientTypes.FunctionDefaultConfig? = nil,
             functions: [GreengrassClientTypes.Function]? = nil
-        )
-        {
+        ) {
             self.defaultConfig = defaultConfig
             self.functions = functions
         }
@@ -1723,8 +1668,7 @@ public struct CreateFunctionDefinitionInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.FunctionDefinitionVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -1756,8 +1700,7 @@ public struct CreateFunctionDefinitionOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1785,8 +1728,7 @@ public struct CreateFunctionDefinitionVersionInput: Swift.Sendable {
         defaultConfig: GreengrassClientTypes.FunctionDefaultConfig? = nil,
         functionDefinitionId: Swift.String? = nil,
         functions: [GreengrassClientTypes.Function]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.defaultConfig = defaultConfig
         self.functionDefinitionId = functionDefinitionId
@@ -1809,8 +1751,7 @@ public struct CreateFunctionDefinitionVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1845,8 +1786,7 @@ extension GreengrassClientTypes {
             loggerDefinitionVersionArn: Swift.String? = nil,
             resourceDefinitionVersionArn: Swift.String? = nil,
             subscriptionDefinitionVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
             self.coreDefinitionVersionArn = coreDefinitionVersionArn
             self.deviceDefinitionVersionArn = deviceDefinitionVersionArn
@@ -1874,8 +1814,7 @@ public struct CreateGroupInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.GroupVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -1907,8 +1846,7 @@ public struct CreateGroupOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -1929,8 +1867,7 @@ public struct CreateGroupCertificateAuthorityInput: Swift.Sendable {
     public init(
         amznClientToken: Swift.String? = nil,
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.groupId = groupId
     }
@@ -1942,8 +1879,7 @@ public struct CreateGroupCertificateAuthorityOutput: Swift.Sendable {
 
     public init(
         groupCertificateAuthorityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
     }
 }
@@ -1979,8 +1915,7 @@ public struct CreateGroupVersionInput: Swift.Sendable {
         loggerDefinitionVersionArn: Swift.String? = nil,
         resourceDefinitionVersionArn: Swift.String? = nil,
         subscriptionDefinitionVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.connectorDefinitionVersionArn = connectorDefinitionVersionArn
         self.coreDefinitionVersionArn = coreDefinitionVersionArn
@@ -2008,8 +1943,7 @@ public struct CreateGroupVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2026,8 +1960,7 @@ extension GreengrassClientTypes {
 
         public init(
             loggers: [GreengrassClientTypes.Logger]? = nil
-        )
-        {
+        ) {
             self.loggers = loggers
         }
     }
@@ -2048,8 +1981,7 @@ public struct CreateLoggerDefinitionInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.LoggerDefinitionVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -2081,8 +2013,7 @@ public struct CreateLoggerDefinitionOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2106,8 +2037,7 @@ public struct CreateLoggerDefinitionVersionInput: Swift.Sendable {
         amznClientToken: Swift.String? = nil,
         loggerDefinitionId: Swift.String? = nil,
         loggers: [GreengrassClientTypes.Logger]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.loggerDefinitionId = loggerDefinitionId
         self.loggers = loggers
@@ -2129,8 +2059,7 @@ public struct CreateLoggerDefinitionVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2147,8 +2076,7 @@ extension GreengrassClientTypes {
 
         public init(
             resources: [GreengrassClientTypes.Resource]? = nil
-        )
-        {
+        ) {
             self.resources = resources
         }
     }
@@ -2169,8 +2097,7 @@ public struct CreateResourceDefinitionInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.ResourceDefinitionVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -2202,8 +2129,7 @@ public struct CreateResourceDefinitionOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2227,8 +2153,7 @@ public struct CreateResourceDefinitionVersionInput: Swift.Sendable {
         amznClientToken: Swift.String? = nil,
         resourceDefinitionId: Swift.String? = nil,
         resources: [GreengrassClientTypes.Resource]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.resourceDefinitionId = resourceDefinitionId
         self.resources = resources
@@ -2250,8 +2175,7 @@ public struct CreateResourceDefinitionVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2438,8 +2362,7 @@ public struct CreateSoftwareUpdateJobInput: Swift.Sendable {
         updateTargets: [Swift.String]? = nil,
         updateTargetsArchitecture: GreengrassClientTypes.UpdateTargetsArchitecture? = nil,
         updateTargetsOperatingSystem: GreengrassClientTypes.UpdateTargetsOperatingSystem? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.s3UrlSignerRole = s3UrlSignerRole
         self.softwareToUpdate = softwareToUpdate
@@ -2462,8 +2385,7 @@ public struct CreateSoftwareUpdateJobOutput: Swift.Sendable {
         iotJobArn: Swift.String? = nil,
         iotJobId: Swift.String? = nil,
         platformSoftwareVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.iotJobArn = iotJobArn
         self.iotJobId = iotJobId
         self.platformSoftwareVersion = platformSoftwareVersion
@@ -2479,8 +2401,7 @@ extension GreengrassClientTypes {
 
         public init(
             subscriptions: [GreengrassClientTypes.Subscription]? = nil
-        )
-        {
+        ) {
             self.subscriptions = subscriptions
         }
     }
@@ -2501,8 +2422,7 @@ public struct CreateSubscriptionDefinitionInput: Swift.Sendable {
         initialVersion: GreengrassClientTypes.SubscriptionDefinitionVersion? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.initialVersion = initialVersion
         self.name = name
@@ -2534,8 +2454,7 @@ public struct CreateSubscriptionDefinitionOutput: Swift.Sendable {
         latestVersion: Swift.String? = nil,
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2559,8 +2478,7 @@ public struct CreateSubscriptionDefinitionVersionInput: Swift.Sendable {
         amznClientToken: Swift.String? = nil,
         subscriptionDefinitionId: Swift.String? = nil,
         subscriptions: [GreengrassClientTypes.Subscription]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.subscriptionDefinitionId = subscriptionDefinitionId
         self.subscriptions = subscriptions
@@ -2582,8 +2500,7 @@ public struct CreateSubscriptionDefinitionVersionOutput: Swift.Sendable {
         creationTimestamp: Swift.String? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2598,8 +2515,7 @@ public struct DeleteConnectorDefinitionInput: Swift.Sendable {
 
     public init(
         connectorDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorDefinitionId = connectorDefinitionId
     }
 }
@@ -2616,8 +2532,7 @@ public struct DeleteCoreDefinitionInput: Swift.Sendable {
 
     public init(
         coreDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDefinitionId = coreDefinitionId
     }
 }
@@ -2634,8 +2549,7 @@ public struct DeleteDeviceDefinitionInput: Swift.Sendable {
 
     public init(
         deviceDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceDefinitionId = deviceDefinitionId
     }
 }
@@ -2652,8 +2566,7 @@ public struct DeleteFunctionDefinitionInput: Swift.Sendable {
 
     public init(
         functionDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionDefinitionId = functionDefinitionId
     }
 }
@@ -2670,8 +2583,7 @@ public struct DeleteGroupInput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -2688,8 +2600,7 @@ public struct DeleteLoggerDefinitionInput: Swift.Sendable {
 
     public init(
         loggerDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggerDefinitionId = loggerDefinitionId
     }
 }
@@ -2706,8 +2617,7 @@ public struct DeleteResourceDefinitionInput: Swift.Sendable {
 
     public init(
         resourceDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceDefinitionId = resourceDefinitionId
     }
 }
@@ -2724,8 +2634,7 @@ public struct DeleteSubscriptionDefinitionInput: Swift.Sendable {
 
     public init(
         subscriptionDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionDefinitionId = subscriptionDefinitionId
     }
 }
@@ -2756,8 +2665,7 @@ extension GreengrassClientTypes {
             deploymentId: Swift.String? = nil,
             deploymentType: GreengrassClientTypes.DeploymentType? = nil,
             groupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.deploymentArn = deploymentArn
             self.deploymentId = deploymentId
@@ -2774,8 +2682,7 @@ public struct DisassociateRoleFromGroupInput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -2786,8 +2693,7 @@ public struct DisassociateRoleFromGroupOutput: Swift.Sendable {
 
     public init(
         disassociatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.disassociatedAt = disassociatedAt
     }
 }
@@ -2803,8 +2709,7 @@ public struct DisassociateServiceRoleFromAccountOutput: Swift.Sendable {
 
     public init(
         disassociatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.disassociatedAt = disassociatedAt
     }
 }
@@ -2816,8 +2721,7 @@ public struct GetAssociatedRoleInput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -2831,8 +2735,7 @@ public struct GetAssociatedRoleOutput: Swift.Sendable {
     public init(
         associatedAt: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAt = associatedAt
         self.roleArn = roleArn
     }
@@ -2845,8 +2748,7 @@ public struct GetBulkDeploymentStatusInput: Swift.Sendable {
 
     public init(
         bulkDeploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bulkDeploymentId = bulkDeploymentId
     }
 }
@@ -2872,8 +2774,7 @@ public struct GetBulkDeploymentStatusOutput: Swift.Sendable {
         errorDetails: [GreengrassClientTypes.ErrorDetail]? = nil,
         errorMessage: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.bulkDeploymentMetrics = bulkDeploymentMetrics
         self.bulkDeploymentStatus = bulkDeploymentStatus
         self.createdAt = createdAt
@@ -2890,8 +2791,7 @@ public struct GetConnectivityInfoInput: Swift.Sendable {
 
     public init(
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingName = thingName
     }
 }
@@ -2905,8 +2805,7 @@ public struct GetConnectivityInfoOutput: Swift.Sendable {
     public init(
         connectivityInfo: [GreengrassClientTypes.ConnectivityInfo]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectivityInfo = connectivityInfo
         self.message = message
     }
@@ -2919,8 +2818,7 @@ public struct GetConnectorDefinitionInput: Swift.Sendable {
 
     public init(
         connectorDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorDefinitionId = connectorDefinitionId
     }
 }
@@ -2952,8 +2850,7 @@ public struct GetConnectorDefinitionOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -2979,8 +2876,7 @@ public struct GetConnectorDefinitionVersionInput: Swift.Sendable {
         connectorDefinitionId: Swift.String? = nil,
         connectorDefinitionVersionId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorDefinitionId = connectorDefinitionId
         self.connectorDefinitionVersionId = connectorDefinitionVersionId
         self.nextToken = nextToken
@@ -3008,8 +2904,7 @@ public struct GetConnectorDefinitionVersionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3026,8 +2921,7 @@ public struct GetCoreDefinitionInput: Swift.Sendable {
 
     public init(
         coreDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDefinitionId = coreDefinitionId
     }
 }
@@ -3059,8 +2953,7 @@ public struct GetCoreDefinitionOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -3083,8 +2976,7 @@ public struct GetCoreDefinitionVersionInput: Swift.Sendable {
     public init(
         coreDefinitionId: Swift.String? = nil,
         coreDefinitionVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDefinitionId = coreDefinitionId
         self.coreDefinitionVersionId = coreDefinitionVersionId
     }
@@ -3111,8 +3003,7 @@ public struct GetCoreDefinitionVersionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3133,8 +3024,7 @@ public struct GetDeploymentStatusInput: Swift.Sendable {
     public init(
         deploymentId: Swift.String? = nil,
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.groupId = groupId
     }
@@ -3158,8 +3048,7 @@ public struct GetDeploymentStatusOutput: Swift.Sendable {
         errorDetails: [GreengrassClientTypes.ErrorDetail]? = nil,
         errorMessage: Swift.String? = nil,
         updatedAt: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentStatus = deploymentStatus
         self.deploymentType = deploymentType
         self.errorDetails = errorDetails
@@ -3175,8 +3064,7 @@ public struct GetDeviceDefinitionInput: Swift.Sendable {
 
     public init(
         deviceDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceDefinitionId = deviceDefinitionId
     }
 }
@@ -3208,8 +3096,7 @@ public struct GetDeviceDefinitionOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -3235,8 +3122,7 @@ public struct GetDeviceDefinitionVersionInput: Swift.Sendable {
         deviceDefinitionId: Swift.String? = nil,
         deviceDefinitionVersionId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceDefinitionId = deviceDefinitionId
         self.deviceDefinitionVersionId = deviceDefinitionVersionId
         self.nextToken = nextToken
@@ -3264,8 +3150,7 @@ public struct GetDeviceDefinitionVersionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3282,8 +3167,7 @@ public struct GetFunctionDefinitionInput: Swift.Sendable {
 
     public init(
         functionDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionDefinitionId = functionDefinitionId
     }
 }
@@ -3315,8 +3199,7 @@ public struct GetFunctionDefinitionOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -3342,8 +3225,7 @@ public struct GetFunctionDefinitionVersionInput: Swift.Sendable {
         functionDefinitionId: Swift.String? = nil,
         functionDefinitionVersionId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionDefinitionId = functionDefinitionId
         self.functionDefinitionVersionId = functionDefinitionVersionId
         self.nextToken = nextToken
@@ -3371,8 +3253,7 @@ public struct GetFunctionDefinitionVersionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3389,8 +3270,7 @@ public struct GetGroupInput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -3422,8 +3302,7 @@ public struct GetGroupOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -3446,8 +3325,7 @@ public struct GetGroupCertificateAuthorityInput: Swift.Sendable {
     public init(
         certificateAuthorityId: Swift.String? = nil,
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityId = certificateAuthorityId
         self.groupId = groupId
     }
@@ -3465,8 +3343,7 @@ public struct GetGroupCertificateAuthorityOutput: Swift.Sendable {
         groupCertificateAuthorityArn: Swift.String? = nil,
         groupCertificateAuthorityId: Swift.String? = nil,
         pemEncodedCertificate: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
         self.groupCertificateAuthorityId = groupCertificateAuthorityId
         self.pemEncodedCertificate = pemEncodedCertificate
@@ -3480,8 +3357,7 @@ public struct GetGroupCertificateConfigurationInput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -3498,8 +3374,7 @@ public struct GetGroupCertificateConfigurationOutput: Swift.Sendable {
         certificateAuthorityExpiryInMilliseconds: Swift.String? = nil,
         certificateExpiryInMilliseconds: Swift.String? = nil,
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
         self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
         self.groupId = groupId
@@ -3517,8 +3392,7 @@ public struct GetGroupVersionInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         groupVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.groupVersionId = groupVersionId
     }
@@ -3542,8 +3416,7 @@ public struct GetGroupVersionOutput: Swift.Sendable {
         definition: GreengrassClientTypes.GroupVersion? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3559,8 +3432,7 @@ public struct GetLoggerDefinitionInput: Swift.Sendable {
 
     public init(
         loggerDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggerDefinitionId = loggerDefinitionId
     }
 }
@@ -3592,8 +3464,7 @@ public struct GetLoggerDefinitionOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -3619,8 +3490,7 @@ public struct GetLoggerDefinitionVersionInput: Swift.Sendable {
         loggerDefinitionId: Swift.String? = nil,
         loggerDefinitionVersionId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggerDefinitionId = loggerDefinitionId
         self.loggerDefinitionVersionId = loggerDefinitionVersionId
         self.nextToken = nextToken
@@ -3645,8 +3515,7 @@ public struct GetLoggerDefinitionVersionOutput: Swift.Sendable {
         definition: GreengrassClientTypes.LoggerDefinitionVersion? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3662,8 +3531,7 @@ public struct GetResourceDefinitionInput: Swift.Sendable {
 
     public init(
         resourceDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceDefinitionId = resourceDefinitionId
     }
 }
@@ -3695,8 +3563,7 @@ public struct GetResourceDefinitionOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -3719,8 +3586,7 @@ public struct GetResourceDefinitionVersionInput: Swift.Sendable {
     public init(
         resourceDefinitionId: Swift.String? = nil,
         resourceDefinitionVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceDefinitionId = resourceDefinitionId
         self.resourceDefinitionVersionId = resourceDefinitionVersionId
     }
@@ -3744,8 +3610,7 @@ public struct GetResourceDefinitionVersionOutput: Swift.Sendable {
         definition: GreengrassClientTypes.ResourceDefinitionVersion? = nil,
         id: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3768,8 +3633,7 @@ public struct GetServiceRoleForAccountOutput: Swift.Sendable {
     public init(
         associatedAt: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedAt = associatedAt
         self.roleArn = roleArn
     }
@@ -3782,8 +3646,7 @@ public struct GetSubscriptionDefinitionInput: Swift.Sendable {
 
     public init(
         subscriptionDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionDefinitionId = subscriptionDefinitionId
     }
 }
@@ -3815,8 +3678,7 @@ public struct GetSubscriptionDefinitionOutput: Swift.Sendable {
         latestVersionArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.id = id
@@ -3842,8 +3704,7 @@ public struct GetSubscriptionDefinitionVersionInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         subscriptionDefinitionId: Swift.String? = nil,
         subscriptionDefinitionVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscriptionDefinitionId = subscriptionDefinitionId
         self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
@@ -3871,8 +3732,7 @@ public struct GetSubscriptionDefinitionVersionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimestamp = creationTimestamp
         self.definition = definition
@@ -3889,8 +3749,7 @@ public struct GetThingRuntimeConfigurationInput: Swift.Sendable {
 
     public init(
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingName = thingName
     }
 }
@@ -3937,8 +3796,7 @@ extension GreengrassClientTypes {
         public init(
             configurationSyncStatus: GreengrassClientTypes.ConfigurationSyncStatus? = nil,
             telemetry: GreengrassClientTypes.Telemetry? = nil
-        )
-        {
+        ) {
             self.configurationSyncStatus = configurationSyncStatus
             self.telemetry = telemetry
         }
@@ -3954,8 +3812,7 @@ extension GreengrassClientTypes {
 
         public init(
             telemetryConfiguration: GreengrassClientTypes.TelemetryConfiguration? = nil
-        )
-        {
+        ) {
             self.telemetryConfiguration = telemetryConfiguration
         }
     }
@@ -3967,8 +3824,7 @@ public struct GetThingRuntimeConfigurationOutput: Swift.Sendable {
 
     public init(
         runtimeConfiguration: GreengrassClientTypes.RuntimeConfiguration? = nil
-    )
-    {
+    ) {
         self.runtimeConfiguration = runtimeConfiguration
     }
 }
@@ -3986,8 +3842,7 @@ public struct ListBulkDeploymentDetailedReportsInput: Swift.Sendable {
         bulkDeploymentId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bulkDeploymentId = bulkDeploymentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4003,8 +3858,7 @@ public struct ListBulkDeploymentDetailedReportsOutput: Swift.Sendable {
     public init(
         deployments: [GreengrassClientTypes.BulkDeploymentResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
         self.nextToken = nextToken
     }
@@ -4019,8 +3873,7 @@ public struct ListBulkDeploymentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4035,8 +3888,7 @@ public struct ListBulkDeploymentsOutput: Swift.Sendable {
     public init(
         bulkDeployments: [GreengrassClientTypes.BulkDeployment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bulkDeployments = bulkDeployments
         self.nextToken = nextToken
     }
@@ -4051,8 +3903,7 @@ public struct ListConnectorDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4067,8 +3918,7 @@ public struct ListConnectorDefinitionsOutput: Swift.Sendable {
     public init(
         definitions: [GreengrassClientTypes.DefinitionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.definitions = definitions
         self.nextToken = nextToken
     }
@@ -4087,8 +3937,7 @@ public struct ListConnectorDefinitionVersionsInput: Swift.Sendable {
         connectorDefinitionId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorDefinitionId = connectorDefinitionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4104,8 +3953,7 @@ public struct ListConnectorDefinitionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4120,8 +3968,7 @@ public struct ListCoreDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4136,8 +3983,7 @@ public struct ListCoreDefinitionsOutput: Swift.Sendable {
     public init(
         definitions: [GreengrassClientTypes.DefinitionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.definitions = definitions
         self.nextToken = nextToken
     }
@@ -4156,8 +4002,7 @@ public struct ListCoreDefinitionVersionsInput: Swift.Sendable {
         coreDefinitionId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDefinitionId = coreDefinitionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4173,8 +4018,7 @@ public struct ListCoreDefinitionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4193,8 +4037,7 @@ public struct ListDeploymentsInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4210,8 +4053,7 @@ public struct ListDeploymentsOutput: Swift.Sendable {
     public init(
         deployments: [GreengrassClientTypes.Deployment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
         self.nextToken = nextToken
     }
@@ -4226,8 +4068,7 @@ public struct ListDeviceDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4242,8 +4083,7 @@ public struct ListDeviceDefinitionsOutput: Swift.Sendable {
     public init(
         definitions: [GreengrassClientTypes.DefinitionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.definitions = definitions
         self.nextToken = nextToken
     }
@@ -4262,8 +4102,7 @@ public struct ListDeviceDefinitionVersionsInput: Swift.Sendable {
         deviceDefinitionId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceDefinitionId = deviceDefinitionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4279,8 +4118,7 @@ public struct ListDeviceDefinitionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4295,8 +4133,7 @@ public struct ListFunctionDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4311,8 +4148,7 @@ public struct ListFunctionDefinitionsOutput: Swift.Sendable {
     public init(
         definitions: [GreengrassClientTypes.DefinitionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.definitions = definitions
         self.nextToken = nextToken
     }
@@ -4331,8 +4167,7 @@ public struct ListFunctionDefinitionVersionsInput: Swift.Sendable {
         functionDefinitionId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionDefinitionId = functionDefinitionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4348,8 +4183,7 @@ public struct ListFunctionDefinitionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4362,8 +4196,7 @@ public struct ListGroupCertificateAuthoritiesInput: Swift.Sendable {
 
     public init(
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
     }
 }
@@ -4374,8 +4207,7 @@ public struct ListGroupCertificateAuthoritiesOutput: Swift.Sendable {
 
     public init(
         groupCertificateAuthorities: [GreengrassClientTypes.GroupCertificateAuthorityProperties]? = nil
-    )
-    {
+    ) {
         self.groupCertificateAuthorities = groupCertificateAuthorities
     }
 }
@@ -4389,8 +4221,7 @@ public struct ListGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4405,8 +4236,7 @@ public struct ListGroupsOutput: Swift.Sendable {
     public init(
         groups: [GreengrassClientTypes.GroupInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
@@ -4425,8 +4255,7 @@ public struct ListGroupVersionsInput: Swift.Sendable {
         groupId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4442,8 +4271,7 @@ public struct ListGroupVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4458,8 +4286,7 @@ public struct ListLoggerDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4474,8 +4301,7 @@ public struct ListLoggerDefinitionsOutput: Swift.Sendable {
     public init(
         definitions: [GreengrassClientTypes.DefinitionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.definitions = definitions
         self.nextToken = nextToken
     }
@@ -4494,8 +4320,7 @@ public struct ListLoggerDefinitionVersionsInput: Swift.Sendable {
         loggerDefinitionId: Swift.String? = nil,
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggerDefinitionId = loggerDefinitionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4511,8 +4336,7 @@ public struct ListLoggerDefinitionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4527,8 +4351,7 @@ public struct ListResourceDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4543,8 +4366,7 @@ public struct ListResourceDefinitionsOutput: Swift.Sendable {
     public init(
         definitions: [GreengrassClientTypes.DefinitionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.definitions = definitions
         self.nextToken = nextToken
     }
@@ -4563,8 +4385,7 @@ public struct ListResourceDefinitionVersionsInput: Swift.Sendable {
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         resourceDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceDefinitionId = resourceDefinitionId
@@ -4580,8 +4401,7 @@ public struct ListResourceDefinitionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4596,8 +4416,7 @@ public struct ListSubscriptionDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4612,8 +4431,7 @@ public struct ListSubscriptionDefinitionsOutput: Swift.Sendable {
     public init(
         definitions: [GreengrassClientTypes.DefinitionInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.definitions = definitions
         self.nextToken = nextToken
     }
@@ -4632,8 +4450,7 @@ public struct ListSubscriptionDefinitionVersionsInput: Swift.Sendable {
         maxResults: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         subscriptionDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.subscriptionDefinitionId = subscriptionDefinitionId
@@ -4649,8 +4466,7 @@ public struct ListSubscriptionDefinitionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [GreengrassClientTypes.VersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -4663,8 +4479,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4675,8 +4490,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4695,8 +4509,7 @@ public struct ResetDeploymentsInput: Swift.Sendable {
         amznClientToken: Swift.String? = nil,
         force: Swift.Bool? = nil,
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.force = force
         self.groupId = groupId
@@ -4712,8 +4525,7 @@ public struct ResetDeploymentsOutput: Swift.Sendable {
     public init(
         deploymentArn: Swift.String? = nil,
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentArn = deploymentArn
         self.deploymentId = deploymentId
     }
@@ -4736,8 +4548,7 @@ public struct StartBulkDeploymentInput: Swift.Sendable {
         executionRoleArn: Swift.String? = nil,
         inputFileUri: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.amznClientToken = amznClientToken
         self.executionRoleArn = executionRoleArn
         self.inputFileUri = inputFileUri
@@ -4754,8 +4565,7 @@ public struct StartBulkDeploymentOutput: Swift.Sendable {
     public init(
         bulkDeploymentArn: Swift.String? = nil,
         bulkDeploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bulkDeploymentArn = bulkDeploymentArn
         self.bulkDeploymentId = bulkDeploymentId
     }
@@ -4768,8 +4578,7 @@ public struct StopBulkDeploymentInput: Swift.Sendable {
 
     public init(
         bulkDeploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bulkDeploymentId = bulkDeploymentId
     }
 }
@@ -4790,8 +4599,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4808,8 +4616,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4826,8 +4633,7 @@ public struct UpdateConnectivityInfoInput: Swift.Sendable {
     public init(
         connectivityInfo: [GreengrassClientTypes.ConnectivityInfo]? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectivityInfo = connectivityInfo
         self.thingName = thingName
     }
@@ -4842,8 +4648,7 @@ public struct UpdateConnectivityInfoOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.version = version
     }
@@ -4859,8 +4664,7 @@ public struct UpdateConnectorDefinitionInput: Swift.Sendable {
     public init(
         connectorDefinitionId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorDefinitionId = connectorDefinitionId
         self.name = name
     }
@@ -4881,8 +4685,7 @@ public struct UpdateCoreDefinitionInput: Swift.Sendable {
     public init(
         coreDefinitionId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.coreDefinitionId = coreDefinitionId
         self.name = name
     }
@@ -4903,8 +4706,7 @@ public struct UpdateDeviceDefinitionInput: Swift.Sendable {
     public init(
         deviceDefinitionId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceDefinitionId = deviceDefinitionId
         self.name = name
     }
@@ -4925,8 +4727,7 @@ public struct UpdateFunctionDefinitionInput: Swift.Sendable {
     public init(
         functionDefinitionId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.functionDefinitionId = functionDefinitionId
         self.name = name
     }
@@ -4947,8 +4748,7 @@ public struct UpdateGroupInput: Swift.Sendable {
     public init(
         groupId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.name = name
     }
@@ -4969,8 +4769,7 @@ public struct UpdateGroupCertificateConfigurationInput: Swift.Sendable {
     public init(
         certificateExpiryInMilliseconds: Swift.String? = nil,
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
         self.groupId = groupId
     }
@@ -4988,8 +4787,7 @@ public struct UpdateGroupCertificateConfigurationOutput: Swift.Sendable {
         certificateAuthorityExpiryInMilliseconds: Swift.String? = nil,
         certificateExpiryInMilliseconds: Swift.String? = nil,
         groupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityExpiryInMilliseconds = certificateAuthorityExpiryInMilliseconds
         self.certificateExpiryInMilliseconds = certificateExpiryInMilliseconds
         self.groupId = groupId
@@ -5006,8 +4804,7 @@ public struct UpdateLoggerDefinitionInput: Swift.Sendable {
     public init(
         loggerDefinitionId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggerDefinitionId = loggerDefinitionId
         self.name = name
     }
@@ -5028,8 +4825,7 @@ public struct UpdateResourceDefinitionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         resourceDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.resourceDefinitionId = resourceDefinitionId
     }
@@ -5050,8 +4846,7 @@ public struct UpdateSubscriptionDefinitionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         subscriptionDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.subscriptionDefinitionId = subscriptionDefinitionId
     }
@@ -5072,8 +4867,7 @@ extension GreengrassClientTypes {
 
         public init(
             telemetry: GreengrassClientTypes.Telemetry? = nil
-        )
-        {
+        ) {
             self.telemetry = telemetry
         }
     }
@@ -5089,8 +4883,7 @@ public struct UpdateThingRuntimeConfigurationInput: Swift.Sendable {
     public init(
         telemetryConfiguration: GreengrassClientTypes.TelemetryConfigurationUpdate? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.telemetryConfiguration = telemetryConfiguration
         self.thingName = thingName
     }

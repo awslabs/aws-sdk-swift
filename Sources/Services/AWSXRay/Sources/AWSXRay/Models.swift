@@ -43,8 +43,7 @@ extension XRayClientTypes {
             name: Swift.String? = nil,
             names: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.names = names
             self.type = type
@@ -84,8 +83,7 @@ extension XRayClientTypes {
             name: Swift.String? = nil,
             names: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.name = name
             self.names = names
@@ -106,8 +104,7 @@ extension XRayClientTypes {
         public init(
             annotationValue: XRayClientTypes.AnnotationValue? = nil,
             serviceIds: [XRayClientTypes.ServiceId]? = nil
-        )
-        {
+        ) {
             self.annotationValue = annotationValue
             self.serviceIds = serviceIds
         }
@@ -123,8 +120,7 @@ extension XRayClientTypes {
 
         public init(
             serviceId: XRayClientTypes.ServiceId? = nil
-        )
-        {
+        ) {
             self.serviceId = serviceId
         }
     }
@@ -139,17 +135,16 @@ extension XRayClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
 }
 
 /// The request is missing required parameters or has invalid parameters.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -164,16 +159,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request exceeds the maximum number of requests per second.
-public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -188,8 +182,7 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -204,8 +197,7 @@ public struct BatchGetTracesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         traceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.traceIds = traceIds
     }
@@ -223,8 +215,7 @@ extension XRayClientTypes {
         public init(
             document: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.document = document
             self.id = id
         }
@@ -249,8 +240,7 @@ extension XRayClientTypes {
             id: Swift.String? = nil,
             limitExceeded: Swift.Bool? = nil,
             segments: [XRayClientTypes.Segment]? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.id = id
             self.limitExceeded = limitExceeded
@@ -271,8 +261,7 @@ public struct BatchGetTracesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         traces: [XRayClientTypes.Trace]? = nil,
         unprocessedTraceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.traces = traces
         self.unprocessedTraceIds = unprocessedTraceIds
@@ -280,9 +269,9 @@ public struct BatchGetTracesOutput: Swift.Sendable {
 }
 
 /// The resource was not found. Verify that the name or Amazon Resource Name (ARN) of the resource is correct.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -299,8 +288,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -313,8 +301,7 @@ public struct CancelTraceRetrievalInput: Swift.Sendable {
 
     public init(
         retrievalToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.retrievalToken = retrievalToken
     }
 }
@@ -336,8 +323,7 @@ extension XRayClientTypes {
         public init(
             insightsEnabled: Swift.Bool? = nil,
             notificationsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.insightsEnabled = insightsEnabled
             self.notificationsEnabled = notificationsEnabled
         }
@@ -364,8 +350,7 @@ extension XRayClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -404,8 +389,7 @@ public struct CreateGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         insightsConfiguration: XRayClientTypes.InsightsConfiguration? = nil,
         tags: [XRayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.filterExpression = filterExpression
         self.groupName = groupName
         self.insightsConfiguration = insightsConfiguration
@@ -435,8 +419,7 @@ extension XRayClientTypes {
             groupARN: Swift.String? = nil,
             groupName: Swift.String? = nil,
             insightsConfiguration: XRayClientTypes.InsightsConfiguration? = nil
-        )
-        {
+        ) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
             self.groupName = groupName
@@ -451,16 +434,15 @@ public struct CreateGroupOutput: Swift.Sendable {
 
     public init(
         group: XRayClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
 
 /// You have reached the maximum number of sampling rules.
-public struct RuleLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RuleLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -475,8 +457,7 @@ public struct RuleLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -536,8 +517,7 @@ extension XRayClientTypes {
             serviceType: Swift.String? = nil,
             urlPath: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -577,8 +557,7 @@ public struct CreateSamplingRuleInput: Swift.Sendable {
     public init(
         samplingRule: XRayClientTypes.SamplingRule? = nil,
         tags: [XRayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.samplingRule = samplingRule
         self.tags = tags
     }
@@ -599,8 +578,7 @@ extension XRayClientTypes {
             createdAt: Foundation.Date? = nil,
             modifiedAt: Foundation.Date? = nil,
             samplingRule: XRayClientTypes.SamplingRule? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.samplingRule = samplingRule
@@ -614,8 +592,7 @@ public struct CreateSamplingRuleOutput: Swift.Sendable {
 
     public init(
         samplingRuleRecord: XRayClientTypes.SamplingRuleRecord? = nil
-    )
-    {
+    ) {
         self.samplingRuleRecord = samplingRuleRecord
     }
 }
@@ -629,8 +606,7 @@ public struct DeleteGroupInput: Swift.Sendable {
     public init(
         groupARN: Swift.String? = nil,
         groupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupARN = groupARN
         self.groupName = groupName
     }
@@ -642,9 +618,9 @@ public struct DeleteGroupOutput: Swift.Sendable {
 }
 
 /// A policy revision id was provided which does not match the latest policy revision. This exception is also if a policy revision id of 0 is provided via PutResourcePolicy and a policy with the same name already exists.
-public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -659,8 +635,7 @@ public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -675,8 +650,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         policyRevisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.policyRevisionId = policyRevisionId
     }
@@ -696,8 +670,7 @@ public struct DeleteSamplingRuleInput: Swift.Sendable {
     public init(
         ruleARN: Swift.String? = nil,
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleARN = ruleARN
         self.ruleName = ruleName
     }
@@ -709,8 +682,7 @@ public struct DeleteSamplingRuleOutput: Swift.Sendable {
 
     public init(
         samplingRuleRecord: XRayClientTypes.SamplingRuleRecord? = nil
-    )
-    {
+    ) {
         self.samplingRuleRecord = samplingRuleRecord
     }
 }
@@ -793,8 +765,7 @@ extension XRayClientTypes {
             keyId: Swift.String? = nil,
             status: XRayClientTypes.EncryptionStatus? = nil,
             type: XRayClientTypes.EncryptionType? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
             self.status = status
             self.type = type
@@ -808,8 +779,7 @@ public struct GetEncryptionConfigOutput: Swift.Sendable {
 
     public init(
         encryptionConfig: XRayClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.encryptionConfig = encryptionConfig
     }
 }
@@ -823,8 +793,7 @@ public struct GetGroupInput: Swift.Sendable {
     public init(
         groupARN: Swift.String? = nil,
         groupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupARN = groupARN
         self.groupName = groupName
     }
@@ -836,8 +805,7 @@ public struct GetGroupOutput: Swift.Sendable {
 
     public init(
         group: XRayClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -848,8 +816,7 @@ public struct GetGroupsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -876,8 +843,7 @@ extension XRayClientTypes {
             groupARN: Swift.String? = nil,
             groupName: Swift.String? = nil,
             insightsConfiguration: XRayClientTypes.InsightsConfiguration? = nil
-        )
-        {
+        ) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
             self.groupName = groupName
@@ -895,8 +861,7 @@ public struct GetGroupsOutput: Swift.Sendable {
     public init(
         groups: [XRayClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
@@ -908,8 +873,7 @@ public struct GetIndexingRulesInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -927,8 +891,7 @@ extension XRayClientTypes {
         public init(
             actualSamplingPercentage: Swift.Double? = nil,
             desiredSamplingPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.actualSamplingPercentage = actualSamplingPercentage
             self.desiredSamplingPercentage = desiredSamplingPercentage
         }
@@ -960,8 +923,7 @@ extension XRayClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             rule: XRayClientTypes.IndexingRuleValue? = nil
-        )
-        {
+        ) {
             self.modifiedAt = modifiedAt
             self.name = name
             self.rule = rule
@@ -978,8 +940,7 @@ public struct GetIndexingRulesOutput: Swift.Sendable {
     public init(
         indexingRules: [XRayClientTypes.IndexingRule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexingRules = indexingRules
         self.nextToken = nextToken
     }
@@ -992,8 +953,7 @@ public struct GetInsightInput: Swift.Sendable {
 
     public init(
         insightId: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightId = insightId
     }
 }
@@ -1039,8 +999,7 @@ extension XRayClientTypes {
             faultCount: Swift.Int? = nil,
             okCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.faultCount = faultCount
             self.okCount = okCount
             self.totalCount = totalCount
@@ -1119,8 +1078,7 @@ extension XRayClientTypes {
             state: XRayClientTypes.InsightState? = nil,
             summary: Swift.String? = nil,
             topAnomalousServices: [XRayClientTypes.AnomalousService]? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.clientRequestImpactStatistics = clientRequestImpactStatistics
             self.endTime = endTime
@@ -1143,8 +1101,7 @@ public struct GetInsightOutput: Swift.Sendable {
 
     public init(
         insight: XRayClientTypes.Insight? = nil
-    )
-    {
+    ) {
         self.insight = insight
     }
 }
@@ -1162,8 +1119,7 @@ public struct GetInsightEventsInput: Swift.Sendable {
         insightId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightId = insightId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1191,8 +1147,7 @@ extension XRayClientTypes {
             rootCauseServiceRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics? = nil,
             summary: Swift.String? = nil,
             topAnomalousServices: [XRayClientTypes.AnomalousService]? = nil
-        )
-        {
+        ) {
             self.clientRequestImpactStatistics = clientRequestImpactStatistics
             self.eventTime = eventTime
             self.rootCauseServiceRequestImpactStatistics = rootCauseServiceRequestImpactStatistics
@@ -1211,8 +1166,7 @@ public struct GetInsightEventsOutput: Swift.Sendable {
     public init(
         insightEvents: [XRayClientTypes.InsightEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightEvents = insightEvents
         self.nextToken = nextToken
     }
@@ -1236,8 +1190,7 @@ public struct GetInsightImpactGraphInput: Swift.Sendable {
         insightId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.insightId = insightId
         self.nextToken = nextToken
@@ -1254,8 +1207,7 @@ extension XRayClientTypes {
 
         public init(
             referenceId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.referenceId = referenceId
         }
     }
@@ -1293,8 +1245,7 @@ extension XRayClientTypes {
             names: [Swift.String]? = nil,
             referenceId: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.edges = edges
             self.name = name
@@ -1329,8 +1280,7 @@ public struct GetInsightImpactGraphOutput: Swift.Sendable {
         serviceGraphStartTime: Foundation.Date? = nil,
         services: [XRayClientTypes.InsightImpactGraphService]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.insightId = insightId
         self.nextToken = nextToken
@@ -1367,8 +1317,7 @@ public struct GetInsightSummariesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         states: [XRayClientTypes.InsightState]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.groupARN = groupARN
         self.groupName = groupName
@@ -1424,8 +1373,7 @@ extension XRayClientTypes {
             state: XRayClientTypes.InsightState? = nil,
             summary: Swift.String? = nil,
             topAnomalousServices: [XRayClientTypes.AnomalousService]? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.clientRequestImpactStatistics = clientRequestImpactStatistics
             self.endTime = endTime
@@ -1452,8 +1400,7 @@ public struct GetInsightSummariesOutput: Swift.Sendable {
     public init(
         insightSummaries: [XRayClientTypes.InsightSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightSummaries = insightSummaries
         self.nextToken = nextToken
     }
@@ -1469,8 +1416,7 @@ public struct GetRetrievedTracesGraphInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         retrievalToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retrievalToken = retrievalToken
     }
@@ -1532,8 +1478,7 @@ extension XRayClientTypes {
             destinationTraceIds: [Swift.String]? = nil,
             referenceType: Swift.String? = nil,
             sourceTraceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationTraceIds = destinationTraceIds
             self.referenceType = referenceType
             self.sourceTraceId = sourceTraceId
@@ -1553,8 +1498,7 @@ extension XRayClientTypes {
         public init(
             count: Swift.Int = 0,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.count = count
             self.value = value
         }
@@ -1576,8 +1520,7 @@ extension XRayClientTypes {
             otherCount: Swift.Int? = nil,
             throttleCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.otherCount = otherCount
             self.throttleCount = throttleCount
             self.totalCount = totalCount
@@ -1597,8 +1540,7 @@ extension XRayClientTypes {
         public init(
             otherCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.otherCount = otherCount
             self.totalCount = totalCount
         }
@@ -1626,8 +1568,7 @@ extension XRayClientTypes {
             okCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil,
             totalResponseTime: Swift.Double? = nil
-        )
-        {
+        ) {
             self.errorStatistics = errorStatistics
             self.faultStatistics = faultStatistics
             self.okCount = okCount
@@ -1667,8 +1608,7 @@ extension XRayClientTypes {
             responseTimeHistogram: [XRayClientTypes.HistogramEntry]? = nil,
             startTime: Foundation.Date? = nil,
             summaryStatistics: XRayClientTypes.EdgeStatistics? = nil
-        )
-        {
+        ) {
             self.aliases = aliases
             self.edgeType = edgeType
             self.endTime = endTime
@@ -1702,8 +1642,7 @@ extension XRayClientTypes {
             okCount: Swift.Int? = nil,
             totalCount: Swift.Int? = nil,
             totalResponseTime: Swift.Double? = nil
-        )
-        {
+        ) {
             self.errorStatistics = errorStatistics
             self.faultStatistics = faultStatistics
             self.okCount = okCount
@@ -1766,8 +1705,7 @@ extension XRayClientTypes {
             state: Swift.String? = nil,
             summaryStatistics: XRayClientTypes.ServiceStatistics? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.durationHistogram = durationHistogram
             self.edges = edges
@@ -1797,8 +1735,7 @@ extension XRayClientTypes {
         public init(
             links: [XRayClientTypes.GraphLink]? = nil,
             service: XRayClientTypes.Service? = nil
-        )
-        {
+        ) {
             self.links = links
             self.service = service
         }
@@ -1817,8 +1754,7 @@ public struct GetRetrievedTracesGraphOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         retrievalStatus: XRayClientTypes.RetrievalStatus? = nil,
         services: [XRayClientTypes.RetrievedService]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retrievalStatus = retrievalStatus
         self.services = services
@@ -1831,8 +1767,7 @@ public struct GetSamplingRulesInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1846,8 +1781,7 @@ public struct GetSamplingRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         samplingRuleRecords: [XRayClientTypes.SamplingRuleRecord]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.samplingRuleRecords = samplingRuleRecords
     }
@@ -1859,8 +1793,7 @@ public struct GetSamplingStatisticSummariesInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -1886,8 +1819,7 @@ extension XRayClientTypes {
             ruleName: Swift.String? = nil,
             sampledCount: Swift.Int = 0,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.borrowCount = borrowCount
             self.requestCount = requestCount
             self.ruleName = ruleName
@@ -1906,8 +1838,7 @@ public struct GetSamplingStatisticSummariesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         samplingStatisticSummaries: [XRayClientTypes.SamplingStatisticSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.samplingStatisticSummaries = samplingStatisticSummaries
     }
@@ -1942,8 +1873,7 @@ extension XRayClientTypes {
             ruleName: Swift.String? = nil,
             sampledCount: Swift.Int = 0,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.borrowCount = borrowCount
             self.clientID = clientID
             self.requestCount = requestCount
@@ -1961,8 +1891,7 @@ public struct GetSamplingTargetsInput: Swift.Sendable {
 
     public init(
         samplingStatisticsDocuments: [XRayClientTypes.SamplingStatisticsDocument]? = nil
-    )
-    {
+    ) {
         self.samplingStatisticsDocuments = samplingStatisticsDocuments
     }
 }
@@ -1988,8 +1917,7 @@ extension XRayClientTypes {
             reservoirQuota: Swift.Int? = nil,
             reservoirQuotaTTL: Foundation.Date? = nil,
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fixedRate = fixedRate
             self.interval = interval
             self.reservoirQuota = reservoirQuota
@@ -2014,8 +1942,7 @@ extension XRayClientTypes {
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil,
             ruleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
             self.ruleName = ruleName
@@ -2035,8 +1962,7 @@ public struct GetSamplingTargetsOutput: Swift.Sendable {
         lastRuleModification: Foundation.Date? = nil,
         samplingTargetDocuments: [XRayClientTypes.SamplingTargetDocument]? = nil,
         unprocessedStatistics: [XRayClientTypes.UnprocessedStatistics]? = nil
-    )
-    {
+    ) {
         self.lastRuleModification = lastRuleModification
         self.samplingTargetDocuments = samplingTargetDocuments
         self.unprocessedStatistics = unprocessedStatistics
@@ -2063,8 +1989,7 @@ public struct GetServiceGraphInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.groupARN = groupARN
         self.groupName = groupName
@@ -2091,8 +2016,7 @@ public struct GetServiceGraphOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         services: [XRayClientTypes.Service]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.containsOldGroupVersions = containsOldGroupVersions
         self.endTime = endTime
         self.nextToken = nextToken
@@ -2130,8 +2054,7 @@ public struct GetTimeSeriesServiceStatisticsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         period: Swift.Int? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.entitySelectorExpression = entitySelectorExpression
         self.forecastStatistics = forecastStatistics
@@ -2155,8 +2078,7 @@ extension XRayClientTypes {
         public init(
             faultCountHigh: Swift.Int? = nil,
             faultCountLow: Swift.Int? = nil
-        )
-        {
+        ) {
             self.faultCountHigh = faultCountHigh
             self.faultCountLow = faultCountLow
         }
@@ -2184,8 +2106,7 @@ extension XRayClientTypes {
             serviceForecastStatistics: XRayClientTypes.ForecastStatistics? = nil,
             serviceSummaryStatistics: XRayClientTypes.ServiceStatistics? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.edgeSummaryStatistics = edgeSummaryStatistics
             self.responseTimeHistogram = responseTimeHistogram
             self.serviceForecastStatistics = serviceForecastStatistics
@@ -2207,8 +2128,7 @@ public struct GetTimeSeriesServiceStatisticsOutput: Swift.Sendable {
         containsOldGroupVersions: Swift.Bool = false,
         nextToken: Swift.String? = nil,
         timeSeriesServiceStatistics: [XRayClientTypes.TimeSeriesServiceStatistics]? = nil
-    )
-    {
+    ) {
         self.containsOldGroupVersions = containsOldGroupVersions
         self.nextToken = nextToken
         self.timeSeriesServiceStatistics = timeSeriesServiceStatistics
@@ -2225,8 +2145,7 @@ public struct GetTraceGraphInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         traceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.traceIds = traceIds
     }
@@ -2241,8 +2160,7 @@ public struct GetTraceGraphOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         services: [XRayClientTypes.Service]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.services = services
     }
@@ -2320,8 +2238,7 @@ public struct GetTraceSegmentDestinationOutput: Swift.Sendable {
     public init(
         destination: XRayClientTypes.TraceSegmentDestination? = nil,
         status: XRayClientTypes.TraceSegmentDestinationStatus? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.status = status
     }
@@ -2368,8 +2285,7 @@ extension XRayClientTypes {
         public init(
             name: XRayClientTypes.SamplingStrategyName? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2434,8 +2350,7 @@ public struct GetTraceSummariesInput: Swift.Sendable {
         samplingStrategy: XRayClientTypes.SamplingStrategy? = nil,
         startTime: Foundation.Date? = nil,
         timeRangeType: XRayClientTypes.TimeRangeType? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.filterExpression = filterExpression
         self.nextToken = nextToken
@@ -2458,8 +2373,7 @@ extension XRayClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -2481,8 +2395,7 @@ extension XRayClientTypes {
             exceptions: [XRayClientTypes.RootCauseException]? = nil,
             name: Swift.String? = nil,
             remote: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.exceptions = exceptions
             self.name = name
             self.remote = remote
@@ -2514,8 +2427,7 @@ extension XRayClientTypes {
             name: Swift.String? = nil,
             names: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.entityPath = entityPath
             self.inferred = inferred
@@ -2538,8 +2450,7 @@ extension XRayClientTypes {
         public init(
             clientImpacting: Swift.Bool? = nil,
             services: [XRayClientTypes.ErrorRootCauseService]? = nil
-        )
-        {
+        ) {
             self.clientImpacting = clientImpacting
             self.services = services
         }
@@ -2561,8 +2472,7 @@ extension XRayClientTypes {
             exceptions: [XRayClientTypes.RootCauseException]? = nil,
             name: Swift.String? = nil,
             remote: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.exceptions = exceptions
             self.name = name
             self.remote = remote
@@ -2594,8 +2504,7 @@ extension XRayClientTypes {
             name: Swift.String? = nil,
             names: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.entityPath = entityPath
             self.inferred = inferred
@@ -2618,8 +2527,7 @@ extension XRayClientTypes {
         public init(
             clientImpacting: Swift.Bool? = nil,
             services: [XRayClientTypes.FaultRootCauseService]? = nil
-        )
-        {
+        ) {
             self.clientImpacting = clientImpacting
             self.services = services
         }
@@ -2647,8 +2555,7 @@ extension XRayClientTypes {
             httpStatus: Swift.Int? = nil,
             httpURL: Swift.String? = nil,
             userAgent: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIp = clientIp
             self.httpMethod = httpMethod
             self.httpStatus = httpStatus
@@ -2667,8 +2574,7 @@ extension XRayClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -2683,8 +2589,7 @@ extension XRayClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -2705,8 +2610,7 @@ extension XRayClientTypes {
             coverage: Swift.Double? = nil,
             name: Swift.String? = nil,
             remote: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.coverage = coverage
             self.name = name
             self.remote = remote
@@ -2738,8 +2642,7 @@ extension XRayClientTypes {
             name: Swift.String? = nil,
             names: [Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.entityPath = entityPath
             self.inferred = inferred
@@ -2762,8 +2665,7 @@ extension XRayClientTypes {
         public init(
             clientImpacting: Swift.Bool? = nil,
             services: [XRayClientTypes.ResponseTimeRootCauseService]? = nil
-        )
-        {
+        ) {
             self.clientImpacting = clientImpacting
             self.services = services
         }
@@ -2782,8 +2684,7 @@ extension XRayClientTypes {
         public init(
             serviceIds: [XRayClientTypes.ServiceId]? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceIds = serviceIds
             self.userName = userName
         }
@@ -2859,8 +2760,7 @@ extension XRayClientTypes {
             serviceIds: [XRayClientTypes.ServiceId]? = nil,
             startTime: Foundation.Date? = nil,
             users: [XRayClientTypes.TraceUser]? = nil
-        )
-        {
+        ) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
             self.duration = duration
@@ -2901,8 +2801,7 @@ public struct GetTraceSummariesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         traceSummaries: [XRayClientTypes.TraceSummary]? = nil,
         tracesProcessedCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.approximateTime = approximateTime
         self.nextToken = nextToken
         self.traceSummaries = traceSummaries
@@ -2916,8 +2815,7 @@ public struct ListResourcePoliciesInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -2940,8 +2838,7 @@ extension XRayClientTypes {
             policyDocument: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyRevisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdatedTime = lastUpdatedTime
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -2959,8 +2856,7 @@ public struct ListResourcePoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourcePolicies: [XRayClientTypes.ResourcePolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourcePolicies = resourcePolicies
     }
@@ -3008,8 +2904,7 @@ public struct ListRetrievedTracesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         retrievalToken: Swift.String? = nil,
         traceFormat: XRayClientTypes.TraceFormatType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retrievalToken = retrievalToken
         self.traceFormat = traceFormat
@@ -3028,8 +2923,7 @@ extension XRayClientTypes {
         public init(
             document: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.document = document
             self.id = id
         }
@@ -3051,8 +2945,7 @@ extension XRayClientTypes {
             duration: Swift.Double? = nil,
             id: Swift.String? = nil,
             spans: [XRayClientTypes.Span]? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.id = id
             self.spans = spans
@@ -3075,8 +2968,7 @@ public struct ListRetrievedTracesOutput: Swift.Sendable {
         retrievalStatus: XRayClientTypes.RetrievalStatus? = nil,
         traceFormat: XRayClientTypes.TraceFormatType? = nil,
         traces: [XRayClientTypes.RetrievedTrace]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retrievalStatus = retrievalStatus
         self.traceFormat = traceFormat
@@ -3094,8 +2986,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceARN = resourceARN
     }
@@ -3110,8 +3001,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [XRayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -3136,8 +3026,7 @@ public struct PutEncryptionConfigInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         type: XRayClientTypes.EncryptionType? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.type = type
     }
@@ -3149,16 +3038,15 @@ public struct PutEncryptionConfigOutput: Swift.Sendable {
 
     public init(
         encryptionConfig: XRayClientTypes.EncryptionConfig? = nil
-    )
-    {
+    ) {
         self.encryptionConfig = encryptionConfig
     }
 }
 
 /// The provided resource policy would prevent the caller of this request from calling PutResourcePolicy in the future.
-public struct LockoutPreventionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LockoutPreventionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3173,16 +3061,15 @@ public struct LockoutPreventionException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Invalid policy document provided in request.
-public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3197,16 +3084,15 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exceeded the maximum number of resource policies for a target Amazon Web Services account.
-public struct PolicyCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyCountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3221,16 +3107,15 @@ public struct PolicyCountLimitExceededException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exceeded the maximum size for a resource policy.
-public struct PolicySizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicySizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3245,8 +3130,7 @@ public struct PolicySizeLimitExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3268,8 +3152,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyRevisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutCheck = bypassPolicyLockoutCheck
         self.policyDocument = policyDocument
         self.policyName = policyName
@@ -3283,8 +3166,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: XRayClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -3313,8 +3195,7 @@ extension XRayClientTypes {
             otherCount: Swift.Int? = nil,
             timeoutCount: Swift.Int? = nil,
             unknownHostCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.connectionRefusedCount = connectionRefusedCount
             self.httpCode4XXCount = httpCode4XXCount
             self.httpCode5XXCount = httpCode5XXCount
@@ -3350,8 +3231,7 @@ extension XRayClientTypes {
             segmentsSentCount: Swift.Int? = nil,
             segmentsSpilloverCount: Swift.Int? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.backendConnectionErrors = backendConnectionErrors
             self.segmentsReceivedCount = segmentsReceivedCount
             self.segmentsRejectedCount = segmentsRejectedCount
@@ -3378,8 +3258,7 @@ public struct PutTelemetryRecordsInput: Swift.Sendable {
         hostname: Swift.String? = nil,
         resourceARN: Swift.String? = nil,
         telemetryRecords: [XRayClientTypes.TelemetryRecord]? = nil
-    )
-    {
+    ) {
         self.ec2InstanceId = ec2InstanceId
         self.hostname = hostname
         self.resourceARN = resourceARN
@@ -3399,8 +3278,7 @@ public struct PutTraceSegmentsInput: Swift.Sendable {
 
     public init(
         traceSegmentDocuments: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.traceSegmentDocuments = traceSegmentDocuments
     }
 }
@@ -3420,8 +3298,7 @@ extension XRayClientTypes {
             errorCode: Swift.String? = nil,
             id: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.id = id
             self.message = message
@@ -3435,8 +3312,7 @@ public struct PutTraceSegmentsOutput: Swift.Sendable {
 
     public init(
         unprocessedTraceSegments: [XRayClientTypes.UnprocessedTraceSegment]? = nil
-    )
-    {
+    ) {
         self.unprocessedTraceSegments = unprocessedTraceSegments
     }
 }
@@ -3456,8 +3332,7 @@ public struct StartTraceRetrievalInput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         startTime: Foundation.Date? = nil,
         traceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.startTime = startTime
         self.traceIds = traceIds
@@ -3470,16 +3345,15 @@ public struct StartTraceRetrievalOutput: Swift.Sendable {
 
     public init(
         retrievalToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.retrievalToken = retrievalToken
     }
 }
 
 /// You have exceeded the maximum number of tags you can apply to this resource.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -3496,8 +3370,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -3526,8 +3399,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [XRayClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -3549,8 +3421,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -3580,8 +3451,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         groupARN: Swift.String? = nil,
         groupName: Swift.String? = nil,
         insightsConfiguration: XRayClientTypes.InsightsConfiguration? = nil
-    )
-    {
+    ) {
         self.filterExpression = filterExpression
         self.groupARN = groupARN
         self.groupName = groupName
@@ -3595,8 +3465,7 @@ public struct UpdateGroupOutput: Swift.Sendable {
 
     public init(
         group: XRayClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -3611,8 +3480,7 @@ extension XRayClientTypes {
 
         public init(
             desiredSamplingPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.desiredSamplingPercentage = desiredSamplingPercentage
         }
     }
@@ -3639,8 +3507,7 @@ public struct UpdateIndexingRuleInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         rule: XRayClientTypes.IndexingRuleValueUpdate? = nil
-    )
-    {
+    ) {
         self.name = name
         self.rule = rule
     }
@@ -3652,8 +3519,7 @@ public struct UpdateIndexingRuleOutput: Swift.Sendable {
 
     public init(
         indexingRule: XRayClientTypes.IndexingRule? = nil
-    )
-    {
+    ) {
         self.indexingRule = indexingRule
     }
 }
@@ -3700,8 +3566,7 @@ extension XRayClientTypes {
             serviceName: Swift.String? = nil,
             serviceType: Swift.String? = nil,
             urlPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.fixedRate = fixedRate
             self.host = host
@@ -3725,8 +3590,7 @@ public struct UpdateSamplingRuleInput: Swift.Sendable {
 
     public init(
         samplingRuleUpdate: XRayClientTypes.SamplingRuleUpdate? = nil
-    )
-    {
+    ) {
         self.samplingRuleUpdate = samplingRuleUpdate
     }
 }
@@ -3737,8 +3601,7 @@ public struct UpdateSamplingRuleOutput: Swift.Sendable {
 
     public init(
         samplingRuleRecord: XRayClientTypes.SamplingRuleRecord? = nil
-    )
-    {
+    ) {
         self.samplingRuleRecord = samplingRuleRecord
     }
 }
@@ -3749,8 +3612,7 @@ public struct UpdateTraceSegmentDestinationInput: Swift.Sendable {
 
     public init(
         destination: XRayClientTypes.TraceSegmentDestination? = nil
-    )
-    {
+    ) {
         self.destination = destination
     }
 }
@@ -3764,8 +3626,7 @@ public struct UpdateTraceSegmentDestinationOutput: Swift.Sendable {
     public init(
         destination: XRayClientTypes.TraceSegmentDestination? = nil,
         status: XRayClientTypes.TraceSegmentDestinationStatus? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.status = status
     }

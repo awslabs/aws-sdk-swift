@@ -25,9 +25,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The API is disabled in the Region.
-public struct DisabledApiException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledApiException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -42,16 +42,15 @@ public struct DisabledApiException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -66,16 +65,15 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have metered usage for a CustomerIdentifier that does not exist.
-public struct InvalidCustomerIdentifierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCustomerIdentifierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -90,16 +88,15 @@ public struct InvalidCustomerIdentifierException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The product code passed does not match the product code used for publishing the product.
-public struct InvalidProductCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidProductCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -114,16 +111,15 @@ public struct InvalidProductCodeException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The tag is invalid, or the number of tags is greater than 5.
-public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -138,16 +134,15 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The usage allocation objects are invalid, or the number of allocations is greater than 500 for a single usage record.
-public struct InvalidUsageAllocationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUsageAllocationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -162,16 +157,15 @@ public struct InvalidUsageAllocationsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The usage dimension does not match one of the UsageDimensions associated with products.
-public struct InvalidUsageDimensionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUsageDimensionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -186,16 +180,15 @@ public struct InvalidUsageDimensionException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The calls to the API are throttled.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -210,16 +203,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The timestamp value passed in the UsageRecord is out of allowed range. For BatchMeterUsage, if any of the records are outside of the allowed range, the entire batch is not processed. You must remove invalid records and try again.
-public struct TimestampOutOfBoundsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TimestampOutOfBoundsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -234,8 +226,7 @@ public struct TimestampOutOfBoundsException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -254,8 +245,7 @@ extension MarketplaceMeteringClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -275,8 +265,7 @@ extension MarketplaceMeteringClientTypes {
         public init(
             allocatedUsageQuantity: Swift.Int? = nil,
             tags: [MarketplaceMeteringClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.allocatedUsageQuantity = allocatedUsageQuantity
             self.tags = tags
         }
@@ -307,8 +296,7 @@ extension MarketplaceMeteringClientTypes {
             quantity: Swift.Int? = nil,
             timestamp: Foundation.Date? = nil,
             usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil
-        )
-        {
+        ) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.quantity = quantity
@@ -330,8 +318,7 @@ public struct BatchMeterUsageInput: Swift.Sendable {
     public init(
         productCode: Swift.String? = nil,
         usageRecords: [MarketplaceMeteringClientTypes.UsageRecord]? = nil
-    )
-    {
+    ) {
         self.productCode = productCode
         self.usageRecords = usageRecords
     }
@@ -399,8 +386,7 @@ extension MarketplaceMeteringClientTypes {
             meteringRecordId: Swift.String? = nil,
             status: MarketplaceMeteringClientTypes.UsageRecordResultStatus? = nil,
             usageRecord: MarketplaceMeteringClientTypes.UsageRecord? = nil
-        )
-        {
+        ) {
             self.meteringRecordId = meteringRecordId
             self.status = status
             self.usageRecord = usageRecord
@@ -418,17 +404,16 @@ public struct BatchMeterUsageOutput: Swift.Sendable {
     public init(
         results: [MarketplaceMeteringClientTypes.UsageRecordResult]? = nil,
         unprocessedRecords: [MarketplaceMeteringClientTypes.UsageRecord]? = nil
-    )
-    {
+    ) {
         self.results = results
         self.unprocessedRecords = unprocessedRecords
     }
 }
 
 /// Exception thrown when the customer does not have a valid subscription for the product.
-public struct CustomerNotEntitledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomerNotEntitledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -443,16 +428,15 @@ public struct CustomerNotEntitledException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity.
-public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -467,16 +451,15 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The endpoint being called is in a AWS Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the AWS Region of the resource must match.
-public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -491,8 +474,7 @@ public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -521,8 +503,7 @@ public struct MeterUsageInput: Swift.Sendable {
         usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil,
         usageDimension: Swift.String? = nil,
         usageQuantity: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.productCode = productCode
         self.timestamp = timestamp
@@ -538,16 +519,15 @@ public struct MeterUsageOutput: Swift.Sendable {
 
     public init(
         meteringRecordId: Swift.String? = nil
-    )
-    {
+    ) {
         self.meteringRecordId = meteringRecordId
     }
 }
 
 /// Public Key version is invalid.
-public struct InvalidPublicKeyVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPublicKeyVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -562,16 +542,15 @@ public struct InvalidPublicKeyVersionException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
-public struct InvalidRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -586,16 +565,15 @@ public struct InvalidRegionException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// AWS Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and AWS Fargate are supported.
-public struct PlatformNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PlatformNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -610,8 +588,7 @@ public struct PlatformNotSupportedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -630,8 +607,7 @@ public struct RegisterUsageInput: Swift.Sendable {
         nonce: Swift.String? = nil,
         productCode: Swift.String? = nil,
         publicKeyVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nonce = nonce
         self.productCode = productCode
         self.publicKeyVersion = publicKeyVersion
@@ -647,17 +623,16 @@ public struct RegisterUsageOutput: Swift.Sendable {
     public init(
         publicKeyRotationTimestamp: Foundation.Date? = nil,
         signature: Swift.String? = nil
-    )
-    {
+    ) {
         self.publicKeyRotationTimestamp = publicKeyRotationTimestamp
         self.signature = signature
     }
 }
 
 /// The submitted registration token has expired. This can happen if the buyer's browser takes too long to redirect to your page, the buyer has resubmitted the registration token, or your application has held on to the registration token for too long. Your SaaS registration website should redeem this token as soon as it is submitted by the buyer's browser.
-public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -672,16 +647,15 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Registration token is invalid.
-public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -696,8 +670,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -710,8 +683,7 @@ public struct ResolveCustomerInput: Swift.Sendable {
 
     public init(
         registrationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationToken = registrationToken
     }
 }
@@ -729,8 +701,7 @@ public struct ResolveCustomerOutput: Swift.Sendable {
         customerAWSAccountId: Swift.String? = nil,
         customerIdentifier: Swift.String? = nil,
         productCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerAWSAccountId = customerAWSAccountId
         self.customerIdentifier = customerIdentifier
         self.productCode = productCode

@@ -137,8 +137,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             name: CognitoIdentityProviderClientTypes.RecoveryOptionNameType? = nil,
             priority: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.priority = priority
         }
@@ -154,8 +153,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             recoveryMechanisms: [CognitoIdentityProviderClientTypes.RecoveryOptionType]? = nil
-        )
-        {
+        ) {
             self.recoveryMechanisms = recoveryMechanisms
         }
     }
@@ -218,8 +216,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             eventAction: CognitoIdentityProviderClientTypes.AccountTakeoverEventActionType? = nil,
             notify: Swift.Bool = false
-        )
-        {
+        ) {
             self.eventAction = eventAction
             self.notify = notify
         }
@@ -241,8 +238,7 @@ extension CognitoIdentityProviderClientTypes {
             highAction: CognitoIdentityProviderClientTypes.AccountTakeoverActionType? = nil,
             lowAction: CognitoIdentityProviderClientTypes.AccountTakeoverActionType? = nil,
             mediumAction: CognitoIdentityProviderClientTypes.AccountTakeoverActionType? = nil
-        )
-        {
+        ) {
             self.highAction = highAction
             self.lowAction = lowAction
             self.mediumAction = mediumAction
@@ -266,8 +262,7 @@ extension CognitoIdentityProviderClientTypes {
             htmlBody: Swift.String? = nil,
             subject: Swift.String? = nil,
             textBody: Swift.String? = nil
-        )
-        {
+        ) {
             self.htmlBody = htmlBody
             self.subject = subject
             self.textBody = textBody
@@ -300,8 +295,7 @@ extension CognitoIdentityProviderClientTypes {
             noActionEmail: CognitoIdentityProviderClientTypes.NotifyEmailType? = nil,
             replyTo: Swift.String? = nil,
             sourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockEmail = blockEmail
             self.from = from
             self.mfaEmail = mfaEmail
@@ -325,8 +319,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             actions: CognitoIdentityProviderClientTypes.AccountTakeoverActionsType? = nil,
             notifyConfiguration: CognitoIdentityProviderClientTypes.NotifyConfigurationType? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.notifyConfiguration = notifyConfiguration
         }
@@ -334,9 +327,9 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 /// This exception is thrown when Amazon Cognito encounters an internal error.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an internal error exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -352,16 +345,15 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service throws an invalid parameter exception.
         public internal(set) var message: Swift.String? = nil
         /// The reason code of the exception.
@@ -380,17 +372,16 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         reasonCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reasonCode = reasonCode
     }
 }
 
 /// This exception is thrown when a user isn't authorized.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a not authorized exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -406,16 +397,15 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the Amazon Cognito service can't find the requested resource.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a resource not found exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -431,16 +421,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the user has made too many requests for a given operation.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a too many requests exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -456,16 +445,15 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when you're trying to modify a user pool while a user import job is in progress for that pool.
-public struct UserImportInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserImportInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the user pool has an import job running.
         public internal(set) var message: Swift.String? = nil
     }
@@ -481,8 +469,7 @@ public struct UserImportInProgressException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -534,8 +521,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             maxValue: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
         }
@@ -554,8 +540,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             maxLength: Swift.String? = nil,
             minLength: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxLength = maxLength
             self.minLength = minLength
         }
@@ -589,8 +574,7 @@ extension CognitoIdentityProviderClientTypes {
             numberAttributeConstraints: CognitoIdentityProviderClientTypes.NumberAttributeConstraintsType? = nil,
             `required`: Swift.Bool? = false,
             stringAttributeConstraints: CognitoIdentityProviderClientTypes.StringAttributeConstraintsType? = nil
-        )
-        {
+        ) {
             self.attributeDataType = attributeDataType
             self.developerOnlyAttribute = developerOnlyAttribute
             self.mutable = mutable
@@ -604,18 +588,17 @@ extension CognitoIdentityProviderClientTypes {
 
 /// Represents the request to add custom attributes.
 public struct AddCustomAttributesInput: Swift.Sendable {
-    /// An array of custom attributes, such as Mutable and Name.
+    /// An array of custom attribute names and other properties. Sets the following characteristics: AttributeDataType The expected data type. Can be a string, a number, a date and time, or a boolean. Mutable If true, you can grant app clients write access to the attribute value. If false, the attribute value can only be set up on sign-up or administrator creation of users. Name The attribute name. For an attribute like custom:myAttribute, enter myAttribute for this field. Required When true, users who sign up or are created must set a value for the attribute. NumberAttributeConstraints The minimum and maximum length of accepted values for a Number-type attribute. StringAttributeConstraints The minimum and maximum length of accepted values for a String-type attribute. DeveloperOnlyAttribute This legacy option creates an attribute with a dev: prefix. You can only set the value of a developer-only attribute with administrative IAM credentials.
     /// This member is required.
     public var customAttributes: [CognitoIdentityProviderClientTypes.SchemaAttributeType]?
-    /// The user pool ID for the user pool where you want to add custom attributes.
+    /// The ID of the user pool where you want to add custom attributes.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         customAttributes: [CognitoIdentityProviderClientTypes.SchemaAttributeType]? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customAttributes = customAttributes
         self.userPoolId = userPoolId
     }
@@ -628,9 +611,9 @@ public struct AddCustomAttributesOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a user isn't found.
-public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a user isn't found.
         public internal(set) var message: Swift.String? = nil
     }
@@ -646,8 +629,7 @@ public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -656,7 +638,7 @@ public struct AdminAddUserToGroupInput: Swift.Sendable {
     /// The name of the group that you want to add your user to.
     /// This member is required.
     public var groupName: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool that contains the group that you want to add the user to.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -667,8 +649,7 @@ public struct AdminAddUserToGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.userPoolId = userPoolId
         self.username = username
@@ -681,9 +662,9 @@ extension AdminAddUserToGroupInput: Swift.CustomDebugStringConvertible {
 }
 
 /// This exception is thrown when Amazon Cognito encounters an invalid Lambda response.
-public struct InvalidLambdaResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLambdaResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an invalid Lambda response exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -699,16 +680,15 @@ public struct InvalidLambdaResponseException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws a limit exceeded exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -724,16 +704,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the user has made too many failed attempts for a given action, such as sign-in.
-public struct TooManyFailedAttemptsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFailedAttemptsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito returns a TooManyFailedAttempts exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -749,16 +728,15 @@ public struct TooManyFailedAttemptsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
-public struct UnexpectedLambdaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnexpectedLambdaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito returns an unexpected Lambda exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -774,16 +752,15 @@ public struct UnexpectedLambdaException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
-public struct UserLambdaValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserLambdaValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a user validation exception with the Lambda service.
         public internal(set) var message: Swift.String? = nil
     }
@@ -799,23 +776,22 @@ public struct UserLambdaValidationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Confirm a user's registration as a user pool administrator.
 public struct AdminConfirmSignUpInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. If your user pool configuration includes triggers, the AdminConfirmSignUp API action invokes the Lambda function that is specified for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. In this payload, the clientMetadata attribute provides the data that you assigned to the ClientMetadata parameter in your AdminConfirmSignUp request. In your function code in Lambda, you can process the ClientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. If your user pool configuration includes triggers, the AdminConfirmSignUp API action invokes the Lambda function that is specified for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. In this payload, the clientMetadata attribute provides the data that you assigned to the ClientMetadata parameter in your AdminConfirmSignUp request. In your function code in Lambda, you can process the ClientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// The user pool ID for which you want to confirm user registration.
+    /// The ID of the user pool where you want to confirm a user's sign-up request.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -826,8 +802,7 @@ public struct AdminConfirmSignUpInput: Swift.Sendable {
         clientMetadata: [Swift.String: Swift.String]? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientMetadata = clientMetadata
         self.userPoolId = userPoolId
         self.username = username
@@ -846,9 +821,9 @@ public struct AdminConfirmSignUpOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a verification code fails to deliver successfully.
-public struct CodeDeliveryFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeDeliveryFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message sent when a verification code fails to deliver successfully.
         public internal(set) var message: Swift.String? = nil
     }
@@ -864,16 +839,15 @@ public struct CodeDeliveryFailureException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when Amazon Cognito encounters an invalid password.
-public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an invalid user password exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -889,16 +863,15 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
-public struct InvalidSmsRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSmsRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the invalid SMS role access policy exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -914,16 +887,15 @@ public struct InvalidSmsRoleAccessPolicyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
-public struct InvalidSmsRoleTrustRelationshipException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSmsRoleTrustRelationshipException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the role trust relationship for the SMS message is not valid.
         public internal(set) var message: Swift.String? = nil
     }
@@ -939,16 +911,15 @@ public struct InvalidSmsRoleTrustRelationshipException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when a precondition is not met.
-public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a precondition is not met.
         public internal(set) var message: Swift.String? = nil
     }
@@ -964,16 +935,15 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request failed because the user is in an unsupported state.
-public struct UnsupportedUserStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedUserStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the user is in an unsupported state.
         public internal(set) var message: Swift.String? = nil
     }
@@ -989,16 +959,15 @@ public struct UnsupportedUserStateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when Amazon Cognito encounters a user name that already exists in the user pool.
-public struct UsernameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UsernameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws a user name exists exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1014,8 +983,7 @@ public struct UsernameExistsException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1091,8 +1059,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1106,19 +1073,19 @@ extension CognitoIdentityProviderClientTypes.AttributeType: Swift.CustomDebugStr
 
 /// Creates a new user in the specified user pool.
 public struct AdminCreateUserInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a ClientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". You can specify more than one value.
+    /// Specify EMAIL if email will be used to send the welcome message. Specify SMS if the phone number will be used. The default value is SMS. You can specify more than one value.
     public var desiredDeliveryMediums: [CognitoIdentityProviderClientTypes.DeliveryMediumType]?
-    /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
+    /// This parameter is used only if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, this request migrates the alias from the previous user to the newly-created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
     public var forceAliasCreation: Swift.Bool?
-    /// Set to RESEND to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to SUPPRESS to suppress sending the message. You can specify only one value.
+    /// Set to RESEND to resend the invitation message to a user that already exists, and to reset the temporary-password duration with a new temporary password. Set to SUPPRESS to suppress sending the message. You can specify only one value.
     public var messageAction: CognitoIdentityProviderClientTypes.MessageActionType?
     /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The exception to the requirement for a password is when your user pool supports passwordless sign-in with email or SMS OTPs. To create a user with no password, omit this parameter or submit a blank value. You can only create a passwordless user when passwordless sign-in is available. See [the SignInPolicyType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SignInPolicyType.html) property of [CreateUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateUserPool.html) and [UpdateUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserPool.html). The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page, along with a new password to be used in all future sign-ins. If you don't specify a value, Amazon Cognito generates one for you unless you have passwordless options active for your user pool. The temporary password can only be used until the user account expiration limit that you set for your user pool. To reset the account after that time limit, you must call AdminCreateUser again and specify RESEND for the MessageAction parameter.
     public var temporaryPassword: Swift.String?
@@ -1128,7 +1095,7 @@ public struct AdminCreateUserInput: Swift.Sendable {
     ///
     /// * phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if "SMS" is specified in the DesiredDeliveryMediums parameter.
     public var userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]?
-    /// The user pool ID for the user pool where the user will be created.
+    /// The ID of the user pool where you want to create a user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The value that you want to set as the username sign-in attribute. The following conditions apply to the username parameter.
@@ -1153,8 +1120,7 @@ public struct AdminCreateUserInput: Swift.Sendable {
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil,
         validationData: [CognitoIdentityProviderClientTypes.AttributeType]? = nil
-    )
-    {
+    ) {
         self.clientMetadata = clientMetadata
         self.desiredDeliveryMediums = desiredDeliveryMediums
         self.forceAliasCreation = forceAliasCreation
@@ -1184,8 +1150,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             deliveryMedium: CognitoIdentityProviderClientTypes.DeliveryMediumType? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.deliveryMedium = deliveryMedium
         }
@@ -1278,8 +1243,7 @@ extension CognitoIdentityProviderClientTypes {
             userLastModifiedDate: Foundation.Date? = nil,
             userStatus: CognitoIdentityProviderClientTypes.UserStatusType? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.enabled = enabled
             self.mfaOptions = mfaOptions
@@ -1298,13 +1262,12 @@ extension CognitoIdentityProviderClientTypes.UserType: Swift.CustomDebugStringCo
 
 /// Represents the response from the server to the request to create the user.
 public struct AdminCreateUserOutput: Swift.Sendable {
-    /// The newly created user.
+    /// The new user's profile details.
     public var user: CognitoIdentityProviderClientTypes.UserType?
 
     public init(
         user: CognitoIdentityProviderClientTypes.UserType? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -1324,8 +1287,7 @@ extension CognitoIdentityProviderClientTypes {
             emailMessage: Swift.String? = nil,
             emailSubject: Swift.String? = nil,
             smsMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.emailMessage = emailMessage
             self.emailSubject = emailSubject
             self.smsMessage = smsMessage
@@ -1348,8 +1310,7 @@ extension CognitoIdentityProviderClientTypes {
             allowAdminCreateUserOnly: Swift.Bool = false,
             inviteMessageTemplate: CognitoIdentityProviderClientTypes.MessageTemplateType? = nil,
             unusedAccountValidityDays: Swift.Int = 0
-        )
-        {
+        ) {
             self.allowAdminCreateUserOnly = allowAdminCreateUserOnly
             self.inviteMessageTemplate = inviteMessageTemplate
             self.unusedAccountValidityDays = unusedAccountValidityDays
@@ -1359,7 +1320,7 @@ extension CognitoIdentityProviderClientTypes {
 
 /// Represents the request to delete a user as an administrator.
 public struct AdminDeleteUserInput: Swift.Sendable {
-    /// The user pool ID for the user pool where you want to delete the user.
+    /// The ID of the user pool where you want to delete the user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -1369,8 +1330,7 @@ public struct AdminDeleteUserInput: Swift.Sendable {
     public init(
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
         self.username = username
     }
@@ -1386,7 +1346,7 @@ public struct AdminDeleteUserAttributesInput: Swift.Sendable {
     /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
     /// This member is required.
     public var userAttributeNames: [Swift.String]?
-    /// The user pool ID for the user pool where you want to delete user attributes.
+    /// The ID of the user pool where you want to delete user attributes.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -1397,8 +1357,7 @@ public struct AdminDeleteUserAttributesInput: Swift.Sendable {
         userAttributeNames: [Swift.String]? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.userAttributeNames = userAttributeNames
         self.userPoolId = userPoolId
         self.username = username
@@ -1417,9 +1376,9 @@ public struct AdminDeleteUserAttributesOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a user tries to confirm the account with an email address or phone number that has already been supplied as an alias for a different user profile. This exception indicates that an account with this email address or phone already exists in a user pool that you've configured to use email address or phone number as a sign-in alias.
-public struct AliasExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AliasExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that Amazon Cognito sends to the user when the value of an alias attribute is already linked to another user profile.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1435,8 +1394,7 @@ public struct AliasExistsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1456,8 +1414,7 @@ extension CognitoIdentityProviderClientTypes {
             providerAttributeName: Swift.String? = nil,
             providerAttributeValue: Swift.String? = nil,
             providerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.providerAttributeName = providerAttributeName
             self.providerAttributeValue = providerAttributeValue
             self.providerName = providerName
@@ -1466,18 +1423,17 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct AdminDisableProviderForUserInput: Swift.Sendable {
-    /// The user to be disabled.
+    /// The user profile that you want to delete a linked identity from.
     /// This member is required.
     public var user: CognitoIdentityProviderClientTypes.ProviderUserIdentifierType?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool where you want to delete the user's linked identities.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         user: CognitoIdentityProviderClientTypes.ProviderUserIdentifierType? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.user = user
         self.userPoolId = userPoolId
     }
@@ -1490,7 +1446,7 @@ public struct AdminDisableProviderForUserOutput: Swift.Sendable {
 
 /// Represents the request to disable the user as an administrator.
 public struct AdminDisableUserInput: Swift.Sendable {
-    /// The user pool ID for the user pool where you want to disable the user.
+    /// The ID of the user pool where you want to disable the user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -1500,8 +1456,7 @@ public struct AdminDisableUserInput: Swift.Sendable {
     public init(
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
         self.username = username
     }
@@ -1520,7 +1475,7 @@ public struct AdminDisableUserOutput: Swift.Sendable {
 
 /// Represents the request that enables the user as an administrator.
 public struct AdminEnableUserInput: Swift.Sendable {
-    /// The user pool ID for the user pool where you want to enable the user.
+    /// The ID of the user pool where you want to activate sign-in for the user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -1530,8 +1485,7 @@ public struct AdminEnableUserInput: Swift.Sendable {
     public init(
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
         self.username = username
     }
@@ -1549,9 +1503,9 @@ public struct AdminEnableUserOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the user pool configuration is not valid.
-public struct InvalidUserPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUserPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the user pool configuration is not valid.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1567,18 +1521,17 @@ public struct InvalidUserPoolConfigurationException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Sends the forgot device request, as an administrator.
 public struct AdminForgetDeviceInput: Swift.Sendable {
-    /// The device key.
+    /// The key ID of the device that you want to delete. You can get device keys in the response to an [AdminListDevices](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminListDevices.html) request.
     /// This member is required.
     public var deviceKey: Swift.String?
-    /// The user pool ID.
+    /// The ID of the user pool where the device owner is a user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -1589,8 +1542,7 @@ public struct AdminForgetDeviceInput: Swift.Sendable {
         deviceKey: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceKey = deviceKey
         self.userPoolId = userPoolId
         self.username = username
@@ -1604,10 +1556,10 @@ extension AdminForgetDeviceInput: Swift.CustomDebugStringConvertible {
 
 /// Represents the request to get the device, as an administrator.
 public struct AdminGetDeviceInput: Swift.Sendable {
-    /// The device key.
+    /// The key of the device that you want to delete. You can get device IDs in the response to an [AdminListDevices](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminListDevices.html) request.
     /// This member is required.
     public var deviceKey: Swift.String?
-    /// The user pool ID.
+    /// The ID of the user pool where the device owner is a user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -1618,8 +1570,7 @@ public struct AdminGetDeviceInput: Swift.Sendable {
         deviceKey: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceKey = deviceKey
         self.userPoolId = userPoolId
         self.username = username
@@ -1652,8 +1603,7 @@ extension CognitoIdentityProviderClientTypes {
             deviceKey: Swift.String? = nil,
             deviceLastAuthenticatedDate: Foundation.Date? = nil,
             deviceLastModifiedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.deviceAttributes = deviceAttributes
             self.deviceCreateDate = deviceCreateDate
             self.deviceKey = deviceKey
@@ -1665,21 +1615,20 @@ extension CognitoIdentityProviderClientTypes {
 
 /// Gets the device response, as an administrator.
 public struct AdminGetDeviceOutput: Swift.Sendable {
-    /// The device.
+    /// Details of the requested device. Includes device information, last-accessed and created dates, and the device key.
     /// This member is required.
     public var device: CognitoIdentityProviderClientTypes.DeviceType?
 
     public init(
         device: CognitoIdentityProviderClientTypes.DeviceType? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
 
 /// Represents the request to get the specified user as an administrator.
 public struct AdminGetUserInput: Swift.Sendable {
-    /// The user pool ID for the user pool where you want to get information about the user.
+    /// The ID of the user pool where you want to get information about the user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -1689,8 +1638,7 @@ public struct AdminGetUserInput: Swift.Sendable {
     public init(
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
         self.username = username
     }
@@ -1703,21 +1651,21 @@ extension AdminGetUserInput: Swift.CustomDebugStringConvertible {
 
 /// Represents the response from the server from the request to get the specified user as an administrator.
 public struct AdminGetUserOutput: Swift.Sendable {
-    /// Indicates that the status is enabled.
+    /// Indicates whether the user is activated for sign-in. The [AdminDisableUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminDisableUser.html) and [AdminEnableUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminEnableUser.html) API operations deactivate and activate user sign-in, respectively.
     public var enabled: Swift.Bool
     /// This response parameter is no longer supported. It provides information only about SMS MFA configurations. It doesn't provide information about time-based one-time password (TOTP) software token MFA configurations. To look up information about either type of MFA configuration, use UserMFASettingList instead.
     public var mfaOptions: [CognitoIdentityProviderClientTypes.MFAOptionType]?
-    /// The user's preferred MFA setting.
+    /// The user's preferred MFA. Users can prefer SMS message, email message, or TOTP MFA.
     public var preferredMfaSetting: Swift.String?
-    /// An array of name-value pairs representing user attributes.
+    /// An array of name-value pairs of user attributes and their values, for example "email": "testuser@example.com".
     public var userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]?
-    /// The date the user was created.
+    /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
     public var userCreateDate: Foundation.Date?
     /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
     public var userLastModifiedDate: Foundation.Date?
-    /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA, EMAIL_OTP, and SOFTWARE_TOKEN_MFA.
+    /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA, EMAIL_OTP, and SOFTWARE_TOKEN_MFA. You can change the MFA preference for users who have more than one available MFA factor with [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) or [SetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserMFAPreference.html).
     public var userMFASettingList: [Swift.String]?
-    /// The user status. Can be one of the following:
+    /// The user's status. Can be one of the following:
     ///
     /// * UNCONFIRMED - User has been created but not confirmed.
     ///
@@ -1728,6 +1676,8 @@ public struct AdminGetUserOutput: Swift.Sendable {
     /// * RESET_REQUIRED - User is confirmed, but the user must request a code and reset their password before they can sign in.
     ///
     /// * FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change their password to a new value before doing anything else.
+    ///
+    /// * EXTERNAL_PROVIDER - The user signed in with a third-party identity provider.
     public var userStatus: CognitoIdentityProviderClientTypes.UserStatusType?
     /// The username of the user that you requested.
     /// This member is required.
@@ -1743,8 +1693,7 @@ public struct AdminGetUserOutput: Swift.Sendable {
         userMFASettingList: [Swift.String]? = nil,
         userStatus: CognitoIdentityProviderClientTypes.UserStatusType? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.mfaOptions = mfaOptions
         self.preferredMfaSetting = preferredMfaSetting
@@ -1763,9 +1712,9 @@ extension AdminGetUserOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
-public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when you have an unverified email address or the identity policy isn't set on an email address that Amazon Cognito can access.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1781,16 +1730,15 @@ public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when Amazon Cognito can't find a multi-factor authentication (MFA) method.
-public struct MFAMethodNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MFAMethodNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an MFA method not found exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1806,16 +1754,15 @@ public struct MFAMethodNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when a password reset is required.
-public struct PasswordResetRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PasswordResetRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a password reset is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1831,16 +1778,15 @@ public struct PasswordResetRequiredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when a user isn't confirmed successfully.
-public struct UserNotConfirmedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserNotConfirmedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a user isn't confirmed successfully.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1856,8 +1802,7 @@ public struct UserNotConfirmedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1871,8 +1816,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             analyticsEndpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyticsEndpointId = analyticsEndpointId
         }
     }
@@ -1937,8 +1881,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             headerName: Swift.String? = nil,
             headerValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.headerName = headerName
             self.headerValue = headerValue
         }
@@ -1970,8 +1913,7 @@ extension CognitoIdentityProviderClientTypes {
             ipAddress: Swift.String? = nil,
             serverName: Swift.String? = nil,
             serverPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.encodedData = encodedData
             self.httpHeaders = httpHeaders
             self.ipAddress = ipAddress
@@ -1983,9 +1925,9 @@ extension CognitoIdentityProviderClientTypes {
 
 /// Initiates the authorization request, as an administrator.
 public struct AdminInitiateAuthInput: Swift.Sendable {
-    /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
+    /// The analytics metadata for collecting Amazon Pinpoint metrics.
     public var analyticsMetadata: CognitoIdentityProviderClientTypes.AnalyticsMetadataType?
-    /// The authentication flow that you want to initiate. The AuthParameters that you must submit are linked to the flow that you submit. For example:
+    /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows and their parameters.
     ///
     /// * USER_AUTH: Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response.
     ///
@@ -1996,7 +1938,7 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
     /// * ADMIN_USER_PASSWORD_AUTH: Receive new tokens or the next challenge, for example SOFTWARE_TOKEN_MFA, when you pass USERNAME and PASSWORD parameters.
     ///
     ///
-    /// Valid values include the following: USER_AUTH The entry point for sign-in with passwords, one-time passwords, biometric devices, and security keys. USER_SRP_AUTH Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see [Use SRP password verification in custom authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Using-SRP-password-verification-in-custom-authentication-flow). REFRESH_TOKEN_AUTH and REFRESH_TOKEN Provide a valid refresh token and receive new ID and access tokens. For more information, see [Using the refresh token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html). CUSTOM_AUTH Custom authentication with Lambda triggers. For more information, see [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html). ADMIN_USER_PASSWORD_AUTH Username-password authentication with the password sent directly in the request. For more information, see [Admin authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Built-in-authentication-flow-and-challenges). USER_PASSWORD_AUTH is a flow type of [InitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_InitiateAuth.html) and isn't valid for AdminInitiateAuth.
+    /// All flows USER_AUTH The entry point for sign-in with passwords, one-time passwords, and WebAuthN authenticators. USER_SRP_AUTH Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see [Use SRP password verification in custom authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Using-SRP-password-verification-in-custom-authentication-flow). REFRESH_TOKEN_AUTH and REFRESH_TOKEN Provide a valid refresh token and receive new ID and access tokens. For more information, see [Using the refresh token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html). CUSTOM_AUTH Custom authentication with Lambda triggers. For more information, see [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html). ADMIN_USER_PASSWORD_AUTH Username-password authentication with the password sent directly in the request. For more information, see [Admin authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Built-in-authentication-flow-and-challenges). USER_PASSWORD_AUTH is a flow type of [InitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_InitiateAuth.html) and isn't valid for AdminInitiateAuth.
     /// This member is required.
     public var authFlow: CognitoIdentityProviderClientTypes.AuthFlowType?
     /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The required values depend on the value of AuthFlow:
@@ -2014,7 +1956,7 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
     ///
     /// For more information about SECRET_HASH, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash). For information about DEVICE_KEY, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
     public var authParameters: [Swift.String: Swift.String]?
-    /// The app client ID.
+    /// The ID of the app client where the user wants to sign in.
     /// This member is required.
     public var clientId: Swift.String?
     /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminInitiateAuth API action, Amazon Cognito invokes the Lambda functions that are specified for various triggers. The ClientMetadata value is passed as input to the functions for only the following triggers:
@@ -2043,19 +1985,19 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
     /// * Custom SMS sender
     ///
     ///
-    /// For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var contextData: CognitoIdentityProviderClientTypes.ContextDataType?
-    /// The optional session ID from a ConfirmSignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authentication flow.
+    /// The optional session ID from a ConfirmSignUp API request. You can sign in a user directly from the sign-up process with an AuthFlow of USER_AUTH and AuthParameters of EMAIL_OTP or SMS_OTP, depending on how your user pool sent the confirmation-code message.
     public var session: Swift.String?
-    /// The ID of the Amazon Cognito user pool.
+    /// The ID of the user pool where the user wants to sign in.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -2068,8 +2010,7 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
         contextData: CognitoIdentityProviderClientTypes.ContextDataType? = nil,
         session: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.authFlow = authFlow
         self.authParameters = authParameters
@@ -2098,8 +2039,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             deviceGroupKey: Swift.String? = nil,
             deviceKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceGroupKey = deviceGroupKey
             self.deviceKey = deviceKey
         }
@@ -2130,8 +2070,7 @@ extension CognitoIdentityProviderClientTypes {
             newDeviceMetadata: CognitoIdentityProviderClientTypes.NewDeviceMetadataType? = nil,
             refreshToken: Swift.String? = nil,
             tokenType: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.expiresIn = expiresIn
             self.idToken = idToken
@@ -2220,7 +2159,7 @@ extension CognitoIdentityProviderClientTypes {
 
 /// Initiates the authentication response, as an administrator.
 public struct AdminInitiateAuthOutput: Swift.Sendable {
-    /// The result of the authentication response. This is only returned if the caller doesn't need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
+    /// The outcome of successful authentication. This is only returned if the user pool has no additional challenges to return. If Amazon Cognito returns another challenge, the response includes ChallengeName, ChallengeParameters, and Session so that your user can answer the challenge.
     public var authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType?
     /// The name of the challenge that you're responding to with this call. This is returned in the AdminInitiateAuth response if you must pass another challenge.
     ///
@@ -2256,7 +2195,7 @@ public struct AdminInitiateAuthOutput: Swift.Sendable {
     public var challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType?
     /// The challenge parameters. These are returned to you in the AdminInitiateAuth response if you must pass another challenge. The responses in this parameter should be used to compute inputs to the next call (AdminRespondToAuthChallenge). All challenges require USERNAME and SECRET_HASH (if applicable). The value of the USER_ID_FOR_SRP attribute is the user's actual username, not an alias (such as email address or phone number), even if you specified an alias in your call to AdminInitiateAuth. This happens because, in the AdminRespondToAuthChallenge API ChallengeResponses, the USERNAME attribute can't be an alias.
     public var challengeParameters: [Swift.String: Swift.String]?
-    /// The session that should be passed both ways in challenge-response calls to the service. If AdminInitiateAuth or AdminRespondToAuthChallenge API call determines that the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next AdminRespondToAuthChallenge API call.
+    /// The session that must be passed to challenge-response requests. If an AdminInitiateAuth or AdminRespondToAuthChallenge API request determines that the caller must pass another challenge, Amazon Cognito returns a session ID and the parameters of the next challenge. Pass this session Id in the Session parameter of AdminRespondToAuthChallenge.
     public var session: Swift.String?
 
     public init(
@@ -2264,8 +2203,7 @@ public struct AdminInitiateAuthOutput: Swift.Sendable {
         challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType? = nil,
         challengeParameters: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationResult = authenticationResult
         self.challengeName = challengeName
         self.challengeParameters = challengeParameters
@@ -2289,7 +2227,7 @@ public struct AdminLinkProviderForUserInput: Swift.Sendable {
     /// * When you set ProviderAttributeName to Cognito_Subject, Amazon Cognito will automatically parse the default unique identifier found in the subject from the IdP token.
     /// This member is required.
     public var sourceUser: CognitoIdentityProviderClientTypes.ProviderUserIdentifierType?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool where you want to link a federated identity.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -2297,8 +2235,7 @@ public struct AdminLinkProviderForUserInput: Swift.Sendable {
         destinationUser: CognitoIdentityProviderClientTypes.ProviderUserIdentifierType? = nil,
         sourceUser: CognitoIdentityProviderClientTypes.ProviderUserIdentifierType? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationUser = destinationUser
         self.sourceUser = sourceUser
         self.userPoolId = userPoolId
@@ -2312,11 +2249,11 @@ public struct AdminLinkProviderForUserOutput: Swift.Sendable {
 
 /// Represents the request to list devices, as an administrator.
 public struct AdminListDevicesInput: Swift.Sendable {
-    /// The limit of the devices request.
+    /// The maximum number of devices that you want Amazon Cognito to return in the response.
     public var limit: Swift.Int?
     /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
-    /// The user pool ID.
+    /// The ID of the user pool where the device owner is a user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -2328,8 +2265,7 @@ public struct AdminListDevicesInput: Swift.Sendable {
         paginationToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.paginationToken = paginationToken
         self.userPoolId = userPoolId
@@ -2344,7 +2280,7 @@ extension AdminListDevicesInput: Swift.CustomDebugStringConvertible {
 
 /// Lists the device's response, as an administrator.
 public struct AdminListDevicesOutput: Swift.Sendable {
-    /// The devices in the list of devices response.
+    /// An array of devices and their information. Each entry that's returned includes device information, last-accessed and created dates, and the device key.
     public var devices: [CognitoIdentityProviderClientTypes.DeviceType]?
     /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
@@ -2352,19 +2288,18 @@ public struct AdminListDevicesOutput: Swift.Sendable {
     public init(
         devices: [CognitoIdentityProviderClientTypes.DeviceType]? = nil,
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.paginationToken = paginationToken
     }
 }
 
 public struct AdminListGroupsForUserInput: Swift.Sendable {
-    /// The limit of the request to list groups.
+    /// The maximum number of groups that you want Amazon Cognito to return in the response.
     public var limit: Swift.Int?
-    /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var nextToken: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool where you want to view a user's groups.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -2376,8 +2311,7 @@ public struct AdminListGroupsForUserInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.userPoolId = userPoolId
@@ -2417,8 +2351,7 @@ extension CognitoIdentityProviderClientTypes {
             precedence: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.groupName = groupName
@@ -2431,25 +2364,24 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct AdminListGroupsForUserOutput: Swift.Sendable {
-    /// The groups that the user belongs to.
+    /// An array of groups and information about them.
     public var groups: [CognitoIdentityProviderClientTypes.GroupType]?
-    /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var nextToken: Swift.String?
 
     public init(
         groups: [CognitoIdentityProviderClientTypes.GroupType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
 }
 
 /// This exception is thrown when user pool add-ons aren't enabled.
-public struct UserPoolAddOnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserPoolAddOnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2464,8 +2396,7 @@ public struct UserPoolAddOnNotEnabledException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2473,9 +2404,9 @@ public struct UserPoolAddOnNotEnabledException: ClientRuntime.ModeledError, AWSC
 public struct AdminListUserAuthEventsInput: Swift.Sendable {
     /// The maximum number of authentication events to return. Returns 60 events if you set MaxResults to 0, or if you don't include a MaxResults parameter.
     public var maxResults: Swift.Int?
-    /// A pagination token.
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var nextToken: Swift.String?
-    /// The user pool ID.
+    /// The Id of the user pool that contains the user profile with the logged events.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -2487,8 +2418,7 @@ public struct AdminListUserAuthEventsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.userPoolId = userPoolId
@@ -2587,8 +2517,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             challengeName: CognitoIdentityProviderClientTypes.ChallengeName? = nil,
             challengeResponse: CognitoIdentityProviderClientTypes.ChallengeResponse? = nil
-        )
-        {
+        ) {
             self.challengeName = challengeName
             self.challengeResponse = challengeResponse
         }
@@ -2616,8 +2545,7 @@ extension CognitoIdentityProviderClientTypes {
             deviceName: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.deviceName = deviceName
@@ -2673,8 +2601,7 @@ extension CognitoIdentityProviderClientTypes {
             feedbackDate: Foundation.Date? = nil,
             feedbackValue: CognitoIdentityProviderClientTypes.FeedbackValueType? = nil,
             provider: Swift.String? = nil
-        )
-        {
+        ) {
             self.feedbackDate = feedbackDate
             self.feedbackValue = feedbackValue
             self.provider = provider
@@ -2793,8 +2720,7 @@ extension CognitoIdentityProviderClientTypes {
             compromisedCredentialsDetected: Swift.Bool? = nil,
             riskDecision: CognitoIdentityProviderClientTypes.RiskDecisionType? = nil,
             riskLevel: CognitoIdentityProviderClientTypes.RiskLevelType? = nil
-        )
-        {
+        ) {
             self.compromisedCredentialsDetected = compromisedCredentialsDetected
             self.riskDecision = riskDecision
             self.riskLevel = riskLevel
@@ -2870,8 +2796,7 @@ extension CognitoIdentityProviderClientTypes {
             eventResponse: CognitoIdentityProviderClientTypes.EventResponseType? = nil,
             eventRisk: CognitoIdentityProviderClientTypes.EventRiskType? = nil,
             eventType: CognitoIdentityProviderClientTypes.EventType? = nil
-        )
-        {
+        ) {
             self.challengeResponses = challengeResponses
             self.creationDate = creationDate
             self.eventContextData = eventContextData
@@ -2887,24 +2812,23 @@ extension CognitoIdentityProviderClientTypes {
 public struct AdminListUserAuthEventsOutput: Swift.Sendable {
     /// The response object. It includes the EventID, EventType, CreationDate, EventRisk, and EventResponse.
     public var authEvents: [CognitoIdentityProviderClientTypes.AuthEventType]?
-    /// A pagination token.
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var nextToken: Swift.String?
 
     public init(
         authEvents: [CognitoIdentityProviderClientTypes.AuthEventType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authEvents = authEvents
         self.nextToken = nextToken
     }
 }
 
 public struct AdminRemoveUserFromGroupInput: Swift.Sendable {
-    /// The group name.
+    /// The name of the group that you want to remove the user from, for example MyTestGroup.
     /// This member is required.
     public var groupName: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool that contains the group and the user that you want to remove.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -2915,8 +2839,7 @@ public struct AdminRemoveUserFromGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.userPoolId = userPoolId
         self.username = username
@@ -2930,15 +2853,15 @@ extension AdminRemoveUserFromGroupInput: Swift.CustomDebugStringConvertible {
 
 /// Represents the request to reset a user's password as an administrator.
 public struct AdminResetUserPasswordInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. The AdminResetUserPassword API operation invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// The user pool ID for the user pool where you want to reset the user's password.
+    /// The ID of the user pool where you want to reset the user's password.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -2949,8 +2872,7 @@ public struct AdminResetUserPasswordInput: Swift.Sendable {
         clientMetadata: [Swift.String: Swift.String]? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientMetadata = clientMetadata
         self.userPoolId = userPoolId
         self.username = username
@@ -2969,9 +2891,9 @@ public struct AdminResetUserPasswordOutput: Swift.Sendable {
 }
 
 /// This exception is thrown if the provided code doesn't match what the server was expecting.
-public struct CodeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided when the code mismatch exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2987,16 +2909,15 @@ public struct CodeMismatchException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown if a code has expired.
-public struct ExpiredCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the expired code exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3012,16 +2933,15 @@ public struct ExpiredCodeException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
-public struct PasswordHistoryPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PasswordHistoryPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3036,16 +2956,15 @@ public struct PasswordHistoryPolicyViolationException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
-public struct SoftwareTokenMFANotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SoftwareTokenMFANotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3060,8 +2979,7 @@ public struct SoftwareTokenMFANotFoundException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3070,7 +2988,7 @@ public struct SoftwareTokenMFANotFoundException: ClientRuntime.ModeledError, AWS
 public struct AdminRespondToAuthChallengeInput: Swift.Sendable {
     /// The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
     public var analyticsMetadata: CognitoIdentityProviderClientTypes.AnalyticsMetadataType?
-    /// The challenge name. For more information, see [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html).
+    /// The name of the challenge that you are responding to. You can find more information about values for ChallengeName in the response parameters of [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html#CognitoUserPools-AdminInitiateAuth-response-ChallengeName).
     /// This member is required.
     public var challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType?
     /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters. You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. Include a DEVICE_KEY for device authentication. SELECT_CHALLENGE "ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "USERNAME": "[username]", "ANSWER": "[Challenge name]"} Available challenges are PASSWORD, PASSWORD_SRP, EMAIL_OTP, SMS_OTP, and WEB_AUTHN. Complete authentication in the SELECT_CHALLENGE response for PASSWORD, PASSWORD_SRP, and WEB_AUTHN:
@@ -3091,41 +3009,41 @@ public struct AdminRespondToAuthChallengeInput: Swift.Sendable {
     ///
     /// SMS_OTP "ChallengeName": "SMS_OTP", "ChallengeResponses": {"SMS_OTP_CODE": "[code]", "USERNAME": "[username]"} EMAIL_OTP "ChallengeName": "EMAIL_OTP", "ChallengeResponses": {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"} SMS_MFA "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[code]", "USERNAME": "[username]"} PASSWORD_VERIFIER This challenge response is part of the SRP flow. Amazon Cognito requires that your application respond to this challenge within a few seconds. When the response time exceeds this period, your user pool returns a NotAuthorizedException error. "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"} Add "DEVICE_KEY" when you sign in with a remembered device. CUSTOM_CHALLENGE "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"} Add "DEVICE_KEY" when you sign in with a remembered device. NEW_PASSWORD_REQUIRED "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"} To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool. In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter, then use the UpdateUserAttributes API operation to modify the value of any additional attributes. SOFTWARE_TOKEN_MFA "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]} DEVICE_SRP_AUTH "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"} DEVICE_PASSWORD_VERIFIER "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"} MFA_SETUP "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]" SELECT_MFA_TYPE "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA or SOFTWARE_TOKEN_MFA]"} For more information about SECRET_HASH, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash). For information about DEVICE_KEY, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
     public var challengeResponses: [Swift.String: Swift.String]?
-    /// The app client ID.
+    /// The ID of the app client where you initiated sign-in.
     /// This member is required.
     public var clientId: Swift.String?
     /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API action, Amazon Cognito invokes any functions that you have assigned to the following triggers:
     ///
-    /// * pre sign-up
+    /// * Pre sign-up
     ///
     /// * custom message
     ///
-    /// * post authentication
+    /// * Post authentication
     ///
-    /// * user migration
+    /// * User migration
     ///
-    /// * pre token generation
+    /// * Pre token generation
     ///
-    /// * define auth challenge
+    /// * Define auth challenge
     ///
-    /// * create auth challenge
+    /// * Create auth challenge
     ///
-    /// * verify auth challenge response
+    /// * Verify auth challenge response
     ///
     ///
-    /// When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var contextData: CognitoIdentityProviderClientTypes.ContextDataType?
-    /// The session that should be passed both ways in challenge-response calls to the service. If an InitiateAuth or RespondToAuthChallenge API call determines that the caller must pass another challenge, it returns a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+    /// The session identifier that maintains the state of authentication requests and challenge responses. If an AdminInitiateAuth or AdminRespondToAuthChallenge API request results in a determination that your application must pass another challenge, Amazon Cognito returns a session with other challenge parameters. Send this session identifier, unmodified, to the next AdminRespondToAuthChallenge request.
     public var session: Swift.String?
-    /// The ID of the Amazon Cognito user pool.
+    /// The ID of the user pool where you want to respond to an authentication challenge.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -3138,8 +3056,7 @@ public struct AdminRespondToAuthChallengeInput: Swift.Sendable {
         contextData: CognitoIdentityProviderClientTypes.ContextDataType? = nil,
         session: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.challengeName = challengeName
         self.challengeResponses = challengeResponses
@@ -3158,13 +3075,13 @@ extension AdminRespondToAuthChallengeInput: Swift.CustomDebugStringConvertible {
 
 /// Responds to the authentication challenge, as an administrator.
 public struct AdminRespondToAuthChallengeOutput: Swift.Sendable {
-    /// The result returned by the server in response to the authentication request.
+    /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
     public var authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType?
-    /// The name of the challenge. For more information, see [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html).
+    /// The name of the challenge that you must next respond to. You can find more information about values for ChallengeName in the response parameters of [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html#CognitoUserPools-AdminInitiateAuth-response-ChallengeName).
     public var challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType?
-    /// The challenge parameters. For more information, see [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html).
+    /// The parameters that define your response to the next challenge. Take the values in ChallengeParameters and provide values for them in the [ChallengeResponses](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminRespondToAuthChallenge.html#CognitoUserPools-AdminRespondToAuthChallenge-request-ChallengeResponses) of the next AdminRespondToAuthChallenge request.
     public var challengeParameters: [Swift.String: Swift.String]?
-    /// The session that should be passed both ways in challenge-response calls to the service. If the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+    /// The session identifier that maintains the state of authentication requests and challenge responses. If an AdminInitiateAuth or AdminRespondToAuthChallenge API request results in a determination that your application must pass another challenge, Amazon Cognito returns a session with other challenge parameters. Send this session identifier, unmodified, to the next AdminRespondToAuthChallenge request.
     public var session: Swift.String?
 
     public init(
@@ -3172,8 +3089,7 @@ public struct AdminRespondToAuthChallengeOutput: Swift.Sendable {
         challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType? = nil,
         challengeParameters: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationResult = authenticationResult
         self.challengeName = challengeName
         self.challengeParameters = challengeParameters
@@ -3198,8 +3114,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             enabled: Swift.Bool = false,
             preferredMfa: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
         }
@@ -3218,8 +3133,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             enabled: Swift.Bool = false,
             preferredMfa: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
         }
@@ -3238,8 +3152,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             enabled: Swift.Bool = false,
             preferredMfa: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
             self.preferredMfa = preferredMfa
         }
@@ -3266,8 +3179,7 @@ public struct AdminSetUserMFAPreferenceInput: Swift.Sendable {
         softwareTokenMfaSettings: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.emailMfaSettings = emailMfaSettings
         self.smsMfaSettings = smsMfaSettings
         self.softwareTokenMfaSettings = softwareTokenMfaSettings
@@ -3287,12 +3199,12 @@ public struct AdminSetUserMFAPreferenceOutput: Swift.Sendable {
 }
 
 public struct AdminSetUserPasswordInput: Swift.Sendable {
-    /// The password for the user.
+    /// The new temporary or permanent password that you want to set for the user. You can't remove the password for a user who already has a password so that they can only sign in with passwordless methods. In this scenario, you must create a new user without a password.
     /// This member is required.
     public var password: Swift.String?
-    /// True if the password is permanent, False if it is temporary.
+    /// Set to true to set a password that the user can immediately sign in with. Set to false to set a temporary password that the user must change on their next sign-in.
     public var permanent: Swift.Bool?
-    /// The user pool ID for the user pool where you want to set the user's password.
+    /// The ID of the user pool where you want to set the user's password.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -3304,8 +3216,7 @@ public struct AdminSetUserPasswordInput: Swift.Sendable {
         permanent: Swift.Bool? = false,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.password = password
         self.permanent = permanent
         self.userPoolId = userPoolId
@@ -3339,8 +3250,7 @@ public struct AdminSetUserSettingsInput: Swift.Sendable {
         mfaOptions: [CognitoIdentityProviderClientTypes.MFAOptionType]? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.mfaOptions = mfaOptions
         self.userPoolId = userPoolId
         self.username = username
@@ -3359,13 +3269,13 @@ public struct AdminSetUserSettingsOutput: Swift.Sendable {
 }
 
 public struct AdminUpdateAuthEventFeedbackInput: Swift.Sendable {
-    /// The authentication event ID.
+    /// The authentication event ID. To query authentication events for a user, see [AdminListUserAuthEvents](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminListUserAuthEvents.html).
     /// This member is required.
     public var eventId: Swift.String?
     /// The authentication event feedback value. When you provide a FeedbackValue value of valid, you tell Amazon Cognito that you trust a user session where Amazon Cognito has evaluated some level of risk. When you provide a FeedbackValue value of invalid, you tell Amazon Cognito that you don't trust a user session, or you don't believe that Amazon Cognito evaluated a high-enough risk level.
     /// This member is required.
     public var feedbackValue: CognitoIdentityProviderClientTypes.FeedbackValueType?
-    /// The user pool ID.
+    /// The ID of the user pool where you want to submit authentication-event feedback.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -3377,8 +3287,7 @@ public struct AdminUpdateAuthEventFeedbackInput: Swift.Sendable {
         feedbackValue: CognitoIdentityProviderClientTypes.FeedbackValueType? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
         self.feedbackValue = feedbackValue
         self.userPoolId = userPoolId
@@ -3427,12 +3336,12 @@ extension CognitoIdentityProviderClientTypes {
 
 /// The request to update the device status, as an administrator.
 public struct AdminUpdateDeviceStatusInput: Swift.Sendable {
-    /// The device key.
+    /// The unique identifier, or device key, of the device that you want to update the status for.
     /// This member is required.
     public var deviceKey: Swift.String?
-    /// The status indicating whether a device has been remembered or not.
+    /// To enable device authentication with the specified device, set to remembered.To disable, set to not_remembered.
     public var deviceRememberedStatus: CognitoIdentityProviderClientTypes.DeviceRememberedStatusType?
-    /// The user pool ID.
+    /// The ID of the user pool where you want to change a user's device status.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -3444,8 +3353,7 @@ public struct AdminUpdateDeviceStatusInput: Swift.Sendable {
         deviceRememberedStatus: CognitoIdentityProviderClientTypes.DeviceRememberedStatusType? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceKey = deviceKey
         self.deviceRememberedStatus = deviceRememberedStatus
         self.userPoolId = userPoolId
@@ -3466,18 +3374,18 @@ public struct AdminUpdateDeviceStatusOutput: Swift.Sendable {
 
 /// Represents the request to update the user's attributes as an administrator.
 public struct AdminUpdateUserAttributesInput: Swift.Sendable {
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
     /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name. If your user pool requires verification before Amazon Cognito updates an attribute value that you specify in this request, Amazon Cognito doesn’t immediately update the value of that attribute. After your user receives and responds to a verification message to verify the new value, Amazon Cognito updates the attribute value. Your user can sign in and receive messages with the original attribute value until they verify the new value. To skip the verification message and update the value of an attribute that requires verification in the same API request, include the email_verified or phone_number_verified attribute, with a value of true. If you set the email_verified or phone_number_verified value for an email or phone_number attribute that requires verification to true, Amazon Cognito doesn’t send a verification message to your user.
     /// This member is required.
     public var userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]?
-    /// The user pool ID for the user pool where you want to update user attributes.
+    /// The ID of the user pool where you want to update user attributes.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -3489,8 +3397,7 @@ public struct AdminUpdateUserAttributesInput: Swift.Sendable {
         userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientMetadata = clientMetadata
         self.userAttributes = userAttributes
         self.userPoolId = userPoolId
@@ -3511,7 +3418,7 @@ public struct AdminUpdateUserAttributesOutput: Swift.Sendable {
 
 /// The request to sign out of all devices, as an administrator.
 public struct AdminUserGlobalSignOutInput: Swift.Sendable {
-    /// The user pool ID.
+    /// The ID of the user pool where you want to sign out a user.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
@@ -3521,8 +3428,7 @@ public struct AdminUserGlobalSignOutInput: Swift.Sendable {
     public init(
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
         self.username = username
     }
@@ -3577,8 +3483,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             customAuthMode: CognitoIdentityProviderClientTypes.AdvancedSecurityEnabledModeType? = nil
-        )
-        {
+        ) {
             self.customAuthMode = customAuthMode
         }
     }
@@ -3704,8 +3609,7 @@ extension CognitoIdentityProviderClientTypes {
             externalId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             userDataShared: Swift.Bool = false
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
             self.externalId = externalId
@@ -3877,8 +3781,7 @@ extension CognitoIdentityProviderClientTypes {
             colorMode: CognitoIdentityProviderClientTypes.ColorSchemeModeType? = nil,
             `extension`: CognitoIdentityProviderClientTypes.AssetExtensionType? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
             self.category = category
             self.colorMode = colorMode
@@ -3889,9 +3792,9 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 /// This exception is thrown if two or more modifications are happening concurrently.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided when the concurrent exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3907,16 +3810,15 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3932,23 +3834,21 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct AssociateSoftwareTokenInput: Swift.Sendable {
-    /// A valid access token that Amazon Cognito issued to the user whose software token you want to generate.
+    /// A valid access token that Amazon Cognito issued to the user whose software token you want to generate. You can provide either an access token or a session ID in the request.
     public var accessToken: Swift.String?
-    /// The session that should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+    /// The session identifier that maintains the state of authentication requests and challenge responses. In AssociateSoftwareToken, this is the session ID from a successful sign-in. You can provide either an access token or a session ID in the request.
     public var session: Swift.String?
 
     public init(
         accessToken: Swift.String? = nil,
         session: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.session = session
     }
@@ -3960,16 +3860,15 @@ extension AssociateSoftwareTokenInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct AssociateSoftwareTokenOutput: Swift.Sendable {
-    /// A unique generated shared secret code that is used in the TOTP algorithm to generate a one-time code.
+    /// A unique generated shared secret code that is used by the TOTP algorithm to generate a one-time code.
     public var secretCode: Swift.String?
-    /// The session that should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+    /// The session identifier that maintains the state of authentication requests and challenge responses. This session ID is valid for the next request in this flow, [VerifySoftwareToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerifySoftwareToken.html).
     public var session: Swift.String?
 
     public init(
         secretCode: Swift.String? = nil,
         session: Swift.String? = nil
-    )
-    {
+    ) {
         self.secretCode = secretCode
         self.session = session
     }
@@ -4016,7 +3915,7 @@ public struct ChangePasswordInput: Swift.Sendable {
     public var accessToken: Swift.String?
     /// The user's previous password. Required if the user has a password. If the user has no password and only signs in with passwordless authentication options, you can omit this parameter.
     public var previousPassword: Swift.String?
-    /// The new password.
+    /// A new password that you prompted the user to enter in your application.
     /// This member is required.
     public var proposedPassword: Swift.String?
 
@@ -4024,8 +3923,7 @@ public struct ChangePasswordInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         previousPassword: Swift.String? = nil,
         proposedPassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.previousPassword = previousPassword
         self.proposedPassword = proposedPassword
@@ -4044,9 +3942,9 @@ public struct ChangePasswordOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the challenge from StartWebAuthn registration has expired.
-public struct WebAuthnChallengeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnChallengeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4061,16 +3959,15 @@ public struct WebAuthnChallengeNotFoundException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the access token is for a different client than the one in the original StartWebAuthnRegistration request.
-public struct WebAuthnClientMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnClientMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4085,16 +3982,15 @@ public struct WebAuthnClientMismatchException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when a user presents passkey credentials from an unsupported device or provider.
-public struct WebAuthnCredentialNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnCredentialNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4109,16 +4005,15 @@ public struct WebAuthnCredentialNotSupportedException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the passkey feature isn't enabled for the user pool.
-public struct WebAuthnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4133,16 +4028,15 @@ public struct WebAuthnNotEnabledException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the passkey credential's registration origin does not align with the user pool relying party id.
-public struct WebAuthnOriginNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnOriginNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4157,16 +4051,15 @@ public struct WebAuthnOriginNotAllowedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the given passkey credential is associated with a different relying party ID than the user pool relying party ID.
-public struct WebAuthnRelyingPartyMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnRelyingPartyMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4181,14 +4074,13 @@ public struct WebAuthnRelyingPartyMismatchException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct CompleteWebAuthnRegistrationInput: Swift.Sendable {
-    /// A valid access token that Amazon Cognito issued to the user whose passkey registration you want to verify.
+    /// A valid access token that Amazon Cognito issued to the user whose passkey registration you want to complete.
     /// This member is required.
     public var accessToken: Swift.String?
     /// A [RegistrationResponseJSON](https://www.w3.org/TR/webauthn-3/#dictdef-registrationresponsejson) public-key credential response from the user's passkey provider.
@@ -4198,8 +4090,7 @@ public struct CompleteWebAuthnRegistrationInput: Swift.Sendable {
     public init(
         accessToken: Swift.String? = nil,
         credential: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.credential = credential
     }
@@ -4227,23 +4118,22 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             passwordVerifier: Swift.String? = nil,
             salt: Swift.String? = nil
-        )
-        {
+        ) {
             self.passwordVerifier = passwordVerifier
             self.salt = salt
         }
     }
 }
 
-/// Confirms the device request.
+/// The confirm-device request.
 public struct ConfirmDeviceInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the user whose device you want to confirm.
     /// This member is required.
     public var accessToken: Swift.String?
-    /// The device key.
+    /// The unique identifier, or device key, of the device that you want to update the status for.
     /// This member is required.
     public var deviceKey: Swift.String?
-    /// The device name.
+    /// A friendly name for the device, for example MyMobilePhone.
     public var deviceName: Swift.String?
     /// The configuration of the device secret verifier.
     public var deviceSecretVerifierConfig: CognitoIdentityProviderClientTypes.DeviceSecretVerifierConfigType?
@@ -4253,8 +4143,7 @@ public struct ConfirmDeviceInput: Swift.Sendable {
         deviceKey: Swift.String? = nil,
         deviceName: Swift.String? = nil,
         deviceSecretVerifierConfig: CognitoIdentityProviderClientTypes.DeviceSecretVerifierConfigType? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.deviceKey = deviceKey
         self.deviceName = deviceName
@@ -4267,15 +4156,14 @@ extension ConfirmDeviceInput: Swift.CustomDebugStringConvertible {
         "ConfirmDeviceInput(deviceKey: \(Swift.String(describing: deviceKey)), deviceName: \(Swift.String(describing: deviceName)), deviceSecretVerifierConfig: \(Swift.String(describing: deviceSecretVerifierConfig)), accessToken: \"CONTENT_REDACTED\")"}
 }
 
-/// Confirms the device response.
+/// The confirm-device response.
 public struct ConfirmDeviceOutput: Swift.Sendable {
-    /// Indicates whether the user confirmation must confirm the device response.
+    /// When true, your user must confirm that they want to remember the device. Prompt the user for an answer. You must then make an [UpdateUserDevice](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateDeviceStatus.html) request that sets the device to remembered or not_remembered. When false, immediately sets the device as remembered and eligible for device authentication. You can configure your user pool to always remember devices, in which case this response is false, or to allow users to opt in, in which case this response is true. Configure this option under Device tracking in the Sign-in menu of your user pool. You can also configure this option with the [DeviceConfiguration](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateUserPool.html#CognitoUserPools-CreateUserPool-request-DeviceConfiguration) parameter of a [CreateUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateUserPool.html) or [UpdateUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserPool.html) request.
     public var userConfirmationNecessary: Swift.Bool
 
     public init(
         userConfirmationNecessary: Swift.Bool = false
-    )
-    {
+    ) {
         self.userConfirmationNecessary = userConfirmationNecessary
     }
 }
@@ -4292,8 +4180,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             encodedData: Swift.String? = nil,
             ipAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.encodedData = encodedData
             self.ipAddress = ipAddress
         }
@@ -4310,18 +4197,18 @@ extension CognitoIdentityProviderClientTypes.UserContextDataType: Swift.CustomDe
 public struct ConfirmForgotPasswordInput: Swift.Sendable {
     /// The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
     public var analyticsMetadata: CognitoIdentityProviderClientTypes.AnalyticsMetadataType?
-    /// The app client ID of the app associated with the user pool.
+    /// The ID of the app client where the user wants to reset their password. This parameter is an identifier of the client application that users are resetting their password from, but this operation resets users' passwords for all app clients in the user pool.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// The confirmation code from your user's request to reset their password. For more information, see [ForgotPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ForgotPassword.html).
+    /// The confirmation code that your user pool sent in response to an [AdminResetUserPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminResetUserPassword.html) or a [ForgotPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ForgotPassword.html) request.
     /// This member is required.
     public var confirmationCode: Swift.String?
     /// The new password that your user wants to set.
@@ -4329,7 +4216,7 @@ public struct ConfirmForgotPasswordInput: Swift.Sendable {
     public var password: Swift.String?
     /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash).
     public var secretHash: Swift.String?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
@@ -4344,8 +4231,7 @@ public struct ConfirmForgotPasswordInput: Swift.Sendable {
         secretHash: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.clientId = clientId
         self.clientMetadata = clientMetadata
@@ -4375,24 +4261,24 @@ public struct ConfirmSignUpInput: Swift.Sendable {
     /// The ID of the app client associated with the user pool.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmSignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmSignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// The confirmation code sent by a user's request to confirm registration.
+    /// The confirmation code that your user pool sent in response to the SignUp request.
     /// This member is required.
     public var confirmationCode: Swift.String?
-    /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
+    /// When true, forces user confirmation despite any existing aliases. Defaults to false. A value of true migrates the alias from an existing user to the new user if an existing user already has the phone number or email address as an alias. Say, for example, that an existing user has an email attribute of bob@example.com and email is an alias in your user pool. If the new user also has an email of bob@example.com and your ConfirmSignUp response sets ForceAliasCreation to true, the new user can sign in with a username of bob@example.com and the existing user can no longer do so. If false and an attribute belongs to an existing alias, this request returns an AliasExistsException error. For more information about sign-in aliases, see [Customizing sign-in attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases).
     public var forceAliasCreation: Swift.Bool?
-    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash).
     public var secretHash: Swift.String?
     /// The optional session ID from a SignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authentication flow.
     public var session: Swift.String?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
@@ -4408,8 +4294,7 @@ public struct ConfirmSignUpInput: Swift.Sendable {
         session: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.clientId = clientId
         self.clientMetadata = clientMetadata
@@ -4429,13 +4314,12 @@ extension ConfirmSignUpInput: Swift.CustomDebugStringConvertible {
 
 /// Represents the response from the server for the registration confirmation.
 public struct ConfirmSignUpOutput: Swift.Sendable {
-    /// You can automatically sign users in with the one-time password that they provided in a successful ConfirmSignUp request. To do this, pass the Session parameter from the ConfirmSignUp response in the Session parameter of an [InitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_InitiateAuth.html) or [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html) request.
+    /// A session identifier that you can use to immediately sign in the confirmed user. You can automatically sign users in with the one-time password that they provided in a successful ConfirmSignUp request. To do this, pass the Session parameter from this response in the Session parameter of an [InitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_InitiateAuth.html) or [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html) request.
     public var session: Swift.String?
 
     public init(
         session: Swift.String? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -4446,9 +4330,9 @@ extension ConfirmSignUpOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// This exception is thrown when Amazon Cognito encounters a group that already exists in the user pool.
-public struct GroupExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GroupExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4463,23 +4347,22 @@ public struct GroupExistsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct CreateGroupInput: Swift.Sendable {
-    /// A string containing the description of the group.
+    /// A description of the group that you're creating.
     public var description: Swift.String?
-    /// The name of the group. Must be unique.
+    /// A name for the group. This name must be unique in your user pool.
     /// This member is required.
     public var groupName: Swift.String?
     /// A non-negative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN is given in the user's tokens for the cognito:roles and cognito:preferred_role claims. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim isn't set in users' tokens. The default Precedence value is null. The maximum Precedence value is 2^31-1.
     public var precedence: Swift.Int?
-    /// The role Amazon Resource Name (ARN) for the group.
+    /// The Amazon Resource Name (ARN) for the IAM role that you want to associate with the group. A group role primarily declares a preferred role for the credentials that you get from an identity pool. Amazon Cognito ID tokens have a cognito:preferred_role claim that presents the highest-precedence group that a user belongs to. Both ID and access tokens also contain a cognito:groups claim that list all the groups that a user is a member of.
     public var roleArn: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool where you want to create a user group.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -4489,8 +4372,7 @@ public struct CreateGroupInput: Swift.Sendable {
         precedence: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.groupName = groupName
         self.precedence = precedence
@@ -4500,21 +4382,20 @@ public struct CreateGroupInput: Swift.Sendable {
 }
 
 public struct CreateGroupOutput: Swift.Sendable {
-    /// The group object for the group.
+    /// The response object for a created group.
     public var group: CognitoIdentityProviderClientTypes.GroupType?
 
     public init(
         group: CognitoIdentityProviderClientTypes.GroupType? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
 
 /// This exception is thrown when the provider is already supported by the user pool.
-public struct DuplicateProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4529,8 +4410,7 @@ public struct DuplicateProviderException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4577,20 +4457,20 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct CreateIdentityProviderInput: Swift.Sendable {
-    /// A mapping of IdP attributes to standard and custom user pool attributes.
+    /// A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
     public var attributeMapping: [Swift.String: Swift.String]?
-    /// A list of IdP identifiers.
+    /// An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the [Authorize endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html) to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of [email-address matching with SAML providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-naming.html).
     public var idpIdentifiers: [Swift.String]?
     /// The scopes, URLs, and identifiers for your external identity provider. The following examples describe the provider detail keys for each IdP type. These values and their schema are subject to change. Social IdP authorize_scopes values must match the values listed here. OpenID Connect (OIDC) Amazon Cognito accepts the following elements when it can't discover endpoint URLs from oidc_issuer: attributes_url, authorize_url, jwks_uri, token_url. Create or update request: "ProviderDetails": { "attributes_request_method": "GET", "attributes_url": "https://auth.example.com/userInfo", "authorize_scopes": "openid profile email", "authorize_url": "https://auth.example.com/authorize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.example.com/.well-known/jwks.json", "oidc_issuer": "https://auth.example.com", "token_url": "https://example.com/token" } Describe response: "ProviderDetails": { "attributes_request_method": "GET", "attributes_url": "https://auth.example.com/userInfo", "attributes_url_add_attributes": "false", "authorize_scopes": "openid profile email", "authorize_url": "https://auth.example.com/authorize", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "jwks_uri": "https://auth.example.com/.well-known/jwks.json", "oidc_issuer": "https://auth.example.com", "token_url": "https://example.com/token" } SAML Create or update request with Metadata URL: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "MetadataURL": "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256" } Create or update request with Metadata file: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "MetadataFile": "[metadata XML]", "RequestSigningAlgorithm": "rsa-sha256" } The value of MetadataFile must be the plaintext metadata document with all quote (") characters escaped by backslashes. Describe response: "ProviderDetails": { "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true", "ActiveEncryptionCertificate": "[certificate]", "MetadataURL": "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm": "rsa-sha256", "SLORedirectBindingURI": "https://auth.example.com/slo/saml", "SSORedirectBindingURI": "https://auth.example.com/sso/saml" } LoginWithAmazon Create or update request: "ProviderDetails": { "authorize_scopes": "profile postal_code", "client_id": "amzn1.application-oa2-client.1example23456789", "client_secret": "provider-app-client-secret" Describe response: "ProviderDetails": { "attributes_url": "https://api.amazon.com/user/profile", "attributes_url_add_attributes": "false", "authorize_scopes": "profile postal_code", "authorize_url": "https://www.amazon.com/ap/oa", "client_id": "amzn1.application-oa2-client.1example23456789", "client_secret": "provider-app-client-secret", "token_request_method": "POST", "token_url": "https://api.amazon.com/auth/o2/token" } Google Create or update request: "ProviderDetails": { "authorize_scopes": "email profile openid", "client_id": "1example23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret" } Describe response: "ProviderDetails": { "attributes_url": "https://people.googleapis.com/v1/people/me?personFields=", "attributes_url_add_attributes": "true", "authorize_scopes": "email profile openid", "authorize_url": "https://accounts.google.com/o/oauth2/v2/auth", "client_id": "1example23456789.apps.googleusercontent.com", "client_secret": "provider-app-client-secret", "oidc_issuer": "https://accounts.google.com", "token_request_method": "POST", "token_url": "https://www.googleapis.com/oauth2/v4/token" } SignInWithApple Create or update request: "ProviderDetails": { "authorize_scopes": "email name", "client_id": "com.example.cognito", "private_key": "1EXAMPLE", "key_id": "2EXAMPLE", "team_id": "3EXAMPLE" } Describe response: "ProviderDetails": { "attributes_url_add_attributes": "false", "authorize_scopes": "email name", "authorize_url": "https://appleid.apple.com/auth/authorize", "client_id": "com.example.cognito", "key_id": "1EXAMPLE", "oidc_issuer": "https://appleid.apple.com", "team_id": "2EXAMPLE", "token_request_method": "POST", "token_url": "https://appleid.apple.com/auth/token" } Facebook Create or update request: "ProviderDetails": { "api_version": "v17.0", "authorize_scopes": "public_profile, email", "client_id": "1example23456789", "client_secret": "provider-app-client-secret" } Describe response: "ProviderDetails": { "api_version": "v17.0", "attributes_url": "https://graph.facebook.com/v17.0/me?fields=", "attributes_url_add_attributes": "true", "authorize_scopes": "public_profile, email", "authorize_url": "https://www.facebook.com/v17.0/dialog/oauth", "client_id": "1example23456789", "client_secret": "provider-app-client-secret", "token_request_method": "GET", "token_url": "https://graph.facebook.com/v17.0/oauth/access_token" }
     /// This member is required.
     public var providerDetails: [Swift.String: Swift.String]?
-    /// The IdP name.
+    /// The name that you want to assign to the IdP. You can pass the identity provider name in the identity_provider query parameter of requests to the [Authorize endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html) to silently redirect to sign-in with the associated IdP.
     /// This member is required.
     public var providerName: Swift.String?
-    /// The IdP type.
+    /// The type of IdP that you want to add. Amazon Cognito supports OIDC, SAML 2.0, Login With Amazon, Sign In With Apple, Google, and Facebook IdPs.
     /// This member is required.
     public var providerType: CognitoIdentityProviderClientTypes.IdentityProviderTypeType?
-    /// The user pool ID.
+    /// The Id of the user pool where you want to create an IdP.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -4601,8 +4481,7 @@ public struct CreateIdentityProviderInput: Swift.Sendable {
         providerName: Swift.String? = nil,
         providerType: CognitoIdentityProviderClientTypes.IdentityProviderTypeType? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeMapping = attributeMapping
         self.idpIdentifiers = idpIdentifiers
         self.providerDetails = providerDetails
@@ -4642,8 +4521,7 @@ extension CognitoIdentityProviderClientTypes {
             providerName: Swift.String? = nil,
             providerType: CognitoIdentityProviderClientTypes.IdentityProviderTypeType? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeMapping = attributeMapping
             self.creationDate = creationDate
             self.idpIdentifiers = idpIdentifiers
@@ -4657,22 +4535,21 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct CreateIdentityProviderOutput: Swift.Sendable {
-    /// The newly created IdP object.
+    /// The details of the new user pool IdP.
     /// This member is required.
     public var identityProvider: CognitoIdentityProviderClientTypes.IdentityProviderType?
 
     public init(
         identityProvider: CognitoIdentityProviderClientTypes.IdentityProviderType? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
 
 /// This exception is thrown when you attempt to apply a managed login branding style to an app client that already has an assigned style.
-public struct ManagedLoginBrandingExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ManagedLoginBrandingExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4687,8 +4564,7 @@ public struct ManagedLoginBrandingExistsException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4701,7 +4577,7 @@ public struct CreateManagedLoginBrandingInput: Swift.Sendable {
     public var clientId: Swift.String?
     /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
     public var settings: Smithy.Document?
-    /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
+    /// When true, applies the default branding style options. These default options are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
     public var useCognitoProvidedValues: Swift.Bool?
     /// The ID of the user pool where you want to create a new branding style.
     /// This member is required.
@@ -4713,8 +4589,7 @@ public struct CreateManagedLoginBrandingInput: Swift.Sendable {
         settings: Smithy.Document? = nil,
         useCognitoProvidedValues: Swift.Bool? = false,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.clientId = clientId
         self.settings = settings
@@ -4742,7 +4617,7 @@ extension CognitoIdentityProviderClientTypes {
         public var managedLoginBrandingId: Swift.String?
         /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
         public var settings: Smithy.Document?
-        /// When true, applies the default branding style options. This option reverts to a "blank" style that you can modify later in the branding designer.
+        /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public var useCognitoProvidedValues: Swift.Bool
         /// The user pool where the branding style is assigned.
         public var userPoolId: Swift.String?
@@ -4755,8 +4630,7 @@ extension CognitoIdentityProviderClientTypes {
             settings: Smithy.Document? = nil,
             useCognitoProvidedValues: Swift.Bool = false,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assets = assets
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
@@ -4774,8 +4648,7 @@ public struct CreateManagedLoginBrandingOutput: Swift.Sendable {
 
     public init(
         managedLoginBranding: CognitoIdentityProviderClientTypes.ManagedLoginBrandingType? = nil
-    )
-    {
+    ) {
         self.managedLoginBranding = managedLoginBranding
     }
 }
@@ -4794,8 +4667,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             scopeDescription: Swift.String? = nil,
             scopeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.scopeDescription = scopeDescription
             self.scopeName = scopeName
         }
@@ -4809,9 +4681,9 @@ public struct CreateResourceServerInput: Swift.Sendable {
     /// A friendly name for the resource server.
     /// This member is required.
     public var name: Swift.String?
-    /// A list of scopes. Each scope is a key-value map with the keys name and description.
+    /// A list of custom scopes. Each scope is a key-value map with the keys ScopeName and ScopeDescription. The name of a custom scope is a combination of ScopeName and the resource server Name in this request, for example MyResourceServerName/MyScopeName.
     public var scopes: [CognitoIdentityProviderClientTypes.ResourceServerScopeType]?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool where you want to create a resource server.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -4820,8 +4692,7 @@ public struct CreateResourceServerInput: Swift.Sendable {
         name: Swift.String? = nil,
         scopes: [CognitoIdentityProviderClientTypes.ResourceServerScopeType]? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.name = name
         self.scopes = scopes
@@ -4847,8 +4718,7 @@ extension CognitoIdentityProviderClientTypes {
             name: Swift.String? = nil,
             scopes: [CognitoIdentityProviderClientTypes.ResourceServerScopeType]? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.name = name
             self.scopes = scopes
@@ -4858,27 +4728,26 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct CreateResourceServerOutput: Swift.Sendable {
-    /// The newly created resource server.
+    /// The details of the new resource server.
     /// This member is required.
     public var resourceServer: CognitoIdentityProviderClientTypes.ResourceServerType?
 
     public init(
         resourceServer: CognitoIdentityProviderClientTypes.ResourceServerType? = nil
-    )
-    {
+    ) {
         self.resourceServer = resourceServer
     }
 }
 
 /// Represents the request to create the user import job.
 public struct CreateUserImportJobInput: Swift.Sendable {
-    /// The role ARN for the Amazon CloudWatch Logs Logging role for the user import job.
+    /// You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role.
     /// This member is required.
     public var cloudWatchLogsRoleArn: Swift.String?
-    /// The job name for the user import job.
+    /// A friendly name for the user import job.
     /// This member is required.
     public var jobName: Swift.String?
-    /// The user pool ID for the user pool that the users are being imported into.
+    /// The ID of the user pool that you want to import users into.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -4886,8 +4755,7 @@ public struct CreateUserImportJobInput: Swift.Sendable {
         cloudWatchLogsRoleArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         self.jobName = jobName
         self.userPoolId = userPoolId
@@ -5002,8 +4870,7 @@ extension CognitoIdentityProviderClientTypes {
             startDate: Foundation.Date? = nil,
             status: CognitoIdentityProviderClientTypes.UserImportJobStatusType? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.completionDate = completionDate
             self.completionMessage = completionMessage
@@ -5023,21 +4890,20 @@ extension CognitoIdentityProviderClientTypes {
 
 /// Represents the response from the server to the request to create the user import job.
 public struct CreateUserImportJobOutput: Swift.Sendable {
-    /// The job object that represents the user import job.
+    /// The details of the user import job.
     public var userImportJob: CognitoIdentityProviderClientTypes.UserImportJobType?
 
     public init(
         userImportJob: CognitoIdentityProviderClientTypes.UserImportJobType? = nil
-    )
-    {
+    ) {
         self.userImportJob = userImportJob
     }
 }
 
 /// This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
-public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5052,16 +4918,15 @@ public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when you've attempted to change your feature plan but the operation isn't permitted.
-public struct TierChangeNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TierChangeNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5076,16 +4941,15 @@ public struct TierChangeNotAllowedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when a user pool tag can't be set or updated.
-public struct UserPoolTaggingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserPoolTaggingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5100,8 +4964,7 @@ public struct UserPoolTaggingException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5147,8 +5010,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             challengeRequiredOnNewDevice: Swift.Bool = false,
             deviceOnlyRememberedOnUserPrompt: Swift.Bool = false
-        )
-        {
+        ) {
             self.challengeRequiredOnNewDevice = challengeRequiredOnNewDevice
             self.deviceOnlyRememberedOnUserPrompt = deviceOnlyRememberedOnUserPrompt
         }
@@ -5212,8 +5074,7 @@ extension CognitoIdentityProviderClientTypes {
             from: Swift.String? = nil,
             replyToEmailAddress: Swift.String? = nil,
             sourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationSet = configurationSet
             self.emailSendingAccount = emailSendingAccount
             self.from = from
@@ -5263,8 +5124,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             lambdaArn: Swift.String? = nil,
             lambdaVersion: CognitoIdentityProviderClientTypes.CustomEmailSenderLambdaVersionType? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
             self.lambdaVersion = lambdaVersion
         }
@@ -5311,8 +5171,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             lambdaArn: Swift.String? = nil,
             lambdaVersion: CognitoIdentityProviderClientTypes.CustomSMSSenderLambdaVersionType? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
             self.lambdaVersion = lambdaVersion
         }
@@ -5362,8 +5221,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             lambdaArn: Swift.String? = nil,
             lambdaVersion: CognitoIdentityProviderClientTypes.PreTokenGenerationLambdaVersionType? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
             self.lambdaVersion = lambdaVersion
         }
@@ -5418,8 +5276,7 @@ extension CognitoIdentityProviderClientTypes {
             preTokenGenerationConfig: CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType? = nil,
             userMigration: Swift.String? = nil,
             verifyAuthChallengeResponse: Swift.String? = nil
-        )
-        {
+        ) {
             self.createAuthChallenge = createAuthChallenge
             self.customEmailSender = customEmailSender
             self.customMessage = customMessage
@@ -5497,8 +5354,7 @@ extension CognitoIdentityProviderClientTypes {
             requireSymbols: Swift.Bool = false,
             requireUppercase: Swift.Bool = false,
             temporaryPasswordValidityDays: Swift.Int = 0
-        )
-        {
+        ) {
             self.minimumLength = minimumLength
             self.passwordHistorySize = passwordHistorySize
             self.requireLowercase = requireLowercase
@@ -5519,8 +5375,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             allowedFirstAuthFactors: [CognitoIdentityProviderClientTypes.AuthFactorType]? = nil
-        )
-        {
+        ) {
             self.allowedFirstAuthFactors = allowedFirstAuthFactors
         }
     }
@@ -5538,8 +5393,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             passwordPolicy: CognitoIdentityProviderClientTypes.PasswordPolicyType? = nil,
             signInPolicy: CognitoIdentityProviderClientTypes.SignInPolicyType? = nil
-        )
-        {
+        ) {
             self.passwordPolicy = passwordPolicy
             self.signInPolicy = signInPolicy
         }
@@ -5562,8 +5416,7 @@ extension CognitoIdentityProviderClientTypes {
             externalId: Swift.String? = nil,
             snsCallerArn: Swift.String? = nil,
             snsRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalId = externalId
             self.snsCallerArn = snsCallerArn
             self.snsRegion = snsRegion
@@ -5580,8 +5433,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             attributesRequireVerificationBeforeUpdate: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]? = nil
-        )
-        {
+        ) {
             self.attributesRequireVerificationBeforeUpdate = attributesRequireVerificationBeforeUpdate
         }
     }
@@ -5626,8 +5478,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             caseSensitive: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.caseSensitive = caseSensitive
         }
     }
@@ -5646,8 +5497,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             advancedSecurityAdditionalFlows: CognitoIdentityProviderClientTypes.AdvancedSecurityAdditionalFlowsType? = nil,
             advancedSecurityMode: CognitoIdentityProviderClientTypes.AdvancedSecurityModeType? = nil
-        )
-        {
+        ) {
             self.advancedSecurityAdditionalFlows = advancedSecurityAdditionalFlows
             self.advancedSecurityMode = advancedSecurityMode
         }
@@ -5739,8 +5589,7 @@ extension CognitoIdentityProviderClientTypes {
             emailSubject: Swift.String? = nil,
             emailSubjectByLink: Swift.String? = nil,
             smsMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultEmailOption = defaultEmailOption
             self.emailMessage = emailMessage
             self.emailMessageByLink = emailMessageByLink
@@ -5755,15 +5604,15 @@ extension CognitoIdentityProviderClientTypes {
 public struct CreateUserPoolInput: Swift.Sendable {
     /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
     public var accountRecoverySetting: CognitoIdentityProviderClientTypes.AccountRecoverySettingType?
-    /// The configuration for AdminCreateUser requests.
+    /// The configuration for [AdminCreateUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminCreateUser.html) requests. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
     public var adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType?
-    /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
+    /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username. For more information about alias attributes, see [Customizing sign-in attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases).
     public var aliasAttributes: [CognitoIdentityProviderClientTypes.AliasAttributeType]?
-    /// The attributes to be auto-verified. Possible values: email, phone_number.
+    /// The attributes that you want your user pool to automatically verify. Possible values: email, phone_number. For more information see [Verifying contact information at sign-up](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#allowing-users-to-sign-up-and-confirm-themselves).
     public var autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]?
     /// When active, DeletionProtection prevents accidental deletion of your user pool. Before you can delete a user pool that you have protected against deletion, you must deactivate this feature. When you try to delete a protected user pool in a DeleteUserPool API request, Amazon Cognito returns an InvalidParameterException error. To delete a protected user pool, send a new DeleteUserPool request after you deactivate deletion protection in an UpdateUserPool API request.
     public var deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType?
-    /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool. When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
+    /// The device-remembering configuration for a user pool. Device remembering or device tracking is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). A null value indicates that you have deactivated device remembering in your user pool. When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature. For more infor
     public var deviceConfiguration: CognitoIdentityProviderClientTypes.DeviceConfigurationType?
     /// The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for messages from your user pool.
     public var emailConfiguration: CognitoIdentityProviderClientTypes.EmailConfigurationType?
@@ -5773,18 +5622,18 @@ public struct CreateUserPoolInput: Swift.Sendable {
     public var emailVerificationSubject: Swift.String?
     /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
     public var lambdaConfig: CognitoIdentityProviderClientTypes.LambdaConfigType?
-    /// Specifies MFA configuration details.
+    /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL.
     public var mfaConfiguration: CognitoIdentityProviderClientTypes.UserPoolMfaType?
-    /// The policies associated with the new user pool.
+    /// The password policy and sign-in policy in the user pool. The password policy sets options like password complexity requirements and password history. The sign-in policy sets the options available to applications in [choice-based authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice).
     public var policies: CognitoIdentityProviderClientTypes.UserPoolPolicyType?
-    /// A string used to name the user pool.
+    /// A friendlhy name for your user pool.
     /// This member is required.
     public var poolName: Swift.String?
-    /// An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
+    /// An array of attributes for the new user pool. You can add custom attributes and modify the properties of default attributes. The specifications in this parameter set the required attributes in your user pool. For more information, see [Working with user attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html).
     public var schema: [CognitoIdentityProviderClientTypes.SchemaAttributeType]?
     /// A string representing the SMS authentication message.
     public var smsAuthenticationMessage: Swift.String?
-    /// The SMS configuration with the settings that your Amazon Cognito user pool must use to send an SMS message from your Amazon Web Services account through Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account.
+    /// The SMS configuration with the settings that your Amazon Cognito user pool must use to send an SMS message from your Amazon Web Services account through Amazon Simple Notification Service. To send SMS messages with Amazon SNS in the Amazon Web Services Region that you want, the Amazon Cognito user pool uses an Identity and Access Management (IAM) role in your Amazon Web Services account. For more information see [SMS message settings](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html).
     public var smsConfiguration: CognitoIdentityProviderClientTypes.SmsConfigurationType?
     /// This parameter is no longer used. See [VerificationMessageTemplateType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerificationMessageTemplateType.html).
     public var smsVerificationMessage: Swift.String?
@@ -5796,9 +5645,9 @@ public struct CreateUserPoolInput: Swift.Sendable {
     public var userPoolTags: [Swift.String: Swift.String]?
     /// The user pool [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html), or tier. This parameter determines the eligibility of the user pool for features like managed login, access-token customization, and threat protection. Defaults to ESSENTIALS.
     public var userPoolTier: CognitoIdentityProviderClientTypes.UserPoolTierType?
-    /// Specifies whether a user can use an email address or phone number as a username when they sign up.
+    /// Specifies whether a user can use an email address or phone number as a username when they sign up. For more information, see [Customizing sign-in attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases).
     public var usernameAttributes: [CognitoIdentityProviderClientTypes.UsernameAttributeType]?
-    /// Case sensitivity on the username input for the selected sign-in option. When case sensitivity is set to False (case insensitive), users can sign in with any combination of capital and lowercase letters. For example, username, USERNAME, or UserName, or for email, email@example.com or EMaiL@eXamplE.Com. For most use cases, set case sensitivity to False (case insensitive) as a best practice. When usernames and email addresses are case insensitive, Amazon Cognito treats any variation in case as the same user, and prevents a case variation from being assigned to the same attribute for a different user. This configuration is immutable after you set it. For more information, see [UsernameConfigurationType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UsernameConfigurationType.html).
+    /// Sets the case sensitivity option for sign-in usernames. When CaseSensitive is false (case insensitive), users can sign in with any combination of capital and lowercase letters. For example, username, USERNAME, or UserName, or for email, email@example.com or EMaiL@eXamplE.Com. For most use cases, set case sensitivity to false as a best practice. When usernames and email addresses are case insensitive, Amazon Cognito treats any variation in case as the same user, and prevents a case variation from being assigned to the same attribute for a different user. When CaseSensitive is true (case sensitive), Amazon Cognito interprets USERNAME and UserName as distinct users. This configuration is immutable after you set it.
     public var usernameConfiguration: CognitoIdentityProviderClientTypes.UsernameConfigurationType?
     /// The template for the verification message that your user pool delivers to users who set an email address or phone number attribute. Set the email message type that corresponds to your DefaultEmailOption selection. For CONFIRM_WITH_LINK, specify an EmailMessageByLink and leave EmailMessage blank. For CONFIRM_WITH_CODE, specify an EmailMessage and leave EmailMessageByLink blank. When you supply both parameters with either choice, Amazon Cognito returns an error.
     public var verificationMessageTemplate: CognitoIdentityProviderClientTypes.VerificationMessageTemplateType?
@@ -5828,8 +5677,7 @@ public struct CreateUserPoolInput: Swift.Sendable {
         usernameAttributes: [CognitoIdentityProviderClientTypes.UsernameAttributeType]? = nil,
         usernameConfiguration: CognitoIdentityProviderClientTypes.UsernameConfigurationType? = nil,
         verificationMessageTemplate: CognitoIdentityProviderClientTypes.VerificationMessageTemplateType? = nil
-    )
-    {
+    ) {
         self.accountRecoverySetting = accountRecoverySetting
         self.adminCreateUserConfig = adminCreateUserConfig
         self.aliasAttributes = aliasAttributes
@@ -6001,8 +5849,7 @@ extension CognitoIdentityProviderClientTypes {
             usernameAttributes: [CognitoIdentityProviderClientTypes.UsernameAttributeType]? = nil,
             usernameConfiguration: CognitoIdentityProviderClientTypes.UsernameConfigurationType? = nil,
             verificationMessageTemplate: CognitoIdentityProviderClientTypes.VerificationMessageTemplateType? = nil
-        )
-        {
+        ) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
@@ -6043,21 +5890,20 @@ extension CognitoIdentityProviderClientTypes {
 
 /// Represents the response from the server for the request to create a user pool.
 public struct CreateUserPoolOutput: Swift.Sendable {
-    /// A container for the user pool details.
+    /// The details of the created user pool.
     public var userPool: CognitoIdentityProviderClientTypes.UserPoolType?
 
     public init(
         userPool: CognitoIdentityProviderClientTypes.UserPoolType? = nil
-    )
-    {
+    ) {
         self.userPool = userPool
     }
 }
 
 /// This exception is thrown when the specified OAuth flow is not valid.
-public struct InvalidOAuthFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOAuthFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6072,16 +5918,15 @@ public struct InvalidOAuthFlowException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified scope doesn't exist.
-public struct ScopeDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScopeDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6096,8 +5941,7 @@ public struct ScopeDoesNotExistException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6263,8 +6107,7 @@ extension CognitoIdentityProviderClientTypes {
             accessToken: CognitoIdentityProviderClientTypes.TimeUnitsType? = nil,
             idToken: CognitoIdentityProviderClientTypes.TimeUnitsType? = nil,
             refreshToken: CognitoIdentityProviderClientTypes.TimeUnitsType? = nil
-        )
-        {
+        ) {
             self.accessToken = accessToken
             self.idToken = idToken
             self.refreshToken = refreshToken
@@ -6291,9 +6134,9 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     ///
     /// To use OAuth 2.0 features, configure one of these features in the Amazon Cognito console or set AllowedOAuthFlowsUserPoolClient to true in a CreateUserPoolClient or UpdateUserPoolClient API request. If you don't set a value for AllowedOAuthFlowsUserPoolClient in a request with the CLI or SDKs, it defaults to false.
     public var allowedOAuthFlowsUserPoolClient: Swift.Bool?
-    /// The allowed OAuth scopes. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
+    /// The OAuth 2.0 scopes that you want to permit your app client to authorize. Scopes govern access control to user pool self-service API operations, user data from the userInfo endpoint, and third-party APIs. Possible values provided by OAuth are phone, email, openid, and profile. Possible values provided by Amazon Web Services are aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
     public var allowedOAuthScopes: [Swift.String]?
-    /// The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign. In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools only support sending events to Amazon Pinpoint projects in Amazon Web Services Region us-east-1. In Regions where Amazon Pinpoint is available, user pools support sending events to Amazon Pinpoint projects within that same Region.
+    /// The user pool analytics configuration for collecting metrics and sending them to your Amazon Pinpoint campaign. In Amazon Web Services Regions where Amazon Pinpoint isn't available, user pools might not have access to analytics or might be configurable with campaigns in the US East (N. Virginia) Region. For more information, see [Using Amazon Pinpoint analytics](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html).
     public var analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType?
     /// Amazon Cognito creates a session token for each API request in an authentication flow. AuthSessionValidity is the duration, in minutes, of that session token. Your user pool native user must respond to each authentication challenge before the session expires.
     public var authSessionValidity: Swift.Int?
@@ -6301,26 +6144,17 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     ///
     /// * Be an absolute URI.
     ///
-    /// * Be registered with the authorization server.
+    /// * Be registered with the authorization server. Amazon Cognito doesn't accept authorization requests with redirect_uri values that aren't in the list of CallbackURLs that you provide in this parameter.
     ///
     /// * Not include a fragment component.
     ///
     ///
     /// See [OAuth 2.0 - Redirection Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2). Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
     public var callbackURLs: [Swift.String]?
-    /// The client name for the user pool client you would like to create.
+    /// A friendly name for the app client that you want to create.
     /// This member is required.
     public var clientName: Swift.String?
-    /// The default redirect URI. In app clients with one assigned IdP, replaces redirect_uri in authentication requests. Must be in the CallbackURLs list. A redirect URI must:
-    ///
-    /// * Be an absolute URI.
-    ///
-    /// * Be registered with the authorization server.
-    ///
-    /// * Not include a fragment component.
-    ///
-    ///
-    /// For more information, see [Default redirect URI](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html#cognito-user-pools-app-idp-settings-about). Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+    /// The default redirect URI. In app clients with one assigned IdP, replaces redirect_uri in authentication requests. Must be in the CallbackURLs list.
     public var defaultRedirectURI: Swift.String?
     /// Activates the propagation of additional user context data. For more information about propagation of user context data, see [ Adding advanced security to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-threat-protection.html). If you don’t include this parameter, you can't send device fingerprint information, including source IP address, to Amazon Cognito advanced security. You can only activate EnablePropagateAdditionalUserContextData in an app client that has a client secret.
     public var enablePropagateAdditionalUserContextData: Swift.Bool?
@@ -6343,11 +6177,11 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     ///
     /// In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH. You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_, like ALLOW_USER_SRP_AUTH.
     public var explicitAuthFlows: [CognitoIdentityProviderClientTypes.ExplicitAuthFlowsType]?
-    /// Boolean to specify whether you want to generate a secret for the user pool client being created.
+    /// When true, generates a client secret for the app client. Client secrets are used with server-side and machine-to-machine applications. For more information, see [App client types](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html#user-pool-settings-client-app-client-types).
     public var generateSecret: Swift.Bool?
     /// The ID token time limit. After this limit expires, your user can't use their ID token. To specify the time unit for IdTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set IdTokenValidity as 10 and TokenValidityUnits as hours, your user can authenticate their session with their ID token for 10 hours. The default time unit for IdTokenValidity in an API request is hours. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your ID tokens are valid for one hour.
     public var idTokenValidity: Swift.Int?
-    /// A list of allowed logout URLs for the IdPs.
+    /// A list of allowed logout URLs for managed login authentication. For more information, see [Logout endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/logout-endpoint.html).
     public var logoutURLs: [Swift.String]?
     /// Errors and responses that you want Amazon Cognito APIs to return during authentication, account confirmation, and password recovery when the user doesn't exist in the user pool. When set to ENABLED and the user doesn't exist, authentication returns an error indicating either the username or password was incorrect. Account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException exception if the user doesn't exist in the user pool. Valid values include:
     ///
@@ -6362,11 +6196,11 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     public var readAttributes: [Swift.String]?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
     public var refreshTokenValidity: Swift.Int?
-    /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with the [hosted UI and OAuth 2.0 authorization server](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html). The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
+    /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with [managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html). The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
     public var supportedIdentityProviders: [Swift.String]?
-    /// The units in which the validity times are represented. The default unit for RefreshToken is days, and default for ID and access tokens are hours.
+    /// The units that validity times are represented in. The default unit for refresh tokens is days, and the default for ID and access tokens are hours.
     public var tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType?
-    /// The user pool ID for the user pool where you want to create a user pool client.
+    /// The ID of the user pool where you want to create an app client.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an [UpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html) API request and sets family_name to the new value. When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see [Specifying IdP Attribute Mappings for Your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
@@ -6395,8 +6229,7 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
         userPoolId: Swift.String? = nil,
         writeAttributes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessTokenValidity = accessTokenValidity
         self.allowedOAuthFlows = allowedOAuthFlows
         self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -6519,7 +6352,7 @@ extension CognitoIdentityProviderClientTypes {
         public var readAttributes: [Swift.String]?
         /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
         public var refreshTokenValidity: Swift.Int
-        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with the [hosted UI and OAuth 2.0 authorization server](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html). The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
+        /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with [managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html). The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
         public var supportedIdentityProviders: [Swift.String]?
         /// The time units that, with IdTokenValidity, AccessTokenValidity, and RefreshTokenValidity, set and display the duration of ID, access, and refresh tokens for an app client. You can assign a separate token validity unit to each type of token.
         public var tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType?
@@ -6554,8 +6387,7 @@ extension CognitoIdentityProviderClientTypes {
             tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
             userPoolId: Swift.String? = nil,
             writeAttributes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -6592,13 +6424,12 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.CustomDeb
 
 /// Represents the response from the server to create a user pool client.
 public struct CreateUserPoolClientOutput: Swift.Sendable {
-    /// The user pool client that was just created.
+    /// The details of the new app client.
     public var userPoolClient: CognitoIdentityProviderClientTypes.UserPoolClientType?
 
     public init(
         userPoolClient: CognitoIdentityProviderClientTypes.UserPoolClientType? = nil
-    )
-    {
+    ) {
         self.userPoolClient = userPoolClient
     }
 }
@@ -6613,20 +6444,19 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             certificateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
         }
     }
 }
 
 public struct CreateUserPoolDomainInput: Swift.Sendable {
-    /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see [Configuring a User Pool Domain](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain.html).
+    /// The configuration for a custom domain. Configures your domain with an Certificate Manager certificate in the us-east-1 Region. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use a prefix domain instead. For more information about the hosted domain and custom domains, see [Configuring a User Pool Domain](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain.html).
     public var customDomainConfig: CognitoIdentityProviderClientTypes.CustomDomainConfigType?
-    /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
+    /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For prefix domains, this is the prefix alone, such as myprefix. A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of myprefix.auth.us-east-1.amazoncognito.com.
     /// This member is required.
     public var domain: Swift.String?
-    /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) branding and a version of 2 indicates managed login branding. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite.
+    /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any [feature plan](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-sign-in-feature-plans.html) other than Lite.
     public var managedLoginVersion: Swift.Int?
     /// The ID of the user pool where you want to add a domain.
     /// This member is required.
@@ -6637,8 +6467,7 @@ public struct CreateUserPoolDomainInput: Swift.Sendable {
         domain: Swift.String? = nil,
         managedLoginVersion: Swift.Int? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainConfig = customDomainConfig
         self.domain = domain
         self.managedLoginVersion = managedLoginVersion
@@ -6649,41 +6478,39 @@ public struct CreateUserPoolDomainInput: Swift.Sendable {
 public struct CreateUserPoolDomainOutput: Swift.Sendable {
     /// The Amazon CloudFront endpoint that you use as the target of the alias that you set up with your Domain Name Service (DNS) provider. Amazon Cognito returns this value if you set a custom domain with CustomDomainConfig. If you set an Amazon Cognito prefix domain, this operation returns a blank response.
     public var cloudFrontDomain: Swift.String?
-    /// The version of managed login branding applied your domain. A value of 1 indicates hosted UI (classic) branding and a version of 2 indicates managed login branding.
+    /// The version of managed login branding applied your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login.
     public var managedLoginVersion: Swift.Int?
 
     public init(
         cloudFrontDomain: Swift.String? = nil,
         managedLoginVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cloudFrontDomain = cloudFrontDomain
         self.managedLoginVersion = managedLoginVersion
     }
 }
 
 public struct DeleteGroupInput: Swift.Sendable {
-    /// The name of the group.
+    /// The name of the group that you want to delete.
     /// This member is required.
     public var groupName: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool where you want to delete the group.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         groupName: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.userPoolId = userPoolId
     }
 }
 
 /// This exception is thrown when the specified identifier isn't supported.
-public struct UnsupportedIdentityProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedIdentityProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6698,25 +6525,23 @@ public struct UnsupportedIdentityProviderException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct DeleteIdentityProviderInput: Swift.Sendable {
-    /// The IdP name.
+    /// The name of the IdP that you want to delete.
     /// This member is required.
     public var providerName: Swift.String?
-    /// The user pool ID.
+    /// The ID of the user pool where you want to delete the identity provider.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         providerName: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.providerName = providerName
         self.userPoolId = userPoolId
     }
@@ -6733,26 +6558,24 @@ public struct DeleteManagedLoginBrandingInput: Swift.Sendable {
     public init(
         managedLoginBrandingId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedLoginBrandingId = managedLoginBrandingId
         self.userPoolId = userPoolId
     }
 }
 
 public struct DeleteResourceServerInput: Swift.Sendable {
-    /// The identifier for the resource server.
+    /// The identifier of the resource server that you want to delete.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The user pool ID for the user pool that hosts the resource server.
+    /// The ID of the user pool where you want to delete the resource server.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         identifier: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.userPoolId = userPoolId
     }
@@ -6766,8 +6589,7 @@ public struct DeleteUserInput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
     }
 }
@@ -6782,15 +6604,14 @@ public struct DeleteUserAttributesInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the user whose attributes you want to delete.
     /// This member is required.
     public var accessToken: Swift.String?
-    /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prependattach the custom: prefix to the front of the attribute name.
+    /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prepend the custom: prefix to the attribute name, for example custom:department.
     /// This member is required.
     public var userAttributeNames: [Swift.String]?
 
     public init(
         accessToken: Swift.String? = nil,
         userAttributeNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.userAttributeNames = userAttributeNames
     }
@@ -6809,32 +6630,30 @@ public struct DeleteUserAttributesOutput: Swift.Sendable {
 
 /// Represents the request to delete a user pool.
 public struct DeleteUserPoolInput: Swift.Sendable {
-    /// The user pool ID for the user pool you want to delete.
+    /// The ID of the user pool that you want to delete.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
     }
 }
 
 /// Represents the request to delete a user pool client.
 public struct DeleteUserPoolClientInput: Swift.Sendable {
-    /// The app client ID of the app associated with the user pool.
+    /// The ID of the user pool app client that you want to delete.
     /// This member is required.
     public var clientId: Swift.String?
-    /// The user pool ID for the user pool where you want to delete the client.
+    /// The ID of the user pool where you want to delete the client.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         clientId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.userPoolId = userPoolId
     }
@@ -6846,18 +6665,17 @@ extension DeleteUserPoolClientInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct DeleteUserPoolDomainInput: Swift.Sendable {
-    /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
+    /// The domain that you want to delete. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
     /// This member is required.
     public var domain: Swift.String?
-    /// The user pool ID.
+    /// The ID of the user pool where you want to delete the domain.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         domain: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.userPoolId = userPoolId
     }
@@ -6869,18 +6687,17 @@ public struct DeleteUserPoolDomainOutput: Swift.Sendable {
 }
 
 public struct DeleteWebAuthnCredentialInput: Swift.Sendable {
-    /// A valid access token that Amazon Cognito issued to the user whose passkey you want to delete.
+    /// A valid access token that Amazon Cognito issued to the user whose passkey credential you want to delete.
     /// This member is required.
     public var accessToken: Swift.String?
-    /// The unique identifier of the passkey that you want to delete. Look up registered devices with [ ListWebAuthnCredentials](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ListWebAuthnCredentials.html).
+    /// The unique identifier of the passkey that you want to delete. Look up registered devices with [ListWebAuthnCredentials](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ListWebAuthnCredentials.html).
     /// This member is required.
     public var credentialId: Swift.String?
 
     public init(
         accessToken: Swift.String? = nil,
         credentialId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.credentialId = credentialId
     }
@@ -6897,32 +6714,30 @@ public struct DeleteWebAuthnCredentialOutput: Swift.Sendable {
 }
 
 public struct DescribeIdentityProviderInput: Swift.Sendable {
-    /// The IdP name.
+    /// The name of the IdP that you want to describe.
     /// This member is required.
     public var providerName: Swift.String?
-    /// The user pool ID.
+    /// The ID of the user pool that has the IdP that you want to describe..
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         providerName: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.providerName = providerName
         self.userPoolId = userPoolId
     }
 }
 
 public struct DescribeIdentityProviderOutput: Swift.Sendable {
-    /// The identity provider details.
+    /// The details of the requested IdP.
     /// This member is required.
     public var identityProvider: CognitoIdentityProviderClientTypes.IdentityProviderType?
 
     public init(
         identityProvider: CognitoIdentityProviderClientTypes.IdentityProviderType? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
@@ -6941,8 +6756,7 @@ public struct DescribeManagedLoginBrandingInput: Swift.Sendable {
         managedLoginBrandingId: Swift.String? = nil,
         returnMergedResources: Swift.Bool? = false,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedLoginBrandingId = managedLoginBrandingId
         self.returnMergedResources = returnMergedResources
         self.userPoolId = userPoolId
@@ -6955,8 +6769,7 @@ public struct DescribeManagedLoginBrandingOutput: Swift.Sendable {
 
     public init(
         managedLoginBranding: CognitoIdentityProviderClientTypes.ManagedLoginBrandingType? = nil
-    )
-    {
+    ) {
         self.managedLoginBranding = managedLoginBranding
     }
 }
@@ -6975,8 +6788,7 @@ public struct DescribeManagedLoginBrandingByClientInput: Swift.Sendable {
         clientId: Swift.String? = nil,
         returnMergedResources: Swift.Bool? = false,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.returnMergedResources = returnMergedResources
         self.userPoolId = userPoolId
@@ -6994,8 +6806,7 @@ public struct DescribeManagedLoginBrandingByClientOutput: Swift.Sendable {
 
     public init(
         managedLoginBranding: CognitoIdentityProviderClientTypes.ManagedLoginBrandingType? = nil
-    )
-    {
+    ) {
         self.managedLoginBranding = managedLoginBranding
     }
 }
@@ -7004,45 +6815,42 @@ public struct DescribeResourceServerInput: Swift.Sendable {
     /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The user pool ID for the user pool that hosts the resource server.
+    /// The ID of the user pool that hosts the resource server.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         identifier: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.userPoolId = userPoolId
     }
 }
 
 public struct DescribeResourceServerOutput: Swift.Sendable {
-    /// The resource server.
+    /// The details of the requested resource server.
     /// This member is required.
     public var resourceServer: CognitoIdentityProviderClientTypes.ResourceServerType?
 
     public init(
         resourceServer: CognitoIdentityProviderClientTypes.ResourceServerType? = nil
-    )
-    {
+    ) {
         self.resourceServer = resourceServer
     }
 }
 
 public struct DescribeRiskConfigurationInput: Swift.Sendable {
-    /// The app client ID.
+    /// The ID of the app client with the risk configuration that you want to inspect. You can apply default risk configuration at the user pool level and further customize it from user pool defaults at the app-client level. Specify ClientId to inspect client-level configuration, or UserPoolId to inspect pool-level configuration.
     public var clientId: Swift.String?
-    /// The user pool ID.
+    /// The ID of the user pool with the risk configuration that you want to inspect. You can apply default risk configuration at the user pool level and further customize it from user pool defaults at the app-client level. Specify ClientId to inspect client-level configuration, or UserPoolId to inspect pool-level configuration.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         clientId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.userPoolId = userPoolId
     }
@@ -7092,8 +6900,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             eventAction: CognitoIdentityProviderClientTypes.CompromisedCredentialsEventActionType? = nil
-        )
-        {
+        ) {
             self.eventAction = eventAction
         }
     }
@@ -7144,8 +6951,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             actions: CognitoIdentityProviderClientTypes.CompromisedCredentialsActionsType? = nil,
             eventFilter: [CognitoIdentityProviderClientTypes.EventFilterType]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.eventFilter = eventFilter
         }
@@ -7164,8 +6970,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             blockedIPRangeList: [Swift.String]? = nil,
             skippedIPRangeList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.blockedIPRangeList = blockedIPRangeList
             self.skippedIPRangeList = skippedIPRangeList
         }
@@ -7196,8 +7001,7 @@ extension CognitoIdentityProviderClientTypes {
             lastModifiedDate: Foundation.Date? = nil,
             riskExceptionConfiguration: CognitoIdentityProviderClientTypes.RiskExceptionConfigurationType? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
             self.clientId = clientId
             self.compromisedCredentialsRiskConfiguration = compromisedCredentialsRiskConfiguration
@@ -7214,32 +7018,30 @@ extension CognitoIdentityProviderClientTypes.RiskConfigurationType: Swift.Custom
 }
 
 public struct DescribeRiskConfigurationOutput: Swift.Sendable {
-    /// The risk configuration.
+    /// The details of the requested risk configuration.
     /// This member is required.
     public var riskConfiguration: CognitoIdentityProviderClientTypes.RiskConfigurationType?
 
     public init(
         riskConfiguration: CognitoIdentityProviderClientTypes.RiskConfigurationType? = nil
-    )
-    {
+    ) {
         self.riskConfiguration = riskConfiguration
     }
 }
 
 /// Represents the request to describe the user import job.
 public struct DescribeUserImportJobInput: Swift.Sendable {
-    /// The job ID for the user import job.
+    /// The Id of the user import job that you want to describe.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The user pool ID for the user pool that the users are being imported into.
+    /// The ID of the user pool that's associated with the import job.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         jobId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.userPoolId = userPoolId
     }
@@ -7247,58 +7049,54 @@ public struct DescribeUserImportJobInput: Swift.Sendable {
 
 /// Represents the response from the server to the request to describe the user import job.
 public struct DescribeUserImportJobOutput: Swift.Sendable {
-    /// The job object that represents the user import job.
+    /// The details of the user import job.
     public var userImportJob: CognitoIdentityProviderClientTypes.UserImportJobType?
 
     public init(
         userImportJob: CognitoIdentityProviderClientTypes.UserImportJobType? = nil
-    )
-    {
+    ) {
         self.userImportJob = userImportJob
     }
 }
 
 /// Represents the request to describe the user pool.
 public struct DescribeUserPoolInput: Swift.Sendable {
-    /// The user pool ID for the user pool you want to describe.
+    /// The ID of the user pool you want to describe.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
     }
 }
 
 /// Represents the response to describe the user pool.
 public struct DescribeUserPoolOutput: Swift.Sendable {
-    /// The container of metadata returned by the server to describe the pool.
+    /// The details of the requested user pool.
     public var userPool: CognitoIdentityProviderClientTypes.UserPoolType?
 
     public init(
         userPool: CognitoIdentityProviderClientTypes.UserPoolType? = nil
-    )
-    {
+    ) {
         self.userPool = userPool
     }
 }
 
 /// Represents the request to describe a user pool client.
 public struct DescribeUserPoolClientInput: Swift.Sendable {
-    /// The app client ID of the app associated with the user pool.
+    /// The ID of the app client that you want to describe.
     /// This member is required.
     public var clientId: Swift.String?
-    /// The user pool ID for the user pool you want to describe.
+    /// The ID of the user pool that contains the app client you want to describe.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         clientId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.userPoolId = userPoolId
     }
@@ -7311,26 +7109,24 @@ extension DescribeUserPoolClientInput: Swift.CustomDebugStringConvertible {
 
 /// Represents the response from the server from a request to describe the user pool client.
 public struct DescribeUserPoolClientOutput: Swift.Sendable {
-    /// The user pool client from a server response to describe the user pool client.
+    /// The details of the request app client.
     public var userPoolClient: CognitoIdentityProviderClientTypes.UserPoolClientType?
 
     public init(
         userPoolClient: CognitoIdentityProviderClientTypes.UserPoolClientType? = nil
-    )
-    {
+    ) {
         self.userPoolClient = userPoolClient
     }
 }
 
 public struct DescribeUserPoolDomainInput: Swift.Sendable {
-    /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
+    /// The domain that you want to describe. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
     /// This member is required.
     public var domain: Swift.String?
 
     public init(
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
     }
 }
@@ -7406,8 +7202,7 @@ extension CognitoIdentityProviderClientTypes {
             status: CognitoIdentityProviderClientTypes.DomainStatusType? = nil,
             userPoolId: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.cloudFrontDistribution = cloudFrontDistribution
             self.customDomainConfig = customDomainConfig
@@ -7422,13 +7217,12 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct DescribeUserPoolDomainOutput: Swift.Sendable {
-    /// A domain description object containing information about the domain.
+    /// The details of the requested user pool domain.
     public var domainDescription: CognitoIdentityProviderClientTypes.DomainDescriptionType?
 
     public init(
         domainDescription: CognitoIdentityProviderClientTypes.DomainDescriptionType? = nil
-    )
-    {
+    ) {
         self.domainDescription = domainDescription
     }
 }
@@ -7444,8 +7238,7 @@ public struct ForgetDeviceInput: Swift.Sendable {
     public init(
         accessToken: Swift.String? = nil,
         deviceKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.deviceKey = deviceKey
     }
@@ -7463,17 +7256,17 @@ public struct ForgotPasswordInput: Swift.Sendable {
     /// The ID of the client associated with the user pool.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and user migration. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and user migration. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ForgotPassword request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash).
     public var secretHash: Swift.String?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
@@ -7486,8 +7279,7 @@ public struct ForgotPasswordInput: Swift.Sendable {
         secretHash: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.clientId = clientId
         self.clientMetadata = clientMetadata
@@ -7517,8 +7309,7 @@ extension CognitoIdentityProviderClientTypes {
             attributeName: Swift.String? = nil,
             deliveryMedium: CognitoIdentityProviderClientTypes.DeliveryMediumType? = nil,
             destination: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.deliveryMedium = deliveryMedium
             self.destination = destination
@@ -7533,22 +7324,20 @@ public struct ForgotPasswordOutput: Swift.Sendable {
 
     public init(
         codeDeliveryDetails: CognitoIdentityProviderClientTypes.CodeDeliveryDetailsType? = nil
-    )
-    {
+    ) {
         self.codeDeliveryDetails = codeDeliveryDetails
     }
 }
 
 /// Represents the request to get the header information of the CSV file for the user import job.
 public struct GetCSVHeaderInput: Swift.Sendable {
-    /// The user pool ID for the user pool that the users are to be imported into.
+    /// The ID of the user pool that the users are to be imported into.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
     }
 }
@@ -7557,14 +7346,13 @@ public struct GetCSVHeaderInput: Swift.Sendable {
 public struct GetCSVHeaderOutput: Swift.Sendable {
     /// The header information of the CSV file for the user import job.
     public var csvHeader: [Swift.String]?
-    /// The user pool ID for the user pool that the users are to be imported into.
+    /// The ID of the user pool that the users are to be imported into.
     public var userPoolId: Swift.String?
 
     public init(
         csvHeader: [Swift.String]? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.csvHeader = csvHeader
         self.userPoolId = userPoolId
     }
@@ -7581,8 +7369,7 @@ public struct GetDeviceInput: Swift.Sendable {
     public init(
         accessToken: Swift.String? = nil,
         deviceKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.deviceKey = deviceKey
     }
@@ -7601,8 +7388,7 @@ public struct GetDeviceOutput: Swift.Sendable {
 
     public init(
         device: CognitoIdentityProviderClientTypes.DeviceType? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
@@ -7611,15 +7397,14 @@ public struct GetGroupInput: Swift.Sendable {
     /// The name of the group.
     /// This member is required.
     public var groupName: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         groupName: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.userPoolId = userPoolId
     }
@@ -7631,8 +7416,7 @@ public struct GetGroupOutput: Swift.Sendable {
 
     public init(
         group: CognitoIdentityProviderClientTypes.GroupType? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -7648,8 +7432,7 @@ public struct GetIdentityProviderByIdentifierInput: Swift.Sendable {
     public init(
         idpIdentifier: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.idpIdentifier = idpIdentifier
         self.userPoolId = userPoolId
     }
@@ -7662,8 +7445,7 @@ public struct GetIdentityProviderByIdentifierOutput: Swift.Sendable {
 
     public init(
         identityProvider: CognitoIdentityProviderClientTypes.IdentityProviderType? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
@@ -7675,8 +7457,7 @@ public struct GetLogDeliveryConfigurationInput: Swift.Sendable {
 
     public init(
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
     }
 }
@@ -7690,8 +7471,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -7735,8 +7515,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             streamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.streamArn = streamArn
         }
     }
@@ -7780,8 +7559,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             bucketArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
         }
     }
@@ -7810,8 +7588,7 @@ extension CognitoIdentityProviderClientTypes {
             firehoseConfiguration: CognitoIdentityProviderClientTypes.FirehoseConfigurationType? = nil,
             logLevel: CognitoIdentityProviderClientTypes.LogLevel? = nil,
             s3Configuration: CognitoIdentityProviderClientTypes.S3ConfigurationType? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.eventSource = eventSource
             self.firehoseConfiguration = firehoseConfiguration
@@ -7835,8 +7612,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             logConfigurations: [CognitoIdentityProviderClientTypes.LogConfigurationType]? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.logConfigurations = logConfigurations
             self.userPoolId = userPoolId
         }
@@ -7849,8 +7625,7 @@ public struct GetLogDeliveryConfigurationOutput: Swift.Sendable {
 
     public init(
         logDeliveryConfiguration: CognitoIdentityProviderClientTypes.LogDeliveryConfigurationType? = nil
-    )
-    {
+    ) {
         self.logDeliveryConfiguration = logDeliveryConfiguration
     }
 }
@@ -7863,8 +7638,7 @@ public struct GetSigningCertificateInput: Swift.Sendable {
 
     public init(
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
     }
 }
@@ -7876,8 +7650,7 @@ public struct GetSigningCertificateOutput: Swift.Sendable {
 
     public init(
         certificate: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
@@ -7885,15 +7658,14 @@ public struct GetSigningCertificateOutput: Swift.Sendable {
 public struct GetUICustomizationInput: Swift.Sendable {
     /// The client ID for the client app.
     public var clientId: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         clientId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.userPoolId = userPoolId
     }
@@ -7931,8 +7703,7 @@ extension CognitoIdentityProviderClientTypes {
             imageUrl: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.creationDate = creationDate
             self.css = css
@@ -7956,8 +7727,7 @@ public struct GetUICustomizationOutput: Swift.Sendable {
 
     public init(
         uiCustomization: CognitoIdentityProviderClientTypes.UICustomizationType? = nil
-    )
-    {
+    ) {
         self.uiCustomization = uiCustomization
     }
 }
@@ -7970,8 +7740,7 @@ public struct GetUserInput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
     }
 }
@@ -8002,8 +7771,7 @@ public struct GetUserOutput: Swift.Sendable {
         userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]? = nil,
         userMFASettingList: [Swift.String]? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.mfaOptions = mfaOptions
         self.preferredMfaSetting = preferredMfaSetting
         self.userAttributes = userAttributes
@@ -8025,21 +7793,20 @@ public struct GetUserAttributeVerificationCodeInput: Swift.Sendable {
     /// The attribute name returned by the server response to get the user attribute verification code.
     /// This member is required.
     public var attributeName: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your GetUserAttributeVerificationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your GetUserAttributeVerificationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
 
     public init(
         accessToken: Swift.String? = nil,
         attributeName: Swift.String? = nil,
         clientMetadata: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.attributeName = attributeName
         self.clientMetadata = clientMetadata
@@ -8058,8 +7825,7 @@ public struct GetUserAttributeVerificationCodeOutput: Swift.Sendable {
 
     public init(
         codeDeliveryDetails: CognitoIdentityProviderClientTypes.CodeDeliveryDetailsType? = nil
-    )
-    {
+    ) {
         self.codeDeliveryDetails = codeDeliveryDetails
     }
 }
@@ -8071,8 +7837,7 @@ public struct GetUserAuthFactorsInput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
     }
 }
@@ -8098,8 +7863,7 @@ public struct GetUserAuthFactorsOutput: Swift.Sendable {
         preferredMfaSetting: Swift.String? = nil,
         userMFASettingList: [Swift.String]? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredUserAuthFactors = configuredUserAuthFactors
         self.preferredMfaSetting = preferredMfaSetting
         self.userMFASettingList = userMFASettingList
@@ -8119,8 +7883,7 @@ public struct GetUserPoolMfaConfigInput: Swift.Sendable {
 
     public init(
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.userPoolId = userPoolId
     }
 }
@@ -8129,16 +7892,15 @@ extension CognitoIdentityProviderClientTypes {
 
     /// Sets or shows user pool email message configuration for MFA. Includes the subject and body of the email message template for MFA messages. To activate this setting, [ advanced security features](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html) must be active in your user pool. This data type is a request parameter of [SetUserPoolMfaConfig](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserPoolMfaConfig.html) and a response parameter of [GetUserPoolMfaConfig](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUserPoolMfaConfig.html).
     public struct EmailMfaConfigType: Swift.Sendable {
-        /// The template for the email message that your user pool sends to users with an MFA code. The message must contain the {####} placeholder. In the message, Amazon Cognito replaces this placeholder with the code. If you don't provide this parameter, Amazon Cognito sends messages in the default format.
+        /// The template for the email message that your user pool sends to users with a code for MFA and sign-in with an email OTP. The message must contain the {####} placeholder. In the message, Amazon Cognito replaces this placeholder with the code. If you don't provide this parameter, Amazon Cognito sends messages in the default format.
         public var message: Swift.String?
-        /// The subject of the email message that your user pool sends to users with an MFA code.
+        /// The subject of the email message that your user pool sends to users with a code for MFA and email OTP sign-in.
         public var subject: Swift.String?
 
         public init(
             message: Swift.String? = nil,
             subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.subject = subject
         }
@@ -8157,8 +7919,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             smsAuthenticationMessage: Swift.String? = nil,
             smsConfiguration: CognitoIdentityProviderClientTypes.SmsConfigurationType? = nil
-        )
-        {
+        ) {
             self.smsAuthenticationMessage = smsAuthenticationMessage
             self.smsConfiguration = smsConfiguration
         }
@@ -8174,8 +7935,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -8231,14 +7991,13 @@ extension CognitoIdentityProviderClientTypes {
         ///
         /// * Your application performs authentication with managed login or the classic hosted UI.
         public var relyingPartyId: Swift.String?
-        /// Sets or displays your user-pool treatment for MFA with a passkey. You can override other MFA options and require passkey MFA, or you can set it as preferred. When passkey MFA is preferred, the hosted UI encourages users to register a passkey at sign-in.
+        /// When required, users can only register and sign in users with passkeys that are capable of [user verification](https://www.w3.org/TR/webauthn-2/#enum-userVerificationRequirement). When preferred, your user pool doesn't require the use of authenticators with user verification but encourages it.
         public var userVerification: CognitoIdentityProviderClientTypes.UserVerificationType?
 
         public init(
             relyingPartyId: Swift.String? = nil,
             userVerification: CognitoIdentityProviderClientTypes.UserVerificationType? = nil
-        )
-        {
+        ) {
             self.relyingPartyId = relyingPartyId
             self.userVerification = userVerification
         }
@@ -8269,8 +8028,7 @@ public struct GetUserPoolMfaConfigOutput: Swift.Sendable {
         smsMfaConfiguration: CognitoIdentityProviderClientTypes.SmsMfaConfigType? = nil,
         softwareTokenMfaConfiguration: CognitoIdentityProviderClientTypes.SoftwareTokenMfaConfigType? = nil,
         webAuthnConfiguration: CognitoIdentityProviderClientTypes.WebAuthnConfigurationType? = nil
-    )
-    {
+    ) {
         self.emailMfaConfiguration = emailMfaConfiguration
         self.mfaConfiguration = mfaConfiguration
         self.smsMfaConfiguration = smsMfaConfiguration
@@ -8287,8 +8045,7 @@ public struct GlobalSignOutInput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
     }
 }
@@ -8308,7 +8065,7 @@ public struct GlobalSignOutOutput: Swift.Sendable {
 public struct InitiateAuthInput: Swift.Sendable {
     /// The Amazon Pinpoint analytics metadata that contributes to your metrics for InitiateAuth calls.
     public var analyticsMetadata: CognitoIdentityProviderClientTypes.AnalyticsMetadataType?
-    /// The authentication flow that you want to initiate. The AuthParameters that you must submit are linked to the flow that you submit. For example:
+    /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows and their parameters.
     ///
     /// * USER_AUTH: Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response.
     ///
@@ -8319,7 +8076,7 @@ public struct InitiateAuthInput: Swift.Sendable {
     /// * USER_PASSWORD_AUTH: Receive new tokens or the next challenge, for example SOFTWARE_TOKEN_MFA, when you pass USERNAME and PASSWORD parameters.
     ///
     ///
-    /// Valid values include the following: USER_AUTH The entry point for sign-in with passwords, one-time passwords, biometric devices, and security keys. USER_SRP_AUTH Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see [Use SRP password verification in custom authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Using-SRP-password-verification-in-custom-authentication-flow). REFRESH_TOKEN_AUTH and REFRESH_TOKEN Provide a valid refresh token and receive new ID and access tokens. For more information, see [Using the refresh token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html). CUSTOM_AUTH Custom authentication with Lambda triggers. For more information, see [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html). USER_PASSWORD_AUTH Username-password authentication with the password sent directly in the request. For more information, see [Admin authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Built-in-authentication-flow-and-challenges). ADMIN_USER_PASSWORD_AUTH is a flow type of [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html) and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for InitiateAuth.
+    /// All flows USER_AUTH The entry point for sign-in with passwords, one-time passwords, and WebAuthN authenticators. USER_SRP_AUTH Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see [Use SRP password verification in custom authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Using-SRP-password-verification-in-custom-authentication-flow). REFRESH_TOKEN_AUTH and REFRESH_TOKEN Provide a valid refresh token and receive new ID and access tokens. For more information, see [Using the refresh token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-refresh-token.html). CUSTOM_AUTH Custom authentication with Lambda triggers. For more information, see [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html). USER_PASSWORD_AUTH Username-password authentication with the password sent directly in the request. For more information, see [Admin authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Built-in-authentication-flow-and-challenges). ADMIN_USER_PASSWORD_AUTH is a flow type of [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html) and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for InitiateAuth.
     /// This member is required.
     public var authFlow: CognitoIdentityProviderClientTypes.AuthFlowType?
     /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The required values depend on the value of AuthFlow:
@@ -8366,17 +8123,17 @@ public struct InitiateAuthInput: Swift.Sendable {
     /// * Custom SMS sender
     ///
     ///
-    /// For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
     /// The optional session ID from a ConfirmSignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authentication flow.
     public var session: Swift.String?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
 
     public init(
@@ -8387,8 +8144,7 @@ public struct InitiateAuthInput: Swift.Sendable {
         clientMetadata: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.authFlow = authFlow
         self.authParameters = authParameters
@@ -8447,8 +8203,7 @@ public struct InitiateAuthOutput: Swift.Sendable {
         challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType? = nil,
         challengeParameters: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationResult = authenticationResult
         self.availableChallenges = availableChallenges
         self.challengeName = challengeName
@@ -8476,8 +8231,7 @@ public struct ListDevicesInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         limit: Swift.Int? = nil,
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.limit = limit
         self.paginationToken = paginationToken
@@ -8499,8 +8253,7 @@ public struct ListDevicesOutput: Swift.Sendable {
     public init(
         devices: [CognitoIdentityProviderClientTypes.DeviceType]? = nil,
         paginationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.paginationToken = paginationToken
     }
@@ -8511,7 +8264,7 @@ public struct ListGroupsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -8519,8 +8272,7 @@ public struct ListGroupsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.userPoolId = userPoolId
@@ -8536,8 +8288,7 @@ public struct ListGroupsOutput: Swift.Sendable {
     public init(
         groups: [CognitoIdentityProviderClientTypes.GroupType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.nextToken = nextToken
     }
@@ -8556,8 +8307,7 @@ public struct ListIdentityProvidersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.userPoolId = userPoolId
@@ -8582,8 +8332,7 @@ extension CognitoIdentityProviderClientTypes {
             lastModifiedDate: Foundation.Date? = nil,
             providerName: Swift.String? = nil,
             providerType: CognitoIdentityProviderClientTypes.IdentityProviderTypeType? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
             self.providerName = providerName
@@ -8602,8 +8351,7 @@ public struct ListIdentityProvidersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         providers: [CognitoIdentityProviderClientTypes.ProviderDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.providers = providers
     }
@@ -8614,7 +8362,7 @@ public struct ListResourceServersInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token.
     public var nextToken: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -8622,8 +8370,7 @@ public struct ListResourceServersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.userPoolId = userPoolId
@@ -8640,8 +8387,7 @@ public struct ListResourceServersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceServers: [CognitoIdentityProviderClientTypes.ResourceServerType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceServers = resourceServers
     }
@@ -8654,8 +8400,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -8666,8 +8411,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -8679,7 +8423,7 @@ public struct ListUserImportJobsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
-    /// The user pool ID for the user pool that the users are being imported into.
+    /// The ID of the user pool that the users are being imported into.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -8687,8 +8431,7 @@ public struct ListUserImportJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         paginationToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.paginationToken = paginationToken
         self.userPoolId = userPoolId
@@ -8705,8 +8448,7 @@ public struct ListUserImportJobsOutput: Swift.Sendable {
     public init(
         paginationToken: Swift.String? = nil,
         userImportJobs: [CognitoIdentityProviderClientTypes.UserImportJobType]? = nil
-    )
-    {
+    ) {
         self.paginationToken = paginationToken
         self.userImportJobs = userImportJobs
     }
@@ -8718,7 +8460,7 @@ public struct ListUserPoolClientsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
-    /// The user pool ID for the user pool where you want to list user pool clients.
+    /// The ID of the user pool where you want to list user pool clients.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -8726,8 +8468,7 @@ public struct ListUserPoolClientsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.userPoolId = userPoolId
@@ -8749,8 +8490,7 @@ extension CognitoIdentityProviderClientTypes {
             clientId: Swift.String? = nil,
             clientName: Swift.String? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.clientName = clientName
             self.userPoolId = userPoolId
@@ -8773,8 +8513,7 @@ public struct ListUserPoolClientsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userPoolClients: [CognitoIdentityProviderClientTypes.UserPoolClientDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userPoolClients = userPoolClients
     }
@@ -8791,8 +8530,7 @@ public struct ListUserPoolsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8823,8 +8561,7 @@ extension CognitoIdentityProviderClientTypes {
             lastModifiedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: CognitoIdentityProviderClientTypes.StatusType? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.id = id
             self.lambdaConfig = lambdaConfig
@@ -8845,8 +8582,7 @@ public struct ListUserPoolsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userPools: [CognitoIdentityProviderClientTypes.UserPoolDescriptionType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userPools = userPools
     }
@@ -8894,7 +8630,7 @@ public struct ListUsersInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
-    /// The user pool ID for the user pool on which the search should be performed.
+    /// The ID of the user pool on which the search should be performed.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -8904,8 +8640,7 @@ public struct ListUsersInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         paginationToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.filter = filter
         self.limit = limit
@@ -8924,8 +8659,7 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         paginationToken: Swift.String? = nil,
         users: [CognitoIdentityProviderClientTypes.UserType]? = nil
-    )
-    {
+    ) {
         self.paginationToken = paginationToken
         self.users = users
     }
@@ -8939,7 +8673,7 @@ public struct ListUsersInGroupInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -8948,8 +8682,7 @@ public struct ListUsersInGroupInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.limit = limit
         self.nextToken = nextToken
@@ -8966,8 +8699,7 @@ public struct ListUsersInGroupOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [CognitoIdentityProviderClientTypes.UserType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
@@ -8986,8 +8718,7 @@ public struct ListWebAuthnCredentialsInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9028,8 +8759,7 @@ extension CognitoIdentityProviderClientTypes {
             credentialId: Swift.String? = nil,
             friendlyCredentialName: Swift.String? = nil,
             relyingPartyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticatorAttachment = authenticatorAttachment
             self.authenticatorTransports = authenticatorTransports
             self.createdAt = createdAt
@@ -9050,8 +8780,7 @@ public struct ListWebAuthnCredentialsOutput: Swift.Sendable {
     public init(
         credentials: [CognitoIdentityProviderClientTypes.WebAuthnCredentialDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.nextToken = nextToken
     }
@@ -9064,17 +8793,17 @@ public struct ResendConfirmationCodeInput: Swift.Sendable {
     /// The ID of the client associated with the user pool.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ResendConfirmationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ResendConfirmationCode request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
-    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash).
     public var secretHash: Swift.String?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
     /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
@@ -9087,8 +8816,7 @@ public struct ResendConfirmationCodeInput: Swift.Sendable {
         secretHash: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.clientId = clientId
         self.clientMetadata = clientMetadata
@@ -9110,8 +8838,7 @@ public struct ResendConfirmationCodeOutput: Swift.Sendable {
 
     public init(
         codeDeliveryDetails: CognitoIdentityProviderClientTypes.CodeDeliveryDetailsType? = nil
-    )
-    {
+    ) {
         self.codeDeliveryDetails = codeDeliveryDetails
     }
 }
@@ -9144,17 +8871,17 @@ public struct RespondToAuthChallengeInput: Swift.Sendable {
     /// The app client ID.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action, Amazon Cognito invokes any functions that are assigned to the following triggers: post authentication, pre token generation, define auth challenge, create auth challenge, and verify auth challenge. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your RespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action, Amazon Cognito invokes any functions that are assigned to the following triggers: post authentication, pre token generation, define auth challenge, create auth challenge, and verify auth challenge. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your RespondToAuthChallenge request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
     /// The session that should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller must pass another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
     public var session: Swift.String?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
 
     public init(
@@ -9165,8 +8892,7 @@ public struct RespondToAuthChallengeInput: Swift.Sendable {
         clientMetadata: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil,
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.challengeName = challengeName
         self.challengeResponses = challengeResponses
@@ -9198,8 +8924,7 @@ public struct RespondToAuthChallengeOutput: Swift.Sendable {
         challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType? = nil,
         challengeParameters: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationResult = authenticationResult
         self.challengeName = challengeName
         self.challengeParameters = challengeParameters
@@ -9213,9 +8938,9 @@ extension RespondToAuthChallengeOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// Exception that is thrown when the request isn't authorized. This can happen due to an invalid access token in the request.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9230,16 +8955,15 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9254,16 +8978,15 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception that is thrown when an unsupported token is passed to an operation.
-public struct UnsupportedTokenTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedTokenTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9278,8 +9001,7 @@ public struct UnsupportedTokenTypeException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9298,8 +9020,7 @@ public struct RevokeTokenInput: Swift.Sendable {
         clientId: Swift.String? = nil,
         clientSecret: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.token = token
@@ -9327,8 +9048,7 @@ public struct SetLogDeliveryConfigurationInput: Swift.Sendable {
     public init(
         logConfigurations: [CognitoIdentityProviderClientTypes.LogConfigurationType]? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.logConfigurations = logConfigurations
         self.userPoolId = userPoolId
     }
@@ -9340,8 +9060,7 @@ public struct SetLogDeliveryConfigurationOutput: Swift.Sendable {
 
     public init(
         logDeliveryConfiguration: CognitoIdentityProviderClientTypes.LogDeliveryConfigurationType? = nil
-    )
-    {
+    ) {
         self.logDeliveryConfiguration = logDeliveryConfiguration
     }
 }
@@ -9365,8 +9084,7 @@ public struct SetRiskConfigurationInput: Swift.Sendable {
         compromisedCredentialsRiskConfiguration: CognitoIdentityProviderClientTypes.CompromisedCredentialsRiskConfigurationType? = nil,
         riskExceptionConfiguration: CognitoIdentityProviderClientTypes.RiskExceptionConfigurationType? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountTakeoverRiskConfiguration = accountTakeoverRiskConfiguration
         self.clientId = clientId
         self.compromisedCredentialsRiskConfiguration = compromisedCredentialsRiskConfiguration
@@ -9387,8 +9105,7 @@ public struct SetRiskConfigurationOutput: Swift.Sendable {
 
     public init(
         riskConfiguration: CognitoIdentityProviderClientTypes.RiskConfigurationType? = nil
-    )
-    {
+    ) {
         self.riskConfiguration = riskConfiguration
     }
 }
@@ -9400,7 +9117,7 @@ public struct SetUICustomizationInput: Swift.Sendable {
     public var css: Swift.String?
     /// The uploaded logo image for the UI customization.
     public var imageFile: Foundation.Data?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -9409,8 +9126,7 @@ public struct SetUICustomizationInput: Swift.Sendable {
         css: Swift.String? = nil,
         imageFile: Foundation.Data? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.css = css
         self.imageFile = imageFile
@@ -9430,8 +9146,7 @@ public struct SetUICustomizationOutput: Swift.Sendable {
 
     public init(
         uiCustomization: CognitoIdentityProviderClientTypes.UICustomizationType? = nil
-    )
-    {
+    ) {
         self.uiCustomization = uiCustomization
     }
 }
@@ -9452,8 +9167,7 @@ public struct SetUserMFAPreferenceInput: Swift.Sendable {
         emailMfaSettings: CognitoIdentityProviderClientTypes.EmailMfaSettingsType? = nil,
         smsMfaSettings: CognitoIdentityProviderClientTypes.SMSMfaSettingsType? = nil,
         softwareTokenMfaSettings: CognitoIdentityProviderClientTypes.SoftwareTokenMfaSettingsType? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.emailMfaSettings = emailMfaSettings
         self.smsMfaSettings = smsMfaSettings
@@ -9499,8 +9213,7 @@ public struct SetUserPoolMfaConfigInput: Swift.Sendable {
         softwareTokenMfaConfiguration: CognitoIdentityProviderClientTypes.SoftwareTokenMfaConfigType? = nil,
         userPoolId: Swift.String? = nil,
         webAuthnConfiguration: CognitoIdentityProviderClientTypes.WebAuthnConfigurationType? = nil
-    )
-    {
+    ) {
         self.emailMfaConfiguration = emailMfaConfiguration
         self.mfaConfiguration = mfaConfiguration
         self.smsMfaConfiguration = smsMfaConfiguration
@@ -9534,8 +9247,7 @@ public struct SetUserPoolMfaConfigOutput: Swift.Sendable {
         smsMfaConfiguration: CognitoIdentityProviderClientTypes.SmsMfaConfigType? = nil,
         softwareTokenMfaConfiguration: CognitoIdentityProviderClientTypes.SoftwareTokenMfaConfigType? = nil,
         webAuthnConfiguration: CognitoIdentityProviderClientTypes.WebAuthnConfigurationType? = nil
-    )
-    {
+    ) {
         self.emailMfaConfiguration = emailMfaConfiguration
         self.mfaConfiguration = mfaConfiguration
         self.smsMfaConfiguration = smsMfaConfiguration
@@ -9556,8 +9268,7 @@ public struct SetUserSettingsInput: Swift.Sendable {
     public init(
         accessToken: Swift.String? = nil,
         mfaOptions: [CognitoIdentityProviderClientTypes.MFAOptionType]? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.mfaOptions = mfaOptions
     }
@@ -9581,21 +9292,21 @@ public struct SignUpInput: Swift.Sendable {
     /// The ID of the client associated with the user pool.
     /// This member is required.
     public var clientId: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and post confirmation. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your SignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and post confirmation. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your SignUp request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
     /// The password of the user you want to register. Users can sign up without a password when your user pool supports passwordless sign-in with email or SMS OTPs. To create a user with no password, omit this parameter or submit a blank value. You can only create a passwordless user when passwordless sign-in is available. See [the SignInPolicyType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SignInPolicyType.html) property of [CreateUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateUserPool.html) and [UpdateUserPool](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserPool.html).
     public var password: Swift.String?
-    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
+    /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message. For more information about SecretHash, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash).
     public var secretHash: Swift.String?
     /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
     public var userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]?
-    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
+    /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests. For more information, see [Collecting data for threat protection in applications](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-viewing-threat-protection-app.html).
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
     /// The username of the user that you want to sign up. The value of this parameter is typically a username, but can be any alias attribute in your user pool.
     /// This member is required.
@@ -9613,8 +9324,7 @@ public struct SignUpInput: Swift.Sendable {
         userContextData: CognitoIdentityProviderClientTypes.UserContextDataType? = nil,
         username: Swift.String? = nil,
         validationData: [CognitoIdentityProviderClientTypes.AttributeType]? = nil
-    )
-    {
+    ) {
         self.analyticsMetadata = analyticsMetadata
         self.clientId = clientId
         self.clientMetadata = clientMetadata
@@ -9650,8 +9360,7 @@ public struct SignUpOutput: Swift.Sendable {
         session: Swift.String? = nil,
         userConfirmed: Swift.Bool = false,
         userSub: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeDeliveryDetails = codeDeliveryDetails
         self.session = session
         self.userConfirmed = userConfirmed
@@ -9669,15 +9378,14 @@ public struct StartUserImportJobInput: Swift.Sendable {
     /// The job ID for the user import job.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The user pool ID for the user pool that the users are being imported into.
+    /// The ID of the user pool that the users are being imported into.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         jobId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.userPoolId = userPoolId
     }
@@ -9690,16 +9398,15 @@ public struct StartUserImportJobOutput: Swift.Sendable {
 
     public init(
         userImportJob: CognitoIdentityProviderClientTypes.UserImportJobType? = nil
-    )
-    {
+    ) {
         self.userImportJob = userImportJob
     }
 }
 
 /// This exception is thrown when a user pool doesn't have a configured relying party id or a user pool domain.
-public struct WebAuthnConfigurationMissingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnConfigurationMissingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9714,8 +9421,7 @@ public struct WebAuthnConfigurationMissingException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9727,8 +9433,7 @@ public struct StartWebAuthnRegistrationInput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
     }
 }
@@ -9745,8 +9450,7 @@ public struct StartWebAuthnRegistrationOutput: Swift.Sendable {
 
     public init(
         credentialCreationOptions: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.credentialCreationOptions = credentialCreationOptions
     }
 }
@@ -9756,15 +9460,14 @@ public struct StopUserImportJobInput: Swift.Sendable {
     /// The job ID for the user import job.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The user pool ID for the user pool that the users are being imported into.
+    /// The ID of the user pool that the users are being imported into.
     /// This member is required.
     public var userPoolId: Swift.String?
 
     public init(
         jobId: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.userPoolId = userPoolId
     }
@@ -9777,8 +9480,7 @@ public struct StopUserImportJobOutput: Swift.Sendable {
 
     public init(
         userImportJob: CognitoIdentityProviderClientTypes.UserImportJobType? = nil
-    )
-    {
+    ) {
         self.userImportJob = userImportJob
     }
 }
@@ -9794,8 +9496,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -9817,8 +9518,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -9852,8 +9552,7 @@ public struct UpdateAuthEventFeedbackInput: Swift.Sendable {
         feedbackValue: CognitoIdentityProviderClientTypes.FeedbackValueType? = nil,
         userPoolId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventId = eventId
         self.feedbackToken = feedbackToken
         self.feedbackValue = feedbackValue
@@ -9887,8 +9586,7 @@ public struct UpdateDeviceStatusInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         deviceKey: Swift.String? = nil,
         deviceRememberedStatus: CognitoIdentityProviderClientTypes.DeviceRememberedStatusType? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.deviceKey = deviceKey
         self.deviceRememberedStatus = deviceRememberedStatus
@@ -9916,7 +9614,7 @@ public struct UpdateGroupInput: Swift.Sendable {
     public var precedence: Swift.Int?
     /// The new role Amazon Resource Name (ARN) for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
     public var roleArn: Swift.String?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -9926,8 +9624,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         precedence: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.groupName = groupName
         self.precedence = precedence
@@ -9942,8 +9639,7 @@ public struct UpdateGroupOutput: Swift.Sendable {
 
     public init(
         group: CognitoIdentityProviderClientTypes.GroupType? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -9968,8 +9664,7 @@ public struct UpdateIdentityProviderInput: Swift.Sendable {
         providerDetails: [Swift.String: Swift.String]? = nil,
         providerName: Swift.String? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeMapping = attributeMapping
         self.idpIdentifiers = idpIdentifiers
         self.providerDetails = providerDetails
@@ -9985,8 +9680,7 @@ public struct UpdateIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProvider: CognitoIdentityProviderClientTypes.IdentityProviderType? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
@@ -10009,8 +9703,7 @@ public struct UpdateManagedLoginBrandingInput: Swift.Sendable {
         settings: Smithy.Document? = nil,
         useCognitoProvidedValues: Swift.Bool? = false,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assets = assets
         self.managedLoginBrandingId = managedLoginBrandingId
         self.settings = settings
@@ -10025,8 +9718,7 @@ public struct UpdateManagedLoginBrandingOutput: Swift.Sendable {
 
     public init(
         managedLoginBranding: CognitoIdentityProviderClientTypes.ManagedLoginBrandingType? = nil
-    )
-    {
+    ) {
         self.managedLoginBranding = managedLoginBranding
     }
 }
@@ -10040,7 +9732,7 @@ public struct UpdateResourceServerInput: Swift.Sendable {
     public var name: Swift.String?
     /// The scope values to be set for the resource server.
     public var scopes: [CognitoIdentityProviderClientTypes.ResourceServerScopeType]?
-    /// The user pool ID for the user pool.
+    /// The ID of the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
 
@@ -10049,8 +9741,7 @@ public struct UpdateResourceServerInput: Swift.Sendable {
         name: Swift.String? = nil,
         scopes: [CognitoIdentityProviderClientTypes.ResourceServerScopeType]? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.name = name
         self.scopes = scopes
@@ -10065,8 +9756,7 @@ public struct UpdateResourceServerOutput: Swift.Sendable {
 
     public init(
         resourceServer: CognitoIdentityProviderClientTypes.ResourceServerType? = nil
-    )
-    {
+    ) {
         self.resourceServer = resourceServer
     }
 }
@@ -10076,13 +9766,13 @@ public struct UpdateUserAttributesInput: Swift.Sendable {
     /// A valid access token that Amazon Cognito issued to the user whose user attributes you want to update.
     /// This member is required.
     public var accessToken: Swift.String?
-    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action initiates. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
+    /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action initiates. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your function code in Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
     ///
     /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
     ///
     /// * Validate the ClientMetadata value.
     ///
-    /// * Encrypt the ClientMetadata value. Don't use Amazon Cognito to provide sensitive information.
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
     public var clientMetadata: [Swift.String: Swift.String]?
     /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name. If you have set an attribute to require verification before Amazon Cognito updates its value, this request doesn’t immediately update the value of that attribute. After your user receives and responds to a verification message to verify the new value, Amazon Cognito updates the attribute value. Your user can sign in and receive messages with the original attribute value until they verify the new value.
     /// This member is required.
@@ -10092,8 +9782,7 @@ public struct UpdateUserAttributesInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         clientMetadata: [Swift.String: Swift.String]? = nil,
         userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.clientMetadata = clientMetadata
         self.userAttributes = userAttributes
@@ -10112,8 +9801,7 @@ public struct UpdateUserAttributesOutput: Swift.Sendable {
 
     public init(
         codeDeliveryDetailsList: [CognitoIdentityProviderClientTypes.CodeDeliveryDetailsType]? = nil
-    )
-    {
+    ) {
         self.codeDeliveryDetailsList = codeDeliveryDetailsList
     }
 }
@@ -10160,7 +9848,7 @@ public struct UpdateUserPoolInput: Swift.Sendable {
     public var userAttributeUpdateSettings: CognitoIdentityProviderClientTypes.UserAttributeUpdateSettingsType?
     /// User pool add-ons. Contains settings for activation of advanced security features. To log user security information but take no action, set to AUDIT. To configure automatic security responses to risky traffic to your user pool, set to ENFORCED. For more information, see [Adding advanced security to a user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html).
     public var userPoolAddOns: CognitoIdentityProviderClientTypes.UserPoolAddOnsType?
-    /// The user pool ID for the user pool you want to update.
+    /// The ID of the user pool you want to update.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The tag keys and values to assign to the user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria.
@@ -10192,8 +9880,7 @@ public struct UpdateUserPoolInput: Swift.Sendable {
         userPoolTags: [Swift.String: Swift.String]? = nil,
         userPoolTier: CognitoIdentityProviderClientTypes.UserPoolTierType? = nil,
         verificationMessageTemplate: CognitoIdentityProviderClientTypes.VerificationMessageTemplateType? = nil
-    )
-    {
+    ) {
         self.accountRecoverySetting = accountRecoverySetting
         self.adminCreateUserConfig = adminCreateUserConfig
         self.autoVerifiedAttributes = autoVerifiedAttributes
@@ -10314,11 +10001,11 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
     public var readAttributes: [Swift.String]?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
     public var refreshTokenValidity: Swift.Int?
-    /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with the [hosted UI and OAuth 2.0 authorization server](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html). The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
+    /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This setting applies to providers that you can access with [managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html). The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent API-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
     public var supportedIdentityProviders: [Swift.String]?
     /// The time units you use when you set the duration of ID, access, and refresh tokens. The default unit for RefreshToken is days, and the default for ID and access tokens is hours.
     public var tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType?
-    /// The user pool ID for the user pool where you want to update the user pool client.
+    /// The ID of the user pool where you want to update the user pool client.
     /// This member is required.
     public var userPoolId: Swift.String?
     /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an [UpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html) API request and sets family_name to the new value. When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see [Specifying IdP Attribute Mappings for Your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
@@ -10347,8 +10034,7 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
         userPoolId: Swift.String? = nil,
         writeAttributes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessTokenValidity = accessTokenValidity
         self.allowedOAuthFlows = allowedOAuthFlows
         self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -10386,8 +10072,7 @@ public struct UpdateUserPoolClientOutput: Swift.Sendable {
 
     public init(
         userPoolClient: CognitoIdentityProviderClientTypes.UserPoolClientType? = nil
-    )
-    {
+    ) {
         self.userPoolClient = userPoolClient
     }
 }
@@ -10395,7 +10080,6 @@ public struct UpdateUserPoolClientOutput: Swift.Sendable {
 /// The UpdateUserPoolDomain request input.
 public struct UpdateUserPoolDomainInput: Swift.Sendable {
     /// The configuration for a custom domain that hosts the sign-up and sign-in pages for your application. Use this object to specify an SSL certificate that is managed by ACM. When you create a custom domain, the passkey RP ID defaults to the custom domain. If you had a prefix domain active, this will cause passkey integration for your prefix domain to stop working due to a mismatch in RP ID. To keep the prefix domain passkey integration working, you can explicitly set RP ID to the prefix domain. Update the RP ID in a [SetUserPoolMfaConfig](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SetUserPoolMfaConfig.html) request.
-    /// This member is required.
     public var customDomainConfig: CognitoIdentityProviderClientTypes.CustomDomainConfigType?
     /// The domain name for the custom domain that hosts the sign-up and sign-in pages for your application. One example might be auth.example.com. This string can include only lowercase letters, numbers, and hyphens. Don't use a hyphen for the first or last character. Use periods to separate subdomain names.
     /// This member is required.
@@ -10411,8 +10095,7 @@ public struct UpdateUserPoolDomainInput: Swift.Sendable {
         domain: Swift.String? = nil,
         managedLoginVersion: Swift.Int? = nil,
         userPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customDomainConfig = customDomainConfig
         self.domain = domain
         self.managedLoginVersion = managedLoginVersion
@@ -10430,17 +10113,16 @@ public struct UpdateUserPoolDomainOutput: Swift.Sendable {
     public init(
         cloudFrontDomain: Swift.String? = nil,
         managedLoginVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.cloudFrontDomain = cloudFrontDomain
         self.managedLoginVersion = managedLoginVersion
     }
 }
 
 /// This exception is thrown when there is a code mismatch and the service fails to configure the software token TOTP multi-factor authentication (MFA).
-public struct EnableSoftwareTokenMFAException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EnableSoftwareTokenMFAException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10455,8 +10137,7 @@ public struct EnableSoftwareTokenMFAException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10477,8 +10158,7 @@ public struct VerifySoftwareTokenInput: Swift.Sendable {
         friendlyDeviceName: Swift.String? = nil,
         session: Swift.String? = nil,
         userCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.friendlyDeviceName = friendlyDeviceName
         self.session = session
@@ -10529,8 +10209,7 @@ public struct VerifySoftwareTokenOutput: Swift.Sendable {
     public init(
         session: Swift.String? = nil,
         status: CognitoIdentityProviderClientTypes.VerifySoftwareTokenResponseType? = nil
-    )
-    {
+    ) {
         self.session = session
         self.status = status
     }
@@ -10557,8 +10236,7 @@ public struct VerifyUserAttributeInput: Swift.Sendable {
         accessToken: Swift.String? = nil,
         attributeName: Swift.String? = nil,
         code: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.attributeName = attributeName
         self.code = code

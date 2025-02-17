@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// The service could not respond to the request due to an internal problem.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -43,8 +43,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -76,9 +75,9 @@ extension RbinClientTypes {
 }
 
 /// The request would cause a service quota for the number of tags per resource to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: RbinClientTypes.ServiceQuotaExceededExceptionReason? = nil
@@ -96,8 +95,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         reason: RbinClientTypes.ServiceQuotaExceededExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -133,9 +131,9 @@ extension RbinClientTypes {
 }
 
 /// One or more of the parameters in the request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: RbinClientTypes.ValidationExceptionReason? = nil
@@ -153,8 +151,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: RbinClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -173,8 +170,7 @@ extension RbinClientTypes {
         public init(
             resourceTagKey: Swift.String? = nil,
             resourceTagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceTagKey = resourceTagKey
             self.resourceTagValue = resourceTagValue
         }
@@ -221,8 +217,7 @@ extension RbinClientTypes {
         public init(
             unlockDelayUnit: RbinClientTypes.UnlockDelayUnit? = nil,
             unlockDelayValue: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unlockDelayUnit = unlockDelayUnit
             self.unlockDelayValue = unlockDelayValue
         }
@@ -239,8 +234,7 @@ extension RbinClientTypes {
 
         public init(
             unlockDelay: RbinClientTypes.UnlockDelay? = nil
-        )
-        {
+        ) {
             self.unlockDelay = unlockDelay
         }
     }
@@ -315,8 +309,7 @@ extension RbinClientTypes {
         public init(
             retentionPeriodUnit: RbinClientTypes.RetentionPeriodUnit? = nil,
             retentionPeriodValue: Swift.Int? = nil
-        )
-        {
+        ) {
             self.retentionPeriodUnit = retentionPeriodUnit
             self.retentionPeriodValue = retentionPeriodValue
         }
@@ -337,8 +330,7 @@ extension RbinClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -371,8 +363,7 @@ public struct CreateRuleInput: Swift.Sendable {
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
         tags: [RbinClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeResourceTags = excludeResourceTags
         self.lockConfiguration = lockConfiguration
@@ -488,8 +479,7 @@ public struct CreateRuleOutput: Swift.Sendable {
         ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil,
         tags: [RbinClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
@@ -531,9 +521,9 @@ extension RbinClientTypes {
 }
 
 /// The specified retention rule lock request can't be completed.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: RbinClientTypes.ConflictExceptionReason? = nil
@@ -551,8 +541,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         reason: RbinClientTypes.ConflictExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -585,9 +574,9 @@ extension RbinClientTypes {
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: RbinClientTypes.ResourceNotFoundExceptionReason? = nil
@@ -605,8 +594,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         reason: RbinClientTypes.ResourceNotFoundExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -619,8 +607,7 @@ public struct DeleteRuleInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -637,8 +624,7 @@ public struct GetRuleInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -687,8 +673,7 @@ public struct GetRuleOutput: Swift.Sendable {
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
         ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
@@ -725,8 +710,7 @@ public struct ListRulesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.excludeResourceTags = excludeResourceTags
         self.lockState = lockState
         self.maxResults = maxResults
@@ -765,8 +749,7 @@ extension RbinClientTypes {
             lockState: RbinClientTypes.LockState? = nil,
             retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
             ruleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.identifier = identifier
             self.lockState = lockState
@@ -785,8 +768,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rules: [RbinClientTypes.RuleSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rules = rules
     }
@@ -799,8 +781,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -811,8 +792,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [RbinClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -828,8 +808,7 @@ public struct LockRuleInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         lockConfiguration: RbinClientTypes.LockConfiguration? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.lockConfiguration = lockConfiguration
     }
@@ -876,8 +855,7 @@ public struct LockRuleOutput: Swift.Sendable {
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
         ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
@@ -902,8 +880,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [RbinClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -921,8 +898,7 @@ public struct UnlockRuleInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -971,8 +947,7 @@ public struct UnlockRuleOutput: Swift.Sendable {
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
         ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
@@ -998,8 +973,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1032,8 +1006,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
@@ -1084,8 +1057,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
         retentionPeriod: RbinClientTypes.RetentionPeriod? = nil,
         ruleArn: Swift.String? = nil,
         status: RbinClientTypes.RuleStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier

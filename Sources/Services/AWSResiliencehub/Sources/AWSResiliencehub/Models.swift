@@ -42,17 +42,16 @@ extension ResiliencehubClientTypes {
 
         public init(
             groupingRecommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupingRecommendationId = groupingRecommendationId
         }
     }
 }
 
 /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -67,16 +66,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception occurs when there is an internal failure in the Resilience Hub service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -91,16 +89,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception occurs when the specified resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that the exception applies to.
         public internal(set) var resourceId: Swift.String? = nil
@@ -121,8 +118,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -130,9 +126,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception occurs when you have exceeded the limit on the number of requests per second.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the operation.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
@@ -150,17 +146,16 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// This exception occurs when a request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -175,8 +170,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -192,8 +186,7 @@ public struct AcceptResourceGroupingRecommendationsInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         entries: [ResiliencehubClientTypes.AcceptGroupingRecommendationEntry]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.entries = entries
     }
@@ -213,8 +206,7 @@ extension ResiliencehubClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             groupingRecommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.groupingRecommendationId = groupingRecommendationId
         }
@@ -232,17 +224,16 @@ public struct AcceptResourceGroupingRecommendationsOutput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.failedEntries = failedEntries
     }
 }
 
 /// This exception occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource that the exception applies to.
         public internal(set) var resourceId: Swift.String? = nil
@@ -263,8 +254,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -272,9 +262,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// This exception occurs when you have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -289,8 +279,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -436,8 +425,7 @@ extension ResiliencehubClientTypes {
             awsRegion: Swift.String? = nil,
             identifier: Swift.String? = nil,
             type: ResiliencehubClientTypes.PhysicalIdentifierType? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.awsRegion = awsRegion
             self.identifier = identifier
@@ -478,8 +466,7 @@ extension ResiliencehubClientTypes {
             resourceGroupName: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             terraformSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appRegistryAppName = appRegistryAppName
             self.eksSourceName = eksSourceName
             self.logicalStackName = logicalStackName
@@ -503,8 +490,7 @@ public struct AddDraftAppVersionResourceMappingsInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         resourceMappings: [ResiliencehubClientTypes.ResourceMapping]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.resourceMappings = resourceMappings
     }
@@ -525,11 +511,29 @@ public struct AddDraftAppVersionResourceMappingsOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
         resourceMappings: [ResiliencehubClientTypes.ResourceMapping]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.resourceMappings = resourceMappings
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    /// Indicates the Amazon CloudWatch alarm detected while running an assessment.
+    public struct Alarm: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+        public var alarmArn: Swift.String?
+        /// Indicates the source of the Amazon CloudWatch alarm. That is, it indicates if the alarm was created using Resilience Hub recommendation (AwsResilienceHub), or if you had created the alarm in Amazon CloudWatch (Customer).
+        public var source: Swift.String?
+
+        public init(
+            alarmArn: Swift.String? = nil,
+            source: Swift.String? = nil
+        ) {
+            self.alarmArn = alarmArn
+            self.source = source
+        }
     }
 }
 
@@ -567,14 +571,37 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes {
 
+    /// Indicates the FIS experiment detected while running an assessment.
+    public struct Experiment: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the FIS experiment.
+        public var experimentArn: Swift.String?
+        /// Identifier of the FIS experiment template.
+        public var experimentTemplateId: Swift.String?
+
+        public init(
+            experimentArn: Swift.String? = nil,
+            experimentTemplateId: Swift.String? = nil
+        ) {
+            self.experimentArn = experimentArn
+            self.experimentTemplateId = experimentTemplateId
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
     /// Defines a recommendation.
     public struct RecommendationItem: Swift.Sendable {
         /// Specifies if the recommendation has already been implemented.
         public var alreadyImplemented: Swift.Bool?
+        /// Indicates the previously implemented Amazon CloudWatch alarm discovered by Resilience Hub.
+        public var discoveredAlarm: ResiliencehubClientTypes.Alarm?
         /// Indicates the reason for excluding an operational recommendation.
         public var excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason?
         /// Indicates if an operational recommendation item is excluded.
         public var excluded: Swift.Bool?
+        /// Indicates the experiment created in FIS that was discovered by Resilience Hub, which matches the recommendation.
+        public var latestDiscoveredExperiment: ResiliencehubClientTypes.Experiment?
         /// Identifier of the resource.
         public var resourceId: Swift.String?
         /// Identifier of the target account.
@@ -584,16 +611,19 @@ extension ResiliencehubClientTypes {
 
         public init(
             alreadyImplemented: Swift.Bool? = nil,
+            discoveredAlarm: ResiliencehubClientTypes.Alarm? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
+            latestDiscoveredExperiment: ResiliencehubClientTypes.Experiment? = nil,
             resourceId: Swift.String? = nil,
             targetAccountId: Swift.String? = nil,
             targetRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.alreadyImplemented = alreadyImplemented
+            self.discoveredAlarm = discoveredAlarm
             self.excludeReason = excludeReason
             self.excluded = excluded
+            self.latestDiscoveredExperiment = latestDiscoveredExperiment
             self.resourceId = resourceId
             self.targetAccountId = targetAccountId
             self.targetRegion = targetRegion
@@ -715,8 +745,7 @@ extension ResiliencehubClientTypes {
             recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             type: ResiliencehubClientTypes.AlarmType? = nil
-        )
-        {
+        ) {
             self.appComponentName = appComponentName
             self.appComponentNames = appComponentNames
             self.description = description
@@ -879,8 +908,7 @@ extension ResiliencehubClientTypes {
             eventType: ResiliencehubClientTypes.EventType? = nil,
             name: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventType = eventType
             self.name = name
             self.snsTopicArn = snsTopicArn
@@ -927,7 +955,7 @@ extension ResiliencehubClientTypes {
         ///
         /// * These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account.
         public var crossAccountRoleArns: [Swift.String]?
-        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment.
+        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment. If your IAM role includes a path, you must include the path in the invokerRoleName parameter. For example, if your IAM role's ARN is arn:aws:iam:123456789012:role/my-path/role-name, you should pass my-path/role-name.
         ///
         /// * You must have iam:passRole permission for this role while creating or updating the application.
         ///
@@ -941,8 +969,7 @@ extension ResiliencehubClientTypes {
             crossAccountRoleArns: [Swift.String]? = nil,
             invokerRoleName: Swift.String? = nil,
             type: ResiliencehubClientTypes.PermissionModelType? = nil
-        )
-        {
+        ) {
             self.crossAccountRoleArns = crossAccountRoleArns
             self.invokerRoleName = invokerRoleName
             self.type = type
@@ -1045,8 +1072,7 @@ extension ResiliencehubClientTypes {
             rtoInSecs: Swift.Int? = nil,
             status: ResiliencehubClientTypes.AppStatusType? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
             self.awsApplicationArn = awsApplicationArn
@@ -1217,8 +1243,7 @@ extension ResiliencehubClientTypes {
             rpoReferenceId: Swift.String? = nil,
             rtoDescription: Swift.String? = nil,
             rtoReferenceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.achievableRpoInSecs = achievableRpoInSecs
             self.achievableRtoInSecs = achievableRtoInSecs
             self.complianceStatus = complianceStatus
@@ -1286,8 +1311,7 @@ extension ResiliencehubClientTypes {
             amount: Swift.Double = 0.0,
             currency: Swift.String? = nil,
             frequency: ResiliencehubClientTypes.CostFrequency? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.currency = currency
             self.frequency = frequency
@@ -1437,8 +1461,7 @@ extension ResiliencehubClientTypes {
         public init(
             rpoInSecs: Swift.Int = 0,
             rtoInSecs: Swift.Int = 0
-        )
-        {
+        ) {
             self.rpoInSecs = rpoInSecs
             self.rtoInSecs = rtoInSecs
         }
@@ -1519,8 +1542,7 @@ extension ResiliencehubClientTypes {
             policyName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             tier: ResiliencehubClientTypes.ResiliencyPolicyTier? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataLocationConstraint = dataLocationConstraint
             self.estimatedCostTier = estimatedCostTier
@@ -1592,8 +1614,7 @@ extension ResiliencehubClientTypes {
             outstandingCount: Swift.Int = 0,
             possibleScore: Swift.Double = 0.0,
             score: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.excludedCount = excludedCount
             self.outstandingCount = outstandingCount
             self.possibleScore = possibleScore
@@ -1619,8 +1640,7 @@ extension ResiliencehubClientTypes {
             componentScore: [Swift.String: ResiliencehubClientTypes.ScoringComponentResiliencyScore]? = nil,
             disruptionScore: [Swift.String: Swift.Double]? = nil,
             score: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.componentScore = componentScore
             self.disruptionScore = disruptionScore
             self.score = score
@@ -1643,8 +1663,7 @@ extension ResiliencehubClientTypes {
             logicalResourceId: Swift.String? = nil,
             physicalResourceId: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
             self.reason = reason
@@ -1664,8 +1683,7 @@ extension ResiliencehubClientTypes {
         public init(
             hasMoreErrors: Swift.Bool? = nil,
             resourceErrors: [ResiliencehubClientTypes.ResourceError]? = nil
-        )
-        {
+        ) {
             self.hasMoreErrors = hasMoreErrors
             self.resourceErrors = resourceErrors
         }
@@ -1676,7 +1694,7 @@ extension ResiliencehubClientTypes {
 
     /// Indicates a specific risk identified in the Resilience Hub assessment and the corresponding recommendation provided to address that risk. The assessment summary generated by large language models (LLMs) on Amazon Bedrock are only suggestions. The current level of generative AI technology is not perfect and LLMs are not infallible. Bias and incorrect answers, although rare, should be expected. Review each recommendation in the assessment summary before you use the output from an LLM. This property is available only in the US East (N. Virginia) Region.
     public struct AssessmentRiskRecommendation: Swift.Sendable {
-        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessnent and are associated with the identified risk and recommendation. This property is available only in the US East (N. Virginia) Region.
+        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessment and are associated with the identified risk and recommendation. This property is available only in the US East (N. Virginia) Region.
         public var appComponents: [Swift.String]?
         /// Indicates the recommendation provided by the Resilience Hub to address the identified risks in the application. This property is available only in the US East (N. Virginia) Region.
         public var recommendation: Swift.String?
@@ -1687,8 +1705,7 @@ extension ResiliencehubClientTypes {
             appComponents: [Swift.String]? = nil,
             recommendation: Swift.String? = nil,
             risk: Swift.String? = nil
-        )
-        {
+        ) {
             self.appComponents = appComponents
             self.recommendation = recommendation
             self.risk = risk
@@ -1708,8 +1725,7 @@ extension ResiliencehubClientTypes {
         public init(
             riskRecommendations: [ResiliencehubClientTypes.AssessmentRiskRecommendation]? = nil,
             summary: Swift.String? = nil
-        )
-        {
+        ) {
             self.riskRecommendations = riskRecommendations
             self.summary = summary
         }
@@ -1782,8 +1798,7 @@ extension ResiliencehubClientTypes {
             summary: ResiliencehubClientTypes.AssessmentSummary? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appArn = appArn
             self.appVersion = appVersion
             self.assessmentArn = assessmentArn
@@ -1862,8 +1877,7 @@ extension ResiliencehubClientTypes {
             resiliencyScore: Swift.Double = 0.0,
             startTime: Foundation.Date? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appArn = appArn
             self.appVersion = appVersion
             self.assessmentArn = assessmentArn
@@ -1902,8 +1916,7 @@ extension ResiliencehubClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.id = id
             self.name = name
@@ -1936,8 +1949,7 @@ extension ResiliencehubClientTypes {
             message: Swift.String? = nil,
             resiliencyScore: ResiliencehubClientTypes.ResiliencyScore? = nil,
             status: ResiliencehubClientTypes.ComplianceStatus? = nil
-        )
-        {
+        ) {
             self.appComponentName = appComponentName
             self.compliance = compliance
             self.cost = cost
@@ -1962,8 +1974,7 @@ extension ResiliencehubClientTypes {
         public init(
             eksClusterArn: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.eksClusterArn = eksClusterArn
             self.namespace = namespace
         }
@@ -1980,8 +1991,7 @@ extension ResiliencehubClientTypes {
 
         public init(
             s3StateFileUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3StateFileUrl = s3StateFileUrl
         }
     }
@@ -2012,8 +2022,7 @@ extension ResiliencehubClientTypes {
             sourceArn: Swift.String? = nil,
             sourceName: Swift.String? = nil,
             terraformSource: ResiliencehubClientTypes.TerraformSource? = nil
-        )
-        {
+        ) {
             self.eksSourceClusterNamespace = eksSourceClusterNamespace
             self.importType = importType
             self.resourceCount = resourceCount
@@ -2072,8 +2081,7 @@ extension ResiliencehubClientTypes {
             rpoInSecs: Swift.Int? = nil,
             rtoInSecs: Swift.Int? = nil,
             status: ResiliencehubClientTypes.AppStatusType? = nil
-        )
-        {
+        ) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
             self.awsApplicationArn = awsApplicationArn
@@ -2110,8 +2118,7 @@ extension ResiliencehubClientTypes {
             creationTime: Foundation.Date? = nil,
             identifier: Swift.Int? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appVersion = appVersion
             self.creationTime = creationTime
             self.identifier = identifier
@@ -2135,8 +2142,7 @@ extension ResiliencehubClientTypes {
             resourceId: Swift.String? = nil,
             targetAccountId: Swift.String? = nil,
             targetRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.targetAccountId = targetAccountId
             self.targetRegion = targetRegion
@@ -2148,6 +2154,8 @@ extension ResiliencehubClientTypes {
 
     /// Defines the operational recommendation item that is to be included or excluded.
     public struct UpdateRecommendationStatusRequestEntry: Swift.Sendable {
+        /// Indicates the identifier of the AppComponent.
+        public var appComponentId: Swift.String?
         /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
         /// This member is required.
         public var entryId: Swift.String?
@@ -2163,13 +2171,14 @@ extension ResiliencehubClientTypes {
         public var referenceId: Swift.String?
 
         public init(
+            appComponentId: Swift.String? = nil,
             entryId: Swift.String? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
             item: ResiliencehubClientTypes.UpdateRecommendationStatusItem? = nil,
             referenceId: Swift.String? = nil
-        )
-        {
+        ) {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excludeReason = excludeReason
             self.excluded = excluded
@@ -2190,8 +2199,7 @@ public struct BatchUpdateRecommendationStatusInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         requestEntries: [ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.requestEntries = requestEntries
     }
@@ -2211,8 +2219,7 @@ extension ResiliencehubClientTypes {
         public init(
             entryId: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.entryId = entryId
             self.errorMessage = errorMessage
         }
@@ -2223,6 +2230,8 @@ extension ResiliencehubClientTypes {
 
     /// List of operational recommendations that were successfully included or excluded.
     public struct BatchUpdateRecommendationStatusSuccessfulEntry: Swift.Sendable {
+        /// Indicates the identifier of an AppComponent.
+        public var appComponentId: Swift.String?
         /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
         /// This member is required.
         public var entryId: Swift.String?
@@ -2238,13 +2247,14 @@ extension ResiliencehubClientTypes {
         public var referenceId: Swift.String?
 
         public init(
+            appComponentId: Swift.String? = nil,
             entryId: Swift.String? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
             item: ResiliencehubClientTypes.UpdateRecommendationStatusItem? = nil,
             referenceId: Swift.String? = nil
-        )
-        {
+        ) {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excludeReason = excludeReason
             self.excluded = excluded
@@ -2269,8 +2279,7 @@ public struct BatchUpdateRecommendationStatusOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         failedEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusFailedEntry]? = nil,
         successfulEntries: [ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntry]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.failedEntries = failedEntries
         self.successfulEntries = successfulEntries
@@ -2308,8 +2317,7 @@ public struct CreateAppInput: Swift.Sendable {
         permissionModel: ResiliencehubClientTypes.PermissionModel? = nil,
         policyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentSchedule = assessmentSchedule
         self.awsApplicationArn = awsApplicationArn
         self.clientToken = clientToken
@@ -2334,8 +2342,7 @@ public struct CreateAppOutput: Swift.Sendable {
 
     public init(
         app: ResiliencehubClientTypes.App? = nil
-    )
-    {
+    ) {
         self.app = app
     }
 }
@@ -2364,8 +2371,7 @@ public struct CreateAppVersionAppComponentInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.appArn = appArn
         self.clientToken = clientToken
@@ -2389,8 +2395,7 @@ public struct CreateAppVersionAppComponentOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appComponent: ResiliencehubClientTypes.AppComponent? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appComponent = appComponent
         self.appVersion = appVersion
@@ -2419,8 +2424,7 @@ extension ResiliencehubClientTypes {
             logicalStackName: Swift.String? = nil,
             resourceGroupName: Swift.String? = nil,
             terraformSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.eksSourceName = eksSourceName
             self.identifier = identifier
             self.logicalStackName = logicalStackName
@@ -2468,8 +2472,7 @@ public struct CreateAppVersionResourceInput: Swift.Sendable {
         physicalResourceId: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.appArn = appArn
         self.appComponents = appComponents
@@ -2548,8 +2551,7 @@ extension ResiliencehubClientTypes {
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             sourceType: ResiliencehubClientTypes.ResourceSourceType? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.appComponents = appComponents
             self.excluded = excluded
@@ -2577,8 +2579,7 @@ public struct CreateAppVersionResourceOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
         physicalResource: ResiliencehubClientTypes.PhysicalResource? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.physicalResource = physicalResource
@@ -2675,8 +2676,7 @@ public struct CreateRecommendationTemplateInput: Swift.Sendable {
         recommendationIds: [Swift.String]? = nil,
         recommendationTypes: [ResiliencehubClientTypes.RenderRecommendationType]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.bucketName = bucketName
         self.clientToken = clientToken
@@ -2740,8 +2740,7 @@ extension ResiliencehubClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -2802,8 +2801,7 @@ extension ResiliencehubClientTypes {
             status: ResiliencehubClientTypes.RecommendationTemplateStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             templatesLocation: ResiliencehubClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.appArn = appArn
             self.assessmentArn = assessmentArn
             self.endTime = endTime
@@ -2833,8 +2831,7 @@ public struct CreateRecommendationTemplateOutput: Swift.Sendable {
 
     public init(
         recommendationTemplate: ResiliencehubClientTypes.RecommendationTemplate? = nil
-    )
-    {
+    ) {
         self.recommendationTemplate = recommendationTemplate
     }
 }
@@ -2866,8 +2863,7 @@ public struct CreateResiliencyPolicyInput: Swift.Sendable {
         policyName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         tier: ResiliencehubClientTypes.ResiliencyPolicyTier? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataLocationConstraint = dataLocationConstraint
         self.policy = policy
@@ -2890,8 +2886,7 @@ public struct CreateResiliencyPolicyOutput: Swift.Sendable {
 
     public init(
         policy: ResiliencehubClientTypes.ResiliencyPolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -2909,8 +2904,7 @@ public struct DeleteAppInput: Swift.Sendable {
         appArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.clientToken = clientToken
         self.forceDelete = forceDelete
@@ -2924,8 +2918,7 @@ public struct DeleteAppOutput: Swift.Sendable {
 
     public init(
         appArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
     }
 }
@@ -2940,8 +2933,7 @@ public struct DeleteAppAssessmentInput: Swift.Sendable {
     public init(
         assessmentArn: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.clientToken = clientToken
     }
@@ -2958,8 +2950,7 @@ public struct DeleteAppAssessmentOutput: Swift.Sendable {
     public init(
         assessmentArn: Swift.String? = nil,
         assessmentStatus: ResiliencehubClientTypes.AssessmentStatus? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.assessmentStatus = assessmentStatus
     }
@@ -2984,8 +2975,7 @@ public struct DeleteAppInputSourceInput: Swift.Sendable {
         eksSourceClusterNamespace: ResiliencehubClientTypes.EksSourceClusterNamespace? = nil,
         sourceArn: Swift.String? = nil,
         terraformSource: ResiliencehubClientTypes.TerraformSource? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.clientToken = clientToken
         self.eksSourceClusterNamespace = eksSourceClusterNamespace
@@ -3003,8 +2993,7 @@ public struct DeleteAppInputSourceOutput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         appInputSource: ResiliencehubClientTypes.AppInputSource? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appInputSource = appInputSource
     }
@@ -3024,8 +3013,7 @@ public struct DeleteAppVersionAppComponentInput: Swift.Sendable {
         appArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.clientToken = clientToken
         self.id = id
@@ -3046,8 +3034,7 @@ public struct DeleteAppVersionAppComponentOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appComponent: ResiliencehubClientTypes.AppComponent? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appComponent = appComponent
         self.appVersion = appVersion
@@ -3079,8 +3066,7 @@ public struct DeleteAppVersionResourceInput: Swift.Sendable {
         logicalResourceId: ResiliencehubClientTypes.LogicalResourceId? = nil,
         physicalResourceId: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.awsAccountId = awsAccountId
         self.awsRegion = awsRegion
@@ -3105,8 +3091,7 @@ public struct DeleteAppVersionResourceOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
         physicalResource: ResiliencehubClientTypes.PhysicalResource? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.physicalResource = physicalResource
@@ -3123,8 +3108,7 @@ public struct DeleteRecommendationTemplateInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         recommendationTemplateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.recommendationTemplateArn = recommendationTemplateArn
     }
@@ -3141,8 +3125,7 @@ public struct DeleteRecommendationTemplateOutput: Swift.Sendable {
     public init(
         recommendationTemplateArn: Swift.String? = nil,
         status: ResiliencehubClientTypes.RecommendationTemplateStatus? = nil
-    )
-    {
+    ) {
         self.recommendationTemplateArn = recommendationTemplateArn
         self.status = status
     }
@@ -3158,8 +3141,7 @@ public struct DeleteResiliencyPolicyInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.policyArn = policyArn
     }
@@ -3172,8 +3154,7 @@ public struct DeleteResiliencyPolicyOutput: Swift.Sendable {
 
     public init(
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
     }
 }
@@ -3185,8 +3166,7 @@ public struct DescribeAppInput: Swift.Sendable {
 
     public init(
         appArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
     }
 }
@@ -3198,8 +3178,7 @@ public struct DescribeAppOutput: Swift.Sendable {
 
     public init(
         app: ResiliencehubClientTypes.App? = nil
-    )
-    {
+    ) {
         self.app = app
     }
 }
@@ -3211,8 +3190,7 @@ public struct DescribeAppAssessmentInput: Swift.Sendable {
 
     public init(
         assessmentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
     }
 }
@@ -3224,8 +3202,7 @@ public struct DescribeAppAssessmentOutput: Swift.Sendable {
 
     public init(
         assessment: ResiliencehubClientTypes.AppAssessment? = nil
-    )
-    {
+    ) {
         self.assessment = assessment
     }
 }
@@ -3241,8 +3218,7 @@ public struct DescribeAppVersionInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
     }
@@ -3262,8 +3238,7 @@ public struct DescribeAppVersionOutput: Swift.Sendable {
         additionalInfo: [Swift.String: [Swift.String]]? = nil,
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.appArn = appArn
         self.appVersion = appVersion
@@ -3285,8 +3260,7 @@ public struct DescribeAppVersionAppComponentInput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.id = id
@@ -3307,8 +3281,7 @@ public struct DescribeAppVersionAppComponentOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appComponent: ResiliencehubClientTypes.AppComponent? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appComponent = appComponent
         self.appVersion = appVersion
@@ -3341,8 +3314,7 @@ public struct DescribeAppVersionResourceInput: Swift.Sendable {
         logicalResourceId: ResiliencehubClientTypes.LogicalResourceId? = nil,
         physicalResourceId: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.awsAccountId = awsAccountId
@@ -3367,8 +3339,7 @@ public struct DescribeAppVersionResourceOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
         physicalResource: ResiliencehubClientTypes.PhysicalResource? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.physicalResource = physicalResource
@@ -3389,8 +3360,7 @@ public struct DescribeAppVersionResourcesResolutionStatusInput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
         resolutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.resolutionId = resolutionId
@@ -3454,8 +3424,7 @@ public struct DescribeAppVersionResourcesResolutionStatusOutput: Swift.Sendable 
         errorMessage: Swift.String? = nil,
         resolutionId: Swift.String? = nil,
         status: ResiliencehubClientTypes.ResourceResolutionStatusType? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.errorMessage = errorMessage
@@ -3475,8 +3444,7 @@ public struct DescribeAppVersionTemplateInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
     }
@@ -3571,8 +3539,7 @@ public struct DescribeAppVersionTemplateOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appTemplateBody: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appTemplateBody = appTemplateBody
         self.appVersion = appVersion
@@ -3586,8 +3553,7 @@ public struct DescribeDraftAppVersionResourcesImportStatusInput: Swift.Sendable 
 
     public init(
         appArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
     }
 }
@@ -3601,8 +3567,7 @@ extension ResiliencehubClientTypes {
 
         public init(
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
         }
     }
@@ -3668,8 +3633,7 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutput: Swift.Sendable
         errorMessage: Swift.String? = nil,
         status: ResiliencehubClientTypes.ResourceImportStatusType? = nil,
         statusChangeTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.errorDetails = errorDetails
@@ -3686,8 +3650,7 @@ public struct DescribeMetricsExportInput: Swift.Sendable {
 
     public init(
         metricsExportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricsExportId = metricsExportId
     }
 }
@@ -3744,8 +3707,7 @@ public struct DescribeMetricsExportOutput: Swift.Sendable {
         exportLocation: ResiliencehubClientTypes.S3Location? = nil,
         metricsExportId: Swift.String? = nil,
         status: ResiliencehubClientTypes.MetricsExportStatusType? = nil
-    )
-    {
+    ) {
         self.errorMessage = errorMessage
         self.exportLocation = exportLocation
         self.metricsExportId = metricsExportId
@@ -3760,8 +3722,7 @@ public struct DescribeResiliencyPolicyInput: Swift.Sendable {
 
     public init(
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
     }
 }
@@ -3773,8 +3734,7 @@ public struct DescribeResiliencyPolicyOutput: Swift.Sendable {
 
     public init(
         policy: ResiliencehubClientTypes.ResiliencyPolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -3789,8 +3749,7 @@ public struct DescribeResourceGroupingRecommendationTaskInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         groupingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.groupingId = groupingId
     }
@@ -3845,8 +3804,7 @@ public struct DescribeResourceGroupingRecommendationTaskOutput: Swift.Sendable {
         errorMessage: Swift.String? = nil,
         groupingId: Swift.String? = nil,
         status: ResiliencehubClientTypes.ResourcesGroupingRecGenStatusType? = nil
-    )
-    {
+    ) {
         self.errorMessage = errorMessage
         self.groupingId = groupingId
         self.status = status
@@ -3867,8 +3825,7 @@ extension ResiliencehubClientTypes {
         public init(
             eksClusterArn: Swift.String? = nil,
             namespaces: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.eksClusterArn = eksClusterArn
             self.namespaces = namespaces
         }
@@ -3923,8 +3880,7 @@ public struct ImportResourcesToDraftAppVersionInput: Swift.Sendable {
         importStrategy: ResiliencehubClientTypes.ResourceImportStrategyType? = nil,
         sourceArns: [Swift.String]? = nil,
         terraformSources: [ResiliencehubClientTypes.TerraformSource]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.eksSources = eksSources
         self.importStrategy = importStrategy
@@ -3957,8 +3913,7 @@ public struct ImportResourcesToDraftAppVersionOutput: Swift.Sendable {
         sourceArns: [Swift.String]? = nil,
         status: ResiliencehubClientTypes.ResourceImportStatusType? = nil,
         terraformSources: [ResiliencehubClientTypes.TerraformSource]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.eksSources = eksSources
@@ -3981,8 +3936,7 @@ public struct ListAlarmRecommendationsInput: Swift.Sendable {
         assessmentArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3999,8 +3953,7 @@ public struct ListAlarmRecommendationsOutput: Swift.Sendable {
     public init(
         alarmRecommendations: [ResiliencehubClientTypes.AlarmRecommendation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmRecommendations = alarmRecommendations
         self.nextToken = nextToken
     }
@@ -4019,8 +3972,7 @@ public struct ListAppAssessmentComplianceDriftsInput: Swift.Sendable {
         assessmentArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4124,8 +4076,7 @@ extension ResiliencehubClientTypes {
             entityType: Swift.String? = nil,
             expectedReferenceId: Swift.String? = nil,
             expectedValue: [Swift.String: ResiliencehubClientTypes.DisruptionCompliance]? = nil
-        )
-        {
+        ) {
             self.actualReferenceId = actualReferenceId
             self.actualValue = actualValue
             self.appId = appId
@@ -4150,8 +4101,7 @@ public struct ListAppAssessmentComplianceDriftsOutput: Swift.Sendable {
     public init(
         complianceDrifts: [ResiliencehubClientTypes.ComplianceDrift]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.complianceDrifts = complianceDrifts
         self.nextToken = nextToken
     }
@@ -4170,8 +4120,7 @@ public struct ListAppAssessmentResourceDriftsInput: Swift.Sendable {
         assessmentArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4190,8 +4139,7 @@ extension ResiliencehubClientTypes {
         public init(
             logicalResourceId: ResiliencehubClientTypes.LogicalResourceId? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.resourceType = resourceType
         }
@@ -4219,8 +4167,7 @@ extension ResiliencehubClientTypes {
             diffType: ResiliencehubClientTypes.DifferenceType? = nil,
             referenceId: Swift.String? = nil,
             resourceIdentifier: ResiliencehubClientTypes.ResourceIdentifier? = nil
-        )
-        {
+        ) {
             self.appArn = appArn
             self.appVersion = appVersion
             self.diffType = diffType
@@ -4240,8 +4187,7 @@ public struct ListAppAssessmentResourceDriftsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceDrifts: [ResiliencehubClientTypes.ResourceDrift]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceDrifts = resourceDrifts
     }
@@ -4274,8 +4220,7 @@ public struct ListAppAssessmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reverseOrder: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.assessmentName = assessmentName
         self.assessmentStatus = assessmentStatus
@@ -4297,8 +4242,7 @@ public struct ListAppAssessmentsOutput: Swift.Sendable {
     public init(
         assessmentSummaries: [ResiliencehubClientTypes.AppAssessmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentSummaries = assessmentSummaries
         self.nextToken = nextToken
     }
@@ -4317,8 +4261,7 @@ public struct ListAppComponentCompliancesInput: Swift.Sendable {
         assessmentArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4335,8 +4278,7 @@ public struct ListAppComponentCompliancesOutput: Swift.Sendable {
     public init(
         componentCompliances: [ResiliencehubClientTypes.AppComponentCompliance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentCompliances = componentCompliances
         self.nextToken = nextToken
     }
@@ -4355,8 +4297,7 @@ public struct ListAppComponentRecommendationsInput: Swift.Sendable {
         assessmentArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4464,8 +4405,7 @@ extension ResiliencehubClientTypes {
             expectedRpoInSecs: Swift.Int = 0,
             expectedRtoDescription: Swift.String? = nil,
             expectedRtoInSecs: Swift.Int = 0
-        )
-        {
+        ) {
             self.expectedComplianceStatus = expectedComplianceStatus
             self.expectedRpoDescription = expectedRpoDescription
             self.expectedRpoInSecs = expectedRpoInSecs
@@ -4514,8 +4454,7 @@ extension ResiliencehubClientTypes {
             recommendationCompliance: [Swift.String: ResiliencehubClientTypes.RecommendationDisruptionCompliance]? = nil,
             referenceId: Swift.String? = nil,
             suggestedChanges: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appComponentName = appComponentName
             self.compliance = compliance
             self.cost = cost
@@ -4583,8 +4522,7 @@ extension ResiliencehubClientTypes {
             appComponentName: Swift.String? = nil,
             configRecommendations: [ResiliencehubClientTypes.ConfigRecommendation]? = nil,
             recommendationStatus: ResiliencehubClientTypes.RecommendationComplianceStatus? = nil
-        )
-        {
+        ) {
             self.appComponentName = appComponentName
             self.configRecommendations = configRecommendations
             self.recommendationStatus = recommendationStatus
@@ -4602,8 +4540,7 @@ public struct ListAppComponentRecommendationsOutput: Swift.Sendable {
     public init(
         componentRecommendations: [ResiliencehubClientTypes.ComponentRecommendation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentRecommendations = componentRecommendations
         self.nextToken = nextToken
     }
@@ -4626,8 +4563,7 @@ public struct ListAppInputSourcesInput: Swift.Sendable {
         appVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.maxResults = maxResults
@@ -4645,8 +4581,7 @@ public struct ListAppInputSourcesOutput: Swift.Sendable {
     public init(
         appInputSources: [ResiliencehubClientTypes.AppInputSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInputSources = appInputSources
         self.nextToken = nextToken
     }
@@ -4679,8 +4614,7 @@ public struct ListAppsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         reverseOrder: Swift.Bool? = nil,
         toLastAssessmentTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.awsApplicationArn = awsApplicationArn
         self.fromLastAssessmentTime = fromLastAssessmentTime
@@ -4702,8 +4636,7 @@ public struct ListAppsOutput: Swift.Sendable {
     public init(
         appSummaries: [ResiliencehubClientTypes.AppSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appSummaries = appSummaries
         self.nextToken = nextToken
     }
@@ -4726,8 +4659,7 @@ public struct ListAppVersionAppComponentsInput: Swift.Sendable {
         appVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.maxResults = maxResults
@@ -4752,8 +4684,7 @@ public struct ListAppVersionAppComponentsOutput: Swift.Sendable {
         appComponents: [ResiliencehubClientTypes.AppComponent]? = nil,
         appVersion: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appComponents = appComponents
         self.appVersion = appVersion
@@ -4778,8 +4709,7 @@ public struct ListAppVersionResourceMappingsInput: Swift.Sendable {
         appVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.maxResults = maxResults
@@ -4797,8 +4727,7 @@ public struct ListAppVersionResourceMappingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceMappings: [ResiliencehubClientTypes.ResourceMapping]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceMappings = resourceMappings
     }
@@ -4824,8 +4753,7 @@ public struct ListAppVersionResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resolutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.maxResults = maxResults
@@ -4848,8 +4776,7 @@ public struct ListAppVersionResourcesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         physicalResources: [ResiliencehubClientTypes.PhysicalResource]? = nil,
         resolutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.physicalResources = physicalResources
         self.resolutionId = resolutionId
@@ -4875,8 +4802,7 @@ public struct ListAppVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.endTime = endTime
         self.maxResults = maxResults
@@ -4895,8 +4821,7 @@ public struct ListAppVersionsOutput: Swift.Sendable {
     public init(
         appVersions: [ResiliencehubClientTypes.AppVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appVersions = appVersions
         self.nextToken = nextToken
     }
@@ -4960,8 +4885,7 @@ extension ResiliencehubClientTypes {
             field: Swift.String? = nil,
             `operator`: ResiliencehubClientTypes.ConditionOperatorType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.`operator` = `operator`
             self.value = value
@@ -5020,8 +4944,7 @@ extension ResiliencehubClientTypes {
         public init(
             aggregation: ResiliencehubClientTypes.FieldAggregationType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.name = name
         }
@@ -5041,8 +4964,7 @@ extension ResiliencehubClientTypes {
         public init(
             ascending: Swift.Bool? = nil,
             field: Swift.String? = nil
-        )
-        {
+        ) {
             self.ascending = ascending
             self.field = field
         }
@@ -5070,8 +4992,7 @@ public struct ListMetricsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sorts: [ResiliencehubClientTypes.Sort]? = nil
-    )
-    {
+    ) {
         self.conditions = conditions
         self.dataSource = dataSource
         self.fields = fields
@@ -5091,8 +5012,7 @@ public struct ListMetricsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rows: [[Swift.String]]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rows = rows
     }
@@ -5122,8 +5042,7 @@ public struct ListRecommendationTemplatesInput: Swift.Sendable {
         recommendationTemplateArn: Swift.String? = nil,
         reverseOrder: Swift.Bool? = nil,
         status: [ResiliencehubClientTypes.RecommendationTemplateStatus]? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.name = name
@@ -5143,8 +5062,7 @@ public struct ListRecommendationTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationTemplates: [ResiliencehubClientTypes.RecommendationTemplate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationTemplates = recommendationTemplates
     }
@@ -5162,8 +5080,7 @@ public struct ListResiliencyPoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.policyName = policyName
@@ -5180,8 +5097,7 @@ public struct ListResiliencyPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resiliencyPolicies: [ResiliencehubClientTypes.ResiliencyPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resiliencyPolicies = resiliencyPolicies
     }
@@ -5199,8 +5115,7 @@ public struct ListResourceGroupingRecommendationsInput: Swift.Sendable {
         appArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5254,8 +5169,7 @@ extension ResiliencehubClientTypes {
             appComponentId: Swift.String? = nil,
             appComponentName: Swift.String? = nil,
             appComponentType: Swift.String? = nil
-        )
-        {
+        ) {
             self.appComponentId = appComponentId
             self.appComponentName = appComponentName
             self.appComponentType = appComponentType
@@ -5324,8 +5238,7 @@ extension ResiliencehubClientTypes {
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             sourceAppComponentIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
             self.resourceName = resourceName
@@ -5408,8 +5321,7 @@ extension ResiliencehubClientTypes {
             resources: [ResiliencehubClientTypes.GroupingResource]? = nil,
             score: Swift.Double = 0.0,
             status: ResiliencehubClientTypes.GroupingRecommendationStatusType? = nil
-        )
-        {
+        ) {
             self.confidenceLevel = confidenceLevel
             self.creationTime = creationTime
             self.groupingAppComponent = groupingAppComponent
@@ -5433,8 +5345,7 @@ public struct ListResourceGroupingRecommendationsOutput: Swift.Sendable {
     public init(
         groupingRecommendations: [ResiliencehubClientTypes.GroupingRecommendation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupingRecommendations = groupingRecommendations
         self.nextToken = nextToken
     }
@@ -5453,8 +5364,7 @@ public struct ListSopRecommendationsInput: Swift.Sendable {
         assessmentArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5523,8 +5433,7 @@ extension ResiliencehubClientTypes {
             recommendationStatus: ResiliencehubClientTypes.RecommendationStatus? = nil,
             referenceId: Swift.String? = nil,
             serviceType: ResiliencehubClientTypes.SopServiceType? = nil
-        )
-        {
+        ) {
             self.appComponentName = appComponentName
             self.description = description
             self.items = items
@@ -5548,8 +5457,7 @@ public struct ListSopRecommendationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sopRecommendations: [ResiliencehubClientTypes.SopRecommendation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sopRecommendations = sopRecommendations
     }
@@ -5564,8 +5472,7 @@ public struct ListSuggestedResiliencyPoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5581,8 +5488,7 @@ public struct ListSuggestedResiliencyPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resiliencyPolicies: [ResiliencehubClientTypes.ResiliencyPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resiliencyPolicies = resiliencyPolicies
     }
@@ -5595,8 +5501,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5607,8 +5512,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5631,8 +5535,7 @@ public struct ListTestRecommendationsInput: Swift.Sendable {
         assessmentArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assessmentArn = assessmentArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5710,6 +5613,8 @@ extension ResiliencehubClientTypes {
 
     /// Defines a test recommendation.
     public struct TestRecommendation: Swift.Sendable {
+        /// Indicates the identifier of the AppComponent.
+        public var appComponentId: Swift.String?
         /// Name of the Application Component.
         public var appComponentName: Swift.String?
         /// A list of recommended alarms that are used in the test and must be exported before or with the test.
@@ -5737,6 +5642,7 @@ extension ResiliencehubClientTypes {
         public var type: ResiliencehubClientTypes.TestType?
 
         public init(
+            appComponentId: Swift.String? = nil,
             appComponentName: Swift.String? = nil,
             dependsOnAlarms: [Swift.String]? = nil,
             description: Swift.String? = nil,
@@ -5749,8 +5655,8 @@ extension ResiliencehubClientTypes {
             referenceId: Swift.String? = nil,
             risk: ResiliencehubClientTypes.TestRisk? = nil,
             type: ResiliencehubClientTypes.TestType? = nil
-        )
-        {
+        ) {
+            self.appComponentId = appComponentId
             self.appComponentName = appComponentName
             self.dependsOnAlarms = dependsOnAlarms
             self.description = description
@@ -5777,8 +5683,7 @@ public struct ListTestRecommendationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testRecommendations: [ResiliencehubClientTypes.TestRecommendation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testRecommendations = testRecommendations
     }
@@ -5804,8 +5709,7 @@ public struct ListUnsupportedAppVersionResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resolutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.maxResults = maxResults
@@ -5835,8 +5739,7 @@ extension ResiliencehubClientTypes {
             physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId? = nil,
             resourceType: Swift.String? = nil,
             unsupportedResourceStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
             self.resourceType = resourceType
@@ -5859,8 +5762,7 @@ public struct ListUnsupportedAppVersionResourcesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resolutionId: Swift.String? = nil,
         unsupportedResources: [ResiliencehubClientTypes.UnsupportedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolutionId = resolutionId
         self.unsupportedResources = unsupportedResources
@@ -5877,8 +5779,7 @@ public struct PublishAppVersionInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.versionName = versionName
     }
@@ -5900,8 +5801,7 @@ public struct PublishAppVersionOutput: Swift.Sendable {
         appVersion: Swift.String? = nil,
         identifier: Swift.Int? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.identifier = identifier
@@ -5994,8 +5894,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         appTemplateBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appTemplateBody = appTemplateBody
     }
@@ -6010,8 +5909,7 @@ public struct PutDraftAppVersionTemplateOutput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
     }
@@ -6030,8 +5928,7 @@ extension ResiliencehubClientTypes {
         public init(
             groupingRecommendationId: Swift.String? = nil,
             rejectionReason: ResiliencehubClientTypes.GroupingRecommendationRejectionReason? = nil
-        )
-        {
+        ) {
             self.groupingRecommendationId = groupingRecommendationId
             self.rejectionReason = rejectionReason
         }
@@ -6049,8 +5946,7 @@ public struct RejectResourceGroupingRecommendationsInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         entries: [ResiliencehubClientTypes.RejectGroupingRecommendationEntry]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.entries = entries
     }
@@ -6067,8 +5963,7 @@ public struct RejectResourceGroupingRecommendationsOutput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.failedEntries = failedEntries
     }
@@ -6099,8 +5994,7 @@ public struct RemoveDraftAppVersionResourceMappingsInput: Swift.Sendable {
         resourceGroupNames: [Swift.String]? = nil,
         resourceNames: [Swift.String]? = nil,
         terraformSourceNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appRegistryAppNames = appRegistryAppNames
         self.eksSourceNames = eksSourceNames
@@ -6120,8 +6014,7 @@ public struct RemoveDraftAppVersionResourceMappingsOutput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
     }
@@ -6138,8 +6031,7 @@ public struct ResolveAppVersionResourcesInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
     }
@@ -6164,8 +6056,7 @@ public struct ResolveAppVersionResourcesOutput: Swift.Sendable {
         appVersion: Swift.String? = nil,
         resolutionId: Swift.String? = nil,
         status: ResiliencehubClientTypes.ResourceResolutionStatusType? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.resolutionId = resolutionId
@@ -6194,8 +6085,7 @@ public struct StartAppAssessmentInput: Swift.Sendable {
         assessmentName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.assessmentName = assessmentName
@@ -6216,8 +6106,7 @@ public struct StartAppAssessmentOutput: Swift.Sendable {
 
     public init(
         assessment: ResiliencehubClientTypes.AppAssessment? = nil
-    )
-    {
+    ) {
         self.assessment = assessment
     }
 }
@@ -6231,8 +6120,7 @@ public struct StartMetricsExportInput: Swift.Sendable {
     public init(
         bucketName: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.clientToken = clientToken
     }
@@ -6249,8 +6137,7 @@ public struct StartMetricsExportOutput: Swift.Sendable {
     public init(
         metricsExportId: Swift.String? = nil,
         status: ResiliencehubClientTypes.MetricsExportStatusType? = nil
-    )
-    {
+    ) {
         self.metricsExportId = metricsExportId
         self.status = status
     }
@@ -6263,8 +6150,7 @@ public struct StartResourceGroupingRecommendationTaskInput: Swift.Sendable {
 
     public init(
         appArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
     }
 }
@@ -6287,8 +6173,7 @@ public struct StartResourceGroupingRecommendationTaskOutput: Swift.Sendable {
         errorMessage: Swift.String? = nil,
         groupingId: Swift.String? = nil,
         status: ResiliencehubClientTypes.ResourcesGroupingRecGenStatusType? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.errorMessage = errorMessage
         self.groupingId = groupingId
@@ -6307,8 +6192,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6335,8 +6219,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6377,8 +6260,7 @@ public struct UpdateAppInput: Swift.Sendable {
         eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]? = nil,
         permissionModel: ResiliencehubClientTypes.PermissionModel? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.assessmentSchedule = assessmentSchedule
         self.clearResiliencyPolicyArn = clearResiliencyPolicyArn
@@ -6396,8 +6278,7 @@ public struct UpdateAppOutput: Swift.Sendable {
 
     public init(
         app: ResiliencehubClientTypes.App? = nil
-    )
-    {
+    ) {
         self.app = app
     }
 }
@@ -6412,8 +6293,7 @@ public struct UpdateAppVersionInput: Swift.Sendable {
     public init(
         additionalInfo: [Swift.String: [Swift.String]]? = nil,
         appArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.appArn = appArn
     }
@@ -6433,8 +6313,7 @@ public struct UpdateAppVersionOutput: Swift.Sendable {
         additionalInfo: [Swift.String: [Swift.String]]? = nil,
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.appArn = appArn
         self.appVersion = appVersion
@@ -6461,8 +6340,7 @@ public struct UpdateAppVersionAppComponentInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.appArn = appArn
         self.id = id
@@ -6485,8 +6363,7 @@ public struct UpdateAppVersionAppComponentOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appComponent: ResiliencehubClientTypes.AppComponent? = nil,
         appVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appComponent = appComponent
         self.appVersion = appVersion
@@ -6527,8 +6404,7 @@ public struct UpdateAppVersionResourceInput: Swift.Sendable {
         physicalResourceId: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.appArn = appArn
         self.appComponents = appComponents
@@ -6556,8 +6432,7 @@ public struct UpdateAppVersionResourceOutput: Swift.Sendable {
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
         physicalResource: ResiliencehubClientTypes.PhysicalResource? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appVersion = appVersion
         self.physicalResource = physicalResource
@@ -6586,8 +6461,7 @@ public struct UpdateResiliencyPolicyInput: Swift.Sendable {
         policyDescription: Swift.String? = nil,
         policyName: Swift.String? = nil,
         tier: ResiliencehubClientTypes.ResiliencyPolicyTier? = nil
-    )
-    {
+    ) {
         self.dataLocationConstraint = dataLocationConstraint
         self.policy = policy
         self.policyArn = policyArn
@@ -6604,8 +6478,7 @@ public struct UpdateResiliencyPolicyOutput: Swift.Sendable {
 
     public init(
         policy: ResiliencehubClientTypes.ResiliencyPolicy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -10009,6 +9882,7 @@ extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntr
         value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
         value.item = try reader["item"].readIfPresent(with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.read(from:))
         value.excluded = try reader["excluded"].readIfPresent() ?? false
+        value.appComponentId = try reader["appComponentId"].readIfPresent()
         value.excludeReason = try reader["excludeReason"].readIfPresent()
         return value
     }
@@ -10467,6 +10341,30 @@ extension ResiliencehubClientTypes.RecommendationItem {
         value.alreadyImplemented = try reader["alreadyImplemented"].readIfPresent()
         value.excluded = try reader["excluded"].readIfPresent()
         value.excludeReason = try reader["excludeReason"].readIfPresent()
+        value.latestDiscoveredExperiment = try reader["latestDiscoveredExperiment"].readIfPresent(with: ResiliencehubClientTypes.Experiment.read(from:))
+        value.discoveredAlarm = try reader["discoveredAlarm"].readIfPresent(with: ResiliencehubClientTypes.Alarm.read(from:))
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.Alarm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.Alarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.Alarm()
+        value.alarmArn = try reader["alarmArn"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.Experiment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.Experiment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.Experiment()
+        value.experimentArn = try reader["experimentArn"].readIfPresent()
+        value.experimentTemplateId = try reader["experimentTemplateId"].readIfPresent()
         return value
     }
 }
@@ -10702,6 +10600,7 @@ extension ResiliencehubClientTypes.TestRecommendation {
         var value = ResiliencehubClientTypes.TestRecommendation()
         value.recommendationId = try reader["recommendationId"].readIfPresent()
         value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
+        value.appComponentId = try reader["appComponentId"].readIfPresent()
         value.appComponentName = try reader["appComponentName"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.intent = try reader["intent"].readIfPresent()
@@ -10741,6 +10640,7 @@ extension ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry {
 
     static func write(value: ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["appComponentId"].write(value.appComponentId)
         try writer["entryId"].write(value.entryId)
         try writer["excludeReason"].write(value.excludeReason)
         try writer["excluded"].write(value.excluded)

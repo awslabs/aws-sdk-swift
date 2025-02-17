@@ -80,8 +80,7 @@ extension WAFV2ClientTypes {
 
         public init(
             action: WAFV2ClientTypes.ActionValue? = nil
-        )
-        {
+        ) {
             self.action = action
         }
     }
@@ -101,8 +100,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -131,8 +129,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -149,8 +146,7 @@ extension WAFV2ClientTypes {
 
         public init(
             insertHeaders: [WAFV2ClientTypes.CustomHTTPHeader]? = nil
-        )
-        {
+        ) {
             self.insertHeaders = insertHeaders
         }
     }
@@ -165,8 +161,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -238,8 +233,7 @@ extension WAFV2ClientTypes {
 
         public init(
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.oversizeHandling = oversizeHandling
         }
     }
@@ -260,8 +254,7 @@ extension WAFV2ClientTypes {
             all: WAFV2ClientTypes.All? = nil,
             excludedCookies: [Swift.String]? = nil,
             includedCookies: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.all = all
             self.excludedCookies = excludedCookies
             self.includedCookies = includedCookies
@@ -325,8 +318,7 @@ extension WAFV2ClientTypes {
             matchPattern: WAFV2ClientTypes.CookieMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.MapMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.matchPattern = matchPattern
             self.matchScope = matchScope
             self.oversizeHandling = oversizeHandling
@@ -350,8 +342,7 @@ extension WAFV2ClientTypes {
 
         public init(
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.oversizeHandling = oversizeHandling
         }
     }
@@ -372,8 +363,7 @@ extension WAFV2ClientTypes {
             all: WAFV2ClientTypes.All? = nil,
             excludedHeaders: [Swift.String]? = nil,
             includedHeaders: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.all = all
             self.excludedHeaders = excludedHeaders
             self.includedHeaders = includedHeaders
@@ -405,8 +395,7 @@ extension WAFV2ClientTypes {
             matchPattern: WAFV2ClientTypes.HeaderMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.MapMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.matchPattern = matchPattern
             self.matchScope = matchScope
             self.oversizeHandling = oversizeHandling
@@ -457,8 +446,7 @@ extension WAFV2ClientTypes {
 
         public init(
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil
-        )
-        {
+        ) {
             self.fallbackBehavior = fallbackBehavior
         }
     }
@@ -508,8 +496,7 @@ extension WAFV2ClientTypes {
         public init(
             all: WAFV2ClientTypes.All? = nil,
             includedPaths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.all = all
             self.includedPaths = includedPaths
         }
@@ -593,8 +580,7 @@ extension WAFV2ClientTypes {
             matchPattern: WAFV2ClientTypes.JsonMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.JsonMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.invalidFallbackBehavior = invalidFallbackBehavior
             self.matchPattern = matchPattern
             self.matchScope = matchScope
@@ -631,8 +617,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -648,8 +633,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -676,7 +660,7 @@ extension WAFV2ClientTypes {
     ///
     /// * In this documentation, the descriptions of the individual fields talk about specifying the web request component to inspect, but for field redaction, you are specifying the component type to redact from the logs.
     ///
-    /// * If you have request sampling enabled, the redacted fields configuration for logging has no impact on sampling. The only way to exclude fields from request sampling is by disabling sampling in the web ACL visibility configuration.
+    /// * If you have request sampling enabled, the redacted fields configuration for logging has no impact on sampling. You can only exclude fields from request sampling by disabling sampling in the web ACL visibility configuration or by configuring data protection for the web ACL.
     public struct FieldToMatch: Swift.Sendable {
         /// Inspect all query arguments.
         public var allQueryArguments: WAFV2ClientTypes.AllQueryArguments?
@@ -730,8 +714,7 @@ extension WAFV2ClientTypes {
             singleHeader: WAFV2ClientTypes.SingleHeader? = nil,
             singleQueryArgument: WAFV2ClientTypes.SingleQueryArgument? = nil,
             uriPath: WAFV2ClientTypes.UriPath? = nil
-        )
-        {
+        ) {
             self.allQueryArguments = allQueryArguments
             self.body = body
             self.cookies = cookies
@@ -886,8 +869,7 @@ extension WAFV2ClientTypes {
         public init(
             priority: Swift.Int = 0,
             type: WAFV2ClientTypes.TextTransformationType? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.type = type
         }
@@ -934,8 +916,7 @@ extension WAFV2ClientTypes {
             positionalConstraint: WAFV2ClientTypes.PositionalConstraint? = nil,
             searchString: Foundation.Data? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
             self.searchString = searchString
@@ -1735,8 +1716,7 @@ extension WAFV2ClientTypes {
         public init(
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
             headerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fallbackBehavior = fallbackBehavior
             self.headerName = headerName
         }
@@ -1762,8 +1742,7 @@ extension WAFV2ClientTypes {
         public init(
             countryCodes: [WAFV2ClientTypes.CountryCode]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil
-        )
-        {
+        ) {
             self.countryCodes = countryCodes
             self.forwardedIPConfig = forwardedIPConfig
         }
@@ -1830,8 +1809,7 @@ extension WAFV2ClientTypes {
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
             headerName: Swift.String? = nil,
             position: WAFV2ClientTypes.ForwardedIPPosition? = nil
-        )
-        {
+        ) {
             self.fallbackBehavior = fallbackBehavior
             self.headerName = headerName
             self.position = position
@@ -1852,8 +1830,7 @@ extension WAFV2ClientTypes {
         public init(
             arn: Swift.String? = nil,
             ipSetForwardedIPConfig: WAFV2ClientTypes.IPSetForwardedIPConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.ipSetForwardedIPConfig = ipSetForwardedIPConfig
         }
@@ -1910,8 +1887,7 @@ extension WAFV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             scope: WAFV2ClientTypes.LabelMatchScope? = nil
-        )
-        {
+        ) {
             self.key = key
             self.scope = scope
         }
@@ -1928,8 +1904,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1949,8 +1924,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -1970,8 +1944,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -2020,8 +1993,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -2041,8 +2013,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -2093,8 +2064,7 @@ extension WAFV2ClientTypes {
             payloadType: WAFV2ClientTypes.PayloadType? = nil,
             phoneNumberFields: [WAFV2ClientTypes.PhoneNumberField]? = nil,
             usernameField: WAFV2ClientTypes.UsernameField? = nil
-        )
-        {
+        ) {
             self.addressFields = addressFields
             self.emailField = emailField
             self.passwordField = passwordField
@@ -2119,8 +2089,7 @@ extension WAFV2ClientTypes {
         public init(
             failureStrings: [Swift.String]? = nil,
             successStrings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.failureStrings = failureStrings
             self.successStrings = successStrings
         }
@@ -2145,8 +2114,7 @@ extension WAFV2ClientTypes {
             failureValues: [Swift.String]? = nil,
             name: Swift.String? = nil,
             successValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.failureValues = failureValues
             self.name = name
             self.successValues = successValues
@@ -2172,8 +2140,7 @@ extension WAFV2ClientTypes {
             failureValues: [Swift.String]? = nil,
             identifier: Swift.String? = nil,
             successValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.failureValues = failureValues
             self.identifier = identifier
             self.successValues = successValues
@@ -2195,8 +2162,7 @@ extension WAFV2ClientTypes {
         public init(
             failureCodes: [Swift.Int]? = nil,
             successCodes: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.failureCodes = failureCodes
             self.successCodes = successCodes
         }
@@ -2221,8 +2187,7 @@ extension WAFV2ClientTypes {
             header: WAFV2ClientTypes.ResponseInspectionHeader? = nil,
             json: WAFV2ClientTypes.ResponseInspectionJson? = nil,
             statusCode: WAFV2ClientTypes.ResponseInspectionStatusCode? = nil
-        )
-        {
+        ) {
             self.bodyContains = bodyContains
             self.header = header
             self.json = json
@@ -2255,8 +2220,7 @@ extension WAFV2ClientTypes {
             registrationPagePath: Swift.String? = nil,
             requestInspection: WAFV2ClientTypes.RequestInspectionACFP? = nil,
             responseInspection: WAFV2ClientTypes.ResponseInspection? = nil
-        )
-        {
+        ) {
             self.creationPath = creationPath
             self.enableRegexInPath = enableRegexInPath
             self.registrationPagePath = registrationPagePath
@@ -2292,8 +2256,7 @@ extension WAFV2ClientTypes {
             passwordField: WAFV2ClientTypes.PasswordField? = nil,
             payloadType: WAFV2ClientTypes.PayloadType? = nil,
             usernameField: WAFV2ClientTypes.UsernameField? = nil
-        )
-        {
+        ) {
             self.passwordField = passwordField
             self.payloadType = payloadType
             self.usernameField = usernameField
@@ -2320,8 +2283,7 @@ extension WAFV2ClientTypes {
             loginPath: Swift.String? = nil,
             requestInspection: WAFV2ClientTypes.RequestInspection? = nil,
             responseInspection: WAFV2ClientTypes.ResponseInspection? = nil
-        )
-        {
+        ) {
             self.enableRegexInPath = enableRegexInPath
             self.loginPath = loginPath
             self.requestInspection = requestInspection
@@ -2372,8 +2334,7 @@ extension WAFV2ClientTypes {
         public init(
             enableMachineLearning: Swift.Bool? = true,
             inspectionLevel: WAFV2ClientTypes.InspectionLevel? = nil
-        )
-        {
+        ) {
             self.enableMachineLearning = enableMachineLearning
             self.inspectionLevel = inspectionLevel
         }
@@ -2420,8 +2381,7 @@ extension WAFV2ClientTypes {
             passwordField: WAFV2ClientTypes.PasswordField? = nil,
             payloadType: WAFV2ClientTypes.PayloadType? = nil,
             usernameField: WAFV2ClientTypes.UsernameField? = nil
-        )
-        {
+        ) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
@@ -2449,8 +2409,7 @@ extension WAFV2ClientTypes {
             customResponseBodyKey: Swift.String? = nil,
             responseCode: Swift.Int? = nil,
             responseHeaders: [WAFV2ClientTypes.CustomHTTPHeader]? = nil
-        )
-        {
+        ) {
             self.customResponseBodyKey = customResponseBodyKey
             self.responseCode = responseCode
             self.responseHeaders = responseHeaders
@@ -2467,8 +2426,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customResponse: WAFV2ClientTypes.CustomResponse? = nil
-        )
-        {
+        ) {
             self.customResponse = customResponse
         }
     }
@@ -2499,8 +2457,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -2531,8 +2488,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -2547,8 +2503,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -2575,8 +2530,7 @@ extension WAFV2ClientTypes {
             captcha: WAFV2ClientTypes.CaptchaAction? = nil,
             challenge: WAFV2ClientTypes.ChallengeAction? = nil,
             count: WAFV2ClientTypes.CountAction? = nil
-        )
-        {
+        ) {
             self.allow = allow
             self.block = block
             self.captcha = captcha
@@ -2588,20 +2542,19 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Action setting to use in the place of a rule action that is configured inside the rule group. You specify one override for each rule whose action you want to change. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+    /// Action setting to use in the place of a rule action that is configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
     public struct RuleActionOverride: Swift.Sendable {
         /// The override action to use, in place of the configured action of the rule in the rule group.
         /// This member is required.
         public var actionToUse: WAFV2ClientTypes.RuleAction?
-        /// The name of the rule to override.
+        /// The name of the rule to override. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting.
         /// This member is required.
         public var name: Swift.String?
 
         public init(
             actionToUse: WAFV2ClientTypes.RuleAction? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionToUse = actionToUse
             self.name = name
         }
@@ -2657,8 +2610,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.textTransformations = textTransformations
         }
@@ -2688,8 +2640,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.textTransformations = textTransformations
         }
@@ -2724,8 +2675,7 @@ extension WAFV2ClientTypes {
 
         public init(
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
         }
     }
@@ -2745,8 +2695,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.textTransformations = textTransformations
         }
@@ -2763,8 +2712,7 @@ extension WAFV2ClientTypes {
 
         public init(
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.textTransformations = textTransformations
         }
     }
@@ -2780,8 +2728,7 @@ extension WAFV2ClientTypes {
 
         public init(
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.textTransformations = textTransformations
         }
     }
@@ -2820,8 +2767,7 @@ extension WAFV2ClientTypes {
             queryArgument: WAFV2ClientTypes.RateLimitQueryArgument? = nil,
             queryString: WAFV2ClientTypes.RateLimitQueryString? = nil,
             uriPath: WAFV2ClientTypes.RateLimitUriPath? = nil
-        )
-        {
+        ) {
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
@@ -2853,8 +2799,7 @@ extension WAFV2ClientTypes {
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             regexString: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.regexString = regexString
             self.textTransformations = textTransformations
@@ -2880,8 +2825,7 @@ extension WAFV2ClientTypes {
             arn: Swift.String? = nil,
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.fieldToMatch = fieldToMatch
             self.textTransformations = textTransformations
@@ -2898,15 +2842,14 @@ extension WAFV2ClientTypes {
         public var arn: Swift.String?
         /// Rules in the referenced rule group whose actions are set to Count. Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public var excludedRules: [WAFV2ClientTypes.ExcludedRule]?
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
 
         public init(
             arn: Swift.String? = nil,
             excludedRules: [WAFV2ClientTypes.ExcludedRule]? = nil,
             ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.excludedRules = excludedRules
             self.ruleActionOverrides = ruleActionOverrides
@@ -2977,8 +2920,7 @@ extension WAFV2ClientTypes {
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             size: Swift.Int = 0,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.fieldToMatch = fieldToMatch
             self.size = size
@@ -3033,8 +2975,7 @@ extension WAFV2ClientTypes {
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             sensitivityLevel: WAFV2ClientTypes.SensitivityLevel? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.sensitivityLevel = sensitivityLevel
             self.textTransformations = textTransformations
@@ -3056,8 +2997,7 @@ extension WAFV2ClientTypes {
         public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.textTransformations = textTransformations
         }
@@ -3082,8 +3022,7 @@ extension WAFV2ClientTypes {
             creationTimestamp: Foundation.Date? = nil,
             tokenDomains: [Swift.String]? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.creationTimestamp = creationTimestamp
             self.tokenDomains = tokenDomains
@@ -3131,9 +3070,9 @@ extension WAFV2ClientTypes {
 }
 
 /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
-public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3148,16 +3087,15 @@ public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation isn't valid.
-public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3172,8 +3110,7 @@ public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3195,6 +3132,7 @@ extension WAFV2ClientTypes {
         case customRequestHandling
         case customResponse
         case customResponseBody
+        case dataProtectionConfig
         case defaultAction
         case entityLimit
         case excludedRule
@@ -3269,6 +3207,7 @@ extension WAFV2ClientTypes {
                 .customRequestHandling,
                 .customResponse,
                 .customResponseBody,
+                .dataProtectionConfig,
                 .defaultAction,
                 .entityLimit,
                 .excludedRule,
@@ -3349,6 +3288,7 @@ extension WAFV2ClientTypes {
             case .customRequestHandling: return "CUSTOM_REQUEST_HANDLING"
             case .customResponse: return "CUSTOM_RESPONSE"
             case .customResponseBody: return "CUSTOM_RESPONSE_BODY"
+            case .dataProtectionConfig: return "DATA_PROTECTION_CONFIG"
             case .defaultAction: return "DEFAULT_ACTION"
             case .entityLimit: return "ENTITY_LIMIT"
             case .excludedRule: return "EXCLUDED_RULE"
@@ -3420,9 +3360,9 @@ extension WAFV2ClientTypes {
 /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The settings where the invalid parameter was found.
         public internal(set) var field: WAFV2ClientTypes.ParameterExceptionField? = nil
         public internal(set) var message: Swift.String? = nil
@@ -3446,8 +3386,7 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
         message: Swift.String? = nil,
         parameter: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.field = field
         self.properties.message = message
         self.properties.parameter = parameter
@@ -3456,9 +3395,9 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3473,16 +3412,15 @@ public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
+public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3497,8 +3435,7 @@ public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3526,8 +3463,7 @@ public struct AssociateWebACLInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         webACLArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.webACLArn = webACLArn
     }
@@ -3583,8 +3519,7 @@ extension WAFV2ClientTypes {
 
         public init(
             defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit? = nil
-        )
-        {
+        ) {
             self.defaultSizeInspectionLimit = defaultSizeInspectionLimit
         }
     }
@@ -3599,17 +3534,16 @@ extension WAFV2ClientTypes {
 
         public init(
             requestBody: [Swift.String: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]? = nil
-        )
-        {
+        ) {
             self.requestBody = requestBody
         }
     }
 }
 
 /// The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling [ListAvailableManagedRuleGroupVersions].
-public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3624,16 +3558,15 @@ public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
-public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3648,16 +3581,15 @@ public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
-public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Source type for the exception.
         public internal(set) var sourceType: Swift.String? = nil
@@ -3675,17 +3607,16 @@ public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientR
     public init(
         message: Swift.String? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.sourceType = sourceType
     }
 }
 
 /// You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
-public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3700,8 +3631,7 @@ public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3716,8 +3646,7 @@ extension WAFV2ClientTypes {
 
         public init(
             immunityTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.immunityTime = immunityTime
         }
     }
@@ -3732,8 +3661,7 @@ extension WAFV2ClientTypes {
 
         public init(
             immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty? = nil
-        )
-        {
+        ) {
             self.immunityTimeProperty = immunityTimeProperty
         }
     }
@@ -3748,8 +3676,7 @@ extension WAFV2ClientTypes {
 
         public init(
             immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty? = nil
-        )
-        {
+        ) {
             self.immunityTimeProperty = immunityTimeProperty
         }
     }
@@ -3776,8 +3703,7 @@ extension WAFV2ClientTypes {
         public init(
             count: WAFV2ClientTypes.CountAction? = nil,
             `none`: WAFV2ClientTypes.NoneAction? = nil
-        )
-        {
+        ) {
             self.count = count
             self.`none` = `none`
         }
@@ -3794,8 +3720,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3811,7 +3736,7 @@ extension WAFV2ClientTypes {
         /// A name of the Amazon CloudWatch metric dimension. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names that are reserved for WAF, for example All and Default_Action.
         /// This member is required.
         public var metricName: Swift.String?
-        /// Indicates whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console. Request sampling doesn't provide a field redaction option, and any field redaction that you specify in your logging configuration doesn't affect sampling. The only way to exclude fields from request sampling is by disabling sampling in the web ACL visibility configuration.
+        /// Indicates whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console. If you configure data protection for the web ACL, the protection applies to the web ACL's sampled web request data. Request sampling doesn't provide a field redaction option, and any field redaction that you specify in your logging configuration doesn't affect sampling. You can only exclude fields from request sampling by disabling sampling in the web ACL visibility configuration or by configuring data protection for the web ACL.
         /// This member is required.
         public var sampledRequestsEnabled: Swift.Bool
 
@@ -3819,8 +3744,7 @@ extension WAFV2ClientTypes {
             cloudWatchMetricsEnabled: Swift.Bool = false,
             metricName: Swift.String? = nil,
             sampledRequestsEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.metricName = metricName
             self.sampledRequestsEnabled = sampledRequestsEnabled
@@ -3863,14 +3787,13 @@ public struct CheckCapacityOutput: Swift.Sendable {
 
     public init(
         capacity: Swift.Int = 0
-    )
-    {
+    ) {
         self.capacity = capacity
     }
 }
 
 public struct CreateAPIKeyInput: Swift.Sendable {
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -3884,8 +3807,7 @@ public struct CreateAPIKeyInput: Swift.Sendable {
     public init(
         scope: WAFV2ClientTypes.Scope? = nil,
         tokenDomains: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.scope = scope
         self.tokenDomains = tokenDomains
     }
@@ -3897,16 +3819,15 @@ public struct CreateAPIKeyOutput: Swift.Sendable {
 
     public init(
         apiKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
     }
 }
 
 /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
-public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3921,16 +3842,15 @@ public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3945,16 +3865,15 @@ public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error occurred during the tagging operation. Retry your request.
-public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3969,16 +3888,15 @@ public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3993,8 +3911,7 @@ public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4042,8 +3959,7 @@ extension WAFV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4081,7 +3997,7 @@ public struct CreateIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4098,8 +4014,7 @@ public struct CreateIPSetInput: Swift.Sendable {
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.description = description
         self.ipAddressVersion = ipAddressVersion
@@ -4130,8 +4045,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4147,8 +4061,7 @@ public struct CreateIPSetOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.IPSetSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -4162,8 +4075,7 @@ extension WAFV2ClientTypes {
 
         public init(
             regexString: Swift.String? = nil
-        )
-        {
+        ) {
             self.regexString = regexString
         }
     }
@@ -4178,7 +4090,7 @@ public struct CreateRegexPatternSetInput: Swift.Sendable {
     /// Array of regular expression strings.
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4194,8 +4106,7 @@ public struct CreateRegexPatternSetInput: Swift.Sendable {
         regularExpressionList: [WAFV2ClientTypes.Regex]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.regularExpressionList = regularExpressionList
@@ -4225,8 +4136,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4242,8 +4152,7 @@ public struct CreateRegexPatternSetOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.RegexPatternSetSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -4294,8 +4203,7 @@ extension WAFV2ClientTypes {
         public init(
             content: Swift.String? = nil,
             contentType: WAFV2ClientTypes.ResponseContentType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
         }
@@ -4323,8 +4231,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4340,16 +4247,15 @@ public struct CreateRuleGroupOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.RuleGroupSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
 
 /// The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components. Rules that inspect the body must either provide an OversizeHandling configuration or they must be preceded by a SizeConstraintStatement that blocks the body content from being too large. Rules that inspect the headers or cookies must provide an OversizeHandling configuration. Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
-public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4364,9 +4270,144 @@ public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum DataProtectionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hash
+        case substitution
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataProtectionAction] {
+            return [
+                .hash,
+                .substitution
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hash: return "HASH"
+            case .substitution: return "SUBSTITUTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum FieldToProtectType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case body
+        case queryString
+        case singleCookie
+        case singleHeader
+        case singleQueryArgument
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldToProtectType] {
+            return [
+                .body,
+                .queryString,
+                .singleCookie,
+                .singleHeader,
+                .singleQueryArgument
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .body: return "BODY"
+            case .queryString: return "QUERY_STRING"
+            case .singleCookie: return "SINGLE_COOKIE"
+            case .singleHeader: return "SINGLE_HEADER"
+            case .singleQueryArgument: return "SINGLE_QUERY_ARGUMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Specifies a field type and keys to protect in stored web request data. This is part of the data protection configuration for a web ACL.
+    public struct FieldToProtect: Swift.Sendable {
+        /// Specifies the keys to protect for the specified field type. If you don't specify any key, then all keys for the field type are protected.
+        public var fieldKeys: [Swift.String]?
+        /// Specifies the web request component type to protect.
+        /// This member is required.
+        public var fieldType: WAFV2ClientTypes.FieldToProtectType?
+
+        public init(
+            fieldKeys: [Swift.String]? = nil,
+            fieldType: WAFV2ClientTypes.FieldToProtectType? = nil
+        ) {
+            self.fieldKeys = fieldKeys
+            self.fieldType = fieldType
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Specifies the protection behavior for a field type. This is part of the data protection configuration for a web ACL.
+    public struct DataProtection: Swift.Sendable {
+        /// Specifies how to protect the field. WAF can apply a one-way hash to the field or hard code a string substitution.
+        ///
+        /// * One-way hash example: ade099751dEXAMPLEHASH2ea9f3393f80dd5d3bEXAMPLEHASH966ae0d3cd5a1e
+        ///
+        /// * Substitution example: REDACTED
+        /// This member is required.
+        public var action: WAFV2ClientTypes.DataProtectionAction?
+        /// Specifies whether to also protect any rate-based rule details from the web ACL logs when applying data protection for this field type and keys. For additional information, see the log field rateBasedRuleList at [Log fields for web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Default: FALSE
+        public var excludeRateBasedDetails: Swift.Bool
+        /// Specifies whether to also protect any rule match details from the web ACL logs when applying data protection this field type and keys. WAF logs these details for non-terminating matching rules and for the terminating matching rule. For additional information, see [Log fields for web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Default: FALSE
+        public var excludeRuleMatchDetails: Swift.Bool
+        /// Specifies the field type and optional keys to apply the protection behavior to.
+        /// This member is required.
+        public var field: WAFV2ClientTypes.FieldToProtect?
+
+        public init(
+            action: WAFV2ClientTypes.DataProtectionAction? = nil,
+            excludeRateBasedDetails: Swift.Bool = false,
+            excludeRuleMatchDetails: Swift.Bool = false,
+            field: WAFV2ClientTypes.FieldToProtect? = nil
+        ) {
+            self.action = action
+            self.excludeRateBasedDetails = excludeRateBasedDetails
+            self.excludeRuleMatchDetails = excludeRuleMatchDetails
+            self.field = field
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging. This is part of the data protection configuration for a web ACL.
+    public struct DataProtectionConfig: Swift.Sendable {
+        /// An array of data protection configurations for specific web request field types. This is defined for each web ACL. WAF applies the specified protection to all web requests that the web ACL inspects.
+        /// This member is required.
+        public var dataProtections: [WAFV2ClientTypes.DataProtection]?
+
+        public init(
+            dataProtections: [WAFV2ClientTypes.DataProtection]? = nil
+        ) {
+            self.dataProtections = dataProtections
+        }
     }
 }
 
@@ -4382,8 +4423,7 @@ extension WAFV2ClientTypes {
         public init(
             allow: WAFV2ClientTypes.AllowAction? = nil,
             block: WAFV2ClientTypes.BlockAction? = nil
-        )
-        {
+        ) {
             self.allow = allow
             self.block = block
         }
@@ -4411,8 +4451,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4428,8 +4467,7 @@ public struct CreateWebACLOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.WebACLSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -4438,7 +4476,7 @@ public struct DeleteAPIKeyInput: Swift.Sendable {
     /// The encrypted API key that you want to delete.
     /// This member is required.
     public var apiKey: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4449,8 +4487,7 @@ public struct DeleteAPIKeyInput: Swift.Sendable {
     public init(
         apiKey: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
         self.scope = scope
     }
@@ -4472,8 +4509,7 @@ public struct DeleteFirewallManagerRuleGroupsInput: Swift.Sendable {
     public init(
         webACLArn: Swift.String? = nil,
         webACLLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.webACLArn = webACLArn
         self.webACLLockToken = webACLLockToken
     }
@@ -4485,16 +4521,15 @@ public struct DeleteFirewallManagerRuleGroupsOutput: Swift.Sendable {
 
     public init(
         nextWebACLLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextWebACLLockToken = nextWebACLLockToken
     }
 }
 
 /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
-public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4509,8 +4544,7 @@ public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4525,7 +4559,7 @@ public struct DeleteIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4538,8 +4572,7 @@ public struct DeleteIPSetInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4620,8 +4653,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Sendable {
         logScope: WAFV2ClientTypes.LogScope? = nil,
         logType: WAFV2ClientTypes.LogType? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logScope = logScope
         self.logType = logType
         self.resourceArn = resourceArn
@@ -4640,8 +4672,7 @@ public struct DeletePermissionPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4661,7 +4692,7 @@ public struct DeleteRegexPatternSetInput: Swift.Sendable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4674,8 +4705,7 @@ public struct DeleteRegexPatternSetInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4698,7 +4728,7 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4711,8 +4741,7 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4735,7 +4764,7 @@ public struct DeleteWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4748,8 +4777,7 @@ public struct DeleteWebACLInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4763,7 +4791,7 @@ public struct DeleteWebACLOutput: Swift.Sendable {
 }
 
 public struct DescribeAllManagedProductsInput: Swift.Sendable {
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4773,8 +4801,7 @@ public struct DescribeAllManagedProductsInput: Swift.Sendable {
 
     public init(
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.scope = scope
     }
 }
@@ -4812,8 +4839,7 @@ extension WAFV2ClientTypes {
             productTitle: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
             vendorName: Swift.String? = nil
-        )
-        {
+        ) {
             self.isAdvancedManagedRuleSet = isAdvancedManagedRuleSet
             self.isVersioningSupported = isVersioningSupported
             self.managedRuleSetName = managedRuleSetName
@@ -4833,14 +4859,13 @@ public struct DescribeAllManagedProductsOutput: Swift.Sendable {
 
     public init(
         managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
-    )
-    {
+    ) {
         self.managedProducts = managedProducts
     }
 }
 
 public struct DescribeManagedProductsByVendorInput: Swift.Sendable {
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4854,8 +4879,7 @@ public struct DescribeManagedProductsByVendorInput: Swift.Sendable {
     public init(
         scope: WAFV2ClientTypes.Scope? = nil,
         vendorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scope = scope
         self.vendorName = vendorName
     }
@@ -4867,8 +4891,7 @@ public struct DescribeManagedProductsByVendorOutput: Swift.Sendable {
 
     public init(
         managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
-    )
-    {
+    ) {
         self.managedProducts = managedProducts
     }
 }
@@ -4877,7 +4900,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Sendable {
     /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4895,8 +4918,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         vendorName: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.scope = scope
         self.vendorName = vendorName
@@ -4917,8 +4939,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -4936,8 +4957,7 @@ extension WAFV2ClientTypes {
         public init(
             action: WAFV2ClientTypes.RuleAction? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.name = name
         }
@@ -4972,8 +4992,7 @@ public struct DescribeManagedRuleGroupOutput: Swift.Sendable {
         rules: [WAFV2ClientTypes.RuleSummary]? = nil,
         snsTopicArn: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.availableLabels = availableLabels
         self.capacity = capacity
         self.consumedLabels = consumedLabels
@@ -5003,8 +5022,7 @@ public struct DisassociateWebACLInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5054,8 +5072,7 @@ public struct GenerateMobileSdkReleaseUrlInput: Swift.Sendable {
     public init(
         platform: WAFV2ClientTypes.Platform? = nil,
         releaseVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.platform = platform
         self.releaseVersion = releaseVersion
     }
@@ -5067,8 +5084,7 @@ public struct GenerateMobileSdkReleaseUrlOutput: Swift.Sendable {
 
     public init(
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.url = url
     }
 }
@@ -5077,7 +5093,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Sendable {
     /// The encrypted API key.
     /// This member is required.
     public var apiKey: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5088,8 +5104,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Sendable {
     public init(
         apiKey: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
         self.scope = scope
     }
@@ -5104,8 +5119,7 @@ public struct GetDecryptedAPIKeyOutput: Swift.Sendable {
     public init(
         creationTimestamp: Foundation.Date? = nil,
         tokenDomains: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationTimestamp = creationTimestamp
         self.tokenDomains = tokenDomains
     }
@@ -5118,7 +5132,7 @@ public struct GetIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5130,8 +5144,7 @@ public struct GetIPSetInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -5186,8 +5199,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             ipAddressVersion: WAFV2ClientTypes.IPAddressVersion? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.addresses = addresses
             self.arn = arn
             self.description = description
@@ -5207,8 +5219,7 @@ public struct GetIPSetOutput: Swift.Sendable {
     public init(
         ipSet: WAFV2ClientTypes.IPSet? = nil,
         lockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSet = ipSet
         self.lockToken = lockToken
     }
@@ -5227,8 +5238,7 @@ public struct GetLoggingConfigurationInput: Swift.Sendable {
         logScope: WAFV2ClientTypes.LogScope? = nil,
         logType: WAFV2ClientTypes.LogType? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logScope = logScope
         self.logType = logType
         self.resourceArn = resourceArn
@@ -5274,8 +5284,7 @@ extension WAFV2ClientTypes {
 
         public init(
             labelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.labelName = labelName
         }
     }
@@ -5293,8 +5302,7 @@ extension WAFV2ClientTypes {
         public init(
             actionCondition: WAFV2ClientTypes.ActionCondition? = nil,
             labelNameCondition: WAFV2ClientTypes.LabelNameCondition? = nil
-        )
-        {
+        ) {
             self.actionCondition = actionCondition
             self.labelNameCondition = labelNameCondition
         }
@@ -5348,8 +5356,7 @@ extension WAFV2ClientTypes {
             behavior: WAFV2ClientTypes.FilterBehavior? = nil,
             conditions: [WAFV2ClientTypes.Condition]? = nil,
             requirement: WAFV2ClientTypes.FilterRequirement? = nil
-        )
-        {
+        ) {
             self.behavior = behavior
             self.conditions = conditions
             self.requirement = requirement
@@ -5371,8 +5378,7 @@ extension WAFV2ClientTypes {
         public init(
             defaultBehavior: WAFV2ClientTypes.FilterBehavior? = nil,
             filters: [WAFV2ClientTypes.Filter]? = nil
-        )
-        {
+        ) {
             self.defaultBehavior = defaultBehavior
             self.filters = filters
         }
@@ -5381,7 +5387,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Defines an association between logging destinations and a web ACL resource, for logging from WAF. As part of the association, you can specify parts of the standard logging fields to keep out of the logs and you can specify filters so that you log only a subset of the logging records. You can define one logging destination per web ACL. You can access information about the traffic that WAF inspects using the following steps:
+    /// Defines an association between logging destinations and a web ACL resource, for logging from WAF. As part of the association, you can specify parts of the standard logging fields to keep out of the logs and you can specify filters so that you log only a subset of the logging records. If you configure data protection for the web ACL, the protection applies to the data that WAF sends to the logs. You can define one logging destination per web ACL. You can access information about the traffic that WAF inspects using the following steps:
     ///
     /// * Create your logging destination. You can use an Amazon CloudWatch Logs log group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose. The name that you give the destination must start with aws-waf-logs-. Depending on the type of destination, you might need to configure additional settings or permissions. For configuration requirements and pricing information for each destination type, see [Logging web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
     ///
@@ -5401,7 +5407,7 @@ extension WAFV2ClientTypes {
         public var loggingFilter: WAFV2ClientTypes.LoggingFilter?
         /// Indicates whether the logging configuration was created by Firewall Manager, as part of an WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration. The logging configuration can be created by Firewall Manager for use with any web ACL that Firewall Manager is using for an WAF policy. Web ACLs that Firewall Manager creates and uses have their ManagedByFirewallManager property set to true. Web ACLs that were created by a customer account and then retrofitted by Firewall Manager for use by a policy have their RetrofittedByFirewallManager property set to true. For either case, any corresponding logging configuration will indicate ManagedByFirewallManager.
         public var managedByFirewallManager: Swift.Bool
-        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED for all rules that use the SingleHeaderFieldToMatch setting. Redaction applies only to the component that's specified in the rule's FieldToMatch setting, so the SingleHeader redaction doesn't apply to rules that use the HeadersFieldToMatch. You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, and Method. This setting has no impact on request sampling. With request sampling, the only way to exclude fields is by disabling sampling in the web ACL visibility configuration.
+        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED for all rules that use the SingleHeaderFieldToMatch setting. If you configure data protection for the web ACL, the protection applies to the data that WAF sends to the logs. Redaction applies only to the component that's specified in the rule's FieldToMatch setting, so the SingleHeader redaction doesn't apply to rules that use the HeadersFieldToMatch. You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, and Method. This setting has no impact on request sampling. You can only exclude fields from request sampling by disabling sampling in the web ACL visibility configuration or by configuring data protection for the web ACL.
         public var redactedFields: [WAFV2ClientTypes.FieldToMatch]?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         /// This member is required.
@@ -5415,8 +5421,7 @@ extension WAFV2ClientTypes {
             managedByFirewallManager: Swift.Bool = false,
             redactedFields: [WAFV2ClientTypes.FieldToMatch]? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logDestinationConfigs = logDestinationConfigs
             self.logScope = logScope
             self.logType = logType
@@ -5434,8 +5439,7 @@ public struct GetLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -5447,7 +5451,7 @@ public struct GetManagedRuleSetInput: Swift.Sendable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5459,8 +5463,7 @@ public struct GetManagedRuleSetInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -5491,8 +5494,7 @@ extension WAFV2ClientTypes {
             forecastedLifetime: Swift.Int? = nil,
             lastUpdateTimestamp: Foundation.Date? = nil,
             publishTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.associatedRuleGroupArn = associatedRuleGroupArn
             self.capacity = capacity
             self.expiryTimestamp = expiryTimestamp
@@ -5537,8 +5539,7 @@ extension WAFV2ClientTypes {
             name: Swift.String? = nil,
             publishedVersions: [Swift.String: WAFV2ClientTypes.ManagedRuleSetVersion]? = nil,
             recommendedVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -5559,8 +5560,7 @@ public struct GetManagedRuleSetOutput: Swift.Sendable {
     public init(
         lockToken: Swift.String? = nil,
         managedRuleSet: WAFV2ClientTypes.ManagedRuleSet? = nil
-    )
-    {
+    ) {
         self.lockToken = lockToken
         self.managedRuleSet = managedRuleSet
     }
@@ -5577,8 +5577,7 @@ public struct GetMobileSdkReleaseInput: Swift.Sendable {
     public init(
         platform: WAFV2ClientTypes.Platform? = nil,
         releaseVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.platform = platform
         self.releaseVersion = releaseVersion
     }
@@ -5602,8 +5601,7 @@ extension WAFV2ClientTypes {
             releaseVersion: Swift.String? = nil,
             tags: [WAFV2ClientTypes.Tag]? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.releaseNotes = releaseNotes
             self.releaseVersion = releaseVersion
             self.tags = tags
@@ -5618,8 +5616,7 @@ public struct GetMobileSdkReleaseOutput: Swift.Sendable {
 
     public init(
         mobileSdkRelease: WAFV2ClientTypes.MobileSdkRelease? = nil
-    )
-    {
+    ) {
         self.mobileSdkRelease = mobileSdkRelease
     }
 }
@@ -5631,8 +5628,7 @@ public struct GetPermissionPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5643,16 +5639,15 @@ public struct GetPermissionPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
 
 /// The rule that you've named doesn't aggregate solely on the IP address or solely on the forwarded IP address. This call is only available for rate-based rules with an AggregateKeyType setting of IP or FORWARDED_IP.
-public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5667,8 +5662,7 @@ public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5679,7 +5673,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Sendable {
     /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName.
     /// This member is required.
     public var ruleName: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5699,8 +5693,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         webACLId: Swift.String? = nil,
         webACLName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleGroupRuleName = ruleGroupRuleName
         self.ruleName = ruleName
         self.scope = scope
@@ -5721,8 +5714,7 @@ extension WAFV2ClientTypes {
         public init(
             addresses: [Swift.String]? = nil,
             ipAddressVersion: WAFV2ClientTypes.IPAddressVersion? = nil
-        )
-        {
+        ) {
             self.addresses = addresses
             self.ipAddressVersion = ipAddressVersion
         }
@@ -5738,8 +5730,7 @@ public struct GetRateBasedStatementManagedKeysOutput: Swift.Sendable {
     public init(
         managedKeysIPV4: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet? = nil,
         managedKeysIPV6: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet? = nil
-    )
-    {
+    ) {
         self.managedKeysIPV4 = managedKeysIPV4
         self.managedKeysIPV6 = managedKeysIPV6
     }
@@ -5752,7 +5743,7 @@ public struct GetRegexPatternSetInput: Swift.Sendable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5764,8 +5755,7 @@ public struct GetRegexPatternSetInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -5793,8 +5783,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             regularExpressionList: [WAFV2ClientTypes.Regex]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -5813,8 +5802,7 @@ public struct GetRegexPatternSetOutput: Swift.Sendable {
     public init(
         lockToken: Swift.String? = nil,
         regexPatternSet: WAFV2ClientTypes.RegexPatternSet? = nil
-    )
-    {
+    ) {
         self.lockToken = lockToken
         self.regexPatternSet = regexPatternSet
     }
@@ -5827,7 +5815,7 @@ public struct GetRuleGroupInput: Swift.Sendable {
     public var id: Swift.String?
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5839,8 +5827,7 @@ public struct GetRuleGroupInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -5862,8 +5849,7 @@ extension WAFV2ClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -5877,7 +5863,7 @@ public struct GetSampledRequestsInput: Swift.Sendable {
     /// The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests.
     /// This member is required.
     public var ruleMetricName: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5897,8 +5883,7 @@ public struct GetSampledRequestsInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         timeWindow: WAFV2ClientTypes.TimeWindow? = nil,
         webAclArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.ruleMetricName = ruleMetricName
         self.scope = scope
@@ -5957,8 +5942,7 @@ extension WAFV2ClientTypes {
             failureReason: WAFV2ClientTypes.FailureReason? = nil,
             responseCode: Swift.Int? = nil,
             solveTimestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.responseCode = responseCode
             self.solveTimestamp = solveTimestamp
@@ -5981,8 +5965,7 @@ extension WAFV2ClientTypes {
             failureReason: WAFV2ClientTypes.FailureReason? = nil,
             responseCode: Swift.Int? = nil,
             solveTimestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.responseCode = responseCode
             self.solveTimestamp = solveTimestamp
@@ -6002,8 +5985,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -6038,8 +6020,7 @@ extension WAFV2ClientTypes {
             httpVersion: Swift.String? = nil,
             method: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIP = clientIP
             self.country = country
             self.headers = headers
@@ -6091,8 +6072,7 @@ extension WAFV2ClientTypes {
             ruleNameWithinRuleGroup: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.action = action
             self.captchaResponse = captchaResponse
             self.challengeResponse = challengeResponse
@@ -6120,8 +6100,7 @@ public struct GetSampledRequestsOutput: Swift.Sendable {
         populationSize: Swift.Int = 0,
         sampledRequests: [WAFV2ClientTypes.SampledHTTPRequest]? = nil,
         timeWindow: WAFV2ClientTypes.TimeWindow? = nil
-    )
-    {
+    ) {
         self.populationSize = populationSize
         self.sampledRequests = sampledRequests
         self.timeWindow = timeWindow
@@ -6135,7 +6114,7 @@ public struct GetWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6147,8 +6126,7 @@ public struct GetWebACLInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -6174,8 +6152,7 @@ public struct GetWebACLForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6185,7 +6162,7 @@ public struct ListAPIKeysInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6197,8 +6174,7 @@ public struct ListAPIKeysInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6217,8 +6193,7 @@ public struct ListAPIKeysOutput: Swift.Sendable {
         apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]? = nil,
         applicationIntegrationURL: Swift.String? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeySummaries = apiKeySummaries
         self.applicationIntegrationURL = applicationIntegrationURL
         self.nextMarker = nextMarker
@@ -6230,7 +6205,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6242,8 +6217,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6268,8 +6242,7 @@ extension WAFV2ClientTypes {
             name: Swift.String? = nil,
             vendorName: Swift.String? = nil,
             versioningSupported: Swift.Bool = false
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.vendorName = vendorName
@@ -6287,8 +6260,7 @@ public struct ListAvailableManagedRuleGroupsOutput: Swift.Sendable {
     public init(
         managedRuleGroups: [WAFV2ClientTypes.ManagedRuleGroupSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedRuleGroups = managedRuleGroups
         self.nextMarker = nextMarker
     }
@@ -6302,7 +6274,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Sendable {
     public var name: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6319,8 +6291,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         vendorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.name = name
         self.nextMarker = nextMarker
@@ -6341,8 +6312,7 @@ extension WAFV2ClientTypes {
         public init(
             lastUpdateTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
         }
@@ -6361,8 +6331,7 @@ public struct ListAvailableManagedRuleGroupVersionsOutput: Swift.Sendable {
         currentDefaultVersion: Swift.String? = nil,
         nextMarker: Swift.String? = nil,
         versions: [WAFV2ClientTypes.ManagedRuleGroupVersion]? = nil
-    )
-    {
+    ) {
         self.currentDefaultVersion = currentDefaultVersion
         self.nextMarker = nextMarker
         self.versions = versions
@@ -6374,7 +6343,7 @@ public struct ListIPSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6386,8 +6355,7 @@ public struct ListIPSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6403,8 +6371,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
     public init(
         ipSets: [WAFV2ClientTypes.IPSetSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSets = ipSets
         self.nextMarker = nextMarker
     }
@@ -6417,7 +6384,7 @@ public struct ListLoggingConfigurationsInput: Swift.Sendable {
     public var logScope: WAFV2ClientTypes.LogScope?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6430,8 +6397,7 @@ public struct ListLoggingConfigurationsInput: Swift.Sendable {
         logScope: WAFV2ClientTypes.LogScope? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.logScope = logScope
         self.nextMarker = nextMarker
@@ -6448,8 +6414,7 @@ public struct ListLoggingConfigurationsOutput: Swift.Sendable {
     public init(
         loggingConfigurations: [WAFV2ClientTypes.LoggingConfiguration]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggingConfigurations = loggingConfigurations
         self.nextMarker = nextMarker
     }
@@ -6460,7 +6425,7 @@ public struct ListManagedRuleSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6472,8 +6437,7 @@ public struct ListManagedRuleSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6508,8 +6472,7 @@ extension WAFV2ClientTypes {
             labelNamespace: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -6529,8 +6492,7 @@ public struct ListManagedRuleSetsOutput: Swift.Sendable {
     public init(
         managedRuleSets: [WAFV2ClientTypes.ManagedRuleSetSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedRuleSets = managedRuleSets
         self.nextMarker = nextMarker
     }
@@ -6549,8 +6511,7 @@ public struct ListMobileSdkReleasesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         platform: WAFV2ClientTypes.Platform? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.platform = platform
@@ -6569,8 +6530,7 @@ extension WAFV2ClientTypes {
         public init(
             releaseVersion: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.releaseVersion = releaseVersion
             self.timestamp = timestamp
         }
@@ -6586,8 +6546,7 @@ public struct ListMobileSdkReleasesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         releaseSummaries: [WAFV2ClientTypes.ReleaseSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.releaseSummaries = releaseSummaries
     }
@@ -6598,7 +6557,7 @@ public struct ListRegexPatternSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6610,8 +6569,7 @@ public struct ListRegexPatternSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6627,8 +6585,7 @@ public struct ListRegexPatternSetsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         regexPatternSets: [WAFV2ClientTypes.RegexPatternSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.regexPatternSets = regexPatternSets
     }
@@ -6676,7 +6633,7 @@ extension WAFV2ClientTypes {
 }
 
 public struct ListResourcesForWebACLInput: Swift.Sendable {
-    /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER. Default: APPLICATION_LOAD_BALANCER
+    /// Retrieves the web ACLs that are used by the specified resource type. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html) in the Amazon CloudFront API Reference. If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER. Default: APPLICATION_LOAD_BALANCER
     public var resourceType: WAFV2ClientTypes.ResourceType?
     /// The Amazon Resource Name (ARN) of the web ACL.
     /// This member is required.
@@ -6685,8 +6642,7 @@ public struct ListResourcesForWebACLInput: Swift.Sendable {
     public init(
         resourceType: WAFV2ClientTypes.ResourceType? = nil,
         webACLArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceType = resourceType
         self.webACLArn = webACLArn
     }
@@ -6698,8 +6654,7 @@ public struct ListResourcesForWebACLOutput: Swift.Sendable {
 
     public init(
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArns = resourceArns
     }
 }
@@ -6709,7 +6664,7 @@ public struct ListRuleGroupsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6721,8 +6676,7 @@ public struct ListRuleGroupsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6738,8 +6692,7 @@ public struct ListRuleGroupsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         ruleGroups: [WAFV2ClientTypes.RuleGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.ruleGroups = ruleGroups
     }
@@ -6758,8 +6711,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.resourceARN = resourceARN
@@ -6778,8 +6730,7 @@ extension WAFV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             tagList: [WAFV2ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.tagList = tagList
         }
@@ -6795,8 +6746,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         tagInfoForResource: WAFV2ClientTypes.TagInfoForResource? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.tagInfoForResource = tagInfoForResource
     }
@@ -6807,7 +6757,7 @@ public struct ListWebACLsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6819,8 +6769,7 @@ public struct ListWebACLsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6836,17 +6785,16 @@ public struct ListWebACLsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         webACLs: [WAFV2ClientTypes.WebACLSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.webACLs = webACLs
     }
 }
 
 /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
-public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6861,16 +6809,15 @@ public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
-public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6885,8 +6832,7 @@ public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6898,8 +6844,7 @@ public struct PutLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -6910,8 +6855,7 @@ public struct PutLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -6928,8 +6872,7 @@ extension WAFV2ClientTypes {
         public init(
             associatedRuleGroupArn: Swift.String? = nil,
             forecastedLifetime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.associatedRuleGroupArn = associatedRuleGroupArn
             self.forecastedLifetime = forecastedLifetime
         }
@@ -6948,7 +6891,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Sendable {
     public var name: Swift.String?
     /// The version of the named managed rule group that you'd like your customers to choose, from among your version offerings.
     public var recommendedVersion: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6965,8 +6908,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Sendable {
         recommendedVersion: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         versionsToPublish: [Swift.String: WAFV2ClientTypes.VersionToPublish]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -6982,8 +6924,7 @@ public struct PutManagedRuleSetVersionsOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7002,9 +6943,9 @@ public struct PutManagedRuleSetVersionsOutput: Swift.Sendable {
 ///
 ///
 /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
-public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7019,8 +6960,7 @@ public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7049,8 +6989,7 @@ public struct PutPermissionPolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -7072,8 +7011,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -7095,8 +7033,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -7141,7 +7078,7 @@ public struct UpdateIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7156,8 +7093,7 @@ public struct UpdateIPSetInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.description = description
         self.id = id
@@ -7173,8 +7109,7 @@ public struct UpdateIPSetOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7192,7 +7127,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Sendable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7210,8 +7145,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Sendable {
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         versionToExpire: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiryTimestamp = expiryTimestamp
         self.id = id
         self.lockToken = lockToken
@@ -7233,8 +7167,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateOutput: Swift.Sendable {
         expiringVersion: Swift.String? = nil,
         expiryTimestamp: Foundation.Date? = nil,
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiringVersion = expiringVersion
         self.expiryTimestamp = expiryTimestamp
         self.nextLockToken = nextLockToken
@@ -7256,7 +7189,7 @@ public struct UpdateRegexPatternSetInput: Swift.Sendable {
     ///
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7271,8 +7204,7 @@ public struct UpdateRegexPatternSetInput: Swift.Sendable {
         name: Swift.String? = nil,
         regularExpressionList: [WAFV2ClientTypes.Regex]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.lockToken = lockToken
@@ -7288,8 +7220,7 @@ public struct UpdateRegexPatternSetOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7300,8 +7231,7 @@ public struct UpdateRuleGroupOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7312,8 +7242,7 @@ public struct UpdateWebACLOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7419,8 +7348,7 @@ extension WAFV2ClientTypes {
             sizeConstraintStatement: WAFV2ClientTypes.SizeConstraintStatement? = nil,
             sqliMatchStatement: WAFV2ClientTypes.SqliMatchStatement? = nil,
             xssMatchStatement: WAFV2ClientTypes.XssMatchStatement? = nil
-        )
-        {
+        ) {
             self.andStatement = andStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
@@ -7457,7 +7385,7 @@ extension WAFV2ClientTypes {
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         /// This member is required.
         public var name: Swift.String?
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         @Indirect public var scopeDownStatement: WAFV2ClientTypes.Statement?
@@ -7475,8 +7403,7 @@ extension WAFV2ClientTypes {
             scopeDownStatement: WAFV2ClientTypes.Statement? = nil,
             vendorName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.excludedRules = excludedRules
             self.managedRuleGroupConfigs = managedRuleGroupConfigs
             self.name = name
@@ -7498,8 +7425,7 @@ extension WAFV2ClientTypes {
 
         public init(
             statement: WAFV2ClientTypes.Statement? = nil
-        )
-        {
+        ) {
             self.statement = statement
         }
     }
@@ -7569,7 +7495,7 @@ extension WAFV2ClientTypes {
         public var evaluationWindowSec: Swift.Int
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This is required if you specify a forwarded IP in the rule's aggregate key settings.
         public var forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig?
-        /// The limit on requests per 5-minute period for a single aggregation instance for the rate-based rule. If the rate-based statement includes a ScopeDownStatement, this limit is applied only to the requests that match the statement. Examples:
+        /// The limit on requests during the specified evaluation window for a single aggregation instance for the rate-based rule. If the rate-based statement includes a ScopeDownStatement, this limit is applied only to the requests that match the statement. Examples:
         ///
         /// * If you aggregate on just the IP address, this is the limit on requests from any single IP address.
         ///
@@ -7586,8 +7512,7 @@ extension WAFV2ClientTypes {
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
             limit: Swift.Int? = nil,
             scopeDownStatement: WAFV2ClientTypes.Statement? = nil
-        )
-        {
+        ) {
             self.aggregateKeyType = aggregateKeyType
             self.customKeys = customKeys
             self.evaluationWindowSec = evaluationWindowSec
@@ -7620,7 +7545,7 @@ extension WAFV2ClientTypes {
         /// If you define more than one Rule in a WebACL, WAF evaluates each request against the Rules in order based on the value of Priority. WAF processes rules with lower priority first. The priorities don't need to be consecutive, but they must all be different.
         /// This member is required.
         public var priority: Swift.Int
-        /// Labels to apply to web requests that match the rule match statement. WAF applies fully qualified labels to matching web requests. A fully qualified label is the concatenation of a label namespace and a rule label. The rule's rule group or web ACL defines the label namespace. Rules that run after this rule in the web ACL can match against these labels using a LabelMatchStatement. For each label, provide a case-sensitive string containing optional namespaces and a label name, according to the following guidelines:
+        /// Labels to apply to web requests that match the rule match statement. WAF applies fully qualified labels to matching web requests. A fully qualified label is the concatenation of a label namespace and a rule label. The rule's rule group or web ACL defines the label namespace. Any rule that isn't a rule group reference statement or managed rule group statement can add labels to matching web requests. Rules that run after this rule in the web ACL can match against these labels using a LabelMatchStatement. For each label, provide a case-sensitive string containing optional namespaces and a label name, according to the following guidelines:
         ///
         /// * Separate each component of the label with a colon.
         ///
@@ -7650,8 +7575,7 @@ extension WAFV2ClientTypes {
             ruleLabels: [WAFV2ClientTypes.Label]? = nil,
             statement: WAFV2ClientTypes.Statement? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.action = action
             self.captchaConfig = captchaConfig
             self.challengeConfig = challengeConfig
@@ -7675,8 +7599,7 @@ extension WAFV2ClientTypes {
 
         public init(
             statements: [WAFV2ClientTypes.Statement]? = nil
-        )
-        {
+        ) {
             self.statements = statements
         }
     }
@@ -7692,8 +7615,7 @@ extension WAFV2ClientTypes {
 
         public init(
             statements: [WAFV2ClientTypes.Statement]? = nil
-        )
-        {
+        ) {
             self.statements = statements
         }
     }
@@ -7711,8 +7633,7 @@ extension WAFV2ClientTypes {
         public init(
             managedRuleGroupStatement: WAFV2ClientTypes.ManagedRuleGroupStatement? = nil,
             ruleGroupReferenceStatement: WAFV2ClientTypes.RuleGroupReferenceStatement? = nil
-        )
-        {
+        ) {
             self.managedRuleGroupStatement = managedRuleGroupStatement
             self.ruleGroupReferenceStatement = ruleGroupReferenceStatement
         }
@@ -7745,8 +7666,7 @@ extension WAFV2ClientTypes {
             overrideAction: WAFV2ClientTypes.OverrideAction? = nil,
             priority: Swift.Int = 0,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.firewallManagerStatement = firewallManagerStatement
             self.name = name
             self.overrideAction = overrideAction
@@ -7804,8 +7724,7 @@ extension WAFV2ClientTypes {
             name: Swift.String? = nil,
             rules: [WAFV2ClientTypes.Rule]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availableLabels = availableLabels
             self.capacity = capacity
@@ -7825,7 +7744,7 @@ public struct CheckCapacityInput: Swift.Sendable {
     /// An array of [Rule] that you're configuring to use in a rule group or web ACL.
     /// This member is required.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7836,8 +7755,7 @@ public struct CheckCapacityInput: Swift.Sendable {
     public init(
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.rules = rules
         self.scope = scope
     }
@@ -7856,7 +7774,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7878,8 +7796,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.capacity = capacity
         self.customResponseBodies = customResponseBodies
         self.description = description
@@ -7900,6 +7817,8 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
     /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]?
+    /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+    public var dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig?
     /// The action to perform if none of the Rules contained in the WebACL match.
     /// This member is required.
     public var defaultAction: WAFV2ClientTypes.DefaultAction?
@@ -7910,7 +7829,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7930,6 +7849,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
         customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]? = nil,
+        dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig? = nil,
         defaultAction: WAFV2ClientTypes.DefaultAction? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -7938,12 +7858,12 @@ public struct CreateWebACLInput: Swift.Sendable {
         tags: [WAFV2ClientTypes.Tag]? = nil,
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
         self.customResponseBodies = customResponseBodies
+        self.dataProtectionConfig = dataProtectionConfig
         self.defaultAction = defaultAction
         self.description = description
         self.name = name
@@ -7971,7 +7891,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7991,8 +7911,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.customResponseBodies = customResponseBodies
         self.description = description
         self.id = id
@@ -8013,6 +7932,8 @@ public struct UpdateWebACLInput: Swift.Sendable {
     public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
     /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]?
+    /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+    public var dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig?
     /// The action to perform if none of the Rules contained in the WebACL match.
     /// This member is required.
     public var defaultAction: WAFV2ClientTypes.DefaultAction?
@@ -8029,7 +7950,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8047,6 +7968,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
         customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]? = nil,
+        dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig? = nil,
         defaultAction: WAFV2ClientTypes.DefaultAction? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -8056,12 +7978,12 @@ public struct UpdateWebACLInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
         self.customResponseBodies = customResponseBodies
+        self.dataProtectionConfig = dataProtectionConfig
         self.defaultAction = defaultAction
         self.description = description
         self.id = id
@@ -8083,8 +8005,7 @@ public struct GetRuleGroupOutput: Swift.Sendable {
     public init(
         lockToken: Swift.String? = nil,
         ruleGroup: WAFV2ClientTypes.RuleGroup? = nil
-    )
-    {
+    ) {
         self.lockToken = lockToken
         self.ruleGroup = ruleGroup
     }
@@ -8092,7 +8013,7 @@ public struct GetRuleGroupOutput: Swift.Sendable {
 
 extension WAFV2ClientTypes {
 
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, and Amazon Web Services Verified Access instance.
     public struct WebACL: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
@@ -8107,6 +8028,8 @@ extension WAFV2ClientTypes {
         public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         public var customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]?
+        /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+        public var dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig?
         /// The action to perform if none of the Rules contained in the WebACL match.
         /// This member is required.
         public var defaultAction: WAFV2ClientTypes.DefaultAction?
@@ -8147,6 +8070,7 @@ extension WAFV2ClientTypes {
             captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
             challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
             customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]? = nil,
+            dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig? = nil,
             defaultAction: WAFV2ClientTypes.DefaultAction? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -8159,14 +8083,14 @@ extension WAFV2ClientTypes {
             rules: [WAFV2ClientTypes.Rule]? = nil,
             tokenDomains: [Swift.String]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associationConfig = associationConfig
             self.capacity = capacity
             self.captchaConfig = captchaConfig
             self.challengeConfig = challengeConfig
             self.customResponseBodies = customResponseBodies
+            self.dataProtectionConfig = dataProtectionConfig
             self.defaultAction = defaultAction
             self.description = description
             self.id = id
@@ -8189,8 +8113,7 @@ public struct GetWebACLForResourceOutput: Swift.Sendable {
 
     public init(
         webACL: WAFV2ClientTypes.WebACL? = nil
-    )
-    {
+    ) {
         self.webACL = webACL
     }
 }
@@ -8207,8 +8130,7 @@ public struct GetWebACLOutput: Swift.Sendable {
         applicationIntegrationURL: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         webACL: WAFV2ClientTypes.WebACL? = nil
-    )
-    {
+    ) {
         self.applicationIntegrationURL = applicationIntegrationURL
         self.lockToken = lockToken
         self.webACL = webACL
@@ -8668,6 +8590,7 @@ extension CreateWebACLInput {
         try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
         try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
         try writer["CustomResponseBodies"].writeMap(value.customResponseBodies, valueWritingClosure: WAFV2ClientTypes.CustomResponseBody.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataProtectionConfig"].write(value.dataProtectionConfig, with: WAFV2ClientTypes.DataProtectionConfig.write(value:to:))
         try writer["DefaultAction"].write(value.defaultAction, with: WAFV2ClientTypes.DefaultAction.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
@@ -9155,6 +9078,7 @@ extension UpdateWebACLInput {
         try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
         try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
         try writer["CustomResponseBodies"].writeMap(value.customResponseBodies, valueWritingClosure: WAFV2ClientTypes.CustomResponseBody.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataProtectionConfig"].write(value.dataProtectionConfig, with: WAFV2ClientTypes.DataProtectionConfig.write(value:to:))
         try writer["DefaultAction"].write(value.defaultAction, with: WAFV2ClientTypes.DefaultAction.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Id"].write(value.id)
@@ -12837,7 +12761,7 @@ extension WAFV2ClientTypes.ByteMatchStatement {
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ByteMatchStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.ByteMatchStatement()
-        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
         value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.positionalConstraint = try reader["PositionalConstraint"].readIfPresent() ?? .sdkUnknown("")
@@ -12944,6 +12868,7 @@ extension WAFV2ClientTypes.WebACL {
         value.description = try reader["Description"].readIfPresent()
         value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.visibilityConfig = try reader["VisibilityConfig"].readIfPresent(with: WAFV2ClientTypes.VisibilityConfig.read(from:))
+        value.dataProtectionConfig = try reader["DataProtectionConfig"].readIfPresent(with: WAFV2ClientTypes.DataProtectionConfig.read(from:))
         value.capacity = try reader["Capacity"].readIfPresent() ?? 0
         value.preProcessFirewallManagerRuleGroups = try reader["PreProcessFirewallManagerRuleGroups"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.FirewallManagerRuleGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.postProcessFirewallManagerRuleGroups = try reader["PostProcessFirewallManagerRuleGroups"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.FirewallManagerRuleGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -13010,6 +12935,59 @@ extension WAFV2ClientTypes.FirewallManagerStatement {
         var value = WAFV2ClientTypes.FirewallManagerStatement()
         value.managedRuleGroupStatement = try reader["ManagedRuleGroupStatement"].readIfPresent(with: WAFV2ClientTypes.ManagedRuleGroupStatement.read(from:))
         value.ruleGroupReferenceStatement = try reader["RuleGroupReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.RuleGroupReferenceStatement.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DataProtectionConfig {
+
+    static func write(value: WAFV2ClientTypes.DataProtectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataProtections"].writeList(value.dataProtections, memberWritingClosure: WAFV2ClientTypes.DataProtection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DataProtectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DataProtectionConfig()
+        value.dataProtections = try reader["DataProtections"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.DataProtection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DataProtection {
+
+    static func write(value: WAFV2ClientTypes.DataProtection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ExcludeRateBasedDetails"].write(value.excludeRateBasedDetails)
+        try writer["ExcludeRuleMatchDetails"].write(value.excludeRuleMatchDetails)
+        try writer["Field"].write(value.field, with: WAFV2ClientTypes.FieldToProtect.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DataProtection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DataProtection()
+        value.field = try reader["Field"].readIfPresent(with: WAFV2ClientTypes.FieldToProtect.read(from:))
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.excludeRuleMatchDetails = try reader["ExcludeRuleMatchDetails"].readIfPresent() ?? false
+        value.excludeRateBasedDetails = try reader["ExcludeRateBasedDetails"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.FieldToProtect {
+
+    static func write(value: WAFV2ClientTypes.FieldToProtect?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldKeys"].writeList(value.fieldKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldType"].write(value.fieldType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FieldToProtect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.FieldToProtect()
+        value.fieldType = try reader["FieldType"].readIfPresent() ?? .sdkUnknown("")
+        value.fieldKeys = try reader["FieldKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

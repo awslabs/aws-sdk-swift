@@ -36,8 +36,7 @@ extension PersonalizeRuntimeClientTypes {
         public init(
             actionId: Swift.String? = nil,
             score: Swift.Double? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.score = score
         }
@@ -45,9 +44,9 @@ extension PersonalizeRuntimeClientTypes {
 }
 
 /// Provide a valid value for the field or parameter.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -62,16 +61,15 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -86,8 +84,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -110,8 +107,7 @@ public struct GetActionRecommendationsInput: Swift.Sendable {
         filterValues: [Swift.String: Swift.String]? = nil,
         numResults: Swift.Int? = 0,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
         self.filterArn = filterArn
         self.filterValues = filterValues
@@ -134,8 +130,7 @@ public struct GetActionRecommendationsOutput: Swift.Sendable {
     public init(
         actionList: [PersonalizeRuntimeClientTypes.PredictedAction]? = nil,
         recommendationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionList = actionList
         self.recommendationId = recommendationId
     }
@@ -168,8 +163,7 @@ public struct GetPersonalizedRankingInput: Swift.Sendable {
         inputList: [Swift.String]? = nil,
         metadataColumns: [Swift.String: [Swift.String]]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
         self.context = context
         self.filterArn = filterArn
@@ -212,8 +206,7 @@ extension PersonalizeRuntimeClientTypes {
             promotionName: Swift.String? = nil,
             reason: [Swift.String]? = nil,
             score: Swift.Double? = nil
-        )
-        {
+        ) {
             self.itemId = itemId
             self.metadata = metadata
             self.promotionName = promotionName
@@ -237,8 +230,7 @@ public struct GetPersonalizedRankingOutput: Swift.Sendable {
     public init(
         personalizedRanking: [PersonalizeRuntimeClientTypes.PredictedItem]? = nil,
         recommendationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.personalizedRanking = personalizedRanking
         self.recommendationId = recommendationId
     }
@@ -262,8 +254,7 @@ extension PersonalizeRuntimeClientTypes {
             filterValues: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             percentPromotedItems: Swift.Int? = nil
-        )
-        {
+        ) {
             self.filterArn = filterArn
             self.filterValues = filterValues
             self.name = name
@@ -310,8 +301,7 @@ public struct GetRecommendationsInput: Swift.Sendable {
         promotions: [PersonalizeRuntimeClientTypes.Promotion]? = nil,
         recommenderArn: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.campaignArn = campaignArn
         self.context = context
         self.filterArn = filterArn
@@ -339,8 +329,7 @@ public struct GetRecommendationsOutput: Swift.Sendable {
     public init(
         itemList: [PersonalizeRuntimeClientTypes.PredictedItem]? = nil,
         recommendationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.itemList = itemList
         self.recommendationId = recommendationId
     }

@@ -15,10 +15,12 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.96.0"
-let crtVersion: Version = "0.37.0"
+let clientRuntimeVersion: Version = "0.116.0"
+let crtVersion: Version = "0.44.0"
 
 let excludeRuntimeUnitTests = false
+
+let isPreviewBuild = false
 
 let serviceTargets: [String] = [
     "AWSACM",
@@ -58,10 +60,13 @@ let serviceTargets: [String] = [
     "AWSBCMPricingCalculator",
     "AWSBackup",
     "AWSBackupGateway",
+    "AWSBackupSearch",
     "AWSBatch",
     "AWSBedrock",
     "AWSBedrockAgent",
     "AWSBedrockAgentRuntime",
+    "AWSBedrockDataAutomation",
+    "AWSBedrockDataAutomationRuntime",
     "AWSBedrockRuntime",
     "AWSBilling",
     "AWSBillingconductor",
@@ -124,6 +129,7 @@ let serviceTargets: [String] = [
     "AWSCustomerProfiles",
     "AWSDAX",
     "AWSDLM",
+    "AWSDSQL",
     "AWSDataBrew",
     "AWSDataExchange",
     "AWSDataPipeline",
@@ -196,9 +202,8 @@ let serviceTargets: [String] = [
     "AWSInspector2",
     "AWSInspectorScan",
     "AWSInternetMonitor",
+    "AWSInvoicing",
     "AWSIoT",
-    "AWSIoT1ClickDevicesService",
-    "AWSIoT1ClickProjects",
     "AWSIoTAnalytics",
     "AWSIoTDataPlane",
     "AWSIoTEvents",
@@ -280,12 +285,14 @@ let serviceTargets: [String] = [
     "AWSNeptuneGraph",
     "AWSNeptunedata",
     "AWSNetworkFirewall",
+    "AWSNetworkFlowMonitor",
     "AWSNetworkManager",
     "AWSNetworkMonitor",
     "AWSNotifications",
     "AWSNotificationsContacts",
     "AWSOAM",
     "AWSOSIS",
+    "AWSObservabilityAdmin",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",
@@ -345,6 +352,7 @@ let serviceTargets: [String] = [
     "AWSS3",
     "AWSS3Control",
     "AWSS3Outposts",
+    "AWSS3Tables",
     "AWSSES",
     "AWSSESv2",
     "AWSSFN",
@@ -372,6 +380,7 @@ let serviceTargets: [String] = [
     "AWSSchemas",
     "AWSSecretsManager",
     "AWSSecurityHub",
+    "AWSSecurityIR",
     "AWSSecurityLake",
     "AWSServerlessApplicationRepository",
     "AWSServiceCatalog",
@@ -430,6 +439,7 @@ extension Target.Dependency {
     static var awsSDKHTTPAuth: Self { "AWSSDKHTTPAuth" }
     static var awsSDKIdentity: Self { "AWSSDKIdentity" }
     static var awsSDKChecksums: Self { "AWSSDKChecksums" }
+    static var awsSDKPartitions: Self { "AWSSDKPartitions" }
 
     // CRT module
     static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -489,10 +499,17 @@ private func productForService(_ service: String) -> Product {
 // MARK: Dependencies
 
 private var clientRuntimeDependency: Package.Dependency {
-    let path = "../smithy-swift"
+    let previewPath = "./smithy-swift"
+    let developmentPath = "../smithy-swift"
     let gitURL = "https://github.com/smithy-lang/smithy-swift"
     let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
-    return useLocalDeps ? .package(path: path) : .package(url: gitURL, exact: clientRuntimeVersion)
+    if isPreviewBuild {
+        return .package(path: previewPath)
+    } else if useLocalDeps {
+        return .package(path: developmentPath)
+    } else {
+        return .package(url: gitURL, exact: clientRuntimeVersion)
+    }
 }
 
 private var crtDependency: Package.Dependency {
@@ -523,7 +540,9 @@ private var runtimeTargets: [Target] {
                 .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity
+                .awsSDKIdentity,
+                .awsSDKChecksums,
+                .awsSDKPartitions,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
@@ -554,7 +573,11 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
             path: "Sources/Core/AWSSDKChecksums/Sources"
-        )
+        ),
+        .target(
+            name: "AWSSDKPartitions",
+            path: "Sources/Core/AWSSDKPartitions/Sources"
+        ),
     ]
 }
 

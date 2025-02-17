@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access is denied. Your account is not authorized to perform this operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -43,8 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -54,12 +53,14 @@ extension HealthLakeClientTypes {
     public enum AuthorizationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsAuth
         case smartv1
+        case smartOnFhir
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthorizationStrategy] {
             return [
                 .awsAuth,
-                .smartv1
+                .smartv1,
+                .smartOnFhir
             ]
         }
 
@@ -72,6 +73,7 @@ extension HealthLakeClientTypes {
             switch self {
             case .awsAuth: return "AWS_AUTH"
             case .smartv1: return "SMART_ON_FHIR_V1"
+            case .smartOnFhir: return "SMART_ON_FHIR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -108,9 +110,9 @@ extension HealthLakeClientTypes {
 }
 
 /// The data store is in a transition state and the user requested action can not be performed.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -125,16 +127,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unknown error occurs in the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -149,16 +150,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user has exceeded their maximum number of allowed calls to the given API.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -173,16 +173,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user input parameter was invalid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -197,8 +196,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -248,8 +246,7 @@ extension HealthLakeClientTypes {
             fineGrainedAuthorizationEnabled: Swift.Bool = false,
             idpLambdaArn: Swift.String? = nil,
             metadata: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationStrategy = authorizationStrategy
             self.fineGrainedAuthorizationEnabled = fineGrainedAuthorizationEnabled
             self.idpLambdaArn = idpLambdaArn
@@ -294,8 +291,7 @@ extension HealthLakeClientTypes {
 
         public init(
             preloadDataType: HealthLakeClientTypes.PreloadDataType? = nil
-        )
-        {
+        ) {
             self.preloadDataType = preloadDataType
         }
     }
@@ -314,8 +310,7 @@ extension HealthLakeClientTypes {
         public init(
             cmkType: HealthLakeClientTypes.CmkType? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cmkType = cmkType
             self.kmsKeyId = kmsKeyId
         }
@@ -332,8 +327,7 @@ extension HealthLakeClientTypes {
 
         public init(
             kmsEncryptionConfig: HealthLakeClientTypes.KmsEncryptionConfig? = nil
-        )
-        {
+        ) {
             self.kmsEncryptionConfig = kmsEncryptionConfig
         }
     }
@@ -353,8 +347,7 @@ extension HealthLakeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -386,8 +379,7 @@ public struct CreateFHIRDatastoreInput: Swift.Sendable {
         preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
         sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil,
         tags: [HealthLakeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datastoreName = datastoreName
         self.datastoreTypeVersion = datastoreTypeVersion
@@ -455,8 +447,7 @@ public struct CreateFHIRDatastoreOutput: Swift.Sendable {
         datastoreEndpoint: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
         datastoreStatus: HealthLakeClientTypes.DatastoreStatus? = nil
-    )
-    {
+    ) {
         self.datastoreArn = datastoreArn
         self.datastoreEndpoint = datastoreEndpoint
         self.datastoreId = datastoreId
@@ -482,8 +473,7 @@ extension HealthLakeClientTypes {
             createdBefore: Foundation.Date? = nil,
             datastoreName: Swift.String? = nil,
             datastoreStatus: HealthLakeClientTypes.DatastoreStatus? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.datastoreName = datastoreName
@@ -533,8 +523,7 @@ extension HealthLakeClientTypes {
         public init(
             errorCategory: HealthLakeClientTypes.ErrorCategory? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
         }
@@ -585,8 +574,7 @@ extension HealthLakeClientTypes {
             identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
             preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
             sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -603,9 +591,9 @@ extension HealthLakeClientTypes {
 }
 
 /// The requested data store was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -620,8 +608,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -633,8 +620,7 @@ public struct DeleteFHIRDatastoreInput: Swift.Sendable {
 
     public init(
         datastoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
     }
 }
@@ -658,8 +644,7 @@ public struct DeleteFHIRDatastoreOutput: Swift.Sendable {
         datastoreEndpoint: Swift.String? = nil,
         datastoreId: Swift.String? = nil,
         datastoreStatus: HealthLakeClientTypes.DatastoreStatus? = nil
-    )
-    {
+    ) {
         self.datastoreArn = datastoreArn
         self.datastoreEndpoint = datastoreEndpoint
         self.datastoreId = datastoreId
@@ -674,8 +659,7 @@ public struct DescribeFHIRDatastoreInput: Swift.Sendable {
 
     public init(
         datastoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
     }
 }
@@ -687,8 +671,7 @@ public struct DescribeFHIRDatastoreOutput: Swift.Sendable {
 
     public init(
         datastoreProperties: HealthLakeClientTypes.DatastoreProperties? = nil
-    )
-    {
+    ) {
         self.datastoreProperties = datastoreProperties
     }
 }
@@ -704,8 +687,7 @@ public struct DescribeFHIRExportJobInput: Swift.Sendable {
     public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobId = jobId
     }
@@ -722,6 +704,7 @@ extension HealthLakeClientTypes {
         case completedWithErrors
         case failed
         case inProgress
+        case queued
         case submitted
         case sdkUnknown(Swift.String)
 
@@ -735,6 +718,7 @@ extension HealthLakeClientTypes {
                 .completedWithErrors,
                 .failed,
                 .inProgress,
+                .queued,
                 .submitted
             ]
         }
@@ -754,6 +738,7 @@ extension HealthLakeClientTypes {
             case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
+            case .queued: return "QUEUED"
             case .submitted: return "SUBMITTED"
             case let .sdkUnknown(s): return s
             }
@@ -775,8 +760,7 @@ extension HealthLakeClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
@@ -831,8 +815,7 @@ extension HealthLakeClientTypes {
             message: Swift.String? = nil,
             outputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil,
             submitTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.endTime = endTime
@@ -853,8 +836,7 @@ public struct DescribeFHIRExportJobOutput: Swift.Sendable {
 
     public init(
         exportJobProperties: HealthLakeClientTypes.ExportJobProperties? = nil
-    )
-    {
+    ) {
         self.exportJobProperties = exportJobProperties
     }
 }
@@ -870,8 +852,7 @@ public struct DescribeFHIRImportJobInput: Swift.Sendable {
     public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobId = jobId
     }
@@ -917,8 +898,7 @@ extension HealthLakeClientTypes {
             totalNumberOfResourcesWithCustomerError: Swift.Int? = nil,
             totalNumberOfScannedFiles: Swift.Int? = nil,
             totalSizeOfScannedFilesInMB: Swift.Double? = nil
-        )
-        {
+        ) {
             self.throughput = throughput
             self.totalNumberOfFilesReadWithCustomerError = totalNumberOfFilesReadWithCustomerError
             self.totalNumberOfImportedFiles = totalNumberOfImportedFiles
@@ -975,8 +955,7 @@ extension HealthLakeClientTypes {
             jobStatus: HealthLakeClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
             submitTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.endTime = endTime
@@ -999,8 +978,7 @@ public struct DescribeFHIRImportJobOutput: Swift.Sendable {
 
     public init(
         importJobProperties: HealthLakeClientTypes.ImportJobProperties? = nil
-    )
-    {
+    ) {
         self.importJobProperties = importJobProperties
     }
 }
@@ -1017,8 +995,7 @@ public struct ListFHIRDatastoresInput: Swift.Sendable {
         filter: HealthLakeClientTypes.DatastoreFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1035,8 +1012,7 @@ public struct ListFHIRDatastoresOutput: Swift.Sendable {
     public init(
         datastorePropertiesList: [HealthLakeClientTypes.DatastoreProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datastorePropertiesList = datastorePropertiesList
         self.nextToken = nextToken
     }
@@ -1067,8 +1043,7 @@ public struct ListFHIRExportJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         submittedAfter: Foundation.Date? = nil,
         submittedBefore: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobName = jobName
         self.jobStatus = jobStatus
@@ -1089,8 +1064,7 @@ public struct ListFHIRExportJobsOutput: Swift.Sendable {
     public init(
         exportJobPropertiesList: [HealthLakeClientTypes.ExportJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportJobPropertiesList = exportJobPropertiesList
         self.nextToken = nextToken
     }
@@ -1121,8 +1095,7 @@ public struct ListFHIRImportJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         submittedAfter: Foundation.Date? = nil,
         submittedBefore: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobName = jobName
         self.jobStatus = jobStatus
@@ -1143,8 +1116,7 @@ public struct ListFHIRImportJobsOutput: Swift.Sendable {
     public init(
         importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importJobPropertiesList = importJobPropertiesList
         self.nextToken = nextToken
     }
@@ -1157,8 +1129,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1169,15 +1140,13 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [HealthLakeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 public struct StartFHIRExportJobInput: Swift.Sendable {
     /// An optional user provided token used for ensuring idempotency.
-    /// This member is required.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name used during the initiation of the job.
     /// This member is required.
@@ -1197,8 +1166,7 @@ public struct StartFHIRExportJobInput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         jobName: Swift.String? = nil,
         outputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.datastoreId = datastoreId
@@ -1221,8 +1189,7 @@ public struct StartFHIRExportJobOutput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: HealthLakeClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -1231,7 +1198,6 @@ public struct StartFHIRExportJobOutput: Swift.Sendable {
 
 public struct StartFHIRImportJobInput: Swift.Sendable {
     /// Optional user provided token used for ensuring idempotency.
-    /// This member is required.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
     /// This member is required.
@@ -1255,8 +1221,7 @@ public struct StartFHIRImportJobInput: Swift.Sendable {
         inputDataConfig: HealthLakeClientTypes.InputDataConfig? = nil,
         jobName: Swift.String? = nil,
         jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.datastoreId = datastoreId
@@ -1280,8 +1245,7 @@ public struct StartFHIRImportJobOutput: Swift.Sendable {
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: HealthLakeClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.datastoreId = datastoreId
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -1299,8 +1263,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [HealthLakeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -1322,8 +1285,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }

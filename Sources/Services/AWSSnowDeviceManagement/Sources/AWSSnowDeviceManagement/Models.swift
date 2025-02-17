@@ -39,9 +39,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You don't have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -57,8 +57,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -99,9 +98,9 @@ extension SnowDeviceManagementClientTypes {
 }
 
 /// An unexpected error occurred while processing the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -117,16 +116,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request references a resource that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -142,16 +140,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -167,16 +164,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -192,8 +188,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -205,8 +200,7 @@ public struct CancelTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -217,8 +211,7 @@ public struct CancelTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -244,8 +237,7 @@ extension SnowDeviceManagementClientTypes {
             total: Swift.Int? = nil,
             unit: Swift.String? = nil,
             used: Swift.Int? = nil
-        )
-        {
+        ) {
             self.available = available
             self.name = name
             self.total = total
@@ -297,8 +289,7 @@ extension SnowDeviceManagementClientTypes {
         public init(
             coreCount: Swift.Int? = nil,
             threadsPerCore: Swift.Int? = nil
-        )
-        {
+        ) {
             self.coreCount = coreCount
             self.threadsPerCore = threadsPerCore
         }
@@ -306,9 +297,9 @@ extension SnowDeviceManagementClientTypes {
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -324,8 +315,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -350,8 +340,7 @@ public struct CreateTaskInput: Swift.Sendable {
         description: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.command = command
         self.description = description
@@ -369,8 +358,7 @@ public struct CreateTaskOutput: Swift.Sendable {
     public init(
         taskArn: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskArn = taskArn
         self.taskId = taskId
     }
@@ -383,8 +371,7 @@ public struct DescribeDeviceInput: Swift.Sendable {
 
     public init(
         managedDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedDeviceId = managedDeviceId
     }
 }
@@ -515,8 +502,7 @@ extension SnowDeviceManagementClientTypes {
             netmask: Swift.String? = nil,
             physicalConnectorType: SnowDeviceManagementClientTypes.PhysicalConnectorType? = nil,
             physicalNetworkInterfaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultGateway = defaultGateway
             self.ipAddress = ipAddress
             self.ipAddressAssignment = ipAddressAssignment
@@ -543,8 +529,7 @@ extension SnowDeviceManagementClientTypes {
             installState: Swift.String? = nil,
             installedVersion: Swift.String? = nil,
             installingVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.installState = installState
             self.installedVersion = installedVersion
             self.installingVersion = installingVersion
@@ -588,8 +573,7 @@ public struct DescribeDeviceOutput: Swift.Sendable {
         physicalNetworkInterfaces: [SnowDeviceManagementClientTypes.PhysicalNetworkInterface]? = nil,
         software: SnowDeviceManagementClientTypes.SoftwareInformation? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.associatedWithJob = associatedWithJob
         self.deviceCapacities = deviceCapacities
         self.deviceState = deviceState
@@ -615,8 +599,7 @@ public struct DescribeDeviceEc2InstancesInput: Swift.Sendable {
     public init(
         instanceIds: [Swift.String]? = nil,
         managedDeviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceIds = instanceIds
         self.managedDeviceId = managedDeviceId
     }
@@ -640,8 +623,7 @@ extension SnowDeviceManagementClientTypes {
             deleteOnTermination: Swift.Bool? = nil,
             status: SnowDeviceManagementClientTypes.AttachmentStatus? = nil,
             volumeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
             self.status = status
@@ -662,8 +644,7 @@ extension SnowDeviceManagementClientTypes {
         public init(
             deviceName: Swift.String? = nil,
             ebs: SnowDeviceManagementClientTypes.EbsInstanceBlockDevice? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.ebs = ebs
         }
@@ -682,8 +663,7 @@ extension SnowDeviceManagementClientTypes {
         public init(
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
         }
@@ -758,8 +738,7 @@ extension SnowDeviceManagementClientTypes {
         public init(
             code: Swift.Int? = nil,
             name: SnowDeviceManagementClientTypes.InstanceStateName? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -811,8 +790,7 @@ extension SnowDeviceManagementClientTypes {
             securityGroups: [SnowDeviceManagementClientTypes.SecurityGroupIdentifier]? = nil,
             state: SnowDeviceManagementClientTypes.InstanceState? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.amiLaunchIndex = amiLaunchIndex
             self.blockDeviceMappings = blockDeviceMappings
             self.cpuOptions = cpuOptions
@@ -842,8 +820,7 @@ extension SnowDeviceManagementClientTypes {
         public init(
             instance: SnowDeviceManagementClientTypes.Instance? = nil,
             lastUpdatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.instance = instance
             self.lastUpdatedAt = lastUpdatedAt
         }
@@ -856,8 +833,7 @@ public struct DescribeDeviceEc2InstancesOutput: Swift.Sendable {
 
     public init(
         instances: [SnowDeviceManagementClientTypes.InstanceSummary]? = nil
-    )
-    {
+    ) {
         self.instances = instances
     }
 }
@@ -873,8 +849,7 @@ public struct DescribeExecutionInput: Swift.Sendable {
     public init(
         managedDeviceId: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedDeviceId = managedDeviceId
         self.taskId = taskId
     }
@@ -945,8 +920,7 @@ public struct DescribeExecutionOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         state: SnowDeviceManagementClientTypes.ExecutionState? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
         self.lastUpdatedAt = lastUpdatedAt
         self.managedDeviceId = managedDeviceId
@@ -963,8 +937,7 @@ public struct DescribeTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -1031,8 +1004,7 @@ public struct DescribeTaskOutput: Swift.Sendable {
         targets: [Swift.String]? = nil,
         taskArn: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.completedAt = completedAt
         self.createdAt = createdAt
         self.description = description
@@ -1063,8 +1035,7 @@ extension SnowDeviceManagementClientTypes {
             managedDeviceArn: Swift.String? = nil,
             managedDeviceId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.associatedWithJob = associatedWithJob
             self.managedDeviceArn = managedDeviceArn
             self.managedDeviceId = managedDeviceId
@@ -1089,8 +1060,7 @@ public struct ListExecutionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         state: SnowDeviceManagementClientTypes.ExecutionState? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.state = state
@@ -1116,8 +1086,7 @@ extension SnowDeviceManagementClientTypes {
             managedDeviceId: Swift.String? = nil,
             state: SnowDeviceManagementClientTypes.ExecutionState? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionId = executionId
             self.managedDeviceId = managedDeviceId
             self.state = state
@@ -1135,8 +1104,7 @@ public struct ListExecutionsOutput: Swift.Sendable {
     public init(
         executions: [SnowDeviceManagementClientTypes.ExecutionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executions = executions
         self.nextToken = nextToken
     }
@@ -1158,8 +1126,7 @@ public struct ListDeviceResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedDeviceId = managedDeviceId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1183,8 +1150,7 @@ extension SnowDeviceManagementClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.resourceType = resourceType
@@ -1201,8 +1167,7 @@ public struct ListDeviceResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [SnowDeviceManagementClientTypes.ResourceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -1220,8 +1185,7 @@ public struct ListDevicesInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1237,8 +1201,7 @@ public struct ListDevicesOutput: Swift.Sendable {
     public init(
         devices: [SnowDeviceManagementClientTypes.DeviceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.nextToken = nextToken
     }
@@ -1251,8 +1214,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1263,8 +1225,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1281,8 +1242,7 @@ public struct ListTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         state: SnowDeviceManagementClientTypes.TaskState? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.state = state
@@ -1308,8 +1268,7 @@ extension SnowDeviceManagementClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             taskArn: Swift.String? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.state = state
             self.tags = tags
             self.taskArn = taskArn
@@ -1327,8 +1286,7 @@ public struct ListTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [SnowDeviceManagementClientTypes.TaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -1345,8 +1303,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1363,8 +1320,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

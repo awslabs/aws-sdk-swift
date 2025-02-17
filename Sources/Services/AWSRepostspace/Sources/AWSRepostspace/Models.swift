@@ -57,9 +57,9 @@ public struct UpdateSpaceOutput: Swift.Sendable {
 }
 
 /// User does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -75,16 +75,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unexpected error during processing of request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Advice to clients on when the call can be safely retried.
@@ -103,17 +102,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// Request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -137,8 +135,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -146,9 +143,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The code to identify the quota.
@@ -173,8 +170,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -196,8 +192,7 @@ extension RepostspaceClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -240,9 +235,9 @@ extension RepostspaceClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The field that caused the error, if applicable.
         public internal(set) var fieldList: [RepostspaceClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -265,8 +260,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [RepostspaceClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: RepostspaceClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -323,8 +317,7 @@ public struct BatchAddRoleInput: Swift.Sendable {
         accessorIds: [Swift.String]? = nil,
         role: RepostspaceClientTypes.Role? = nil,
         spaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessorIds = accessorIds
         self.role = role
         self.spaceId = spaceId
@@ -349,8 +342,7 @@ extension RepostspaceClientTypes {
             accessorId: Swift.String? = nil,
             error: Swift.Int? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessorId = accessorId
             self.error = error
             self.message = message
@@ -369,8 +361,7 @@ public struct BatchAddRoleOutput: Swift.Sendable {
     public init(
         addedAccessorIds: [Swift.String]? = nil,
         errors: [RepostspaceClientTypes.BatchError]? = nil
-    )
-    {
+    ) {
         self.addedAccessorIds = addedAccessorIds
         self.errors = errors
     }
@@ -391,8 +382,7 @@ public struct BatchRemoveRoleInput: Swift.Sendable {
         accessorIds: [Swift.String]? = nil,
         role: RepostspaceClientTypes.Role? = nil,
         spaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessorIds = accessorIds
         self.role = role
         self.spaceId = spaceId
@@ -410,8 +400,7 @@ public struct BatchRemoveRoleOutput: Swift.Sendable {
     public init(
         errors: [RepostspaceClientTypes.BatchError]? = nil,
         removedAccessorIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.removedAccessorIds = removedAccessorIds
     }
@@ -447,9 +436,9 @@ extension RepostspaceClientTypes {
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -473,8 +462,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -482,9 +470,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The code to identify the quota.
@@ -516,8 +504,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -582,8 +569,7 @@ public struct CreateSpaceInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: RepostspaceClientTypes.TierLevel? = nil,
         userKMSKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.roleArn = roleArn
@@ -606,8 +592,7 @@ public struct CreateSpaceOutput: Swift.Sendable {
 
     public init(
         spaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceId = spaceId
     }
 }
@@ -619,8 +604,7 @@ public struct DeleteSpaceInput: Swift.Sendable {
 
     public init(
         spaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceId = spaceId
     }
 }
@@ -636,8 +620,7 @@ public struct DeregisterAdminInput: Swift.Sendable {
     public init(
         adminId: Swift.String? = nil,
         spaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminId = adminId
         self.spaceId = spaceId
     }
@@ -650,8 +633,7 @@ public struct GetSpaceInput: Swift.Sendable {
 
     public init(
         spaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceId = spaceId
     }
 }
@@ -768,8 +750,7 @@ public struct GetSpaceOutput: Swift.Sendable {
         userKMSKey: Swift.String? = nil,
         vanityDomain: Swift.String? = nil,
         vanityDomainStatus: RepostspaceClientTypes.VanityDomainStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientId = clientId
         self.configurationStatus = configurationStatus
@@ -808,8 +789,7 @@ public struct ListSpacesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -880,8 +860,7 @@ extension RepostspaceClientTypes {
             userKMSKey: Swift.String? = nil,
             vanityDomain: Swift.String? = nil,
             vanityDomainStatus: RepostspaceClientTypes.VanityDomainStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.configurationStatus = configurationStatus
             self.contentSize = contentSize
@@ -917,8 +896,7 @@ public struct ListSpacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         spaces: [RepostspaceClientTypes.SpaceData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.spaces = spaces
     }
@@ -931,8 +909,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -943,8 +920,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -965,8 +941,7 @@ public struct RegisterAdminInput: Swift.Sendable {
     public init(
         adminId: Swift.String? = nil,
         spaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adminId = adminId
         self.spaceId = spaceId
     }
@@ -991,8 +966,7 @@ public struct SendInvitesInput: Swift.Sendable {
         body: Swift.String? = nil,
         spaceId: Swift.String? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessorIds = accessorIds
         self.body = body
         self.spaceId = spaceId
@@ -1016,8 +990,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1044,8 +1017,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1072,8 +1044,7 @@ public struct UpdateSpaceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         spaceId: Swift.String? = nil,
         tier: RepostspaceClientTypes.TierLevel? = nil
-    )
-    {
+    ) {
         self.description = description
         self.roleArn = roleArn
         self.spaceId = spaceId

@@ -79,8 +79,7 @@ extension Route53RecoveryReadinessClientTypes {
             cells: [Swift.String]? = nil,
             parentReadinessScopes: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.cellArn = cellArn
             self.cellName = cellName
             self.cells = cells
@@ -108,8 +107,7 @@ extension Route53RecoveryReadinessClientTypes {
             resourceType: Swift.String? = nil,
             ruleDescription: Swift.String? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
             self.ruleDescription = ruleDescription
             self.ruleId = ruleId
@@ -126,8 +124,7 @@ extension Route53RecoveryReadinessClientTypes {
 
         public init(
             messageText: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageText = messageText
         }
     }
@@ -153,8 +150,7 @@ extension Route53RecoveryReadinessClientTypes {
             readinessCheckName: Swift.String? = nil,
             resourceSet: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.readinessCheckArn = readinessCheckArn
             self.readinessCheckName = readinessCheckName
             self.resourceSet = resourceSet
@@ -211,8 +207,7 @@ extension Route53RecoveryReadinessClientTypes {
         public init(
             readiness: Route53RecoveryReadinessClientTypes.Readiness? = nil,
             readinessCheckName: Swift.String? = nil
-        )
-        {
+        ) {
             self.readiness = readiness
             self.readinessCheckName = readinessCheckName
         }
@@ -229,8 +224,7 @@ extension Route53RecoveryReadinessClientTypes {
 
         public init(
             recommendationText: Swift.String? = nil
-        )
-        {
+        ) {
             self.recommendationText = recommendationText
         }
     }
@@ -257,8 +251,7 @@ extension Route53RecoveryReadinessClientTypes {
             recoveryGroupArn: Swift.String? = nil,
             recoveryGroupName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.cells = cells
             self.recoveryGroupArn = recoveryGroupArn
             self.recoveryGroupName = recoveryGroupName
@@ -276,8 +269,7 @@ extension Route53RecoveryReadinessClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -295,8 +287,7 @@ extension Route53RecoveryReadinessClientTypes {
         public init(
             domainName: Swift.String? = nil,
             recordSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.recordSetId = recordSetId
         }
@@ -315,8 +306,7 @@ extension Route53RecoveryReadinessClientTypes {
         public init(
             nlbResource: Route53RecoveryReadinessClientTypes.NLBResource? = nil,
             r53Resource: Route53RecoveryReadinessClientTypes.R53ResourceRecord? = nil
-        )
-        {
+        ) {
             self.nlbResource = nlbResource
             self.r53Resource = r53Resource
         }
@@ -344,8 +334,7 @@ extension Route53RecoveryReadinessClientTypes {
             recordSetId: Swift.String? = nil,
             recordType: Swift.String? = nil,
             targetResource: Route53RecoveryReadinessClientTypes.TargetResource? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.hostedZoneArn = hostedZoneArn
             self.recordSetId = recordSetId
@@ -373,8 +362,7 @@ extension Route53RecoveryReadinessClientTypes {
             dnsTargetResource: Route53RecoveryReadinessClientTypes.DNSTargetResource? = nil,
             readinessScopes: [Swift.String]? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentId = componentId
             self.dnsTargetResource = dnsTargetResource
             self.readinessScopes = readinessScopes
@@ -403,8 +391,7 @@ extension Route53RecoveryReadinessClientTypes {
             lastCheckedTimestamp: Foundation.Date? = nil,
             readiness: Route53RecoveryReadinessClientTypes.Readiness? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentId = componentId
             self.lastCheckedTimestamp = lastCheckedTimestamp
             self.readiness = readiness
@@ -438,8 +425,7 @@ extension Route53RecoveryReadinessClientTypes {
             resourceSetType: Swift.String? = nil,
             resources: [Route53RecoveryReadinessClientTypes.Resource]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.resourceSetArn = resourceSetArn
             self.resourceSetName = resourceSetName
             self.resourceSetType = resourceSetType
@@ -471,8 +457,7 @@ extension Route53RecoveryReadinessClientTypes {
             messages: [Route53RecoveryReadinessClientTypes.Message]? = nil,
             readiness: Route53RecoveryReadinessClientTypes.Readiness? = nil,
             ruleId: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastCheckedTimestamp = lastCheckedTimestamp
             self.messages = messages
             self.readiness = readiness
@@ -482,9 +467,9 @@ extension Route53RecoveryReadinessClientTypes {
 }
 
 /// User does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -499,16 +484,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -523,16 +507,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An unexpected error occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -547,16 +530,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -571,16 +553,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -595,8 +576,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -614,8 +594,7 @@ public struct CreateCellInput: Swift.Sendable {
         cellName: Swift.String? = nil,
         cells: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cellName = cellName
         self.cells = cells
         self.tags = tags
@@ -640,8 +619,7 @@ public struct CreateCellOutput: Swift.Sendable {
         cells: [Swift.String]? = nil,
         parentReadinessScopes: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cellArn = cellArn
         self.cellName = cellName
         self.cells = cells
@@ -657,8 +635,7 @@ public struct CreateCrossAccountAuthorizationInput: Swift.Sendable {
 
     public init(
         crossAccountAuthorization: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossAccountAuthorization = crossAccountAuthorization
     }
 }
@@ -669,8 +646,7 @@ public struct CreateCrossAccountAuthorizationOutput: Swift.Sendable {
 
     public init(
         crossAccountAuthorization: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossAccountAuthorization = crossAccountAuthorization
     }
 }
@@ -689,8 +665,7 @@ public struct CreateReadinessCheckInput: Swift.Sendable {
         readinessCheckName: Swift.String? = nil,
         resourceSetName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.readinessCheckName = readinessCheckName
         self.resourceSetName = resourceSetName
         self.tags = tags
@@ -712,8 +687,7 @@ public struct CreateReadinessCheckOutput: Swift.Sendable {
         readinessCheckName: Swift.String? = nil,
         resourceSet: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.readinessCheckArn = readinessCheckArn
         self.readinessCheckName = readinessCheckName
         self.resourceSet = resourceSet
@@ -734,8 +708,7 @@ public struct CreateRecoveryGroupInput: Swift.Sendable {
         cells: [Swift.String]? = nil,
         recoveryGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cells = cells
         self.recoveryGroupName = recoveryGroupName
         self.tags = tags
@@ -757,8 +730,7 @@ public struct CreateRecoveryGroupOutput: Swift.Sendable {
         recoveryGroupArn: Swift.String? = nil,
         recoveryGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cells = cells
         self.recoveryGroupArn = recoveryGroupArn
         self.recoveryGroupName = recoveryGroupName
@@ -784,8 +756,7 @@ public struct CreateResourceSetInput: Swift.Sendable {
         resourceSetType: Swift.String? = nil,
         resources: [Route53RecoveryReadinessClientTypes.Resource]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceSetName = resourceSetName
         self.resourceSetType = resourceSetType
         self.resources = resources
@@ -811,8 +782,7 @@ public struct CreateResourceSetOutput: Swift.Sendable {
         resourceSetType: Swift.String? = nil,
         resources: [Route53RecoveryReadinessClientTypes.Resource]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceSetArn = resourceSetArn
         self.resourceSetName = resourceSetName
         self.resourceSetType = resourceSetType
@@ -822,9 +792,9 @@ public struct CreateResourceSetOutput: Swift.Sendable {
 }
 
 /// The requested resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -839,8 +809,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -852,8 +821,7 @@ public struct DeleteCellInput: Swift.Sendable {
 
     public init(
         cellName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cellName = cellName
     }
 }
@@ -865,8 +833,7 @@ public struct DeleteCrossAccountAuthorizationInput: Swift.Sendable {
 
     public init(
         crossAccountAuthorization: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossAccountAuthorization = crossAccountAuthorization
     }
 }
@@ -883,8 +850,7 @@ public struct DeleteReadinessCheckInput: Swift.Sendable {
 
     public init(
         readinessCheckName: Swift.String? = nil
-    )
-    {
+    ) {
         self.readinessCheckName = readinessCheckName
     }
 }
@@ -896,8 +862,7 @@ public struct DeleteRecoveryGroupInput: Swift.Sendable {
 
     public init(
         recoveryGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryGroupName = recoveryGroupName
     }
 }
@@ -909,8 +874,7 @@ public struct DeleteResourceSetInput: Swift.Sendable {
 
     public init(
         resourceSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceSetName = resourceSetName
     }
 }
@@ -928,8 +892,7 @@ public struct GetArchitectureRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recoveryGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.recoveryGroupName = recoveryGroupName
@@ -948,8 +911,7 @@ public struct GetArchitectureRecommendationsOutput: Swift.Sendable {
         lastAuditTimestamp: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         recommendations: [Route53RecoveryReadinessClientTypes.Recommendation]? = nil
-    )
-    {
+    ) {
         self.lastAuditTimestamp = lastAuditTimestamp
         self.nextToken = nextToken
         self.recommendations = recommendations
@@ -963,8 +925,7 @@ public struct GetCellInput: Swift.Sendable {
 
     public init(
         cellName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cellName = cellName
     }
 }
@@ -987,8 +948,7 @@ public struct GetCellOutput: Swift.Sendable {
         cells: [Swift.String]? = nil,
         parentReadinessScopes: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cellArn = cellArn
         self.cellName = cellName
         self.cells = cells
@@ -1010,8 +970,7 @@ public struct GetCellReadinessSummaryInput: Swift.Sendable {
         cellName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cellName = cellName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1030,8 +989,7 @@ public struct GetCellReadinessSummaryOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         readiness: Route53RecoveryReadinessClientTypes.Readiness? = nil,
         readinessChecks: [Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.readiness = readiness
         self.readinessChecks = readinessChecks
@@ -1045,8 +1003,7 @@ public struct GetReadinessCheckInput: Swift.Sendable {
 
     public init(
         readinessCheckName: Swift.String? = nil
-    )
-    {
+    ) {
         self.readinessCheckName = readinessCheckName
     }
 }
@@ -1066,8 +1023,7 @@ public struct GetReadinessCheckOutput: Swift.Sendable {
         readinessCheckName: Swift.String? = nil,
         resourceSet: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.readinessCheckArn = readinessCheckArn
         self.readinessCheckName = readinessCheckName
         self.resourceSet = resourceSet
@@ -1092,8 +1048,7 @@ public struct GetReadinessCheckResourceStatusInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         readinessCheckName: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.readinessCheckName = readinessCheckName
@@ -1113,8 +1068,7 @@ public struct GetReadinessCheckResourceStatusOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         readiness: Route53RecoveryReadinessClientTypes.Readiness? = nil,
         rules: [Route53RecoveryReadinessClientTypes.RuleResult]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.readiness = readiness
         self.rules = rules
@@ -1134,8 +1088,7 @@ public struct GetReadinessCheckStatusInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         readinessCheckName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.readinessCheckName = readinessCheckName
@@ -1157,8 +1110,7 @@ public struct GetReadinessCheckStatusOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         readiness: Route53RecoveryReadinessClientTypes.Readiness? = nil,
         resources: [Route53RecoveryReadinessClientTypes.ResourceResult]? = nil
-    )
-    {
+    ) {
         self.messages = messages
         self.nextToken = nextToken
         self.readiness = readiness
@@ -1173,8 +1125,7 @@ public struct GetRecoveryGroupInput: Swift.Sendable {
 
     public init(
         recoveryGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.recoveryGroupName = recoveryGroupName
     }
 }
@@ -1194,8 +1145,7 @@ public struct GetRecoveryGroupOutput: Swift.Sendable {
         recoveryGroupArn: Swift.String? = nil,
         recoveryGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cells = cells
         self.recoveryGroupArn = recoveryGroupArn
         self.recoveryGroupName = recoveryGroupName
@@ -1216,8 +1166,7 @@ public struct GetRecoveryGroupReadinessSummaryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recoveryGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.recoveryGroupName = recoveryGroupName
@@ -1236,8 +1185,7 @@ public struct GetRecoveryGroupReadinessSummaryOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         readiness: Route53RecoveryReadinessClientTypes.Readiness? = nil,
         readinessChecks: [Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.readiness = readiness
         self.readinessChecks = readinessChecks
@@ -1251,8 +1199,7 @@ public struct GetResourceSetInput: Swift.Sendable {
 
     public init(
         resourceSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceSetName = resourceSetName
     }
 }
@@ -1275,8 +1222,7 @@ public struct GetResourceSetOutput: Swift.Sendable {
         resourceSetType: Swift.String? = nil,
         resources: [Route53RecoveryReadinessClientTypes.Resource]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceSetArn = resourceSetArn
         self.resourceSetName = resourceSetName
         self.resourceSetType = resourceSetType
@@ -1294,8 +1240,7 @@ public struct ListCellsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1310,8 +1255,7 @@ public struct ListCellsOutput: Swift.Sendable {
     public init(
         cells: [Route53RecoveryReadinessClientTypes.CellOutput]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cells = cells
         self.nextToken = nextToken
     }
@@ -1326,8 +1270,7 @@ public struct ListCrossAccountAuthorizationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1342,8 +1285,7 @@ public struct ListCrossAccountAuthorizationsOutput: Swift.Sendable {
     public init(
         crossAccountAuthorizations: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crossAccountAuthorizations = crossAccountAuthorizations
         self.nextToken = nextToken
     }
@@ -1358,8 +1300,7 @@ public struct ListReadinessChecksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1374,8 +1315,7 @@ public struct ListReadinessChecksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         readinessChecks: [Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.readinessChecks = readinessChecks
     }
@@ -1390,8 +1330,7 @@ public struct ListRecoveryGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1406,8 +1345,7 @@ public struct ListRecoveryGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recoveryGroups: [Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recoveryGroups = recoveryGroups
     }
@@ -1422,8 +1360,7 @@ public struct ListResourceSetsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1438,8 +1375,7 @@ public struct ListResourceSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceSets: [Route53RecoveryReadinessClientTypes.ResourceSetOutput]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceSets = resourceSets
     }
@@ -1457,8 +1393,7 @@ public struct ListRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceType = resourceType
@@ -1474,8 +1409,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rules: [Route53RecoveryReadinessClientTypes.ListRulesOutput]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rules = rules
     }
@@ -1488,8 +1422,7 @@ public struct ListTagsForResourcesInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1500,8 +1433,7 @@ public struct ListTagsForResourcesOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1517,8 +1449,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1540,8 +1471,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1558,8 +1488,7 @@ public struct UpdateCellInput: Swift.Sendable {
     public init(
         cellName: Swift.String? = nil,
         cells: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.cellName = cellName
         self.cells = cells
     }
@@ -1583,8 +1512,7 @@ public struct UpdateCellOutput: Swift.Sendable {
         cells: [Swift.String]? = nil,
         parentReadinessScopes: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cellArn = cellArn
         self.cellName = cellName
         self.cells = cells
@@ -1605,8 +1533,7 @@ public struct UpdateReadinessCheckInput: Swift.Sendable {
     public init(
         readinessCheckName: Swift.String? = nil,
         resourceSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.readinessCheckName = readinessCheckName
         self.resourceSetName = resourceSetName
     }
@@ -1627,8 +1554,7 @@ public struct UpdateReadinessCheckOutput: Swift.Sendable {
         readinessCheckName: Swift.String? = nil,
         resourceSet: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.readinessCheckArn = readinessCheckArn
         self.readinessCheckName = readinessCheckName
         self.resourceSet = resourceSet
@@ -1648,8 +1574,7 @@ public struct UpdateRecoveryGroupInput: Swift.Sendable {
     public init(
         cells: [Swift.String]? = nil,
         recoveryGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cells = cells
         self.recoveryGroupName = recoveryGroupName
     }
@@ -1670,8 +1595,7 @@ public struct UpdateRecoveryGroupOutput: Swift.Sendable {
         recoveryGroupArn: Swift.String? = nil,
         recoveryGroupName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cells = cells
         self.recoveryGroupArn = recoveryGroupArn
         self.recoveryGroupName = recoveryGroupName
@@ -1695,8 +1619,7 @@ public struct UpdateResourceSetInput: Swift.Sendable {
         resourceSetName: Swift.String? = nil,
         resourceSetType: Swift.String? = nil,
         resources: [Route53RecoveryReadinessClientTypes.Resource]? = nil
-    )
-    {
+    ) {
         self.resourceSetName = resourceSetName
         self.resourceSetType = resourceSetType
         self.resources = resources
@@ -1721,8 +1644,7 @@ public struct UpdateResourceSetOutput: Swift.Sendable {
         resourceSetType: Swift.String? = nil,
         resources: [Route53RecoveryReadinessClientTypes.Resource]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceSetArn = resourceSetArn
         self.resourceSetName = resourceSetName
         self.resourceSetType = resourceSetType

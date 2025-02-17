@@ -43,6 +43,39 @@ extension PaginatorSequence where OperationStackInput == GetChatControlsConfigur
     }
 }
 extension QBusinessClient {
+    /// Paginate over `[ListAttachmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAttachmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachmentsOutput`
+    public func listAttachmentsPaginated(input: ListAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListAttachmentsInput, ListAttachmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAttachmentsInput, ListAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttachments(input:))
+    }
+}
+
+extension ListAttachmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAttachmentsInput {
+        return ListAttachmentsInput(
+            applicationId: self.applicationId,
+            conversationId: self.conversationId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            userId: self.userId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAttachmentsInput, OperationStackOutput == ListAttachmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAttachmentsPaginated`
+    /// to access the nested member `[QBusinessClientTypes.Attachment]`
+    /// - Returns: `[QBusinessClientTypes.Attachment]`
+    public func attachments() async throws -> [QBusinessClientTypes.Attachment] {
+        return try await self.asyncCompactMap { item in item.attachments }
+    }
+}
+extension QBusinessClient {
     /// Paginate over `[ListConversationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -208,5 +241,163 @@ extension PaginatorSequence where OperationStackInput == ListMessagesInput, Oper
     /// - Returns: `[QBusinessClientTypes.Message]`
     public func messages() async throws -> [QBusinessClientTypes.Message] {
         return try await self.asyncCompactMap { item in item.messages }
+    }
+}
+extension QBusinessClient {
+    /// Paginate over `[ListPluginActionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPluginActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPluginActionsOutput`
+    public func listPluginActionsPaginated(input: ListPluginActionsInput) -> ClientRuntime.PaginatorSequence<ListPluginActionsInput, ListPluginActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPluginActionsInput, ListPluginActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPluginActions(input:))
+    }
+}
+
+extension ListPluginActionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPluginActionsInput {
+        return ListPluginActionsInput(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pluginId: self.pluginId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPluginActionsInput, OperationStackOutput == ListPluginActionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPluginActionsPaginated`
+    /// to access the nested member `[QBusinessClientTypes.ActionSummary]`
+    /// - Returns: `[QBusinessClientTypes.ActionSummary]`
+    public func items() async throws -> [QBusinessClientTypes.ActionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension QBusinessClient {
+    /// Paginate over `[ListPluginTypeActionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPluginTypeActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPluginTypeActionsOutput`
+    public func listPluginTypeActionsPaginated(input: ListPluginTypeActionsInput) -> ClientRuntime.PaginatorSequence<ListPluginTypeActionsInput, ListPluginTypeActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPluginTypeActionsInput, ListPluginTypeActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPluginTypeActions(input:))
+    }
+}
+
+extension ListPluginTypeActionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPluginTypeActionsInput {
+        return ListPluginTypeActionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            pluginType: self.pluginType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPluginTypeActionsInput, OperationStackOutput == ListPluginTypeActionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPluginTypeActionsPaginated`
+    /// to access the nested member `[QBusinessClientTypes.ActionSummary]`
+    /// - Returns: `[QBusinessClientTypes.ActionSummary]`
+    public func items() async throws -> [QBusinessClientTypes.ActionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension QBusinessClient {
+    /// Paginate over `[ListPluginTypeMetadataOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPluginTypeMetadataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPluginTypeMetadataOutput`
+    public func listPluginTypeMetadataPaginated(input: ListPluginTypeMetadataInput) -> ClientRuntime.PaginatorSequence<ListPluginTypeMetadataInput, ListPluginTypeMetadataOutput> {
+        return ClientRuntime.PaginatorSequence<ListPluginTypeMetadataInput, ListPluginTypeMetadataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPluginTypeMetadata(input:))
+    }
+}
+
+extension ListPluginTypeMetadataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPluginTypeMetadataInput {
+        return ListPluginTypeMetadataInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPluginTypeMetadataInput, OperationStackOutput == ListPluginTypeMetadataOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPluginTypeMetadataPaginated`
+    /// to access the nested member `[QBusinessClientTypes.PluginTypeMetadataSummary]`
+    /// - Returns: `[QBusinessClientTypes.PluginTypeMetadataSummary]`
+    public func items() async throws -> [QBusinessClientTypes.PluginTypeMetadataSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension QBusinessClient {
+    /// Paginate over `[ListSubscriptionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSubscriptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionsOutput`
+    public func listSubscriptionsPaginated(input: ListSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptions(input:))
+    }
+}
+
+extension ListSubscriptionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSubscriptionsInput {
+        return ListSubscriptionsInput(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSubscriptionsInput, OperationStackOutput == ListSubscriptionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionsPaginated`
+    /// to access the nested member `[QBusinessClientTypes.Subscription]`
+    /// - Returns: `[QBusinessClientTypes.Subscription]`
+    public func subscriptions() async throws -> [QBusinessClientTypes.Subscription] {
+        return try await self.asyncCompactMap { item in item.subscriptions }
+    }
+}
+extension QBusinessClient {
+    /// Paginate over `[SearchRelevantContentOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchRelevantContentInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchRelevantContentOutput`
+    public func searchRelevantContentPaginated(input: SearchRelevantContentInput) -> ClientRuntime.PaginatorSequence<SearchRelevantContentInput, SearchRelevantContentOutput> {
+        return ClientRuntime.PaginatorSequence<SearchRelevantContentInput, SearchRelevantContentOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchRelevantContent(input:))
+    }
+}
+
+extension SearchRelevantContentInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchRelevantContentInput {
+        return SearchRelevantContentInput(
+            applicationId: self.applicationId,
+            attributeFilter: self.attributeFilter,
+            contentSource: self.contentSource,
+            maxResults: self.maxResults,
+            nextToken: token,
+            queryText: self.queryText
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchRelevantContentInput, OperationStackOutput == SearchRelevantContentOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchRelevantContentPaginated`
+    /// to access the nested member `[QBusinessClientTypes.RelevantContent]`
+    /// - Returns: `[QBusinessClientTypes.RelevantContent]`
+    public func relevantContent() async throws -> [QBusinessClientTypes.RelevantContent] {
+        return try await self.asyncCompactMap { item in item.relevantContent }
     }
 }

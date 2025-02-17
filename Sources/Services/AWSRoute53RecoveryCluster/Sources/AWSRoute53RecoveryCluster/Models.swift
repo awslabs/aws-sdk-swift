@@ -23,9 +23,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You don't have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -41,16 +41,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was a conflict with this request. Try again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the ConflictException error
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -75,8 +74,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -84,9 +82,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The cluster endpoint isn't available. Try another cluster endpoint.
-public struct EndpointTemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointTemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -102,16 +100,15 @@ public struct EndpointTemporarilyUnavailableException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was an unexpected error during processing of the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Advice to clients on when the call can be safely retried
@@ -130,17 +127,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The request references a routing control or control panel that was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Hypothetical resource identifier that was not found
@@ -164,8 +160,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -173,9 +168,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was denied because of request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Advice to clients on when the call can be safely retried
@@ -194,8 +189,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -215,8 +209,7 @@ extension Route53RecoveryClusterClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -260,9 +253,9 @@ extension Route53RecoveryClusterClientTypes {
 }
 
 /// There was a validation error on the request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that caused the error, if applicable
         public internal(set) var fields: [Route53RecoveryClusterClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -284,8 +277,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [Route53RecoveryClusterClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: Route53RecoveryClusterClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -299,8 +291,7 @@ public struct GetRoutingControlStateInput: Swift.Sendable {
 
     public init(
         routingControlArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
     }
 }
@@ -348,8 +339,7 @@ public struct GetRoutingControlStateOutput: Swift.Sendable {
         routingControlArn: Swift.String? = nil,
         routingControlName: Swift.String? = nil,
         routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
         self.routingControlName = routingControlName
         self.routingControlState = routingControlState
@@ -368,8 +358,7 @@ public struct ListRoutingControlsInput: Swift.Sendable {
         controlPanelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlPanelArn = controlPanelArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -400,8 +389,7 @@ extension Route53RecoveryClusterClientTypes {
             routingControlArn: Swift.String? = nil,
             routingControlName: Swift.String? = nil,
             routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil
-        )
-        {
+        ) {
             self.controlPanelArn = controlPanelArn
             self.controlPanelName = controlPanelName
             self.owner = owner
@@ -422,17 +410,16 @@ public struct ListRoutingControlsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         routingControls: [Route53RecoveryClusterClientTypes.RoutingControl]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.routingControls = routingControls
     }
 }
 
 /// The request can't update that many routing control states at the same time. Try again with fewer routing control states.
-public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The code of the limit that was exceeded.
         /// This member is required.
         public internal(set) var limitCode: Swift.String? = nil
@@ -462,8 +449,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limitCode = limitCode
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -486,8 +472,7 @@ public struct UpdateRoutingControlStateInput: Swift.Sendable {
         routingControlArn: Swift.String? = nil,
         routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil,
         safetyRulesToOverride: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.routingControlArn = routingControlArn
         self.routingControlState = routingControlState
         self.safetyRulesToOverride = safetyRulesToOverride
@@ -513,8 +498,7 @@ extension Route53RecoveryClusterClientTypes {
         public init(
             routingControlArn: Swift.String? = nil,
             routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState? = nil
-        )
-        {
+        ) {
             self.routingControlArn = routingControlArn
             self.routingControlState = routingControlState
         }
@@ -531,8 +515,7 @@ public struct UpdateRoutingControlStatesInput: Swift.Sendable {
     public init(
         safetyRulesToOverride: [Swift.String]? = nil,
         updateRoutingControlStateEntries: [Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry]? = nil
-    )
-    {
+    ) {
         self.safetyRulesToOverride = safetyRulesToOverride
         self.updateRoutingControlStateEntries = updateRoutingControlStateEntries
     }

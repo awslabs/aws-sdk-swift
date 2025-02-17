@@ -46,9 +46,9 @@ public struct RevokeSigningProfileOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -65,17 +65,16 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The resource encountered a conflicting state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -92,17 +91,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// An internal error occurred.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -119,17 +117,16 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// A specified resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -146,17 +143,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The client is making a request that exceeds service limits.
-public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -173,17 +169,16 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -200,17 +195,16 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// You signing certificate could not be validated.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -227,8 +221,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -267,8 +260,7 @@ public struct AddProfilePermissionInput: Swift.Sendable {
         profileVersion: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.principal = principal
         self.profileName = profileName
@@ -284,16 +276,15 @@ public struct AddProfilePermissionOutput: Swift.Sendable {
 
     public init(
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.revisionId = revisionId
     }
 }
 
 /// The request contains invalid parameters for the ARN or tags. This exception also occurs when you call a tagging API on a cancelled signing profile.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -310,8 +301,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -324,8 +314,7 @@ public struct CancelSigningProfileInput: Swift.Sendable {
 
     public init(
         profileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileName = profileName
     }
 }
@@ -363,8 +352,7 @@ public struct DescribeSigningJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -439,8 +427,7 @@ extension SignerClientTypes {
         public init(
             encryptionAlgorithm: SignerClientTypes.EncryptionAlgorithm? = nil,
             hashAlgorithm: SignerClientTypes.HashAlgorithm? = nil
-        )
-        {
+        ) {
             self.encryptionAlgorithm = encryptionAlgorithm
             self.hashAlgorithm = hashAlgorithm
         }
@@ -491,8 +478,7 @@ extension SignerClientTypes {
         public init(
             signingConfiguration: SignerClientTypes.SigningConfigurationOverrides? = nil,
             signingImageFormat: SignerClientTypes.ImageFormat? = nil
-        )
-        {
+        ) {
             self.signingConfiguration = signingConfiguration
             self.signingImageFormat = signingImageFormat
         }
@@ -514,8 +500,7 @@ extension SignerClientTypes {
             reason: Swift.String? = nil,
             revokedAt: Foundation.Date? = nil,
             revokedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.revokedAt = revokedAt
             self.revokedBy = revokedBy
@@ -535,8 +520,7 @@ extension SignerClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.key = key
         }
@@ -552,8 +536,7 @@ extension SignerClientTypes {
 
         public init(
             s3: SignerClientTypes.S3SignedObject? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -569,8 +552,7 @@ extension SignerClientTypes {
 
         public init(
             certificateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
         }
     }
@@ -594,8 +576,7 @@ extension SignerClientTypes {
             bucketName: Swift.String? = nil,
             key: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.key = key
             self.version = version
@@ -612,8 +593,7 @@ extension SignerClientTypes {
 
         public init(
             s3: SignerClientTypes.S3Source? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -711,8 +691,7 @@ public struct DescribeSigningJobOutput: Swift.Sendable {
         source: SignerClientTypes.Source? = nil,
         status: SignerClientTypes.SigningStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.completedAt = completedAt
         self.createdAt = createdAt
         self.jobId = jobId
@@ -747,8 +726,7 @@ extension SignerClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.`prefix` = `prefix`
         }
@@ -764,8 +742,7 @@ extension SignerClientTypes {
 
         public init(
             s3: SignerClientTypes.S3Destination? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -785,8 +762,7 @@ extension SignerClientTypes {
         public init(
             allowedValues: [SignerClientTypes.EncryptionAlgorithm]? = nil,
             defaultValue: SignerClientTypes.EncryptionAlgorithm? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
         }
@@ -826,8 +802,7 @@ public struct GetRevocationStatusInput: Swift.Sendable {
         platformId: Swift.String? = nil,
         profileVersionArn: Swift.String? = nil,
         signatureTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.certificateHashes = certificateHashes
         self.jobArn = jobArn
         self.platformId = platformId
@@ -842,8 +817,7 @@ public struct GetRevocationStatusOutput: Swift.Sendable {
 
     public init(
         revokedEntities: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.revokedEntities = revokedEntities
     }
 }
@@ -855,8 +829,7 @@ public struct GetSigningPlatformInput: Swift.Sendable {
 
     public init(
         platformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.platformId = platformId
     }
 }
@@ -875,8 +848,7 @@ extension SignerClientTypes {
         public init(
             allowedValues: [SignerClientTypes.HashAlgorithm]? = nil,
             defaultValue: SignerClientTypes.HashAlgorithm? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
         }
@@ -897,8 +869,7 @@ extension SignerClientTypes {
         public init(
             encryptionAlgorithmOptions: SignerClientTypes.EncryptionAlgorithmOptions? = nil,
             hashAlgorithmOptions: SignerClientTypes.HashAlgorithmOptions? = nil
-        )
-        {
+        ) {
             self.encryptionAlgorithmOptions = encryptionAlgorithmOptions
             self.hashAlgorithmOptions = hashAlgorithmOptions
         }
@@ -919,8 +890,7 @@ extension SignerClientTypes {
         public init(
             defaultFormat: SignerClientTypes.ImageFormat? = nil,
             supportedFormats: [SignerClientTypes.ImageFormat]? = nil
-        )
-        {
+        ) {
             self.defaultFormat = defaultFormat
             self.supportedFormats = supportedFormats
         }
@@ -957,8 +927,7 @@ public struct GetSigningPlatformOutput: Swift.Sendable {
         signingConfiguration: SignerClientTypes.SigningConfiguration? = nil,
         signingImageFormat: SignerClientTypes.SigningImageFormat? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.category = category
         self.displayName = displayName
         self.maxSizeInMB = maxSizeInMB
@@ -981,8 +950,7 @@ public struct GetSigningProfileInput: Swift.Sendable {
     public init(
         profileName: Swift.String? = nil,
         profileOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileName = profileName
         self.profileOwner = profileOwner
     }
@@ -1003,8 +971,7 @@ extension SignerClientTypes {
             revocationEffectiveFrom: Foundation.Date? = nil,
             revokedAt: Foundation.Date? = nil,
             revokedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.revocationEffectiveFrom = revocationEffectiveFrom
             self.revokedAt = revokedAt
             self.revokedBy = revokedBy
@@ -1056,8 +1023,7 @@ extension SignerClientTypes {
         public init(
             type: SignerClientTypes.ValidityType? = nil,
             value: Swift.Int = 0
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1141,8 +1107,7 @@ public struct GetSigningProfileOutput: Swift.Sendable {
         status: SignerClientTypes.SigningProfileStatus? = nil,
         statusReason: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.overrides = overrides
         self.platformDisplayName = platformDisplayName
@@ -1170,8 +1135,7 @@ public struct ListProfilePermissionsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profileName = profileName
     }
@@ -1195,8 +1159,7 @@ extension SignerClientTypes {
             principal: Swift.String? = nil,
             profileVersion: Swift.String? = nil,
             statementId: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.principal = principal
             self.profileVersion = profileVersion
@@ -1220,8 +1183,7 @@ public struct ListProfilePermissionsOutput: Swift.Sendable {
         permissions: [SignerClientTypes.Permission]? = nil,
         policySizeBytes: Swift.Int = 0,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
         self.policySizeBytes = policySizeBytes
@@ -1259,8 +1221,7 @@ public struct ListSigningJobsInput: Swift.Sendable {
         signatureExpiresAfter: Foundation.Date? = nil,
         signatureExpiresBefore: Foundation.Date? = nil,
         status: SignerClientTypes.SigningStatus? = nil
-    )
-    {
+    ) {
         self.isRevoked = isRevoked
         self.jobInvoker = jobInvoker
         self.maxResults = maxResults
@@ -1321,8 +1282,7 @@ extension SignerClientTypes {
             signingMaterial: SignerClientTypes.SigningMaterial? = nil,
             source: SignerClientTypes.Source? = nil,
             status: SignerClientTypes.SigningStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.isRevoked = isRevoked
             self.jobId = jobId
@@ -1350,8 +1310,7 @@ public struct ListSigningJobsOutput: Swift.Sendable {
     public init(
         jobs: [SignerClientTypes.SigningJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -1375,8 +1334,7 @@ public struct ListSigningPlatformsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         partner: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.category = category
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1418,8 +1376,7 @@ extension SignerClientTypes {
             signingConfiguration: SignerClientTypes.SigningConfiguration? = nil,
             signingImageFormat: SignerClientTypes.SigningImageFormat? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.displayName = displayName
             self.maxSizeInMB = maxSizeInMB
@@ -1442,8 +1399,7 @@ public struct ListSigningPlatformsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         platforms: [SignerClientTypes.SigningPlatform]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.platforms = platforms
     }
@@ -1467,8 +1423,7 @@ public struct ListSigningProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         platformId: Swift.String? = nil,
         statuses: [SignerClientTypes.SigningProfileStatus]? = nil
-    )
-    {
+    ) {
         self.includeCanceled = includeCanceled
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1516,8 +1471,7 @@ extension SignerClientTypes {
             signingParameters: [Swift.String: Swift.String]? = nil,
             status: SignerClientTypes.SigningProfileStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.platformDisplayName = platformDisplayName
             self.platformId = platformId
@@ -1542,17 +1496,16 @@ public struct ListSigningProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profiles: [SignerClientTypes.SigningProfile]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profiles = profiles
     }
 }
 
 /// The signing profile was not found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1569,8 +1522,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1583,8 +1535,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1595,8 +1546,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1627,8 +1577,7 @@ public struct PutSigningProfileInput: Swift.Sendable {
         signingMaterial: SignerClientTypes.SigningMaterial? = nil,
         signingParameters: [Swift.String: Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.overrides = overrides
         self.platformId = platformId
         self.profileName = profileName
@@ -1651,8 +1600,7 @@ public struct PutSigningProfileOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         profileVersion: Swift.String? = nil,
         profileVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.profileVersion = profileVersion
         self.profileVersionArn = profileVersionArn
@@ -1674,8 +1622,7 @@ public struct RemoveProfilePermissionInput: Swift.Sendable {
         profileName: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileName = profileName
         self.revisionId = revisionId
         self.statementId = statementId
@@ -1688,8 +1635,7 @@ public struct RemoveProfilePermissionOutput: Swift.Sendable {
 
     public init(
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.revisionId = revisionId
     }
 }
@@ -1708,8 +1654,7 @@ public struct RevokeSignatureInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         jobOwner: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobOwner = jobOwner
         self.reason = reason
@@ -1735,8 +1680,7 @@ public struct RevokeSigningProfileInput: Swift.Sendable {
         profileName: Swift.String? = nil,
         profileVersion: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.effectiveTime = effectiveTime
         self.profileName = profileName
         self.profileVersion = profileVersion
@@ -1762,8 +1706,7 @@ public struct SignPayloadInput: Swift.Sendable {
         payloadFormat: Swift.String? = nil,
         profileName: Swift.String? = nil,
         profileOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.payloadFormat = payloadFormat
         self.profileName = profileName
@@ -1786,8 +1729,7 @@ public struct SignPayloadOutput: Swift.Sendable {
         jobOwner: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         signature: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobOwner = jobOwner
         self.metadata = metadata
@@ -1797,9 +1739,9 @@ public struct SignPayloadOutput: Swift.Sendable {
 
 /// The request was denied due to request throttling. Instead of this error, TooManyRequestsException should be used.
 @available(*, deprecated, message: "Instead of this error, TooManyRequestsException should be used.")
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1816,8 +1758,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1845,8 +1786,7 @@ public struct StartSigningJobInput: Swift.Sendable {
         profileName: Swift.String? = nil,
         profileOwner: Swift.String? = nil,
         source: SignerClientTypes.Source? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.destination = destination
         self.profileName = profileName
@@ -1864,8 +1804,7 @@ public struct StartSigningJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobOwner = jobOwner
     }
@@ -1882,8 +1821,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1905,8 +1843,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

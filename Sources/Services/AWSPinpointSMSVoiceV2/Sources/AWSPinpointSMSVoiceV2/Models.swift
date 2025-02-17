@@ -58,9 +58,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 /// The request was denied because you don't have sufficient permissions to access the resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: PinpointSMSVoiceV2ClientTypes.AccessDeniedExceptionReason? = nil
@@ -78,8 +78,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         reason: PinpointSMSVoiceV2ClientTypes.AccessDeniedExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -128,8 +127,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.AccountAttributeName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -201,8 +199,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             max: Swift.Int = 0,
             name: PinpointSMSVoiceV2ClientTypes.AccountLimitName? = nil,
             used: Swift.Int = 0
-        )
-        {
+        ) {
             self.max = max
             self.name = name
             self.used = used
@@ -410,9 +407,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: PinpointSMSVoiceV2ClientTypes.ConflictExceptionReason? = nil
@@ -436,8 +433,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         reason: PinpointSMSVoiceV2ClientTypes.ConflictExceptionReason? = nil,
         resourceId: Swift.String? = nil,
         resourceType: PinpointSMSVoiceV2ClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.resourceId = resourceId
@@ -446,9 +442,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier of the request.
         public internal(set) var requestId: Swift.String? = nil
@@ -466,17 +462,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
 }
 
 /// A requested resource couldn't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier of the resource.
         public internal(set) var resourceId: Swift.String? = nil
@@ -497,8 +492,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: PinpointSMSVoiceV2ClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -598,9 +592,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: PinpointSMSVoiceV2ClientTypes.ServiceQuotaExceededExceptionReason? = nil
@@ -618,17 +612,16 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         reason: PinpointSMSVoiceV2ClientTypes.ServiceQuotaExceededExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
 }
 
 /// An error that occurred because too many requests were sent during a certain amount of time.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -643,8 +636,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -663,8 +655,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -815,9 +806,9 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 /// A validation exception for a field.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The field that failed validation.
         public internal(set) var fields: [PinpointSMSVoiceV2ClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -838,8 +829,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [PinpointSMSVoiceV2ClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: PinpointSMSVoiceV2ClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -864,8 +854,7 @@ public struct AssociateOriginationIdentityInput: Swift.Sendable {
         isoCountryCode: Swift.String? = nil,
         originationIdentity: Swift.String? = nil,
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.isoCountryCode = isoCountryCode
         self.originationIdentity = originationIdentity
@@ -891,8 +880,7 @@ public struct AssociateOriginationIdentityOutput: Swift.Sendable {
         originationIdentityArn: Swift.String? = nil,
         poolArn: Swift.String? = nil,
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.isoCountryCode = isoCountryCode
         self.originationIdentity = originationIdentity
         self.originationIdentityArn = originationIdentityArn
@@ -912,8 +900,7 @@ public struct AssociateProtectConfigurationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.protectConfigurationId = protectConfigurationId
     }
@@ -938,8 +925,7 @@ public struct AssociateProtectConfigurationOutput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.protectConfigurationArn = protectConfigurationArn
@@ -1022,8 +1008,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             iamRoleArn: Swift.String? = nil,
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.iamRoleArn = iamRoleArn
             self.logGroupArn = logGroupArn
         }
@@ -1085,8 +1070,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.ConfigurationSetFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1136,8 +1120,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             deliveryStreamArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStreamArn = deliveryStreamArn
             self.iamRoleArn = iamRoleArn
         }
@@ -1306,8 +1289,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public init(
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
         }
     }
@@ -1340,8 +1322,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             kinesisFirehoseDestination: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination? = nil,
             matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]? = nil,
             snsDestination: PinpointSMSVoiceV2ClientTypes.SnsDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsDestination = cloudWatchLogsDestination
             self.enabled = enabled
             self.eventDestinationName = eventDestinationName
@@ -1386,8 +1367,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             defaultSenderId: Swift.String? = nil,
             eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]? = nil,
             protectConfigurationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
             self.createdTimestamp = createdTimestamp
@@ -1414,8 +1394,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1435,8 +1414,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configurationSetName = configurationSetName
         self.tags = tags
@@ -1458,8 +1436,7 @@ public struct CreateConfigurationSetOutput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         createdTimestamp: Foundation.Date? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.createdTimestamp = createdTimestamp
@@ -1494,8 +1471,7 @@ public struct CreateEventDestinationInput: Swift.Sendable {
         kinesisFirehoseDestination: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination? = nil,
         matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]? = nil,
         snsDestination: PinpointSMSVoiceV2ClientTypes.SnsDestination? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.cloudWatchLogsDestination = cloudWatchLogsDestination
         self.configurationSetName = configurationSetName
@@ -1518,8 +1494,7 @@ public struct CreateEventDestinationOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
@@ -1539,8 +1514,7 @@ public struct CreateOptOutListInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         optOutListName: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.optOutListName = optOutListName
         self.tags = tags
@@ -1562,8 +1536,7 @@ public struct CreateOptOutListOutput: Swift.Sendable {
         optOutListArn: Swift.String? = nil,
         optOutListName: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.optOutListArn = optOutListArn
         self.optOutListName = optOutListName
@@ -1595,8 +1568,7 @@ public struct CreatePoolInput: Swift.Sendable {
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         originationIdentity: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
@@ -1686,8 +1658,7 @@ public struct CreatePoolOutput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.messageType = messageType
@@ -1716,8 +1687,7 @@ public struct CreateProtectConfigurationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.tags = tags
@@ -1750,8 +1720,7 @@ public struct CreateProtectConfigurationOutput: Swift.Sendable {
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountDefault = accountDefault
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -1774,8 +1743,7 @@ public struct CreateRegistrationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         registrationType: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.registrationType = registrationType
         self.tags = tags
@@ -1883,8 +1851,7 @@ public struct CreateRegistrationOutput: Swift.Sendable {
         registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus? = nil,
         registrationType: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalAttributes = additionalAttributes
         self.createdTimestamp = createdTimestamp
         self.currentVersionNumber = currentVersionNumber
@@ -1907,8 +1874,7 @@ public struct CreateRegistrationAssociationInput: Swift.Sendable {
     public init(
         registrationId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationId = registrationId
         self.resourceId = resourceId
     }
@@ -1947,8 +1913,7 @@ public struct CreateRegistrationAssociationOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.isoCountryCode = isoCountryCode
         self.phoneNumber = phoneNumber
         self.registrationArn = registrationArn
@@ -1975,8 +1940,7 @@ public struct CreateRegistrationAttachmentInput: Swift.Sendable {
         attachmentUrl: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.attachmentBody = attachmentBody
         self.attachmentUrl = attachmentUrl
         self.clientToken = clientToken
@@ -2014,8 +1978,7 @@ public struct CreateRegistrationAttachmentOutput: Swift.Sendable {
         registrationAttachmentArn: Swift.String? = nil,
         registrationAttachmentId: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.attachmentStatus = attachmentStatus
         self.createdTimestamp = createdTimestamp
         self.registrationAttachmentArn = registrationAttachmentArn
@@ -2031,8 +1994,7 @@ public struct CreateRegistrationVersionInput: Swift.Sendable {
 
     public init(
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationId = registrationId
     }
 }
@@ -2121,8 +2083,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             reviewingTimestamp: Foundation.Date? = nil,
             revokedTimestamp: Foundation.Date? = nil,
             submittedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.approvedTimestamp = approvedTimestamp
             self.archivedTimestamp = archivedTimestamp
             self.deniedTimestamp = deniedTimestamp
@@ -2177,8 +2138,7 @@ public struct CreateRegistrationVersionOutput: Swift.Sendable {
         registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
         registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.registrationArn = registrationArn
         self.registrationId = registrationId
         self.registrationVersionStatus = registrationVersionStatus
@@ -2200,8 +2160,7 @@ public struct CreateVerifiedDestinationNumberInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         destinationPhoneNumber: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.destinationPhoneNumber = destinationPhoneNumber
         self.tags = tags
@@ -2267,8 +2226,7 @@ public struct CreateVerifiedDestinationNumberOutput: Swift.Sendable {
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
         verifiedDestinationNumberArn: Swift.String? = nil,
         verifiedDestinationNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.destinationPhoneNumber = destinationPhoneNumber
         self.status = status
@@ -2294,8 +2252,7 @@ public struct DeleteAccountDefaultProtectConfigurationOutput: Swift.Sendable {
     public init(
         defaultProtectConfigurationArn: Swift.String? = nil,
         defaultProtectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultProtectConfigurationArn = defaultProtectConfigurationArn
         self.defaultProtectConfigurationId = defaultProtectConfigurationId
     }
@@ -2308,8 +2265,7 @@ public struct DeleteConfigurationSetInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -2338,8 +2294,7 @@ public struct DeleteConfigurationSetOutput: Swift.Sendable {
         defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         defaultSenderId: Swift.String? = nil,
         eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.createdTimestamp = createdTimestamp
@@ -2357,8 +2312,7 @@ public struct DeleteDefaultMessageTypeInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -2375,8 +2329,7 @@ public struct DeleteDefaultMessageTypeOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.messageType = messageType
@@ -2390,8 +2343,7 @@ public struct DeleteDefaultSenderIdInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
     }
 }
@@ -2408,8 +2360,7 @@ public struct DeleteDefaultSenderIdOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         senderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.senderId = senderId
@@ -2427,8 +2378,7 @@ public struct DeleteEventDestinationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         eventDestinationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.eventDestinationName = eventDestinationName
     }
@@ -2446,8 +2396,7 @@ public struct DeleteEventDestinationOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
@@ -2465,8 +2414,7 @@ public struct DeleteKeywordInput: Swift.Sendable {
     public init(
         keyword: Swift.String? = nil,
         originationIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyword = keyword
         self.originationIdentity = originationIdentity
     }
@@ -2522,8 +2470,7 @@ public struct DeleteKeywordOutput: Swift.Sendable {
         keywordMessage: Swift.String? = nil,
         originationIdentity: Swift.String? = nil,
         originationIdentityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyword = keyword
         self.keywordAction = keywordAction
         self.keywordMessage = keywordMessage
@@ -2543,8 +2490,7 @@ public struct DeleteMediaMessageSpendLimitOverrideOutput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -2560,8 +2506,7 @@ public struct DeleteOptedOutNumberInput: Swift.Sendable {
     public init(
         optOutListName: Swift.String? = nil,
         optedOutNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.optOutListName = optOutListName
         self.optedOutNumber = optedOutNumber
     }
@@ -2585,8 +2530,7 @@ public struct DeleteOptedOutNumberOutput: Swift.Sendable {
         optOutListName: Swift.String? = nil,
         optedOutNumber: Swift.String? = nil,
         optedOutTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endUserOptedOut = endUserOptedOut
         self.optOutListArn = optOutListArn
         self.optOutListName = optOutListName
@@ -2602,8 +2546,7 @@ public struct DeleteOptOutListInput: Swift.Sendable {
 
     public init(
         optOutListName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optOutListName = optOutListName
     }
 }
@@ -2620,8 +2563,7 @@ public struct DeleteOptOutListOutput: Swift.Sendable {
         createdTimestamp: Foundation.Date? = nil,
         optOutListArn: Swift.String? = nil,
         optOutListName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.optOutListArn = optOutListArn
         self.optOutListName = optOutListName
@@ -2635,8 +2577,7 @@ public struct DeletePoolInput: Swift.Sendable {
 
     public init(
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.poolId = poolId
     }
 }
@@ -2683,8 +2624,7 @@ public struct DeletePoolOutput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.messageType = messageType
         self.optOutListName = optOutListName
@@ -2706,8 +2646,7 @@ public struct DeleteProtectConfigurationInput: Swift.Sendable {
 
     public init(
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.protectConfigurationId = protectConfigurationId
     }
 }
@@ -2735,8 +2674,7 @@ public struct DeleteProtectConfigurationOutput: Swift.Sendable {
         deletionProtectionEnabled: Swift.Bool = false,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountDefault = accountDefault
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -2756,8 +2694,7 @@ public struct DeleteProtectConfigurationRuleSetNumberOverrideInput: Swift.Sendab
     public init(
         destinationPhoneNumber: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationPhoneNumber = destinationPhoneNumber
         self.protectConfigurationId = protectConfigurationId
     }
@@ -2821,8 +2758,7 @@ public struct DeleteProtectConfigurationRuleSetNumberOverrideOutput: Swift.Senda
         isoCountryCode: Swift.String? = nil,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.createdTimestamp = createdTimestamp
         self.destinationPhoneNumber = destinationPhoneNumber
@@ -2840,8 +2776,7 @@ public struct DeleteRegistrationInput: Swift.Sendable {
 
     public init(
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationId = registrationId
     }
 }
@@ -2900,8 +2835,7 @@ public struct DeleteRegistrationOutput: Swift.Sendable {
         registrationId: Swift.String? = nil,
         registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus? = nil,
         registrationType: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalAttributes = additionalAttributes
         self.approvedVersionNumber = approvedVersionNumber
         self.createdTimestamp = createdTimestamp
@@ -2921,8 +2855,7 @@ public struct DeleteRegistrationAttachmentInput: Swift.Sendable {
 
     public init(
         registrationAttachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationAttachmentId = registrationAttachmentId
     }
 }
@@ -2957,8 +2890,7 @@ public struct DeleteRegistrationAttachmentOutput: Swift.Sendable {
         createdTimestamp: Foundation.Date? = nil,
         registrationAttachmentArn: Swift.String? = nil,
         registrationAttachmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachmentStatus = attachmentStatus
         self.attachmentUploadErrorReason = attachmentUploadErrorReason
         self.createdTimestamp = createdTimestamp
@@ -2978,8 +2910,7 @@ public struct DeleteRegistrationFieldValueInput: Swift.Sendable {
     public init(
         fieldPath: Swift.String? = nil,
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldPath = fieldPath
         self.registrationId = registrationId
     }
@@ -3013,8 +2944,7 @@ public struct DeleteRegistrationFieldValueOutput: Swift.Sendable {
         selectChoices: [Swift.String]? = nil,
         textValue: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.fieldPath = fieldPath
         self.registrationArn = registrationArn
         self.registrationAttachmentId = registrationAttachmentId
@@ -3032,8 +2962,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3050,8 +2979,7 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
         createdTimestamp: Foundation.Date? = nil,
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.policy = policy
         self.resourceArn = resourceArn
@@ -3069,8 +2997,7 @@ public struct DeleteTextMessageSpendLimitOverrideOutput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -3082,8 +3009,7 @@ public struct DeleteVerifiedDestinationNumberInput: Swift.Sendable {
 
     public init(
         verifiedDestinationNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.verifiedDestinationNumberId = verifiedDestinationNumberId
     }
 }
@@ -3107,8 +3033,7 @@ public struct DeleteVerifiedDestinationNumberOutput: Swift.Sendable {
         destinationPhoneNumber: Swift.String? = nil,
         verifiedDestinationNumberArn: Swift.String? = nil,
         verifiedDestinationNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.destinationPhoneNumber = destinationPhoneNumber
         self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
@@ -3127,8 +3052,7 @@ public struct DeleteVoiceMessageSpendLimitOverrideOutput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -3142,8 +3066,7 @@ public struct DescribeAccountAttributesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3158,8 +3081,7 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
     public init(
         accountAttributes: [PinpointSMSVoiceV2ClientTypes.AccountAttribute]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAttributes = accountAttributes
         self.nextToken = nextToken
     }
@@ -3174,8 +3096,7 @@ public struct DescribeAccountLimitsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3190,8 +3111,7 @@ public struct DescribeAccountLimitsOutput: Swift.Sendable {
     public init(
         accountLimits: [PinpointSMSVoiceV2ClientTypes.AccountLimit]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountLimits = accountLimits
         self.nextToken = nextToken
     }
@@ -3212,8 +3132,7 @@ public struct DescribeConfigurationSetsInput: Swift.Sendable {
         filters: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetNames = configurationSetNames
         self.filters = filters
         self.maxResults = maxResults
@@ -3230,8 +3149,7 @@ public struct DescribeConfigurationSetsOutput: Swift.Sendable {
     public init(
         configurationSets: [PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSets = configurationSets
         self.nextToken = nextToken
     }
@@ -3277,8 +3195,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.KeywordFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3304,8 +3221,7 @@ public struct DescribeKeywordsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         originationIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.keywords = keywords
         self.maxResults = maxResults
@@ -3332,8 +3248,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             keyword: Swift.String? = nil,
             keywordAction: PinpointSMSVoiceV2ClientTypes.KeywordAction? = nil,
             keywordMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyword = keyword
             self.keywordAction = keywordAction
             self.keywordMessage = keywordMessage
@@ -3356,8 +3271,7 @@ public struct DescribeKeywordsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         originationIdentity: Swift.String? = nil,
         originationIdentityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.keywords = keywords
         self.nextToken = nextToken
         self.originationIdentity = originationIdentity
@@ -3405,8 +3319,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.OptedOutFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3432,8 +3345,7 @@ public struct DescribeOptedOutNumbersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         optOutListName: Swift.String? = nil,
         optedOutNumbers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3460,8 +3372,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             endUserOptedOut: Swift.Bool = false,
             optedOutNumber: Swift.String? = nil,
             optedOutTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endUserOptedOut = endUserOptedOut
             self.optedOutNumber = optedOutNumber
             self.optedOutTimestamp = optedOutTimestamp
@@ -3484,8 +3395,7 @@ public struct DescribeOptedOutNumbersOutput: Swift.Sendable {
         optOutListArn: Swift.String? = nil,
         optOutListName: Swift.String? = nil,
         optedOutNumbers: [PinpointSMSVoiceV2ClientTypes.OptedOutNumberInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.optOutListArn = optOutListArn
         self.optOutListName = optOutListName
@@ -3537,8 +3447,7 @@ public struct DescribeOptOutListsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         optOutListNames: [Swift.String]? = nil,
         owner: PinpointSMSVoiceV2ClientTypes.Owner? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.optOutListNames = optOutListNames
@@ -3564,8 +3473,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             createdTimestamp: Foundation.Date? = nil,
             optOutListArn: Swift.String? = nil,
             optOutListName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.optOutListArn = optOutListArn
             self.optOutListName = optOutListName
@@ -3582,8 +3490,7 @@ public struct DescribeOptOutListsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         optOutLists: [PinpointSMSVoiceV2ClientTypes.OptOutListInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.optOutLists = optOutLists
     }
@@ -3656,8 +3563,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.PhoneNumberFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3682,8 +3588,7 @@ public struct DescribePhoneNumbersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         owner: PinpointSMSVoiceV2ClientTypes.Owner? = nil,
         phoneNumberIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3873,8 +3778,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             twoWayChannelArn: Swift.String? = nil,
             twoWayChannelRole: Swift.String? = nil,
             twoWayEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -3906,8 +3810,7 @@ public struct DescribePhoneNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumbers: [PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumbers = phoneNumbers
     }
@@ -3974,8 +3877,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.PoolFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -4000,8 +3902,7 @@ public struct DescribePoolsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         owner: PinpointSMSVoiceV2ClientTypes.Owner? = nil,
         poolIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4062,8 +3963,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             twoWayChannelArn: Swift.String? = nil,
             twoWayChannelRole: Swift.String? = nil,
             twoWayEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.messageType = messageType
@@ -4089,8 +3989,7 @@ public struct DescribePoolsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pools: [PinpointSMSVoiceV2ClientTypes.PoolInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pools = pools
     }
@@ -4139,8 +4038,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -4162,8 +4060,7 @@ public struct DescribeProtectConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         protectConfigurationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4197,8 +4094,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             deletionProtectionEnabled: Swift.Bool = false,
             protectConfigurationArn: Swift.String? = nil,
             protectConfigurationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountDefault = accountDefault
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -4217,8 +4113,7 @@ public struct DescribeProtectConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         protectConfigurations: [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.protectConfigurations = protectConfigurations
     }
@@ -4264,8 +4159,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -4287,8 +4181,7 @@ public struct DescribeRegistrationAttachmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registrationAttachmentIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4329,8 +4222,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             createdTimestamp: Foundation.Date? = nil,
             registrationAttachmentArn: Swift.String? = nil,
             registrationAttachmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentStatus = attachmentStatus
             self.attachmentUploadErrorReason = attachmentUploadErrorReason
             self.createdTimestamp = createdTimestamp
@@ -4350,8 +4242,7 @@ public struct DescribeRegistrationAttachmentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registrationAttachments: [PinpointSMSVoiceV2ClientTypes.RegistrationAttachmentsInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationAttachments = registrationAttachments
     }
@@ -4376,8 +4267,7 @@ public struct DescribeRegistrationFieldDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registrationType: Swift.String? = nil,
         sectionPath: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldPaths = fieldPaths
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4402,8 +4292,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             description: Swift.String? = nil,
             option: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.option = option
             self.title = title
@@ -4443,8 +4332,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             shortDescription: Swift.String? = nil,
             textValidationDescription: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
             self.exampleTextValue = exampleTextValue
@@ -4539,8 +4427,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             maxChoices: Swift.Int? = nil,
             minChoices: Swift.Int? = nil,
             options: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.maxChoices = maxChoices
             self.minChoices = minChoices
             self.options = options
@@ -4566,8 +4453,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             maxLength: Swift.Int? = nil,
             minLength: Swift.Int? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxLength = maxLength
             self.minLength = minLength
             self.pattern = pattern
@@ -4607,8 +4493,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             sectionPath: Swift.String? = nil,
             selectValidation: PinpointSMSVoiceV2ClientTypes.SelectValidation? = nil,
             textValidation: PinpointSMSVoiceV2ClientTypes.TextValidation? = nil
-        )
-        {
+        ) {
             self.displayHints = displayHints
             self.fieldPath = fieldPath
             self.fieldRequirement = fieldRequirement
@@ -4634,8 +4519,7 @@ public struct DescribeRegistrationFieldDefinitionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registrationFieldDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldDefinition]? = nil,
         registrationType: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationFieldDefinitions = registrationFieldDefinitions
         self.registrationType = registrationType
@@ -4664,8 +4548,7 @@ public struct DescribeRegistrationFieldValuesInput: Swift.Sendable {
         registrationId: Swift.String? = nil,
         sectionPath: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.fieldPaths = fieldPaths
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4697,8 +4580,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             registrationAttachmentId: Swift.String? = nil,
             selectChoices: [Swift.String]? = nil,
             textValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.deniedReason = deniedReason
             self.fieldPath = fieldPath
             self.registrationAttachmentId = registrationAttachmentId
@@ -4730,8 +4612,7 @@ public struct DescribeRegistrationFieldValuesOutput: Swift.Sendable {
         registrationFieldValues: [PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation]? = nil,
         registrationId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationArn = registrationArn
         self.registrationFieldValues = registrationFieldValues
@@ -4783,8 +4664,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.RegistrationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -4806,8 +4686,7 @@ public struct DescribeRegistrationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registrationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4872,8 +4751,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             registrationId: Swift.String? = nil,
             registrationStatus: PinpointSMSVoiceV2ClientTypes.RegistrationStatus? = nil,
             registrationType: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalAttributes = additionalAttributes
             self.approvedVersionNumber = approvedVersionNumber
             self.createdTimestamp = createdTimestamp
@@ -4897,8 +4775,7 @@ public struct DescribeRegistrationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registrations: [PinpointSMSVoiceV2ClientTypes.RegistrationInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrations = registrations
     }
@@ -4920,8 +4797,7 @@ public struct DescribeRegistrationSectionDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registrationType: Swift.String? = nil,
         sectionPaths: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.registrationType = registrationType
@@ -4952,8 +4828,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             longDescription: Swift.String? = nil,
             shortDescription: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
             self.longDescription = longDescription
@@ -4977,8 +4852,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationSectionDisplayHints? = nil,
             sectionPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayHints = displayHints
             self.sectionPath = sectionPath
         }
@@ -4999,8 +4873,7 @@ public struct DescribeRegistrationSectionDefinitionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registrationSectionDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationSectionDefinition]? = nil,
         registrationType: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationSectionDefinitions = registrationSectionDefinitions
         self.registrationType = registrationType
@@ -5050,8 +4923,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.RegistrationTypeFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -5073,8 +4945,7 @@ public struct DescribeRegistrationTypeDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registrationTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5104,8 +4975,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             longDescription: Swift.String? = nil,
             shortDescription: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
             self.longDescription = longDescription
@@ -5212,8 +5082,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             disassociationBehavior: PinpointSMSVoiceV2ClientTypes.RegistrationDisassociationBehavior? = nil,
             isoCountryCode: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationBehavior = associationBehavior
             self.disassociationBehavior = disassociationBehavior
             self.isoCountryCode = isoCountryCode
@@ -5239,8 +5108,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             displayHints: PinpointSMSVoiceV2ClientTypes.RegistrationTypeDisplayHints? = nil,
             registrationType: Swift.String? = nil,
             supportedAssociations: [PinpointSMSVoiceV2ClientTypes.SupportedAssociation]? = nil
-        )
-        {
+        ) {
             self.displayHints = displayHints
             self.registrationType = registrationType
             self.supportedAssociations = supportedAssociations
@@ -5258,8 +5126,7 @@ public struct DescribeRegistrationTypeDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registrationTypeDefinitions: [PinpointSMSVoiceV2ClientTypes.RegistrationTypeDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationTypeDefinitions = registrationTypeDefinitions
     }
@@ -5305,8 +5172,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.RegistrationVersionFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -5332,8 +5198,7 @@ public struct DescribeRegistrationVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         registrationId: Swift.String? = nil,
         versionNumbers: [Swift.Int]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5365,8 +5230,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             longDescription: Swift.String? = nil,
             reason: Swift.String? = nil,
             shortDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentationLink = documentationLink
             self.documentationTitle = documentationTitle
             self.longDescription = longDescription
@@ -5415,8 +5279,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
             registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deniedReasons = deniedReasons
             self.registrationVersionStatus = registrationVersionStatus
             self.registrationVersionStatusHistory = registrationVersionStatusHistory
@@ -5443,8 +5306,7 @@ public struct DescribeRegistrationVersionsOutput: Swift.Sendable {
         registrationArn: Swift.String? = nil,
         registrationId: Swift.String? = nil,
         registrationVersions: [PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationArn = registrationArn
         self.registrationId = registrationId
@@ -5504,8 +5366,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.SenderIdFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -5526,8 +5387,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             isoCountryCode: Swift.String? = nil,
             senderId: Swift.String? = nil
-        )
-        {
+        ) {
             self.isoCountryCode = isoCountryCode
             self.senderId = senderId
         }
@@ -5552,8 +5412,7 @@ public struct DescribeSenderIdsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         owner: PinpointSMSVoiceV2ClientTypes.Owner? = nil,
         senderIds: [PinpointSMSVoiceV2ClientTypes.SenderIdAndCountry]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5599,8 +5458,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             registrationId: Swift.String? = nil,
             senderId: Swift.String? = nil,
             senderIdArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
             self.messageTypes = messageTypes
@@ -5622,8 +5480,7 @@ public struct DescribeSenderIdsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         senderIds: [PinpointSMSVoiceV2ClientTypes.SenderIdInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.senderIds = senderIds
     }
@@ -5638,8 +5495,7 @@ public struct DescribeSpendLimitsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5699,8 +5555,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             maxLimit: Swift.Int = 0,
             name: PinpointSMSVoiceV2ClientTypes.SpendLimitName? = nil,
             overridden: Swift.Bool = false
-        )
-        {
+        ) {
             self.enforcedLimit = enforcedLimit
             self.maxLimit = maxLimit
             self.name = name
@@ -5718,8 +5573,7 @@ public struct DescribeSpendLimitsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         spendLimits: [PinpointSMSVoiceV2ClientTypes.SpendLimit]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.spendLimits = spendLimits
     }
@@ -5765,8 +5619,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -5791,8 +5644,7 @@ public struct DescribeVerifiedDestinationNumbersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         verifiedDestinationNumberIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.destinationPhoneNumbers = destinationPhoneNumbers
         self.filters = filters
         self.maxResults = maxResults
@@ -5831,8 +5683,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
             verifiedDestinationNumberArn: Swift.String? = nil,
             verifiedDestinationNumberId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
             self.status = status
@@ -5852,8 +5703,7 @@ public struct DescribeVerifiedDestinationNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         verifiedDestinationNumbers: [PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.verifiedDestinationNumbers = verifiedDestinationNumbers
     }
@@ -5906,8 +5756,7 @@ public struct DisassociateOriginationIdentityInput: Swift.Sendable {
         isoCountryCode: Swift.String? = nil,
         originationIdentity: Swift.String? = nil,
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.isoCountryCode = isoCountryCode
         self.originationIdentity = originationIdentity
@@ -5933,8 +5782,7 @@ public struct DisassociateOriginationIdentityOutput: Swift.Sendable {
         originationIdentityArn: Swift.String? = nil,
         poolArn: Swift.String? = nil,
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.isoCountryCode = isoCountryCode
         self.originationIdentity = originationIdentity
         self.originationIdentityArn = originationIdentityArn
@@ -5954,8 +5802,7 @@ public struct DisassociateProtectConfigurationInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.protectConfigurationId = protectConfigurationId
     }
@@ -5980,8 +5827,7 @@ public struct DisassociateProtectConfigurationOutput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.protectConfigurationArn = protectConfigurationArn
@@ -5996,8 +5842,7 @@ public struct DiscardRegistrationVersionInput: Swift.Sendable {
 
     public init(
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationId = registrationId
     }
 }
@@ -6043,8 +5888,7 @@ public struct DiscardRegistrationVersionOutput: Swift.Sendable {
         registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
         registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.registrationArn = registrationArn
         self.registrationId = registrationId
         self.registrationVersionStatus = registrationVersionStatus
@@ -6064,8 +5908,7 @@ public struct GetProtectConfigurationCountryRuleSetInput: Swift.Sendable {
     public init(
         numberCapability: PinpointSMSVoiceV2ClientTypes.NumberCapability? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.numberCapability = numberCapability
         self.protectConfigurationId = protectConfigurationId
     }
@@ -6110,8 +5953,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public init(
             protectStatus: PinpointSMSVoiceV2ClientTypes.ProtectStatus? = nil
-        )
-        {
+        ) {
             self.protectStatus = protectStatus
         }
     }
@@ -6136,8 +5978,7 @@ public struct GetProtectConfigurationCountryRuleSetOutput: Swift.Sendable {
         numberCapability: PinpointSMSVoiceV2ClientTypes.NumberCapability? = nil,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.countryRuleSet = countryRuleSet
         self.numberCapability = numberCapability
         self.protectConfigurationArn = protectConfigurationArn
@@ -6152,8 +5993,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6170,8 +6010,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
         createdTimestamp: Foundation.Date? = nil,
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.policy = policy
         self.resourceArn = resourceArn
@@ -6283,8 +6122,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -6307,8 +6145,7 @@ public struct ListPoolOriginationIdentitiesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6341,8 +6178,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             originationIdentity: Swift.String? = nil,
             originationIdentityArn: Swift.String? = nil,
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.isoCountryCode = isoCountryCode
             self.numberCapabilities = numberCapabilities
             self.originationIdentity = originationIdentity
@@ -6367,8 +6203,7 @@ public struct ListPoolOriginationIdentitiesOutput: Swift.Sendable {
         originationIdentities: [PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata]? = nil,
         poolArn: Swift.String? = nil,
         poolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.originationIdentities = originationIdentities
         self.poolArn = poolArn
@@ -6434,8 +6269,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -6458,8 +6292,7 @@ public struct ListProtectConfigurationRuleSetNumberOverridesInput: Swift.Sendabl
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6491,8 +6324,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             destinationPhoneNumber: Swift.String? = nil,
             expirationTimestamp: Foundation.Date? = nil,
             isoCountryCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
@@ -6519,8 +6351,7 @@ public struct ListProtectConfigurationRuleSetNumberOverridesOutput: Swift.Sendab
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
         ruleSetNumberOverrides: [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.protectConfigurationArn = protectConfigurationArn
         self.protectConfigurationId = protectConfigurationId
@@ -6571,8 +6402,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             name: PinpointSMSVoiceV2ClientTypes.RegistrationAssociationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -6595,8 +6425,7 @@ public struct ListRegistrationAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6628,8 +6457,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             resourceArn: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.isoCountryCode = isoCountryCode
             self.phoneNumber = phoneNumber
             self.resourceArn = resourceArn
@@ -6661,8 +6489,7 @@ public struct ListRegistrationAssociationsOutput: Swift.Sendable {
         registrationAssociations: [PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata]? = nil,
         registrationId: Swift.String? = nil,
         registrationType: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registrationArn = registrationArn
         self.registrationAssociations = registrationAssociations
@@ -6678,8 +6505,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6693,8 +6519,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6753,8 +6578,7 @@ public struct PutKeywordInput: Swift.Sendable {
         keywordAction: PinpointSMSVoiceV2ClientTypes.KeywordAction? = nil,
         keywordMessage: Swift.String? = nil,
         originationIdentity: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyword = keyword
         self.keywordAction = keywordAction
         self.keywordMessage = keywordMessage
@@ -6780,8 +6604,7 @@ public struct PutKeywordOutput: Swift.Sendable {
         keywordMessage: Swift.String? = nil,
         originationIdentity: Swift.String? = nil,
         originationIdentityArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyword = keyword
         self.keywordAction = keywordAction
         self.keywordMessage = keywordMessage
@@ -6801,8 +6624,7 @@ public struct PutMessageFeedbackInput: Swift.Sendable {
     public init(
         messageFeedbackStatus: PinpointSMSVoiceV2ClientTypes.MessageFeedbackStatus? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageFeedbackStatus = messageFeedbackStatus
         self.messageId = messageId
     }
@@ -6819,8 +6641,7 @@ public struct PutMessageFeedbackOutput: Swift.Sendable {
     public init(
         messageFeedbackStatus: PinpointSMSVoiceV2ClientTypes.MessageFeedbackStatus? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageFeedbackStatus = messageFeedbackStatus
         self.messageId = messageId
     }
@@ -6837,8 +6658,7 @@ public struct PutOptedOutNumberInput: Swift.Sendable {
     public init(
         optOutListName: Swift.String? = nil,
         optedOutNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.optOutListName = optOutListName
         self.optedOutNumber = optedOutNumber
     }
@@ -6862,8 +6682,7 @@ public struct PutOptedOutNumberOutput: Swift.Sendable {
         optOutListName: Swift.String? = nil,
         optedOutNumber: Swift.String? = nil,
         optedOutTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endUserOptedOut = endUserOptedOut
         self.optOutListArn = optOutListArn
         self.optOutListName = optOutListName
@@ -6893,8 +6712,7 @@ public struct PutProtectConfigurationRuleSetNumberOverrideInput: Swift.Sendable 
         destinationPhoneNumber: Swift.String? = nil,
         expirationTimestamp: Foundation.Date? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.destinationPhoneNumber = destinationPhoneNumber
@@ -6932,8 +6750,7 @@ public struct PutProtectConfigurationRuleSetNumberOverrideOutput: Swift.Sendable
         isoCountryCode: Swift.String? = nil,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.createdTimestamp = createdTimestamp
         self.destinationPhoneNumber = destinationPhoneNumber
@@ -6964,8 +6781,7 @@ public struct PutRegistrationFieldValueInput: Swift.Sendable {
         registrationId: Swift.String? = nil,
         selectChoices: [Swift.String]? = nil,
         textValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldPath = fieldPath
         self.registrationAttachmentId = registrationAttachmentId
         self.registrationId = registrationId
@@ -7002,8 +6818,7 @@ public struct PutRegistrationFieldValueOutput: Swift.Sendable {
         selectChoices: [Swift.String]? = nil,
         textValue: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.fieldPath = fieldPath
         self.registrationArn = registrationArn
         self.registrationAttachmentId = registrationAttachmentId
@@ -7025,8 +6840,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -7044,8 +6858,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
         createdTimestamp: Foundation.Date? = nil,
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.policy = policy
         self.resourceArn = resourceArn
@@ -7059,8 +6872,7 @@ public struct ReleasePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -7116,8 +6928,7 @@ public struct ReleasePhoneNumberOutput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.isoCountryCode = isoCountryCode
         self.messageType = messageType
@@ -7148,8 +6959,7 @@ public struct ReleaseSenderIdInput: Swift.Sendable {
     public init(
         isoCountryCode: Swift.String? = nil,
         senderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.isoCountryCode = isoCountryCode
         self.senderId = senderId
     }
@@ -7185,8 +6995,7 @@ public struct ReleaseSenderIdOutput: Swift.Sendable {
         registrationId: Swift.String? = nil,
         senderId: Swift.String? = nil,
         senderIdArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.isoCountryCode = isoCountryCode
         self.messageTypes = messageTypes
         self.monthlyLeasingPrice = monthlyLeasingPrice
@@ -7269,8 +7078,7 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
         poolId: Swift.String? = nil,
         registrationId: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
@@ -7344,8 +7152,7 @@ public struct RequestPhoneNumberOutput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
@@ -7391,8 +7198,7 @@ public struct RequestSenderIdInput: Swift.Sendable {
         messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
         senderId: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
@@ -7436,8 +7242,7 @@ public struct RequestSenderIdOutput: Swift.Sendable {
         senderId: Swift.String? = nil,
         senderIdArn: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
         self.messageTypes = messageTypes
@@ -7504,8 +7309,7 @@ public struct SendDestinationNumberVerificationCodeInput: Swift.Sendable {
         originationIdentity: Swift.String? = nil,
         verificationChannel: PinpointSMSVoiceV2ClientTypes.VerificationChannel? = nil,
         verifiedDestinationNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.context = context
         self.destinationCountryParameters = destinationCountryParameters
@@ -7523,8 +7327,7 @@ public struct SendDestinationNumberVerificationCodeOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -7567,8 +7370,7 @@ public struct SendMediaMessageInput: Swift.Sendable {
         originationIdentity: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
         timeToLive: Swift.Int? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.context = context
         self.destinationPhoneNumber = destinationPhoneNumber
@@ -7589,8 +7391,7 @@ public struct SendMediaMessageOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -7642,8 +7443,7 @@ public struct SendTextMessageInput: Swift.Sendable {
         originationIdentity: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
         timeToLive: Swift.Int? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.context = context
         self.destinationCountryParameters = destinationCountryParameters
@@ -7666,8 +7466,7 @@ public struct SendTextMessageOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -7946,8 +7745,7 @@ public struct SendVoiceMessageInput: Swift.Sendable {
         protectConfigurationId: Swift.String? = nil,
         timeToLive: Swift.Int? = nil,
         voiceId: PinpointSMSVoiceV2ClientTypes.VoiceId? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.context = context
         self.destinationPhoneNumber = destinationPhoneNumber
@@ -7969,8 +7767,7 @@ public struct SendVoiceMessageOutput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -7982,8 +7779,7 @@ public struct SetAccountDefaultProtectConfigurationInput: Swift.Sendable {
 
     public init(
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.protectConfigurationId = protectConfigurationId
     }
 }
@@ -7999,8 +7795,7 @@ public struct SetAccountDefaultProtectConfigurationOutput: Swift.Sendable {
     public init(
         defaultProtectConfigurationArn: Swift.String? = nil,
         defaultProtectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultProtectConfigurationArn = defaultProtectConfigurationArn
         self.defaultProtectConfigurationId = defaultProtectConfigurationId
     }
@@ -8017,8 +7812,7 @@ public struct SetDefaultMessageFeedbackEnabledInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         messageFeedbackEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.messageFeedbackEnabled = messageFeedbackEnabled
     }
@@ -8036,8 +7830,7 @@ public struct SetDefaultMessageFeedbackEnabledOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         messageFeedbackEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.messageFeedbackEnabled = messageFeedbackEnabled
@@ -8055,8 +7848,7 @@ public struct SetDefaultMessageTypeInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.messageType = messageType
     }
@@ -8074,8 +7866,7 @@ public struct SetDefaultMessageTypeOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.messageType = messageType
@@ -8093,8 +7884,7 @@ public struct SetDefaultSenderIdInput: Swift.Sendable {
     public init(
         configurationSetName: Swift.String? = nil,
         senderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetName = configurationSetName
         self.senderId = senderId
     }
@@ -8112,8 +7902,7 @@ public struct SetDefaultSenderIdOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         senderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.senderId = senderId
@@ -8127,8 +7916,7 @@ public struct SetMediaMessageSpendLimitOverrideInput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -8139,8 +7927,7 @@ public struct SetMediaMessageSpendLimitOverrideOutput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -8152,8 +7939,7 @@ public struct SetTextMessageSpendLimitOverrideInput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -8164,8 +7950,7 @@ public struct SetTextMessageSpendLimitOverrideOutput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -8177,8 +7962,7 @@ public struct SetVoiceMessageSpendLimitOverrideInput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -8189,8 +7973,7 @@ public struct SetVoiceMessageSpendLimitOverrideOutput: Swift.Sendable {
 
     public init(
         monthlyLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.monthlyLimit = monthlyLimit
     }
 }
@@ -8202,8 +7985,7 @@ public struct SubmitRegistrationVersionInput: Swift.Sendable {
 
     public init(
         registrationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationId = registrationId
     }
 }
@@ -8249,8 +8031,7 @@ public struct SubmitRegistrationVersionOutput: Swift.Sendable {
         registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
         registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.registrationArn = registrationArn
         self.registrationId = registrationId
         self.registrationVersionStatus = registrationVersionStatus
@@ -8270,8 +8051,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8293,8 +8073,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8331,8 +8110,7 @@ public struct UpdateEventDestinationInput: Swift.Sendable {
         kinesisFirehoseDestination: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination? = nil,
         matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]? = nil,
         snsDestination: PinpointSMSVoiceV2ClientTypes.SnsDestination? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogsDestination = cloudWatchLogsDestination
         self.configurationSetName = configurationSetName
         self.enabled = enabled
@@ -8355,8 +8133,7 @@ public struct UpdateEventDestinationOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         eventDestination: PinpointSMSVoiceV2ClientTypes.EventDestination? = nil
-    )
-    {
+    ) {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.eventDestination = eventDestination
@@ -8388,8 +8165,7 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.optOutListName = optOutListName
         self.phoneNumberId = phoneNumberId
@@ -8454,8 +8230,7 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
@@ -8504,8 +8279,7 @@ public struct UpdatePoolInput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.optOutListName = optOutListName
         self.poolId = poolId
@@ -8556,8 +8330,7 @@ public struct UpdatePoolOutput: Swift.Sendable {
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
         twoWayEnabled: Swift.Bool = false
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.messageType = messageType
@@ -8583,8 +8356,7 @@ public struct UpdateProtectConfigurationInput: Swift.Sendable {
     public init(
         deletionProtectionEnabled: Swift.Bool? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.protectConfigurationId = protectConfigurationId
     }
@@ -8613,8 +8385,7 @@ public struct UpdateProtectConfigurationOutput: Swift.Sendable {
         deletionProtectionEnabled: Swift.Bool = false,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountDefault = accountDefault
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -8638,8 +8409,7 @@ public struct UpdateProtectConfigurationCountryRuleSetInput: Swift.Sendable {
         countryRuleSetUpdates: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]? = nil,
         numberCapability: PinpointSMSVoiceV2ClientTypes.NumberCapability? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.countryRuleSetUpdates = countryRuleSetUpdates
         self.numberCapability = numberCapability
         self.protectConfigurationId = protectConfigurationId
@@ -8665,8 +8435,7 @@ public struct UpdateProtectConfigurationCountryRuleSetOutput: Swift.Sendable {
         numberCapability: PinpointSMSVoiceV2ClientTypes.NumberCapability? = nil,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.countryRuleSet = countryRuleSet
         self.numberCapability = numberCapability
         self.protectConfigurationArn = protectConfigurationArn
@@ -8688,8 +8457,7 @@ public struct UpdateSenderIdInput: Swift.Sendable {
         deletionProtectionEnabled: Swift.Bool? = nil,
         isoCountryCode: Swift.String? = nil,
         senderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
         self.senderId = senderId
@@ -8730,8 +8498,7 @@ public struct UpdateSenderIdOutput: Swift.Sendable {
         registrationId: Swift.String? = nil,
         senderId: Swift.String? = nil,
         senderIdArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.isoCountryCode = isoCountryCode
         self.messageTypes = messageTypes
@@ -8754,8 +8521,7 @@ public struct VerifyDestinationNumberInput: Swift.Sendable {
     public init(
         verificationCode: Swift.String? = nil,
         verifiedDestinationNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.verificationCode = verificationCode
         self.verifiedDestinationNumberId = verifiedDestinationNumberId
     }
@@ -8784,8 +8550,7 @@ public struct VerifyDestinationNumberOutput: Swift.Sendable {
         status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
         verifiedDestinationNumberArn: Swift.String? = nil,
         verifiedDestinationNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.destinationPhoneNumber = destinationPhoneNumber
         self.status = status

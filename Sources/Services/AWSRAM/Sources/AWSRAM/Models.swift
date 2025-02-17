@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
-public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -46,16 +46,15 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified client token isn't valid.
-public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -71,16 +70,15 @@ public struct InvalidClientTokenException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
-public struct MalformedArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -96,16 +94,15 @@ public struct MalformedArnException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the requested operation isn't permitted.
-public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -121,16 +118,15 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified invitation was already accepted.
-public struct ResourceShareInvitationAlreadyAcceptedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceShareInvitationAlreadyAcceptedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -146,16 +142,15 @@ public struct ResourceShareInvitationAlreadyAcceptedException: ClientRuntime.Mod
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified invitation was already rejected.
-public struct ResourceShareInvitationAlreadyRejectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceShareInvitationAlreadyRejectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -171,16 +166,15 @@ public struct ResourceShareInvitationAlreadyRejectedException: ClientRuntime.Mod
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for an invitation was not found.
-public struct ResourceShareInvitationArnNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceShareInvitationArnNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -196,16 +190,15 @@ public struct ResourceShareInvitationArnNotFoundException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified invitation is past its expiration date and time.
-public struct ResourceShareInvitationExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceShareInvitationExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -221,16 +214,15 @@ public struct ResourceShareInvitationExpiredException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the service could not respond to the request due to an internal problem. Try again later.
-public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -246,16 +238,15 @@ public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the service isn't available. Try again later.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -271,8 +262,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -287,8 +277,7 @@ public struct AcceptResourceShareInvitationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShareInvitationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShareInvitationArn = resourceShareInvitationArn
     }
@@ -408,8 +397,7 @@ extension RAMClientTypes {
             resourceShareName: Swift.String? = nil,
             status: RAMClientTypes.ResourceShareAssociationStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedEntity = associatedEntity
             self.associationType = associationType
             self.creationTime = creationTime
@@ -492,8 +480,7 @@ extension RAMClientTypes {
             resourceShareName: Swift.String? = nil,
             senderAccountId: Swift.String? = nil,
             status: RAMClientTypes.ResourceShareInvitationStatus? = nil
-        )
-        {
+        ) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId
             self.receiverArn = receiverArn
@@ -516,17 +503,16 @@ public struct AcceptResourceShareInvitationOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShareInvitation: RAMClientTypes.ResourceShareInvitation? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShareInvitation = resourceShareInvitation
     }
 }
 
 /// The operation failed because a parameter you specified isn't valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -542,16 +528,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the requested operation isn't valid for the resource share in its current state.
-public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -567,16 +552,15 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
-public struct ResourceShareLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceShareLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -592,16 +576,15 @@ public struct ResourceShareLimitExceededException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -617,16 +600,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because a specified resource couldn't be found.
-public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -642,8 +624,7 @@ public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -680,8 +661,7 @@ public struct AssociateResourceShareInput: Swift.Sendable {
         resourceArns: [Swift.String]? = nil,
         resourceShareArn: Swift.String? = nil,
         sources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.principals = principals
         self.resourceArns = resourceArns
@@ -699,8 +679,7 @@ public struct AssociateResourceShareOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShareAssociations = resourceShareAssociations
     }
@@ -726,8 +705,7 @@ public struct AssociateResourceSharePermissionInput: Swift.Sendable {
         permissionVersion: Swift.Int? = nil,
         replace: Swift.Bool? = nil,
         resourceShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
         self.permissionVersion = permissionVersion
@@ -745,17 +723,16 @@ public struct AssociateResourceSharePermissionOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.returnValue = returnValue
     }
 }
 
 /// The operation failed because a policy you specified isn't valid.
-public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -771,16 +748,15 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the policy template that you provided isn't valid.
-public struct MalformedPolicyTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedPolicyTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -796,16 +772,15 @@ public struct MalformedPolicyTemplateException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because a permission with the specified name already exists in the requested Amazon Web Services Region. Choose a different name.
-public struct PermissionAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PermissionAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -821,16 +796,15 @@ public struct PermissionAlreadyExistsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because it would exceed the maximum number of permissions you can create in each Amazon Web Services Region. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
-public struct PermissionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PermissionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -846,8 +820,7 @@ public struct PermissionLimitExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -864,8 +837,7 @@ extension RAMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -902,8 +874,7 @@ public struct CreatePermissionInput: Swift.Sendable {
         policyTemplate: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         tags: [RAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.policyTemplate = policyTemplate
@@ -1025,8 +996,7 @@ extension RAMClientTypes {
             status: Swift.String? = nil,
             tags: [RAMClientTypes.Tag]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
@@ -1052,17 +1022,16 @@ public struct CreatePermissionOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         permission: RAMClientTypes.ResourceSharePermissionSummary? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permission = permission
     }
 }
 
 /// The operation failed because it would exceed the limit for the number of versions you can have for a permission. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
-public struct PermissionVersionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PermissionVersionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1078,8 +1047,7 @@ public struct PermissionVersionsLimitExceededException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1107,8 +1075,7 @@ public struct CreatePermissionVersionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
         policyTemplate: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
         self.policyTemplate = policyTemplate
@@ -1213,8 +1180,7 @@ extension RAMClientTypes {
             status: RAMClientTypes.PermissionStatus? = nil,
             tags: [RAMClientTypes.Tag]? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
@@ -1241,17 +1207,16 @@ public struct CreatePermissionVersionOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         permission: RAMClientTypes.ResourceSharePermissionDetail? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permission = permission
     }
 }
 
 /// The operation failed because it would exceed the limit for tags for your Amazon Web Services account.
-public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1267,16 +1232,15 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified tag key is a reserved word and can't be used.
-public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1292,8 +1256,7 @@ public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1339,8 +1302,7 @@ public struct CreateResourceShareInput: Swift.Sendable {
         resourceArns: [Swift.String]? = nil,
         sources: [Swift.String]? = nil,
         tags: [RAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.allowExternalPrincipals = allowExternalPrincipals
         self.clientToken = clientToken
         self.name = name
@@ -1468,8 +1430,7 @@ extension RAMClientTypes {
             status: RAMClientTypes.ResourceShareStatus? = nil,
             statusMessage: Swift.String? = nil,
             tags: [RAMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.creationTime = creationTime
             self.featureSet = featureSet
@@ -1493,8 +1454,7 @@ public struct CreateResourceShareOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShare: RAMClientTypes.ResourceShare? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShare = resourceShare
     }
@@ -1510,8 +1470,7 @@ public struct DeletePermissionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
     }
@@ -1529,8 +1488,7 @@ public struct DeletePermissionOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionStatus: RAMClientTypes.PermissionStatus? = nil,
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionStatus = permissionStatus
         self.returnValue = returnValue
@@ -1551,8 +1509,7 @@ public struct DeletePermissionVersionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
         permissionVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
         self.permissionVersion = permissionVersion
@@ -1571,8 +1528,7 @@ public struct DeletePermissionVersionOutput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionStatus: RAMClientTypes.PermissionStatus? = nil,
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionStatus = permissionStatus
         self.returnValue = returnValue
@@ -1589,8 +1545,7 @@ public struct DeleteResourceShareInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShareArn = resourceShareArn
     }
@@ -1605,8 +1560,7 @@ public struct DeleteResourceShareOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.returnValue = returnValue
     }
@@ -1644,8 +1598,7 @@ public struct DisassociateResourceShareInput: Swift.Sendable {
         resourceArns: [Swift.String]? = nil,
         resourceShareArn: Swift.String? = nil,
         sources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.principals = principals
         self.resourceArns = resourceArns
@@ -1663,8 +1616,7 @@ public struct DisassociateResourceShareOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShareAssociations = resourceShareAssociations
     }
@@ -1684,8 +1636,7 @@ public struct DisassociateResourceSharePermissionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
         self.resourceShareArn = resourceShareArn
@@ -1701,8 +1652,7 @@ public struct DisassociateResourceSharePermissionOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.returnValue = returnValue
     }
@@ -1719,8 +1669,7 @@ public struct EnableSharingWithAwsOrganizationOutput: Swift.Sendable {
 
     public init(
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.returnValue = returnValue
     }
 }
@@ -1735,8 +1684,7 @@ public struct GetPermissionInput: Swift.Sendable {
     public init(
         permissionArn: Swift.String? = nil,
         permissionVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.permissionArn = permissionArn
         self.permissionVersion = permissionVersion
     }
@@ -1748,16 +1696,15 @@ public struct GetPermissionOutput: Swift.Sendable {
 
     public init(
         permission: RAMClientTypes.ResourceSharePermissionDetail? = nil
-    )
-    {
+    ) {
         self.permission = permission
     }
 }
 
 /// The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1773,16 +1720,15 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) was not found.
-public struct ResourceArnNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceArnNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1798,8 +1744,7 @@ public struct ResourceArnNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1820,8 +1765,7 @@ public struct GetResourcePoliciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principal: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.principal = principal
@@ -1838,8 +1782,7 @@ public struct GetResourcePoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         policies: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.policies = policies
     }
@@ -1874,8 +1817,7 @@ public struct GetResourceShareAssociationsInput: Swift.Sendable {
         principal: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceShareArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.associationStatus = associationStatus
         self.associationType = associationType
         self.maxResults = maxResults
@@ -1895,17 +1837,16 @@ public struct GetResourceShareAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceShareAssociations: [RAMClientTypes.ResourceShareAssociation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceShareAssociations = resourceShareAssociations
     }
 }
 
 /// The operation failed because the specified value for MaxResults isn't valid.
-public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1921,8 +1862,7 @@ public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1942,8 +1882,7 @@ public struct GetResourceShareInvitationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceShareArns: [Swift.String]? = nil,
         resourceShareInvitationArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceShareArns = resourceShareArns
@@ -1960,8 +1899,7 @@ public struct GetResourceShareInvitationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceShareInvitations: [RAMClientTypes.ResourceShareInvitation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceShareInvitations = resourceShareInvitations
     }
@@ -2008,8 +1946,7 @@ extension RAMClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValues = tagValues
         }
@@ -2051,8 +1988,7 @@ public struct GetResourceSharesInput: Swift.Sendable {
         resourceShareArns: [Swift.String]? = nil,
         resourceShareStatus: RAMClientTypes.ResourceShareStatus? = nil,
         tagFilters: [RAMClientTypes.TagFilter]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -2074,17 +2010,16 @@ public struct GetResourceSharesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceShares: [RAMClientTypes.ResourceShare]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceShares = resourceShares
     }
 }
 
 /// The operation failed because a required input parameter is missing.
-public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2100,8 +2035,7 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2163,8 +2097,7 @@ public struct ListPendingInvitationResourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceRegionScope: RAMClientTypes.ResourceRegionScopeFilter? = nil,
         resourceShareInvitationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceRegionScope = resourceRegionScope
@@ -2276,8 +2209,7 @@ extension RAMClientTypes {
             status: RAMClientTypes.ResourceStatus? = nil,
             statusMessage: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -2300,8 +2232,7 @@ public struct ListPendingInvitationResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [RAMClientTypes.Resource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -2334,8 +2265,7 @@ public struct ListPermissionAssociationsInput: Swift.Sendable {
         permissionArn: Swift.String? = nil,
         permissionVersion: Swift.Int? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationStatus = associationStatus
         self.defaultVersion = defaultVersion
         self.featureSet = featureSet
@@ -2391,8 +2321,7 @@ extension RAMClientTypes {
             resourceShareArn: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.defaultVersion = defaultVersion
             self.featureSet = featureSet
@@ -2414,8 +2343,7 @@ public struct ListPermissionAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [RAMClientTypes.AssociatedPermission]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -2477,8 +2405,7 @@ public struct ListPermissionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         permissionType: RAMClientTypes.PermissionTypeFilter? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.permissionType = permissionType
@@ -2495,8 +2422,7 @@ public struct ListPermissionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [RAMClientTypes.ResourceSharePermissionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -2515,8 +2441,7 @@ public struct ListPermissionVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.permissionArn = permissionArn
@@ -2532,8 +2457,7 @@ public struct ListPermissionVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [RAMClientTypes.ResourceSharePermissionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -2581,8 +2505,7 @@ public struct ListPrincipalsInput: Swift.Sendable {
         resourceOwner: RAMClientTypes.ResourceOwner? = nil,
         resourceShareArns: [Swift.String]? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.principals = principals
@@ -2618,8 +2541,7 @@ extension RAMClientTypes {
             id: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             resourceShareArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.external = external
             self.id = id
@@ -2638,8 +2560,7 @@ public struct ListPrincipalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         principals: [RAMClientTypes.Principal]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.principals = principals
     }
@@ -2692,8 +2613,7 @@ public struct ListReplacePermissionAssociationsWorkInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus? = nil,
         workIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -2740,8 +2660,7 @@ extension RAMClientTypes {
             statusMessage: Swift.String? = nil,
             toPermissionArn: Swift.String? = nil,
             toPermissionVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.fromPermissionArn = fromPermissionArn
             self.fromPermissionVersion = fromPermissionVersion
@@ -2764,17 +2683,16 @@ public struct ListReplacePermissionAssociationsWorkOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replacePermissionAssociationsWorks: [RAMClientTypes.ReplacePermissionAssociationsWork]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replacePermissionAssociationsWorks = replacePermissionAssociationsWorks
     }
 }
 
 /// The operation failed because the specified resource type isn't valid.
-public struct InvalidResourceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2790,8 +2708,7 @@ public struct InvalidResourceTypeException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2837,8 +2754,7 @@ public struct ListResourcesInput: Swift.Sendable {
         resourceRegionScope: RAMClientTypes.ResourceRegionScopeFilter? = nil,
         resourceShareArns: [Swift.String]? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.principal = principal
@@ -2859,8 +2775,7 @@ public struct ListResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resources: [RAMClientTypes.Resource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
     }
@@ -2879,8 +2794,7 @@ public struct ListResourceSharePermissionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceShareArn = resourceShareArn
@@ -2896,8 +2810,7 @@ public struct ListResourceSharePermissionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [RAMClientTypes.ResourceSharePermissionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -2924,8 +2837,7 @@ public struct ListResourceTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceRegionScope: RAMClientTypes.ResourceRegionScopeFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceRegionScope = resourceRegionScope
@@ -2951,8 +2863,7 @@ extension RAMClientTypes {
             resourceRegionScope: RAMClientTypes.ResourceRegionScope? = nil,
             resourceType: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceRegionScope = resourceRegionScope
             self.resourceType = resourceType
             self.serviceName = serviceName
@@ -2969,8 +2880,7 @@ public struct ListResourceTypesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceTypes: [RAMClientTypes.ServiceNameAndResourceType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceTypes = resourceTypes
     }
@@ -2990,8 +2900,7 @@ public struct PromotePermissionCreatedFromPolicyInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         permissionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.permissionArn = permissionArn
@@ -3007,17 +2916,16 @@ public struct PromotePermissionCreatedFromPolicyOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         permission: RAMClientTypes.ResourceSharePermissionSummary? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permission = permission
     }
 }
 
 /// There isn't an existing managed permission defined in RAM that has the same IAM permissions as the resource-based policy attached to the resource. You should first run [PromotePermissionCreatedFromPolicy] to create that managed permission.
-public struct UnmatchedPolicyPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnmatchedPolicyPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3033,8 +2941,7 @@ public struct UnmatchedPolicyPermissionException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3046,8 +2953,7 @@ public struct PromoteResourceShareCreatedFromPolicyInput: Swift.Sendable {
 
     public init(
         resourceShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceShareArn = resourceShareArn
     }
 }
@@ -3058,8 +2964,7 @@ public struct PromoteResourceShareCreatedFromPolicyOutput: Swift.Sendable {
 
     public init(
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.returnValue = returnValue
     }
 }
@@ -3074,8 +2979,7 @@ public struct RejectResourceShareInvitationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShareInvitationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShareInvitationArn = resourceShareInvitationArn
     }
@@ -3090,8 +2994,7 @@ public struct RejectResourceShareInvitationOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShareInvitation: RAMClientTypes.ResourceShareInvitation? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShareInvitation = resourceShareInvitation
     }
@@ -3114,8 +3017,7 @@ public struct ReplacePermissionAssociationsInput: Swift.Sendable {
         fromPermissionArn: Swift.String? = nil,
         fromPermissionVersion: Swift.Int? = nil,
         toPermissionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.fromPermissionArn = fromPermissionArn
         self.fromPermissionVersion = fromPermissionVersion
@@ -3132,8 +3034,7 @@ public struct ReplacePermissionAssociationsOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         replacePermissionAssociationsWork: RAMClientTypes.ReplacePermissionAssociationsWork? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.replacePermissionAssociationsWork = replacePermissionAssociationsWork
     }
@@ -3153,8 +3054,7 @@ public struct SetDefaultPermissionVersionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         permissionArn: Swift.String? = nil,
         permissionVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.permissionArn = permissionArn
         self.permissionVersion = permissionVersion
@@ -3170,8 +3070,7 @@ public struct SetDefaultPermissionVersionOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         returnValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.returnValue = returnValue
     }
@@ -3190,8 +3089,7 @@ public struct TagResourceInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil,
         tags: [RAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceShareArn = resourceShareArn
         self.tags = tags
@@ -3216,8 +3114,7 @@ public struct UntagResourceInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourceShareArn = resourceShareArn
         self.tagKeys = tagKeys
@@ -3245,8 +3142,7 @@ public struct UpdateResourceShareInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowExternalPrincipals = allowExternalPrincipals
         self.clientToken = clientToken
         self.name = name
@@ -3263,8 +3159,7 @@ public struct UpdateResourceShareOutput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         resourceShare: RAMClientTypes.ResourceShare? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceShare = resourceShare
     }

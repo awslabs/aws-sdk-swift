@@ -28,9 +28,9 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access denied.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Resource is not in expected state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Internal server error.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,16 +114,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Limit exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,16 +137,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Validation failed.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -165,8 +160,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -186,8 +180,7 @@ public struct DeleteKeyInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         key: Swift.String? = nil,
         kvsARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.ifMatch = ifMatch
         self.key = key
         self.kvsARN = kvsARN
@@ -210,8 +203,7 @@ public struct DeleteKeyOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         itemCount: Swift.Int? = nil,
         totalSizeInBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.itemCount = itemCount
         self.totalSizeInBytes = totalSizeInBytes
@@ -225,8 +217,7 @@ public struct DescribeKeyValueStoreInput: Swift.Sendable {
 
     public init(
         kvsARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.kvsARN = kvsARN
     }
 }
@@ -264,8 +255,7 @@ public struct DescribeKeyValueStoreOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         status: Swift.String? = nil,
         totalSizeInBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.created = created
         self.eTag = eTag
         self.failureReason = failureReason
@@ -288,8 +278,7 @@ public struct GetKeyInput: Swift.Sendable {
     public init(
         key: Swift.String? = nil,
         kvsARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.key = key
         self.kvsARN = kvsARN
     }
@@ -315,8 +304,7 @@ public struct GetKeyOutput: Swift.Sendable {
         key: Swift.String? = nil,
         totalSizeInBytes: Swift.Int? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.itemCount = itemCount
         self.key = key
         self.totalSizeInBytes = totalSizeInBytes
@@ -342,8 +330,7 @@ public struct ListKeysInput: Swift.Sendable {
         kvsARN: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.kvsARN = kvsARN
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -364,8 +351,7 @@ extension CloudFrontKeyValueStoreClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -386,8 +372,7 @@ public struct ListKeysOutput: Swift.Sendable {
     public init(
         items: [CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -413,8 +398,7 @@ public struct PutKeyInput: Swift.Sendable {
         key: Swift.String? = nil,
         kvsARN: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.ifMatch = ifMatch
         self.key = key
         self.kvsARN = kvsARN
@@ -443,8 +427,7 @@ public struct PutKeyOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         itemCount: Swift.Int? = nil,
         totalSizeInBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.itemCount = itemCount
         self.totalSizeInBytes = totalSizeInBytes
@@ -461,8 +444,7 @@ extension CloudFrontKeyValueStoreClientTypes {
 
         public init(
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
         }
     }
@@ -482,8 +464,7 @@ extension CloudFrontKeyValueStoreClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -512,8 +493,7 @@ public struct UpdateKeysInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         kvsARN: Swift.String? = nil,
         puts: [CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem]? = nil
-    )
-    {
+    ) {
         self.deletes = deletes
         self.ifMatch = ifMatch
         self.kvsARN = kvsARN
@@ -537,8 +517,7 @@ public struct UpdateKeysOutput: Swift.Sendable {
         eTag: Swift.String? = nil,
         itemCount: Swift.Int? = nil,
         totalSizeInBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.eTag = eTag
         self.itemCount = itemCount
         self.totalSizeInBytes = totalSizeInBytes

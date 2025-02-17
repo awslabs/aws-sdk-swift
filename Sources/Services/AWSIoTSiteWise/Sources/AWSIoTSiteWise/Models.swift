@@ -79,9 +79,9 @@ public struct UpdateGatewayOutput: Swift.Sendable {
 }
 
 /// Access is denied.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -96,8 +96,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -112,8 +111,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -129,8 +127,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -146,8 +143,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -163,8 +159,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -188,8 +183,7 @@ extension IoTSiteWiseClientTypes {
             iamRole: IoTSiteWiseClientTypes.IAMRoleIdentity? = nil,
             iamUser: IoTSiteWiseClientTypes.IAMUserIdentity? = nil,
             user: IoTSiteWiseClientTypes.UserIdentity? = nil
-        )
-        {
+        ) {
             self.group = group
             self.iamRole = iamRole
             self.iamUser = iamUser
@@ -237,8 +231,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -254,8 +247,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -273,8 +265,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             portal: IoTSiteWiseClientTypes.PortalResource? = nil,
             project: IoTSiteWiseClientTypes.ProjectResource? = nil
-        )
-        {
+        ) {
             self.portal = portal
             self.project = project
         }
@@ -309,8 +300,7 @@ extension IoTSiteWiseClientTypes {
             lastUpdateDate: Foundation.Date? = nil,
             permission: IoTSiteWiseClientTypes.Permission? = nil,
             resource: IoTSiteWiseClientTypes.Resource? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.id = id
             self.identity = identity
@@ -339,8 +329,7 @@ extension IoTSiteWiseClientTypes {
             actionDefinitionId: Swift.String? = nil,
             actionName: Swift.String? = nil,
             actionType: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionDefinitionId = actionDefinitionId
             self.actionName = actionName
             self.actionType = actionType
@@ -358,8 +347,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.stringValue = stringValue
         }
     }
@@ -375,8 +363,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             assetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
         }
     }
@@ -397,8 +384,7 @@ extension IoTSiteWiseClientTypes {
             actionDefinitionId: Swift.String? = nil,
             actionId: Swift.String? = nil,
             targetResource: IoTSiteWiseClientTypes.TargetResource? = nil
-        )
-        {
+        ) {
             self.actionDefinitionId = actionDefinitionId
             self.actionId = actionId
             self.targetResource = targetResource
@@ -462,8 +448,7 @@ extension IoTSiteWiseClientTypes {
             minimum: Swift.Double? = nil,
             standardDeviation: Swift.Double? = nil,
             sum: Swift.Double? = nil
-        )
-        {
+        ) {
             self.average = average
             self.count = count
             self.maximum = maximum
@@ -491,8 +476,7 @@ extension IoTSiteWiseClientTypes {
             quality: IoTSiteWiseClientTypes.Quality? = nil,
             timestamp: Foundation.Date? = nil,
             value: IoTSiteWiseClientTypes.Aggregates? = nil
-        )
-        {
+        ) {
             self.quality = quality
             self.timestamp = timestamp
             self.value = value
@@ -554,8 +538,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             alarmRoleArn: Swift.String? = nil,
             notificationLambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmRoleArn = alarmRoleArn
             self.notificationLambdaArn = notificationLambdaArn
         }
@@ -643,8 +626,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             state: IoTSiteWiseClientTypes.PropertyNotificationState? = nil,
             topic: Swift.String? = nil
-        )
-        {
+        ) {
             self.state = state
             self.topic = topic
         }
@@ -663,8 +645,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -707,8 +688,7 @@ extension IoTSiteWiseClientTypes {
             notification: IoTSiteWiseClientTypes.PropertyNotification? = nil,
             path: [IoTSiteWiseClientTypes.AssetPropertyPathSegment]? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
@@ -749,8 +729,7 @@ extension IoTSiteWiseClientTypes {
             name: Swift.String? = nil,
             properties: [IoTSiteWiseClientTypes.AssetProperty]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.externalId = externalId
             self.id = id
@@ -773,8 +752,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -814,8 +792,7 @@ extension IoTSiteWiseClientTypes {
             name: Swift.String? = nil,
             path: [IoTSiteWiseClientTypes.AssetCompositeModelPathSegment]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.externalId = externalId
             self.id = id
@@ -870,8 +847,7 @@ extension IoTSiteWiseClientTypes {
             assetId: Swift.String? = nil,
             code: IoTSiteWiseClientTypes.AssetErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.code = code
             self.message = message
@@ -895,8 +871,7 @@ extension IoTSiteWiseClientTypes {
             externalId: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalId = externalId
             self.id = id
             self.name = name
@@ -916,8 +891,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             childAssetId: Swift.String? = nil,
             parentAssetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.childAssetId = childAssetId
             self.parentAssetId = parentAssetId
         }
@@ -936,8 +910,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -953,8 +926,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             defaultValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
         }
     }
@@ -999,8 +971,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             state: IoTSiteWiseClientTypes.ForwardingConfigState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1016,8 +987,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             forwardingConfig: IoTSiteWiseClientTypes.ForwardingConfig? = nil
-        )
-        {
+        ) {
             self.forwardingConfig = forwardingConfig
         }
     }
@@ -1032,8 +1002,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             processingConfig: IoTSiteWiseClientTypes.MeasurementProcessingConfig? = nil
-        )
-        {
+        ) {
             self.processingConfig = processingConfig
         }
     }
@@ -1078,8 +1047,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             computeLocation: IoTSiteWiseClientTypes.ComputeLocation? = nil
-        )
-        {
+        ) {
             self.computeLocation = computeLocation
         }
     }
@@ -1100,8 +1068,7 @@ extension IoTSiteWiseClientTypes {
             hierarchyId: Swift.String? = nil,
             propertyId: Swift.String? = nil,
             propertyPath: [IoTSiteWiseClientTypes.AssetModelPropertyPathSegment]? = nil
-        )
-        {
+        ) {
             self.hierarchyId = hierarchyId
             self.propertyId = propertyId
             self.propertyPath = propertyPath
@@ -1123,8 +1090,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             name: Swift.String? = nil,
             value: IoTSiteWiseClientTypes.VariableValue? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1170,8 +1136,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             interval: Swift.String? = nil,
             offset: Swift.String? = nil
-        )
-        {
+        ) {
             self.interval = interval
             self.offset = offset
         }
@@ -1187,8 +1152,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             tumbling: IoTSiteWiseClientTypes.TumblingWindow? = nil
-        )
-        {
+        ) {
             self.tumbling = tumbling
         }
     }
@@ -1215,8 +1179,7 @@ extension IoTSiteWiseClientTypes {
             processingConfig: IoTSiteWiseClientTypes.MetricProcessingConfig? = nil,
             variables: [IoTSiteWiseClientTypes.ExpressionVariable]? = nil,
             window: IoTSiteWiseClientTypes.MetricWindow? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.processingConfig = processingConfig
             self.variables = variables
@@ -1238,8 +1201,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             computeLocation: IoTSiteWiseClientTypes.ComputeLocation? = nil,
             forwardingConfig: IoTSiteWiseClientTypes.ForwardingConfig? = nil
-        )
-        {
+        ) {
             self.computeLocation = computeLocation
             self.forwardingConfig = forwardingConfig
         }
@@ -1263,8 +1225,7 @@ extension IoTSiteWiseClientTypes {
             expression: Swift.String? = nil,
             processingConfig: IoTSiteWiseClientTypes.TransformProcessingConfig? = nil,
             variables: [IoTSiteWiseClientTypes.ExpressionVariable]? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.processingConfig = processingConfig
             self.variables = variables
@@ -1290,8 +1251,7 @@ extension IoTSiteWiseClientTypes {
             measurement: IoTSiteWiseClientTypes.Measurement? = nil,
             metric: IoTSiteWiseClientTypes.Metric? = nil,
             transform: IoTSiteWiseClientTypes.Transform? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.measurement = measurement
             self.metric = metric
@@ -1337,8 +1297,7 @@ extension IoTSiteWiseClientTypes {
             path: [IoTSiteWiseClientTypes.AssetModelPropertyPathSegment]? = nil,
             type: IoTSiteWiseClientTypes.PropertyType? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
             self.externalId = externalId
@@ -1377,8 +1336,7 @@ extension IoTSiteWiseClientTypes {
             name: Swift.String? = nil,
             properties: [IoTSiteWiseClientTypes.AssetModelProperty]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.externalId = externalId
             self.id = id
@@ -1419,8 +1377,7 @@ extension IoTSiteWiseClientTypes {
             name: Swift.String? = nil,
             type: IoTSiteWiseClientTypes.PropertyType? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
             self.externalId = externalId
@@ -1458,8 +1415,7 @@ extension IoTSiteWiseClientTypes {
             name: Swift.String? = nil,
             properties: [IoTSiteWiseClientTypes.AssetModelPropertyDefinition]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.externalId = externalId
             self.id = id
@@ -1482,8 +1438,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -1517,8 +1472,7 @@ extension IoTSiteWiseClientTypes {
             name: Swift.String? = nil,
             path: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.externalId = externalId
             self.id = id
@@ -1553,8 +1507,7 @@ extension IoTSiteWiseClientTypes {
             externalId: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.childAssetModelId = childAssetModelId
             self.externalId = externalId
             self.id = id
@@ -1583,8 +1536,7 @@ extension IoTSiteWiseClientTypes {
             externalId: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.childAssetModelId = childAssetModelId
             self.externalId = externalId
             self.id = id
@@ -1629,8 +1581,7 @@ extension IoTSiteWiseClientTypes {
             path: [IoTSiteWiseClientTypes.AssetModelPropertyPathSegment]? = nil,
             type: IoTSiteWiseClientTypes.PropertyType? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
@@ -1757,8 +1708,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             code: IoTSiteWiseClientTypes.DetailedErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -1782,8 +1732,7 @@ extension IoTSiteWiseClientTypes {
             code: IoTSiteWiseClientTypes.ErrorCode? = nil,
             details: [IoTSiteWiseClientTypes.DetailedError]? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.details = details
             self.message = message
@@ -1804,8 +1753,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             error: IoTSiteWiseClientTypes.ErrorDetails? = nil,
             state: IoTSiteWiseClientTypes.AssetModelState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -1888,8 +1836,7 @@ extension IoTSiteWiseClientTypes {
             name: Swift.String? = nil,
             status: IoTSiteWiseClientTypes.AssetModelStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetModelType = assetModelType
             self.creationDate = creationDate
@@ -1961,8 +1908,7 @@ extension IoTSiteWiseClientTypes {
             notification: IoTSiteWiseClientTypes.PropertyNotification? = nil,
             path: [IoTSiteWiseClientTypes.AssetPropertyPathSegment]? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.assetCompositeModelId = assetCompositeModelId
             self.externalId = externalId
@@ -1987,10 +1933,63 @@ extension IoTSiteWiseClientTypes {
         public init(
             offsetInNanos: Swift.Int? = nil,
             timeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.offsetInNanos = offsetInNanos
             self.timeInSeconds = timeInSeconds
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    public enum RawValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case boolean
+        case double
+        case integer
+        case string
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RawValueType] {
+            return [
+                .boolean,
+                .double,
+                .integer,
+                .string,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boolean: return "B"
+            case .double: return "D"
+            case .integer: return "I"
+            case .string: return "S"
+            case .unknown: return "U"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The value type of null asset property data with BAD and UNCERTAIN qualities.
+    public struct PropertyValueNullValue: Swift.Sendable {
+        /// The type of null asset property data.
+        /// This member is required.
+        public var valueType: IoTSiteWiseClientTypes.RawValueType?
+
+        public init(
+            valueType: IoTSiteWiseClientTypes.RawValueType? = nil
+        ) {
+            self.valueType = valueType
         }
     }
 }
@@ -2001,23 +2000,26 @@ extension IoTSiteWiseClientTypes {
     public struct Variant: Swift.Sendable {
         /// Asset property data of type Boolean (true or false).
         public var booleanValue: Swift.Bool?
-        /// Asset property data of type double (floating point number).
+        /// Asset property data of type double (floating point number). The min value is -10^10. The max value is 10^10. Double.NaN is allowed.
         public var doubleValue: Swift.Double?
         /// Asset property data of type integer (whole number).
         public var integerValue: Swift.Int?
-        /// Asset property data of type string (sequence of characters).
+        /// The type of null asset property data with BAD and UNCERTAIN qualities.
+        public var nullValue: IoTSiteWiseClientTypes.PropertyValueNullValue?
+        /// Asset property data of type string (sequence of characters). The allowed pattern: "^$|[^\u0000-\u001F\u007F]+". The max length is 1024.
         public var stringValue: Swift.String?
 
         public init(
             booleanValue: Swift.Bool? = nil,
             doubleValue: Swift.Double? = nil,
             integerValue: Swift.Int? = nil,
+            nullValue: IoTSiteWiseClientTypes.PropertyValueNullValue? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.integerValue = integerValue
+            self.nullValue = nullValue
             self.stringValue = stringValue
         }
     }
@@ -2040,8 +2042,7 @@ extension IoTSiteWiseClientTypes {
             quality: IoTSiteWiseClientTypes.Quality? = nil,
             timestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
             value: IoTSiteWiseClientTypes.Variant? = nil
-        )
-        {
+        ) {
             self.quality = quality
             self.timestamp = timestamp
             self.value = value
@@ -2090,8 +2091,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             hierarchyInfo: IoTSiteWiseClientTypes.AssetHierarchyInfo? = nil,
             relationshipType: IoTSiteWiseClientTypes.AssetRelationshipType? = nil
-        )
-        {
+        ) {
             self.hierarchyInfo = hierarchyInfo
             self.relationshipType = relationshipType
         }
@@ -2149,8 +2149,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             error: IoTSiteWiseClientTypes.ErrorDetails? = nil,
             state: IoTSiteWiseClientTypes.AssetState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -2201,8 +2200,7 @@ extension IoTSiteWiseClientTypes {
             lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: IoTSiteWiseClientTypes.AssetStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetModelId = assetModelId
             self.creationDate = creationDate
@@ -2218,9 +2216,9 @@ extension IoTSiteWiseClientTypes {
 }
 
 /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
-public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ARN of the resource that conflicts with this operation.
@@ -2244,8 +2242,7 @@ public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
         self.properties.resourceId = resourceId
@@ -2253,9 +2250,9 @@ public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// IoT SiteWise can't process your request right now. Try again later.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2271,16 +2268,15 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2296,16 +2292,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2321,16 +2316,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ARN of the resource that already exists.
@@ -2354,8 +2348,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
         self.properties.resourceId = resourceId
@@ -2363,9 +2356,9 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The requested resource can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2381,16 +2374,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your request exceeded a rate limit. For example, you might have exceeded the number of IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2406,8 +2398,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2430,8 +2421,7 @@ public struct AssociateAssetsInput: Swift.Sendable {
         childAssetId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         hierarchyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.childAssetId = childAssetId
         self.clientToken = clientToken
@@ -2483,8 +2473,7 @@ extension IoTSiteWiseClientTypes {
             lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: IoTSiteWiseClientTypes.AssetStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assetModelId = assetModelId
             self.creationDate = creationDate
@@ -2517,8 +2506,7 @@ public struct AssociateTimeSeriesToAssetPropertyInput: Swift.Sendable {
         assetId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         propertyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.assetId = assetId
         self.clientToken = clientToken
@@ -2569,8 +2557,7 @@ public struct BatchAssociateProjectAssetsInput: Swift.Sendable {
         assetIds: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIds = assetIds
         self.clientToken = clientToken
         self.projectId = projectId
@@ -2583,8 +2570,7 @@ public struct BatchAssociateProjectAssetsOutput: Swift.Sendable {
 
     public init(
         errors: [IoTSiteWiseClientTypes.AssetErrorDetails]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -2603,8 +2589,7 @@ public struct BatchDisassociateProjectAssetsInput: Swift.Sendable {
         assetIds: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIds = assetIds
         self.clientToken = clientToken
         self.projectId = projectId
@@ -2617,16 +2602,15 @@ public struct BatchDisassociateProjectAssetsOutput: Swift.Sendable {
 
     public init(
         errors: [IoTSiteWiseClientTypes.AssetErrorDetails]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
 
 /// The requested service is unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2642,8 +2626,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2722,8 +2705,7 @@ extension IoTSiteWiseClientTypes {
             resolution: Swift.String? = nil,
             startDate: Foundation.Date? = nil,
             timeOrdering: IoTSiteWiseClientTypes.TimeOrdering? = nil
-        )
-        {
+        ) {
             self.aggregateTypes = aggregateTypes
             self.assetId = assetId
             self.endDate = endDate
@@ -2755,8 +2737,7 @@ public struct BatchGetAssetPropertyAggregatesInput: Swift.Sendable {
         entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2813,8 +2794,7 @@ extension IoTSiteWiseClientTypes {
             entryId: Swift.String? = nil,
             errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.entryId = entryId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2865,8 +2845,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorCode? = nil,
             errorTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorTimestamp = errorTimestamp
         }
@@ -2890,8 +2869,7 @@ extension IoTSiteWiseClientTypes {
             completionStatus: IoTSiteWiseClientTypes.BatchEntryCompletionStatus? = nil,
             entryId: Swift.String? = nil,
             errorInfo: IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesErrorInfo? = nil
-        )
-        {
+        ) {
             self.completionStatus = completionStatus
             self.entryId = entryId
             self.errorInfo = errorInfo
@@ -2913,8 +2891,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             aggregatedValues: [IoTSiteWiseClientTypes.AggregatedValue]? = nil,
             entryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggregatedValues = aggregatedValues
             self.entryId = entryId
         }
@@ -2939,8 +2916,7 @@ public struct BatchGetAssetPropertyAggregatesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         skippedEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSkippedEntry]? = nil,
         successEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
         self.nextToken = nextToken
         self.skippedEntries = skippedEntries
@@ -2971,8 +2947,7 @@ extension IoTSiteWiseClientTypes {
             entryId: Swift.String? = nil,
             propertyAlias: Swift.String? = nil,
             propertyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.entryId = entryId
             self.propertyAlias = propertyAlias
@@ -2991,8 +2966,7 @@ public struct BatchGetAssetPropertyValueInput: Swift.Sendable {
     public init(
         entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -3048,8 +3022,7 @@ extension IoTSiteWiseClientTypes {
             entryId: Swift.String? = nil,
             errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.entryId = entryId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3071,8 +3044,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorCode? = nil,
             errorTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorTimestamp = errorTimestamp
         }
@@ -3096,8 +3068,7 @@ extension IoTSiteWiseClientTypes {
             completionStatus: IoTSiteWiseClientTypes.BatchEntryCompletionStatus? = nil,
             entryId: Swift.String? = nil,
             errorInfo: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueErrorInfo? = nil
-        )
-        {
+        ) {
             self.completionStatus = completionStatus
             self.entryId = entryId
             self.errorInfo = errorInfo
@@ -3118,8 +3089,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             assetPropertyValue: IoTSiteWiseClientTypes.AssetPropertyValue? = nil,
             entryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetPropertyValue = assetPropertyValue
             self.entryId = entryId
         }
@@ -3144,8 +3114,7 @@ public struct BatchGetAssetPropertyValueOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         skippedEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSkippedEntry]? = nil,
         successEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueSuccessEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
         self.nextToken = nextToken
         self.skippedEntries = skippedEntries
@@ -3188,8 +3157,7 @@ extension IoTSiteWiseClientTypes {
             qualities: [IoTSiteWiseClientTypes.Quality]? = nil,
             startDate: Foundation.Date? = nil,
             timeOrdering: IoTSiteWiseClientTypes.TimeOrdering? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.endDate = endDate
             self.entryId = entryId
@@ -3219,8 +3187,7 @@ public struct BatchGetAssetPropertyValueHistoryInput: Swift.Sendable {
         entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3277,8 +3244,7 @@ extension IoTSiteWiseClientTypes {
             entryId: Swift.String? = nil,
             errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.entryId = entryId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3300,8 +3266,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             errorCode: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorCode? = nil,
             errorTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorTimestamp = errorTimestamp
         }
@@ -3325,8 +3290,7 @@ extension IoTSiteWiseClientTypes {
             completionStatus: IoTSiteWiseClientTypes.BatchEntryCompletionStatus? = nil,
             entryId: Swift.String? = nil,
             errorInfo: IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryErrorInfo? = nil
-        )
-        {
+        ) {
             self.completionStatus = completionStatus
             self.entryId = entryId
             self.errorInfo = errorInfo
@@ -3348,8 +3312,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             assetPropertyValueHistory: [IoTSiteWiseClientTypes.AssetPropertyValue]? = nil,
             entryId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetPropertyValueHistory = assetPropertyValueHistory
             self.entryId = entryId
         }
@@ -3374,8 +3337,7 @@ public struct BatchGetAssetPropertyValueHistoryOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         skippedEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySkippedEntry]? = nil,
         successEntries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
         self.nextToken = nextToken
         self.skippedEntries = skippedEntries
@@ -3406,8 +3368,7 @@ extension IoTSiteWiseClientTypes {
             propertyAlias: Swift.String? = nil,
             propertyId: Swift.String? = nil,
             propertyValues: [IoTSiteWiseClientTypes.AssetPropertyValue]? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.entryId = entryId
             self.propertyAlias = propertyAlias
@@ -3418,14 +3379,17 @@ extension IoTSiteWiseClientTypes {
 }
 
 public struct BatchPutAssetPropertyValueInput: Swift.Sendable {
+    /// This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to false, an invalid TQV fails ingestion of the entire entry that contains it.
+    public var enablePartialEntryProcessing: Swift.Bool?
     /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
     /// This member is required.
     public var entries: [IoTSiteWiseClientTypes.PutAssetPropertyValueEntry]?
 
     public init(
+        enablePartialEntryProcessing: Swift.Bool? = nil,
         entries: [IoTSiteWiseClientTypes.PutAssetPropertyValueEntry]? = nil
-    )
-    {
+    ) {
+        self.enablePartialEntryProcessing = enablePartialEntryProcessing
         self.entries = entries
     }
 }
@@ -3498,8 +3462,7 @@ extension IoTSiteWiseClientTypes {
             errorCode: IoTSiteWiseClientTypes.BatchPutAssetPropertyValueErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             timestamps: [IoTSiteWiseClientTypes.TimeInNanos]? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.timestamps = timestamps
@@ -3521,8 +3484,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             entryId: Swift.String? = nil,
             errors: [IoTSiteWiseClientTypes.BatchPutAssetPropertyError]? = nil
-        )
-        {
+        ) {
             self.entryId = entryId
             self.errors = errors
         }
@@ -3536,8 +3498,7 @@ public struct BatchPutAssetPropertyValueOutput: Swift.Sendable {
 
     public init(
         errorEntries: [IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry]? = nil
-    )
-    {
+    ) {
         self.errorEntries = errorEntries
     }
 }
@@ -3563,8 +3524,7 @@ public struct CreateAccessPolicyInput: Swift.Sendable {
         accessPolicyResource: IoTSiteWiseClientTypes.Resource? = nil,
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessPolicyIdentity = accessPolicyIdentity
         self.accessPolicyPermission = accessPolicyPermission
         self.accessPolicyResource = accessPolicyResource
@@ -3584,8 +3544,7 @@ public struct CreateAccessPolicyOutput: Swift.Sendable {
     public init(
         accessPolicyArn: Swift.String? = nil,
         accessPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicyArn = accessPolicyArn
         self.accessPolicyId = accessPolicyId
     }
@@ -3617,8 +3576,7 @@ public struct CreateAssetInput: Swift.Sendable {
         assetName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assetDescription = assetDescription
         self.assetExternalId = assetExternalId
         self.assetId = assetId
@@ -3644,8 +3602,7 @@ public struct CreateAssetOutput: Swift.Sendable {
         assetArn: Swift.String? = nil,
         assetId: Swift.String? = nil,
         assetStatus: IoTSiteWiseClientTypes.AssetStatus? = nil
-    )
-    {
+    ) {
         self.assetArn = assetArn
         self.assetId = assetId
         self.assetStatus = assetStatus
@@ -3690,8 +3647,7 @@ public struct CreateAssetModelInput: Swift.Sendable {
         assetModelType: IoTSiteWiseClientTypes.AssetModelType? = nil,
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModels = assetModelCompositeModels
         self.assetModelDescription = assetModelDescription
         self.assetModelExternalId = assetModelExternalId
@@ -3720,8 +3676,7 @@ public struct CreateAssetModelOutput: Swift.Sendable {
         assetModelArn: Swift.String? = nil,
         assetModelId: Swift.String? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
-    )
-    {
+    ) {
         self.assetModelArn = assetModelArn
         self.assetModelId = assetModelId
         self.assetModelStatus = assetModelStatus
@@ -3729,9 +3684,9 @@ public struct CreateAssetModelOutput: Swift.Sendable {
 }
 
 /// The precondition in one or more of the request-header fields evaluated to FALSE.
-public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ARN of the resource on which precondition failed with this operation.
@@ -3755,8 +3710,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
         self.properties.resourceId = resourceId
@@ -3808,8 +3762,7 @@ public struct CreateAssetModelCompositeModelInput: Swift.Sendable {
         ifNoneMatch: Swift.String? = nil,
         matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil,
         parentAssetModelCompositeModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
         self.assetModelCompositeModelExternalId = assetModelCompositeModelExternalId
         self.assetModelCompositeModelId = assetModelCompositeModelId
@@ -3841,8 +3794,7 @@ public struct CreateAssetModelCompositeModelOutput: Swift.Sendable {
         assetModelCompositeModelId: Swift.String? = nil,
         assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModelId = assetModelCompositeModelId
         self.assetModelCompositeModelPath = assetModelCompositeModelPath
         self.assetModelStatus = assetModelStatus
@@ -3863,8 +3815,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -3888,8 +3839,7 @@ extension IoTSiteWiseClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.versionId = versionId
@@ -3954,8 +3904,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             columnNames: [IoTSiteWiseClientTypes.ColumnName]? = nil
-        )
-        {
+        ) {
             self.columnNames = columnNames
         }
     }
@@ -3982,8 +3931,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             csv: IoTSiteWiseClientTypes.Csv? = nil,
             parquet: IoTSiteWiseClientTypes.Parquet? = nil
-        )
-        {
+        ) {
             self.csv = csv
             self.parquet = parquet
         }
@@ -4000,8 +3948,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             fileFormat: IoTSiteWiseClientTypes.FileFormat? = nil
-        )
-        {
+        ) {
             self.fileFormat = fileFormat
         }
     }
@@ -4036,8 +3983,7 @@ public struct CreateBulkImportJobInput: Swift.Sendable {
         jobConfiguration: IoTSiteWiseClientTypes.JobConfiguration? = nil,
         jobName: Swift.String? = nil,
         jobRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.adaptiveIngestion = adaptiveIngestion
         self.deleteFilesAfterImport = deleteFilesAfterImport
         self.errorReportLocation = errorReportLocation
@@ -4116,8 +4062,7 @@ public struct CreateBulkImportJobOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobStatus: IoTSiteWiseClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobName = jobName
         self.jobStatus = jobStatus
@@ -4155,8 +4100,7 @@ public struct CreateDashboardInput: Swift.Sendable {
         dashboardName: Swift.String? = nil,
         projectId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dashboardDefinition = dashboardDefinition
         self.dashboardDescription = dashboardDescription
@@ -4177,8 +4121,7 @@ public struct CreateDashboardOutput: Swift.Sendable {
     public init(
         dashboardArn: Swift.String? = nil,
         dashboardId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardArn = dashboardArn
         self.dashboardId = dashboardId
     }
@@ -4198,8 +4141,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             knowledgeBaseArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.roleArn = roleArn
         }
@@ -4215,8 +4157,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             kendra: IoTSiteWiseClientTypes.KendraSourceDetail? = nil
-        )
-        {
+        ) {
             self.kendra = kendra
         }
     }
@@ -4291,8 +4232,7 @@ extension IoTSiteWiseClientTypes {
             sourceDetail: IoTSiteWiseClientTypes.SourceDetail? = nil,
             sourceFormat: IoTSiteWiseClientTypes.DatasetSourceFormat? = nil,
             sourceType: IoTSiteWiseClientTypes.DatasetSourceType? = nil
-        )
-        {
+        ) {
             self.sourceDetail = sourceDetail
             self.sourceFormat = sourceFormat
             self.sourceType = sourceType
@@ -4323,8 +4263,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         datasetName: Swift.String? = nil,
         datasetSource: IoTSiteWiseClientTypes.DatasetSource? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetDescription = datasetDescription
         self.datasetId = datasetId
@@ -4385,8 +4324,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             error: IoTSiteWiseClientTypes.ErrorDetails? = nil,
             state: IoTSiteWiseClientTypes.DatasetState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -4408,8 +4346,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
         datasetArn: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         datasetStatus: IoTSiteWiseClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.datasetId = datasetId
         self.datasetStatus = datasetStatus
@@ -4426,8 +4363,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             groupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupArn = groupArn
         }
     }
@@ -4443,8 +4379,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             coreDeviceThingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.coreDeviceThingName = coreDeviceThingName
         }
     }
@@ -4460,8 +4395,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             iotCoreThingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.iotCoreThingName = iotCoreThingName
         }
     }
@@ -4482,8 +4416,7 @@ extension IoTSiteWiseClientTypes {
             greengrass: IoTSiteWiseClientTypes.Greengrass? = nil,
             greengrassV2: IoTSiteWiseClientTypes.GreengrassV2? = nil,
             siemensIE: IoTSiteWiseClientTypes.SiemensIE? = nil
-        )
-        {
+        ) {
             self.greengrass = greengrass
             self.greengrassV2 = greengrassV2
             self.siemensIE = siemensIE
@@ -4505,8 +4438,7 @@ public struct CreateGatewayInput: Swift.Sendable {
         gatewayName: Swift.String? = nil,
         gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.gatewayName = gatewayName
         self.gatewayPlatform = gatewayPlatform
         self.tags = tags
@@ -4524,8 +4456,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
     public init(
         gatewayArn: Swift.String? = nil,
         gatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
     }
@@ -4571,8 +4502,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             data: Foundation.Data? = nil,
             type: IoTSiteWiseClientTypes.ImageFileType? = nil
-        )
-        {
+        ) {
             self.data = data
             self.type = type
         }
@@ -4617,8 +4547,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             portalTools: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.portalTools = portalTools
         }
     }
@@ -4673,8 +4602,7 @@ public struct CreatePortalInput: Swift.Sendable {
         portalTypeConfiguration: [Swift.String: IoTSiteWiseClientTypes.PortalTypeEntry]? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.alarms = alarms
         self.clientToken = clientToken
         self.notificationSenderEmail = notificationSenderEmail
@@ -4739,8 +4667,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             code: IoTSiteWiseClientTypes.MonitorErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4801,8 +4728,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             error: IoTSiteWiseClientTypes.MonitorErrorDetails? = nil,
             state: IoTSiteWiseClientTypes.PortalState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -4832,8 +4758,7 @@ public struct CreatePortalOutput: Swift.Sendable {
         portalStartUrl: Swift.String? = nil,
         portalStatus: IoTSiteWiseClientTypes.PortalStatus? = nil,
         ssoApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.portalId = portalId
         self.portalStartUrl = portalStartUrl
@@ -4862,8 +4787,7 @@ public struct CreateProjectInput: Swift.Sendable {
         projectDescription: Swift.String? = nil,
         projectName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.portalId = portalId
         self.projectDescription = projectDescription
@@ -4883,8 +4807,7 @@ public struct CreateProjectOutput: Swift.Sendable {
     public init(
         projectArn: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectId = projectId
     }
@@ -4900,8 +4823,7 @@ public struct DeleteAccessPolicyInput: Swift.Sendable {
     public init(
         accessPolicyId: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicyId = accessPolicyId
         self.clientToken = clientToken
     }
@@ -4922,8 +4844,7 @@ public struct DeleteAssetInput: Swift.Sendable {
     public init(
         assetId: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.clientToken = clientToken
     }
@@ -4936,8 +4857,7 @@ public struct DeleteAssetOutput: Swift.Sendable {
 
     public init(
         assetStatus: IoTSiteWiseClientTypes.AssetStatus? = nil
-    )
-    {
+    ) {
         self.assetStatus = assetStatus
     }
 }
@@ -4961,8 +4881,7 @@ public struct DeleteAssetModelInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         ifNoneMatch: Swift.String? = nil,
         matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
-    )
-    {
+    ) {
         self.assetModelId = assetModelId
         self.clientToken = clientToken
         self.ifMatch = ifMatch
@@ -4978,8 +4897,7 @@ public struct DeleteAssetModelOutput: Swift.Sendable {
 
     public init(
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
-    )
-    {
+    ) {
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -5007,8 +4925,7 @@ public struct DeleteAssetModelCompositeModelInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         ifNoneMatch: Swift.String? = nil,
         matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModelId = assetModelCompositeModelId
         self.assetModelId = assetModelId
         self.clientToken = clientToken
@@ -5025,8 +4942,7 @@ public struct DeleteAssetModelCompositeModelOutput: Swift.Sendable {
 
     public init(
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
-    )
-    {
+    ) {
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -5041,8 +4957,7 @@ public struct DeleteDashboardInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         dashboardId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dashboardId = dashboardId
     }
@@ -5063,8 +4978,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetId = datasetId
     }
@@ -5077,8 +4991,7 @@ public struct DeleteDatasetOutput: Swift.Sendable {
 
     public init(
         datasetStatus: IoTSiteWiseClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.datasetStatus = datasetStatus
     }
 }
@@ -5090,8 +5003,7 @@ public struct DeleteGatewayInput: Swift.Sendable {
 
     public init(
         gatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayId = gatewayId
     }
 }
@@ -5106,8 +5018,7 @@ public struct DeletePortalInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         portalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.portalId = portalId
     }
@@ -5120,8 +5031,7 @@ public struct DeletePortalOutput: Swift.Sendable {
 
     public init(
         portalStatus: IoTSiteWiseClientTypes.PortalStatus? = nil
-    )
-    {
+    ) {
         self.portalStatus = portalStatus
     }
 }
@@ -5136,8 +5046,7 @@ public struct DeleteProjectInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.projectId = projectId
     }
@@ -5163,8 +5072,7 @@ public struct DeleteTimeSeriesInput: Swift.Sendable {
         assetId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         propertyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.assetId = assetId
         self.clientToken = clientToken
@@ -5179,8 +5087,7 @@ public struct DescribeAccessPolicyInput: Swift.Sendable {
 
     public init(
         accessPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicyId = accessPolicyId
     }
 }
@@ -5216,8 +5123,7 @@ public struct DescribeAccessPolicyOutput: Swift.Sendable {
         accessPolicyLastUpdateDate: Foundation.Date? = nil,
         accessPolicyPermission: IoTSiteWiseClientTypes.Permission? = nil,
         accessPolicyResource: IoTSiteWiseClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.accessPolicyArn = accessPolicyArn
         self.accessPolicyCreationDate = accessPolicyCreationDate
         self.accessPolicyId = accessPolicyId
@@ -5235,8 +5141,7 @@ public struct DescribeActionInput: Swift.Sendable {
 
     public init(
         actionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionId = actionId
     }
 }
@@ -5264,8 +5169,7 @@ public struct DescribeActionOutput: Swift.Sendable {
         actionPayload: IoTSiteWiseClientTypes.ActionPayload? = nil,
         executionTime: Foundation.Date? = nil,
         targetResource: IoTSiteWiseClientTypes.TargetResource? = nil
-    )
-    {
+    ) {
         self.actionDefinitionId = actionDefinitionId
         self.actionId = actionId
         self.actionPayload = actionPayload
@@ -5284,8 +5188,7 @@ public struct DescribeAssetInput: Swift.Sendable {
     public init(
         assetId: Swift.String? = nil,
         excludeProperties: Swift.Bool? = false
-    )
-    {
+    ) {
         self.assetId = assetId
         self.excludeProperties = excludeProperties
     }
@@ -5342,8 +5245,7 @@ public struct DescribeAssetOutput: Swift.Sendable {
         assetName: Swift.String? = nil,
         assetProperties: [IoTSiteWiseClientTypes.AssetProperty]? = nil,
         assetStatus: IoTSiteWiseClientTypes.AssetStatus? = nil
-    )
-    {
+    ) {
         self.assetArn = assetArn
         self.assetCompositeModelSummaries = assetCompositeModelSummaries
         self.assetCompositeModels = assetCompositeModels
@@ -5371,8 +5273,7 @@ public struct DescribeAssetCompositeModelInput: Swift.Sendable {
     public init(
         assetCompositeModelId: Swift.String? = nil,
         assetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetCompositeModelId = assetCompositeModelId
         self.assetId = assetId
     }
@@ -5419,8 +5320,7 @@ public struct DescribeAssetCompositeModelOutput: Swift.Sendable {
         assetCompositeModelSummaries: [IoTSiteWiseClientTypes.AssetCompositeModelSummary]? = nil,
         assetCompositeModelType: Swift.String? = nil,
         assetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionDefinitions = actionDefinitions
         self.assetCompositeModelDescription = assetCompositeModelDescription
         self.assetCompositeModelExternalId = assetCompositeModelExternalId
@@ -5447,8 +5347,7 @@ public struct DescribeAssetModelInput: Swift.Sendable {
         assetModelId: Swift.String? = nil,
         assetModelVersion: Swift.String? = nil,
         excludeProperties: Swift.Bool? = false
-    )
-    {
+    ) {
         self.assetModelId = assetModelId
         self.assetModelVersion = assetModelVersion
         self.excludeProperties = excludeProperties
@@ -5516,8 +5415,7 @@ public struct DescribeAssetModelOutput: Swift.Sendable {
         assetModelType: IoTSiteWiseClientTypes.AssetModelType? = nil,
         assetModelVersion: Swift.String? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelArn = assetModelArn
         self.assetModelCompositeModelSummaries = assetModelCompositeModelSummaries
         self.assetModelCompositeModels = assetModelCompositeModels
@@ -5550,8 +5448,7 @@ public struct DescribeAssetModelCompositeModelInput: Swift.Sendable {
         assetModelCompositeModelId: Swift.String? = nil,
         assetModelId: Swift.String? = nil,
         assetModelVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModelId = assetModelCompositeModelId
         self.assetModelId = assetModelId
         self.assetModelVersion = assetModelVersion
@@ -5567,8 +5464,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -5583,8 +5479,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             compositionRelationship: [IoTSiteWiseClientTypes.CompositionRelationshipItem]? = nil
-        )
-        {
+        ) {
             self.compositionRelationship = compositionRelationship
         }
     }
@@ -5634,8 +5529,7 @@ public struct DescribeAssetModelCompositeModelOutput: Swift.Sendable {
         assetModelCompositeModelType: Swift.String? = nil,
         assetModelId: Swift.String? = nil,
         compositionDetails: IoTSiteWiseClientTypes.CompositionDetails? = nil
-    )
-    {
+    ) {
         self.actionDefinitions = actionDefinitions
         self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
         self.assetModelCompositeModelExternalId = assetModelCompositeModelExternalId
@@ -5661,8 +5555,7 @@ public struct DescribeAssetPropertyInput: Swift.Sendable {
     public init(
         assetId: Swift.String? = nil,
         propertyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.propertyId = propertyId
     }
@@ -5704,8 +5597,7 @@ extension IoTSiteWiseClientTypes {
             path: [IoTSiteWiseClientTypes.AssetPropertyPathSegment]? = nil,
             type: IoTSiteWiseClientTypes.PropertyType? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.dataType = dataType
             self.externalId = externalId
@@ -5743,8 +5635,7 @@ extension IoTSiteWiseClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetProperty = assetProperty
             self.externalId = externalId
             self.id = id
@@ -5778,8 +5669,7 @@ public struct DescribeAssetPropertyOutput: Swift.Sendable {
         assetName: Swift.String? = nil,
         assetProperty: IoTSiteWiseClientTypes.Property? = nil,
         compositeModel: IoTSiteWiseClientTypes.CompositeModelProperty? = nil
-    )
-    {
+    ) {
         self.assetExternalId = assetExternalId
         self.assetId = assetId
         self.assetModelId = assetModelId
@@ -5796,8 +5686,7 @@ public struct DescribeBulkImportJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5859,8 +5748,7 @@ public struct DescribeBulkImportJobOutput: Swift.Sendable {
         jobName: Swift.String? = nil,
         jobRoleArn: Swift.String? = nil,
         jobStatus: IoTSiteWiseClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.adaptiveIngestion = adaptiveIngestion
         self.deleteFilesAfterImport = deleteFilesAfterImport
         self.errorReportLocation = errorReportLocation
@@ -5882,8 +5770,7 @@ public struct DescribeDashboardInput: Swift.Sendable {
 
     public init(
         dashboardId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardId = dashboardId
     }
 }
@@ -5922,8 +5809,7 @@ public struct DescribeDashboardOutput: Swift.Sendable {
         dashboardLastUpdateDate: Foundation.Date? = nil,
         dashboardName: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardArn = dashboardArn
         self.dashboardCreationDate = dashboardCreationDate
         self.dashboardDefinition = dashboardDefinition
@@ -5942,8 +5828,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         datasetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetId = datasetId
     }
 }
@@ -5986,8 +5871,7 @@ public struct DescribeDatasetOutput: Swift.Sendable {
         datasetSource: IoTSiteWiseClientTypes.DatasetSource? = nil,
         datasetStatus: IoTSiteWiseClientTypes.DatasetStatus? = nil,
         datasetVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.datasetCreationDate = datasetCreationDate
         self.datasetDescription = datasetDescription
@@ -6019,8 +5903,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             code: IoTSiteWiseClientTypes.ErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -6072,8 +5955,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             error: IoTSiteWiseClientTypes.ConfigurationErrorDetails? = nil,
             state: IoTSiteWiseClientTypes.ConfigurationState? = nil
-        )
-        {
+        ) {
             self.error = error
             self.state = state
         }
@@ -6123,8 +6005,7 @@ public struct DescribeDefaultEncryptionConfigurationOutput: Swift.Sendable {
         configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus? = nil,
         encryptionType: IoTSiteWiseClientTypes.EncryptionType? = nil,
         kmsKeyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationStatus = configurationStatus
         self.encryptionType = encryptionType
         self.kmsKeyArn = kmsKeyArn
@@ -6138,8 +6019,7 @@ public struct DescribeGatewayInput: Swift.Sendable {
 
     public init(
         gatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayId = gatewayId
     }
 }
@@ -6206,8 +6086,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             capabilityNamespace: Swift.String? = nil,
             capabilitySyncStatus: IoTSiteWiseClientTypes.CapabilitySyncStatus? = nil
-        )
-        {
+        ) {
             self.capabilityNamespace = capabilityNamespace
             self.capabilitySyncStatus = capabilitySyncStatus
         }
@@ -6244,8 +6123,7 @@ public struct DescribeGatewayOutput: Swift.Sendable {
         gatewayName: Swift.String? = nil,
         gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform? = nil,
         lastUpdateDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.gatewayArn = gatewayArn
         self.gatewayCapabilitySummaries = gatewayCapabilitySummaries
@@ -6267,8 +6145,7 @@ public struct DescribeGatewayCapabilityConfigurationInput: Swift.Sendable {
     public init(
         capabilityNamespace: Swift.String? = nil,
         gatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilityNamespace = capabilityNamespace
         self.gatewayId = gatewayId
     }
@@ -6303,8 +6180,7 @@ public struct DescribeGatewayCapabilityConfigurationOutput: Swift.Sendable {
         capabilityNamespace: Swift.String? = nil,
         capabilitySyncStatus: IoTSiteWiseClientTypes.CapabilitySyncStatus? = nil,
         gatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilityConfiguration = capabilityConfiguration
         self.capabilityNamespace = capabilityNamespace
         self.capabilitySyncStatus = capabilitySyncStatus
@@ -6359,8 +6235,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             level: IoTSiteWiseClientTypes.LoggingLevel? = nil
-        )
-        {
+        ) {
             self.level = level
         }
     }
@@ -6373,8 +6248,7 @@ public struct DescribeLoggingOptionsOutput: Swift.Sendable {
 
     public init(
         loggingOptions: IoTSiteWiseClientTypes.LoggingOptions? = nil
-    )
-    {
+    ) {
         self.loggingOptions = loggingOptions
     }
 }
@@ -6386,8 +6260,7 @@ public struct DescribePortalInput: Swift.Sendable {
 
     public init(
         portalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalId = portalId
     }
 }
@@ -6406,8 +6279,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             id: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.url = url
         }
@@ -6477,8 +6349,7 @@ public struct DescribePortalOutput: Swift.Sendable {
         portalType: IoTSiteWiseClientTypes.PortalType? = nil,
         portalTypeConfiguration: [Swift.String: IoTSiteWiseClientTypes.PortalTypeEntry]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarms = alarms
         self.notificationSenderEmail = notificationSenderEmail
         self.portalArn = portalArn
@@ -6511,8 +6382,7 @@ public struct DescribeProjectInput: Swift.Sendable {
 
     public init(
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectId = projectId
     }
 }
@@ -6547,8 +6417,7 @@ public struct DescribeProjectOutput: Swift.Sendable {
         projectId: Swift.String? = nil,
         projectLastUpdateDate: Foundation.Date? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalId = portalId
         self.projectArn = projectArn
         self.projectCreationDate = projectCreationDate
@@ -6607,8 +6476,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             s3ResourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.s3ResourceArn = s3ResourceArn
         }
@@ -6625,8 +6493,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             customerManagedS3Storage: IoTSiteWiseClientTypes.CustomerManagedS3Storage? = nil
-        )
-        {
+        ) {
             self.customerManagedS3Storage = customerManagedS3Storage
         }
     }
@@ -6644,8 +6511,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             numberOfDays: Swift.Int? = nil,
             unlimited: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
         }
@@ -6722,8 +6588,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             numberOfDays: Swift.Int? = nil,
             unlimited: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
         }
@@ -6734,6 +6599,8 @@ public struct DescribeStorageConfigurationOutput: Swift.Sendable {
     /// Contains current status information for the configuration.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
+    /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
+    public var disallowIngestNullNaN: Swift.Bool?
     /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:
     ///
     /// * ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties. After the disassociatedDataStorage is enabled, you can't disable it.
@@ -6763,6 +6630,7 @@ public struct DescribeStorageConfigurationOutput: Swift.Sendable {
 
     public init(
         configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus? = nil,
+        disallowIngestNullNaN: Swift.Bool? = nil,
         disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState? = nil,
         lastUpdateDate: Foundation.Date? = nil,
         multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage? = nil,
@@ -6770,9 +6638,9 @@ public struct DescribeStorageConfigurationOutput: Swift.Sendable {
         storageType: IoTSiteWiseClientTypes.StorageType? = nil,
         warmTier: IoTSiteWiseClientTypes.WarmTierState? = nil,
         warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod? = nil
-    )
-    {
+    ) {
         self.configurationStatus = configurationStatus
+        self.disallowIngestNullNaN = disallowIngestNullNaN
         self.disassociatedDataStorage = disassociatedDataStorage
         self.lastUpdateDate = lastUpdateDate
         self.multiLayerStorage = multiLayerStorage
@@ -6795,8 +6663,7 @@ public struct DescribeTimeSeriesInput: Swift.Sendable {
         alias: Swift.String? = nil,
         assetId: Swift.String? = nil,
         propertyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.assetId = assetId
         self.propertyId = propertyId
@@ -6838,8 +6705,7 @@ public struct DescribeTimeSeriesOutput: Swift.Sendable {
         timeSeriesCreationDate: Foundation.Date? = nil,
         timeSeriesId: Swift.String? = nil,
         timeSeriesLastUpdateDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.assetId = assetId
         self.dataType = dataType
@@ -6870,8 +6736,7 @@ public struct DisassociateAssetsInput: Swift.Sendable {
         childAssetId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         hierarchyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.childAssetId = childAssetId
         self.clientToken = clientToken
@@ -6897,8 +6762,7 @@ public struct DisassociateTimeSeriesFromAssetPropertyInput: Swift.Sendable {
         assetId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         propertyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.assetId = assetId
         self.clientToken = clientToken
@@ -6924,8 +6788,7 @@ public struct ExecuteActionInput: Swift.Sendable {
         actionPayload: IoTSiteWiseClientTypes.ActionPayload? = nil,
         clientToken: Swift.String? = nil,
         targetResource: IoTSiteWiseClientTypes.TargetResource? = nil
-    )
-    {
+    ) {
         self.actionDefinitionId = actionDefinitionId
         self.actionPayload = actionPayload
         self.clientToken = clientToken
@@ -6940,16 +6803,15 @@ public struct ExecuteActionOutput: Swift.Sendable {
 
     public init(
         actionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionId = actionId
     }
 }
 
 /// The query timed out.
-public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6964,16 +6826,15 @@ public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The validation failed for this query.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6988,8 +6849,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7010,8 +6870,7 @@ public struct ExecuteQueryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryStatement: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7066,8 +6925,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             scalarType: IoTSiteWiseClientTypes.ScalarType? = nil
-        )
-        {
+        ) {
             self.scalarType = scalarType
         }
     }
@@ -7085,8 +6943,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             name: Swift.String? = nil,
             type: IoTSiteWiseClientTypes.ColumnType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -7137,8 +6994,7 @@ public struct GetAssetPropertyAggregatesInput: Swift.Sendable {
         resolution: Swift.String? = nil,
         startDate: Foundation.Date? = nil,
         timeOrdering: IoTSiteWiseClientTypes.TimeOrdering? = nil
-    )
-    {
+    ) {
         self.aggregateTypes = aggregateTypes
         self.assetId = assetId
         self.endDate = endDate
@@ -7163,8 +7019,7 @@ public struct GetAssetPropertyAggregatesOutput: Swift.Sendable {
     public init(
         aggregatedValues: [IoTSiteWiseClientTypes.AggregatedValue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregatedValues = aggregatedValues
         self.nextToken = nextToken
     }
@@ -7182,8 +7037,7 @@ public struct GetAssetPropertyValueInput: Swift.Sendable {
         assetId: Swift.String? = nil,
         propertyAlias: Swift.String? = nil,
         propertyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.propertyAlias = propertyAlias
         self.propertyId = propertyId
@@ -7196,8 +7050,7 @@ public struct GetAssetPropertyValueOutput: Swift.Sendable {
 
     public init(
         propertyValue: IoTSiteWiseClientTypes.AssetPropertyValue? = nil
-    )
-    {
+    ) {
         self.propertyValue = propertyValue
     }
 }
@@ -7236,8 +7089,7 @@ public struct GetAssetPropertyValueHistoryInput: Swift.Sendable {
         qualities: [IoTSiteWiseClientTypes.Quality]? = nil,
         startDate: Foundation.Date? = nil,
         timeOrdering: IoTSiteWiseClientTypes.TimeOrdering? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.endDate = endDate
         self.maxResults = maxResults
@@ -7260,8 +7112,7 @@ public struct GetAssetPropertyValueHistoryOutput: Swift.Sendable {
     public init(
         assetPropertyValueHistory: [IoTSiteWiseClientTypes.AssetPropertyValue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetPropertyValueHistory = assetPropertyValueHistory
         self.nextToken = nextToken
     }
@@ -7325,8 +7176,7 @@ public struct GetInterpolatedAssetPropertyValuesInput: Swift.Sendable {
         startTimeInSeconds: Swift.Int? = nil,
         startTimeOffsetInNanos: Swift.Int? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.endTimeInSeconds = endTimeInSeconds
         self.endTimeOffsetInNanos = endTimeOffsetInNanos
@@ -7357,8 +7207,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             timestamp: IoTSiteWiseClientTypes.TimeInNanos? = nil,
             value: IoTSiteWiseClientTypes.Variant? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -7375,8 +7224,7 @@ public struct GetInterpolatedAssetPropertyValuesOutput: Swift.Sendable {
     public init(
         interpolatedAssetPropertyValues: [IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.interpolatedAssetPropertyValues = interpolatedAssetPropertyValues
         self.nextToken = nextToken
     }
@@ -7395,8 +7243,7 @@ public struct InvokeAssistantInput: Swift.Sendable {
         conversationId: Swift.String? = nil,
         enableTrace: Swift.Bool? = false,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.conversationId = conversationId
         self.enableTrace = enableTrace
         self.message = message
@@ -7417,8 +7264,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -7433,8 +7279,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -7452,8 +7297,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             arn: Swift.String? = nil,
             location: IoTSiteWiseClientTypes.Location? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.location = location
         }
@@ -7472,8 +7316,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             datasetArn: Swift.String? = nil,
             source: IoTSiteWiseClientTypes.Source? = nil
-        )
-        {
+        ) {
             self.datasetArn = datasetArn
             self.source = source
         }
@@ -7489,8 +7332,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             dataset: IoTSiteWiseClientTypes.DataSetReference? = nil
-        )
-        {
+        ) {
             self.dataset = dataset
         }
     }
@@ -7508,8 +7350,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             content: IoTSiteWiseClientTypes.Content? = nil,
             reference: IoTSiteWiseClientTypes.Reference? = nil
-        )
-        {
+        ) {
             self.content = content
             self.reference = reference
         }
@@ -7528,8 +7369,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             citations: [IoTSiteWiseClientTypes.Citation]? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.citations = citations
             self.message = message
         }
@@ -7545,8 +7385,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -7575,8 +7414,7 @@ public struct InvokeAssistantOutput: Swift.Sendable {
     public init(
         body: AsyncThrowingStream<IoTSiteWiseClientTypes.ResponseStream, Swift.Error>? = nil,
         conversationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.conversationId = conversationId
     }
@@ -7667,8 +7505,7 @@ public struct ListAccessPoliciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: IoTSiteWiseClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.iamArn = iamArn
         self.identityId = identityId
         self.identityType = identityType
@@ -7689,8 +7526,7 @@ public struct ListAccessPoliciesOutput: Swift.Sendable {
     public init(
         accessPolicySummaries: [IoTSiteWiseClientTypes.AccessPolicySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicySummaries = accessPolicySummaries
         self.nextToken = nextToken
     }
@@ -7739,8 +7575,7 @@ public struct ListActionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         targetResourceId: Swift.String? = nil,
         targetResourceType: IoTSiteWiseClientTypes.TargetResourceType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetResourceId = targetResourceId
@@ -7759,8 +7594,7 @@ public struct ListActionsOutput: Swift.Sendable {
     public init(
         actionSummaries: [IoTSiteWiseClientTypes.ActionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionSummaries = actionSummaries
         self.nextToken = nextToken
     }
@@ -7782,8 +7616,7 @@ public struct ListAssetModelCompositeModelsInput: Swift.Sendable {
         assetModelVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelId = assetModelId
         self.assetModelVersion = assetModelVersion
         self.maxResults = maxResults
@@ -7801,8 +7634,7 @@ public struct ListAssetModelCompositeModelsOutput: Swift.Sendable {
     public init(
         assetModelCompositeModelSummaries: [IoTSiteWiseClientTypes.AssetModelCompositeModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModelSummaries = assetModelCompositeModelSummaries
         self.nextToken = nextToken
     }
@@ -7863,8 +7695,7 @@ public struct ListAssetModelPropertiesInput: Swift.Sendable {
         filter: IoTSiteWiseClientTypes.ListAssetModelPropertiesFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelId = assetModelId
         self.assetModelVersion = assetModelVersion
         self.filter = filter
@@ -7883,8 +7714,7 @@ public struct ListAssetModelPropertiesOutput: Swift.Sendable {
     public init(
         assetModelPropertySummaries: [IoTSiteWiseClientTypes.AssetModelPropertySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelPropertySummaries = assetModelPropertySummaries
         self.nextToken = nextToken
     }
@@ -7909,8 +7739,7 @@ public struct ListAssetModelsInput: Swift.Sendable {
         assetModelVersion: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelTypes = assetModelTypes
         self.assetModelVersion = assetModelVersion
         self.maxResults = maxResults
@@ -7928,8 +7757,7 @@ public struct ListAssetModelsOutput: Swift.Sendable {
     public init(
         assetModelSummaries: [IoTSiteWiseClientTypes.AssetModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelSummaries = assetModelSummaries
         self.nextToken = nextToken
     }
@@ -7987,8 +7815,7 @@ public struct ListAssetPropertiesInput: Swift.Sendable {
         filter: IoTSiteWiseClientTypes.ListAssetPropertiesFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.filter = filter
         self.maxResults = maxResults
@@ -8006,8 +7833,7 @@ public struct ListAssetPropertiesOutput: Swift.Sendable {
     public init(
         assetPropertySummaries: [IoTSiteWiseClientTypes.AssetPropertySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetPropertySummaries = assetPropertySummaries
         self.nextToken = nextToken
     }
@@ -8058,8 +7884,7 @@ public struct ListAssetRelationshipsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         traversalType: IoTSiteWiseClientTypes.TraversalType? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8077,8 +7902,7 @@ public struct ListAssetRelationshipsOutput: Swift.Sendable {
     public init(
         assetRelationshipSummaries: [IoTSiteWiseClientTypes.AssetRelationshipSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetRelationshipSummaries = assetRelationshipSummaries
         self.nextToken = nextToken
     }
@@ -8135,8 +7959,7 @@ public struct ListAssetsInput: Swift.Sendable {
         filter: IoTSiteWiseClientTypes.ListAssetsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelId = assetModelId
         self.filter = filter
         self.maxResults = maxResults
@@ -8154,8 +7977,7 @@ public struct ListAssetsOutput: Swift.Sendable {
     public init(
         assetSummaries: [IoTSiteWiseClientTypes.AssetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetSummaries = assetSummaries
         self.nextToken = nextToken
     }
@@ -8216,8 +8038,7 @@ public struct ListAssociatedAssetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         traversalDirection: IoTSiteWiseClientTypes.TraversalDirection? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.hierarchyId = hierarchyId
         self.maxResults = maxResults
@@ -8236,8 +8057,7 @@ public struct ListAssociatedAssetsOutput: Swift.Sendable {
     public init(
         assetSummaries: [IoTSiteWiseClientTypes.AssociatedAssetsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetSummaries = assetSummaries
         self.nextToken = nextToken
     }
@@ -8299,8 +8119,7 @@ public struct ListBulkImportJobsInput: Swift.Sendable {
         filter: IoTSiteWiseClientTypes.ListBulkImportJobsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8337,8 +8156,7 @@ extension IoTSiteWiseClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: IoTSiteWiseClientTypes.JobStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.status = status
@@ -8356,8 +8174,7 @@ public struct ListBulkImportJobsOutput: Swift.Sendable {
     public init(
         jobSummaries: [IoTSiteWiseClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobSummaries = jobSummaries
         self.nextToken = nextToken
     }
@@ -8376,8 +8193,7 @@ public struct ListCompositionRelationshipsInput: Swift.Sendable {
         assetModelId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetModelId = assetModelId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8402,8 +8218,7 @@ extension IoTSiteWiseClientTypes {
             assetModelCompositeModelId: Swift.String? = nil,
             assetModelCompositeModelType: Swift.String? = nil,
             assetModelId: Swift.String? = nil
-        )
-        {
+        ) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelCompositeModelType = assetModelCompositeModelType
             self.assetModelId = assetModelId
@@ -8421,8 +8236,7 @@ public struct ListCompositionRelationshipsOutput: Swift.Sendable {
     public init(
         compositionRelationshipSummaries: [IoTSiteWiseClientTypes.CompositionRelationshipSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.compositionRelationshipSummaries = compositionRelationshipSummaries
         self.nextToken = nextToken
     }
@@ -8441,8 +8255,7 @@ public struct ListDashboardsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectId = projectId
@@ -8472,8 +8285,7 @@ extension IoTSiteWiseClientTypes {
             id: Swift.String? = nil,
             lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -8493,8 +8305,7 @@ public struct ListDashboardsOutput: Swift.Sendable {
     public init(
         dashboardSummaries: [IoTSiteWiseClientTypes.DashboardSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardSummaries = dashboardSummaries
         self.nextToken = nextToken
     }
@@ -8513,8 +8324,7 @@ public struct ListDatasetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceType: IoTSiteWiseClientTypes.DatasetSourceType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sourceType = sourceType
@@ -8555,8 +8365,7 @@ extension IoTSiteWiseClientTypes {
             lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: IoTSiteWiseClientTypes.DatasetStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -8578,8 +8387,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasetSummaries: [IoTSiteWiseClientTypes.DatasetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetSummaries = datasetSummaries
         self.nextToken = nextToken
     }
@@ -8594,8 +8402,7 @@ public struct ListGatewaysInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8629,8 +8436,7 @@ extension IoTSiteWiseClientTypes {
             gatewayName: Swift.String? = nil,
             gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform? = nil,
             lastUpdateDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.gatewayCapabilitySummaries = gatewayCapabilitySummaries
             self.gatewayId = gatewayId
@@ -8651,8 +8457,7 @@ public struct ListGatewaysOutput: Swift.Sendable {
     public init(
         gatewaySummaries: [IoTSiteWiseClientTypes.GatewaySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewaySummaries = gatewaySummaries
         self.nextToken = nextToken
     }
@@ -8667,8 +8472,7 @@ public struct ListPortalsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8711,8 +8515,7 @@ extension IoTSiteWiseClientTypes {
             roleArn: Swift.String? = nil,
             startUrl: Swift.String? = nil,
             status: IoTSiteWiseClientTypes.PortalStatus? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -8735,8 +8538,7 @@ public struct ListPortalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         portalSummaries: [IoTSiteWiseClientTypes.PortalSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.portalSummaries = portalSummaries
     }
@@ -8755,8 +8557,7 @@ public struct ListProjectAssetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectId = projectId
@@ -8773,8 +8574,7 @@ public struct ListProjectAssetsOutput: Swift.Sendable {
     public init(
         assetIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetIds = assetIds
         self.nextToken = nextToken
     }
@@ -8793,8 +8593,7 @@ public struct ListProjectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         portalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.portalId = portalId
@@ -8824,8 +8623,7 @@ extension IoTSiteWiseClientTypes {
             id: Swift.String? = nil,
             lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.id = id
@@ -8845,17 +8643,16 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projectSummaries: [IoTSiteWiseClientTypes.ProjectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projectSummaries = projectSummaries
     }
 }
 
 /// You are not authorized.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8871,8 +8668,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8884,8 +8680,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -8896,8 +8691,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -8953,8 +8747,7 @@ public struct ListTimeSeriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         timeSeriesType: IoTSiteWiseClientTypes.ListTimeSeriesType? = nil
-    )
-    {
+    ) {
         self.aliasPrefix = aliasPrefix
         self.assetId = assetId
         self.maxResults = maxResults
@@ -9001,8 +8794,7 @@ extension IoTSiteWiseClientTypes {
             timeSeriesCreationDate: Foundation.Date? = nil,
             timeSeriesId: Swift.String? = nil,
             timeSeriesLastUpdateDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.assetId = assetId
             self.dataType = dataType
@@ -9026,8 +8818,7 @@ public struct ListTimeSeriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         timeSeriesSummaries: [IoTSiteWiseClientTypes.TimeSeriesSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.timeSeriesSummaries = timeSeriesSummaries
     }
@@ -9043,8 +8834,7 @@ public struct PutDefaultEncryptionConfigurationInput: Swift.Sendable {
     public init(
         encryptionType: IoTSiteWiseClientTypes.EncryptionType? = nil,
         kmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionType = encryptionType
         self.kmsKeyId = kmsKeyId
     }
@@ -9064,8 +8854,7 @@ public struct PutDefaultEncryptionConfigurationOutput: Swift.Sendable {
         configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus? = nil,
         encryptionType: IoTSiteWiseClientTypes.EncryptionType? = nil,
         kmsKeyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationStatus = configurationStatus
         self.encryptionType = encryptionType
         self.kmsKeyArn = kmsKeyArn
@@ -9079,8 +8868,7 @@ public struct PutLoggingOptionsInput: Swift.Sendable {
 
     public init(
         loggingOptions: IoTSiteWiseClientTypes.LoggingOptions? = nil
-    )
-    {
+    ) {
         self.loggingOptions = loggingOptions
     }
 }
@@ -9091,6 +8879,8 @@ public struct PutLoggingOptionsOutput: Swift.Sendable {
 }
 
 public struct PutStorageConfigurationInput: Swift.Sendable {
+    /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
+    public var disallowIngestNullNaN: Swift.Bool?
     /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:
     ///
     /// * ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties. After the disassociatedDataStorage is enabled, you can't disable it.
@@ -9117,14 +8907,15 @@ public struct PutStorageConfigurationInput: Swift.Sendable {
     public var warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod?
 
     public init(
+        disallowIngestNullNaN: Swift.Bool? = nil,
         disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState? = nil,
         multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage? = nil,
         retentionPeriod: IoTSiteWiseClientTypes.RetentionPeriod? = nil,
         storageType: IoTSiteWiseClientTypes.StorageType? = nil,
         warmTier: IoTSiteWiseClientTypes.WarmTierState? = nil,
         warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod? = nil
-    )
-    {
+    ) {
+        self.disallowIngestNullNaN = disallowIngestNullNaN
         self.disassociatedDataStorage = disassociatedDataStorage
         self.multiLayerStorage = multiLayerStorage
         self.retentionPeriod = retentionPeriod
@@ -9138,6 +8929,8 @@ public struct PutStorageConfigurationOutput: Swift.Sendable {
     /// Contains current status information for the configuration.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
+    /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
+    public var disallowIngestNullNaN: Swift.Bool?
     /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:
     ///
     /// * ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties. After the disassociatedDataStorage is enabled, you can't disable it.
@@ -9165,15 +8958,16 @@ public struct PutStorageConfigurationOutput: Swift.Sendable {
 
     public init(
         configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus? = nil,
+        disallowIngestNullNaN: Swift.Bool? = nil,
         disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState? = nil,
         multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage? = nil,
         retentionPeriod: IoTSiteWiseClientTypes.RetentionPeriod? = nil,
         storageType: IoTSiteWiseClientTypes.StorageType? = nil,
         warmTier: IoTSiteWiseClientTypes.WarmTierState? = nil,
         warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod? = nil
-    )
-    {
+    ) {
         self.configurationStatus = configurationStatus
+        self.disallowIngestNullNaN = disallowIngestNullNaN
         self.disassociatedDataStorage = disassociatedDataStorage
         self.multiLayerStorage = multiLayerStorage
         self.retentionPeriod = retentionPeriod
@@ -9184,9 +8978,9 @@ public struct PutStorageConfigurationOutput: Swift.Sendable {
 }
 
 /// You've reached the limit for the number of tags allowed for a resource. For more information, see [Tag naming limits and requirements](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions) in the Amazon Web Services General Reference.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource with too many tags.
         public internal(set) var resourceName: Swift.String? = nil
@@ -9204,8 +8998,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -9222,8 +9015,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -9245,8 +9037,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -9279,8 +9070,7 @@ public struct UpdateAccessPolicyInput: Swift.Sendable {
         accessPolicyPermission: IoTSiteWiseClientTypes.Permission? = nil,
         accessPolicyResource: IoTSiteWiseClientTypes.Resource? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicyId = accessPolicyId
         self.accessPolicyIdentity = accessPolicyIdentity
         self.accessPolicyPermission = accessPolicyPermission
@@ -9314,8 +9104,7 @@ public struct UpdateAssetInput: Swift.Sendable {
         assetId: Swift.String? = nil,
         assetName: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetDescription = assetDescription
         self.assetExternalId = assetExternalId
         self.assetId = assetId
@@ -9331,8 +9120,7 @@ public struct UpdateAssetOutput: Swift.Sendable {
 
     public init(
         assetStatus: IoTSiteWiseClientTypes.AssetStatus? = nil
-    )
-    {
+    ) {
         self.assetStatus = assetStatus
     }
 }
@@ -9375,8 +9163,7 @@ public struct UpdateAssetModelInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         ifNoneMatch: Swift.String? = nil,
         matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModels = assetModelCompositeModels
         self.assetModelDescription = assetModelDescription
         self.assetModelExternalId = assetModelExternalId
@@ -9398,8 +9185,7 @@ public struct UpdateAssetModelOutput: Swift.Sendable {
 
     public init(
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
-    )
-    {
+    ) {
         self.assetModelStatus = assetModelStatus
     }
 }
@@ -9440,8 +9226,7 @@ public struct UpdateAssetModelCompositeModelInput: Swift.Sendable {
         ifMatch: Swift.String? = nil,
         ifNoneMatch: Swift.String? = nil,
         matchForVersionType: IoTSiteWiseClientTypes.AssetModelVersionType? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
         self.assetModelCompositeModelExternalId = assetModelCompositeModelExternalId
         self.assetModelCompositeModelId = assetModelCompositeModelId
@@ -9466,8 +9251,7 @@ public struct UpdateAssetModelCompositeModelOutput: Swift.Sendable {
     public init(
         assetModelCompositeModelPath: [IoTSiteWiseClientTypes.AssetModelCompositeModelPathSegment]? = nil,
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil
-    )
-    {
+    ) {
         self.assetModelCompositeModelPath = assetModelCompositeModelPath
         self.assetModelStatus = assetModelStatus
     }
@@ -9496,8 +9280,7 @@ public struct UpdateAssetPropertyInput: Swift.Sendable {
         propertyId: Swift.String? = nil,
         propertyNotificationState: IoTSiteWiseClientTypes.PropertyNotificationState? = nil,
         propertyUnit: Swift.String? = nil
-    )
-    {
+    ) {
         self.assetId = assetId
         self.clientToken = clientToken
         self.propertyAlias = propertyAlias
@@ -9535,8 +9318,7 @@ public struct UpdateDashboardInput: Swift.Sendable {
         dashboardDescription: Swift.String? = nil,
         dashboardId: Swift.String? = nil,
         dashboardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dashboardDefinition = dashboardDefinition
         self.dashboardDescription = dashboardDescription
@@ -9571,8 +9353,7 @@ public struct UpdateDatasetInput: Swift.Sendable {
         datasetId: Swift.String? = nil,
         datasetName: Swift.String? = nil,
         datasetSource: IoTSiteWiseClientTypes.DatasetSource? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.datasetDescription = datasetDescription
         self.datasetId = datasetId
@@ -9593,8 +9374,7 @@ public struct UpdateDatasetOutput: Swift.Sendable {
         datasetArn: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         datasetStatus: IoTSiteWiseClientTypes.DatasetStatus? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.datasetId = datasetId
         self.datasetStatus = datasetStatus
@@ -9612,8 +9392,7 @@ public struct UpdateGatewayInput: Swift.Sendable {
     public init(
         gatewayId: Swift.String? = nil,
         gatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayId = gatewayId
         self.gatewayName = gatewayName
     }
@@ -9634,8 +9413,7 @@ public struct UpdateGatewayCapabilityConfigurationInput: Swift.Sendable {
         capabilityConfiguration: Swift.String? = nil,
         capabilityNamespace: Swift.String? = nil,
         gatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilityConfiguration = capabilityConfiguration
         self.capabilityNamespace = capabilityNamespace
         self.gatewayId = gatewayId
@@ -9666,8 +9444,7 @@ public struct UpdateGatewayCapabilityConfigurationOutput: Swift.Sendable {
     public init(
         capabilityNamespace: Swift.String? = nil,
         capabilitySyncStatus: IoTSiteWiseClientTypes.CapabilitySyncStatus? = nil
-    )
-    {
+    ) {
         self.capabilityNamespace = capabilityNamespace
         self.capabilitySyncStatus = capabilitySyncStatus
     }
@@ -9689,8 +9466,7 @@ extension IoTSiteWiseClientTypes {
         public init(
             file: IoTSiteWiseClientTypes.ImageFile? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.file = file
             self.id = id
         }
@@ -9741,8 +9517,7 @@ public struct UpdatePortalInput: Swift.Sendable {
         portalType: IoTSiteWiseClientTypes.PortalType? = nil,
         portalTypeConfiguration: [Swift.String: IoTSiteWiseClientTypes.PortalTypeEntry]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarms = alarms
         self.clientToken = clientToken
         self.notificationSenderEmail = notificationSenderEmail
@@ -9769,8 +9544,7 @@ public struct UpdatePortalOutput: Swift.Sendable {
 
     public init(
         portalStatus: IoTSiteWiseClientTypes.PortalStatus? = nil
-    )
-    {
+    ) {
         self.portalStatus = portalStatus
     }
 }
@@ -9792,8 +9566,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         projectDescription: Swift.String? = nil,
         projectId: Swift.String? = nil,
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.projectDescription = projectDescription
         self.projectId = projectId
@@ -9824,8 +9597,7 @@ extension IoTSiteWiseClientTypes {
             nullValue: Swift.Bool? = nil,
             rowValue: IoTSiteWiseClientTypes.Row? = nil,
             scalarValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.arrayValue = arrayValue
             self.nullValue = nullValue
             self.rowValue = rowValue
@@ -9844,8 +9616,7 @@ extension IoTSiteWiseClientTypes {
 
         public init(
             data: [IoTSiteWiseClientTypes.Datum]? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -9863,8 +9634,7 @@ public struct ExecuteQueryOutput: Swift.Sendable {
         columns: [IoTSiteWiseClientTypes.ColumnInfo]? = nil,
         nextToken: Swift.String? = nil,
         rows: [IoTSiteWiseClientTypes.Row]? = nil
-    )
-    {
+    ) {
         self.columns = columns
         self.nextToken = nextToken
         self.rows = rows
@@ -11694,6 +11464,7 @@ extension BatchPutAssetPropertyValueInput {
 
     static func write(value: BatchPutAssetPropertyValueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["enablePartialEntryProcessing"].write(value.enablePartialEntryProcessing)
         try writer["entries"].writeList(value.entries, memberWritingClosure: IoTSiteWiseClientTypes.PutAssetPropertyValueEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -11917,6 +11688,7 @@ extension PutStorageConfigurationInput {
 
     static func write(value: PutStorageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["disallowIngestNullNaN"].write(value.disallowIngestNullNaN)
         try writer["disassociatedDataStorage"].write(value.disassociatedDataStorage)
         try writer["multiLayerStorage"].write(value.multiLayerStorage, with: IoTSiteWiseClientTypes.MultiLayerStorage.write(value:to:))
         try writer["retentionPeriod"].write(value.retentionPeriod, with: IoTSiteWiseClientTypes.RetentionPeriod.write(value:to:))
@@ -12707,6 +12479,7 @@ extension DescribeStorageConfigurationOutput {
         let reader = responseReader
         var value = DescribeStorageConfigurationOutput()
         value.configurationStatus = try reader["configurationStatus"].readIfPresent(with: IoTSiteWiseClientTypes.ConfigurationStatus.read(from:))
+        value.disallowIngestNullNaN = try reader["disallowIngestNullNaN"].readIfPresent()
         value.disassociatedDataStorage = try reader["disassociatedDataStorage"].readIfPresent()
         value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.multiLayerStorage = try reader["multiLayerStorage"].readIfPresent(with: IoTSiteWiseClientTypes.MultiLayerStorage.read(from:))
@@ -13120,6 +12893,7 @@ extension PutStorageConfigurationOutput {
         let reader = responseReader
         var value = PutStorageConfigurationOutput()
         value.configurationStatus = try reader["configurationStatus"].readIfPresent(with: IoTSiteWiseClientTypes.ConfigurationStatus.read(from:))
+        value.disallowIngestNullNaN = try reader["disallowIngestNullNaN"].readIfPresent()
         value.disassociatedDataStorage = try reader["disassociatedDataStorage"].readIfPresent()
         value.multiLayerStorage = try reader["multiLayerStorage"].readIfPresent(with: IoTSiteWiseClientTypes.MultiLayerStorage.read(from:))
         value.retentionPeriod = try reader["retentionPeriod"].readIfPresent(with: IoTSiteWiseClientTypes.RetentionPeriod.read(from:))
@@ -15258,6 +15032,7 @@ extension IoTSiteWiseClientTypes.Variant {
         try writer["booleanValue"].write(value.booleanValue)
         try writer["doubleValue"].write(value.doubleValue)
         try writer["integerValue"].write(value.integerValue)
+        try writer["nullValue"].write(value.nullValue, with: IoTSiteWiseClientTypes.PropertyValueNullValue.write(value:to:))
         try writer["stringValue"].write(value.stringValue)
     }
 
@@ -15268,6 +15043,22 @@ extension IoTSiteWiseClientTypes.Variant {
         value.integerValue = try reader["integerValue"].readIfPresent()
         value.doubleValue = try reader["doubleValue"].readIfPresent()
         value.booleanValue = try reader["booleanValue"].readIfPresent()
+        value.nullValue = try reader["nullValue"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyValueNullValue.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyValueNullValue {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyValueNullValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["valueType"].write(value.valueType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyValueNullValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PropertyValueNullValue()
+        value.valueType = try reader["valueType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

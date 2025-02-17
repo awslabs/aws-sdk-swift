@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The target request is invalid.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -48,8 +48,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -57,9 +56,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// A conflict occurred.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -78,8 +77,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -87,9 +85,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An access permissions issue occurred.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -108,8 +106,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -117,9 +114,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// An internal server error occurred.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -138,8 +135,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -147,9 +143,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// A service limit was exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -168,8 +164,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -177,9 +172,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The target resource cannot be found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -198,8 +193,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -207,9 +201,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Too many service requests were made over the given time period.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -228,8 +222,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -279,8 +272,7 @@ extension Cloud9ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -304,7 +296,7 @@ public struct CreateEnvironmentEC2Input: Swift.Sendable {
     public var description: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
-    /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. From December 04, 2023, you will be required to include the imageId parameter for the CreateEnvironmentEC2 action. This change will be reflected across all direct methods of communicating with the API, such as Amazon Web Services SDK, Amazon Web Services CLI and Amazon Web Services CloudFormation. This change will only affect direct API consumers, and not Cloud9 console users. We recommend using Amazon Linux 2023 as the AMI to create your environment as it is fully supported. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases
+    /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your environment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases
     ///
     /// * Amazon Linux 2: amazonlinux-2-x86_64
     ///
@@ -351,8 +343,7 @@ public struct CreateEnvironmentEC2Input: Swift.Sendable {
         ownerArn: Swift.String? = nil,
         subnetId: Swift.String? = nil,
         tags: [Cloud9ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.automaticStopTimeMinutes = automaticStopTimeMinutes
         self.clientRequestToken = clientRequestToken
         self.connectionType = connectionType
@@ -378,8 +369,7 @@ public struct CreateEnvironmentEC2Output: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -432,8 +422,7 @@ public struct CreateEnvironmentMembershipInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         permissions: Cloud9ClientTypes.MemberPermissions? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.permissions = permissions
         self.userArn = userArn
@@ -503,8 +492,7 @@ extension Cloud9ClientTypes {
             permissions: Cloud9ClientTypes.Permissions? = nil,
             userArn: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environmentId = environmentId
             self.lastAccess = lastAccess
             self.permissions = permissions
@@ -521,8 +509,7 @@ public struct CreateEnvironmentMembershipOutput: Swift.Sendable {
 
     public init(
         membership: Cloud9ClientTypes.EnvironmentMember? = nil
-    )
-    {
+    ) {
         self.membership = membership
     }
 }
@@ -534,8 +521,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -556,8 +542,7 @@ public struct DeleteEnvironmentMembershipInput: Swift.Sendable {
     public init(
         environmentId: Swift.String? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.userArn = userArn
     }
@@ -595,8 +580,7 @@ public struct DescribeEnvironmentMembershipsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         permissions: [Cloud9ClientTypes.Permissions]? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -614,8 +598,7 @@ public struct DescribeEnvironmentMembershipsOutput: Swift.Sendable {
     public init(
         memberships: [Cloud9ClientTypes.EnvironmentMember]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberships = memberships
         self.nextToken = nextToken
     }
@@ -628,8 +611,7 @@ public struct DescribeEnvironmentsInput: Swift.Sendable {
 
     public init(
         environmentIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.environmentIds = environmentIds
     }
 }
@@ -697,8 +679,7 @@ extension Cloud9ClientTypes {
             failureResource: Swift.String? = nil,
             reason: Swift.String? = nil,
             status: Cloud9ClientTypes.EnvironmentLifecycleStatus? = nil
-        )
-        {
+        ) {
             self.failureResource = failureResource
             self.reason = reason
             self.status = status
@@ -851,8 +832,7 @@ extension Cloud9ClientTypes {
             name: Swift.String? = nil,
             ownerArn: Swift.String? = nil,
             type: Cloud9ClientTypes.EnvironmentType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectionType = connectionType
             self.description = description
@@ -877,8 +857,7 @@ public struct DescribeEnvironmentsOutput: Swift.Sendable {
 
     public init(
         environments: [Cloud9ClientTypes.Environment]? = nil
-    )
-    {
+    ) {
         self.environments = environments
     }
 }
@@ -890,8 +869,7 @@ public struct DescribeEnvironmentStatusInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -965,8 +943,7 @@ public struct DescribeEnvironmentStatusOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         status: Cloud9ClientTypes.EnvironmentStatus? = nil
-    )
-    {
+    ) {
         self.message = message
         self.status = status
     }
@@ -981,8 +958,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -997,8 +973,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environmentIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentIds = environmentIds
         self.nextToken = nextToken
     }
@@ -1011,8 +986,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1023,8 +997,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Cloud9ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1035,9 +1008,9 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// A concurrent access issue occurred.
-public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var className: Swift.String? = nil
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
@@ -1056,8 +1029,7 @@ public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRu
         className: Swift.String? = nil,
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.className = className
         self.properties.code = code
         self.properties.message = message
@@ -1075,8 +1047,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [Cloud9ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -1103,8 +1074,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -1172,8 +1142,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         managedCredentialsAction: Cloud9ClientTypes.ManagedCredentialsAction? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.environmentId = environmentId
         self.managedCredentialsAction = managedCredentialsAction
@@ -1210,8 +1179,7 @@ public struct UpdateEnvironmentMembershipInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         permissions: Cloud9ClientTypes.MemberPermissions? = nil,
         userArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.permissions = permissions
         self.userArn = userArn
@@ -1224,8 +1192,7 @@ public struct UpdateEnvironmentMembershipOutput: Swift.Sendable {
 
     public init(
         membership: Cloud9ClientTypes.EnvironmentMember? = nil
-    )
-    {
+    ) {
         self.membership = membership
     }
 }

@@ -27,9 +27,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -44,8 +44,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -62,8 +61,7 @@ extension ControlCatalogClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -82,8 +80,7 @@ extension ControlCatalogClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -99,8 +96,7 @@ extension ControlCatalogClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -115,17 +111,16 @@ extension ControlCatalogClientTypes {
 
         public init(
             objectives: [ControlCatalogClientTypes.ObjectiveResourceFilter]? = nil
-        )
-        {
+        ) {
             self.objectives = objectives
         }
     }
 }
 
 /// An internal service error occurred during the processing of your request. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -140,16 +135,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -164,16 +158,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request has invalid or missing parameters.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -188,8 +181,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -206,8 +198,7 @@ public struct ListCommonControlsInput: Swift.Sendable {
         commonControlFilter: ControlCatalogClientTypes.CommonControlFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commonControlFilter = commonControlFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -248,8 +239,7 @@ extension ControlCatalogClientTypes {
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             objective: ControlCatalogClientTypes.AssociatedObjectiveSummary? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createTime = createTime
             self.description = description
@@ -271,8 +261,7 @@ public struct ListCommonControlsOutput: Swift.Sendable {
     public init(
         commonControls: [ControlCatalogClientTypes.CommonControlSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commonControls = commonControls
         self.nextToken = nextToken
     }
@@ -311,9 +300,9 @@ extension ControlCatalogClientTypes {
 }
 
 /// The requested resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -328,8 +317,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -341,8 +329,7 @@ public struct GetControlInput: Swift.Sendable {
 
     public init(
         controlArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlArn = controlArn
     }
 }
@@ -359,7 +346,7 @@ extension ControlCatalogClientTypes {
     /// * SERVICE-PROVIDER::SERVICE-NAME::RESOURCE-NAME::RESOURCE-TYPE-DESCRIPTION
     ///
     ///
-    /// For example, AWS::Organizations::Policy::SERVICE_CONTROL_POLICY or AWS::CloudFormation::Type::HOOK have the format with four segments. Although the format is similar, the values for the Type field do not match any Amazon Web Services CloudFormation values, and we do not use CloudFormation to implement these controls.
+    /// For example, AWS::Organizations::Policy::SERVICE_CONTROL_POLICY or AWS::CloudFormation::Type::HOOK have the format with four segments. Although the format is similar, the values for the Type field do not match any Amazon Web Services CloudFormation values.
     public struct ImplementationDetails: Swift.Sendable {
         /// A string that describes a control's implementation type.
         /// This member is required.
@@ -367,8 +354,7 @@ extension ControlCatalogClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -392,8 +378,7 @@ extension ControlCatalogClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -441,8 +426,7 @@ extension ControlCatalogClientTypes {
         public init(
             deployableRegions: [Swift.String]? = nil,
             scope: ControlCatalogClientTypes.ControlScope? = nil
-        )
-        {
+        ) {
             self.deployableRegions = deployableRegions
             self.scope = scope
         }
@@ -478,8 +462,7 @@ public struct GetControlOutput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: [ControlCatalogClientTypes.ControlParameter]? = nil,
         regionConfiguration: ControlCatalogClientTypes.RegionConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.behavior = behavior
         self.description = description
@@ -499,8 +482,7 @@ public struct ListControlsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -524,8 +506,7 @@ extension ControlCatalogClientTypes {
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.name = name
@@ -543,8 +524,7 @@ public struct ListControlsOutput: Swift.Sendable {
     public init(
         controls: [ControlCatalogClientTypes.ControlSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controls = controls
         self.nextToken = nextToken
     }
@@ -559,8 +539,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -592,8 +571,7 @@ extension ControlCatalogClientTypes {
             description: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createTime = createTime
             self.description = description
@@ -613,8 +591,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domains: [ControlCatalogClientTypes.DomainSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextToken = nextToken
     }
@@ -629,8 +606,7 @@ extension ControlCatalogClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -645,8 +621,7 @@ extension ControlCatalogClientTypes {
 
         public init(
             domains: [ControlCatalogClientTypes.DomainResourceFilter]? = nil
-        )
-        {
+        ) {
             self.domains = domains
         }
     }
@@ -664,8 +639,7 @@ public struct ListObjectivesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectiveFilter: ControlCatalogClientTypes.ObjectiveFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.objectiveFilter = objectiveFilter
@@ -702,8 +676,7 @@ extension ControlCatalogClientTypes {
             domain: ControlCatalogClientTypes.AssociatedDomainSummary? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createTime = createTime
             self.description = description
@@ -724,8 +697,7 @@ public struct ListObjectivesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         objectives: [ControlCatalogClientTypes.ObjectiveSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.objectives = objectives
     }

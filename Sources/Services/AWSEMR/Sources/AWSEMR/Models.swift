@@ -130,9 +130,9 @@ extension EMRClientTypes {
 }
 
 /// This exception occurs when there is an internal failure in the Amazon EMR service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -148,16 +148,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception occurs when there is something wrong with user input.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code associated with the exception.
         public internal(set) var errorCode: Swift.String? = nil
         /// The message associated with the exception.
@@ -176,8 +175,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -235,8 +233,7 @@ extension EMRClientTypes {
             sizeInGB: Swift.Int? = nil,
             throughput: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.iops = iops
             self.sizeInGB = sizeInGB
             self.throughput = throughput
@@ -258,8 +255,7 @@ extension EMRClientTypes {
         public init(
             volumeSpecification: EMRClientTypes.VolumeSpecification? = nil,
             volumesPerInstance: Swift.Int? = nil
-        )
-        {
+        ) {
             self.volumeSpecification = volumeSpecification
             self.volumesPerInstance = volumesPerInstance
         }
@@ -278,8 +274,7 @@ extension EMRClientTypes {
         public init(
             ebsBlockDeviceConfigs: [EMRClientTypes.EbsBlockDeviceConfig]? = nil,
             ebsOptimized: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.ebsBlockDeviceConfigs = ebsBlockDeviceConfigs
             self.ebsOptimized = ebsOptimized
         }
@@ -389,8 +384,7 @@ extension EMRClientTypes {
             capacityReservationPreference: EMRClientTypes.OnDemandCapacityReservationPreference? = nil,
             capacityReservationResourceGroupArn: Swift.String? = nil,
             usageStrategy: EMRClientTypes.OnDemandCapacityReservationUsageStrategy? = nil
-        )
-        {
+        ) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
             self.usageStrategy = usageStrategy
@@ -411,8 +405,7 @@ extension EMRClientTypes {
         public init(
             allocationStrategy: EMRClientTypes.OnDemandProvisioningAllocationStrategy? = nil,
             capacityReservationOptions: EMRClientTypes.OnDemandCapacityReservationOptions? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.capacityReservationOptions = capacityReservationOptions
         }
@@ -506,8 +499,7 @@ extension EMRClientTypes {
             blockDurationMinutes: Swift.Int? = nil,
             timeoutAction: EMRClientTypes.SpotProvisioningTimeoutAction? = nil,
             timeoutDurationMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.blockDurationMinutes = blockDurationMinutes
             self.timeoutAction = timeoutAction
@@ -528,8 +520,7 @@ extension EMRClientTypes {
         public init(
             onDemandSpecification: EMRClientTypes.OnDemandProvisioningSpecification? = nil,
             spotSpecification: EMRClientTypes.SpotProvisioningSpecification? = nil
-        )
-        {
+        ) {
             self.onDemandSpecification = onDemandSpecification
             self.spotSpecification = spotSpecification
         }
@@ -551,8 +542,7 @@ extension EMRClientTypes {
             allocationStrategy: EMRClientTypes.OnDemandProvisioningAllocationStrategy? = nil,
             capacityReservationOptions: EMRClientTypes.OnDemandCapacityReservationOptions? = nil,
             timeoutDurationMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.capacityReservationOptions = capacityReservationOptions
             self.timeoutDurationMinutes = timeoutDurationMinutes
@@ -572,8 +562,7 @@ extension EMRClientTypes {
         public init(
             allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy? = nil,
             timeoutDurationMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.timeoutDurationMinutes = timeoutDurationMinutes
         }
@@ -592,8 +581,7 @@ extension EMRClientTypes {
         public init(
             onDemandResizeSpecification: EMRClientTypes.OnDemandResizingSpecification? = nil,
             spotResizeSpecification: EMRClientTypes.SpotResizingSpecification? = nil
-        )
-        {
+        ) {
             self.onDemandResizeSpecification = onDemandResizeSpecification
             self.spotResizeSpecification = spotResizeSpecification
         }
@@ -612,8 +600,7 @@ public struct AddInstanceFleetOutput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         clusterId: Swift.String? = nil,
         instanceFleetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterId = clusterId
         self.instanceFleetId = instanceFleetId
@@ -621,7 +608,7 @@ public struct AddInstanceFleetOutput: Swift.Sendable {
 }
 
 /// Indicates that an error occurred while processing the request and that the request was not completed.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InternalFailure" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
@@ -647,8 +634,7 @@ extension EMRClientTypes {
         public init(
             maxCapacity: Swift.Int? = nil,
             minCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
         }
@@ -732,8 +718,7 @@ extension EMRClientTypes {
             adjustmentType: EMRClientTypes.AdjustmentType? = nil,
             coolDown: Swift.Int? = nil,
             scalingAdjustment: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adjustmentType = adjustmentType
             self.coolDown = coolDown
             self.scalingAdjustment = scalingAdjustment
@@ -754,8 +739,7 @@ extension EMRClientTypes {
         public init(
             market: EMRClientTypes.MarketType? = nil,
             simpleScalingPolicyConfiguration: EMRClientTypes.SimpleScalingPolicyConfiguration? = nil
-        )
-        {
+        ) {
             self.market = market
             self.simpleScalingPolicyConfiguration = simpleScalingPolicyConfiguration
         }
@@ -809,8 +793,7 @@ extension EMRClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -996,8 +979,7 @@ extension EMRClientTypes {
             statistic: EMRClientTypes.Statistic? = nil,
             threshold: Swift.Double? = nil,
             unit: EMRClientTypes.Unit? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.dimensions = dimensions
             self.evaluationPeriods = evaluationPeriods
@@ -1021,8 +1003,7 @@ extension EMRClientTypes {
 
         public init(
             cloudWatchAlarmDefinition: EMRClientTypes.CloudWatchAlarmDefinition? = nil
-        )
-        {
+        ) {
             self.cloudWatchAlarmDefinition = cloudWatchAlarmDefinition
         }
     }
@@ -1049,8 +1030,7 @@ extension EMRClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             trigger: EMRClientTypes.ScalingTrigger? = nil
-        )
-        {
+        ) {
             self.action = action
             self.description = description
             self.name = name
@@ -1073,8 +1053,7 @@ extension EMRClientTypes {
         public init(
             constraints: EMRClientTypes.ScalingConstraints? = nil,
             rules: [EMRClientTypes.ScalingRule]? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.rules = rules
         }
@@ -1126,8 +1105,7 @@ public struct AddInstanceGroupsOutput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         instanceGroupIds: [Swift.String]? = nil,
         jobFlowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.instanceGroupIds = instanceGroupIds
         self.jobFlowId = jobFlowId
@@ -1146,8 +1124,7 @@ extension EMRClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1173,8 +1150,7 @@ extension EMRClientTypes {
             jar: Swift.String? = nil,
             mainClass: Swift.String? = nil,
             properties: [EMRClientTypes.KeyValue]? = nil
-        )
-        {
+        ) {
             self.args = args
             self.jar = jar
             self.mainClass = mainClass
@@ -1211,8 +1187,7 @@ extension EMRClientTypes {
             actionOnFailure: EMRClientTypes.ActionOnFailure? = nil,
             hadoopJarStep: EMRClientTypes.HadoopJarStepConfig? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionOnFailure = actionOnFailure
             self.hadoopJarStep = hadoopJarStep
             self.name = name
@@ -1235,8 +1210,7 @@ public struct AddJobFlowStepsInput: Swift.Sendable {
         executionRoleArn: Swift.String? = nil,
         jobFlowId: Swift.String? = nil,
         steps: [EMRClientTypes.StepConfig]? = nil
-    )
-    {
+    ) {
         self.executionRoleArn = executionRoleArn
         self.jobFlowId = jobFlowId
         self.steps = steps
@@ -1250,8 +1224,7 @@ public struct AddJobFlowStepsOutput: Swift.Sendable {
 
     public init(
         stepIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.stepIds = stepIds
     }
 }
@@ -1268,8 +1241,7 @@ extension EMRClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1288,8 +1260,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tags: [EMRClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tags = tags
     }
@@ -1319,8 +1290,7 @@ extension EMRClientTypes {
             args: [Swift.String]? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.args = args
             self.name = name
@@ -1443,8 +1413,7 @@ extension EMRClientTypes {
         public init(
             code: EMRClientTypes.AutoScalingPolicyStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -1463,8 +1432,7 @@ extension EMRClientTypes {
         public init(
             state: EMRClientTypes.AutoScalingPolicyState? = nil,
             stateChangeReason: EMRClientTypes.AutoScalingPolicyStateChangeReason? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateChangeReason = stateChangeReason
         }
@@ -1486,8 +1454,7 @@ extension EMRClientTypes {
             constraints: EMRClientTypes.ScalingConstraints? = nil,
             rules: [EMRClientTypes.ScalingRule]? = nil,
             status: EMRClientTypes.AutoScalingPolicyStatus? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.rules = rules
             self.status = status
@@ -1504,8 +1471,7 @@ extension EMRClientTypes {
 
         public init(
             idleTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeout = idleTimeout
         }
     }
@@ -1524,8 +1490,7 @@ extension EMRClientTypes {
         public init(
             maxRange: Swift.Int? = nil,
             minRange: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRange = maxRange
             self.minRange = minRange
         }
@@ -1546,8 +1511,7 @@ extension EMRClientTypes {
         public init(
             createdByArn: Swift.String? = nil,
             creationDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdByArn = createdByArn
             self.creationDateTime = creationDateTime
         }
@@ -1567,8 +1531,7 @@ extension EMRClientTypes {
         public init(
             args: [Swift.String]? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.args = args
             self.path = path
         }
@@ -1589,8 +1552,7 @@ extension EMRClientTypes {
         public init(
             name: Swift.String? = nil,
             scriptBootstrapAction: EMRClientTypes.ScriptBootstrapActionConfig? = nil
-        )
-        {
+        ) {
             self.name = name
             self.scriptBootstrapAction = scriptBootstrapAction
         }
@@ -1606,8 +1568,7 @@ extension EMRClientTypes {
 
         public init(
             bootstrapActionConfig: EMRClientTypes.BootstrapActionConfig? = nil
-        )
-        {
+        ) {
             self.bootstrapActionConfig = bootstrapActionConfig
         }
     }
@@ -1657,8 +1618,7 @@ public struct CancelStepsInput: Swift.Sendable {
         clusterId: Swift.String? = nil,
         stepCancellationOption: EMRClientTypes.StepCancellationOption? = nil,
         stepIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.stepCancellationOption = stepCancellationOption
         self.stepIds = stepIds
@@ -1709,8 +1669,7 @@ extension EMRClientTypes {
             reason: Swift.String? = nil,
             status: EMRClientTypes.CancelStepsRequestStatus? = nil,
             stepId: Swift.String? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.status = status
             self.stepId = stepId
@@ -1725,8 +1684,7 @@ public struct CancelStepsOutput: Swift.Sendable {
 
     public init(
         cancelStepsInfoList: [EMRClientTypes.CancelStepsInfo]? = nil
-    )
-    {
+    ) {
         self.cancelStepsInfoList = cancelStepsInfoList
     }
 }
@@ -1770,8 +1728,7 @@ extension EMRClientTypes {
             requestedEc2AvailabilityZones: [Swift.String]? = nil,
             requestedEc2SubnetIds: [Swift.String]? = nil,
             serviceAccessSecurityGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
             self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
             self.ec2AvailabilityZone = ec2AvailabilityZone
@@ -1839,8 +1796,7 @@ extension EMRClientTypes {
             crossRealmTrustPrincipalPassword: Swift.String? = nil,
             kdcAdminPassword: Swift.String? = nil,
             realm: Swift.String? = nil
-        )
-        {
+        ) {
             self.adDomainJoinPassword = adDomainJoinPassword
             self.adDomainJoinUser = adDomainJoinUser
             self.crossRealmTrustPrincipalPassword = crossRealmTrustPrincipalPassword
@@ -1898,8 +1854,7 @@ extension EMRClientTypes {
         public init(
             instanceRole: EMRClientTypes.InstanceRoleType? = nil,
             placementStrategy: EMRClientTypes.PlacementGroupStrategy? = nil
-        )
-        {
+        ) {
             self.instanceRole = instanceRole
             self.placementStrategy = placementStrategy
         }
@@ -1979,8 +1934,7 @@ extension EMRClientTypes {
             errorCode: Swift.String? = nil,
             errorData: [[Swift.String: Swift.String]]? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorData = errorData
             self.errorMessage = errorMessage
@@ -2091,8 +2045,7 @@ extension EMRClientTypes {
         public init(
             code: EMRClientTypes.ClusterStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2114,8 +2067,7 @@ extension EMRClientTypes {
             creationDateTime: Foundation.Date? = nil,
             endDateTime: Foundation.Date? = nil,
             readyDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -2141,8 +2093,7 @@ extension EMRClientTypes {
             state: EMRClientTypes.ClusterState? = nil,
             stateChangeReason: EMRClientTypes.ClusterStateChangeReason? = nil,
             timeline: EMRClientTypes.ClusterTimeline? = nil
-        )
-        {
+        ) {
             self.errorDetails = errorDetails
             self.state = state
             self.stateChangeReason = stateChangeReason
@@ -2175,8 +2126,7 @@ extension EMRClientTypes {
             normalizedInstanceHours: Swift.Int? = nil,
             outpostArn: Swift.String? = nil,
             status: EMRClientTypes.ClusterStatus? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
             self.id = id
             self.name = name
@@ -2202,8 +2152,7 @@ extension EMRClientTypes {
             args: [Swift.String]? = nil,
             name: Swift.String? = nil,
             scriptPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.args = args
             self.name = name
             self.scriptPath = scriptPath
@@ -2267,8 +2216,7 @@ extension EMRClientTypes {
             maximumOnDemandCapacityUnits: Swift.Int? = nil,
             minimumCapacityUnits: Swift.Int? = nil,
             unitType: EMRClientTypes.ComputeLimitsUnitType? = nil
-        )
-        {
+        ) {
             self.maximumCapacityUnits = maximumCapacityUnits
             self.maximumCoreCapacityUnits = maximumCoreCapacityUnits
             self.maximumOnDemandCapacityUnits = maximumOnDemandCapacityUnits
@@ -2289,8 +2237,7 @@ public struct CreateSecurityConfigurationInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         securityConfiguration: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.securityConfiguration = securityConfiguration
     }
@@ -2307,8 +2254,7 @@ public struct CreateSecurityConfigurationOutput: Swift.Sendable {
     public init(
         creationDateTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.name = name
     }
@@ -2405,8 +2351,7 @@ public struct CreateStudioInput: Swift.Sendable {
         userRole: Swift.String? = nil,
         vpcId: Swift.String? = nil,
         workspaceSecurityGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authMode = authMode
         self.defaultS3Location = defaultS3Location
         self.description = description
@@ -2436,8 +2381,7 @@ public struct CreateStudioOutput: Swift.Sendable {
     public init(
         studioId: Swift.String? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioId = studioId
         self.url = url
     }
@@ -2493,8 +2437,7 @@ public struct CreateStudioSessionMappingInput: Swift.Sendable {
         identityType: EMRClientTypes.IdentityType? = nil,
         sessionPolicyArn: Swift.String? = nil,
         studioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityName = identityName
         self.identityType = identityType
@@ -2515,8 +2458,7 @@ extension EMRClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -2546,8 +2488,7 @@ public struct DeleteSecurityConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2564,8 +2505,7 @@ public struct DeleteStudioInput: Swift.Sendable {
 
     public init(
         studioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioId = studioId
     }
 }
@@ -2587,8 +2527,7 @@ public struct DeleteStudioSessionMappingInput: Swift.Sendable {
         identityName: Swift.String? = nil,
         identityType: EMRClientTypes.IdentityType? = nil,
         studioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityName = identityName
         self.identityType = identityType
@@ -2604,8 +2543,7 @@ public struct DescribeClusterInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -2674,8 +2612,7 @@ public struct DescribeJobFlowsInput: Swift.Sendable {
         createdBefore: Foundation.Date? = nil,
         jobFlowIds: [Swift.String]? = nil,
         jobFlowStates: [EMRClientTypes.JobFlowExecutionState]? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.jobFlowIds = jobFlowIds
@@ -2709,8 +2646,7 @@ extension EMRClientTypes {
             readyDateTime: Foundation.Date? = nil,
             startDateTime: Foundation.Date? = nil,
             state: EMRClientTypes.JobFlowExecutionState? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.lastStateChangeReason = lastStateChangeReason
@@ -2835,8 +2771,7 @@ extension EMRClientTypes {
             readyDateTime: Foundation.Date? = nil,
             startDateTime: Foundation.Date? = nil,
             state: EMRClientTypes.InstanceGroupState? = nil
-        )
-        {
+        ) {
             self.bidPrice = bidPrice
             self.creationDateTime = creationDateTime
             self.customAmiId = customAmiId
@@ -2868,8 +2803,7 @@ extension EMRClientTypes {
         public init(
             availabilityZone: Swift.String? = nil,
             availabilityZones: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.availabilityZones = availabilityZones
         }
@@ -2927,8 +2861,7 @@ extension EMRClientTypes {
             slaveInstanceType: Swift.String? = nil,
             terminationProtected: Swift.Bool? = nil,
             unhealthyNodeReplacement: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.ec2KeyName = ec2KeyName
             self.ec2SubnetId = ec2SubnetId
             self.hadoopVersion = hadoopVersion
@@ -3014,8 +2947,7 @@ extension EMRClientTypes {
             lastStateChangeReason: Swift.String? = nil,
             startDateTime: Foundation.Date? = nil,
             state: EMRClientTypes.StepExecutionState? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.lastStateChangeReason = lastStateChangeReason
@@ -3039,8 +2971,7 @@ extension EMRClientTypes {
         public init(
             executionStatusDetail: EMRClientTypes.StepExecutionStatusDetail? = nil,
             stepConfig: EMRClientTypes.StepConfig? = nil
-        )
-        {
+        ) {
             self.executionStatusDetail = executionStatusDetail
             self.stepConfig = stepConfig
         }
@@ -3102,8 +3033,7 @@ extension EMRClientTypes {
             steps: [EMRClientTypes.StepDetail]? = nil,
             supportedProducts: [Swift.String]? = nil,
             visibleToAllUsers: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.amiVersion = amiVersion
             self.autoScalingRole = autoScalingRole
             self.bootstrapActions = bootstrapActions
@@ -3130,8 +3060,7 @@ public struct DescribeJobFlowsOutput: Swift.Sendable {
 
     public init(
         jobFlows: [EMRClientTypes.JobFlowDetail]? = nil
-    )
-    {
+    ) {
         self.jobFlows = jobFlows
     }
 }
@@ -3143,8 +3072,7 @@ public struct DescribeNotebookExecutionInput: Swift.Sendable {
 
     public init(
         notebookExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookExecutionId = notebookExecutionId
     }
 }
@@ -3194,8 +3122,7 @@ extension EMRClientTypes {
             id: Swift.String? = nil,
             masterInstanceSecurityGroupId: Swift.String? = nil,
             type: EMRClientTypes.ExecutionEngineType? = nil
-        )
-        {
+        ) {
             self.executionRoleArn = executionRoleArn
             self.id = id
             self.masterInstanceSecurityGroupId = masterInstanceSecurityGroupId
@@ -3216,8 +3143,7 @@ extension EMRClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -3262,8 +3188,7 @@ extension EMRClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -3400,8 +3325,7 @@ extension EMRClientTypes {
             startTime: Foundation.Date? = nil,
             status: EMRClientTypes.NotebookExecutionStatus? = nil,
             tags: [EMRClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.editorId = editorId
             self.endTime = endTime
@@ -3429,8 +3353,7 @@ public struct DescribeNotebookExecutionOutput: Swift.Sendable {
 
     public init(
         notebookExecution: EMRClientTypes.NotebookExecution? = nil
-    )
-    {
+    ) {
         self.notebookExecution = notebookExecution
     }
 }
@@ -3447,8 +3370,7 @@ public struct DescribeReleaseLabelInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         releaseLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.releaseLabel = releaseLabel
@@ -3467,8 +3389,7 @@ extension EMRClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -3484,8 +3405,7 @@ extension EMRClientTypes {
 
         public init(
             label: Swift.String? = nil
-        )
-        {
+        ) {
             self.label = label
         }
     }
@@ -3506,8 +3426,7 @@ public struct DescribeReleaseLabelOutput: Swift.Sendable {
         availableOSReleases: [EMRClientTypes.OSRelease]? = nil,
         nextToken: Swift.String? = nil,
         releaseLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.availableOSReleases = availableOSReleases
         self.nextToken = nextToken
@@ -3522,8 +3441,7 @@ public struct DescribeSecurityConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3540,8 +3458,7 @@ public struct DescribeSecurityConfigurationOutput: Swift.Sendable {
         creationDateTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         securityConfiguration: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.name = name
         self.securityConfiguration = securityConfiguration
@@ -3560,8 +3477,7 @@ public struct DescribeStepInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         stepId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.stepId = stepId
     }
@@ -3585,8 +3501,7 @@ extension EMRClientTypes {
             jar: Swift.String? = nil,
             mainClass: Swift.String? = nil,
             properties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.args = args
             self.jar = jar
             self.mainClass = mainClass
@@ -3610,8 +3525,7 @@ extension EMRClientTypes {
             logFile: Swift.String? = nil,
             message: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.logFile = logFile
             self.message = message
             self.reason = reason
@@ -3701,8 +3615,7 @@ extension EMRClientTypes {
         public init(
             code: EMRClientTypes.StepStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -3724,8 +3637,7 @@ extension EMRClientTypes {
             creationDateTime: Foundation.Date? = nil,
             endDateTime: Foundation.Date? = nil,
             startDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.startDateTime = startDateTime
@@ -3751,8 +3663,7 @@ extension EMRClientTypes {
             state: EMRClientTypes.StepState? = nil,
             stateChangeReason: EMRClientTypes.StepStateChangeReason? = nil,
             timeline: EMRClientTypes.StepTimeline? = nil
-        )
-        {
+        ) {
             self.failureDetails = failureDetails
             self.state = state
             self.stateChangeReason = stateChangeReason
@@ -3785,8 +3696,7 @@ extension EMRClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: EMRClientTypes.StepStatus? = nil
-        )
-        {
+        ) {
             self.actionOnFailure = actionOnFailure
             self.config = config
             self.executionRoleArn = executionRoleArn
@@ -3804,8 +3714,7 @@ public struct DescribeStepOutput: Swift.Sendable {
 
     public init(
         step: EMRClientTypes.Step? = nil
-    )
-    {
+    ) {
         self.step = step
     }
 }
@@ -3817,8 +3726,7 @@ public struct DescribeStudioInput: Swift.Sendable {
 
     public init(
         studioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioId = studioId
     }
 }
@@ -3892,8 +3800,7 @@ extension EMRClientTypes {
             userRole: Swift.String? = nil,
             vpcId: Swift.String? = nil,
             workspaceSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.authMode = authMode
             self.creationTime = creationTime
             self.defaultS3Location = defaultS3Location
@@ -3925,8 +3832,7 @@ public struct DescribeStudioOutput: Swift.Sendable {
 
     public init(
         studio: EMRClientTypes.Studio? = nil
-    )
-    {
+    ) {
         self.studio = studio
     }
 }
@@ -3943,8 +3849,7 @@ extension EMRClientTypes {
         public init(
             device: Swift.String? = nil,
             volumeSpecification: EMRClientTypes.VolumeSpecification? = nil
-        )
-        {
+        ) {
             self.device = device
             self.volumeSpecification = volumeSpecification
         }
@@ -3963,8 +3868,7 @@ extension EMRClientTypes {
         public init(
             device: Swift.String? = nil,
             volumeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.device = device
             self.volumeId = volumeId
         }
@@ -3978,8 +3882,7 @@ public struct GetAutoTerminationPolicyInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -3990,8 +3893,7 @@ public struct GetAutoTerminationPolicyOutput: Swift.Sendable {
 
     public init(
         autoTerminationPolicy: EMRClientTypes.AutoTerminationPolicy? = nil
-    )
-    {
+    ) {
         self.autoTerminationPolicy = autoTerminationPolicy
     }
 }
@@ -4011,8 +3913,7 @@ public struct GetClusterSessionCredentialsInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.executionRoleArn = executionRoleArn
     }
@@ -4027,8 +3928,7 @@ public struct GetClusterSessionCredentialsOutput: Swift.Sendable {
     public init(
         credentials: EMRClientTypes.Credentials? = nil,
         expiresAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.expiresAt = expiresAt
     }
@@ -4041,8 +3941,7 @@ public struct GetManagedScalingPolicyInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -4091,8 +3990,7 @@ extension EMRClientTypes {
             computeLimits: EMRClientTypes.ComputeLimits? = nil,
             scalingStrategy: EMRClientTypes.ScalingStrategy? = nil,
             utilizationPerformanceIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.computeLimits = computeLimits
             self.scalingStrategy = scalingStrategy
             self.utilizationPerformanceIndex = utilizationPerformanceIndex
@@ -4106,8 +4004,7 @@ public struct GetManagedScalingPolicyOutput: Swift.Sendable {
 
     public init(
         managedScalingPolicy: EMRClientTypes.ManagedScalingPolicy? = nil
-    )
-    {
+    ) {
         self.managedScalingPolicy = managedScalingPolicy
     }
 }
@@ -4129,8 +4026,7 @@ public struct GetStudioSessionMappingInput: Swift.Sendable {
         identityName: Swift.String? = nil,
         identityType: EMRClientTypes.IdentityType? = nil,
         studioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityName = identityName
         self.identityType = identityType
@@ -4165,8 +4061,7 @@ extension EMRClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             sessionPolicyArn: Swift.String? = nil,
             studioId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.identityId = identityId
             self.identityName = identityName
@@ -4184,8 +4079,7 @@ public struct GetStudioSessionMappingOutput: Swift.Sendable {
 
     public init(
         sessionMapping: EMRClientTypes.SessionMappingDetail? = nil
-    )
-    {
+    ) {
         self.sessionMapping = sessionMapping
     }
 }
@@ -4201,8 +4095,7 @@ public struct ListBootstrapActionsInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.marker = marker
     }
@@ -4218,8 +4111,7 @@ public struct ListBootstrapActionsOutput: Swift.Sendable {
     public init(
         bootstrapActions: [EMRClientTypes.Command]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.bootstrapActions = bootstrapActions
         self.marker = marker
     }
@@ -4241,8 +4133,7 @@ public struct ListClustersInput: Swift.Sendable {
         createdAfter: Foundation.Date? = nil,
         createdBefore: Foundation.Date? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterStates = clusterStates
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -4260,8 +4151,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusters: [EMRClientTypes.ClusterSummary]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.marker = marker
     }
@@ -4277,8 +4167,7 @@ public struct ListInstanceFleetsInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.marker = marker
     }
@@ -4375,8 +4264,7 @@ extension EMRClientTypes {
         public init(
             code: EMRClientTypes.InstanceFleetStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4398,8 +4286,7 @@ extension EMRClientTypes {
             creationDateTime: Foundation.Date? = nil,
             endDateTime: Foundation.Date? = nil,
             readyDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -4436,8 +4323,7 @@ extension EMRClientTypes {
             state: EMRClientTypes.InstanceFleetState? = nil,
             stateChangeReason: EMRClientTypes.InstanceFleetStateChangeReason? = nil,
             timeline: EMRClientTypes.InstanceFleetTimeline? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.timeline = timeline
@@ -4456,8 +4342,7 @@ public struct ListInstanceGroupsInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.marker = marker
     }
@@ -4510,8 +4395,7 @@ extension EMRClientTypes {
             instanceTerminationTimeout: Swift.Int? = nil,
             instancesToProtect: [Swift.String]? = nil,
             instancesToTerminate: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.instanceTerminationTimeout = instanceTerminationTimeout
             self.instancesToProtect = instancesToProtect
             self.instancesToTerminate = instancesToTerminate
@@ -4531,8 +4415,7 @@ extension EMRClientTypes {
         public init(
             decommissionTimeout: Swift.Int? = nil,
             instanceResizePolicy: EMRClientTypes.InstanceResizePolicy? = nil
-        )
-        {
+        ) {
             self.decommissionTimeout = decommissionTimeout
             self.instanceResizePolicy = instanceResizePolicy
         }
@@ -4586,8 +4469,7 @@ extension EMRClientTypes {
         public init(
             code: EMRClientTypes.InstanceGroupStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4609,8 +4491,7 @@ extension EMRClientTypes {
             creationDateTime: Foundation.Date? = nil,
             endDateTime: Foundation.Date? = nil,
             readyDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -4633,8 +4514,7 @@ extension EMRClientTypes {
             state: EMRClientTypes.InstanceGroupState? = nil,
             stateChangeReason: EMRClientTypes.InstanceGroupStateChangeReason? = nil,
             timeline: EMRClientTypes.InstanceGroupTimeline? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.timeline = timeline
@@ -4706,8 +4586,7 @@ public struct ListInstancesInput: Swift.Sendable {
         instanceGroupTypes: [EMRClientTypes.InstanceGroupType]? = nil,
         instanceStates: [EMRClientTypes.InstanceState]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.instanceFleetId = instanceFleetId
         self.instanceFleetType = instanceFleetType
@@ -4768,8 +4647,7 @@ extension EMRClientTypes {
         public init(
             code: EMRClientTypes.InstanceStateChangeReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4791,8 +4669,7 @@ extension EMRClientTypes {
             creationDateTime: Foundation.Date? = nil,
             endDateTime: Foundation.Date? = nil,
             readyDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.readyDateTime = readyDateTime
@@ -4815,8 +4692,7 @@ extension EMRClientTypes {
             state: EMRClientTypes.InstanceState? = nil,
             stateChangeReason: EMRClientTypes.InstanceStateChangeReason? = nil,
             timeline: EMRClientTypes.InstanceTimeline? = nil
-        )
-        {
+        ) {
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.timeline = timeline
@@ -4866,8 +4742,7 @@ extension EMRClientTypes {
             publicDnsName: Swift.String? = nil,
             publicIpAddress: Swift.String? = nil,
             status: EMRClientTypes.InstanceStatus? = nil
-        )
-        {
+        ) {
             self.ebsVolumes = ebsVolumes
             self.ec2InstanceId = ec2InstanceId
             self.id = id
@@ -4894,8 +4769,7 @@ public struct ListInstancesOutput: Swift.Sendable {
     public init(
         instances: [EMRClientTypes.Instance]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.marker = marker
     }
@@ -4942,8 +4816,7 @@ public struct ListNotebookExecutionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         status: EMRClientTypes.NotebookExecutionStatus? = nil,
         to: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.editorId = editorId
         self.executionEngineId = executionEngineId
         self.from = from
@@ -5003,8 +4876,7 @@ extension EMRClientTypes {
             notebookS3Location: EMRClientTypes.NotebookS3LocationForOutput? = nil,
             startTime: Foundation.Date? = nil,
             status: EMRClientTypes.NotebookExecutionStatus? = nil
-        )
-        {
+        ) {
             self.editorId = editorId
             self.endTime = endTime
             self.executionEngineId = executionEngineId
@@ -5026,8 +4898,7 @@ public struct ListNotebookExecutionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         notebookExecutions: [EMRClientTypes.NotebookExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.notebookExecutions = notebookExecutions
     }
@@ -5045,8 +4916,7 @@ extension EMRClientTypes {
         public init(
             application: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.application = application
             self.`prefix` = `prefix`
         }
@@ -5065,8 +4935,7 @@ public struct ListReleaseLabelsInput: Swift.Sendable {
         filters: EMRClientTypes.ReleaseLabelFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5082,8 +4951,7 @@ public struct ListReleaseLabelsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         releaseLabels: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.releaseLabels = releaseLabels
     }
@@ -5095,8 +4963,7 @@ public struct ListSecurityConfigurationsInput: Swift.Sendable {
 
     public init(
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
     }
 }
@@ -5113,8 +4980,7 @@ extension EMRClientTypes {
         public init(
             creationDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.name = name
         }
@@ -5130,8 +4996,7 @@ public struct ListSecurityConfigurationsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         securityConfigurations: [EMRClientTypes.SecurityConfigurationSummary]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.securityConfigurations = securityConfigurations
     }
@@ -5154,8 +5019,7 @@ public struct ListStepsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         stepIds: [Swift.String]? = nil,
         stepStates: [EMRClientTypes.StepState]? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.marker = marker
         self.stepIds = stepIds
@@ -5184,8 +5048,7 @@ extension EMRClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: EMRClientTypes.StepStatus? = nil
-        )
-        {
+        ) {
             self.actionOnFailure = actionOnFailure
             self.config = config
             self.id = id
@@ -5205,8 +5068,7 @@ public struct ListStepsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         steps: [EMRClientTypes.StepSummary]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.steps = steps
     }
@@ -5218,8 +5080,7 @@ public struct ListStudiosInput: Swift.Sendable {
 
     public init(
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
     }
 }
@@ -5251,8 +5112,7 @@ extension EMRClientTypes {
             studioId: Swift.String? = nil,
             url: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.authMode = authMode
             self.creationTime = creationTime
             self.description = description
@@ -5273,8 +5133,7 @@ public struct ListStudiosOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         studios: [EMRClientTypes.StudioSummary]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.studios = studios
     }
@@ -5292,8 +5151,7 @@ public struct ListStudioSessionMappingsInput: Swift.Sendable {
         identityType: EMRClientTypes.IdentityType? = nil,
         marker: Swift.String? = nil,
         studioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityType = identityType
         self.marker = marker
         self.studioId = studioId
@@ -5324,8 +5182,7 @@ extension EMRClientTypes {
             identityType: EMRClientTypes.IdentityType? = nil,
             sessionPolicyArn: Swift.String? = nil,
             studioId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.identityId = identityId
             self.identityName = identityName
@@ -5345,8 +5202,7 @@ public struct ListStudioSessionMappingsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         sessionMappings: [EMRClientTypes.SessionMappingSummary]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.sessionMappings = sessionMappings
     }
@@ -5362,8 +5218,7 @@ public struct ListSupportedInstanceTypesInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         releaseLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.releaseLabel = releaseLabel
     }
@@ -5408,8 +5263,7 @@ extension EMRClientTypes {
             storageGB: Swift.Int? = nil,
             type: Swift.String? = nil,
             vcpu: Swift.Int? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.ebsOptimizedAvailable = ebsOptimizedAvailable
             self.ebsOptimizedByDefault = ebsOptimizedByDefault
@@ -5434,8 +5288,7 @@ public struct ListSupportedInstanceTypesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         supportedInstanceTypes: [EMRClientTypes.SupportedInstanceType]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.supportedInstanceTypes = supportedInstanceTypes
     }
@@ -5451,8 +5304,7 @@ public struct ModifyClusterInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         stepConcurrencyLevel: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.stepConcurrencyLevel = stepConcurrencyLevel
     }
@@ -5464,8 +5316,7 @@ public struct ModifyClusterOutput: Swift.Sendable {
 
     public init(
         stepConcurrencyLevel: Swift.Int? = nil
-    )
-    {
+    ) {
         self.stepConcurrencyLevel = stepConcurrencyLevel
     }
 }
@@ -5514,8 +5365,7 @@ public struct PutAutoScalingPolicyInput: Swift.Sendable {
         autoScalingPolicy: EMRClientTypes.AutoScalingPolicy? = nil,
         clusterId: Swift.String? = nil,
         instanceGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingPolicy = autoScalingPolicy
         self.clusterId = clusterId
         self.instanceGroupId = instanceGroupId
@@ -5537,8 +5387,7 @@ public struct PutAutoScalingPolicyOutput: Swift.Sendable {
         clusterArn: Swift.String? = nil,
         clusterId: Swift.String? = nil,
         instanceGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingPolicy = autoScalingPolicy
         self.clusterArn = clusterArn
         self.clusterId = clusterId
@@ -5556,8 +5405,7 @@ public struct PutAutoTerminationPolicyInput: Swift.Sendable {
     public init(
         autoTerminationPolicy: EMRClientTypes.AutoTerminationPolicy? = nil,
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoTerminationPolicy = autoTerminationPolicy
         self.clusterId = clusterId
     }
@@ -5584,8 +5432,7 @@ public struct PutManagedScalingPolicyInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         managedScalingPolicy: EMRClientTypes.ManagedScalingPolicy? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.managedScalingPolicy = managedScalingPolicy
     }
@@ -5607,8 +5454,7 @@ public struct RemoveAutoScalingPolicyInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         instanceGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.instanceGroupId = instanceGroupId
     }
@@ -5626,8 +5472,7 @@ public struct RemoveAutoTerminationPolicyInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -5644,8 +5489,7 @@ public struct RemoveManagedScalingPolicyInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -5667,8 +5511,7 @@ public struct RemoveTagsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagKeys = tagKeys
     }
@@ -5692,8 +5535,7 @@ extension EMRClientTypes {
         public init(
             args: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.args = args
             self.name = name
         }
@@ -5710,8 +5552,7 @@ public struct RunJobFlowOutput: Swift.Sendable {
     public init(
         clusterArn: Swift.String? = nil,
         jobFlowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.jobFlowId = jobFlowId
     }
@@ -5728,8 +5569,7 @@ public struct SetKeepJobFlowAliveWhenNoStepsInput: Swift.Sendable {
     public init(
         jobFlowIds: [Swift.String]? = nil,
         keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.jobFlowIds = jobFlowIds
         self.keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoSteps
     }
@@ -5747,8 +5587,7 @@ public struct SetTerminationProtectionInput: Swift.Sendable {
     public init(
         jobFlowIds: [Swift.String]? = nil,
         terminationProtected: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.jobFlowIds = jobFlowIds
         self.terminationProtected = terminationProtected
     }
@@ -5765,8 +5604,7 @@ public struct SetUnhealthyNodeReplacementInput: Swift.Sendable {
     public init(
         jobFlowIds: [Swift.String]? = nil,
         unhealthyNodeReplacement: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.jobFlowIds = jobFlowIds
         self.unhealthyNodeReplacement = unhealthyNodeReplacement
     }
@@ -5784,8 +5622,7 @@ public struct SetVisibleToAllUsersInput: Swift.Sendable {
     public init(
         jobFlowIds: [Swift.String]? = nil,
         visibleToAllUsers: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.jobFlowIds = jobFlowIds
         self.visibleToAllUsers = visibleToAllUsers
     }
@@ -5803,8 +5640,7 @@ extension EMRClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -5823,8 +5659,7 @@ extension EMRClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -5872,8 +5707,7 @@ public struct StartNotebookExecutionInput: Swift.Sendable {
         relativePath: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
         tags: [EMRClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.editorId = editorId
         self.environmentVariables = environmentVariables
         self.executionEngine = executionEngine
@@ -5895,8 +5729,7 @@ public struct StartNotebookExecutionOutput: Swift.Sendable {
 
     public init(
         notebookExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookExecutionId = notebookExecutionId
     }
 }
@@ -5908,8 +5741,7 @@ public struct StopNotebookExecutionInput: Swift.Sendable {
 
     public init(
         notebookExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookExecutionId = notebookExecutionId
     }
 }
@@ -5922,8 +5754,7 @@ public struct TerminateJobFlowsInput: Swift.Sendable {
 
     public init(
         jobFlowIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobFlowIds = jobFlowIds
     }
 }
@@ -5950,8 +5781,7 @@ public struct UpdateStudioInput: Swift.Sendable {
         name: Swift.String? = nil,
         studioId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.defaultS3Location = defaultS3Location
         self.description = description
         self.encryptionKeyArn = encryptionKeyArn
@@ -5982,8 +5812,7 @@ public struct UpdateStudioSessionMappingInput: Swift.Sendable {
         identityType: EMRClientTypes.IdentityType? = nil,
         sessionPolicyArn: Swift.String? = nil,
         studioId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityName = identityName
         self.identityType = identityType
@@ -6007,8 +5836,7 @@ extension EMRClientTypes {
             classification: Swift.String? = nil,
             configurations: [EMRClientTypes.Configuration]? = nil,
             properties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.configurations = configurations
             self.properties = properties
@@ -6038,8 +5866,7 @@ extension EMRClientTypes {
             configurations: [EMRClientTypes.Configuration]? = nil,
             permittedPublicSecurityGroupRuleRanges: [EMRClientTypes.PortRange]? = nil,
             properties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.blockPublicSecurityGroupRules = blockPublicSecurityGroupRules
             self.classification = classification
             self.configurations = configurations
@@ -6157,8 +5984,7 @@ extension EMRClientTypes {
             terminationProtected: Swift.Bool? = nil,
             unhealthyNodeReplacement: Swift.Bool? = nil,
             visibleToAllUsers: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -6236,8 +6062,7 @@ extension EMRClientTypes {
             instanceType: Swift.String? = nil,
             market: EMRClientTypes.MarketType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingPolicy = autoScalingPolicy
             self.bidPrice = bidPrice
             self.configurations = configurations
@@ -6277,8 +6102,7 @@ extension EMRClientTypes {
             instanceGroupId: Swift.String? = nil,
             reconfigurationType: EMRClientTypes.ReconfigurationType? = nil,
             shrinkPolicy: EMRClientTypes.ShrinkPolicy? = nil
-        )
-        {
+        ) {
             self.configurations = configurations
             self.ec2InstanceIdsToTerminate = ec2InstanceIdsToTerminate
             self.instanceCount = instanceCount
@@ -6320,8 +6144,7 @@ extension EMRClientTypes {
             instanceType: Swift.String? = nil,
             priority: Swift.Double? = nil,
             weightedCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
@@ -6367,8 +6190,7 @@ extension EMRClientTypes {
             instanceType: Swift.String? = nil,
             priority: Swift.Double? = nil,
             weightedCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bidPrice = bidPrice
             self.bidPriceAsPercentageOfOnDemandPrice = bidPriceAsPercentageOfOnDemandPrice
             self.configurations = configurations
@@ -6389,8 +6211,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
 
     public init(
         cluster: EMRClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -6406,8 +6227,7 @@ public struct GetBlockPublicAccessConfigurationOutput: Swift.Sendable {
     public init(
         blockPublicAccessConfiguration: EMRClientTypes.BlockPublicAccessConfiguration? = nil,
         blockPublicAccessConfigurationMetadata: EMRClientTypes.BlockPublicAccessConfigurationMetadata? = nil
-    )
-    {
+    ) {
         self.blockPublicAccessConfiguration = blockPublicAccessConfiguration
         self.blockPublicAccessConfigurationMetadata = blockPublicAccessConfigurationMetadata
     }
@@ -6420,8 +6240,7 @@ public struct PutBlockPublicAccessConfigurationInput: Swift.Sendable {
 
     public init(
         blockPublicAccessConfiguration: EMRClientTypes.BlockPublicAccessConfiguration? = nil
-    )
-    {
+    ) {
         self.blockPublicAccessConfiguration = blockPublicAccessConfiguration
     }
 }
@@ -6468,8 +6287,7 @@ extension EMRClientTypes {
             status: EMRClientTypes.InstanceFleetStatus? = nil,
             targetOnDemandCapacity: Swift.Int? = nil,
             targetSpotCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.context = context
             self.id = id
             self.instanceFleetType = instanceFleetType
@@ -6517,8 +6335,7 @@ extension EMRClientTypes {
             resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
             targetOnDemandCapacity: Swift.Int? = nil,
             targetSpotCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.context = context
             self.instanceFleetType = instanceFleetType
             self.instanceTypeConfigs = instanceTypeConfigs
@@ -6556,8 +6373,7 @@ extension EMRClientTypes {
             resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
             targetOnDemandCapacity: Swift.Int? = nil,
             targetSpotCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.context = context
             self.instanceFleetId = instanceFleetId
             self.instanceTypeConfigs = instanceTypeConfigs
@@ -6580,8 +6396,7 @@ public struct AddInstanceGroupsInput: Swift.Sendable {
     public init(
         instanceGroups: [EMRClientTypes.InstanceGroupConfig]? = nil,
         jobFlowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceGroups = instanceGroups
         self.jobFlowId = jobFlowId
     }
@@ -6597,8 +6412,7 @@ public struct ModifyInstanceGroupsInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         instanceGroups: [EMRClientTypes.InstanceGroupModifyConfig]? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.instanceGroups = instanceGroups
     }
@@ -6664,8 +6478,7 @@ extension EMRClientTypes {
             runningInstanceCount: Swift.Int? = nil,
             shrinkPolicy: EMRClientTypes.ShrinkPolicy? = nil,
             status: EMRClientTypes.InstanceGroupStatus? = nil
-        )
-        {
+        ) {
             self.autoScalingPolicy = autoScalingPolicy
             self.bidPrice = bidPrice
             self.configurations = configurations
@@ -6699,8 +6512,7 @@ public struct AddInstanceFleetInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         instanceFleet: EMRClientTypes.InstanceFleetConfig? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.instanceFleet = instanceFleet
     }
@@ -6717,8 +6529,7 @@ public struct ModifyInstanceFleetInput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         instanceFleet: EMRClientTypes.InstanceFleetModifyConfig? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.instanceFleet = instanceFleet
     }
@@ -6733,8 +6544,7 @@ public struct ListInstanceFleetsOutput: Swift.Sendable {
     public init(
         instanceFleets: [EMRClientTypes.InstanceFleet]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceFleets = instanceFleets
         self.marker = marker
     }
@@ -6750,8 +6560,7 @@ public struct ListInstanceGroupsOutput: Swift.Sendable {
     public init(
         instanceGroups: [EMRClientTypes.InstanceGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceGroups = instanceGroups
         self.marker = marker
     }
@@ -6817,8 +6626,7 @@ extension EMRClientTypes {
             slaveInstanceType: Swift.String? = nil,
             terminationProtected: Swift.Bool? = nil,
             unhealthyNodeReplacement: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
             self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
             self.ec2KeyName = ec2KeyName
@@ -6960,8 +6768,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         supportedProducts: [Swift.String]? = nil,
         tags: [EMRClientTypes.Tag]? = nil,
         visibleToAllUsers: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.amiVersion = amiVersion
         self.applications = applications

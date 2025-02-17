@@ -62,9 +62,9 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 }
 
 /// DBClusterIdentifier does not refer to an existing DB cluster.
-public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -80,16 +80,15 @@ public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
-public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -105,16 +104,15 @@ public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
-public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -130,16 +128,15 @@ public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB cluster is not in a valid state.
-public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -155,8 +152,7 @@ public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -175,8 +171,7 @@ public struct AddRoleToDBClusterInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         featureName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.featureName = featureName
         self.roleArn = roleArn
@@ -184,9 +179,9 @@ public struct AddRoleToDBClusterInput: Swift.Sendable {
 }
 
 /// The source could not be found.
-public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -202,16 +197,15 @@ public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The designated subscription could not be found.
-public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -227,8 +221,7 @@ public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -252,8 +245,7 @@ public struct AddSourceIdentifierToSubscriptionInput: Swift.Sendable {
     public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceIdentifier = sourceIdentifier
         self.subscriptionName = subscriptionName
     }
@@ -295,8 +287,7 @@ extension NeptuneClientTypes {
             sourceType: Swift.String? = nil,
             status: Swift.String? = nil,
             subscriptionCreationTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.custSubscriptionId = custSubscriptionId
             self.customerAwsId = customerAwsId
             self.enabled = enabled
@@ -317,16 +308,15 @@ public struct AddSourceIdentifierToSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: NeptuneClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
 
 /// DBInstanceIdentifier does not refer to an existing DB instance.
-public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -342,16 +332,15 @@ public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBSnapshotIdentifier does not refer to an existing DB snapshot.
-public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -367,8 +356,7 @@ public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -385,8 +373,7 @@ extension NeptuneClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -404,17 +391,16 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tags = tags
     }
 }
 
 /// The specified resource ID was not found.
-public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -430,8 +416,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -457,8 +442,7 @@ public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
         applyAction: Swift.String? = nil,
         optInType: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyAction = applyAction
         self.optInType = optInType
         self.resourceIdentifier = resourceIdentifier
@@ -489,8 +473,7 @@ extension NeptuneClientTypes {
             description: Swift.String? = nil,
             forcedApplyDate: Foundation.Date? = nil,
             optInStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -513,8 +496,7 @@ extension NeptuneClientTypes {
         public init(
             pendingMaintenanceActionDetails: [NeptuneClientTypes.PendingMaintenanceAction]? = nil,
             resourceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
         }
@@ -527,16 +509,15 @@ public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
 
     public init(
         resourcePendingMaintenanceActions: NeptuneClientTypes.ResourcePendingMaintenanceActions? = nil
-    )
-    {
+    ) {
         self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
     }
 }
 
 /// A DB parameter group with the same name exists.
-public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -552,16 +533,15 @@ public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBParameterGroupName does not refer to an existing DB parameter group.
-public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -577,16 +557,15 @@ public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would result in user exceeding the allowed number of DB parameter groups.
-public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -602,8 +581,7 @@ public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -643,8 +621,7 @@ public struct CopyDBClusterParameterGroupInput: Swift.Sendable {
         tags: [NeptuneClientTypes.Tag]? = nil,
         targetDBClusterParameterGroupDescription: Swift.String? = nil,
         targetDBClusterParameterGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
         self.tags = tags
         self.targetDBClusterParameterGroupDescription = targetDBClusterParameterGroupDescription
@@ -670,8 +647,7 @@ extension NeptuneClientTypes {
             dbClusterParameterGroupName: Swift.String? = nil,
             dbParameterGroupFamily: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterParameterGroupArn = dbClusterParameterGroupArn
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -686,16 +662,15 @@ public struct CopyDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroup = dbClusterParameterGroup
     }
 }
 
 /// User already has a DB cluster snapshot with the given identifier.
-public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -711,16 +686,15 @@ public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
-public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -736,16 +710,15 @@ public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The supplied value is not a valid DB cluster snapshot state.
-public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -761,16 +734,15 @@ public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Error accessing KMS key.
-public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -786,16 +758,15 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would result in user exceeding the allowed number of DB snapshots.
-public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -811,8 +782,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -856,8 +826,7 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
         sourceDBClusterSnapshotIdentifier: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil,
         targetDBClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyTags = copyTags
         self.kmsKeyId = kmsKeyId
         self.preSignedUrl = preSignedUrl
@@ -936,8 +905,7 @@ extension NeptuneClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -969,8 +937,7 @@ public struct CopyDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
@@ -1008,8 +975,7 @@ public struct CopyDBParameterGroupInput: Swift.Sendable {
         tags: [NeptuneClientTypes.Tag]? = nil,
         targetDBParameterGroupDescription: Swift.String? = nil,
         targetDBParameterGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
         self.tags = tags
         self.targetDBParameterGroupDescription = targetDBParameterGroupDescription
@@ -1035,8 +1001,7 @@ extension NeptuneClientTypes {
             dbParameterGroupFamily: Swift.String? = nil,
             dbParameterGroupName: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupArn = dbParameterGroupArn
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.dbParameterGroupName = dbParameterGroupName
@@ -1051,16 +1016,15 @@ public struct CopyDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroup: NeptuneClientTypes.DBParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbParameterGroup = dbParameterGroup
     }
 }
 
 /// User already has a DB cluster with the given identifier.
-public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1076,16 +1040,15 @@ public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
-public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1101,16 +1064,15 @@ public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// User attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
-public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1126,16 +1088,15 @@ public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
-public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1151,16 +1112,15 @@ public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBSubnetGroupName does not refer to an existing DB subnet group.
-public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1176,16 +1136,15 @@ public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
-public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1201,16 +1160,15 @@ public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is insufficient storage available for the current action. You may be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
-public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1226,16 +1184,15 @@ public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified DB instance is not in the available state.
-public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1251,16 +1208,15 @@ public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB subnet group cannot be deleted because it is in use.
-public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1276,16 +1232,15 @@ public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The global cluster is in an invalid state and can't perform the requested operation.
-public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1301,16 +1256,15 @@ public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
-public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1326,16 +1280,15 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DB subnet group does not cover all Availability Zones after it is created because users' change.
-public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1351,16 +1304,15 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would result in user exceeding the allowed amount of storage available across all DB instances.
-public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1376,8 +1328,7 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1394,8 +1345,7 @@ extension NeptuneClientTypes {
         public init(
             maxCapacity: Swift.Double? = nil,
             minCapacity: Swift.Double? = nil
-        )
-        {
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
         }
@@ -1529,8 +1479,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         storageType: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.backupRetentionPeriod = backupRetentionPeriod
         self.characterSetName = characterSetName
@@ -1583,8 +1532,7 @@ extension NeptuneClientTypes {
             featureName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureName = featureName
             self.roleArn = roleArn
             self.status = status
@@ -1610,8 +1558,7 @@ extension NeptuneClientTypes {
             dbInstanceIdentifier: Swift.String? = nil,
             isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.isClusterWriter = isClusterWriter
@@ -1632,8 +1579,7 @@ extension NeptuneClientTypes {
         public init(
             dbClusterOptionGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterOptionGroupName = dbClusterOptionGroupName
             self.status = status
         }
@@ -1652,8 +1598,7 @@ extension NeptuneClientTypes {
         public init(
             logTypesToDisable: [Swift.String]? = nil,
             logTypesToEnable: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
         }
@@ -1690,8 +1635,7 @@ extension NeptuneClientTypes {
             iops: Swift.Int? = nil,
             pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -1716,8 +1660,7 @@ extension NeptuneClientTypes {
         public init(
             maxCapacity: Swift.Double? = nil,
             minCapacity: Swift.Double? = nil
-        )
-        {
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
         }
@@ -1736,8 +1679,7 @@ extension NeptuneClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -1885,8 +1827,7 @@ extension NeptuneClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.automaticRestartTime = automaticRestartTime
@@ -1942,16 +1883,15 @@ public struct CreateDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
 
 /// The specified custom endpoint cannot be created because it already exists.
-public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1967,16 +1907,15 @@ public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The cluster already has the maximum number of custom endpoints.
-public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1992,8 +1931,7 @@ public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2022,8 +1960,7 @@ public struct CreateDBClusterEndpointInput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
         self.dbClusterIdentifier = dbClusterIdentifier
         self.endpointType = endpointType
@@ -2078,8 +2015,7 @@ public struct CreateDBClusterEndpointOutput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEndpointType = customEndpointType
         self.dbClusterEndpointArn = dbClusterEndpointArn
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -2116,8 +2052,7 @@ public struct CreateDBClusterParameterGroupInput: Swift.Sendable {
         dbParameterGroupFamily: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.description = description
@@ -2131,8 +2066,7 @@ public struct CreateDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroup = dbClusterParameterGroup
     }
 }
@@ -2165,8 +2099,7 @@ public struct CreateDBClusterSnapshotInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.tags = tags
@@ -2179,16 +2112,15 @@ public struct CreateDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
 
 /// Specified CIDRIP or EC2 security group is not authorized for the specified DB security group. Neptune may not also be authorized via IAM to perform necessary actions on your behalf.
-public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2204,16 +2136,15 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// User already has a DB instance with the given identifier.
-public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2229,16 +2160,15 @@ public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBSecurityGroupName does not refer to an existing DB security group.
-public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2254,16 +2184,15 @@ public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Domain does not refer to an existing Active Directory Domain.
-public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2279,16 +2208,15 @@ public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would result in user exceeding the allowed number of DB instances.
-public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2304,16 +2232,15 @@ public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Specified DB instance class is not available in the specified Availability Zone.
-public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2329,16 +2256,15 @@ public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The designated option group could not be found.
-public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2354,16 +2280,15 @@ public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provisioned IOPS not available in the specified Availability Zone.
-public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2379,16 +2304,15 @@ public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// StorageType specified cannot be associated with the DB Instance.
-public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2404,8 +2328,7 @@ public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2566,8 +2489,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         tdeCredentialPassword: Swift.String? = nil,
         timezone: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -2639,8 +2561,7 @@ extension NeptuneClientTypes {
         public init(
             dbParameterGroupName: Swift.String? = nil,
             parameterApplyStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupName = dbParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
         }
@@ -2659,8 +2580,7 @@ extension NeptuneClientTypes {
         public init(
             dbSecurityGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSecurityGroupName = dbSecurityGroupName
             self.status = status
         }
@@ -2676,8 +2596,7 @@ extension NeptuneClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2698,8 +2617,7 @@ extension NeptuneClientTypes {
             subnetAvailabilityZone: NeptuneClientTypes.AvailabilityZone? = nil,
             subnetIdentifier: Swift.String? = nil,
             subnetStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
             self.subnetStatus = subnetStatus
@@ -2731,8 +2649,7 @@ extension NeptuneClientTypes {
             subnetGroupStatus: Swift.String? = nil,
             subnets: [NeptuneClientTypes.Subnet]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -2761,8 +2678,7 @@ extension NeptuneClientTypes {
             fqdn: Swift.String? = nil,
             iamRoleName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.fqdn = fqdn
             self.iamRoleName = iamRoleName
@@ -2786,8 +2702,7 @@ extension NeptuneClientTypes {
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.hostedZoneId = hostedZoneId
             self.port = port
@@ -2807,8 +2722,7 @@ extension NeptuneClientTypes {
         public init(
             optionGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.optionGroupName = optionGroupName
             self.status = status
         }
@@ -2863,8 +2777,7 @@ extension NeptuneClientTypes {
             pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports? = nil,
             port: Swift.Int? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
@@ -2901,8 +2814,7 @@ extension NeptuneClientTypes {
             normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.normal = normal
             self.status = status
@@ -3077,8 +2989,7 @@ extension NeptuneClientTypes {
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -3142,8 +3053,7 @@ public struct CreateDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: NeptuneClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -3175,8 +3085,7 @@ public struct CreateDBParameterGroupInput: Swift.Sendable {
         dbParameterGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.dbParameterGroupName = dbParameterGroupName
         self.description = description
@@ -3190,16 +3099,15 @@ public struct CreateDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroup: NeptuneClientTypes.DBParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbParameterGroup = dbParameterGroup
     }
 }
 
 /// DBSubnetGroupName is already used by an existing DB subnet group.
-public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3215,16 +3123,15 @@ public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would result in user exceeding the allowed number of DB subnet groups.
-public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3240,16 +3147,15 @@ public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would result in user exceeding the allowed number of subnets in a DB subnet groups.
-public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3265,8 +3171,7 @@ public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3289,8 +3194,7 @@ public struct CreateDBSubnetGroupInput: Swift.Sendable {
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupDescription = dbSubnetGroupDescription
         self.dbSubnetGroupName = dbSubnetGroupName
         self.subnetIds = subnetIds
@@ -3304,16 +3208,15 @@ public struct CreateDBSubnetGroupOutput: Swift.Sendable {
 
     public init(
         dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroup = dbSubnetGroup
     }
 }
 
 /// You have exceeded the number of events you can subscribe to.
-public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3329,16 +3232,15 @@ public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The SNS topic is invalid.
-public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3354,16 +3256,15 @@ public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is no SNS authorization.
-public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3379,16 +3280,15 @@ public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The ARN of the SNS topic could not be found.
-public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3404,16 +3304,15 @@ public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This subscription already exists.
-public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3429,16 +3328,15 @@ public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The designated subscription category could not be found.
-public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3454,8 +3352,7 @@ public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3496,8 +3393,7 @@ public struct CreateEventSubscriptionInput: Swift.Sendable {
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -3514,16 +3410,15 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: NeptuneClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
 
 /// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
-public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3539,16 +3434,15 @@ public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of global database clusters for this account is already at the maximum allowed.
-public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3564,8 +3458,7 @@ public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3592,8 +3485,7 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
         globalClusterIdentifier: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
         storageEncrypted: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
         self.engine = engine
         self.engineVersion = engineVersion
@@ -3618,8 +3510,7 @@ extension NeptuneClientTypes {
             dbClusterArn: Swift.String? = nil,
             isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dbClusterArn = dbClusterArn
             self.isWriter = isWriter
             self.readers = readers
@@ -3660,8 +3551,7 @@ extension NeptuneClientTypes {
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
@@ -3681,8 +3571,7 @@ public struct CreateGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: NeptuneClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -3708,8 +3597,7 @@ public struct DeleteDBClusterInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
         self.skipFinalSnapshot = skipFinalSnapshot
@@ -3722,16 +3610,15 @@ public struct DeleteDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
 
 /// The specified custom endpoint doesn't exist.
-public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3747,16 +3634,15 @@ public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation cannot be performed on the endpoint while the endpoint is in this state.
-public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3772,8 +3658,7 @@ public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3785,8 +3670,7 @@ public struct DeleteDBClusterEndpointInput: Swift.Sendable {
 
     public init(
         dbClusterEndpointIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
     }
 }
@@ -3836,8 +3720,7 @@ public struct DeleteDBClusterEndpointOutput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEndpointType = customEndpointType
         self.dbClusterEndpointArn = dbClusterEndpointArn
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -3852,9 +3735,9 @@ public struct DeleteDBClusterEndpointOutput: Swift.Sendable {
 }
 
 /// The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you cannot delete it when the parameter group is in this state.
-public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3870,8 +3753,7 @@ public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3889,8 +3771,7 @@ public struct DeleteDBClusterParameterGroupInput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
@@ -3902,8 +3783,7 @@ public struct DeleteDBClusterSnapshotInput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
     }
 }
@@ -3914,16 +3794,15 @@ public struct DeleteDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
 
 /// DBSnapshotIdentifier is already used by an existing snapshot.
-public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3939,8 +3818,7 @@ public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3968,8 +3846,7 @@ public struct DeleteDBInstanceInput: Swift.Sendable {
         dbInstanceIdentifier: Swift.String? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
         self.skipFinalSnapshot = skipFinalSnapshot
@@ -3982,8 +3859,7 @@ public struct DeleteDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: NeptuneClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -4001,16 +3877,15 @@ public struct DeleteDBParameterGroupInput: Swift.Sendable {
 
     public init(
         dbParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
     }
 }
 
 /// The DB subnet is not in the available state.
-public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4026,8 +3901,7 @@ public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4039,16 +3913,15 @@ public struct DeleteDBSubnetGroupInput: Swift.Sendable {
 
     public init(
         dbSubnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupName = dbSubnetGroupName
     }
 }
 
 /// The event subscription is in an invalid state.
-public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4064,8 +3937,7 @@ public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4077,8 +3949,7 @@ public struct DeleteEventSubscriptionInput: Swift.Sendable {
 
     public init(
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionName = subscriptionName
     }
 }
@@ -4089,8 +3960,7 @@ public struct DeleteEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: NeptuneClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -4102,8 +3972,7 @@ public struct DeleteGlobalClusterInput: Swift.Sendable {
 
     public init(
         globalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusterIdentifier = globalClusterIdentifier
     }
 }
@@ -4114,8 +3983,7 @@ public struct DeleteGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: NeptuneClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -4134,8 +4002,7 @@ extension NeptuneClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -4160,8 +4027,7 @@ public struct DescribeDBClusterEndpointsInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
         self.dbClusterIdentifier = dbClusterIdentifier
         self.filters = filters
@@ -4217,8 +4083,7 @@ extension NeptuneClientTypes {
             excludedMembers: [Swift.String]? = nil,
             staticMembers: [Swift.String]? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.customEndpointType = customEndpointType
             self.dbClusterEndpointArn = dbClusterEndpointArn
             self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -4242,8 +4107,7 @@ public struct DescribeDBClusterEndpointsOutput: Swift.Sendable {
     public init(
         dbClusterEndpoints: [NeptuneClientTypes.DBClusterEndpoint]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpoints = dbClusterEndpoints
         self.marker = marker
     }
@@ -4266,8 +4130,7 @@ public struct DescribeDBClusterParameterGroupsInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -4284,8 +4147,7 @@ public struct DescribeDBClusterParameterGroupsOutput: Swift.Sendable {
     public init(
         dbClusterParameterGroups: [NeptuneClientTypes.DBClusterParameterGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroups = dbClusterParameterGroups
         self.marker = marker
     }
@@ -4312,8 +4174,7 @@ public struct DescribeDBClusterParametersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -4387,8 +4248,7 @@ extension NeptuneClientTypes {
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
             self.applyType = applyType
@@ -4412,8 +4272,7 @@ public struct DescribeDBClusterParametersOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.parameters = parameters
     }
@@ -4443,8 +4302,7 @@ public struct DescribeDBClustersInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.filters = filters
         self.marker = marker
@@ -4461,8 +4319,7 @@ public struct DescribeDBClustersOutput: Swift.Sendable {
     public init(
         dbClusters: [NeptuneClientTypes.DBCluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusters = dbClusters
         self.marker = marker
     }
@@ -4475,8 +4332,7 @@ public struct DescribeDBClusterSnapshotAttributesInput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
     }
 }
@@ -4493,8 +4349,7 @@ extension NeptuneClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
         }
@@ -4513,8 +4368,7 @@ extension NeptuneClientTypes {
         public init(
             dbClusterSnapshotAttributes: [NeptuneClientTypes.DBClusterSnapshotAttribute]? = nil,
             dbClusterSnapshotIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterSnapshotAttributes = dbClusterSnapshotAttributes
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
@@ -4527,8 +4381,7 @@ public struct DescribeDBClusterSnapshotAttributesOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
     }
 }
@@ -4577,8 +4430,7 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotType: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.filters = filters
@@ -4599,8 +4451,7 @@ public struct DescribeDBClusterSnapshotsOutput: Swift.Sendable {
     public init(
         dbClusterSnapshots: [NeptuneClientTypes.DBClusterSnapshot]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshots = dbClusterSnapshots
         self.marker = marker
     }
@@ -4638,8 +4489,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Sendable {
         listSupportedTimezones: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.defaultOnly = defaultOnly
         self.engine = engine
@@ -4664,8 +4514,7 @@ extension NeptuneClientTypes {
         public init(
             characterSetDescription: Swift.String? = nil,
             characterSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterSetDescription = characterSetDescription
             self.characterSetName = characterSetName
         }
@@ -4681,8 +4530,7 @@ extension NeptuneClientTypes {
 
         public init(
             timezoneName: Swift.String? = nil
-        )
-        {
+        ) {
             self.timezoneName = timezoneName
         }
     }
@@ -4712,8 +4560,7 @@ extension NeptuneClientTypes {
             engineVersion: Swift.String? = nil,
             isMajorVersionUpgrade: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoUpgrade = autoUpgrade
             self.description = description
             self.engine = engine
@@ -4769,8 +4616,7 @@ extension NeptuneClientTypes {
             supportsLogExportsToCloudwatchLogs: Swift.Bool? = nil,
             supportsReadReplica: Swift.Bool? = nil,
             validUpgradeTarget: [NeptuneClientTypes.UpgradeTarget]? = nil
-        )
-        {
+        ) {
             self.dbEngineDescription = dbEngineDescription
             self.dbEngineVersionDescription = dbEngineVersionDescription
             self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -4797,8 +4643,7 @@ public struct DescribeDBEngineVersionsOutput: Swift.Sendable {
     public init(
         dbEngineVersions: [NeptuneClientTypes.DBEngineVersion]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbEngineVersions = dbEngineVersions
         self.marker = marker
     }
@@ -4828,8 +4673,7 @@ public struct DescribeDBInstancesInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.filters = filters
         self.marker = marker
@@ -4846,8 +4690,7 @@ public struct DescribeDBInstancesOutput: Swift.Sendable {
     public init(
         dbInstances: [NeptuneClientTypes.DBInstance]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstances = dbInstances
         self.marker = marker
     }
@@ -4870,8 +4713,7 @@ public struct DescribeDBParameterGroupsInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -4888,8 +4730,7 @@ public struct DescribeDBParameterGroupsOutput: Swift.Sendable {
     public init(
         dbParameterGroups: [NeptuneClientTypes.DBParameterGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroups = dbParameterGroups
         self.marker = marker
     }
@@ -4916,8 +4757,7 @@ public struct DescribeDBParametersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -4935,8 +4775,7 @@ public struct DescribeDBParametersOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.parameters = parameters
     }
@@ -4957,8 +4796,7 @@ public struct DescribeDBSubnetGroupsInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupName = dbSubnetGroupName
         self.filters = filters
         self.marker = marker
@@ -4975,8 +4813,7 @@ public struct DescribeDBSubnetGroupsOutput: Swift.Sendable {
     public init(
         dbSubnetGroups: [NeptuneClientTypes.DBSubnetGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroups = dbSubnetGroups
         self.marker = marker
     }
@@ -4998,8 +4835,7 @@ public struct DescribeEngineDefaultClusterParametersInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.filters = filters
         self.marker = marker
@@ -5022,8 +4858,7 @@ extension NeptuneClientTypes {
             dbParameterGroupFamily: Swift.String? = nil,
             marker: Swift.String? = nil,
             parameters: [NeptuneClientTypes.Parameter]? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.marker = marker
             self.parameters = parameters
@@ -5037,8 +4872,7 @@ public struct DescribeEngineDefaultClusterParametersOutput: Swift.Sendable {
 
     public init(
         engineDefaults: NeptuneClientTypes.EngineDefaults? = nil
-    )
-    {
+    ) {
         self.engineDefaults = engineDefaults
     }
 }
@@ -5059,8 +4893,7 @@ public struct DescribeEngineDefaultParametersInput: Swift.Sendable {
         filters: [NeptuneClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.filters = filters
         self.marker = marker
@@ -5074,8 +4907,7 @@ public struct DescribeEngineDefaultParametersOutput: Swift.Sendable {
 
     public init(
         engineDefaults: NeptuneClientTypes.EngineDefaults? = nil
-    )
-    {
+    ) {
         self.engineDefaults = engineDefaults
     }
 }
@@ -5089,8 +4921,7 @@ public struct DescribeEventCategoriesInput: Swift.Sendable {
     public init(
         filters: [NeptuneClientTypes.Filter]? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.sourceType = sourceType
     }
@@ -5108,8 +4939,7 @@ extension NeptuneClientTypes {
         public init(
             eventCategories: [Swift.String]? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
         }
@@ -5122,8 +4952,7 @@ public struct DescribeEventCategoriesOutput: Swift.Sendable {
 
     public init(
         eventCategoriesMapList: [NeptuneClientTypes.EventCategoriesMap]? = nil
-    )
-    {
+    ) {
         self.eventCategoriesMapList = eventCategoriesMapList
     }
 }
@@ -5211,8 +5040,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceIdentifier: Swift.String? = nil,
         sourceType: NeptuneClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.eventCategories = eventCategories
@@ -5249,8 +5077,7 @@ extension NeptuneClientTypes {
             sourceArn: Swift.String? = nil,
             sourceIdentifier: Swift.String? = nil,
             sourceType: NeptuneClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.eventCategories = eventCategories
             self.message = message
@@ -5270,8 +5097,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [NeptuneClientTypes.Event]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.marker = marker
     }
@@ -5292,8 +5118,7 @@ public struct DescribeEventSubscriptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -5310,8 +5135,7 @@ public struct DescribeEventSubscriptionsOutput: Swift.Sendable {
     public init(
         eventSubscriptionsList: [NeptuneClientTypes.EventSubscription]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSubscriptionsList = eventSubscriptionsList
         self.marker = marker
     }
@@ -5329,8 +5153,7 @@ public struct DescribeGlobalClustersInput: Swift.Sendable {
         globalClusterIdentifier: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -5346,8 +5169,7 @@ public struct DescribeGlobalClustersOutput: Swift.Sendable {
     public init(
         globalClusters: [NeptuneClientTypes.GlobalCluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusters = globalClusters
         self.marker = marker
     }
@@ -5381,8 +5203,7 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         vpc: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbInstanceClass = dbInstanceClass
         self.engine = engine
         self.engineVersion = engineVersion
@@ -5463,8 +5284,7 @@ extension NeptuneClientTypes {
             supportsPerformanceInsights: Swift.Bool? = nil,
             supportsStorageEncryption: Swift.Bool? = nil,
             vpc: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
@@ -5499,8 +5319,7 @@ public struct DescribeOrderableDBInstanceOptionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         orderableDBInstanceOptions: [NeptuneClientTypes.OrderableDBInstanceOption]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.orderableDBInstanceOptions = orderableDBInstanceOptions
     }
@@ -5525,8 +5344,7 @@ public struct DescribePendingMaintenanceActionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -5543,8 +5361,7 @@ public struct DescribePendingMaintenanceActionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         pendingMaintenanceActions: [NeptuneClientTypes.ResourcePendingMaintenanceActions]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pendingMaintenanceActions = pendingMaintenanceActions
     }
@@ -5557,8 +5374,7 @@ public struct DescribeValidDBInstanceModificationsInput: Swift.Sendable {
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
     }
 }
@@ -5575,8 +5391,7 @@ extension NeptuneClientTypes {
         public init(
             from: Swift.Double? = nil,
             to: Swift.Double? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -5598,8 +5413,7 @@ extension NeptuneClientTypes {
             from: Swift.Int? = nil,
             step: Swift.Int? = nil,
             to: Swift.Int? = nil
-        )
-        {
+        ) {
             self.from = from
             self.step = step
             self.to = to
@@ -5625,8 +5439,7 @@ extension NeptuneClientTypes {
             provisionedIops: [NeptuneClientTypes.Range]? = nil,
             storageSize: [NeptuneClientTypes.Range]? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.iopsToStorageRatio = iopsToStorageRatio
             self.provisionedIops = provisionedIops
             self.storageSize = storageSize
@@ -5644,8 +5457,7 @@ extension NeptuneClientTypes {
 
         public init(
             storage: [NeptuneClientTypes.ValidStorageOptions]? = nil
-        )
-        {
+        ) {
             self.storage = storage
         }
     }
@@ -5657,8 +5469,7 @@ public struct DescribeValidDBInstanceModificationsOutput: Swift.Sendable {
 
     public init(
         validDBInstanceModificationsMessage: NeptuneClientTypes.ValidDBInstanceModificationsMessage? = nil
-    )
-    {
+    ) {
         self.validDBInstanceModificationsMessage = validDBInstanceModificationsMessage
     }
 }
@@ -5674,8 +5485,7 @@ public struct FailoverDBClusterInput: Swift.Sendable {
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         targetDBInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
     }
@@ -5687,8 +5497,7 @@ public struct FailoverDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -5704,8 +5513,7 @@ public struct FailoverGlobalClusterInput: Swift.Sendable {
     public init(
         globalClusterIdentifier: Swift.String? = nil,
         targetDbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.targetDbClusterIdentifier = targetDbClusterIdentifier
     }
@@ -5717,8 +5525,7 @@ public struct FailoverGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: NeptuneClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -5733,8 +5540,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         filters: [NeptuneClientTypes.Filter]? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.resourceName = resourceName
     }
@@ -5746,16 +5552,15 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [NeptuneClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
 
 /// The state of the DB security group does not allow deletion.
-public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5771,8 +5576,7 @@ public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5789,8 +5593,7 @@ extension NeptuneClientTypes {
         public init(
             disableLogTypes: [Swift.String]? = nil,
             enableLogTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.disableLogTypes = disableLogTypes
             self.enableLogTypes = enableLogTypes
         }
@@ -5893,8 +5696,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageType: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
         self.backupRetentionPeriod = backupRetentionPeriod
@@ -5924,8 +5726,7 @@ public struct ModifyDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -5946,8 +5747,7 @@ public struct ModifyDBClusterEndpointInput: Swift.Sendable {
         endpointType: Swift.String? = nil,
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
         self.endpointType = endpointType
         self.excludedMembers = excludedMembers
@@ -6000,8 +5800,7 @@ public struct ModifyDBClusterEndpointOutput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEndpointType = customEndpointType
         self.dbClusterEndpointArn = dbClusterEndpointArn
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -6026,8 +5825,7 @@ public struct ModifyDBClusterParameterGroupInput: Swift.Sendable {
     public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.parameters = parameters
     }
@@ -6048,16 +5846,15 @@ public struct ModifyDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
 
 /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6073,8 +5870,7 @@ public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6096,8 +5892,7 @@ public struct ModifyDBClusterSnapshotAttributeInput: Swift.Sendable {
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         valuesToAdd: [Swift.String]? = nil,
         valuesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.valuesToAdd = valuesToAdd
@@ -6111,16 +5906,15 @@ public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
     }
 }
 
 /// CertificateIdentifier does not refer to an existing certificate.
-public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6136,16 +5930,15 @@ public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB upgrade failed because a resource the DB depends on could not be modified.
-public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6161,8 +5954,7 @@ public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6306,8 +6098,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         tdeCredentialArn: Swift.String? = nil,
         tdeCredentialPassword: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
@@ -6359,8 +6150,7 @@ public struct ModifyDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: NeptuneClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -6378,8 +6168,7 @@ public struct ModifyDBParameterGroupInput: Swift.Sendable {
     public init(
         dbParameterGroupName: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.parameters = parameters
     }
@@ -6391,16 +6180,15 @@ public struct ModifyDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
     }
 }
 
 /// The DB subnet is already in use in the Availability Zone.
-public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6416,8 +6204,7 @@ public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6436,8 +6223,7 @@ public struct ModifyDBSubnetGroupInput: Swift.Sendable {
         dbSubnetGroupDescription: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupDescription = dbSubnetGroupDescription
         self.dbSubnetGroupName = dbSubnetGroupName
         self.subnetIds = subnetIds
@@ -6450,8 +6236,7 @@ public struct ModifyDBSubnetGroupOutput: Swift.Sendable {
 
     public init(
         dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroup = dbSubnetGroup
     }
 }
@@ -6475,8 +6260,7 @@ public struct ModifyEventSubscriptionInput: Swift.Sendable {
         snsTopicArn: Swift.String? = nil,
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -6491,8 +6275,7 @@ public struct ModifyEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: NeptuneClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -6525,8 +6308,7 @@ public struct ModifyGlobalClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         newGlobalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.deletionProtection = deletionProtection
         self.engineVersion = engineVersion
@@ -6541,8 +6323,7 @@ public struct ModifyGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: NeptuneClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -6554,8 +6335,7 @@ public struct PromoteReadReplicaDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -6566,8 +6346,7 @@ public struct PromoteReadReplicaDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -6584,8 +6363,7 @@ public struct RebootDBInstanceInput: Swift.Sendable {
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
         forceFailover: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.forceFailover = forceFailover
     }
@@ -6597,8 +6375,7 @@ public struct RebootDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: NeptuneClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -6614,8 +6391,7 @@ public struct RemoveFromGlobalClusterInput: Swift.Sendable {
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.globalClusterIdentifier = globalClusterIdentifier
     }
@@ -6627,16 +6403,15 @@ public struct RemoveFromGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: NeptuneClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
 
 /// The specified IAM role Amazon Resource Name (ARN) is not associated with the specified DB cluster.
-public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6652,8 +6427,7 @@ public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6672,8 +6446,7 @@ public struct RemoveRoleFromDBClusterInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         featureName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.featureName = featureName
         self.roleArn = roleArn
@@ -6691,8 +6464,7 @@ public struct RemoveSourceIdentifierFromSubscriptionInput: Swift.Sendable {
     public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceIdentifier = sourceIdentifier
         self.subscriptionName = subscriptionName
     }
@@ -6704,8 +6476,7 @@ public struct RemoveSourceIdentifierFromSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: NeptuneClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -6721,8 +6492,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tagKeys = tagKeys
     }
@@ -6741,8 +6511,7 @@ public struct ResetDBClusterParameterGroupInput: Swift.Sendable {
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil,
         resetAllParameters: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.parameters = parameters
         self.resetAllParameters = resetAllParameters
@@ -6764,8 +6533,7 @@ public struct ResetDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
@@ -6785,8 +6553,7 @@ public struct ResetDBParameterGroupInput: Swift.Sendable {
         dbParameterGroupName: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil,
         resetAllParameters: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.parameters = parameters
         self.resetAllParameters = resetAllParameters
@@ -6799,16 +6566,15 @@ public struct ResetDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
     }
 }
 
 /// The DB cluster does not have enough capacity for the current operation.
-public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6824,16 +6590,15 @@ public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The state of the DB snapshot does not allow deletion.
-public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6849,16 +6614,15 @@ public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Cannot restore from vpc backup to non-vpc DB instance.
-public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the details of the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6874,8 +6638,7 @@ public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6960,8 +6723,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         storageType: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.databaseName = databaseName
@@ -6990,8 +6752,7 @@ public struct RestoreDBClusterFromSnapshotOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -7087,8 +6848,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         tags: [NeptuneClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbSubnetGroupName = dbSubnetGroupName
@@ -7115,8 +6875,7 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -7128,8 +6887,7 @@ public struct StartDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -7140,8 +6898,7 @@ public struct StartDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -7153,8 +6910,7 @@ public struct StopDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -7165,8 +6921,7 @@ public struct StopDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: NeptuneClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }

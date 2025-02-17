@@ -44,8 +44,7 @@ extension ElasticLoadBalancingClientTypes {
             enabled: Swift.Bool = false,
             s3BucketName: Swift.String? = nil,
             s3BucketPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.emitInterval = emitInterval
             self.enabled = enabled
             self.s3BucketName = s3BucketName
@@ -55,9 +54,9 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 /// The specified load balancer does not exist.
-public struct AccessPointNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessPointNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -72,8 +71,7 @@ public struct AccessPointNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -92,8 +90,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -101,9 +98,9 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 /// A tag key was specified more than once.
-public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -118,16 +115,15 @@ public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The quota for the number of tags that can be assigned to a load balancer has been reached.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -142,8 +138,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -161,8 +156,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -181,8 +175,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         loadBalancerNames: [Swift.String]? = nil,
         tags: [ElasticLoadBalancingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.loadBalancerNames = loadBalancerNames
         self.tags = tags
     }
@@ -206,8 +199,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             cookieName: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cookieName = cookieName
             self.policyName = policyName
         }
@@ -215,9 +207,9 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 /// The requested configuration change is not valid.
-public struct InvalidConfigurationRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConfigurationRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -232,16 +224,15 @@ public struct InvalidConfigurationRequestException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more of the specified security groups do not exist.
-public struct InvalidSecurityGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSecurityGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -256,8 +247,7 @@ public struct InvalidSecurityGroupException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -274,8 +264,7 @@ public struct ApplySecurityGroupsToLoadBalancerInput: Swift.Sendable {
     public init(
         loadBalancerName: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.securityGroups = securityGroups
     }
@@ -288,16 +277,15 @@ public struct ApplySecurityGroupsToLoadBalancerOutput: Swift.Sendable {
 
     public init(
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.securityGroups = securityGroups
     }
 }
 
 /// The specified VPC has no associated Internet gateway.
-public struct InvalidSubnetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -312,16 +300,15 @@ public struct InvalidSubnetException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more of the specified subnets do not exist.
-public struct SubnetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -336,8 +323,7 @@ public struct SubnetNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -354,8 +340,7 @@ public struct AttachLoadBalancerToSubnetsInput: Swift.Sendable {
     public init(
         loadBalancerName: Swift.String? = nil,
         subnets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.subnets = subnets
     }
@@ -368,8 +353,7 @@ public struct AttachLoadBalancerToSubnetsOutput: Swift.Sendable {
 
     public init(
         subnets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.subnets = subnets
     }
 }
@@ -386,8 +370,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             instancePort: Swift.Int? = nil,
             policyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.instancePort = instancePort
             self.policyNames = policyNames
         }
@@ -395,9 +378,9 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 /// The specified ARN does not refer to a valid SSL certificate in AWS Identity and Access Management (IAM) or AWS Certificate Manager (ACM). Note that if you recently uploaded the certificate to IAM, this error might indicate that the certificate is not fully available yet.
-public struct CertificateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -412,8 +395,7 @@ public struct CertificateNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -444,8 +426,7 @@ extension ElasticLoadBalancingClientTypes {
             target: Swift.String? = nil,
             timeout: Swift.Int? = nil,
             unhealthyThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
             self.target = target
@@ -467,8 +448,7 @@ public struct ConfigureHealthCheckInput: Swift.Sendable {
     public init(
         healthCheck: ElasticLoadBalancingClientTypes.HealthCheck? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheck = healthCheck
         self.loadBalancerName = loadBalancerName
     }
@@ -481,8 +461,7 @@ public struct ConfigureHealthCheckOutput: Swift.Sendable {
 
     public init(
         healthCheck: ElasticLoadBalancingClientTypes.HealthCheck? = nil
-    )
-    {
+    ) {
         self.healthCheck = healthCheck
     }
 }
@@ -500,8 +479,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             enabled: Swift.Bool = false,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.timeout = timeout
         }
@@ -518,8 +496,7 @@ extension ElasticLoadBalancingClientTypes {
 
         public init(
             idleTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeout = idleTimeout
         }
     }
@@ -549,8 +526,7 @@ extension ElasticLoadBalancingClientTypes {
             loadBalancerPort: Swift.Int = 0,
             `protocol`: Swift.String? = nil,
             sslCertificateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instancePort = instancePort
             self.instanceProtocol = instanceProtocol
             self.loadBalancerPort = loadBalancerPort
@@ -561,9 +537,9 @@ extension ElasticLoadBalancingClientTypes {
 }
 
 /// A policy with the specified name already exists for this load balancer.
-public struct DuplicatePolicyNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicatePolicyNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -578,16 +554,15 @@ public struct DuplicatePolicyNameException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The quota for the number of policies for this load balancer has been reached.
-public struct TooManyPoliciesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyPoliciesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -602,8 +577,7 @@ public struct TooManyPoliciesException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -624,8 +598,7 @@ public struct CreateAppCookieStickinessPolicyInput: Swift.Sendable {
         cookieName: Swift.String? = nil,
         loadBalancerName: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cookieName = cookieName
         self.loadBalancerName = loadBalancerName
         self.policyName = policyName
@@ -653,8 +626,7 @@ public struct CreateLBCookieStickinessPolicyInput: Swift.Sendable {
         cookieExpirationPeriod: Swift.Int? = nil,
         loadBalancerName: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cookieExpirationPeriod = cookieExpirationPeriod
         self.loadBalancerName = loadBalancerName
         self.policyName = policyName
@@ -668,9 +640,9 @@ public struct CreateLBCookieStickinessPolicyOutput: Swift.Sendable {
 }
 
 /// The specified load balancer name already exists for this account.
-public struct DuplicateAccessPointNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateAccessPointNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -685,16 +657,15 @@ public struct DuplicateAccessPointNameException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified value for the schema is not valid. You can only specify a scheme for load balancers in a VPC.
-public struct InvalidSchemeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSchemeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -709,16 +680,15 @@ public struct InvalidSchemeException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This operation is not allowed.
-public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -733,16 +703,15 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The quota for the number of load balancers has been reached.
-public struct TooManyAccessPointsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyAccessPointsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -757,16 +726,15 @@ public struct TooManyAccessPointsException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified protocol or signature version is not supported.
-public struct UnsupportedProtocolException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedProtocolException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -781,8 +749,7 @@ public struct UnsupportedProtocolException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -814,8 +781,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
         securityGroups: [Swift.String]? = nil,
         subnets: [Swift.String]? = nil,
         tags: [ElasticLoadBalancingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.listeners = listeners
         self.loadBalancerName = loadBalancerName
@@ -833,16 +799,15 @@ public struct CreateLoadBalancerOutput: Swift.Sendable {
 
     public init(
         dnsName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dnsName = dnsName
     }
 }
 
 /// A listener already exists for the specified load balancer name and port, but with a different instance port, protocol, or SSL certificate.
-public struct DuplicateListenerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateListenerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -857,8 +822,7 @@ public struct DuplicateListenerException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -875,8 +839,7 @@ public struct CreateLoadBalancerListenersInput: Swift.Sendable {
     public init(
         listeners: [ElasticLoadBalancingClientTypes.Listener]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.listeners = listeners
         self.loadBalancerName = loadBalancerName
     }
@@ -889,9 +852,9 @@ public struct CreateLoadBalancerListenersOutput: Swift.Sendable {
 }
 
 /// One or more of the specified policy types do not exist.
-public struct PolicyTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -906,8 +869,7 @@ public struct PolicyTypeNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -924,8 +886,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
         }
@@ -951,8 +912,7 @@ public struct CreateLoadBalancerPolicyInput: Swift.Sendable {
         policyAttributes: [ElasticLoadBalancingClientTypes.PolicyAttribute]? = nil,
         policyName: Swift.String? = nil,
         policyTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.policyAttributes = policyAttributes
         self.policyName = policyName
@@ -976,8 +936,7 @@ extension ElasticLoadBalancingClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -991,8 +950,7 @@ public struct DeleteLoadBalancerInput: Swift.Sendable {
 
     public init(
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
     }
 }
@@ -1015,8 +973,7 @@ public struct DeleteLoadBalancerListenersInput: Swift.Sendable {
     public init(
         loadBalancerName: Swift.String? = nil,
         loadBalancerPorts: [Swift.Int]? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.loadBalancerPorts = loadBalancerPorts
     }
@@ -1040,8 +997,7 @@ public struct DeleteLoadBalancerPolicyInput: Swift.Sendable {
     public init(
         loadBalancerName: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.policyName = policyName
     }
@@ -1054,9 +1010,9 @@ public struct DeleteLoadBalancerPolicyOutput: Swift.Sendable {
 }
 
 /// A request made by Elastic Load Balancing to another service exceeds the maximum request rate permitted for your account.
-public struct DependencyThrottleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyThrottleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1071,8 +1027,7 @@ public struct DependencyThrottleException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1086,17 +1041,16 @@ extension ElasticLoadBalancingClientTypes {
 
         public init(
             instanceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
         }
     }
 }
 
 /// The specified endpoint is not valid.
-public struct InvalidEndPointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEndPointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1111,8 +1065,7 @@ public struct InvalidEndPointException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1129,8 +1082,7 @@ public struct DeregisterInstancesFromLoadBalancerInput: Swift.Sendable {
     public init(
         instances: [ElasticLoadBalancingClientTypes.Instance]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.loadBalancerName = loadBalancerName
     }
@@ -1143,8 +1095,7 @@ public struct DeregisterInstancesFromLoadBalancerOutput: Swift.Sendable {
 
     public init(
         instances: [ElasticLoadBalancingClientTypes.Instance]? = nil
-    )
-    {
+    ) {
         self.instances = instances
     }
 }
@@ -1161,8 +1112,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             listener: ElasticLoadBalancingClientTypes.Listener? = nil,
             policyNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.listener = listener
             self.policyNames = policyNames
         }
@@ -1181,8 +1131,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             cookieExpirationPeriod: Swift.Int? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cookieExpirationPeriod = cookieExpirationPeriod
             self.policyName = policyName
         }
@@ -1204,8 +1153,7 @@ extension ElasticLoadBalancingClientTypes {
             appCookieStickinessPolicies: [ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy]? = nil,
             lbCookieStickinessPolicies: [ElasticLoadBalancingClientTypes.LBCookieStickinessPolicy]? = nil,
             otherPolicies: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
             self.lbCookieStickinessPolicies = lbCookieStickinessPolicies
             self.otherPolicies = otherPolicies
@@ -1225,8 +1173,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             groupName: Swift.String? = nil,
             ownerAlias: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupName = groupName
             self.ownerAlias = ownerAlias
         }
@@ -1287,8 +1234,7 @@ extension ElasticLoadBalancingClientTypes {
             sourceSecurityGroup: ElasticLoadBalancingClientTypes.SourceSecurityGroup? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.backendServerDescriptions = backendServerDescriptions
             self.canonicalHostedZoneName = canonicalHostedZoneName
@@ -1318,8 +1264,7 @@ public struct DescribeAccountLimitsInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pageSize = pageSize
     }
@@ -1343,8 +1288,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             max: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.max = max
             self.name = name
         }
@@ -1360,8 +1304,7 @@ public struct DescribeAccountLimitsOutput: Swift.Sendable {
     public init(
         limits: [ElasticLoadBalancingClientTypes.Limit]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limits = limits
         self.nextMarker = nextMarker
     }
@@ -1409,8 +1352,7 @@ extension ElasticLoadBalancingClientTypes {
             instanceId: Swift.String? = nil,
             reasonCode: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.instanceId = instanceId
             self.reasonCode = reasonCode
@@ -1430,8 +1372,7 @@ public struct DescribeInstanceHealthInput: Swift.Sendable {
     public init(
         instances: [ElasticLoadBalancingClientTypes.Instance]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.loadBalancerName = loadBalancerName
     }
@@ -1444,16 +1385,15 @@ public struct DescribeInstanceHealthOutput: Swift.Sendable {
 
     public init(
         instanceStates: [ElasticLoadBalancingClientTypes.InstanceState]? = nil
-    )
-    {
+    ) {
         self.instanceStates = instanceStates
     }
 }
 
 /// The specified load balancer attribute does not exist.
-public struct LoadBalancerAttributeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LoadBalancerAttributeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1468,8 +1408,7 @@ public struct LoadBalancerAttributeNotFoundException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1482,8 +1421,7 @@ public struct DescribeLoadBalancerAttributesInput: Swift.Sendable {
 
     public init(
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
     }
 }
@@ -1509,8 +1447,7 @@ extension ElasticLoadBalancingClientTypes {
             connectionDraining: ElasticLoadBalancingClientTypes.ConnectionDraining? = nil,
             connectionSettings: ElasticLoadBalancingClientTypes.ConnectionSettings? = nil,
             crossZoneLoadBalancing: ElasticLoadBalancingClientTypes.CrossZoneLoadBalancing? = nil
-        )
-        {
+        ) {
             self.accessLog = accessLog
             self.additionalAttributes = additionalAttributes
             self.connectionDraining = connectionDraining
@@ -1527,16 +1464,15 @@ public struct DescribeLoadBalancerAttributesOutput: Swift.Sendable {
 
     public init(
         loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes? = nil
-    )
-    {
+    ) {
         self.loadBalancerAttributes = loadBalancerAttributes
     }
 }
 
 /// One or more of the specified policies do not exist.
-public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1551,8 +1487,7 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1567,8 +1502,7 @@ public struct DescribeLoadBalancerPoliciesInput: Swift.Sendable {
     public init(
         loadBalancerName: Swift.String? = nil,
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.policyNames = policyNames
     }
@@ -1586,8 +1520,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
         }
@@ -1609,8 +1542,7 @@ extension ElasticLoadBalancingClientTypes {
             policyAttributeDescriptions: [ElasticLoadBalancingClientTypes.PolicyAttributeDescription]? = nil,
             policyName: Swift.String? = nil,
             policyTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyAttributeDescriptions = policyAttributeDescriptions
             self.policyName = policyName
             self.policyTypeName = policyTypeName
@@ -1625,8 +1557,7 @@ public struct DescribeLoadBalancerPoliciesOutput: Swift.Sendable {
 
     public init(
         policyDescriptions: [ElasticLoadBalancingClientTypes.PolicyDescription]? = nil
-    )
-    {
+    ) {
         self.policyDescriptions = policyDescriptions
     }
 }
@@ -1638,8 +1569,7 @@ public struct DescribeLoadBalancerPolicyTypesInput: Swift.Sendable {
 
     public init(
         policyTypeNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.policyTypeNames = policyTypeNames
     }
 }
@@ -1673,8 +1603,7 @@ extension ElasticLoadBalancingClientTypes {
             cardinality: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeType = attributeType
             self.cardinality = cardinality
@@ -1699,8 +1628,7 @@ extension ElasticLoadBalancingClientTypes {
             description: Swift.String? = nil,
             policyAttributeTypeDescriptions: [ElasticLoadBalancingClientTypes.PolicyAttributeTypeDescription]? = nil,
             policyTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.policyAttributeTypeDescriptions = policyAttributeTypeDescriptions
             self.policyTypeName = policyTypeName
@@ -1715,8 +1643,7 @@ public struct DescribeLoadBalancerPolicyTypesOutput: Swift.Sendable {
 
     public init(
         policyTypeDescriptions: [ElasticLoadBalancingClientTypes.PolicyTypeDescription]? = nil
-    )
-    {
+    ) {
         self.policyTypeDescriptions = policyTypeDescriptions
     }
 }
@@ -1734,8 +1661,7 @@ public struct DescribeLoadBalancersInput: Swift.Sendable {
         loadBalancerNames: [Swift.String]? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.loadBalancerNames = loadBalancerNames
         self.marker = marker
         self.pageSize = pageSize
@@ -1752,8 +1678,7 @@ public struct DescribeLoadBalancersOutput: Swift.Sendable {
     public init(
         loadBalancerDescriptions: [ElasticLoadBalancingClientTypes.LoadBalancerDescription]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerDescriptions = loadBalancerDescriptions
         self.nextMarker = nextMarker
     }
@@ -1767,8 +1692,7 @@ public struct DescribeTagsInput: Swift.Sendable {
 
     public init(
         loadBalancerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.loadBalancerNames = loadBalancerNames
     }
 }
@@ -1785,8 +1709,7 @@ extension ElasticLoadBalancingClientTypes {
         public init(
             loadBalancerName: Swift.String? = nil,
             tags: [ElasticLoadBalancingClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.loadBalancerName = loadBalancerName
             self.tags = tags
         }
@@ -1800,8 +1723,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
 
     public init(
         tagDescriptions: [ElasticLoadBalancingClientTypes.TagDescription]? = nil
-    )
-    {
+    ) {
         self.tagDescriptions = tagDescriptions
     }
 }
@@ -1818,8 +1740,7 @@ public struct DetachLoadBalancerFromSubnetsInput: Swift.Sendable {
     public init(
         loadBalancerName: Swift.String? = nil,
         subnets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.subnets = subnets
     }
@@ -1832,8 +1753,7 @@ public struct DetachLoadBalancerFromSubnetsOutput: Swift.Sendable {
 
     public init(
         subnets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.subnets = subnets
     }
 }
@@ -1850,8 +1770,7 @@ public struct DisableAvailabilityZonesForLoadBalancerInput: Swift.Sendable {
     public init(
         availabilityZones: [Swift.String]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.loadBalancerName = loadBalancerName
     }
@@ -1864,8 +1783,7 @@ public struct DisableAvailabilityZonesForLoadBalancerOutput: Swift.Sendable {
 
     public init(
         availabilityZones: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
     }
 }
@@ -1882,8 +1800,7 @@ public struct EnableAvailabilityZonesForLoadBalancerInput: Swift.Sendable {
     public init(
         availabilityZones: [Swift.String]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.loadBalancerName = loadBalancerName
     }
@@ -1896,8 +1813,7 @@ public struct EnableAvailabilityZonesForLoadBalancerOutput: Swift.Sendable {
 
     public init(
         availabilityZones: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
     }
 }
@@ -1914,8 +1830,7 @@ public struct ModifyLoadBalancerAttributesInput: Swift.Sendable {
     public init(
         loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerAttributes = loadBalancerAttributes
         self.loadBalancerName = loadBalancerName
     }
@@ -1931,8 +1846,7 @@ public struct ModifyLoadBalancerAttributesOutput: Swift.Sendable {
     public init(
         loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerAttributes = loadBalancerAttributes
         self.loadBalancerName = loadBalancerName
     }
@@ -1950,8 +1864,7 @@ public struct RegisterInstancesWithLoadBalancerInput: Swift.Sendable {
     public init(
         instances: [ElasticLoadBalancingClientTypes.Instance]? = nil,
         loadBalancerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.loadBalancerName = loadBalancerName
     }
@@ -1964,8 +1877,7 @@ public struct RegisterInstancesWithLoadBalancerOutput: Swift.Sendable {
 
     public init(
         instances: [ElasticLoadBalancingClientTypes.Instance]? = nil
-    )
-    {
+    ) {
         self.instances = instances
     }
 }
@@ -1979,8 +1891,7 @@ extension ElasticLoadBalancingClientTypes {
 
         public init(
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
         }
     }
@@ -1998,8 +1909,7 @@ public struct RemoveTagsInput: Swift.Sendable {
     public init(
         loadBalancerNames: [Swift.String]? = nil,
         tags: [ElasticLoadBalancingClientTypes.TagKeyOnly]? = nil
-    )
-    {
+    ) {
         self.loadBalancerNames = loadBalancerNames
         self.tags = tags
     }
@@ -2012,9 +1922,9 @@ public struct RemoveTagsOutput: Swift.Sendable {
 }
 
 /// The load balancer does not have a listener configured at the specified port.
-public struct ListenerNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ListenerNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2029,8 +1939,7 @@ public struct ListenerNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2051,8 +1960,7 @@ public struct SetLoadBalancerListenerSSLCertificateInput: Swift.Sendable {
         loadBalancerName: Swift.String? = nil,
         loadBalancerPort: Swift.Int? = 0,
         sslCertificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.loadBalancerPort = loadBalancerPort
         self.sslCertificateId = sslCertificateId
@@ -2081,8 +1989,7 @@ public struct SetLoadBalancerPoliciesForBackendServerInput: Swift.Sendable {
         instancePort: Swift.Int? = nil,
         loadBalancerName: Swift.String? = nil,
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instancePort = instancePort
         self.loadBalancerName = loadBalancerName
         self.policyNames = policyNames
@@ -2111,8 +2018,7 @@ public struct SetLoadBalancerPoliciesOfListenerInput: Swift.Sendable {
         loadBalancerName: Swift.String? = nil,
         loadBalancerPort: Swift.Int? = 0,
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.loadBalancerName = loadBalancerName
         self.loadBalancerPort = loadBalancerPort
         self.policyNames = policyNames

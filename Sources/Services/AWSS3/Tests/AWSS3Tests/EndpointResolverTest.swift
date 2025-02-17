@@ -7630,11 +7630,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Data Plane with short AZ
+    /// Data Plane with short zone name
     func testResolve275() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--use1-az1--x-s3",
+            bucket: "mybucket--abcd-ab1--x-s3",
             region: "us-east-1",
             useDualStack: false,
             useFIPS: false,
@@ -7658,16 +7658,115 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--use1-az1--x-s3.s3express-use1-az1.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--abcd-ab1--x-s3.s3express-abcd-ab1.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// Data Plane with short AZ fips
+    /// Data Plane with short zone names (13 chars)
     func testResolve276() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--use1-az1--x-s3",
+            bucket: "mybucket--test-zone-ab1--x-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test-zone-ab1--x-s3.s3express-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with medium zone names (14 chars)
+    func testResolve277() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-zone-ab1--x-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-zone-ab1--x-s3.s3express-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with long zone names (20 chars)
+    func testResolve278() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-long1-zone-ab1--x-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-long1-zone-ab1--x-s3.s3express-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short zone fips
+    func testResolve279() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test-ab1--x-s3",
             region: "us-east-1",
             useDualStack: false,
             useFIPS: true,
@@ -7691,17 +7790,116 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--use1-az1--x-s3.s3express-fips-use1-az1.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test-ab1--x-s3.s3express-fips-test-ab1.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short zone (13 chars) fips
+    func testResolve280() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test-zone-ab1--x-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test-zone-ab1--x-s3.s3express-fips-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with medium zone (14 chars) fips
+    func testResolve281() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-zone-ab1--x-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-zone-ab1--x-s3.s3express-fips-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with long zone (20 chars) fips
+    func testResolve282() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-long1-zone-ab1--x-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-long1-zone-ab1--x-s3.s3express-fips-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// Data Plane with long AZ
-    func testResolve277() throws {
+    func testResolve283() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--apne1-az1--x-s3",
-            region: "ap-northeast-1",
+            bucket: "mybucket--test1-az1--x-s3",
+            region: "us-west-2",
             useDualStack: false,
             useFIPS: false,
             useS3ExpressControlEndpoint: false
@@ -7716,7 +7914,7 @@ class EndpointResolverTest: XCTestCase {
                     [
                         "name": "sigv4-s3express",
                         "signingName": "s3express",
-                        "signingRegion": "ap-northeast-1",
+                        "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable],
@@ -7724,17 +7922,17 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-az1--x-s3.s3express-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// Data Plane with long AZ fips
-    func testResolve278() throws {
+    func testResolve284() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--apne1-az1--x-s3",
-            region: "ap-northeast-1",
+            bucket: "mybucket--test1-az1--x-s3",
+            region: "us-west-2",
             useDualStack: false,
             useFIPS: true,
             useS3ExpressControlEndpoint: false
@@ -7749,7 +7947,7 @@ class EndpointResolverTest: XCTestCase {
                     [
                         "name": "sigv4-s3express",
                         "signingName": "s3express",
-                        "signingRegion": "ap-northeast-1",
+                        "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable],
@@ -7757,16 +7955,16 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-fips-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-az1--x-s3.s3express-fips-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// Control plane with short AZ bucket
-    func testResolve279() throws {
+    func testResolve285() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--use1-az1--x-s3",
+            bucket: "mybucket--test-ab1--x-s3",
             disableS3ExpressSessionAuth: false,
             region: "us-east-1",
             useDualStack: false,
@@ -7791,16 +7989,16 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control.us-east-1.amazonaws.com/mybucket--use1-az1--x-s3", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control.us-east-1.amazonaws.com/mybucket--test-ab1--x-s3", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// Control plane with short AZ bucket and fips
-    func testResolve280() throws {
+    func testResolve286() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--use1-az1--x-s3",
+            bucket: "mybucket--test-ab1--x-s3",
             disableS3ExpressSessionAuth: false,
             region: "us-east-1",
             useDualStack: false,
@@ -7825,13 +8023,13 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control-fips.us-east-1.amazonaws.com/mybucket--use1-az1--x-s3", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control-fips.us-east-1.amazonaws.com/mybucket--test-ab1--x-s3", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// Control plane without bucket
-    func testResolve281() throws {
+    func testResolve287() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             disableS3ExpressSessionAuth: false,
@@ -7864,7 +8062,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane without bucket and fips
-    func testResolve282() throws {
+    func testResolve288() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             disableS3ExpressSessionAuth: false,
@@ -7897,7 +8095,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Data Plane sigv4 auth with short AZ
-    func testResolve283() throws {
+    func testResolve289() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -7929,8 +8127,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with short zone (13 chars)
+    func testResolve290() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test-zone-ab1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test-zone-ab1--x-s3.s3express-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with short AZ fips
-    func testResolve284() throws {
+    func testResolve291() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -7962,13 +8193,46 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Data Plane sigv4 auth with long AZ
-    func testResolve285() throws {
+    /// Data Plane sigv4 auth with short zone (13 chars) fips
+    func testResolve292() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--apne1-az1--x-s3",
+            bucket: "mybucket--test-zone-ab1--x-s3",
             disableS3ExpressSessionAuth: true,
-            region: "ap-northeast-1",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test-zone-ab1--x-s3.s3express-fips-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with long AZ
+    func testResolve293() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
             useDualStack: false,
             useFIPS: false,
             useS3ExpressControlEndpoint: false
@@ -7983,7 +8247,7 @@ class EndpointResolverTest: XCTestCase {
                     [
                         "name": "sigv4",
                         "signingName": "s3express",
-                        "signingRegion": "ap-northeast-1",
+                        "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable],
@@ -7991,18 +8255,86 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-az1--x-s3.s3express-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with medium zone(14 chars)
+    func testResolve294() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-zone-ab1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-zone-ab1--x-s3.s3express-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with long zone(20 chars)
+    func testResolve295() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-long1-zone-ab1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-long1-zone-ab1--x-s3.s3express-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// Data Plane sigv4 auth with long AZ fips
-    func testResolve286() throws {
+    func testResolve296() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--apne1-az1--x-s3",
+            bucket: "mybucket--test1-az1--x-s3",
             disableS3ExpressSessionAuth: true,
-            region: "ap-northeast-1",
+            region: "us-west-2",
             useDualStack: false,
             useFIPS: true,
             useS3ExpressControlEndpoint: false
@@ -8017,7 +8349,7 @@ class EndpointResolverTest: XCTestCase {
                     [
                         "name": "sigv4",
                         "signingName": "s3express",
-                        "signingRegion": "ap-northeast-1",
+                        "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable],
@@ -8025,13 +8357,81 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--apne1-az1--x-s3.s3express-fips-apne1-az1.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-az1--x-s3.s3express-fips-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with medium zone (14 chars) fips
+    func testResolve297() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-zone-ab1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-zone-ab1--x-s3.s3express-fips-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane sigv4 auth with long zone (20 chars) fips
+    func testResolve298() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test1-long1-zone-ab1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--test1-long1-zone-ab1--x-s3.s3express-fips-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// Control Plane host override
-    func testResolve287() throws {
+    func testResolve299() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8066,7 +8466,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control Plane host override no bucket
-    func testResolve288() throws {
+    func testResolve300() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             disableS3ExpressSessionAuth: true,
@@ -8100,7 +8500,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Data plane host override non virtual session auth
-    func testResolve289() throws {
+    func testResolve301() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8133,7 +8533,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control Plane host override ip
-    func testResolve290() throws {
+    func testResolve302() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8168,7 +8568,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Data plane host override
-    func testResolve291() throws {
+    func testResolve303() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8201,7 +8601,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// bad format error
-    func testResolve292() throws {
+    func testResolve304() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usaz1--x-s3",
@@ -8223,7 +8623,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// bad format error no session auth
-    func testResolve293() throws {
+    func testResolve305() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usaz1--x-s3",
@@ -8246,10 +8646,10 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// dual-stack error
-    func testResolve294() throws {
+    func testResolve306() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "mybucket--use1-az1--x-s3",
+            bucket: "mybucket--test-ab1--x-s3",
             region: "us-east-1",
             useDualStack: true,
             useFIPS: false,
@@ -8268,10 +8668,10 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accelerate error
-    func testResolve295() throws {
+    func testResolve307() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
-            bucket: "mybucket--use1-az1--x-s3",
+            bucket: "mybucket--test-ab1--x-s3",
             region: "us-east-1",
             useDualStack: false,
             useFIPS: false,
@@ -8290,10 +8690,10 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Data plane bucket format error
-    func testResolve296() throws {
+    func testResolve308() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
-            bucket: "my.bucket--use1-az1--x-s3",
+            bucket: "my.bucket--test-ab1--x-s3",
             region: "us-east-1",
             useDualStack: false,
             useFIPS: false,
@@ -8312,7 +8712,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// host override data plane bucket error session auth
-    func testResolve297() throws {
+    func testResolve309() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "my.bucket--usw2-az1--x-s3",
@@ -8334,7 +8734,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// host override data plane bucket error
-    func testResolve298() throws {
+    func testResolve310() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "my.bucket--usw2-az1--x-s3",

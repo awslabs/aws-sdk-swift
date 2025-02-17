@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You don't have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -44,16 +44,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by this BadRequestException error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -69,16 +68,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was an error in processing the SQL statement.
-public struct DatabaseErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DatabaseErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct DatabaseErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB cluster doesn't have a DB instance.
-public struct DatabaseNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DatabaseNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,16 +114,15 @@ public struct DatabaseNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
-public struct DatabaseResumingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// A request was cancelled because the Aurora Serverless v2 DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
+public struct DatabaseResumingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,14 +137,13 @@ public struct DatabaseResumingException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The writer instance in the DB cluster isn't available.
-public struct DatabaseUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DatabaseUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "DatabaseUnavailableException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
@@ -161,9 +156,9 @@ public struct DatabaseUnavailableException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// There are insufficient privileges to make the call.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by this ForbiddenException error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -179,16 +174,15 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
-public struct HttpEndpointNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HttpEndpointNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -203,14 +197,13 @@ public struct HttpEndpointNotEnabledException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal error occurred.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InternalServerErrorException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
@@ -222,10 +215,33 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init() { }
 }
 
-/// The Secrets Manager secret used with the request isn't valid.
-public struct InvalidSecretException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The resource is in an invalid state.
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The Secrets Manager secret used with the request isn't valid.
+public struct InvalidSecretException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -240,8 +256,7 @@ public struct InvalidSecretException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -253,9 +268,9 @@ public struct InvalidSecretException: ClientRuntime.ModeledError, AWSClientRunti
 /// * The secret provided wasn't found.
 ///
 /// * The secret couldn't be decrypted.
-public struct SecretsErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SecretsErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -270,14 +285,13 @@ public struct SecretsErrorException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service specified by the resourceArn parameter isn't available.
-public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ServiceUnavailableError" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
@@ -290,9 +304,9 @@ public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The execution of the SQL statement timed out.
-public struct StatementTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StatementTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The database connection ID that executed the SQL statement.
         public internal(set) var dbConnectionId: Swift.Int = 0
         /// The error message returned by this StatementTimeoutException error.
@@ -311,17 +325,16 @@ public struct StatementTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         dbConnectionId: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.dbConnectionId = dbConnectionId
         self.properties.message = message
     }
 }
 
 /// The transaction ID wasn't found.
-public struct TransactionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransactionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -336,8 +349,7 @@ public struct TransactionNotFoundException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -401,8 +413,7 @@ public struct BeginTransactionInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         schema: Swift.String? = nil,
         secretArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.database = database
         self.resourceArn = resourceArn
         self.schema = schema
@@ -417,8 +428,7 @@ public struct BeginTransactionOutput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -471,8 +481,7 @@ extension RDSDataClientTypes {
             tableName: Swift.String? = nil,
             type: Swift.Int = 0,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arrayBaseColumnType = arrayBaseColumnType
             self.isAutoIncrement = isAutoIncrement
             self.isCaseSensitive = isCaseSensitive
@@ -492,9 +501,9 @@ extension RDSDataClientTypes {
 }
 
 /// The resourceArn, secretArn, or transactionId value can't be found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by this NotFoundException error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -510,8 +519,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -532,8 +540,7 @@ public struct CommitTransactionInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.secretArn = secretArn
         self.transactionId = transactionId
@@ -547,8 +554,7 @@ public struct CommitTransactionOutput: Swift.Sendable {
 
     public init(
         transactionStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionStatus = transactionStatus
     }
 }
@@ -589,9 +595,9 @@ extension RDSDataClientTypes {
 /// * It contained a multidimensional array.
 ///
 /// * The size was too large.
-public struct UnsupportedResultException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedResultException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -606,8 +612,7 @@ public struct UnsupportedResultException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -682,8 +687,7 @@ extension RDSDataClientTypes {
         public init(
             decimalReturnType: RDSDataClientTypes.DecimalReturnType? = nil,
             longReturnType: RDSDataClientTypes.LongReturnType? = nil
-        )
-        {
+        ) {
             self.decimalReturnType = decimalReturnType
             self.longReturnType = longReturnType
         }
@@ -706,8 +710,7 @@ public struct RollbackTransactionInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.secretArn = secretArn
         self.transactionId = transactionId
@@ -721,8 +724,7 @@ public struct RollbackTransactionOutput: Swift.Sendable {
 
     public init(
         transactionStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionStatus = transactionStatus
     }
 }
@@ -794,8 +796,7 @@ extension RDSDataClientTypes {
             name: Swift.String? = nil,
             typeHint: RDSDataClientTypes.TypeHint? = nil,
             value: RDSDataClientTypes.Field? = nil
-        )
-        {
+        ) {
             self.name = name
             self.typeHint = typeHint
             self.value = value
@@ -812,8 +813,7 @@ extension RDSDataClientTypes {
 
         public init(
             generatedFields: [RDSDataClientTypes.Field]? = nil
-        )
-        {
+        ) {
             self.generatedFields = generatedFields
         }
     }
@@ -859,8 +859,7 @@ public struct ExecuteStatementInput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         sql: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.continueAfterTimeout = continueAfterTimeout
         self.database = database
         self.formatRecordsAs = formatRecordsAs
@@ -910,8 +909,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         sql: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.database = database
         self.parameterSets = parameterSets
         self.resourceArn = resourceArn
@@ -929,8 +927,7 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
 
     public init(
         updateResults: [RDSDataClientTypes.UpdateResult]? = nil
-    )
-    {
+    ) {
         self.updateResults = updateResults
     }
 }
@@ -954,8 +951,7 @@ public struct ExecuteStatementOutput: Swift.Sendable {
         generatedFields: [RDSDataClientTypes.Field]? = nil,
         numberOfRecordsUpdated: Swift.Int = 0,
         records: [[RDSDataClientTypes.Field]]? = nil
-    )
-    {
+    ) {
         self.columnMetadata = columnMetadata
         self.formattedRecords = formattedRecords
         self.generatedFields = generatedFields
@@ -1143,6 +1139,7 @@ enum BatchExecuteStatementOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableError": return try ServiceUnavailableError.makeError(baseError: baseError)
@@ -1170,6 +1167,7 @@ enum BeginTransactionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableError": return try ServiceUnavailableError.makeError(baseError: baseError)
@@ -1196,6 +1194,7 @@ enum CommitTransactionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
@@ -1224,6 +1223,7 @@ enum ExecuteStatementOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableError": return try ServiceUnavailableError.makeError(baseError: baseError)
@@ -1251,6 +1251,7 @@ enum RollbackTransactionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
@@ -1304,6 +1305,19 @@ extension TransactionNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransactionNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TransactionNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResourceStateException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResourceStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

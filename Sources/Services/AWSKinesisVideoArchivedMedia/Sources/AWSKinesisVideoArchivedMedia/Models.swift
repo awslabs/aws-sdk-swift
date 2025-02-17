@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Kinesis Video Streams has throttled the request because you have exceeded a limit. Try making the call later. For information about limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
-public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -43,16 +43,15 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -67,16 +66,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The codec private data in at least one of the tracks of the video stream is not valid for this operation.
-public struct InvalidCodecPrivateDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCodecPrivateDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -91,16 +89,15 @@ public struct InvalidCodecPrivateDataException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more frames in the requested clip could not be parsed based on the specified codec.
-public struct InvalidMediaFrameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMediaFrameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -115,16 +112,15 @@ public struct InvalidMediaFrameException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// No codec private data was found in at least one of tracks of the video stream.
-public struct MissingCodecPrivateDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingCodecPrivateDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -139,16 +135,15 @@ public struct MissingCodecPrivateDataException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// GetImages was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
-public struct NoDataRetentionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoDataRetentionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -163,16 +158,15 @@ public struct NoDataRetentionException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -187,16 +181,15 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -211,16 +204,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
-public struct UnsupportedStreamMediaTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedStreamMediaTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -235,8 +227,7 @@ public struct UnsupportedStreamMediaTypeException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -284,8 +275,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             endTimestamp: Foundation.Date? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -306,8 +296,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             fragmentSelectorType: KinesisVideoArchivedMediaClientTypes.ClipFragmentSelectorType? = nil,
             timestampRange: KinesisVideoArchivedMediaClientTypes.ClipTimestampRange? = nil
-        )
-        {
+        ) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
         }
@@ -327,8 +316,7 @@ public struct GetClipInput: Swift.Sendable {
         clipFragmentSelector: KinesisVideoArchivedMediaClientTypes.ClipFragmentSelector? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clipFragmentSelector = clipFragmentSelector
         self.streamARN = streamARN
         self.streamName = streamName
@@ -343,9 +331,8 @@ public struct GetClipOutput: Swift.Sendable {
 
     public init(
         contentType: Swift.String? = nil,
-        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
-    )
-    {
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
+    ) {
         self.contentType = contentType
         self.payload = payload
     }
@@ -392,8 +379,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             endTimestamp: Foundation.Date? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -412,8 +398,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             fragmentSelectorType: KinesisVideoArchivedMediaClientTypes.DASHFragmentSelectorType? = nil,
             timestampRange: KinesisVideoArchivedMediaClientTypes.DASHTimestampRange? = nil
-        )
-        {
+        ) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
         }
@@ -546,8 +531,7 @@ public struct GetDASHStreamingSessionURLInput: Swift.Sendable {
         playbackMode: KinesisVideoArchivedMediaClientTypes.DASHPlaybackMode? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashFragmentSelector = dashFragmentSelector
         self.displayFragmentNumber = displayFragmentNumber
         self.displayFragmentTimestamp = displayFragmentTimestamp
@@ -565,8 +549,7 @@ public struct GetDASHStreamingSessionURLOutput: Swift.Sendable {
 
     public init(
         dashStreamingSessionURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashStreamingSessionURL = dashStreamingSessionURL
     }
 }
@@ -702,8 +685,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             endTimestamp: Foundation.Date? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -722,8 +704,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             fragmentSelectorType: KinesisVideoArchivedMediaClientTypes.HLSFragmentSelectorType? = nil,
             timestampRange: KinesisVideoArchivedMediaClientTypes.HLSTimestampRange? = nil
-        )
-        {
+        ) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
         }
@@ -810,8 +791,7 @@ public struct GetHLSStreamingSessionURLInput: Swift.Sendable {
         playbackMode: KinesisVideoArchivedMediaClientTypes.HLSPlaybackMode? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerFormat = containerFormat
         self.discontinuityMode = discontinuityMode
         self.displayFragmentTimestamp = displayFragmentTimestamp
@@ -830,8 +810,7 @@ public struct GetHLSStreamingSessionURLOutput: Swift.Sendable {
 
     public init(
         hlsStreamingSessionURL: Swift.String? = nil
-    )
-    {
+    ) {
         self.hlsStreamingSessionURL = hlsStreamingSessionURL
     }
 }
@@ -963,8 +942,7 @@ public struct GetImagesInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         widthPixels: Swift.Int? = nil
-    )
-    {
+    ) {
         self.endTimestamp = endTimestamp
         self.format = format
         self.formatConfig = formatConfig
@@ -1031,8 +1009,7 @@ extension KinesisVideoArchivedMediaClientTypes {
             error: KinesisVideoArchivedMediaClientTypes.ImageError? = nil,
             imageContent: Swift.String? = nil,
             timeStamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.error = error
             self.imageContent = imageContent
             self.timeStamp = timeStamp
@@ -1049,8 +1026,7 @@ public struct GetImagesOutput: Swift.Sendable {
     public init(
         images: [KinesisVideoArchivedMediaClientTypes.Image]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.images = images
         self.nextToken = nextToken
     }
@@ -1069,8 +1045,7 @@ public struct GetMediaForFragmentListInput: Swift.Sendable {
         fragments: [Swift.String]? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fragments = fragments
         self.streamARN = streamARN
         self.streamName = streamName
@@ -1100,9 +1075,8 @@ public struct GetMediaForFragmentListOutput: Swift.Sendable {
 
     public init(
         contentType: Swift.String? = nil,
-        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
-    )
-    {
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
+    ) {
         self.contentType = contentType
         self.payload = payload
     }
@@ -1151,8 +1125,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             endTimestamp: Foundation.Date? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTimestamp = endTimestamp
             self.startTimestamp = startTimestamp
         }
@@ -1184,8 +1157,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public init(
             fragmentSelectorType: KinesisVideoArchivedMediaClientTypes.FragmentSelectorType? = nil,
             timestampRange: KinesisVideoArchivedMediaClientTypes.TimestampRange? = nil
-        )
-        {
+        ) {
             self.fragmentSelectorType = fragmentSelectorType
             self.timestampRange = timestampRange
         }
@@ -1210,8 +1182,7 @@ public struct ListFragmentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fragmentSelector = fragmentSelector
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1241,8 +1212,7 @@ extension KinesisVideoArchivedMediaClientTypes {
             fragmentSizeInBytes: Swift.Int = 0,
             producerTimestamp: Foundation.Date? = nil,
             serverTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.fragmentLengthInMilliseconds = fragmentLengthInMilliseconds
             self.fragmentNumber = fragmentNumber
             self.fragmentSizeInBytes = fragmentSizeInBytes
@@ -1261,8 +1231,7 @@ public struct ListFragmentsOutput: Swift.Sendable {
     public init(
         fragments: [KinesisVideoArchivedMediaClientTypes.Fragment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fragments = fragments
         self.nextToken = nextToken
     }

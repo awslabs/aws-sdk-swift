@@ -58,9 +58,9 @@ extension CleanRoomsClientTypes {
 }
 
 /// Caller does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A reason code for the exception.
         public internal(set) var reason: CleanRoomsClientTypes.AccessDeniedExceptionReason? = nil
@@ -78,8 +78,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         reason: CleanRoomsClientTypes.AccessDeniedExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -169,8 +168,7 @@ extension CleanRoomsClientTypes {
         public init(
             columnNames: [Swift.String]? = nil,
             function: CleanRoomsClientTypes.AggregateFunctionName? = nil
-        )
-        {
+        ) {
             self.columnNames = columnNames
             self.function = function
         }
@@ -221,8 +219,7 @@ extension CleanRoomsClientTypes {
             columnName: Swift.String? = nil,
             minimum: Swift.Int? = nil,
             type: CleanRoomsClientTypes.AggregationType? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.minimum = minimum
             self.type = type
@@ -406,8 +403,7 @@ extension CleanRoomsClientTypes {
             defaultValue: Swift.String? = nil,
             name: Swift.String? = nil,
             type: CleanRoomsClientTypes.ParameterType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.name = name
             self.type = type
@@ -606,8 +602,7 @@ extension CleanRoomsClientTypes {
             joinRequired: CleanRoomsClientTypes.JoinRequiredOption? = nil,
             outputConstraints: [CleanRoomsClientTypes.AggregationConstraint]? = nil,
             scalarFunctions: [CleanRoomsClientTypes.ScalarFunctions]? = nil
-        )
-        {
+        ) {
             self.additionalAnalyses = additionalAnalyses
             self.aggregateColumns = aggregateColumns
             self.allowedJoinOperators = allowedJoinOperators
@@ -630,8 +625,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -647,8 +641,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]? = nil
-        )
-        {
+        ) {
             self.columns = columns
         }
     }
@@ -676,8 +669,7 @@ extension CleanRoomsClientTypes {
             allowedAnalysisProviders: [Swift.String]? = nil,
             differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil,
             disallowedOutputColumns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalAnalyses = additionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
@@ -696,8 +688,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             columns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.columns = columns
         }
     }
@@ -730,8 +721,7 @@ extension CleanRoomsClientTypes {
             dimensionColumns: [Swift.String]? = nil,
             joinColumns: [Swift.String]? = nil,
             queryConstraints: [CleanRoomsClientTypes.QueryConstraint]? = nil
-        )
-        {
+        ) {
             self.dimensionColumns = dimensionColumns
             self.joinColumns = joinColumns
             self.queryConstraints = queryConstraints
@@ -759,8 +749,7 @@ extension CleanRoomsClientTypes {
             allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]? = nil,
             joinColumns: [Swift.String]? = nil,
             listColumns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalAnalyses = additionalAnalyses
             self.allowedJoinOperators = allowedJoinOperators
             self.joinColumns = joinColumns
@@ -860,8 +849,7 @@ extension CleanRoomsClientTypes {
             policy: CleanRoomsClientTypes.AnalysisRulePolicy? = nil,
             type: CleanRoomsClientTypes.AnalysisRuleType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.collaborationId = collaborationId
             self.createTime = createTime
             self.name = name
@@ -881,8 +869,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             referencedTables: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.referencedTables = referencedTables
         }
     }
@@ -908,8 +895,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -990,8 +976,7 @@ extension CleanRoomsClientTypes {
             reasons: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason]? = nil,
             status: CleanRoomsClientTypes.AnalysisTemplateValidationStatus? = nil,
             type: CleanRoomsClientTypes.AnalysisTemplateValidationType? = nil
-        )
-        {
+        ) {
             self.reasons = reasons
             self.status = status
             self.type = type
@@ -1062,8 +1047,7 @@ extension CleanRoomsClientTypes {
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
             updateTime: Foundation.Date? = nil,
             validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
-        )
-        {
+        ) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1156,9 +1140,9 @@ extension CleanRoomsClientTypes {
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A reason code for the exception.
         public internal(set) var reason: CleanRoomsClientTypes.ConflictExceptionReason? = nil
@@ -1182,8 +1166,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         reason: CleanRoomsClientTypes.ConflictExceptionReason? = nil,
         resourceId: Swift.String? = nil,
         resourceType: CleanRoomsClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.resourceId = resourceId
@@ -1192,9 +1175,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Unexpected error during processing of request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1209,16 +1192,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The Id of the missing resource.
@@ -1242,8 +1224,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: CleanRoomsClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -1251,9 +1232,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Request denied because service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The name of the quota.
@@ -1277,8 +1258,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         quotaName: Swift.String? = nil,
         quotaValue: Swift.Double? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaName = quotaName
         self.properties.quotaValue = quotaValue
@@ -1286,9 +1266,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1303,8 +1283,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1323,8 +1302,7 @@ extension CleanRoomsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -1367,9 +1345,9 @@ extension CleanRoomsClientTypes {
 }
 
 /// The input fails to satisfy the specified constraints.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Validation errors for specific input parameters.
         public internal(set) var fieldList: [CleanRoomsClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1390,8 +1368,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [CleanRoomsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: CleanRoomsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -1426,8 +1403,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         source: CleanRoomsClientTypes.AnalysisSource? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.analysisParameters = analysisParameters
         self.description = description
         self.format = format
@@ -1450,8 +1426,7 @@ public struct CreateAnalysisTemplateOutput: Swift.Sendable {
 
     public init(
         analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
-    )
-    {
+    ) {
         self.analysisTemplate = analysisTemplate
     }
 }
@@ -1467,8 +1442,7 @@ public struct DeleteAnalysisTemplateInput: Swift.Sendable {
     public init(
         analysisTemplateIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisTemplateIdentifier = analysisTemplateIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -1490,8 +1464,7 @@ public struct GetAnalysisTemplateInput: Swift.Sendable {
     public init(
         analysisTemplateIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisTemplateIdentifier = analysisTemplateIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -1504,8 +1477,7 @@ public struct GetAnalysisTemplateOutput: Swift.Sendable {
 
     public init(
         analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
-    )
-    {
+    ) {
         self.analysisTemplate = analysisTemplate
     }
 }
@@ -1523,8 +1495,7 @@ public struct ListAnalysisTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -1576,8 +1547,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -1602,8 +1572,7 @@ public struct ListAnalysisTemplatesOutput: Swift.Sendable {
     public init(
         analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisTemplateSummaries = analysisTemplateSummaries
         self.nextToken = nextToken
     }
@@ -1623,8 +1592,7 @@ public struct UpdateAnalysisTemplateInput: Swift.Sendable {
         analysisTemplateIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisTemplateIdentifier = analysisTemplateIdentifier
         self.description = description
         self.membershipIdentifier = membershipIdentifier
@@ -1638,8 +1606,7 @@ public struct UpdateAnalysisTemplateOutput: Swift.Sendable {
 
     public init(
         analysisTemplate: CleanRoomsClientTypes.AnalysisTemplate? = nil
-    )
-    {
+    ) {
         self.analysisTemplate = analysisTemplate
     }
 }
@@ -1702,6 +1669,36 @@ extension CleanRoomsClientTypes {
     }
 }
 
+extension CleanRoomsClientTypes {
+
+    /// A reference to a table within Athena.
+    public struct AthenaTableReference: Swift.Sendable {
+        /// The database name.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The output location for the Athena table.
+        public var outputLocation: Swift.String?
+        /// The table reference.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// The workgroup of the Athena table reference.
+        /// This member is required.
+        public var workGroup: Swift.String?
+
+        public init(
+            databaseName: Swift.String? = nil,
+            outputLocation: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            workGroup: Swift.String? = nil
+        ) {
+            self.databaseName = databaseName
+            self.outputLocation = outputLocation
+            self.tableName = tableName
+            self.workGroup = workGroup
+        }
+    }
+}
+
 public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
     /// This member is required.
@@ -1713,8 +1710,7 @@ public struct BatchGetCollaborationAnalysisTemplateInput: Swift.Sendable {
     public init(
         analysisTemplateArns: [Swift.String]? = nil,
         collaborationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisTemplateArns = analysisTemplateArns
         self.collaborationIdentifier = collaborationIdentifier
     }
@@ -1779,8 +1775,7 @@ extension CleanRoomsClientTypes {
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
             updateTime: Foundation.Date? = nil,
             validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
-        )
-        {
+        ) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1822,8 +1817,7 @@ extension CleanRoomsClientTypes {
             arn: Swift.String? = nil,
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.code = code
             self.message = message
@@ -1842,8 +1836,7 @@ public struct BatchGetCollaborationAnalysisTemplateOutput: Swift.Sendable {
     public init(
         collaborationAnalysisTemplates: [CleanRoomsClientTypes.CollaborationAnalysisTemplate]? = nil,
         errors: [CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError]? = nil
-    )
-    {
+    ) {
         self.collaborationAnalysisTemplates = collaborationAnalysisTemplates
         self.errors = errors
     }
@@ -1860,8 +1853,7 @@ public struct BatchGetSchemaInput: Swift.Sendable {
     public init(
         collaborationIdentifier: Swift.String? = nil,
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.names = names
     }
@@ -1885,8 +1877,7 @@ extension CleanRoomsClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.name = name
@@ -1896,7 +1887,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// A column within a schema relation, derived from the underlying Glue table.
+    /// A column within a schema relation, derived from the underlying table.
     public struct Column: Swift.Sendable {
         /// The name of the column.
         /// This member is required.
@@ -1908,8 +1899,7 @@ extension CleanRoomsClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -2012,8 +2002,7 @@ extension CleanRoomsClientTypes {
         public init(
             code: CleanRoomsClientTypes.SchemaStatusReasonCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -2072,8 +2061,7 @@ extension CleanRoomsClientTypes {
             configurations: [CleanRoomsClientTypes.SchemaConfiguration]? = nil,
             reasons: [CleanRoomsClientTypes.SchemaStatusReason]? = nil,
             status: CleanRoomsClientTypes.SchemaStatus? = nil
-        )
-        {
+        ) {
             self.analysisRuleType = analysisRuleType
             self.analysisType = analysisType
             self.configurations = configurations
@@ -2126,8 +2114,7 @@ extension CleanRoomsClientTypes {
         public init(
             idNamespaceAssociationId: Swift.String? = nil,
             type: CleanRoomsClientTypes.IdNamespaceType? = nil
-        )
-        {
+        ) {
             self.idNamespaceAssociationId = idNamespaceAssociationId
             self.type = type
         }
@@ -2144,8 +2131,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             idMappingTableInputSource: [CleanRoomsClientTypes.IdMappingTableInputSource]? = nil
-        )
-        {
+        ) {
             self.idMappingTableInputSource = idMappingTableInputSource
         }
     }
@@ -2250,8 +2236,7 @@ extension CleanRoomsClientTypes {
             schemaTypeProperties: CleanRoomsClientTypes.SchemaTypeProperties? = nil,
             type: CleanRoomsClientTypes.SchemaType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.collaborationArn = collaborationArn
@@ -2281,8 +2266,7 @@ public struct BatchGetSchemaOutput: Swift.Sendable {
     public init(
         errors: [CleanRoomsClientTypes.BatchGetSchemaError]? = nil,
         schemas: [CleanRoomsClientTypes.Schema]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.schemas = schemas
     }
@@ -2302,8 +2286,7 @@ extension CleanRoomsClientTypes {
         public init(
             name: Swift.String? = nil,
             type: CleanRoomsClientTypes.AnalysisRuleType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -2321,8 +2304,7 @@ public struct BatchGetSchemaAnalysisRuleInput: Swift.Sendable {
     public init(
         collaborationIdentifier: Swift.String? = nil,
         schemaAnalysisRuleRequests: [CleanRoomsClientTypes.SchemaAnalysisRuleRequest]? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.schemaAnalysisRuleRequests = schemaAnalysisRuleRequests
     }
@@ -2350,8 +2332,7 @@ extension CleanRoomsClientTypes {
             message: Swift.String? = nil,
             name: Swift.String? = nil,
             type: CleanRoomsClientTypes.AnalysisRuleType? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.name = name
@@ -2371,8 +2352,7 @@ public struct BatchGetSchemaAnalysisRuleOutput: Swift.Sendable {
     public init(
         analysisRules: [CleanRoomsClientTypes.AnalysisRule]? = nil,
         errors: [CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError]? = nil
-    )
-    {
+    ) {
         self.analysisRules = analysisRules
         self.errors = errors
     }
@@ -2446,8 +2426,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             customMLMemberAbilities: [CleanRoomsClientTypes.CustomMLMemberAbility]? = nil
-        )
-        {
+        ) {
             self.customMLMemberAbilities = customMLMemberAbilities
         }
     }
@@ -2463,8 +2442,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             isResponsible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isResponsible = isResponsible
         }
     }
@@ -2480,8 +2458,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             isResponsible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isResponsible = isResponsible
         }
     }
@@ -2499,8 +2476,7 @@ extension CleanRoomsClientTypes {
         public init(
             modelInference: CleanRoomsClientTypes.ModelInferencePaymentConfig? = nil,
             modelTraining: CleanRoomsClientTypes.ModelTrainingPaymentConfig? = nil
-        )
-        {
+        ) {
             self.modelInference = modelInference
             self.modelTraining = modelTraining
         }
@@ -2517,8 +2493,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             isResponsible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isResponsible = isResponsible
         }
     }
@@ -2537,8 +2512,7 @@ extension CleanRoomsClientTypes {
         public init(
             machineLearning: CleanRoomsClientTypes.MLPaymentConfig? = nil,
             queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig? = nil
-        )
-        {
+        ) {
             self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
@@ -2567,8 +2541,7 @@ extension CleanRoomsClientTypes {
             allowDuplicates: Swift.Bool? = nil,
             allowJoinsOnColumnsWithDifferentNames: Swift.Bool? = nil,
             preserveNulls: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowCleartext = allowCleartext
             self.allowDuplicates = allowDuplicates
             self.allowJoinsOnColumnsWithDifferentNames = allowJoinsOnColumnsWithDifferentNames
@@ -2601,8 +2574,7 @@ extension CleanRoomsClientTypes {
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
             mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
             paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.displayName = displayName
             self.memberAbilities = memberAbilities
@@ -2683,8 +2655,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         name: Swift.String? = nil,
         queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.analyticsEngine = analyticsEngine
         self.creatorDisplayName = creatorDisplayName
         self.creatorMLMemberAbilities = creatorMLMemberAbilities
@@ -2791,8 +2762,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.createTime = createTime
@@ -2818,8 +2788,7 @@ public struct CreateCollaborationOutput: Swift.Sendable {
 
     public init(
         collaboration: CleanRoomsClientTypes.Collaboration? = nil
-    )
-    {
+    ) {
         self.collaboration = collaboration
     }
 }
@@ -2831,8 +2800,7 @@ public struct DeleteCollaborationInput: Swift.Sendable {
 
     public init(
         collaborationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
     }
 }
@@ -2853,8 +2821,7 @@ public struct DeleteMemberInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         collaborationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.collaborationIdentifier = collaborationIdentifier
     }
@@ -2872,8 +2839,7 @@ public struct GetCollaborationInput: Swift.Sendable {
 
     public init(
         collaborationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
     }
 }
@@ -2885,8 +2851,7 @@ public struct GetCollaborationOutput: Swift.Sendable {
 
     public init(
         collaboration: CleanRoomsClientTypes.Collaboration? = nil
-    )
-    {
+    ) {
         self.collaboration = collaboration
     }
 }
@@ -2902,8 +2867,7 @@ public struct GetCollaborationAnalysisTemplateInput: Swift.Sendable {
     public init(
         analysisTemplateArn: Swift.String? = nil,
         collaborationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisTemplateArn = analysisTemplateArn
         self.collaborationIdentifier = collaborationIdentifier
     }
@@ -2916,8 +2880,7 @@ public struct GetCollaborationAnalysisTemplateOutput: Swift.Sendable {
 
     public init(
         collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate? = nil
-    )
-    {
+    ) {
         self.collaborationAnalysisTemplate = collaborationAnalysisTemplate
     }
 }
@@ -2933,8 +2896,7 @@ public struct GetCollaborationConfiguredAudienceModelAssociationInput: Swift.Sen
     public init(
         collaborationIdentifier: Swift.String? = nil,
         configuredAudienceModelAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
     }
@@ -2985,8 +2947,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -3008,8 +2969,7 @@ public struct GetCollaborationConfiguredAudienceModelAssociationOutput: Swift.Se
 
     public init(
         collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation? = nil
-    )
-    {
+    ) {
         self.collaborationConfiguredAudienceModelAssociation = collaborationConfiguredAudienceModelAssociation
     }
 }
@@ -3025,8 +2985,7 @@ public struct GetCollaborationIdNamespaceAssociationInput: Swift.Sendable {
     public init(
         collaborationIdentifier: Swift.String? = nil,
         idNamespaceAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
     }
@@ -3042,8 +3001,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             allowUseAsDimensionColumn: Swift.Bool = false
-        )
-        {
+        ) {
             self.allowUseAsDimensionColumn = allowUseAsDimensionColumn
         }
     }
@@ -3063,8 +3021,7 @@ extension CleanRoomsClientTypes {
         public init(
             inputReferenceArn: Swift.String? = nil,
             manageResourcePolicies: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.inputReferenceArn = inputReferenceArn
             self.manageResourcePolicies = manageResourcePolicies
         }
@@ -3085,8 +3042,7 @@ extension CleanRoomsClientTypes {
         public init(
             idMappingWorkflowsSupported: [Smithy.Document]? = nil,
             idNamespaceType: CleanRoomsClientTypes.IdNamespaceType? = nil
-        )
-        {
+        ) {
             self.idMappingWorkflowsSupported = idMappingWorkflowsSupported
             self.idNamespaceType = idNamespaceType
         }
@@ -3145,8 +3101,7 @@ extension CleanRoomsClientTypes {
             inputReferenceProperties: CleanRoomsClientTypes.IdNamespaceAssociationInputReferenceProperties? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -3170,8 +3125,7 @@ public struct GetCollaborationIdNamespaceAssociationOutput: Swift.Sendable {
 
     public init(
         collaborationIdNamespaceAssociation: CleanRoomsClientTypes.CollaborationIdNamespaceAssociation? = nil
-    )
-    {
+    ) {
         self.collaborationIdNamespaceAssociation = collaborationIdNamespaceAssociation
     }
 }
@@ -3187,8 +3141,7 @@ public struct GetCollaborationPrivacyBudgetTemplateInput: Swift.Sendable {
     public init(
         collaborationIdentifier: Swift.String? = nil,
         privacyBudgetTemplateIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
     }
@@ -3237,8 +3190,7 @@ extension CleanRoomsClientTypes {
         public init(
             epsilon: Swift.Int? = nil,
             usersNoisePerQuery: Swift.Int? = nil
-        )
-        {
+        ) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
         }
@@ -3327,8 +3279,7 @@ extension CleanRoomsClientTypes {
             parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput? = nil,
             privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.autoRefresh = autoRefresh
             self.collaborationArn = collaborationArn
@@ -3350,8 +3301,7 @@ public struct GetCollaborationPrivacyBudgetTemplateOutput: Swift.Sendable {
 
     public init(
         collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate? = nil
-    )
-    {
+    ) {
         self.collaborationPrivacyBudgetTemplate = collaborationPrivacyBudgetTemplate
     }
 }
@@ -3367,8 +3317,7 @@ public struct GetSchemaInput: Swift.Sendable {
     public init(
         collaborationIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.name = name
     }
@@ -3381,8 +3330,7 @@ public struct GetSchemaOutput: Swift.Sendable {
 
     public init(
         schema: CleanRoomsClientTypes.Schema? = nil
-    )
-    {
+    ) {
         self.schema = schema
     }
 }
@@ -3402,8 +3350,7 @@ public struct GetSchemaAnalysisRuleInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         type: CleanRoomsClientTypes.AnalysisRuleType? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.name = name
         self.type = type
@@ -3417,8 +3364,7 @@ public struct GetSchemaAnalysisRuleOutput: Swift.Sendable {
 
     public init(
         analysisRule: CleanRoomsClientTypes.AnalysisRule? = nil
-    )
-    {
+    ) {
         self.analysisRule = analysisRule
     }
 }
@@ -3436,8 +3382,7 @@ public struct ListCollaborationAnalysisTemplatesInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3485,8 +3430,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -3510,8 +3454,7 @@ public struct ListCollaborationAnalysisTemplatesOutput: Swift.Sendable {
     public init(
         collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationAnalysisTemplateSummaries = collaborationAnalysisTemplateSummaries
         self.nextToken = nextToken
     }
@@ -3530,8 +3473,7 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsInput: Swift.S
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3579,8 +3521,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -3604,8 +3545,7 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsOutput: Swift.
     public init(
         collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationConfiguredAudienceModelAssociationSummaries = collaborationConfiguredAudienceModelAssociationSummaries
         self.nextToken = nextToken
     }
@@ -3624,8 +3564,7 @@ public struct ListCollaborationIdNamespaceAssociationsInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3642,8 +3581,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             idNamespaceType: CleanRoomsClientTypes.IdNamespaceType? = nil
-        )
-        {
+        ) {
             self.idNamespaceType = idNamespaceType
         }
     }
@@ -3698,8 +3636,7 @@ extension CleanRoomsClientTypes {
             inputReferenceProperties: CleanRoomsClientTypes.IdNamespaceAssociationInputReferencePropertiesSummary? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -3725,8 +3662,7 @@ public struct ListCollaborationIdNamespaceAssociationsOutput: Swift.Sendable {
     public init(
         collaborationIdNamespaceAssociationSummaries: [CleanRoomsClientTypes.CollaborationIdNamespaceAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdNamespaceAssociationSummaries = collaborationIdNamespaceAssociationSummaries
         self.nextToken = nextToken
     }
@@ -3749,8 +3685,7 @@ public struct ListCollaborationPrivacyBudgetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3814,8 +3749,7 @@ extension CleanRoomsClientTypes {
             maxCount: Swift.Int? = nil,
             remainingCount: Swift.Int? = nil,
             type: CleanRoomsClientTypes.DifferentialPrivacyAggregationType? = nil
-        )
-        {
+        ) {
             self.maxCount = maxCount
             self.remainingCount = remainingCount
             self.type = type
@@ -3837,8 +3771,7 @@ extension CleanRoomsClientTypes {
         public init(
             aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudgetAggregation]? = nil,
             epsilon: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aggregations = aggregations
             self.epsilon = epsilon
         }
@@ -3901,8 +3834,7 @@ extension CleanRoomsClientTypes {
             privacyBudgetTemplateId: Swift.String? = nil,
             type: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.budget = budget
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -3927,8 +3859,7 @@ public struct ListCollaborationPrivacyBudgetsOutput: Swift.Sendable {
     public init(
         collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationPrivacyBudgetSummaries = collaborationPrivacyBudgetSummaries
         self.nextToken = nextToken
     }
@@ -3947,8 +3878,7 @@ public struct ListCollaborationPrivacyBudgetTemplatesInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3993,8 +3923,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -4017,8 +3946,7 @@ public struct ListCollaborationPrivacyBudgetTemplatesOutput: Swift.Sendable {
     public init(
         collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationPrivacyBudgetTemplateSummaries = collaborationPrivacyBudgetTemplateSummaries
         self.nextToken = nextToken
     }
@@ -4065,8 +3993,7 @@ public struct ListCollaborationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         memberStatus: CleanRoomsClientTypes.FilterableMemberStatus? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.memberStatus = memberStatus
         self.nextToken = nextToken
@@ -4120,8 +4047,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.createTime = createTime
@@ -4147,8 +4073,7 @@ public struct ListCollaborationsOutput: Swift.Sendable {
     public init(
         collaborationList: [CleanRoomsClientTypes.CollaborationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationList = collaborationList
         self.nextToken = nextToken
     }
@@ -4167,8 +4092,7 @@ public struct ListMembersInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4218,8 +4142,7 @@ extension CleanRoomsClientTypes {
             paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
             status: CleanRoomsClientTypes.MemberStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.abilities = abilities
             self.accountId = accountId
             self.createTime = createTime
@@ -4244,8 +4167,7 @@ public struct ListMembersOutput: Swift.Sendable {
     public init(
         memberSummaries: [CleanRoomsClientTypes.MemberSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberSummaries = memberSummaries
         self.nextToken = nextToken
     }
@@ -4267,8 +4189,7 @@ public struct ListSchemasInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaType: CleanRoomsClientTypes.SchemaType? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4317,8 +4238,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             type: CleanRoomsClientTypes.SchemaType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.collaborationArn = collaborationArn
@@ -4342,8 +4262,7 @@ public struct ListSchemasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemaSummaries: [CleanRoomsClientTypes.SchemaSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemaSummaries = schemaSummaries
     }
@@ -4362,8 +4281,7 @@ public struct UpdateCollaborationInput: Swift.Sendable {
         collaborationIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.description = description
         self.name = name
@@ -4377,8 +4295,7 @@ public struct UpdateCollaborationOutput: Swift.Sendable {
 
     public init(
         collaboration: CleanRoomsClientTypes.Collaboration? = nil
-    )
-    {
+    ) {
         self.collaboration = collaboration
     }
 }
@@ -4408,8 +4325,7 @@ public struct CreateConfiguredAudienceModelAssociationInput: Swift.Sendable {
         manageResourcePolicies: Swift.Bool? = nil,
         membershipIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelArn = configuredAudienceModelArn
         self.configuredAudienceModelAssociationName = configuredAudienceModelAssociationName
         self.description = description
@@ -4472,8 +4388,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -4497,8 +4412,7 @@ public struct CreateConfiguredAudienceModelAssociationOutput: Swift.Sendable {
 
     public init(
         configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
     }
 }
@@ -4514,8 +4428,7 @@ public struct DeleteConfiguredAudienceModelAssociationInput: Swift.Sendable {
     public init(
         configuredAudienceModelAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -4537,8 +4450,7 @@ public struct GetConfiguredAudienceModelAssociationInput: Swift.Sendable {
     public init(
         configuredAudienceModelAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -4551,8 +4463,7 @@ public struct GetConfiguredAudienceModelAssociationOutput: Swift.Sendable {
 
     public init(
         configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
     }
 }
@@ -4570,8 +4481,7 @@ public struct ListConfiguredAudienceModelAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -4627,8 +4537,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -4654,8 +4563,7 @@ public struct ListConfiguredAudienceModelAssociationsOutput: Swift.Sendable {
     public init(
         configuredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.ConfiguredAudienceModelAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelAssociationSummaries = configuredAudienceModelAssociationSummaries
         self.nextToken = nextToken
     }
@@ -4678,8 +4586,7 @@ public struct UpdateConfiguredAudienceModelAssociationInput: Swift.Sendable {
         description: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
         self.description = description
         self.membershipIdentifier = membershipIdentifier
@@ -4694,8 +4601,7 @@ public struct UpdateConfiguredAudienceModelAssociationOutput: Swift.Sendable {
 
     public init(
         configuredAudienceModelAssociation: CleanRoomsClientTypes.ConfiguredAudienceModelAssociation? = nil
-    )
-    {
+    ) {
         self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
     }
 }
@@ -4725,8 +4631,7 @@ public struct CreateConfiguredTableAssociationInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuredTableIdentifier = configuredTableIdentifier
         self.description = description
         self.membershipIdentifier = membershipIdentifier
@@ -4820,8 +4725,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
             self.configuredTableArn = configuredTableArn
@@ -4845,8 +4749,7 @@ public struct CreateConfiguredTableAssociationOutput: Swift.Sendable {
 
     public init(
         configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation? = nil
-    )
-    {
+    ) {
         self.configuredTableAssociation = configuredTableAssociation
     }
 }
@@ -4863,8 +4766,7 @@ extension CleanRoomsClientTypes {
         public init(
             allowedAdditionalAnalyses: [Swift.String]? = nil,
             allowedResultReceivers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedResultReceivers = allowedResultReceivers
         }
@@ -4883,8 +4785,7 @@ extension CleanRoomsClientTypes {
         public init(
             allowedAdditionalAnalyses: [Swift.String]? = nil,
             allowedResultReceivers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedResultReceivers = allowedResultReceivers
         }
@@ -4903,8 +4804,7 @@ extension CleanRoomsClientTypes {
         public init(
             allowedAdditionalAnalyses: [Swift.String]? = nil,
             allowedResultReceivers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedResultReceivers = allowedResultReceivers
         }
@@ -4954,8 +4854,7 @@ public struct CreateConfiguredTableAssociationAnalysisRuleInput: Swift.Sendable 
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType? = nil,
         configuredTableAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRulePolicy = analysisRulePolicy
         self.analysisRuleType = analysisRuleType
         self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
@@ -4997,8 +4896,7 @@ extension CleanRoomsClientTypes {
             policy: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy? = nil,
             type: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.configuredTableAssociationArn = configuredTableAssociationArn
             self.configuredTableAssociationId = configuredTableAssociationId
             self.createTime = createTime
@@ -5017,8 +4915,7 @@ public struct CreateConfiguredTableAssociationAnalysisRuleOutput: Swift.Sendable
 
     public init(
         analysisRule: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRule? = nil
-    )
-    {
+    ) {
         self.analysisRule = analysisRule
     }
 }
@@ -5034,8 +4931,7 @@ public struct DeleteConfiguredTableAssociationInput: Swift.Sendable {
     public init(
         configuredTableAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -5061,8 +4957,7 @@ public struct DeleteConfiguredTableAssociationAnalysisRuleInput: Swift.Sendable 
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType? = nil,
         configuredTableAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRuleType = analysisRuleType
         self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
@@ -5085,8 +4980,7 @@ public struct GetConfiguredTableAssociationInput: Swift.Sendable {
     public init(
         configuredTableAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -5099,8 +4993,7 @@ public struct GetConfiguredTableAssociationOutput: Swift.Sendable {
 
     public init(
         configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation? = nil
-    )
-    {
+    ) {
         self.configuredTableAssociation = configuredTableAssociation
     }
 }
@@ -5120,8 +5013,7 @@ public struct GetConfiguredTableAssociationAnalysisRuleInput: Swift.Sendable {
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType? = nil,
         configuredTableAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRuleType = analysisRuleType
         self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
@@ -5135,8 +5027,7 @@ public struct GetConfiguredTableAssociationAnalysisRuleOutput: Swift.Sendable {
 
     public init(
         analysisRule: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRule? = nil
-    )
-    {
+    ) {
         self.analysisRule = analysisRule
     }
 }
@@ -5154,8 +5045,7 @@ public struct ListConfiguredTableAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -5200,8 +5090,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.configuredTableId = configuredTableId
             self.createTime = createTime
@@ -5224,8 +5113,7 @@ public struct ListConfiguredTableAssociationsOutput: Swift.Sendable {
     public init(
         configuredTableAssociationSummaries: [CleanRoomsClientTypes.ConfiguredTableAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableAssociationSummaries = configuredTableAssociationSummaries
         self.nextToken = nextToken
     }
@@ -5248,8 +5136,7 @@ public struct UpdateConfiguredTableAssociationInput: Swift.Sendable {
         description: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
         self.description = description
         self.membershipIdentifier = membershipIdentifier
@@ -5264,8 +5151,7 @@ public struct UpdateConfiguredTableAssociationOutput: Swift.Sendable {
 
     public init(
         configuredTableAssociation: CleanRoomsClientTypes.ConfiguredTableAssociation? = nil
-    )
-    {
+    ) {
         self.configuredTableAssociation = configuredTableAssociation
     }
 }
@@ -5289,8 +5175,7 @@ public struct UpdateConfiguredTableAssociationAnalysisRuleInput: Swift.Sendable 
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType? = nil,
         configuredTableAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRulePolicy = analysisRulePolicy
         self.analysisRuleType = analysisRuleType
         self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
@@ -5305,8 +5190,7 @@ public struct UpdateConfiguredTableAssociationAnalysisRuleOutput: Swift.Sendable
 
     public init(
         analysisRule: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRule? = nil
-    )
-    {
+    ) {
         self.analysisRule = analysisRule
     }
 }
@@ -5325,8 +5209,7 @@ extension CleanRoomsClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.tableName = tableName
         }
@@ -5335,10 +5218,86 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// A pointer to the dataset that underlies this table. Currently, this can only be an Glue table.
+    /// The Snowflake table schema.
+    public struct SnowflakeTableSchemaV1: Swift.Sendable {
+        /// The column name.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The column's data type. Supported data types: ARRAY, BIGINT, BOOLEAN, CHAR, DATE, DECIMAL, DOUBLE, DOUBLE PRECISION, FLOAT, FLOAT4, INT, INTEGER, MAP, NUMERIC, NUMBER, REAL, SMALLINT, STRING, TIMESTAMP, TIMESTAMP_LTZ, TIMESTAMP_NTZ, DATETIME, TINYINT, VARCHAR, TEXT, CHARACTER.
+        /// This member is required.
+        public var columnType: Swift.String?
+
+        public init(
+            columnName: Swift.String? = nil,
+            columnType: Swift.String? = nil
+        ) {
+            self.columnName = columnName
+            self.columnType = columnType
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The schema of a Snowflake table.
+    public enum SnowflakeTableSchema: Swift.Sendable {
+        /// The schema of a Snowflake table.
+        case v1([CleanRoomsClientTypes.SnowflakeTableSchemaV1])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A reference to a table within Snowflake.
+    public struct SnowflakeTableReference: Swift.Sendable {
+        /// The account identifier for the Snowflake table reference.
+        /// This member is required.
+        public var accountIdentifier: Swift.String?
+        /// The name of the database the Snowflake table belongs to.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The schema name of the Snowflake table reference.
+        /// This member is required.
+        public var schemaName: Swift.String?
+        /// The secret ARN of the Snowflake table reference.
+        /// This member is required.
+        public var secretArn: Swift.String?
+        /// The name of the Snowflake table.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// The schema of the Snowflake table.
+        /// This member is required.
+        public var tableSchema: CleanRoomsClientTypes.SnowflakeTableSchema?
+
+        public init(
+            accountIdentifier: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            schemaName: Swift.String? = nil,
+            secretArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tableSchema: CleanRoomsClientTypes.SnowflakeTableSchema? = nil
+        ) {
+            self.accountIdentifier = accountIdentifier
+            self.databaseName = databaseName
+            self.schemaName = schemaName
+            self.secretArn = secretArn
+            self.tableName = tableName
+            self.tableSchema = tableSchema
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A pointer to the dataset that underlies this table.
     public enum TableReference: Swift.Sendable {
         /// If present, a reference to the Glue table referred to by this table reference.
         case glue(CleanRoomsClientTypes.GlueTableReference)
+        /// If present, a reference to the Snowflake table referred to by this table reference.
+        case snowflake(CleanRoomsClientTypes.SnowflakeTableReference)
+        /// If present, a reference to the Athena table referred to by this table reference.
+        case athena(CleanRoomsClientTypes.AthenaTableReference)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5355,7 +5314,7 @@ public struct CreateConfiguredTableInput: Swift.Sendable {
     /// The name of the configured table.
     /// This member is required.
     public var name: Swift.String?
-    /// A reference to the Glue table being configured.
+    /// A reference to the table being configured.
     /// This member is required.
     public var tableReference: CleanRoomsClientTypes.TableReference?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -5368,8 +5327,7 @@ public struct CreateConfiguredTableInput: Swift.Sendable {
         name: Swift.String? = nil,
         tableReference: CleanRoomsClientTypes.TableReference? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedColumns = allowedColumns
         self.analysisMethod = analysisMethod
         self.description = description
@@ -5438,7 +5396,7 @@ extension CleanRoomsClientTypes {
         /// A name for the configured table.
         /// This member is required.
         public var name: Swift.String?
-        /// The Glue table that this configured table represents.
+        /// The table that this configured table represents.
         /// This member is required.
         public var tableReference: CleanRoomsClientTypes.TableReference?
         /// The time the configured table was last updated
@@ -5456,8 +5414,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             tableReference: CleanRoomsClientTypes.TableReference? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
@@ -5479,8 +5436,7 @@ public struct CreateConfiguredTableOutput: Swift.Sendable {
 
     public init(
         configuredTable: CleanRoomsClientTypes.ConfiguredTable? = nil
-    )
-    {
+    ) {
         self.configuredTable = configuredTable
     }
 }
@@ -5524,8 +5480,7 @@ public struct CreateConfiguredTableAnalysisRuleInput: Swift.Sendable {
         analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy? = nil,
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType? = nil,
         configuredTableIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRulePolicy = analysisRulePolicy
         self.analysisRuleType = analysisRuleType
         self.configuredTableIdentifier = configuredTableIdentifier
@@ -5562,8 +5517,7 @@ extension CleanRoomsClientTypes {
             policy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy? = nil,
             type: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.configuredTableArn = configuredTableArn
             self.configuredTableId = configuredTableId
             self.createTime = createTime
@@ -5581,8 +5535,7 @@ public struct CreateConfiguredTableAnalysisRuleOutput: Swift.Sendable {
 
     public init(
         analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule? = nil
-    )
-    {
+    ) {
         self.analysisRule = analysisRule
     }
 }
@@ -5594,8 +5547,7 @@ public struct DeleteConfiguredTableInput: Swift.Sendable {
 
     public init(
         configuredTableIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableIdentifier = configuredTableIdentifier
     }
 }
@@ -5617,8 +5569,7 @@ public struct DeleteConfiguredTableAnalysisRuleInput: Swift.Sendable {
     public init(
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType? = nil,
         configuredTableIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRuleType = analysisRuleType
         self.configuredTableIdentifier = configuredTableIdentifier
     }
@@ -5637,8 +5588,7 @@ public struct GetConfiguredTableInput: Swift.Sendable {
 
     public init(
         configuredTableIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableIdentifier = configuredTableIdentifier
     }
 }
@@ -5650,8 +5600,7 @@ public struct GetConfiguredTableOutput: Swift.Sendable {
 
     public init(
         configuredTable: CleanRoomsClientTypes.ConfiguredTable? = nil
-    )
-    {
+    ) {
         self.configuredTable = configuredTable
     }
 }
@@ -5667,8 +5616,7 @@ public struct GetConfiguredTableAnalysisRuleInput: Swift.Sendable {
     public init(
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType? = nil,
         configuredTableIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRuleType = analysisRuleType
         self.configuredTableIdentifier = configuredTableIdentifier
     }
@@ -5681,8 +5629,7 @@ public struct GetConfiguredTableAnalysisRuleOutput: Swift.Sendable {
 
     public init(
         analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule? = nil
-    )
-    {
+    ) {
         self.analysisRule = analysisRule
     }
 }
@@ -5696,8 +5643,7 @@ public struct ListConfiguredTablesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5737,8 +5683,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
@@ -5760,8 +5705,7 @@ public struct ListConfiguredTablesOutput: Swift.Sendable {
     public init(
         configuredTableSummaries: [CleanRoomsClientTypes.ConfiguredTableSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableSummaries = configuredTableSummaries
         self.nextToken = nextToken
     }
@@ -5780,8 +5724,7 @@ public struct UpdateConfiguredTableInput: Swift.Sendable {
         configuredTableIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuredTableIdentifier = configuredTableIdentifier
         self.description = description
         self.name = name
@@ -5795,8 +5738,7 @@ public struct UpdateConfiguredTableOutput: Swift.Sendable {
 
     public init(
         configuredTable: CleanRoomsClientTypes.ConfiguredTable? = nil
-    )
-    {
+    ) {
         self.configuredTable = configuredTable
     }
 }
@@ -5816,8 +5758,7 @@ public struct UpdateConfiguredTableAnalysisRuleInput: Swift.Sendable {
         analysisRulePolicy: CleanRoomsClientTypes.ConfiguredTableAnalysisRulePolicy? = nil,
         analysisRuleType: CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType? = nil,
         configuredTableIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisRulePolicy = analysisRulePolicy
         self.analysisRuleType = analysisRuleType
         self.configuredTableIdentifier = configuredTableIdentifier
@@ -5831,8 +5772,7 @@ public struct UpdateConfiguredTableAnalysisRuleOutput: Swift.Sendable {
 
     public init(
         analysisRule: CleanRoomsClientTypes.ConfiguredTableAnalysisRule? = nil
-    )
-    {
+    ) {
         self.analysisRule = analysisRule
     }
 }
@@ -5851,8 +5791,7 @@ extension CleanRoomsClientTypes {
         public init(
             inputReferenceArn: Swift.String? = nil,
             manageResourcePolicies: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.inputReferenceArn = inputReferenceArn
             self.manageResourcePolicies = manageResourcePolicies
         }
@@ -5883,8 +5822,7 @@ public struct CreateIdMappingTableInput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.inputReferenceConfig = inputReferenceConfig
         self.kmsKeyArn = kmsKeyArn
@@ -5904,8 +5842,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             idMappingTableInputSource: [CleanRoomsClientTypes.IdMappingTableInputSource]? = nil
-        )
-        {
+        ) {
             self.idMappingTableInputSource = idMappingTableInputSource
         }
     }
@@ -5967,8 +5904,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -5993,8 +5929,7 @@ public struct CreateIdMappingTableOutput: Swift.Sendable {
 
     public init(
         idMappingTable: CleanRoomsClientTypes.IdMappingTable? = nil
-    )
-    {
+    ) {
         self.idMappingTable = idMappingTable
     }
 }
@@ -6010,8 +5945,7 @@ public struct DeleteIdMappingTableInput: Swift.Sendable {
     public init(
         idMappingTableIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.idMappingTableIdentifier = idMappingTableIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -6033,8 +5967,7 @@ public struct GetIdMappingTableInput: Swift.Sendable {
     public init(
         idMappingTableIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.idMappingTableIdentifier = idMappingTableIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -6047,8 +5980,7 @@ public struct GetIdMappingTableOutput: Swift.Sendable {
 
     public init(
         idMappingTable: CleanRoomsClientTypes.IdMappingTable? = nil
-    )
-    {
+    ) {
         self.idMappingTable = idMappingTable
     }
 }
@@ -6066,8 +5998,7 @@ public struct ListIdMappingTablesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -6123,8 +6054,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -6150,8 +6080,7 @@ public struct ListIdMappingTablesOutput: Swift.Sendable {
     public init(
         idMappingTableSummaries: [CleanRoomsClientTypes.IdMappingTableSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.idMappingTableSummaries = idMappingTableSummaries
         self.nextToken = nextToken
     }
@@ -6168,8 +6097,7 @@ public struct PopulateIdMappingTableInput: Swift.Sendable {
     public init(
         idMappingTableIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.idMappingTableIdentifier = idMappingTableIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -6182,8 +6110,7 @@ public struct PopulateIdMappingTableOutput: Swift.Sendable {
 
     public init(
         idMappingJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.idMappingJobId = idMappingJobId
     }
 }
@@ -6205,8 +6132,7 @@ public struct UpdateIdMappingTableInput: Swift.Sendable {
         idMappingTableIdentifier: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingTableIdentifier = idMappingTableIdentifier
         self.kmsKeyArn = kmsKeyArn
@@ -6221,8 +6147,7 @@ public struct UpdateIdMappingTableOutput: Swift.Sendable {
 
     public init(
         idMappingTable: CleanRoomsClientTypes.IdMappingTable? = nil
-    )
-    {
+    ) {
         self.idMappingTable = idMappingTable
     }
 }
@@ -6251,8 +6176,7 @@ public struct CreateIdNamespaceAssociationInput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingConfig = idMappingConfig
         self.inputReferenceConfig = inputReferenceConfig
@@ -6318,8 +6242,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -6344,8 +6267,7 @@ public struct CreateIdNamespaceAssociationOutput: Swift.Sendable {
 
     public init(
         idNamespaceAssociation: CleanRoomsClientTypes.IdNamespaceAssociation? = nil
-    )
-    {
+    ) {
         self.idNamespaceAssociation = idNamespaceAssociation
     }
 }
@@ -6361,8 +6283,7 @@ public struct DeleteIdNamespaceAssociationInput: Swift.Sendable {
     public init(
         idNamespaceAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -6384,8 +6305,7 @@ public struct GetIdNamespaceAssociationInput: Swift.Sendable {
     public init(
         idNamespaceAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
         self.membershipIdentifier = membershipIdentifier
     }
@@ -6398,8 +6318,7 @@ public struct GetIdNamespaceAssociationOutput: Swift.Sendable {
 
     public init(
         idNamespaceAssociation: CleanRoomsClientTypes.IdNamespaceAssociation? = nil
-    )
-    {
+    ) {
         self.idNamespaceAssociation = idNamespaceAssociation
     }
 }
@@ -6417,8 +6336,7 @@ public struct ListIdNamespaceAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -6478,8 +6396,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -6506,8 +6423,7 @@ public struct ListIdNamespaceAssociationsOutput: Swift.Sendable {
     public init(
         idNamespaceAssociationSummaries: [CleanRoomsClientTypes.IdNamespaceAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.idNamespaceAssociationSummaries = idNamespaceAssociationSummaries
         self.nextToken = nextToken
     }
@@ -6533,8 +6449,7 @@ public struct UpdateIdNamespaceAssociationInput: Swift.Sendable {
         idNamespaceAssociationIdentifier: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.idMappingConfig = idMappingConfig
         self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
@@ -6550,8 +6465,7 @@ public struct UpdateIdNamespaceAssociationOutput: Swift.Sendable {
 
     public init(
         idNamespaceAssociation: CleanRoomsClientTypes.IdNamespaceAssociation? = nil
-    )
-    {
+    ) {
         self.idNamespaceAssociation = idNamespaceAssociation
     }
 }
@@ -6563,8 +6477,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6576,8 +6489,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -6631,8 +6543,7 @@ extension CleanRoomsClientTypes {
             keyPrefix: Swift.String? = nil,
             resultFormat: CleanRoomsClientTypes.ResultFormat? = nil,
             singleFileOutput: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.resultFormat = resultFormat
@@ -6664,8 +6575,7 @@ extension CleanRoomsClientTypes {
         public init(
             outputConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputConfiguration = outputConfiguration
             self.roleArn = roleArn
         }
@@ -6686,8 +6596,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             isResponsible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isResponsible = isResponsible
         }
     }
@@ -6707,8 +6616,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             isResponsible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isResponsible = isResponsible
         }
     }
@@ -6726,8 +6634,7 @@ extension CleanRoomsClientTypes {
         public init(
             modelInference: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig? = nil,
             modelTraining: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig? = nil
-        )
-        {
+        ) {
             self.modelInference = modelInference
             self.modelTraining = modelTraining
         }
@@ -6748,8 +6655,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             isResponsible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isResponsible = isResponsible
         }
     }
@@ -6768,8 +6674,7 @@ extension CleanRoomsClientTypes {
         public init(
             machineLearning: CleanRoomsClientTypes.MembershipMLPaymentConfig? = nil,
             queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig? = nil
-        )
-        {
+        ) {
             self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
@@ -6825,8 +6730,7 @@ public struct CreateMembershipInput: Swift.Sendable {
         paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.defaultResultConfiguration = defaultResultConfiguration
         self.paymentConfiguration = paymentConfiguration
@@ -6931,8 +6835,7 @@ extension CleanRoomsClientTypes {
             queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
             status: CleanRoomsClientTypes.MembershipStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationCreatorAccountId = collaborationCreatorAccountId
@@ -6959,8 +6862,7 @@ public struct CreateMembershipOutput: Swift.Sendable {
 
     public init(
         membership: CleanRoomsClientTypes.Membership? = nil
-    )
-    {
+    ) {
         self.membership = membership
     }
 }
@@ -6972,8 +6874,7 @@ public struct DeleteMembershipInput: Swift.Sendable {
 
     public init(
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
     }
 }
@@ -6990,8 +6891,7 @@ public struct GetMembershipInput: Swift.Sendable {
 
     public init(
         membershipIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
     }
 }
@@ -7003,8 +6903,7 @@ public struct GetMembershipOutput: Swift.Sendable {
 
     public init(
         membership: CleanRoomsClientTypes.Membership? = nil
-    )
-    {
+    ) {
         self.membership = membership
     }
 }
@@ -7020,8 +6919,7 @@ public struct GetProtectedQueryInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         protectedQueryIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.protectedQueryIdentifier = protectedQueryIdentifier
     }
@@ -7068,8 +6966,7 @@ extension CleanRoomsClientTypes {
         public init(
             number: Swift.Int? = nil,
             type: CleanRoomsClientTypes.WorkerComputeType? = nil
-        )
-        {
+        ) {
             self.number = number
             self.type = type
         }
@@ -7110,8 +7007,7 @@ extension CleanRoomsClientTypes {
             maxColumnValue: Swift.Float? = nil,
             minColumnValue: Swift.Float? = nil,
             userContributionLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.aggregationExpression = aggregationExpression
             self.aggregationType = aggregationType
             self.maxColumnValue = maxColumnValue
@@ -7131,8 +7027,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             sensitivityParameters: [CleanRoomsClientTypes.DifferentialPrivacySensitivityParameters]? = nil
-        )
-        {
+        ) {
             self.sensitivityParameters = sensitivityParameters
         }
     }
@@ -7152,8 +7047,7 @@ extension CleanRoomsClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -7170,8 +7064,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
@@ -7187,8 +7080,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             location: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
         }
     }
@@ -7216,8 +7108,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             output: CleanRoomsClientTypes.ProtectedQueryOutput? = nil
-        )
-        {
+        ) {
             self.output = output
         }
     }
@@ -7233,8 +7124,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
@@ -7262,8 +7152,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             outputConfiguration: CleanRoomsClientTypes.ProtectedQueryOutputConfiguration? = nil
-        )
-        {
+        ) {
             self.outputConfiguration = outputConfiguration
         }
     }
@@ -7284,8 +7173,7 @@ extension CleanRoomsClientTypes {
             analysisTemplateArn: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             queryString: Swift.String? = nil
-        )
-        {
+        ) {
             self.analysisTemplateArn = analysisTemplateArn
             self.parameters = parameters
             self.queryString = queryString
@@ -7309,8 +7197,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             units: Swift.Double? = nil
-        )
-        {
+        ) {
             self.units = units
         }
     }
@@ -7328,8 +7215,7 @@ extension CleanRoomsClientTypes {
         public init(
             billedResourceUtilization: CleanRoomsClientTypes.BilledResourceUtilization? = nil,
             totalDurationInMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.billedResourceUtilization = billedResourceUtilization
             self.totalDurationInMillis = totalDurationInMillis
         }
@@ -7427,8 +7313,7 @@ extension CleanRoomsClientTypes {
             sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters? = nil,
             statistics: CleanRoomsClientTypes.ProtectedQueryStatistics? = nil,
             status: CleanRoomsClientTypes.ProtectedQueryStatus? = nil
-        )
-        {
+        ) {
             self.computeConfiguration = computeConfiguration
             self.createTime = createTime
             self.differentialPrivacy = differentialPrivacy
@@ -7457,8 +7342,7 @@ public struct GetProtectedQueryOutput: Swift.Sendable {
 
     public init(
         protectedQuery: CleanRoomsClientTypes.ProtectedQuery? = nil
-    )
-    {
+    ) {
         self.protectedQuery = protectedQuery
     }
 }
@@ -7475,8 +7359,7 @@ public struct ListMembershipsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: CleanRoomsClientTypes.MembershipStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -7540,8 +7423,7 @@ extension CleanRoomsClientTypes {
             paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
             status: CleanRoomsClientTypes.MembershipStatus? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationCreatorAccountId = collaborationCreatorAccountId
@@ -7569,8 +7451,7 @@ public struct ListMembershipsOutput: Swift.Sendable {
     public init(
         membershipSummaries: [CleanRoomsClientTypes.MembershipSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipSummaries = membershipSummaries
         self.nextToken = nextToken
     }
@@ -7593,8 +7474,7 @@ public struct ListPrivacyBudgetsInput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -7652,8 +7532,7 @@ extension CleanRoomsClientTypes {
             privacyBudgetTemplateId: Swift.String? = nil,
             type: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.budget = budget
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -7679,8 +7558,7 @@ public struct ListPrivacyBudgetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         privacyBudgetSummaries: [CleanRoomsClientTypes.PrivacyBudgetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.privacyBudgetSummaries = privacyBudgetSummaries
     }
@@ -7702,8 +7580,7 @@ public struct ListProtectedQueriesInput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: CleanRoomsClientTypes.ProtectedQueryStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -7720,8 +7597,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             receiverAccountIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.receiverAccountIds = receiverAccountIds
         }
     }
@@ -7750,8 +7626,7 @@ extension CleanRoomsClientTypes {
         public init(
             analysisType: CleanRoomsClientTypes.AnalysisType? = nil,
             configurationDetails: CleanRoomsClientTypes.ConfigurationDetails? = nil
-        )
-        {
+        ) {
             self.analysisType = analysisType
             self.configurationDetails = configurationDetails
         }
@@ -7788,8 +7663,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             receiverConfigurations: [CleanRoomsClientTypes.ReceiverConfiguration]? = [],
             status: CleanRoomsClientTypes.ProtectedQueryStatus? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.id = id
             self.membershipArn = membershipArn
@@ -7810,8 +7684,7 @@ public struct ListProtectedQueriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         protectedQueries: [CleanRoomsClientTypes.ProtectedQuerySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.protectedQueries = protectedQueries
     }
@@ -7831,8 +7704,7 @@ extension CleanRoomsClientTypes {
         public init(
             epsilon: Swift.Int? = nil,
             usersNoisePerQuery: Swift.Int? = nil
-        )
-        {
+        ) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
         }
@@ -7860,8 +7732,7 @@ public struct PreviewPrivacyImpactInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         parameters: CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.parameters = parameters
     }
@@ -7881,8 +7752,7 @@ extension CleanRoomsClientTypes {
         public init(
             maxCount: Swift.Int? = nil,
             type: CleanRoomsClientTypes.DifferentialPrivacyAggregationType? = nil
-        )
-        {
+        ) {
             self.maxCount = maxCount
             self.type = type
         }
@@ -7899,8 +7769,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             aggregations: [CleanRoomsClientTypes.DifferentialPrivacyPreviewAggregation]? = nil
-        )
-        {
+        ) {
             self.aggregations = aggregations
         }
     }
@@ -7923,8 +7792,7 @@ public struct PreviewPrivacyImpactOutput: Swift.Sendable {
 
     public init(
         privacyImpact: CleanRoomsClientTypes.PrivacyImpact? = nil
-    )
-    {
+    ) {
         self.privacyImpact = privacyImpact
     }
 }
@@ -7976,8 +7844,7 @@ public struct StartProtectedQueryInput: Swift.Sendable {
         resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration? = nil,
         sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters? = nil,
         type: CleanRoomsClientTypes.ProtectedQueryType? = nil
-    )
-    {
+    ) {
         self.computeConfiguration = computeConfiguration
         self.membershipIdentifier = membershipIdentifier
         self.resultConfiguration = resultConfiguration
@@ -7998,8 +7865,7 @@ public struct StartProtectedQueryOutput: Swift.Sendable {
 
     public init(
         protectedQuery: CleanRoomsClientTypes.ProtectedQuery? = nil
-    )
-    {
+    ) {
         self.protectedQuery = protectedQuery
     }
 }
@@ -8017,8 +7883,7 @@ public struct UpdateMembershipInput: Swift.Sendable {
         defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
         membershipIdentifier: Swift.String? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil
-    )
-    {
+    ) {
         self.defaultResultConfiguration = defaultResultConfiguration
         self.membershipIdentifier = membershipIdentifier
         self.queryLogStatus = queryLogStatus
@@ -8032,8 +7897,7 @@ public struct UpdateMembershipOutput: Swift.Sendable {
 
     public init(
         membership: CleanRoomsClientTypes.Membership? = nil
-    )
-    {
+    ) {
         self.membership = membership
     }
 }
@@ -8079,8 +7943,7 @@ public struct UpdateProtectedQueryInput: Swift.Sendable {
         membershipIdentifier: Swift.String? = nil,
         protectedQueryIdentifier: Swift.String? = nil,
         targetStatus: CleanRoomsClientTypes.TargetProtectedQueryStatus? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.protectedQueryIdentifier = protectedQueryIdentifier
         self.targetStatus = targetStatus
@@ -8094,8 +7957,7 @@ public struct UpdateProtectedQueryOutput: Swift.Sendable {
 
     public init(
         protectedQuery: CleanRoomsClientTypes.ProtectedQuery? = nil
-    )
-    {
+    ) {
         self.protectedQuery = protectedQuery
     }
 }
@@ -8114,8 +7976,7 @@ extension CleanRoomsClientTypes {
         public init(
             epsilon: Swift.Int? = nil,
             usersNoisePerQuery: Swift.Int? = nil
-        )
-        {
+        ) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
         }
@@ -8154,8 +8015,7 @@ public struct CreatePrivacyBudgetTemplateInput: Swift.Sendable {
         parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput? = nil,
         privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoRefresh = autoRefresh
         self.membershipIdentifier = membershipIdentifier
         self.parameters = parameters
@@ -8214,8 +8074,7 @@ extension CleanRoomsClientTypes {
             parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput? = nil,
             privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.autoRefresh = autoRefresh
             self.collaborationArn = collaborationArn
@@ -8238,8 +8097,7 @@ public struct CreatePrivacyBudgetTemplateOutput: Swift.Sendable {
 
     public init(
         privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate? = nil
-    )
-    {
+    ) {
         self.privacyBudgetTemplate = privacyBudgetTemplate
     }
 }
@@ -8255,8 +8113,7 @@ public struct DeletePrivacyBudgetTemplateInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         privacyBudgetTemplateIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
     }
@@ -8278,8 +8135,7 @@ public struct GetPrivacyBudgetTemplateInput: Swift.Sendable {
     public init(
         membershipIdentifier: Swift.String? = nil,
         privacyBudgetTemplateIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
     }
@@ -8292,8 +8148,7 @@ public struct GetPrivacyBudgetTemplateOutput: Swift.Sendable {
 
     public init(
         privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate? = nil
-    )
-    {
+    ) {
         self.privacyBudgetTemplate = privacyBudgetTemplate
     }
 }
@@ -8311,8 +8166,7 @@ public struct ListPrivacyBudgetTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -8361,8 +8215,7 @@ extension CleanRoomsClientTypes {
             membershipId: Swift.String? = nil,
             privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -8386,8 +8239,7 @@ public struct ListPrivacyBudgetTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         privacyBudgetTemplateSummaries: [CleanRoomsClientTypes.PrivacyBudgetTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.privacyBudgetTemplateSummaries = privacyBudgetTemplateSummaries
     }
@@ -8405,8 +8257,7 @@ extension CleanRoomsClientTypes {
         public init(
             epsilon: Swift.Int? = nil,
             usersNoisePerQuery: Swift.Int? = nil
-        )
-        {
+        ) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
         }
@@ -8441,8 +8292,7 @@ public struct UpdatePrivacyBudgetTemplateInput: Swift.Sendable {
         parameters: CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters? = nil,
         privacyBudgetTemplateIdentifier: Swift.String? = nil,
         privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
-    )
-    {
+    ) {
         self.membershipIdentifier = membershipIdentifier
         self.parameters = parameters
         self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
@@ -8457,8 +8307,7 @@ public struct UpdatePrivacyBudgetTemplateOutput: Swift.Sendable {
 
     public init(
         privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate? = nil
-    )
-    {
+    ) {
         self.privacyBudgetTemplate = privacyBudgetTemplate
     }
 }
@@ -8474,8 +8323,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8497,8 +8345,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -13065,8 +12912,12 @@ extension CleanRoomsClientTypes.TableReference {
     static func write(value: CleanRoomsClientTypes.TableReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .athena(athena):
+                try writer["athena"].write(athena, with: CleanRoomsClientTypes.AthenaTableReference.write(value:to:))
             case let .glue(glue):
                 try writer["glue"].write(glue, with: CleanRoomsClientTypes.GlueTableReference.write(value:to:))
+            case let .snowflake(snowflake):
+                try writer["snowflake"].write(snowflake, with: CleanRoomsClientTypes.SnowflakeTableReference.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -13078,9 +12929,100 @@ extension CleanRoomsClientTypes.TableReference {
         switch name {
             case "glue":
                 return .glue(try reader["glue"].read(with: CleanRoomsClientTypes.GlueTableReference.read(from:)))
+            case "snowflake":
+                return .snowflake(try reader["snowflake"].read(with: CleanRoomsClientTypes.SnowflakeTableReference.read(from:)))
+            case "athena":
+                return .athena(try reader["athena"].read(with: CleanRoomsClientTypes.AthenaTableReference.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.AthenaTableReference {
+
+    static func write(value: CleanRoomsClientTypes.AthenaTableReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["databaseName"].write(value.databaseName)
+        try writer["outputLocation"].write(value.outputLocation)
+        try writer["tableName"].write(value.tableName)
+        try writer["workGroup"].write(value.workGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AthenaTableReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AthenaTableReference()
+        value.workGroup = try reader["workGroup"].readIfPresent() ?? ""
+        value.outputLocation = try reader["outputLocation"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.SnowflakeTableReference {
+
+    static func write(value: CleanRoomsClientTypes.SnowflakeTableReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIdentifier"].write(value.accountIdentifier)
+        try writer["databaseName"].write(value.databaseName)
+        try writer["schemaName"].write(value.schemaName)
+        try writer["secretArn"].write(value.secretArn)
+        try writer["tableName"].write(value.tableName)
+        try writer["tableSchema"].write(value.tableSchema, with: CleanRoomsClientTypes.SnowflakeTableSchema.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SnowflakeTableReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.SnowflakeTableReference()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.accountIdentifier = try reader["accountIdentifier"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
+        value.tableSchema = try reader["tableSchema"].readIfPresent(with: CleanRoomsClientTypes.SnowflakeTableSchema.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.SnowflakeTableSchema {
+
+    static func write(value: CleanRoomsClientTypes.SnowflakeTableSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .v1(v1):
+                try writer["v1"].writeList(v1, memberWritingClosure: CleanRoomsClientTypes.SnowflakeTableSchemaV1.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SnowflakeTableSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "v1":
+                return .v1(try reader["v1"].readList(memberReadingClosure: CleanRoomsClientTypes.SnowflakeTableSchemaV1.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.SnowflakeTableSchemaV1 {
+
+    static func write(value: CleanRoomsClientTypes.SnowflakeTableSchemaV1?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["columnType"].write(value.columnType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.SnowflakeTableSchemaV1 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.SnowflakeTableSchemaV1()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.columnType = try reader["columnType"].readIfPresent() ?? ""
+        return value
     }
 }
 

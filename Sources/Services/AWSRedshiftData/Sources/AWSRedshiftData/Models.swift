@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The Amazon Redshift Data API operation failed because the maximum number of active sessions exceeded.
-public struct ActiveSessionsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActiveSessionsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -44,16 +44,15 @@ public struct ActiveSessionsExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of active statements exceeds the limit.
-public struct ActiveStatementsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActiveStatementsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -68,16 +67,15 @@ public struct ActiveStatementsExceededException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An SQL statement encountered an environmental error while running.
-public struct BatchExecuteStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchExecuteStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Statement identifier of the exception.
@@ -97,17 +95,16 @@ public struct BatchExecuteStatementException: ClientRuntime.ModeledError, AWSCli
     public init(
         message: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.statementId = statementId
     }
 }
 
 /// The Amazon Redshift Data API operation failed due to invalid input.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -124,16 +121,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Amazon Redshift Data API operation failed due to invalid input.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -149,8 +145,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -224,8 +219,7 @@ public struct BatchExecuteStatementInput: Swift.Sendable {
         statementName: Swift.String? = nil,
         withEvent: Swift.Bool? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.database = database
@@ -271,8 +265,7 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.createdAt = createdAt
         self.database = database
@@ -286,9 +279,9 @@ public struct BatchExecuteStatementOutput: Swift.Sendable {
 }
 
 /// Connection to a database failed.
-public struct DatabaseConnectionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DatabaseConnectionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -304,16 +297,15 @@ public struct DatabaseConnectionException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Amazon Redshift Data API operation failed due to a missing resource.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -334,8 +326,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -348,8 +339,7 @@ public struct CancelStatementInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -360,8 +350,7 @@ public struct CancelStatementOutput: Swift.Sendable {
 
     public init(
         status: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -411,8 +400,7 @@ extension RedshiftDataClientTypes {
             schemaName: Swift.String? = nil,
             tableName: Swift.String? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnDefault = columnDefault
             self.isCaseSensitive = isCaseSensitive
             self.isCurrency = isCurrency
@@ -437,8 +425,7 @@ public struct DescribeStatementInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -457,8 +444,7 @@ extension RedshiftDataClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -590,8 +576,7 @@ extension RedshiftDataClientTypes {
             resultSize: Swift.Int = 0,
             status: RedshiftDataClientTypes.StatementStatusString? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.duration = duration
             self.error = error
@@ -688,8 +673,7 @@ public struct DescribeStatementOutput: Swift.Sendable {
         subStatements: [RedshiftDataClientTypes.SubStatementData]? = nil,
         updatedAt: Foundation.Date? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.createdAt = createdAt
         self.database = database
@@ -715,9 +699,9 @@ public struct DescribeStatementOutput: Swift.Sendable {
 }
 
 /// The Amazon Redshift Data API operation failed due to timeout.
-public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -732,8 +716,7 @@ public struct QueryTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -772,8 +755,7 @@ public struct DescribeTableInput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         table: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.connectedDatabase = connectedDatabase
         self.database = database
@@ -799,8 +781,7 @@ public struct DescribeTableOutput: Swift.Sendable {
         columnList: [RedshiftDataClientTypes.ColumnMetadata]? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnList = columnList
         self.nextToken = nextToken
         self.tableName = tableName
@@ -808,9 +789,9 @@ public struct DescribeTableOutput: Swift.Sendable {
 }
 
 /// The SQL statement encountered an environmental error while running.
-public struct ExecuteStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExecuteStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -831,8 +812,7 @@ public struct ExecuteStatementException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.statementId = statementId
     }
@@ -881,8 +861,7 @@ public struct ExecuteStatementInput: Swift.Sendable {
         statementName: Swift.String? = nil,
         withEvent: Swift.Bool? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.database = database
@@ -929,8 +908,7 @@ public struct ExecuteStatementOutput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.createdAt = createdAt
         self.database = database
@@ -983,8 +961,7 @@ public struct GetStatementResultInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.nextToken = nextToken
     }
@@ -1006,8 +983,7 @@ public struct GetStatementResultOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         records: [[RedshiftDataClientTypes.Field]]? = nil,
         totalNumRows: Swift.Int = 0
-    )
-    {
+    ) {
         self.columnMetadata = columnMetadata
         self.nextToken = nextToken
         self.records = records
@@ -1025,8 +1001,7 @@ public struct GetStatementResultV2Input: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.nextToken = nextToken
     }
@@ -1051,8 +1026,7 @@ public struct GetStatementResultV2Output: Swift.Sendable {
         records: [RedshiftDataClientTypes.QueryRecords]? = nil,
         resultFormat: RedshiftDataClientTypes.ResultFormatString? = nil,
         totalNumRows: Swift.Int = 0
-    )
-    {
+    ) {
         self.columnMetadata = columnMetadata
         self.nextToken = nextToken
         self.records = records
@@ -1086,8 +1060,7 @@ public struct ListDatabasesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.database = database
         self.dbUser = dbUser
@@ -1107,8 +1080,7 @@ public struct ListDatabasesOutput: Swift.Sendable {
     public init(
         databases: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databases = databases
         self.nextToken = nextToken
     }
@@ -1145,8 +1117,7 @@ public struct ListSchemasInput: Swift.Sendable {
         schemaPattern: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.connectedDatabase = connectedDatabase
         self.database = database
@@ -1168,8 +1139,7 @@ public struct ListSchemasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -1207,8 +1177,7 @@ public struct ListStatementsInput: Swift.Sendable {
         roleLevel: Swift.Bool? = nil,
         statementName: Swift.String? = nil,
         status: RedshiftDataClientTypes.StatusString? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.roleLevel = roleLevel
@@ -1260,8 +1229,7 @@ extension RedshiftDataClientTypes {
             statementName: Swift.String? = nil,
             status: RedshiftDataClientTypes.StatusString? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.isBatchStatement = isBatchStatement
@@ -1288,8 +1256,7 @@ public struct ListStatementsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         statements: [RedshiftDataClientTypes.StatementData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.statements = statements
     }
@@ -1329,8 +1296,7 @@ public struct ListTablesInput: Swift.Sendable {
         secretArn: Swift.String? = nil,
         tablePattern: Swift.String? = nil,
         workgroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.connectedDatabase = connectedDatabase
         self.database = database
@@ -1359,8 +1325,7 @@ extension RedshiftDataClientTypes {
             name: Swift.String? = nil,
             schema: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.schema = schema
             self.type = type
@@ -1377,8 +1342,7 @@ public struct ListTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tables: [RedshiftDataClientTypes.TableMember]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tables = tables
     }

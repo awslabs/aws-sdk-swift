@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 /// User does not have permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The server encountered an internal error and is unable to complete the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource is already created or in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource does not exist in the customer account.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,16 +114,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The parameter is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,8 +137,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -254,8 +249,7 @@ extension ApplicationInsightsClientTypes {
             configuration: Swift.String? = nil,
             tier: ApplicationInsightsClientTypes.Tier? = nil,
             workloadName: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.tier = tier
             self.workloadName = workloadName
@@ -278,8 +272,7 @@ public struct AddWorkloadInput: Swift.Sendable {
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
         workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
         self.workloadConfiguration = workloadConfiguration
@@ -295,8 +288,7 @@ public struct AddWorkloadOutput: Swift.Sendable {
     public init(
         workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workloadConfiguration = workloadConfiguration
         self.workloadId = workloadId
     }
@@ -358,8 +350,7 @@ extension ApplicationInsightsClientTypes {
             osType: ApplicationInsightsClientTypes.OsType? = nil,
             resourceType: Swift.String? = nil,
             tier: ApplicationInsightsClientTypes.Tier? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.componentRemarks = componentRemarks
             self.detectedWorkload = detectedWorkload
@@ -443,8 +434,7 @@ extension ApplicationInsightsClientTypes {
             remarks: Swift.String? = nil,
             resourceGroupName: Swift.String? = nil,
             snsNotificationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.attachMissingPermission = attachMissingPermission
             self.autoConfigEnabled = autoConfigEnabled
@@ -461,9 +451,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 /// The request is not understood by the server.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -478,8 +468,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -616,8 +605,7 @@ extension ApplicationInsightsClientTypes {
             eventTime: Foundation.Date? = nil,
             monitoredResourceARN: Swift.String? = nil,
             resourceGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.eventDetail = eventDetail
             self.eventResourceName = eventResourceName
@@ -631,9 +619,9 @@ extension ApplicationInsightsClientTypes {
 }
 
 /// Tags are already registered for the specified application ARN.
-public struct TagsAlreadyExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagsAlreadyExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -648,8 +636,7 @@ public struct TagsAlreadyExistException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -700,8 +687,7 @@ extension ApplicationInsightsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -741,8 +727,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         resourceGroupName: Swift.String? = nil,
         snsNotificationArn: Swift.String? = nil,
         tags: [ApplicationInsightsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.attachMissingPermission = attachMissingPermission
         self.autoConfigEnabled = autoConfigEnabled
         self.autoCreate = autoCreate
@@ -762,8 +747,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
 
     public init(
         applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo? = nil
-    )
-    {
+    ) {
         self.applicationInfo = applicationInfo
     }
 }
@@ -783,8 +767,7 @@ public struct CreateComponentInput: Swift.Sendable {
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
         resourceList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
         self.resourceList = resourceList
@@ -819,8 +802,7 @@ public struct CreateLogPatternInput: Swift.Sendable {
         patternSetName: Swift.String? = nil,
         rank: Swift.Int? = 0,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pattern = pattern
         self.patternName = patternName
         self.patternSetName = patternSetName
@@ -847,8 +829,7 @@ extension ApplicationInsightsClientTypes {
             patternName: Swift.String? = nil,
             patternSetName: Swift.String? = nil,
             rank: Swift.Int = 0
-        )
-        {
+        ) {
             self.pattern = pattern
             self.patternName = patternName
             self.patternSetName = patternSetName
@@ -866,8 +847,7 @@ public struct CreateLogPatternOutput: Swift.Sendable {
     public init(
         logPattern: ApplicationInsightsClientTypes.LogPattern? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logPattern = logPattern
         self.resourceGroupName = resourceGroupName
     }
@@ -880,8 +860,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceGroupName = resourceGroupName
     }
 }
@@ -902,8 +881,7 @@ public struct DeleteComponentInput: Swift.Sendable {
     public init(
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
     }
@@ -929,8 +907,7 @@ public struct DeleteLogPatternInput: Swift.Sendable {
         patternName: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.patternName = patternName
         self.patternSetName = patternSetName
         self.resourceGroupName = resourceGroupName
@@ -952,8 +929,7 @@ public struct DescribeApplicationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.resourceGroupName = resourceGroupName
     }
@@ -965,8 +941,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
 
     public init(
         applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo? = nil
-    )
-    {
+    ) {
         self.applicationInfo = applicationInfo
     }
 }
@@ -985,8 +960,7 @@ public struct DescribeComponentInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
@@ -1002,8 +976,7 @@ public struct DescribeComponentOutput: Swift.Sendable {
     public init(
         applicationComponent: ApplicationInsightsClientTypes.ApplicationComponent? = nil,
         resourceList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationComponent = applicationComponent
         self.resourceList = resourceList
     }
@@ -1023,8 +996,7 @@ public struct DescribeComponentConfigurationInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
@@ -1043,8 +1015,7 @@ public struct DescribeComponentConfigurationOutput: Swift.Sendable {
         componentConfiguration: Swift.String? = nil,
         monitor: Swift.Bool? = nil,
         tier: ApplicationInsightsClientTypes.Tier? = nil
-    )
-    {
+    ) {
         self.componentConfiguration = componentConfiguration
         self.monitor = monitor
         self.tier = tier
@@ -1104,8 +1075,7 @@ public struct DescribeComponentConfigurationRecommendationInput: Swift.Sendable 
         resourceGroupName: Swift.String? = nil,
         tier: ApplicationInsightsClientTypes.Tier? = nil,
         workloadName: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.recommendationType = recommendationType
         self.resourceGroupName = resourceGroupName
@@ -1120,8 +1090,7 @@ public struct DescribeComponentConfigurationRecommendationOutput: Swift.Sendable
 
     public init(
         componentConfiguration: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentConfiguration = componentConfiguration
     }
 }
@@ -1144,8 +1113,7 @@ public struct DescribeLogPatternInput: Swift.Sendable {
         patternName: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.patternName = patternName
         self.patternSetName = patternSetName
@@ -1165,8 +1133,7 @@ public struct DescribeLogPatternOutput: Swift.Sendable {
         accountId: Swift.String? = nil,
         logPattern: ApplicationInsightsClientTypes.LogPattern? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.logPattern = logPattern
         self.resourceGroupName = resourceGroupName
@@ -1183,8 +1150,7 @@ public struct DescribeObservationInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         observationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.observationId = observationId
     }
@@ -1363,8 +1329,7 @@ extension ApplicationInsightsClientTypes {
             xRayRequestAverageLatency: Swift.Int? = nil,
             xRayRequestCount: Swift.Int? = nil,
             xRayThrottlePercent: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cloudWatchEventDetailType = cloudWatchEventDetailType
             self.cloudWatchEventId = cloudWatchEventId
             self.cloudWatchEventSource = cloudWatchEventSource
@@ -1420,8 +1385,7 @@ public struct DescribeObservationOutput: Swift.Sendable {
 
     public init(
         observation: ApplicationInsightsClientTypes.Observation? = nil
-    )
-    {
+    ) {
         self.observation = observation
     }
 }
@@ -1436,8 +1400,7 @@ public struct DescribeProblemInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         problemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.problemId = problemId
     }
@@ -1689,8 +1652,7 @@ extension ApplicationInsightsClientTypes {
             status: ApplicationInsightsClientTypes.Status? = nil,
             title: Swift.String? = nil,
             visibility: ApplicationInsightsClientTypes.Visibility? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.affectedResource = affectedResource
             self.endTime = endTime
@@ -1720,8 +1682,7 @@ public struct DescribeProblemOutput: Swift.Sendable {
     public init(
         problem: ApplicationInsightsClientTypes.Problem? = nil,
         snsNotificationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.problem = problem
         self.snsNotificationArn = snsNotificationArn
     }
@@ -1737,8 +1698,7 @@ public struct DescribeProblemObservationsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         problemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.problemId = problemId
     }
@@ -1753,8 +1713,7 @@ extension ApplicationInsightsClientTypes {
 
         public init(
             observationList: [ApplicationInsightsClientTypes.Observation]? = nil
-        )
-        {
+        ) {
             self.observationList = observationList
         }
     }
@@ -1766,8 +1725,7 @@ public struct DescribeProblemObservationsOutput: Swift.Sendable {
 
     public init(
         relatedObservations: ApplicationInsightsClientTypes.RelatedObservations? = nil
-    )
-    {
+    ) {
         self.relatedObservations = relatedObservations
     }
 }
@@ -1790,8 +1748,7 @@ public struct DescribeWorkloadInput: Swift.Sendable {
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
@@ -1811,8 +1768,7 @@ public struct DescribeWorkloadOutput: Swift.Sendable {
         workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
         workloadId: Swift.String? = nil,
         workloadRemarks: Swift.String? = nil
-    )
-    {
+    ) {
         self.workloadConfiguration = workloadConfiguration
         self.workloadId = workloadId
         self.workloadRemarks = workloadRemarks
@@ -1831,8 +1787,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1848,8 +1803,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applicationInfoList: [ApplicationInsightsClientTypes.ApplicationInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationInfoList = applicationInfoList
         self.nextToken = nextToken
     }
@@ -1871,8 +1825,7 @@ public struct ListComponentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1889,8 +1842,7 @@ public struct ListComponentsOutput: Swift.Sendable {
     public init(
         applicationComponentList: [ApplicationInsightsClientTypes.ApplicationComponent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationComponentList = applicationComponentList
         self.nextToken = nextToken
     }
@@ -1920,8 +1872,7 @@ public struct ListConfigurationHistoryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.endTime = endTime
         self.eventStatus = eventStatus
@@ -1941,8 +1892,7 @@ public struct ListConfigurationHistoryOutput: Swift.Sendable {
     public init(
         eventList: [ApplicationInsightsClientTypes.ConfigurationEvent]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventList = eventList
         self.nextToken = nextToken
     }
@@ -1967,8 +1917,7 @@ public struct ListLogPatternsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         patternSetName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1992,8 +1941,7 @@ public struct ListLogPatternsOutput: Swift.Sendable {
         logPatterns: [ApplicationInsightsClientTypes.LogPattern]? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.logPatterns = logPatterns
         self.nextToken = nextToken
@@ -2017,8 +1965,7 @@ public struct ListLogPatternSetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2041,8 +1988,7 @@ public struct ListLogPatternSetsOutput: Swift.Sendable {
         logPatternSets: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.logPatternSets = logPatternSets
         self.nextToken = nextToken
@@ -2077,8 +2023,7 @@ public struct ListProblemsInput: Swift.Sendable {
         resourceGroupName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         visibility: ApplicationInsightsClientTypes.Visibility? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.componentName = componentName
         self.endTime = endTime
@@ -2105,8 +2050,7 @@ public struct ListProblemsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         problemList: [ApplicationInsightsClientTypes.Problem]? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.nextToken = nextToken
         self.problemList = problemList
@@ -2121,8 +2065,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2133,8 +2076,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ApplicationInsightsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2159,8 +2101,7 @@ public struct ListWorkloadsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.componentName = componentName
         self.maxResults = maxResults
@@ -2193,8 +2134,7 @@ extension ApplicationInsightsClientTypes {
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil,
             workloadRemarks: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentName = componentName
             self.missingWorkloadConfig = missingWorkloadConfig
             self.tier = tier
@@ -2214,8 +2154,7 @@ public struct ListWorkloadsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workloadList: [ApplicationInsightsClientTypes.Workload]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workloadList = workloadList
     }
@@ -2236,8 +2175,7 @@ public struct RemoveWorkloadInput: Swift.Sendable {
         componentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
         self.workloadId = workloadId
@@ -2250,9 +2188,9 @@ public struct RemoveWorkloadOutput: Swift.Sendable {
 }
 
 /// The number of the provided tags is beyond the limit, or the number of total tags you are trying to attach to the specified resource exceeds the limit.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource with too many tags.
         public internal(set) var resourceName: Swift.String? = nil
@@ -2270,8 +2208,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -2288,8 +2225,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ApplicationInsightsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2311,8 +2247,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2351,8 +2286,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         removeSNSTopic: Swift.Bool? = nil,
         resourceGroupName: Swift.String? = nil,
         snsNotificationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachMissingPermission = attachMissingPermission
         self.autoConfigEnabled = autoConfigEnabled
         self.cweMonitorEnabled = cweMonitorEnabled
@@ -2370,8 +2304,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 
     public init(
         applicationInfo: ApplicationInsightsClientTypes.ApplicationInfo? = nil
-    )
-    {
+    ) {
         self.applicationInfo = applicationInfo
     }
 }
@@ -2393,8 +2326,7 @@ public struct UpdateComponentInput: Swift.Sendable {
         newComponentName: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
         resourceList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.newComponentName = newComponentName
         self.resourceGroupName = resourceGroupName
@@ -2430,8 +2362,7 @@ public struct UpdateComponentConfigurationInput: Swift.Sendable {
         monitor: Swift.Bool? = nil,
         resourceGroupName: Swift.String? = nil,
         tier: ApplicationInsightsClientTypes.Tier? = nil
-    )
-    {
+    ) {
         self.autoConfigEnabled = autoConfigEnabled
         self.componentConfiguration = componentConfiguration
         self.componentName = componentName
@@ -2467,8 +2398,7 @@ public struct UpdateLogPatternInput: Swift.Sendable {
         patternSetName: Swift.String? = nil,
         rank: Swift.Int? = 0,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pattern = pattern
         self.patternName = patternName
         self.patternSetName = patternSetName
@@ -2486,8 +2416,7 @@ public struct UpdateLogPatternOutput: Swift.Sendable {
     public init(
         logPattern: ApplicationInsightsClientTypes.LogPattern? = nil,
         resourceGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.logPattern = logPattern
         self.resourceGroupName = resourceGroupName
     }
@@ -2532,8 +2461,7 @@ public struct UpdateProblemInput: Swift.Sendable {
         problemId: Swift.String? = nil,
         updateStatus: ApplicationInsightsClientTypes.UpdateStatus? = nil,
         visibility: ApplicationInsightsClientTypes.Visibility? = nil
-    )
-    {
+    ) {
         self.problemId = problemId
         self.updateStatus = updateStatus
         self.visibility = visibility
@@ -2563,8 +2491,7 @@ public struct UpdateWorkloadInput: Swift.Sendable {
         resourceGroupName: Swift.String? = nil,
         workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.resourceGroupName = resourceGroupName
         self.workloadConfiguration = workloadConfiguration
@@ -2581,8 +2508,7 @@ public struct UpdateWorkloadOutput: Swift.Sendable {
     public init(
         workloadConfiguration: ApplicationInsightsClientTypes.WorkloadConfiguration? = nil,
         workloadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workloadConfiguration = workloadConfiguration
         self.workloadId = workloadId
     }

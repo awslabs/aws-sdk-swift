@@ -33,9 +33,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -51,8 +51,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -118,8 +117,7 @@ extension Inspector2ClientTypes {
             ecr: Inspector2ClientTypes.Status? = nil,
             lambda: Inspector2ClientTypes.Status? = nil,
             lambdaCode: Inspector2ClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -146,8 +144,7 @@ extension Inspector2ClientTypes {
             accountId: Swift.String? = nil,
             resourceStatus: Inspector2ClientTypes.ResourceStatus? = nil,
             status: Inspector2ClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.resourceStatus = resourceStatus
             self.status = status
@@ -298,8 +295,7 @@ extension Inspector2ClientTypes {
             resourceType: Inspector2ClientTypes.AggregationResourceType? = nil,
             sortBy: Inspector2ClientTypes.AccountSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.findingType = findingType
             self.resourceType = resourceType
             self.sortBy = sortBy
@@ -326,8 +322,7 @@ extension Inspector2ClientTypes {
             critical: Swift.Int? = nil,
             high: Swift.Int? = nil,
             medium: Swift.Int? = nil
-        )
-        {
+        ) {
             self.all = all
             self.critical = critical
             self.high = high
@@ -354,8 +349,7 @@ extension Inspector2ClientTypes {
             exploitAvailableCount: Swift.Int? = nil,
             fixAvailableCount: Swift.Int? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.exploitAvailableCount = exploitAvailableCount
             self.fixAvailableCount = fixAvailableCount
@@ -410,8 +404,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CisStringComparison? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -507,8 +500,7 @@ extension Inspector2ClientTypes {
             errorCode: Inspector2ClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             status: Inspector2ClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.status = status
@@ -536,8 +528,7 @@ extension Inspector2ClientTypes {
             ecr: Inspector2ClientTypes.State? = nil,
             lambda: Inspector2ClientTypes.State? = nil,
             lambdaCode: Inspector2ClientTypes.State? = nil
-        )
-        {
+        ) {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -564,8 +555,7 @@ extension Inspector2ClientTypes {
             accountId: Swift.String? = nil,
             resourceState: Inspector2ClientTypes.ResourceState? = nil,
             state: Inspector2ClientTypes.State? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.resourceState = resourceState
             self.state = state
@@ -619,8 +609,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.StringComparison? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -677,8 +666,7 @@ extension Inspector2ClientTypes {
             amis: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.AmiSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.amis = amis
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -745,8 +733,7 @@ extension Inspector2ClientTypes {
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.AwsEcrContainerSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.architectures = architectures
             self.imageShas = imageShas
             self.imageTags = imageTags
@@ -801,8 +788,7 @@ extension Inspector2ClientTypes {
             comparison: Inspector2ClientTypes.MapComparison? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.key = key
             self.value = value
@@ -869,8 +855,7 @@ extension Inspector2ClientTypes {
             operatingSystems: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.Ec2InstanceSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.amis = amis
             self.instanceIds = instanceIds
             self.instanceTags = instanceTags
@@ -931,8 +916,7 @@ extension Inspector2ClientTypes {
             resourceType: Inspector2ClientTypes.AggregationResourceType? = nil,
             sortBy: Inspector2ClientTypes.FindingTypeSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.findingType = findingType
             self.resourceType = resourceType
             self.sortBy = sortBy
@@ -994,8 +978,7 @@ extension Inspector2ClientTypes {
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.ImageLayerSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.layerHashes = layerHashes
             self.repositories = repositories
             self.resourceIds = resourceIds
@@ -1061,8 +1044,7 @@ extension Inspector2ClientTypes {
             runtimes: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.LambdaFunctionSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.functionNames = functionNames
             self.functionTags = functionTags
             self.resourceIds = resourceIds
@@ -1126,8 +1108,7 @@ extension Inspector2ClientTypes {
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.LambdaLayerSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.functionNames = functionNames
             self.layerArns = layerArns
             self.resourceIds = resourceIds
@@ -1184,8 +1165,7 @@ extension Inspector2ClientTypes {
             packageNames: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.PackageSortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.packageNames = packageNames
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -1243,8 +1223,7 @@ extension Inspector2ClientTypes {
             repositories: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.RepositorySortBy? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.repositories = repositories
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -1308,8 +1287,7 @@ extension Inspector2ClientTypes {
             sortOrder: Inspector2ClientTypes.SortOrder? = nil,
             titles: [Inspector2ClientTypes.StringFilter]? = nil,
             vulnerabilityIds: [Inspector2ClientTypes.StringFilter]? = nil
-        )
-        {
+        ) {
             self.findingType = findingType
             self.resourceType = resourceType
             self.sortBy = sortBy
@@ -1369,8 +1347,7 @@ extension Inspector2ClientTypes {
             affectedInstances: Swift.Int? = nil,
             ami: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.affectedInstances = affectedInstances
             self.ami = ami
@@ -1407,8 +1384,7 @@ extension Inspector2ClientTypes {
             repository: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.architecture = architecture
             self.imageSha = imageSha
@@ -1448,8 +1424,7 @@ extension Inspector2ClientTypes {
             networkFindings: Swift.Int? = nil,
             operatingSystem: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.ami = ami
             self.instanceId = instanceId
@@ -1479,8 +1454,7 @@ extension Inspector2ClientTypes {
             exploitAvailableCount: Swift.Int? = nil,
             fixAvailableCount: Swift.Int? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.exploitAvailableCount = exploitAvailableCount
             self.fixAvailableCount = fixAvailableCount
@@ -1514,8 +1488,7 @@ extension Inspector2ClientTypes {
             repository: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.layerHash = layerHash
             self.repository = repository
@@ -1553,8 +1526,7 @@ extension Inspector2ClientTypes {
             resourceId: Swift.String? = nil,
             runtime: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.functionName = functionName
             self.lambdaTags = lambdaTags
@@ -1591,8 +1563,7 @@ extension Inspector2ClientTypes {
             layerArn: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.functionName = functionName
             self.layerArn = layerArn
@@ -1618,8 +1589,7 @@ extension Inspector2ClientTypes {
             accountId: Swift.String? = nil,
             packageName: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.packageName = packageName
             self.severityCounts = severityCounts
@@ -1646,8 +1616,7 @@ extension Inspector2ClientTypes {
             affectedImages: Swift.Int? = nil,
             repository: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.affectedImages = affectedImages
             self.repository = repository
@@ -1675,8 +1644,7 @@ extension Inspector2ClientTypes {
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil,
             title: Swift.String? = nil,
             vulnerabilityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.severityCounts = severityCounts
             self.title = title
@@ -1801,9 +1769,9 @@ extension Inspector2ClientTypes {
 }
 
 /// The request has failed due to an internal failure of the Amazon Inspector service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the request.
@@ -1822,17 +1790,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that exceeds a service quota.
@@ -1852,17 +1819,16 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
 }
 
 /// The limit on the number of requests per second was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the request.
@@ -1881,8 +1847,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -1902,8 +1867,7 @@ extension Inspector2ClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -1943,9 +1907,9 @@ extension Inspector2ClientTypes {
 }
 
 /// The request has failed validation due to missing required fields or having invalid inputs.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that failed validation.
         public internal(set) var fields: [Inspector2ClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -1968,8 +1932,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [Inspector2ClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: Inspector2ClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -1983,8 +1946,7 @@ public struct AssociateMemberInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -1996,8 +1958,7 @@ public struct AssociateMemberOutput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -2020,8 +1981,7 @@ extension Inspector2ClientTypes {
             lastSeen: Foundation.Date? = nil,
             targets: [Swift.String]? = nil,
             ttps: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.firstSeen = firstSeen
             self.lastSeen = lastSeen
             self.targets = targets
@@ -2050,8 +2010,7 @@ extension Inspector2ClientTypes {
             ecr: Swift.Bool? = nil,
             lambda: Swift.Bool? = nil,
             lambdaCode: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -2096,8 +2055,7 @@ extension Inspector2ClientTypes {
             subnetId: Swift.String? = nil,
             type: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
             self.ipV4Addresses = ipV4Addresses
@@ -2145,8 +2103,7 @@ extension Inspector2ClientTypes {
             pushedAt: Foundation.Date? = nil,
             registry: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.author = author
             self.imageHash = imageHash
@@ -2289,8 +2246,7 @@ extension Inspector2ClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -2339,8 +2295,7 @@ extension Inspector2ClientTypes {
             runtime: Inspector2ClientTypes.Runtime? = nil,
             version: Swift.String? = nil,
             vpcConfig: Inspector2ClientTypes.LambdaVpcConfig? = nil
-        )
-        {
+        ) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
             self.executionRoleArn = executionRoleArn
@@ -2356,9 +2311,9 @@ extension Inspector2ClientTypes {
 }
 
 /// One or more tags submitted as part of the request is not valid.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2374,16 +2329,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation tried to access an invalid resource. Make sure the resource is specified correctly.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2399,8 +2353,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2411,8 +2364,7 @@ public struct BatchGetAccountStatusInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -2441,8 +2393,7 @@ extension Inspector2ClientTypes {
             errorMessage: Swift.String? = nil,
             resourceStatus: Inspector2ClientTypes.ResourceStatus? = nil,
             status: Inspector2ClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2462,8 +2413,7 @@ public struct BatchGetAccountStatusOutput: Swift.Sendable {
     public init(
         accounts: [Inspector2ClientTypes.AccountState]? = nil,
         failedAccounts: [Inspector2ClientTypes.FailedAccount]? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.failedAccounts = failedAccounts
     }
@@ -2476,8 +2426,7 @@ public struct BatchGetCodeSnippetInput: Swift.Sendable {
 
     public init(
         findingArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.findingArns = findingArns
     }
 }
@@ -2496,8 +2445,7 @@ extension Inspector2ClientTypes {
         public init(
             content: Swift.String? = nil,
             lineNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.content = content
             self.lineNumber = lineNumber
         }
@@ -2516,8 +2464,7 @@ extension Inspector2ClientTypes {
         public init(
             code: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.description = description
         }
@@ -2545,8 +2492,7 @@ extension Inspector2ClientTypes {
             findingArn: Swift.String? = nil,
             startLine: Swift.Int? = nil,
             suggestedFixes: [Inspector2ClientTypes.SuggestedFix]? = nil
-        )
-        {
+        ) {
             self.codeSnippet = codeSnippet
             self.endLine = endLine
             self.findingArn = findingArn
@@ -2609,8 +2555,7 @@ extension Inspector2ClientTypes {
             errorCode: Inspector2ClientTypes.CodeSnippetErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             findingArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.findingArn = findingArn
@@ -2627,8 +2572,7 @@ public struct BatchGetCodeSnippetOutput: Swift.Sendable {
     public init(
         codeSnippetResults: [Inspector2ClientTypes.CodeSnippetResult]? = nil,
         errors: [Inspector2ClientTypes.CodeSnippetError]? = nil
-    )
-    {
+    ) {
         self.codeSnippetResults = codeSnippetResults
         self.errors = errors
     }
@@ -2641,8 +2585,7 @@ public struct BatchGetFindingDetailsInput: Swift.Sendable {
 
     public init(
         findingArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.findingArns = findingArns
     }
 }
@@ -2700,8 +2643,7 @@ extension Inspector2ClientTypes {
             errorCode: Inspector2ClientTypes.FindingDetailsErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             findingArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.findingArn = findingArn
@@ -2724,8 +2666,7 @@ extension Inspector2ClientTypes {
             action: Swift.String? = nil,
             dateAdded: Foundation.Date? = nil,
             dateDue: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.dateAdded = dateAdded
             self.dateDue = dateDue
@@ -2748,8 +2689,7 @@ extension Inspector2ClientTypes {
             evidenceDetail: Swift.String? = nil,
             evidenceRule: Swift.String? = nil,
             severity: Swift.String? = nil
-        )
-        {
+        ) {
             self.evidenceDetail = evidenceDetail
             self.evidenceRule = evidenceRule
             self.severity = severity
@@ -2769,8 +2709,7 @@ extension Inspector2ClientTypes {
         public init(
             firstSeen: Foundation.Date? = nil,
             lastSeen: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.firstSeen = firstSeen
             self.lastSeen = lastSeen
         }
@@ -2813,8 +2752,7 @@ extension Inspector2ClientTypes {
             riskScore: Swift.Int? = nil,
             tools: [Swift.String]? = nil,
             ttps: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cisaData = cisaData
             self.cwes = cwes
             self.epssScore = epssScore
@@ -2838,8 +2776,7 @@ public struct BatchGetFindingDetailsOutput: Swift.Sendable {
     public init(
         errors: [Inspector2ClientTypes.FindingDetailsError]? = nil,
         findingDetails: [Inspector2ClientTypes.FindingDetail]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.findingDetails = findingDetails
     }
@@ -2852,8 +2789,7 @@ public struct BatchGetFreeTrialInfoInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -2944,8 +2880,7 @@ extension Inspector2ClientTypes {
             start: Foundation.Date? = nil,
             status: Inspector2ClientTypes.FreeTrialStatus? = nil,
             type: Inspector2ClientTypes.FreeTrialType? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
             self.status = status
@@ -2968,8 +2903,7 @@ extension Inspector2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             freeTrialInfo: [Inspector2ClientTypes.FreeTrialInfo]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.freeTrialInfo = freeTrialInfo
         }
@@ -3023,8 +2957,7 @@ extension Inspector2ClientTypes {
             accountId: Swift.String? = nil,
             code: Inspector2ClientTypes.FreeTrialInfoErrorCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.code = code
             self.message = message
@@ -3043,8 +2976,7 @@ public struct BatchGetFreeTrialInfoOutput: Swift.Sendable {
     public init(
         accounts: [Inspector2ClientTypes.FreeTrialAccountInfo]? = nil,
         failedAccounts: [Inspector2ClientTypes.FreeTrialInfoError]? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.failedAccounts = failedAccounts
     }
@@ -3056,8 +2988,7 @@ public struct BatchGetMemberEc2DeepInspectionStatusInput: Swift.Sendable {
 
     public init(
         accountIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -3113,8 +3044,7 @@ extension Inspector2ClientTypes {
             accountId: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.errorMessage = errorMessage
             self.status = status
@@ -3138,8 +3068,7 @@ extension Inspector2ClientTypes {
             accountId: Swift.String? = nil,
             ec2ScanStatus: Inspector2ClientTypes.Status? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.ec2ScanStatus = ec2ScanStatus
             self.errorMessage = errorMessage
@@ -3156,8 +3085,7 @@ public struct BatchGetMemberEc2DeepInspectionStatusOutput: Swift.Sendable {
     public init(
         accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil,
         failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.failedAccountIds = failedAccountIds
     }
@@ -3177,8 +3105,7 @@ extension Inspector2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             activateDeepInspection: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.activateDeepInspection = activateDeepInspection
         }
@@ -3192,8 +3119,7 @@ public struct BatchUpdateMemberEc2DeepInspectionStatusInput: Swift.Sendable {
 
     public init(
         accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
     }
 }
@@ -3207,8 +3133,7 @@ public struct BatchUpdateMemberEc2DeepInspectionStatusOutput: Swift.Sendable {
     public init(
         accountIds: [Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatusState]? = nil,
         failedAccountIds: [Inspector2ClientTypes.FailedMemberAccountEc2DeepInspectionStatusState]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.failedAccountIds = failedAccountIds
     }
@@ -3221,8 +3146,7 @@ public struct CancelFindingsReportInput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -3234,8 +3158,7 @@ public struct CancelFindingsReportOutput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -3247,8 +3170,7 @@ public struct CancelSbomExportInput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -3259,8 +3181,7 @@ public struct CancelSbomExportOutput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -3309,8 +3230,7 @@ extension Inspector2ClientTypes {
             failed: Swift.Int? = nil,
             passed: Swift.Int? = nil,
             skipped: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failed = failed
             self.passed = passed
             self.skipped = skipped
@@ -3349,8 +3269,7 @@ extension Inspector2ClientTypes {
             scanArn: Swift.String? = nil,
             statusCounts: Inspector2ClientTypes.StatusCounts? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.checkDescription = checkDescription
             self.checkId = checkId
@@ -3375,8 +3294,7 @@ extension Inspector2ClientTypes {
         public init(
             earliestScanStartTime: Foundation.Date? = nil,
             latestScanStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.earliestScanStartTime = earliestScanStartTime
             self.latestScanStartTime = latestScanStartTime
         }
@@ -3455,8 +3373,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CisFindingStatusComparison? = nil,
             value: Inspector2ClientTypes.CisFindingStatus? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -3475,8 +3392,7 @@ extension Inspector2ClientTypes {
         public init(
             lowerInclusive: Swift.Int? = nil,
             upperInclusive: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lowerInclusive = lowerInclusive
             self.upperInclusive = upperInclusive
         }
@@ -3616,8 +3532,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CisResultStatusComparison? = nil,
             value: Inspector2ClientTypes.CisResultStatus? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -3715,8 +3630,7 @@ extension Inspector2ClientTypes {
         public init(
             accountIds: [Swift.String]? = nil,
             targetResourceTags: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.targetResourceTags = targetResourceTags
         }
@@ -3761,8 +3675,7 @@ extension Inspector2ClientTypes {
             status: Inspector2ClientTypes.CisScanStatus? = nil,
             targets: Inspector2ClientTypes.CisTargets? = nil,
             totalChecks: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failedChecks = failedChecks
             self.scanArn = scanArn
             self.scanConfigurationArn = scanConfigurationArn
@@ -3791,8 +3704,7 @@ extension Inspector2ClientTypes {
         public init(
             timeOfDay: Swift.String? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.timeOfDay = timeOfDay
             self.timezone = timezone
         }
@@ -3809,8 +3721,7 @@ extension Inspector2ClientTypes {
 
         public init(
             startTime: Inspector2ClientTypes.Time? = nil
-        )
-        {
+        ) {
             self.startTime = startTime
         }
     }
@@ -3874,8 +3785,7 @@ extension Inspector2ClientTypes {
         public init(
             day: Inspector2ClientTypes.Day? = nil,
             startTime: Inspector2ClientTypes.Time? = nil
-        )
-        {
+        ) {
             self.day = day
             self.startTime = startTime
         }
@@ -3905,8 +3815,7 @@ extension Inspector2ClientTypes {
         public init(
             days: [Inspector2ClientTypes.Day]? = nil,
             startTime: Inspector2ClientTypes.Time? = nil
-        )
-        {
+        ) {
             self.days = days
             self.startTime = startTime
         }
@@ -3957,8 +3866,7 @@ extension Inspector2ClientTypes {
             securityLevel: Inspector2ClientTypes.CisSecurityLevel? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targets: Inspector2ClientTypes.CisTargets? = nil
-        )
-        {
+        ) {
             self.ownerId = ownerId
             self.scanConfigurationArn = scanConfigurationArn
             self.scanName = scanName
@@ -4042,8 +3950,7 @@ extension Inspector2ClientTypes {
             statusReason: Swift.String? = nil,
             targetResourceId: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.checkDescription = checkDescription
             self.checkId = checkId
@@ -4100,8 +4007,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CisSecurityLevelComparison? = nil,
             value: Inspector2ClientTypes.CisSecurityLevel? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -4129,8 +4035,7 @@ extension Inspector2ClientTypes {
             findingStatusFilters: [Inspector2ClientTypes.CisFindingStatusFilter]? = nil,
             securityLevelFilters: [Inspector2ClientTypes.CisSecurityLevelFilter]? = nil,
             titleFilters: [Inspector2ClientTypes.CisStringFilter]? = nil
-        )
-        {
+        ) {
             self.checkIdFilters = checkIdFilters
             self.findingArnFilters = findingArnFilters
             self.findingStatusFilters = findingStatusFilters
@@ -4193,8 +4098,7 @@ extension Inspector2ClientTypes {
             platformFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
             securityLevelFilters: [Inspector2ClientTypes.CisSecurityLevelFilter]? = nil,
             titleFilters: [Inspector2ClientTypes.CisStringFilter]? = nil
-        )
-        {
+        ) {
             self.accountIdFilters = accountIdFilters
             self.checkIdFilters = checkIdFilters
             self.failedResourcesFilters = failedResourcesFilters
@@ -4287,8 +4191,7 @@ extension Inspector2ClientTypes {
             comparison: Inspector2ClientTypes.TagComparison? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.key = key
             self.value = value
@@ -4368,8 +4271,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CisTargetStatusComparison? = nil,
             value: Inspector2ClientTypes.CisTargetStatus? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -4422,8 +4324,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CisTargetStatusComparison? = nil,
             value: Inspector2ClientTypes.CisTargetStatusReason? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -4463,8 +4364,7 @@ extension Inspector2ClientTypes {
             targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]? = nil,
             targetStatusFilters: [Inspector2ClientTypes.CisTargetStatusFilter]? = nil,
             targetStatusReasonFilters: [Inspector2ClientTypes.CisTargetStatusReasonFilter]? = nil
-        )
-        {
+        ) {
             self.accountIdFilters = accountIdFilters
             self.checkIdFilters = checkIdFilters
             self.failedChecksFilters = failedChecksFilters
@@ -4559,8 +4459,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CisScanStatusComparison? = nil,
             value: Inspector2ClientTypes.CisScanStatus? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -4585,8 +4484,7 @@ extension Inspector2ClientTypes {
             cisRuleDetails: Foundation.Data? = nil,
             ruleId: Swift.String? = nil,
             status: Inspector2ClientTypes.CisRuleStatus? = nil
-        )
-        {
+        ) {
             self.cisRuleDetails = cisRuleDetails
             self.ruleId = ruleId
             self.status = status
@@ -4654,8 +4552,7 @@ extension Inspector2ClientTypes {
             targetResourceTags: [Swift.String: [Swift.String]]? = nil,
             targetStatus: Inspector2ClientTypes.CisTargetStatus? = nil,
             targetStatusReason: Inspector2ClientTypes.CisTargetStatusReason? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.platform = platform
             self.scanArn = scanArn
@@ -4690,8 +4587,7 @@ extension Inspector2ClientTypes {
             fileName: Swift.String? = nil,
             filePath: Swift.String? = nil,
             startLine: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endLine = endLine
             self.fileName = fileName
             self.filePath = filePath
@@ -4734,8 +4630,7 @@ extension Inspector2ClientTypes {
             referenceUrls: [Swift.String]? = nil,
             ruleId: Swift.String? = nil,
             sourceLambdaLayerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cwes = cwes
             self.detectorId = detectorId
             self.detectorName = detectorName
@@ -4763,8 +4658,7 @@ extension Inspector2ClientTypes {
             product: Swift.String? = nil,
             vendor: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.product = product
             self.vendor = vendor
             self.version = version
@@ -4773,9 +4667,9 @@ extension Inspector2ClientTypes {
 }
 
 /// A conflict occurred.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the conflicting resource.
@@ -4799,8 +4693,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -4857,8 +4750,7 @@ extension Inspector2ClientTypes {
         public init(
             count: Swift.Int = 0,
             groupKey: Inspector2ClientTypes.GroupKey? = nil
-        )
-        {
+        ) {
             self.count = count
             self.groupKey = groupKey
         }
@@ -4877,8 +4769,7 @@ extension Inspector2ClientTypes {
         public init(
             endInclusive: Foundation.Date? = nil,
             startInclusive: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endInclusive = endInclusive
             self.startInclusive = startInclusive
         }
@@ -4928,8 +4819,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.CoverageStringComparison? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -4979,8 +4869,7 @@ extension Inspector2ClientTypes {
             comparison: Inspector2ClientTypes.CoverageMapComparison? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.key = key
             self.value = value
@@ -5039,8 +4928,7 @@ extension Inspector2ClientTypes {
             scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanStatusReason: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanType: [Inspector2ClientTypes.CoverageStringFilter]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
@@ -5145,8 +5033,7 @@ extension Inspector2ClientTypes {
             amiId: Swift.String? = nil,
             platform: Inspector2ClientTypes.Ec2Platform? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.amiId = amiId
             self.platform = platform
             self.tags = tags
@@ -5166,8 +5053,7 @@ extension Inspector2ClientTypes {
         public init(
             imagePulledAt: Foundation.Date? = nil,
             tags: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.imagePulledAt = imagePulledAt
             self.tags = tags
         }
@@ -5218,8 +5104,7 @@ extension Inspector2ClientTypes {
         public init(
             name: Swift.String? = nil,
             scanFrequency: Inspector2ClientTypes.EcrScanFrequency? = nil
-        )
-        {
+        ) {
             self.name = name
             self.scanFrequency = scanFrequency
         }
@@ -5244,8 +5129,7 @@ extension Inspector2ClientTypes {
             functionTags: [Swift.String: Swift.String]? = nil,
             layers: [Swift.String]? = nil,
             runtime: Inspector2ClientTypes.Runtime? = nil
-        )
-        {
+        ) {
             self.functionName = functionName
             self.functionTags = functionTags
             self.layers = layers
@@ -5272,8 +5156,7 @@ extension Inspector2ClientTypes {
             ecrImage: Inspector2ClientTypes.EcrContainerImageMetadata? = nil,
             ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata? = nil,
             lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata? = nil
-        )
-        {
+        ) {
             self.ec2 = ec2
             self.ecrImage = ecrImage
             self.ecrRepository = ecrRepository
@@ -5455,8 +5338,7 @@ extension Inspector2ClientTypes {
         public init(
             reason: Inspector2ClientTypes.ScanStatusReason? = nil,
             statusCode: Inspector2ClientTypes.ScanStatusCode? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.statusCode = statusCode
         }
@@ -5529,8 +5411,7 @@ extension Inspector2ClientTypes {
             scanMode: Inspector2ClientTypes.ScanMode? = nil,
             scanStatus: Inspector2ClientTypes.ScanStatus? = nil,
             scanType: Inspector2ClientTypes.ScanType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.lastScannedAt = lastScannedAt
             self.resourceId = resourceId
@@ -5557,8 +5438,7 @@ extension Inspector2ClientTypes {
         public init(
             accountIds: [Swift.String]? = nil,
             targetResourceTags: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.targetResourceTags = targetResourceTags
         }
@@ -5587,8 +5467,7 @@ public struct CreateCisScanConfigurationInput: Swift.Sendable {
         securityLevel: Inspector2ClientTypes.CisSecurityLevel? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: Inspector2ClientTypes.CreateCisTargets? = nil
-    )
-    {
+    ) {
         self.scanName = scanName
         self.schedule = schedule
         self.securityLevel = securityLevel
@@ -5603,8 +5482,7 @@ public struct CreateCisScanConfigurationOutput: Swift.Sendable {
 
     public init(
         scanConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scanConfigurationArn = scanConfigurationArn
     }
 }
@@ -5650,8 +5528,7 @@ extension Inspector2ClientTypes {
         public init(
             endInclusive: Foundation.Date? = nil,
             startInclusive: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endInclusive = endInclusive
             self.startInclusive = startInclusive
         }
@@ -5670,8 +5547,7 @@ extension Inspector2ClientTypes {
         public init(
             lowerInclusive: Swift.Double? = nil,
             upperInclusive: Swift.Double? = nil
-        )
-        {
+        ) {
             self.lowerInclusive = lowerInclusive
             self.upperInclusive = upperInclusive
         }
@@ -5690,8 +5566,7 @@ extension Inspector2ClientTypes {
         public init(
             beginInclusive: Swift.Int? = nil,
             endInclusive: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginInclusive = beginInclusive
             self.endInclusive = endInclusive
         }
@@ -5728,8 +5603,7 @@ extension Inspector2ClientTypes {
             sourceLambdaLayerArn: Inspector2ClientTypes.StringFilter? = nil,
             sourceLayerHash: Inspector2ClientTypes.StringFilter? = nil,
             version: Inspector2ClientTypes.StringFilter? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.epoch = epoch
             self.filePath = filePath
@@ -5874,8 +5748,7 @@ extension Inspector2ClientTypes {
             vulnerabilityId: [Inspector2ClientTypes.StringFilter]? = nil,
             vulnerabilitySource: [Inspector2ClientTypes.StringFilter]? = nil,
             vulnerablePackages: [Inspector2ClientTypes.PackageFilter]? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
             self.codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTags
@@ -5946,8 +5819,7 @@ public struct CreateFilterInput: Swift.Sendable {
         name: Swift.String? = nil,
         reason: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.description = description
         self.filterCriteria = filterCriteria
@@ -5964,8 +5836,7 @@ public struct CreateFilterOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -6016,8 +5887,7 @@ extension Inspector2ClientTypes {
             bucketName: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.keyPrefix = keyPrefix
             self.kmsKeyArn = kmsKeyArn
@@ -6039,8 +5909,7 @@ public struct CreateFindingsReportInput: Swift.Sendable {
         filterCriteria: Inspector2ClientTypes.FilterCriteria? = nil,
         reportFormat: Inspector2ClientTypes.ReportFormat? = nil,
         s3Destination: Inspector2ClientTypes.Destination? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.reportFormat = reportFormat
         self.s3Destination = s3Destination
@@ -6053,8 +5922,7 @@ public struct CreateFindingsReportOutput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -6131,8 +5999,7 @@ extension Inspector2ClientTypes {
         public init(
             comparison: Inspector2ClientTypes.ResourceStringComparison? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.value = value
         }
@@ -6182,8 +6049,7 @@ extension Inspector2ClientTypes {
             comparison: Inspector2ClientTypes.ResourceMapComparison? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparison = comparison
             self.key = key
             self.value = value
@@ -6221,8 +6087,7 @@ extension Inspector2ClientTypes {
             lambdaFunctionTags: [Inspector2ClientTypes.ResourceMapFilter]? = nil,
             resourceId: [Inspector2ClientTypes.ResourceStringFilter]? = nil,
             resourceType: [Inspector2ClientTypes.ResourceStringFilter]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
@@ -6249,8 +6114,7 @@ public struct CreateSbomExportInput: Swift.Sendable {
         reportFormat: Inspector2ClientTypes.SbomReportFormat? = nil,
         resourceFilterCriteria: Inspector2ClientTypes.ResourceFilterCriteria? = nil,
         s3Destination: Inspector2ClientTypes.Destination? = nil
-    )
-    {
+    ) {
         self.reportFormat = reportFormat
         self.resourceFilterCriteria = resourceFilterCriteria
         self.s3Destination = s3Destination
@@ -6263,8 +6127,7 @@ public struct CreateSbomExportOutput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -6307,8 +6170,7 @@ extension Inspector2ClientTypes {
         public init(
             baseScore: Swift.Double = 0.0,
             scoringVector: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
         }
@@ -6327,8 +6189,7 @@ extension Inspector2ClientTypes {
         public init(
             baseScore: Swift.Double = 0.0,
             scoringVector: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
         }
@@ -6357,8 +6218,7 @@ extension Inspector2ClientTypes {
             scoringVector: Swift.String? = nil,
             source: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
             self.source = source
@@ -6381,8 +6241,7 @@ extension Inspector2ClientTypes {
         public init(
             metric: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.reason = reason
         }
@@ -6417,8 +6276,7 @@ extension Inspector2ClientTypes {
             scoreSource: Swift.String? = nil,
             scoringVector: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.adjustments = adjustments
             self.cvssSource = cvssSource
             self.score = score
@@ -6500,8 +6358,7 @@ extension Inspector2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             relationshipStatus: Inspector2ClientTypes.RelationshipStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.relationshipStatus = relationshipStatus
         }
@@ -6549,8 +6406,7 @@ extension Inspector2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             status: Inspector2ClientTypes.DelegatedAdminStatus? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.status = status
         }
@@ -6564,8 +6420,7 @@ public struct DeleteCisScanConfigurationInput: Swift.Sendable {
 
     public init(
         scanConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scanConfigurationArn = scanConfigurationArn
     }
 }
@@ -6577,8 +6432,7 @@ public struct DeleteCisScanConfigurationOutput: Swift.Sendable {
 
     public init(
         scanConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scanConfigurationArn = scanConfigurationArn
     }
 }
@@ -6590,8 +6444,7 @@ public struct DeleteFilterInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -6603,8 +6456,7 @@ public struct DeleteFilterOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -6623,8 +6475,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Sendable {
     public init(
         autoEnable: Inspector2ClientTypes.AutoEnable? = nil,
         maxAccountLimitReached: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
         self.maxAccountLimitReached = maxAccountLimitReached
     }
@@ -6674,8 +6525,7 @@ public struct DisableInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         resourceTypes: [Inspector2ClientTypes.ResourceScanType]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.resourceTypes = resourceTypes
     }
@@ -6691,8 +6541,7 @@ public struct DisableOutput: Swift.Sendable {
     public init(
         accounts: [Inspector2ClientTypes.Account]? = nil,
         failedAccounts: [Inspector2ClientTypes.FailedAccount]? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.failedAccounts = failedAccounts
     }
@@ -6705,8 +6554,7 @@ public struct DisableDelegatedAdminAccountInput: Swift.Sendable {
 
     public init(
         delegatedAdminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedAdminAccountId = delegatedAdminAccountId
     }
 }
@@ -6718,8 +6566,7 @@ public struct DisableDelegatedAdminAccountOutput: Swift.Sendable {
 
     public init(
         delegatedAdminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedAdminAccountId = delegatedAdminAccountId
     }
 }
@@ -6731,8 +6578,7 @@ public struct DisassociateMemberInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -6744,8 +6590,7 @@ public struct DisassociateMemberOutput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -6789,8 +6634,7 @@ extension Inspector2ClientTypes {
 
         public init(
             scanMode: Inspector2ClientTypes.Ec2ScanMode? = nil
-        )
-        {
+        ) {
             self.scanMode = scanMode
         }
     }
@@ -6837,8 +6681,7 @@ extension Inspector2ClientTypes {
         public init(
             scanMode: Inspector2ClientTypes.Ec2ScanMode? = nil,
             scanModeStatus: Inspector2ClientTypes.Ec2ScanModeStatus? = nil
-        )
-        {
+        ) {
             self.scanMode = scanMode
             self.scanModeStatus = scanModeStatus
         }
@@ -6854,8 +6697,7 @@ extension Inspector2ClientTypes {
 
         public init(
             scanModeState: Inspector2ClientTypes.Ec2ScanModeState? = nil
-        )
-        {
+        ) {
             self.scanModeState = scanModeState
         }
     }
@@ -6953,8 +6795,7 @@ extension Inspector2ClientTypes {
         public init(
             pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration? = nil,
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil
-        )
-        {
+        ) {
             self.pullDateRescanDuration = pullDateRescanDuration
             self.rescanDuration = rescanDuration
         }
@@ -7011,8 +6852,7 @@ extension Inspector2ClientTypes {
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil,
             status: Inspector2ClientTypes.EcrRescanDurationStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.pullDateRescanDuration = pullDateRescanDuration
             self.rescanDuration = rescanDuration
             self.status = status
@@ -7030,8 +6870,7 @@ extension Inspector2ClientTypes {
 
         public init(
             rescanDurationState: Inspector2ClientTypes.EcrRescanDurationState? = nil
-        )
-        {
+        ) {
             self.rescanDurationState = rescanDurationState
         }
     }
@@ -7050,8 +6889,7 @@ public struct EnableInput: Swift.Sendable {
         accountIds: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         resourceTypes: [Inspector2ClientTypes.ResourceScanType]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.clientToken = clientToken
         self.resourceTypes = resourceTypes
@@ -7068,8 +6906,7 @@ public struct EnableOutput: Swift.Sendable {
     public init(
         accounts: [Inspector2ClientTypes.Account]? = nil,
         failedAccounts: [Inspector2ClientTypes.FailedAccount]? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.failedAccounts = failedAccounts
     }
@@ -7085,8 +6922,7 @@ public struct EnableDelegatedAdminAccountInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         delegatedAdminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.delegatedAdminAccountId = delegatedAdminAccountId
     }
@@ -7099,8 +6935,7 @@ public struct EnableDelegatedAdminAccountOutput: Swift.Sendable {
 
     public init(
         delegatedAdminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedAdminAccountId = delegatedAdminAccountId
     }
 }
@@ -7114,8 +6949,7 @@ extension Inspector2ClientTypes {
 
         public init(
             score: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.score = score
         }
     }
@@ -7130,8 +6964,7 @@ extension Inspector2ClientTypes {
 
         public init(
             score: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.score = score
         }
     }
@@ -7146,8 +6979,7 @@ extension Inspector2ClientTypes {
 
         public init(
             lastKnownExploitAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lastKnownExploitAt = lastKnownExploitAt
         }
     }
@@ -7260,8 +7092,7 @@ extension Inspector2ClientTypes {
             reason: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.arn = arn
             self.createdAt = createdAt
@@ -7317,8 +7148,7 @@ extension Inspector2ClientTypes {
 
         public init(
             adjustedCvss: Inspector2ClientTypes.CvssScoreDetails? = nil
-        )
-        {
+        ) {
             self.adjustedCvss = adjustedCvss
         }
     }
@@ -7338,8 +7168,7 @@ extension Inspector2ClientTypes {
         public init(
             componentId: Swift.String? = nil,
             componentType: Swift.String? = nil
-        )
-        {
+        ) {
             self.componentId = componentId
             self.componentType = componentType
         }
@@ -7355,8 +7184,7 @@ extension Inspector2ClientTypes {
 
         public init(
             steps: [Inspector2ClientTypes.Step]? = nil
-        )
-        {
+        ) {
             self.steps = steps
         }
     }
@@ -7376,8 +7204,7 @@ extension Inspector2ClientTypes {
         public init(
             begin: Swift.Int? = nil,
             end: Swift.Int? = nil
-        )
-        {
+        ) {
             self.begin = begin
             self.end = end
         }
@@ -7431,8 +7258,7 @@ extension Inspector2ClientTypes {
             networkPath: Inspector2ClientTypes.NetworkPath? = nil,
             openPortRange: Inspector2ClientTypes.PortRange? = nil,
             `protocol`: Inspector2ClientTypes.NetworkProtocol? = nil
-        )
-        {
+        ) {
             self.networkPath = networkPath
             self.openPortRange = openPortRange
             self.`protocol` = `protocol`
@@ -7558,8 +7384,7 @@ extension Inspector2ClientTypes {
             sourceLambdaLayerArn: Swift.String? = nil,
             sourceLayerHash: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arch = arch
             self.epoch = epoch
             self.filePath = filePath
@@ -7613,8 +7438,7 @@ extension Inspector2ClientTypes {
             vendorUpdatedAt: Foundation.Date? = nil,
             vulnerabilityId: Swift.String? = nil,
             vulnerablePackages: [Inspector2ClientTypes.VulnerablePackage]? = nil
-        )
-        {
+        ) {
             self.cvss = cvss
             self.referenceUrls = referenceUrls
             self.relatedVulnerabilities = relatedVulnerabilities
@@ -7641,8 +7465,7 @@ extension Inspector2ClientTypes {
         public init(
             text: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.url = url
         }
@@ -7658,8 +7481,7 @@ extension Inspector2ClientTypes {
 
         public init(
             recommendation: Inspector2ClientTypes.Recommendation? = nil
-        )
-        {
+        ) {
             self.recommendation = recommendation
         }
     }
@@ -7680,8 +7502,7 @@ extension Inspector2ClientTypes {
             awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails? = nil,
             awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails? = nil,
             awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails? = nil
-        )
-        {
+        ) {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
             self.awsLambdaFunction = awsLambdaFunction
@@ -7750,8 +7571,7 @@ extension Inspector2ClientTypes {
             region: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: Inspector2ClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.details = details
             self.id = id
             self.partition = partition
@@ -7946,8 +7766,7 @@ extension Inspector2ClientTypes {
             title: Swift.String? = nil,
             type: Inspector2ClientTypes.FindingType? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.awsAccountId = awsAccountId
             self.codeVulnerabilityDetails = codeVulnerabilityDetails
             self.description = description
@@ -7986,8 +7805,7 @@ public struct GetCisScanReportInput: Swift.Sendable {
         reportFormat: Inspector2ClientTypes.CisReportFormat? = nil,
         scanArn: Swift.String? = nil,
         targetAccounts: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.reportFormat = reportFormat
         self.scanArn = scanArn
         self.targetAccounts = targetAccounts
@@ -8003,8 +7821,7 @@ public struct GetCisScanReportOutput: Swift.Sendable {
     public init(
         status: Inspector2ClientTypes.CisReportStatus? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.url = url
     }
@@ -8040,8 +7857,7 @@ public struct GetCisScanResultDetailsInput: Swift.Sendable {
         sortBy: Inspector2ClientTypes.CisScanResultDetailsSortBy? = nil,
         sortOrder: Inspector2ClientTypes.CisSortOrder? = nil,
         targetResourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
@@ -8062,8 +7878,7 @@ public struct GetCisScanResultDetailsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scanResultDetails: [Inspector2ClientTypes.CisScanResultDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scanResultDetails = scanResultDetails
     }
@@ -8083,8 +7898,7 @@ public struct GetConfigurationOutput: Swift.Sendable {
     public init(
         ec2Configuration: Inspector2ClientTypes.Ec2ConfigurationState? = nil,
         ecrConfiguration: Inspector2ClientTypes.EcrConfigurationState? = nil
-    )
-    {
+    ) {
         self.ec2Configuration = ec2Configuration
         self.ecrConfiguration = ecrConfiguration
     }
@@ -8101,8 +7915,7 @@ public struct GetDelegatedAdminAccountOutput: Swift.Sendable {
 
     public init(
         delegatedAdmin: Inspector2ClientTypes.DelegatedAdmin? = nil
-    )
-    {
+    ) {
         self.delegatedAdmin = delegatedAdmin
     }
 }
@@ -8127,8 +7940,7 @@ public struct GetEc2DeepInspectionConfigurationOutput: Swift.Sendable {
         orgPackagePaths: [Swift.String]? = nil,
         packagePaths: [Swift.String]? = nil,
         status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
-    )
-    {
+    ) {
         self.errorMessage = errorMessage
         self.orgPackagePaths = orgPackagePaths
         self.packagePaths = packagePaths
@@ -8147,8 +7959,7 @@ public struct GetEncryptionKeyInput: Swift.Sendable {
     public init(
         resourceType: Inspector2ClientTypes.ResourceType? = nil,
         scanType: Inspector2ClientTypes.ScanType? = nil
-    )
-    {
+    ) {
         self.resourceType = resourceType
         self.scanType = scanType
     }
@@ -8161,8 +7972,7 @@ public struct GetEncryptionKeyOutput: Swift.Sendable {
 
     public init(
         kmsKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
     }
 }
@@ -8173,8 +7983,7 @@ public struct GetFindingsReportStatusInput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -8241,8 +8050,7 @@ public struct GetFindingsReportStatusOutput: Swift.Sendable {
         filterCriteria: Inspector2ClientTypes.FilterCriteria? = nil,
         reportId: Swift.String? = nil,
         status: Inspector2ClientTypes.ExternalReportStatus? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.errorCode = errorCode
         self.errorMessage = errorMessage
@@ -8259,8 +8067,7 @@ public struct GetMemberInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -8283,8 +8090,7 @@ extension Inspector2ClientTypes {
             delegatedAdminAccountId: Swift.String? = nil,
             relationshipStatus: Inspector2ClientTypes.RelationshipStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.delegatedAdminAccountId = delegatedAdminAccountId
             self.relationshipStatus = relationshipStatus
@@ -8299,8 +8105,7 @@ public struct GetMemberOutput: Swift.Sendable {
 
     public init(
         member: Inspector2ClientTypes.Member? = nil
-    )
-    {
+    ) {
         self.member = member
     }
 }
@@ -8312,8 +8117,7 @@ public struct GetSbomExportInput: Swift.Sendable {
 
     public init(
         reportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
     }
 }
@@ -8342,8 +8146,7 @@ public struct GetSbomExportOutput: Swift.Sendable {
         reportId: Swift.String? = nil,
         s3Destination: Inspector2ClientTypes.Destination? = nil,
         status: Inspector2ClientTypes.ExternalReportStatus? = nil
-    )
-    {
+    ) {
         self.errorCode = errorCode
         self.errorMessage = errorMessage
         self.filterCriteria = filterCriteria
@@ -8398,8 +8201,7 @@ public struct ListAccountPermissionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         service: Inspector2ClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.service = service
@@ -8455,8 +8257,7 @@ extension Inspector2ClientTypes {
         public init(
             operation: Inspector2ClientTypes.Operation? = nil,
             service: Inspector2ClientTypes.Service? = nil
-        )
-        {
+        ) {
             self.operation = operation
             self.service = service
         }
@@ -8473,8 +8274,7 @@ public struct ListAccountPermissionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [Inspector2ClientTypes.Permission]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -8495,8 +8295,7 @@ extension Inspector2ClientTypes {
             scanConfigurationArnFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
             scanNameFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
             targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]? = nil
-        )
-        {
+        ) {
             self.scanConfigurationArnFilters = scanConfigurationArnFilters
             self.scanNameFilters = scanNameFilters
             self.targetResourceTagFilters = targetResourceTagFilters
@@ -8522,8 +8321,7 @@ public struct ListCisScanConfigurationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: Inspector2ClientTypes.CisScanConfigurationsSortBy? = nil,
         sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8541,8 +8339,7 @@ public struct ListCisScanConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scanConfigurations: [Inspector2ClientTypes.CisScanConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scanConfigurations = scanConfigurations
     }
@@ -8570,8 +8367,7 @@ public struct ListCisScanResultsAggregatedByChecksInput: Swift.Sendable {
         scanArn: Swift.String? = nil,
         sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByChecksSortBy? = nil,
         sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8590,8 +8386,7 @@ public struct ListCisScanResultsAggregatedByChecksOutput: Swift.Sendable {
     public init(
         checkAggregations: [Inspector2ClientTypes.CisCheckAggregation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkAggregations = checkAggregations
         self.nextToken = nextToken
     }
@@ -8619,8 +8414,7 @@ public struct ListCisScanResultsAggregatedByTargetResourceInput: Swift.Sendable 
         scanArn: Swift.String? = nil,
         sortBy: Inspector2ClientTypes.CisScanResultsAggregatedByTargetResourceSortBy? = nil,
         sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8639,8 +8433,7 @@ public struct ListCisScanResultsAggregatedByTargetResourceOutput: Swift.Sendable
     public init(
         nextToken: Swift.String? = nil,
         targetResourceAggregations: [Inspector2ClientTypes.CisTargetResourceAggregation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targetResourceAggregations = targetResourceAggregations
     }
@@ -8711,8 +8504,7 @@ extension Inspector2ClientTypes {
             targetAccountIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
             targetResourceIdFilters: [Inspector2ClientTypes.CisStringFilter]? = nil,
             targetResourceTagFilters: [Inspector2ClientTypes.TagFilter]? = nil
-        )
-        {
+        ) {
             self.failedChecksFilters = failedChecksFilters
             self.scanArnFilters = scanArnFilters
             self.scanAtFilters = scanAtFilters
@@ -8783,8 +8575,7 @@ public struct ListCisScansInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: Inspector2ClientTypes.ListCisScansSortBy? = nil,
         sortOrder: Inspector2ClientTypes.CisSortOrder? = nil
-    )
-    {
+    ) {
         self.detailLevel = detailLevel
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
@@ -8803,8 +8594,7 @@ public struct ListCisScansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scans: [Inspector2ClientTypes.CisScan]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scans = scans
     }
@@ -8822,8 +8612,7 @@ public struct ListCoverageInput: Swift.Sendable {
         filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8839,8 +8628,7 @@ public struct ListCoverageOutput: Swift.Sendable {
     public init(
         coveredResources: [Inspector2ClientTypes.CoveredResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.coveredResources = coveredResources
         self.nextToken = nextToken
     }
@@ -8858,8 +8646,7 @@ public struct ListCoverageStatisticsInput: Swift.Sendable {
         filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria? = nil,
         groupBy: Inspector2ClientTypes.GroupKey? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.groupBy = groupBy
         self.nextToken = nextToken
@@ -8879,8 +8666,7 @@ public struct ListCoverageStatisticsOutput: Swift.Sendable {
         countsByGroup: [Inspector2ClientTypes.Counts]? = nil,
         nextToken: Swift.String? = nil,
         totalCounts: Swift.Int? = nil
-    )
-    {
+    ) {
         self.countsByGroup = countsByGroup
         self.nextToken = nextToken
         self.totalCounts = totalCounts
@@ -8896,8 +8682,7 @@ public struct ListDelegatedAdminAccountsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8912,8 +8697,7 @@ public struct ListDelegatedAdminAccountsOutput: Swift.Sendable {
     public init(
         delegatedAdminAccounts: [Inspector2ClientTypes.DelegatedAdminAccount]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedAdminAccounts = delegatedAdminAccounts
         self.nextToken = nextToken
     }
@@ -8934,8 +8718,7 @@ public struct ListFiltersInput: Swift.Sendable {
         arns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arns = arns
         self.maxResults = maxResults
@@ -8953,8 +8736,7 @@ public struct ListFiltersOutput: Swift.Sendable {
     public init(
         filters: [Inspector2ClientTypes.Filter]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.nextToken = nextToken
     }
@@ -8979,8 +8761,7 @@ public struct ListFindingAggregationsInput: Swift.Sendable {
         aggregationType: Inspector2ClientTypes.AggregationType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.aggregationRequest = aggregationRequest
         self.aggregationType = aggregationType
@@ -9002,8 +8783,7 @@ public struct ListFindingAggregationsOutput: Swift.Sendable {
         aggregationType: Inspector2ClientTypes.AggregationType? = nil,
         nextToken: Swift.String? = nil,
         responses: [Inspector2ClientTypes.AggregationResponse]? = nil
-    )
-    {
+    ) {
         self.aggregationType = aggregationType
         self.nextToken = nextToken
         self.responses = responses
@@ -9098,8 +8878,7 @@ extension Inspector2ClientTypes {
         public init(
             field: Inspector2ClientTypes.SortField? = nil,
             sortOrder: Inspector2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.field = field
             self.sortOrder = sortOrder
         }
@@ -9121,8 +8900,7 @@ public struct ListFindingsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: Inspector2ClientTypes.SortCriteria? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9139,8 +8917,7 @@ public struct ListFindingsOutput: Swift.Sendable {
     public init(
         findings: [Inspector2ClientTypes.Finding]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -9158,8 +8935,7 @@ public struct ListMembersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         onlyAssociated: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.onlyAssociated = onlyAssociated
@@ -9175,8 +8951,7 @@ public struct ListMembersOutput: Swift.Sendable {
     public init(
         members: [Inspector2ClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -9189,8 +8964,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -9201,8 +8975,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -9219,8 +8992,7 @@ public struct ListUsageTotalsInput: Swift.Sendable {
         accountIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -9283,8 +9055,7 @@ extension Inspector2ClientTypes {
             estimatedMonthlyCost: Swift.Double = 0.0,
             total: Swift.Double = 0.0,
             type: Inspector2ClientTypes.UsageType? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.estimatedMonthlyCost = estimatedMonthlyCost
             self.total = total
@@ -9305,8 +9076,7 @@ extension Inspector2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             usage: [Inspector2ClientTypes.Usage]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.usage = usage
         }
@@ -9322,8 +9092,7 @@ public struct ListUsageTotalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         totals: [Inspector2ClientTypes.UsageTotal]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.totals = totals
     }
@@ -9340,8 +9109,7 @@ public struct ResetEncryptionKeyInput: Swift.Sendable {
     public init(
         resourceType: Inspector2ClientTypes.ResourceType? = nil,
         scanType: Inspector2ClientTypes.ScanType? = nil
-    )
-    {
+    ) {
         self.resourceType = resourceType
         self.scanType = scanType
     }
@@ -9362,8 +9130,7 @@ extension Inspector2ClientTypes {
 
         public init(
             vulnerabilityIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.vulnerabilityIds = vulnerabilityIds
         }
     }
@@ -9379,8 +9146,7 @@ public struct SearchVulnerabilitiesInput: Swift.Sendable {
     public init(
         filterCriteria: Inspector2ClientTypes.SearchVulnerabilitiesFilterCriteria? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterCriteria = filterCriteria
         self.nextToken = nextToken
     }
@@ -9470,8 +9236,7 @@ extension Inspector2ClientTypes {
             vendorCreatedAt: Foundation.Date? = nil,
             vendorSeverity: Swift.String? = nil,
             vendorUpdatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.atigData = atigData
             self.cisaData = cisaData
             self.cvss2 = cvss2
@@ -9503,8 +9268,7 @@ public struct SearchVulnerabilitiesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vulnerabilities: [Inspector2ClientTypes.Vulnerability]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vulnerabilities = vulnerabilities
     }
@@ -9521,8 +9285,7 @@ public struct SendCisSessionHealthInput: Swift.Sendable {
     public init(
         scanJobId: Swift.String? = nil,
         sessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.scanJobId = scanJobId
         self.sessionToken = sessionToken
     }
@@ -9548,8 +9311,7 @@ public struct SendCisSessionTelemetryInput: Swift.Sendable {
         messages: [Inspector2ClientTypes.CisSessionMessage]? = nil,
         scanJobId: Swift.String? = nil,
         sessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.messages = messages
         self.scanJobId = scanJobId
         self.sessionToken = sessionToken
@@ -9571,8 +9333,7 @@ extension Inspector2ClientTypes {
 
         public init(
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.sessionToken = sessionToken
         }
     }
@@ -9589,8 +9350,7 @@ public struct StartCisSessionInput: Swift.Sendable {
     public init(
         message: Inspector2ClientTypes.StartCisSessionMessage? = nil,
         scanJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.scanJobId = scanJobId
     }
@@ -9631,8 +9391,7 @@ extension Inspector2ClientTypes {
             successfulChecks: Swift.Int = 0,
             totalChecks: Swift.Int = 0,
             unknownChecks: Swift.Int = 0
-        )
-        {
+        ) {
             self.errorChecks = errorChecks
             self.failedChecks = failedChecks
             self.informationalChecks = informationalChecks
@@ -9706,8 +9465,7 @@ extension Inspector2ClientTypes {
             progress: Inspector2ClientTypes.StopCisMessageProgress? = nil,
             reason: Swift.String? = nil,
             status: Inspector2ClientTypes.StopCisSessionStatus? = nil
-        )
-        {
+        ) {
             self.benchmarkProfile = benchmarkProfile
             self.benchmarkVersion = benchmarkVersion
             self.computePlatform = computePlatform
@@ -9733,8 +9491,7 @@ public struct StopCisSessionInput: Swift.Sendable {
         message: Inspector2ClientTypes.StopCisSessionMessage? = nil,
         scanJobId: Swift.String? = nil,
         sessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.scanJobId = scanJobId
         self.sessionToken = sessionToken
@@ -9757,8 +9514,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -9780,8 +9536,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -9804,8 +9559,7 @@ extension Inspector2ClientTypes {
         public init(
             accountIds: [Swift.String]? = nil,
             targetResourceTags: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.targetResourceTags = targetResourceTags
         }
@@ -9831,8 +9585,7 @@ public struct UpdateCisScanConfigurationInput: Swift.Sendable {
         schedule: Inspector2ClientTypes.Schedule? = nil,
         securityLevel: Inspector2ClientTypes.CisSecurityLevel? = nil,
         targets: Inspector2ClientTypes.UpdateCisTargets? = nil
-    )
-    {
+    ) {
         self.scanConfigurationArn = scanConfigurationArn
         self.scanName = scanName
         self.schedule = schedule
@@ -9848,8 +9601,7 @@ public struct UpdateCisScanConfigurationOutput: Swift.Sendable {
 
     public init(
         scanConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scanConfigurationArn = scanConfigurationArn
     }
 }
@@ -9863,8 +9615,7 @@ public struct UpdateConfigurationInput: Swift.Sendable {
     public init(
         ec2Configuration: Inspector2ClientTypes.Ec2Configuration? = nil,
         ecrConfiguration: Inspector2ClientTypes.EcrConfiguration? = nil
-    )
-    {
+    ) {
         self.ec2Configuration = ec2Configuration
         self.ecrConfiguration = ecrConfiguration
     }
@@ -9884,8 +9635,7 @@ public struct UpdateEc2DeepInspectionConfigurationInput: Swift.Sendable {
     public init(
         activateDeepInspection: Swift.Bool? = nil,
         packagePaths: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.activateDeepInspection = activateDeepInspection
         self.packagePaths = packagePaths
     }
@@ -9906,8 +9656,7 @@ public struct UpdateEc2DeepInspectionConfigurationOutput: Swift.Sendable {
         orgPackagePaths: [Swift.String]? = nil,
         packagePaths: [Swift.String]? = nil,
         status: Inspector2ClientTypes.Ec2DeepInspectionStatus? = nil
-    )
-    {
+    ) {
         self.errorMessage = errorMessage
         self.orgPackagePaths = orgPackagePaths
         self.packagePaths = packagePaths
@@ -9930,8 +9679,7 @@ public struct UpdateEncryptionKeyInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         resourceType: Inspector2ClientTypes.ResourceType? = nil,
         scanType: Inspector2ClientTypes.ScanType? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.resourceType = resourceType
         self.scanType = scanType
@@ -9965,8 +9713,7 @@ public struct UpdateFilterInput: Swift.Sendable {
         filterCriteria: Inspector2ClientTypes.FilterCriteria? = nil,
         name: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.description = description
         self.filterArn = filterArn
@@ -9983,8 +9730,7 @@ public struct UpdateFilterOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -9996,8 +9742,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
 
     public init(
         autoEnable: Inspector2ClientTypes.AutoEnable? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
     }
 }
@@ -10009,8 +9754,7 @@ public struct UpdateOrganizationConfigurationOutput: Swift.Sendable {
 
     public init(
         autoEnable: Inspector2ClientTypes.AutoEnable? = nil
-    )
-    {
+    ) {
         self.autoEnable = autoEnable
     }
 }
@@ -10022,8 +9766,7 @@ public struct UpdateOrgEc2DeepInspectionConfigurationInput: Swift.Sendable {
 
     public init(
         orgPackagePaths: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.orgPackagePaths = orgPackagePaths
     }
 }

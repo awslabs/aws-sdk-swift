@@ -43,9 +43,9 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
 }
 
 /// You do not have the necessary permissions to access the account settings.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -60,8 +60,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -76,8 +75,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
         }
     }
@@ -96,8 +94,7 @@ extension TimestreamQueryClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             snsConfiguration: TimestreamQueryClientTypes.SnsConfiguration? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.snsConfiguration = snsConfiguration
         }
@@ -105,9 +102,9 @@ extension TimestreamQueryClientTypes {
 }
 
 /// An internal server error occurred while processing the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -122,16 +119,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested endpoint is invalid.
-public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -146,16 +142,15 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was throttled due to excessive requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -170,16 +165,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Invalid or malformed request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -194,8 +188,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -207,8 +200,7 @@ public struct CancelQueryInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -219,8 +211,7 @@ public struct CancelQueryOutput: Swift.Sendable {
 
     public init(
         cancellationMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.cancellationMessage = cancellationMessage
     }
 }
@@ -311,9 +302,9 @@ extension TimestreamQueryClientTypes {
 }
 
 /// Unable to poll results for a cancelled query.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -328,16 +319,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -352,8 +342,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -403,8 +392,7 @@ extension TimestreamQueryClientTypes {
             bucketName: Swift.String? = nil,
             encryptionOption: TimestreamQueryClientTypes.S3EncryptionOption? = nil,
             objectKeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.encryptionOption = encryptionOption
             self.objectKeyPrefix = objectKeyPrefix
@@ -422,8 +410,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             s3Configuration: TimestreamQueryClientTypes.S3Configuration? = nil
-        )
-        {
+        ) {
             self.s3Configuration = s3Configuration
         }
     }
@@ -439,8 +426,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             snsConfiguration: TimestreamQueryClientTypes.SnsConfiguration? = nil
-        )
-        {
+        ) {
             self.snsConfiguration = snsConfiguration
         }
     }
@@ -456,8 +442,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             scheduleExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.scheduleExpression = scheduleExpression
         }
     }
@@ -477,8 +462,7 @@ extension TimestreamQueryClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -525,8 +509,7 @@ extension TimestreamQueryClientTypes {
         public init(
             dimensionValueType: TimestreamQueryClientTypes.DimensionValueType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionValueType = dimensionValueType
             self.name = name
         }
@@ -626,8 +609,7 @@ extension TimestreamQueryClientTypes {
             measureValueType: TimestreamQueryClientTypes.ScalarMeasureValueType? = nil,
             sourceColumn: Swift.String? = nil,
             targetMultiMeasureAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.measureValueType = measureValueType
             self.sourceColumn = sourceColumn
             self.targetMultiMeasureAttributeName = targetMultiMeasureAttributeName
@@ -657,8 +639,7 @@ extension TimestreamQueryClientTypes {
             multiMeasureAttributeMappings: [TimestreamQueryClientTypes.MultiMeasureAttributeMapping]? = nil,
             sourceColumn: Swift.String? = nil,
             targetMeasureName: Swift.String? = nil
-        )
-        {
+        ) {
             self.measureName = measureName
             self.measureValueType = measureValueType
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
@@ -681,8 +662,7 @@ extension TimestreamQueryClientTypes {
         public init(
             multiMeasureAttributeMappings: [TimestreamQueryClientTypes.MultiMeasureAttributeMapping]? = nil,
             targetMultiMeasureName: Swift.String? = nil
-        )
-        {
+        ) {
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
             self.targetMultiMeasureName = targetMultiMeasureName
         }
@@ -720,8 +700,7 @@ extension TimestreamQueryClientTypes {
             multiMeasureMappings: TimestreamQueryClientTypes.MultiMeasureMappings? = nil,
             tableName: Swift.String? = nil,
             timeColumn: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.dimensionMappings = dimensionMappings
             self.measureNameColumn = measureNameColumn
@@ -743,8 +722,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             timestreamConfiguration: TimestreamQueryClientTypes.TimestreamConfiguration? = nil
-        )
-        {
+        ) {
             self.timestreamConfiguration = timestreamConfiguration
         }
     }
@@ -793,8 +771,7 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
         scheduledQueryExecutionRoleArn: Swift.String? = nil,
         tags: [TimestreamQueryClientTypes.Tag]? = nil,
         targetConfiguration: TimestreamQueryClientTypes.TargetConfiguration? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.errorReportConfiguration = errorReportConfiguration
         self.kmsKeyId = kmsKeyId
@@ -820,16 +797,15 @@ public struct CreateScheduledQueryOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
 
 /// The requested resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ARN of the scheduled query.
         public internal(set) var scheduledQueryArn: Swift.String? = nil
@@ -847,8 +823,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         scheduledQueryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.scheduledQueryArn = scheduledQueryArn
     }
@@ -861,8 +836,7 @@ public struct DeleteScheduledQueryInput: Swift.Sendable {
 
     public init(
         scheduledQueryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledQueryArn = scheduledQueryArn
     }
 }
@@ -919,8 +893,7 @@ extension TimestreamQueryClientTypes {
             status: TimestreamQueryClientTypes.LastUpdateStatus? = nil,
             statusMessage: Swift.String? = nil,
             targetQueryTCU: Swift.Int? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusMessage = statusMessage
             self.targetQueryTCU = targetQueryTCU
@@ -943,8 +916,7 @@ extension TimestreamQueryClientTypes {
             activeQueryTCU: Swift.Int? = nil,
             lastUpdate: TimestreamQueryClientTypes.LastUpdate? = nil,
             notificationConfiguration: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration? = nil
-        )
-        {
+        ) {
             self.activeQueryTCU = activeQueryTCU
             self.lastUpdate = lastUpdate
             self.notificationConfiguration = notificationConfiguration
@@ -964,8 +936,7 @@ extension TimestreamQueryClientTypes {
         public init(
             computeMode: TimestreamQueryClientTypes.ComputeMode? = nil,
             provisionedCapacity: TimestreamQueryClientTypes.ProvisionedCapacityResponse? = nil
-        )
-        {
+        ) {
             self.computeMode = computeMode
             self.provisionedCapacity = provisionedCapacity
         }
@@ -1013,8 +984,7 @@ public struct DescribeAccountSettingsOutput: Swift.Sendable {
         maxQueryTCU: Swift.Int? = nil,
         queryCompute: TimestreamQueryClientTypes.QueryComputeResponse? = nil,
         queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
-    )
-    {
+    ) {
         self.maxQueryTCU = maxQueryTCU
         self.queryCompute = queryCompute
         self.queryPricingModel = queryPricingModel
@@ -1040,8 +1010,7 @@ extension TimestreamQueryClientTypes {
         public init(
             address: Swift.String? = nil,
             cachePeriodInMinutes: Swift.Int = 0
-        )
-        {
+        ) {
             self.address = address
             self.cachePeriodInMinutes = cachePeriodInMinutes
         }
@@ -1055,8 +1024,7 @@ public struct DescribeEndpointsOutput: Swift.Sendable {
 
     public init(
         endpoints: [TimestreamQueryClientTypes.Endpoint]? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
     }
 }
@@ -1068,8 +1036,7 @@ public struct DescribeScheduledQueryInput: Swift.Sendable {
 
     public init(
         scheduledQueryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledQueryArn = scheduledQueryArn
     }
 }
@@ -1086,8 +1053,7 @@ extension TimestreamQueryClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             objectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.objectKey = objectKey
         }
@@ -1103,8 +1069,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             s3ReportLocation: TimestreamQueryClientTypes.S3ReportLocation? = nil
-        )
-        {
+        ) {
             self.s3ReportLocation = s3ReportLocation
         }
     }
@@ -1134,8 +1099,7 @@ extension TimestreamQueryClientTypes {
             executionTimeInMillis: Swift.Int = 0,
             queryResultRows: Swift.Int = 0,
             recordsIngested: Swift.Int = 0
-        )
-        {
+        ) {
             self.bytesMetered = bytesMetered
             self.cumulativeBytesScanned = cumulativeBytesScanned
             self.dataWrites = dataWrites
@@ -1161,8 +1125,7 @@ extension TimestreamQueryClientTypes {
             partitionKey: [Swift.String]? = nil,
             tableArn: Swift.String? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.partitionKey = partitionKey
             self.tableArn = tableArn
             self.value = value
@@ -1189,8 +1152,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             max: TimestreamQueryClientTypes.QuerySpatialCoverageMax? = nil
-        )
-        {
+        ) {
             self.max = max
         }
     }
@@ -1208,8 +1170,7 @@ extension TimestreamQueryClientTypes {
         public init(
             tableArn: Swift.String? = nil,
             value: Swift.Int = 0
-        )
-        {
+        ) {
             self.tableArn = tableArn
             self.value = value
         }
@@ -1229,8 +1190,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             max: TimestreamQueryClientTypes.QueryTemporalRangeMax? = nil
-        )
-        {
+        ) {
             self.max = max
         }
     }
@@ -1263,8 +1223,7 @@ extension TimestreamQueryClientTypes {
             querySpatialCoverage: TimestreamQueryClientTypes.QuerySpatialCoverage? = nil,
             queryTableCount: Swift.Int? = 0,
             queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange? = nil
-        )
-        {
+        ) {
             self.outputBytes = outputBytes
             self.outputRows = outputRows
             self.querySpatialCoverage = querySpatialCoverage
@@ -1336,8 +1295,7 @@ extension TimestreamQueryClientTypes {
             queryInsightsResponse: TimestreamQueryClientTypes.ScheduledQueryInsightsResponse? = nil,
             runStatus: TimestreamQueryClientTypes.ScheduledQueryRunStatus? = nil,
             triggerTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.errorReportLocation = errorReportLocation
             self.executionStats = executionStats
             self.failureReason = failureReason
@@ -1435,8 +1393,7 @@ extension TimestreamQueryClientTypes {
             scheduledQueryExecutionRoleArn: Swift.String? = nil,
             state: TimestreamQueryClientTypes.ScheduledQueryState? = nil,
             targetConfiguration: TimestreamQueryClientTypes.TargetConfiguration? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.errorReportConfiguration = errorReportConfiguration
@@ -1468,8 +1425,7 @@ public struct DescribeScheduledQueryOutput: Swift.Sendable {
 
     public init(
         scheduledQuery: TimestreamQueryClientTypes.ScheduledQueryDescription? = nil
-    )
-    {
+    ) {
         self.scheduledQuery = scheduledQuery
     }
 }
@@ -1517,8 +1473,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             mode: TimestreamQueryClientTypes.ScheduledQueryInsightsMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -1541,8 +1496,7 @@ public struct ExecuteScheduledQueryInput: Swift.Sendable {
         invocationTime: Foundation.Date? = nil,
         queryInsights: TimestreamQueryClientTypes.ScheduledQueryInsights? = nil,
         scheduledQueryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.invocationTime = invocationTime
         self.queryInsights = queryInsights
@@ -1564,8 +1518,7 @@ public struct ListScheduledQueriesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1583,8 +1536,7 @@ extension TimestreamQueryClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.tableName = tableName
         }
@@ -1600,8 +1552,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             timestreamDestination: TimestreamQueryClientTypes.TimestreamDestination? = nil
-        )
-        {
+        ) {
             self.timestreamDestination = timestreamDestination
         }
     }
@@ -1643,8 +1594,7 @@ extension TimestreamQueryClientTypes {
             previousInvocationTime: Foundation.Date? = nil,
             state: TimestreamQueryClientTypes.ScheduledQueryState? = nil,
             targetDestination: TimestreamQueryClientTypes.TargetDestination? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.errorReportConfiguration = errorReportConfiguration
@@ -1668,8 +1618,7 @@ public struct ListScheduledQueriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduledQueries: [TimestreamQueryClientTypes.ScheduledQuery]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduledQueries = scheduledQueries
     }
@@ -1688,8 +1637,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceARN = resourceARN
@@ -1706,8 +1654,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [TimestreamQueryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -1723,8 +1670,7 @@ public struct PrepareQueryInput: Swift.Sendable {
     public init(
         queryString: Swift.String? = nil,
         validateOnly: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.queryString = queryString
         self.validateOnly = validateOnly
     }
@@ -1748,8 +1694,7 @@ extension TimestreamQueryClientTypes {
         public init(
             notificationConfiguration: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration? = nil,
             targetQueryTCU: Swift.Int? = nil
-        )
-        {
+        ) {
             self.notificationConfiguration = notificationConfiguration
             self.targetQueryTCU = targetQueryTCU
         }
@@ -1757,9 +1702,9 @@ extension TimestreamQueryClientTypes {
 }
 
 /// Timestream was unable to run the query successfully.
-public struct QueryExecutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryExecutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1774,8 +1719,7 @@ public struct QueryExecutionException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1832,8 +1776,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             mode: TimestreamQueryClientTypes.QueryInsightsMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -1885,8 +1828,7 @@ public struct QueryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryInsights: TimestreamQueryClientTypes.QueryInsights? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.maxRows = maxRows
         self.nextToken = nextToken
@@ -1936,8 +1878,7 @@ extension TimestreamQueryClientTypes {
             unloadPartitionCount: Swift.Int? = 0,
             unloadWrittenBytes: Swift.Int? = 0,
             unloadWrittenRows: Swift.Int? = 0
-        )
-        {
+        ) {
             self.outputBytes = outputBytes
             self.outputRows = outputRows
             self.querySpatialCoverage = querySpatialCoverage
@@ -1965,8 +1906,7 @@ extension TimestreamQueryClientTypes {
             cumulativeBytesMetered: Swift.Int = 0,
             cumulativeBytesScanned: Swift.Int = 0,
             progressPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.cumulativeBytesMetered = cumulativeBytesMetered
             self.cumulativeBytesScanned = cumulativeBytesScanned
             self.progressPercentage = progressPercentage
@@ -1986,8 +1926,7 @@ extension TimestreamQueryClientTypes {
         public init(
             computeMode: TimestreamQueryClientTypes.ComputeMode? = nil,
             provisionedCapacity: TimestreamQueryClientTypes.ProvisionedCapacityRequest? = nil
-        )
-        {
+        ) {
             self.computeMode = computeMode
             self.provisionedCapacity = provisionedCapacity
         }
@@ -2005,8 +1944,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [TimestreamQueryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2028,8 +1966,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2052,8 +1989,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
         maxQueryTCU: Swift.Int? = nil,
         queryCompute: TimestreamQueryClientTypes.QueryComputeRequest? = nil,
         queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
-    )
-    {
+    ) {
         self.maxQueryTCU = maxQueryTCU
         self.queryCompute = queryCompute
         self.queryPricingModel = queryPricingModel
@@ -2072,8 +2008,7 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
         maxQueryTCU: Swift.Int? = nil,
         queryCompute: TimestreamQueryClientTypes.QueryComputeResponse? = nil,
         queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
-    )
-    {
+    ) {
         self.maxQueryTCU = maxQueryTCU
         self.queryCompute = queryCompute
         self.queryPricingModel = queryPricingModel
@@ -2091,8 +2026,7 @@ public struct UpdateScheduledQueryInput: Swift.Sendable {
     public init(
         scheduledQueryArn: Swift.String? = nil,
         state: TimestreamQueryClientTypes.ScheduledQueryState? = nil
-    )
-    {
+    ) {
         self.scheduledQueryArn = scheduledQueryArn
         self.state = state
     }
@@ -2111,8 +2045,7 @@ extension TimestreamQueryClientTypes {
         public init(
             name: Swift.String? = nil,
             type: TimestreamQueryClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -2137,8 +2070,7 @@ extension TimestreamQueryClientTypes {
             rowColumnInfo: [TimestreamQueryClientTypes.ColumnInfo]? = nil,
             scalarType: TimestreamQueryClientTypes.ScalarType? = nil,
             timeSeriesMeasureValueColumnInfo: TimestreamQueryClientTypes.ColumnInfo? = nil
-        )
-        {
+        ) {
             self.arrayColumnInfo = arrayColumnInfo
             self.rowColumnInfo = rowColumnInfo
             self.scalarType = scalarType
@@ -2168,8 +2100,7 @@ extension TimestreamQueryClientTypes {
             rowValue: TimestreamQueryClientTypes.Row? = nil,
             scalarValue: Swift.String? = nil,
             timeSeriesValue: [TimestreamQueryClientTypes.TimeSeriesDataPoint]? = nil
-        )
-        {
+        ) {
             self.arrayValue = arrayValue
             self.nullValue = nullValue
             self.rowValue = rowValue
@@ -2193,8 +2124,7 @@ extension TimestreamQueryClientTypes {
         public init(
             name: Swift.String? = nil,
             type: TimestreamQueryClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -2222,8 +2152,7 @@ extension TimestreamQueryClientTypes {
             name: Swift.String? = nil,
             tableName: Swift.String? = nil,
             type: TimestreamQueryClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.aliased = aliased
             self.databaseName = databaseName
             self.name = name
@@ -2247,8 +2176,7 @@ extension TimestreamQueryClientTypes {
         public init(
             time: Swift.String? = nil,
             value: TimestreamQueryClientTypes.Datum? = nil
-        )
-        {
+        ) {
             self.time = time
             self.value = value
         }
@@ -2265,8 +2193,7 @@ extension TimestreamQueryClientTypes {
 
         public init(
             data: [TimestreamQueryClientTypes.Datum]? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -2296,8 +2223,7 @@ public struct QueryOutput: Swift.Sendable {
         queryInsightsResponse: TimestreamQueryClientTypes.QueryInsightsResponse? = nil,
         queryStatus: TimestreamQueryClientTypes.QueryStatus? = nil,
         rows: [TimestreamQueryClientTypes.Row]? = nil
-    )
-    {
+    ) {
         self.columnInfo = columnInfo
         self.nextToken = nextToken
         self.queryId = queryId
@@ -2322,8 +2248,7 @@ public struct PrepareQueryOutput: Swift.Sendable {
         columns: [TimestreamQueryClientTypes.SelectColumn]? = nil,
         parameters: [TimestreamQueryClientTypes.ParameterMapping]? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.columns = columns
         self.parameters = parameters
         self.queryString = queryString

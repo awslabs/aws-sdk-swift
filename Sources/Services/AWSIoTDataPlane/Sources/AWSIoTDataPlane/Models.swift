@@ -33,9 +33,9 @@ public struct PublishOutput: Swift.Sendable {
 }
 
 /// The specified version does not match the version of the document.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -51,16 +51,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An unexpected error has occurred.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -76,16 +75,15 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request is not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -101,16 +99,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified combination of HTTP verb and URI is not supported.
-public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -126,16 +123,15 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -151,16 +147,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service is temporarily unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -176,16 +171,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -201,16 +195,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You are not authorized to perform this operation.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -226,16 +219,15 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The document encoding is not supported.
-public struct UnsupportedDocumentEncodingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedDocumentEncodingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -251,8 +243,7 @@ public struct UnsupportedDocumentEncodingException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -268,8 +259,7 @@ public struct DeleteThingShadowInput: Swift.Sendable {
     public init(
         shadowName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.shadowName = shadowName
         self.thingName = thingName
     }
@@ -283,8 +273,7 @@ public struct DeleteThingShadowOutput: Swift.Sendable {
 
     public init(
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -297,8 +286,7 @@ public struct GetRetainedMessageInput: Swift.Sendable {
 
     public init(
         topic: Swift.String? = nil
-    )
-    {
+    ) {
         self.topic = topic
     }
 }
@@ -322,8 +310,7 @@ public struct GetRetainedMessageOutput: Swift.Sendable {
         qos: Swift.Int = 0,
         topic: Swift.String? = nil,
         userProperties: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.lastModifiedTime = lastModifiedTime
         self.payload = payload
         self.qos = qos
@@ -343,8 +330,7 @@ public struct GetThingShadowInput: Swift.Sendable {
     public init(
         shadowName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.shadowName = shadowName
         self.thingName = thingName
     }
@@ -357,8 +343,7 @@ public struct GetThingShadowOutput: Swift.Sendable {
 
     public init(
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }
@@ -376,8 +361,7 @@ public struct ListNamedShadowsForThingInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.thingName = thingName
@@ -396,8 +380,7 @@ public struct ListNamedShadowsForThingOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         results: [Swift.String]? = nil,
         timestamp: Swift.Int = 0
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
         self.timestamp = timestamp
@@ -413,8 +396,7 @@ public struct ListRetainedMessagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -438,8 +420,7 @@ extension IoTDataPlaneClientTypes {
             payloadSize: Swift.Int = 0,
             qos: Swift.Int = 0,
             topic: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTime = lastModifiedTime
             self.payloadSize = payloadSize
             self.qos = qos
@@ -457,8 +438,7 @@ public struct ListRetainedMessagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         retainedTopics: [IoTDataPlaneClientTypes.RetainedMessageSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.retainedTopics = retainedTopics
     }
@@ -528,8 +508,7 @@ public struct PublishInput: Swift.Sendable {
         retain: Swift.Bool? = false,
         topic: Swift.String? = nil,
         userProperties: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.correlationData = correlationData
         self.messageExpiry = messageExpiry
@@ -544,9 +523,9 @@ public struct PublishInput: Swift.Sendable {
 }
 
 /// The payload exceeds the maximum size allowed.
-public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -562,8 +541,7 @@ public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -583,8 +561,7 @@ public struct UpdateThingShadowInput: Swift.Sendable {
         payload: Foundation.Data? = nil,
         shadowName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.shadowName = shadowName
         self.thingName = thingName
@@ -598,8 +575,7 @@ public struct UpdateThingShadowOutput: Swift.Sendable {
 
     public init(
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.payload = payload
     }
 }

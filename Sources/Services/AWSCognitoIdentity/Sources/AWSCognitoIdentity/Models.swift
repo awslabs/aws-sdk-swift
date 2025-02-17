@@ -76,9 +76,9 @@ extension CognitoIdentityClientTypes {
 }
 
 /// Thrown when the service encounters an error during processing the request.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by an InternalErrorException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -94,16 +94,15 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown for missing or bad input parameter(s).
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by an InvalidParameterException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -119,16 +118,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when the total number of user pools has exceeded a preset limit.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a LimitExceededException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -144,16 +142,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when a user is not authorized to access the requested resource.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a NotAuthorizedException
         public internal(set) var message: Swift.String? = nil
     }
@@ -169,16 +166,15 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when a user tries to use a login which is already linked to another account.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ResourceConflictException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -194,16 +190,15 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when a request is throttled.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message returned by a TooManyRequestsException
         public internal(set) var message: Swift.String? = nil
     }
@@ -219,8 +214,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -240,8 +234,7 @@ extension CognitoIdentityClientTypes {
             clientId: Swift.String? = nil,
             providerName: Swift.String? = nil,
             serverSideTokenCheck: Swift.Bool? = false
-        )
-        {
+        ) {
             self.clientId = clientId
             self.providerName = providerName
             self.serverSideTokenCheck = serverSideTokenCheck
@@ -282,8 +275,7 @@ public struct CreateIdentityPoolInput: Swift.Sendable {
         openIdConnectProviderARNs: [Swift.String]? = nil,
         samlProviderARNs: [Swift.String]? = nil,
         supportedLoginProviders: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowClassicFlow = allowClassicFlow
         self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
         self.cognitoIdentityProviders = cognitoIdentityProviders
@@ -333,8 +325,7 @@ public struct CreateIdentityPoolOutput: Swift.Sendable {
         openIdConnectProviderARNs: [Swift.String]? = nil,
         samlProviderARNs: [Swift.String]? = nil,
         supportedLoginProviders: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowClassicFlow = allowClassicFlow
         self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
         self.cognitoIdentityProviders = cognitoIdentityProviders
@@ -356,8 +347,7 @@ public struct DeleteIdentitiesInput: Swift.Sendable {
 
     public init(
         identityIdsToDelete: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityIdsToDelete = identityIdsToDelete
     }
 }
@@ -403,8 +393,7 @@ extension CognitoIdentityClientTypes {
         public init(
             errorCode: CognitoIdentityClientTypes.ErrorCode? = nil,
             identityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.identityId = identityId
         }
@@ -418,16 +407,15 @@ public struct DeleteIdentitiesOutput: Swift.Sendable {
 
     public init(
         unprocessedIdentityIds: [CognitoIdentityClientTypes.UnprocessedIdentityId]? = nil
-    )
-    {
+    ) {
         self.unprocessedIdentityIds = unprocessedIdentityIds
     }
 }
 
 /// Thrown when the requested resource (for example, a dataset or record) does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ResourceNotFoundException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -443,8 +431,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -457,8 +444,7 @@ public struct DeleteIdentityPoolInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -471,8 +457,7 @@ public struct DescribeIdentityInput: Swift.Sendable {
 
     public init(
         identityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
     }
 }
@@ -493,8 +478,7 @@ public struct DescribeIdentityOutput: Swift.Sendable {
         identityId: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil,
         logins: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.identityId = identityId
         self.lastModifiedDate = lastModifiedDate
@@ -510,8 +494,7 @@ public struct DescribeIdentityPoolInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -553,8 +536,7 @@ public struct DescribeIdentityPoolOutput: Swift.Sendable {
         openIdConnectProviderARNs: [Swift.String]? = nil,
         samlProviderARNs: [Swift.String]? = nil,
         supportedLoginProviders: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowClassicFlow = allowClassicFlow
         self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
         self.cognitoIdentityProviders = cognitoIdentityProviders
@@ -569,9 +551,9 @@ public struct DescribeIdentityPoolOutput: Swift.Sendable {
 }
 
 /// An exception thrown when a dependent service such as Facebook or Twitter is not responding
-public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by an ExternalServiceException
         public internal(set) var message: Swift.String? = nil
     }
@@ -587,16 +569,15 @@ public struct ExternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown if the identity pool has no role associated for the given auth type (auth/unauth) or if the AssumeRole fails.
-public struct InvalidIdentityPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIdentityPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned for an InvalidIdentityPoolConfigurationException
         public internal(set) var message: Swift.String? = nil
     }
@@ -612,8 +593,7 @@ public struct InvalidIdentityPoolConfigurationException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -632,8 +612,7 @@ public struct GetCredentialsForIdentityInput: Swift.Sendable {
         customRoleArn: Swift.String? = nil,
         identityId: Swift.String? = nil,
         logins: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.customRoleArn = customRoleArn
         self.identityId = identityId
         self.logins = logins
@@ -663,8 +642,7 @@ extension CognitoIdentityClientTypes {
             expiration: Foundation.Date? = nil,
             secretKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
             self.secretKey = secretKey
@@ -688,8 +666,7 @@ public struct GetCredentialsForIdentityOutput: Swift.Sendable {
     public init(
         credentials: CognitoIdentityClientTypes.Credentials? = nil,
         identityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.identityId = identityId
     }
@@ -721,8 +698,7 @@ public struct GetIdInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil,
         logins: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.identityPoolId = identityPoolId
         self.logins = logins
@@ -741,8 +717,7 @@ public struct GetIdOutput: Swift.Sendable {
 
     public init(
         identityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
     }
 }
@@ -755,8 +730,7 @@ public struct GetIdentityPoolRolesInput: Swift.Sendable {
 
     public init(
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
     }
 }
@@ -818,8 +792,7 @@ extension CognitoIdentityClientTypes {
             matchType: CognitoIdentityClientTypes.MappingRuleMatchType? = nil,
             roleARN: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.claim = claim
             self.matchType = matchType
             self.roleARN = roleARN
@@ -838,8 +811,7 @@ extension CognitoIdentityClientTypes {
 
         public init(
             rules: [CognitoIdentityClientTypes.MappingRule]? = nil
-        )
-        {
+        ) {
             self.rules = rules
         }
     }
@@ -890,8 +862,7 @@ extension CognitoIdentityClientTypes {
             ambiguousRoleResolution: CognitoIdentityClientTypes.AmbiguousRoleResolutionType? = nil,
             rulesConfiguration: CognitoIdentityClientTypes.RulesConfigurationType? = nil,
             type: CognitoIdentityClientTypes.RoleMappingType? = nil
-        )
-        {
+        ) {
             self.ambiguousRoleResolution = ambiguousRoleResolution
             self.rulesConfiguration = rulesConfiguration
             self.type = type
@@ -912,8 +883,7 @@ public struct GetIdentityPoolRolesOutput: Swift.Sendable {
         identityPoolId: Swift.String? = nil,
         roleMappings: [Swift.String: CognitoIdentityClientTypes.RoleMapping]? = nil,
         roles: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
         self.roleMappings = roleMappings
         self.roles = roles
@@ -931,8 +901,7 @@ public struct GetOpenIdTokenInput: Swift.Sendable {
     public init(
         identityId: Swift.String? = nil,
         logins: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.logins = logins
     }
@@ -953,8 +922,7 @@ public struct GetOpenIdTokenOutput: Swift.Sendable {
     public init(
         identityId: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.token = token
     }
@@ -966,9 +934,9 @@ extension GetOpenIdTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The provided developer user identifier is already registered with Cognito under a different identity ID.
-public struct DeveloperUserAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeveloperUserAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This developer user identifier is already registered with Cognito.
         public internal(set) var message: Swift.String? = nil
     }
@@ -984,8 +952,7 @@ public struct DeveloperUserAlreadyRegisteredException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1011,8 +978,7 @@ public struct GetOpenIdTokenForDeveloperIdentityInput: Swift.Sendable {
         logins: [Swift.String: Swift.String]? = nil,
         principalTags: [Swift.String: Swift.String]? = nil,
         tokenDuration: Swift.Int? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.identityPoolId = identityPoolId
         self.logins = logins
@@ -1036,8 +1002,7 @@ public struct GetOpenIdTokenForDeveloperIdentityOutput: Swift.Sendable {
     public init(
         identityId: Swift.String? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.token = token
     }
@@ -1059,8 +1024,7 @@ public struct GetPrincipalTagAttributeMapInput: Swift.Sendable {
     public init(
         identityPoolId: Swift.String? = nil,
         identityProviderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
         self.identityProviderName = identityProviderName
     }
@@ -1081,8 +1045,7 @@ public struct GetPrincipalTagAttributeMapOutput: Swift.Sendable {
         identityProviderName: Swift.String? = nil,
         principalTags: [Swift.String: Swift.String]? = nil,
         useDefaults: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
         self.identityProviderName = identityProviderName
         self.principalTags = principalTags
@@ -1108,8 +1071,7 @@ public struct ListIdentitiesInput: Swift.Sendable {
         identityPoolId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hideDisabled = hideDisabled
         self.identityPoolId = identityPoolId
         self.maxResults = maxResults
@@ -1135,8 +1097,7 @@ extension CognitoIdentityClientTypes {
             identityId: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             logins: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.identityId = identityId
             self.lastModifiedDate = lastModifiedDate
@@ -1158,8 +1119,7 @@ public struct ListIdentitiesOutput: Swift.Sendable {
         identities: [CognitoIdentityClientTypes.IdentityDescription]? = nil,
         identityPoolId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identities = identities
         self.identityPoolId = identityPoolId
         self.nextToken = nextToken
@@ -1177,8 +1137,7 @@ public struct ListIdentityPoolsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1196,8 +1155,7 @@ extension CognitoIdentityClientTypes {
         public init(
             identityPoolId: Swift.String? = nil,
             identityPoolName: Swift.String? = nil
-        )
-        {
+        ) {
             self.identityPoolId = identityPoolId
             self.identityPoolName = identityPoolName
         }
@@ -1214,8 +1172,7 @@ public struct ListIdentityPoolsOutput: Swift.Sendable {
     public init(
         identityPools: [CognitoIdentityClientTypes.IdentityPoolShortDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityPools = identityPools
         self.nextToken = nextToken
     }
@@ -1228,8 +1185,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1240,8 +1196,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1266,8 +1221,7 @@ public struct LookupDeveloperIdentityInput: Swift.Sendable {
         identityPoolId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.developerUserIdentifier = developerUserIdentifier
         self.identityId = identityId
         self.identityPoolId = identityPoolId
@@ -1289,8 +1243,7 @@ public struct LookupDeveloperIdentityOutput: Swift.Sendable {
         developerUserIdentifierList: [Swift.String]? = nil,
         identityId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.developerUserIdentifierList = developerUserIdentifierList
         self.identityId = identityId
         self.nextToken = nextToken
@@ -1317,8 +1270,7 @@ public struct MergeDeveloperIdentitiesInput: Swift.Sendable {
         developerProviderName: Swift.String? = nil,
         identityPoolId: Swift.String? = nil,
         sourceUserIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationUserIdentifier = destinationUserIdentifier
         self.developerProviderName = developerProviderName
         self.identityPoolId = identityPoolId
@@ -1333,16 +1285,15 @@ public struct MergeDeveloperIdentitiesOutput: Swift.Sendable {
 
     public init(
         identityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
     }
 }
 
 /// Thrown if there are parallel requests to modify a resource.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned by a ConcurrentModificationException.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1358,8 +1309,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1379,8 +1329,7 @@ public struct SetIdentityPoolRolesInput: Swift.Sendable {
         identityPoolId: Swift.String? = nil,
         roleMappings: [Swift.String: CognitoIdentityClientTypes.RoleMapping]? = nil,
         roles: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
         self.roleMappings = roleMappings
         self.roles = roles
@@ -1404,8 +1353,7 @@ public struct SetPrincipalTagAttributeMapInput: Swift.Sendable {
         identityProviderName: Swift.String? = nil,
         principalTags: [Swift.String: Swift.String]? = nil,
         useDefaults: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
         self.identityProviderName = identityProviderName
         self.principalTags = principalTags
@@ -1428,8 +1376,7 @@ public struct SetPrincipalTagAttributeMapOutput: Swift.Sendable {
         identityProviderName: Swift.String? = nil,
         principalTags: [Swift.String: Swift.String]? = nil,
         useDefaults: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.identityPoolId = identityPoolId
         self.identityProviderName = identityProviderName
         self.principalTags = principalTags
@@ -1448,8 +1395,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1480,8 +1426,7 @@ public struct UnlinkDeveloperIdentityInput: Swift.Sendable {
         developerUserIdentifier: Swift.String? = nil,
         identityId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil
-    )
-    {
+    ) {
         self.developerProviderName = developerProviderName
         self.developerUserIdentifier = developerUserIdentifier
         self.identityId = identityId
@@ -1505,8 +1450,7 @@ public struct UnlinkIdentityInput: Swift.Sendable {
         identityId: Swift.String? = nil,
         logins: [Swift.String: Swift.String]? = nil,
         loginsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.identityId = identityId
         self.logins = logins
         self.loginsToRemove = loginsToRemove
@@ -1529,8 +1473,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1578,8 +1521,7 @@ public struct UpdateIdentityPoolInput: Swift.Sendable {
         openIdConnectProviderARNs: [Swift.String]? = nil,
         samlProviderARNs: [Swift.String]? = nil,
         supportedLoginProviders: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowClassicFlow = allowClassicFlow
         self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
         self.cognitoIdentityProviders = cognitoIdentityProviders
@@ -1630,8 +1572,7 @@ public struct UpdateIdentityPoolOutput: Swift.Sendable {
         openIdConnectProviderARNs: [Swift.String]? = nil,
         samlProviderARNs: [Swift.String]? = nil,
         supportedLoginProviders: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowClassicFlow = allowClassicFlow
         self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
         self.cognitoIdentityProviders = cognitoIdentityProviders

@@ -31,9 +31,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -48,16 +48,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request references a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that caused the exception.
         public internal(set) var resourceId: Swift.String? = nil
@@ -78,8 +77,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -87,9 +85,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was denied because of request throttling. Retry the request.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
         public internal(set) var quotaCode: Swift.String? = nil
@@ -110,8 +108,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.serviceCode = serviceCode
@@ -132,8 +129,7 @@ extension EvidentlyClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -176,9 +172,9 @@ extension EvidentlyClientTypes {
 }
 
 /// The value of a parameter in the request caused an error.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter that caused the exception.
         public internal(set) var fieldList: [EvidentlyClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -199,8 +195,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [EvidentlyClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: EvidentlyClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -224,8 +219,7 @@ extension EvidentlyClientTypes {
             entityId: Swift.String? = nil,
             evaluationContext: Swift.String? = nil,
             feature: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.evaluationContext = evaluationContext
             self.feature = feature
@@ -244,8 +238,7 @@ public struct BatchEvaluateFeatureInput: Swift.Sendable {
     public init(
         project: Swift.String? = nil,
         requests: [EvidentlyClientTypes.EvaluationRequest]? = nil
-    )
-    {
+    ) {
         self.project = project
         self.requests = requests
     }
@@ -296,8 +289,7 @@ extension EvidentlyClientTypes {
             reason: Swift.String? = nil,
             value: EvidentlyClientTypes.VariableValue? = nil,
             variation: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.entityId = entityId
             self.feature = feature
@@ -315,8 +307,7 @@ public struct BatchEvaluateFeatureOutput: Swift.Sendable {
 
     public init(
         results: [EvidentlyClientTypes.EvaluationResult]? = nil
-    )
-    {
+    ) {
         self.results = results
     }
 }
@@ -359,8 +350,7 @@ extension EvidentlyClientTypes {
 
         public init(
             logGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroup = logGroup
         }
     }
@@ -375,17 +365,16 @@ extension EvidentlyClientTypes {
 
         public init(
             logGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroup = logGroup
         }
     }
 }
 
 /// A resource was in an inconsistent state during an update or a deletion.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that caused the exception.
         public internal(set) var resourceId: Swift.String? = nil
@@ -406,8 +395,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -415,9 +403,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
         public internal(set) var quotaCode: Swift.String? = nil
@@ -444,8 +432,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -478,8 +465,7 @@ extension EvidentlyClientTypes {
             name: Swift.String? = nil,
             unitLabel: Swift.String? = nil,
             valueKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityIdKey = entityIdKey
             self.eventPattern = eventPattern
             self.name = name
@@ -502,8 +488,7 @@ extension EvidentlyClientTypes {
         public init(
             desiredChange: EvidentlyClientTypes.ChangeDirectionEnum? = nil,
             metricDefinition: EvidentlyClientTypes.MetricDefinitionConfig? = nil
-        )
-        {
+        ) {
             self.desiredChange = desiredChange
             self.metricDefinition = metricDefinition
         }
@@ -522,8 +507,7 @@ extension EvidentlyClientTypes {
         public init(
             controlTreatmentName: Swift.String? = nil,
             treatmentWeights: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.controlTreatmentName = controlTreatmentName
             self.treatmentWeights = treatmentWeights
         }
@@ -551,8 +535,7 @@ extension EvidentlyClientTypes {
             feature: Swift.String? = nil,
             name: Swift.String? = nil,
             variation: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.feature = feature
             self.name = name
@@ -598,8 +581,7 @@ public struct CreateExperimentInput: Swift.Sendable {
         segment: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         treatments: [EvidentlyClientTypes.TreatmentConfig]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.metricGoals = metricGoals
         self.name = name
@@ -625,8 +607,7 @@ extension EvidentlyClientTypes {
         public init(
             endedTime: Foundation.Date? = nil,
             startedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endedTime = endedTime
             self.startedTime = startedTime
         }
@@ -654,8 +635,7 @@ extension EvidentlyClientTypes {
             name: Swift.String? = nil,
             unitLabel: Swift.String? = nil,
             valueKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityIdKey = entityIdKey
             self.eventPattern = eventPattern
             self.name = name
@@ -678,8 +658,7 @@ extension EvidentlyClientTypes {
         public init(
             desiredChange: EvidentlyClientTypes.ChangeDirectionEnum? = nil,
             metricDefinition: EvidentlyClientTypes.MetricDefinition? = nil
-        )
-        {
+        ) {
             self.desiredChange = desiredChange
             self.metricDefinition = metricDefinition
         }
@@ -698,8 +677,7 @@ extension EvidentlyClientTypes {
         public init(
             controlTreatmentName: Swift.String? = nil,
             treatmentWeights: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.controlTreatmentName = controlTreatmentName
             self.treatmentWeights = treatmentWeights
         }
@@ -715,8 +693,7 @@ extension EvidentlyClientTypes {
 
         public init(
             analysisCompleteTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analysisCompleteTime = analysisCompleteTime
         }
     }
@@ -776,8 +753,7 @@ extension EvidentlyClientTypes {
             description: Swift.String? = nil,
             featureVariations: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.featureVariations = featureVariations
             self.name = name
@@ -877,8 +853,7 @@ extension EvidentlyClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             treatments: [EvidentlyClientTypes.Treatment]? = nil,
             type: EvidentlyClientTypes.ExperimentType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -908,8 +883,7 @@ public struct CreateExperimentOutput: Swift.Sendable {
 
     public init(
         experiment: EvidentlyClientTypes.Experiment? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
     }
 }
@@ -957,8 +931,7 @@ extension EvidentlyClientTypes {
         public init(
             name: Swift.String? = nil,
             value: EvidentlyClientTypes.VariableValue? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -995,8 +968,7 @@ public struct CreateFeatureInput: Swift.Sendable {
         project: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         variations: [EvidentlyClientTypes.VariationConfig]? = nil
-    )
-    {
+    ) {
         self.defaultVariation = defaultVariation
         self.description = description
         self.entityOverrides = entityOverrides
@@ -1021,8 +993,7 @@ extension EvidentlyClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1105,8 +1076,7 @@ extension EvidentlyClientTypes {
         public init(
             name: Swift.String? = nil,
             value: EvidentlyClientTypes.VariableValue? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1169,8 +1139,7 @@ extension EvidentlyClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             valueType: EvidentlyClientTypes.VariationValueType? = nil,
             variations: [EvidentlyClientTypes.Variation]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.defaultVariation = defaultVariation
@@ -1195,8 +1164,7 @@ public struct CreateFeatureOutput: Swift.Sendable {
 
     public init(
         feature: EvidentlyClientTypes.Feature? = nil
-    )
-    {
+    ) {
         self.feature = feature
     }
 }
@@ -1222,8 +1190,7 @@ extension EvidentlyClientTypes {
             feature: Swift.String? = nil,
             name: Swift.String? = nil,
             variation: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.feature = feature
             self.name = name
@@ -1242,8 +1209,7 @@ extension EvidentlyClientTypes {
 
         public init(
             metricDefinition: EvidentlyClientTypes.MetricDefinitionConfig? = nil
-        )
-        {
+        ) {
             self.metricDefinition = metricDefinition
         }
     }
@@ -1267,8 +1233,7 @@ extension EvidentlyClientTypes {
             evaluationOrder: Swift.Int? = nil,
             segment: Swift.String? = nil,
             weights: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.evaluationOrder = evaluationOrder
             self.segment = segment
             self.weights = weights
@@ -1293,8 +1258,7 @@ extension EvidentlyClientTypes {
             groupWeights: [Swift.String: Swift.Int]? = nil,
             segmentOverrides: [EvidentlyClientTypes.SegmentOverride]? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.groupWeights = groupWeights
             self.segmentOverrides = segmentOverrides
             self.startTime = startTime
@@ -1312,8 +1276,7 @@ extension EvidentlyClientTypes {
 
         public init(
             steps: [EvidentlyClientTypes.ScheduledSplitConfig]? = nil
-        )
-        {
+        ) {
             self.steps = steps
         }
     }
@@ -1349,8 +1312,7 @@ public struct CreateLaunchInput: Swift.Sendable {
         randomizationSalt: Swift.String? = nil,
         scheduledSplitsConfig: EvidentlyClientTypes.ScheduledSplitsLaunchConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.groups = groups
         self.metricMonitors = metricMonitors
@@ -1374,8 +1336,7 @@ extension EvidentlyClientTypes {
         public init(
             endedTime: Foundation.Date? = nil,
             startedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endedTime = endedTime
             self.startedTime = startedTime
         }
@@ -1399,8 +1360,7 @@ extension EvidentlyClientTypes {
             description: Swift.String? = nil,
             featureVariations: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.featureVariations = featureVariations
             self.name = name
@@ -1418,8 +1378,7 @@ extension EvidentlyClientTypes {
 
         public init(
             metricDefinition: EvidentlyClientTypes.MetricDefinition? = nil
-        )
-        {
+        ) {
             self.metricDefinition = metricDefinition
         }
     }
@@ -1441,8 +1400,7 @@ extension EvidentlyClientTypes {
             groupWeights: [Swift.String: Swift.Int]? = nil,
             segmentOverrides: [EvidentlyClientTypes.SegmentOverride]? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.groupWeights = groupWeights
             self.segmentOverrides = segmentOverrides
             self.startTime = startTime
@@ -1459,8 +1417,7 @@ extension EvidentlyClientTypes {
 
         public init(
             steps: [EvidentlyClientTypes.ScheduledSplit]? = nil
-        )
-        {
+        ) {
             self.steps = steps
         }
     }
@@ -1587,8 +1544,7 @@ extension EvidentlyClientTypes {
             statusReason: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: EvidentlyClientTypes.LaunchType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -1615,8 +1571,7 @@ public struct CreateLaunchOutput: Swift.Sendable {
 
     public init(
         launch: EvidentlyClientTypes.Launch? = nil
-    )
-    {
+    ) {
         self.launch = launch
     }
 }
@@ -1633,8 +1588,7 @@ extension EvidentlyClientTypes {
         public init(
             applicationId: Swift.String? = nil,
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.environmentId = environmentId
         }
@@ -1653,8 +1607,7 @@ extension EvidentlyClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -1673,8 +1626,7 @@ extension EvidentlyClientTypes {
         public init(
             cloudWatchLogs: EvidentlyClientTypes.CloudWatchLogsDestinationConfig? = nil,
             s3Destination: EvidentlyClientTypes.S3DestinationConfig? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Destination = s3Destination
         }
@@ -1700,8 +1652,7 @@ public struct CreateProjectInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.appConfigResource = appConfigResource
         self.dataDelivery = dataDelivery
         self.description = description
@@ -1728,8 +1679,7 @@ extension EvidentlyClientTypes {
             applicationId: Swift.String? = nil,
             configurationProfileId: Swift.String? = nil,
             environmentId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.environmentId = environmentId
@@ -1749,8 +1699,7 @@ extension EvidentlyClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -1769,8 +1718,7 @@ extension EvidentlyClientTypes {
         public init(
             cloudWatchLogs: EvidentlyClientTypes.CloudWatchLogsDestination? = nil,
             s3Destination: EvidentlyClientTypes.S3Destination? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Destination = s3Destination
         }
@@ -1859,8 +1807,7 @@ extension EvidentlyClientTypes {
             name: Swift.String? = nil,
             status: EvidentlyClientTypes.ProjectStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeExperimentCount = activeExperimentCount
             self.activeLaunchCount = activeLaunchCount
             self.appConfigResource = appConfigResource
@@ -1886,8 +1833,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
     public init(
         project: EvidentlyClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -1909,8 +1855,7 @@ public struct CreateSegmentInput: Swift.Sendable {
         name: Swift.String? = nil,
         pattern: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.pattern = pattern
@@ -1956,8 +1901,7 @@ extension EvidentlyClientTypes {
             name: Swift.String? = nil,
             pattern: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -1978,16 +1922,15 @@ public struct CreateSegmentOutput: Swift.Sendable {
 
     public init(
         segment: EvidentlyClientTypes.Segment? = nil
-    )
-    {
+    ) {
         self.segment = segment
     }
 }
 
 /// Unexpected error while processing the request. Retry the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2002,16 +1945,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service was unavailable. Retry the request.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2026,8 +1968,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2043,8 +1984,7 @@ public struct DeleteExperimentInput: Swift.Sendable {
     public init(
         experiment: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
         self.project = project
     }
@@ -2066,8 +2006,7 @@ public struct DeleteFeatureInput: Swift.Sendable {
     public init(
         feature: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.feature = feature
         self.project = project
     }
@@ -2089,8 +2028,7 @@ public struct DeleteLaunchInput: Swift.Sendable {
     public init(
         launch: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.launch = launch
         self.project = project
     }
@@ -2108,8 +2046,7 @@ public struct DeleteProjectInput: Swift.Sendable {
 
     public init(
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -2126,8 +2063,7 @@ public struct DeleteSegmentInput: Swift.Sendable {
 
     public init(
         segment: Swift.String? = nil
-    )
-    {
+    ) {
         self.segment = segment
     }
 }
@@ -2155,8 +2091,7 @@ public struct EvaluateFeatureInput: Swift.Sendable {
         evaluationContext: Swift.String? = nil,
         feature: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityId = entityId
         self.evaluationContext = evaluationContext
         self.feature = feature
@@ -2179,8 +2114,7 @@ public struct EvaluateFeatureOutput: Swift.Sendable {
         reason: Swift.String? = nil,
         value: EvidentlyClientTypes.VariableValue? = nil,
         variation: Swift.String? = nil
-    )
-    {
+    ) {
         self.details = details
         self.reason = reason
         self.value = value
@@ -2235,8 +2169,7 @@ extension EvidentlyClientTypes {
             data: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             type: EvidentlyClientTypes.EventType? = nil
-        )
-        {
+        ) {
             self.data = data
             self.timestamp = timestamp
             self.type = type
@@ -2251,8 +2184,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2263,8 +2195,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2280,8 +2211,7 @@ public struct GetExperimentInput: Swift.Sendable {
     public init(
         experiment: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
         self.project = project
     }
@@ -2293,8 +2223,7 @@ public struct GetExperimentOutput: Swift.Sendable {
 
     public init(
         experiment: EvidentlyClientTypes.Experiment? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
     }
 }
@@ -2431,8 +2360,7 @@ public struct GetExperimentResultsInput: Swift.Sendable {
         resultStats: [EvidentlyClientTypes.ExperimentResultRequestType]? = nil,
         startTime: Foundation.Date? = nil,
         treatmentNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.baseStat = baseStat
         self.endTime = endTime
         self.experiment = experiment
@@ -2464,8 +2392,7 @@ extension EvidentlyClientTypes {
             metricName: Swift.String? = nil,
             reportName: EvidentlyClientTypes.ExperimentReportName? = nil,
             treatmentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.metricName = metricName
             self.reportName = reportName
@@ -2530,8 +2457,7 @@ extension EvidentlyClientTypes {
             resultStat: EvidentlyClientTypes.ExperimentResultResponseType? = nil,
             treatmentName: Swift.String? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.resultStat = resultStat
             self.treatmentName = treatmentName
@@ -2555,8 +2481,7 @@ public struct GetExperimentResultsOutput: Swift.Sendable {
         reports: [EvidentlyClientTypes.ExperimentReport]? = nil,
         resultsData: [EvidentlyClientTypes.ExperimentResultsData]? = nil,
         timestamps: [Foundation.Date]? = nil
-    )
-    {
+    ) {
         self.details = details
         self.reports = reports
         self.resultsData = resultsData
@@ -2580,8 +2505,7 @@ public struct ListExperimentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         project: Swift.String? = nil,
         status: EvidentlyClientTypes.ExperimentStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.project = project
@@ -2598,8 +2522,7 @@ public struct ListExperimentsOutput: Swift.Sendable {
     public init(
         experiments: [EvidentlyClientTypes.Experiment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experiments = experiments
         self.nextToken = nextToken
     }
@@ -2620,8 +2543,7 @@ public struct StartExperimentInput: Swift.Sendable {
         analysisCompleteTime: Foundation.Date? = nil,
         experiment: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisCompleteTime = analysisCompleteTime
         self.experiment = experiment
         self.project = project
@@ -2634,8 +2556,7 @@ public struct StartExperimentOutput: Swift.Sendable {
 
     public init(
         startedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.startedTime = startedTime
     }
 }
@@ -2686,8 +2607,7 @@ public struct StopExperimentInput: Swift.Sendable {
         experiment: Swift.String? = nil,
         project: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredState = desiredState
         self.experiment = experiment
         self.project = project
@@ -2701,8 +2621,7 @@ public struct StopExperimentOutput: Swift.Sendable {
 
     public init(
         endedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endedTime = endedTime
     }
 }
@@ -2742,8 +2661,7 @@ public struct UpdateExperimentInput: Swift.Sendable {
         samplingRate: Swift.Int? = 0,
         segment: Swift.String? = nil,
         treatments: [EvidentlyClientTypes.TreatmentConfig]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.experiment = experiment
         self.metricGoals = metricGoals
@@ -2764,8 +2682,7 @@ public struct UpdateExperimentOutput: Swift.Sendable {
 
     public init(
         experiment: EvidentlyClientTypes.Experiment? = nil
-    )
-    {
+    ) {
         self.experiment = experiment
     }
 }
@@ -2781,8 +2698,7 @@ public struct GetFeatureInput: Swift.Sendable {
     public init(
         feature: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.feature = feature
         self.project = project
     }
@@ -2795,8 +2711,7 @@ public struct GetFeatureOutput: Swift.Sendable {
 
     public init(
         feature: EvidentlyClientTypes.Feature? = nil
-    )
-    {
+    ) {
         self.feature = feature
     }
 }
@@ -2814,8 +2729,7 @@ public struct ListFeaturesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.project = project
@@ -2864,8 +2778,7 @@ extension EvidentlyClientTypes {
             project: Swift.String? = nil,
             status: EvidentlyClientTypes.FeatureStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.defaultVariation = defaultVariation
@@ -2889,8 +2802,7 @@ public struct ListFeaturesOutput: Swift.Sendable {
     public init(
         features: [EvidentlyClientTypes.FeatureSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.features = features
         self.nextToken = nextToken
     }
@@ -2925,8 +2837,7 @@ public struct UpdateFeatureInput: Swift.Sendable {
         feature: Swift.String? = nil,
         project: Swift.String? = nil,
         removeVariations: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.addOrUpdateVariations = addOrUpdateVariations
         self.defaultVariation = defaultVariation
         self.description = description
@@ -2945,8 +2856,7 @@ public struct UpdateFeatureOutput: Swift.Sendable {
 
     public init(
         feature: EvidentlyClientTypes.Feature? = nil
-    )
-    {
+    ) {
         self.feature = feature
     }
 }
@@ -2958,8 +2868,7 @@ public struct GetProjectInput: Swift.Sendable {
 
     public init(
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -2971,8 +2880,7 @@ public struct GetProjectOutput: Swift.Sendable {
 
     public init(
         project: EvidentlyClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -2988,8 +2896,7 @@ public struct GetLaunchInput: Swift.Sendable {
     public init(
         launch: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.launch = launch
         self.project = project
     }
@@ -3001,8 +2908,7 @@ public struct GetLaunchOutput: Swift.Sendable {
 
     public init(
         launch: EvidentlyClientTypes.Launch? = nil
-    )
-    {
+    ) {
         self.launch = launch
     }
 }
@@ -3023,8 +2929,7 @@ public struct ListLaunchesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         project: Swift.String? = nil,
         status: EvidentlyClientTypes.LaunchStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.project = project
@@ -3041,8 +2946,7 @@ public struct ListLaunchesOutput: Swift.Sendable {
     public init(
         launches: [EvidentlyClientTypes.Launch]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.launches = launches
         self.nextToken = nextToken
     }
@@ -3059,8 +2963,7 @@ public struct StartLaunchInput: Swift.Sendable {
     public init(
         launch: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.launch = launch
         self.project = project
     }
@@ -3073,8 +2976,7 @@ public struct StartLaunchOutput: Swift.Sendable {
 
     public init(
         launch: EvidentlyClientTypes.Launch? = nil
-    )
-    {
+    ) {
         self.launch = launch
     }
 }
@@ -3125,8 +3027,7 @@ public struct StopLaunchInput: Swift.Sendable {
         launch: Swift.String? = nil,
         project: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredState = desiredState
         self.launch = launch
         self.project = project
@@ -3140,8 +3041,7 @@ public struct StopLaunchOutput: Swift.Sendable {
 
     public init(
         endedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endedTime = endedTime
     }
 }
@@ -3172,8 +3072,7 @@ public struct UpdateLaunchInput: Swift.Sendable {
         project: Swift.String? = nil,
         randomizationSalt: Swift.String? = nil,
         scheduledSplitsConfig: EvidentlyClientTypes.ScheduledSplitsLaunchConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.groups = groups
         self.launch = launch
@@ -3191,8 +3090,7 @@ public struct UpdateLaunchOutput: Swift.Sendable {
 
     public init(
         launch: EvidentlyClientTypes.Launch? = nil
-    )
-    {
+    ) {
         self.launch = launch
     }
 }
@@ -3206,8 +3104,7 @@ public struct ListProjectsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3260,8 +3157,7 @@ extension EvidentlyClientTypes {
             name: Swift.String? = nil,
             status: EvidentlyClientTypes.ProjectStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeExperimentCount = activeExperimentCount
             self.activeLaunchCount = activeLaunchCount
             self.arn = arn
@@ -3287,8 +3183,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projects: [EvidentlyClientTypes.ProjectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projects = projects
     }
@@ -3305,8 +3200,7 @@ public struct PutProjectEventsInput: Swift.Sendable {
     public init(
         events: [EvidentlyClientTypes.Event]? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.project = project
     }
@@ -3327,8 +3221,7 @@ extension EvidentlyClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.eventId = eventId
@@ -3345,8 +3238,7 @@ public struct PutProjectEventsOutput: Swift.Sendable {
     public init(
         eventResults: [EvidentlyClientTypes.PutProjectEventsResultEntry]? = nil,
         failedEventCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.eventResults = eventResults
         self.failedEventCount = failedEventCount
     }
@@ -3365,8 +3257,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         appConfigResource: EvidentlyClientTypes.ProjectAppConfigResourceConfig? = nil,
         description: Swift.String? = nil,
         project: Swift.String? = nil
-    )
-    {
+    ) {
         self.appConfigResource = appConfigResource
         self.description = description
         self.project = project
@@ -3380,8 +3271,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
 
     public init(
         project: EvidentlyClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -3399,8 +3289,7 @@ public struct UpdateProjectDataDeliveryInput: Swift.Sendable {
         cloudWatchLogs: EvidentlyClientTypes.CloudWatchLogsDestinationConfig? = nil,
         project: Swift.String? = nil,
         s3Destination: EvidentlyClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogs = cloudWatchLogs
         self.project = project
         self.s3Destination = s3Destination
@@ -3414,8 +3303,7 @@ public struct UpdateProjectDataDeliveryOutput: Swift.Sendable {
 
     public init(
         project: EvidentlyClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -3427,8 +3315,7 @@ public struct GetSegmentInput: Swift.Sendable {
 
     public init(
         segment: Swift.String? = nil
-    )
-    {
+    ) {
         self.segment = segment
     }
 }
@@ -3440,8 +3327,7 @@ public struct GetSegmentOutput: Swift.Sendable {
 
     public init(
         segment: EvidentlyClientTypes.Segment? = nil
-    )
-    {
+    ) {
         self.segment = segment
     }
 }
@@ -3492,8 +3378,7 @@ public struct ListSegmentReferencesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         segment: Swift.String? = nil,
         type: EvidentlyClientTypes.SegmentReferenceResourceType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.segment = segment
@@ -3530,8 +3415,7 @@ extension EvidentlyClientTypes {
             startTime: Swift.String? = nil,
             status: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.endTime = endTime
             self.lastUpdatedOn = lastUpdatedOn
@@ -3552,8 +3436,7 @@ public struct ListSegmentReferencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         referencedBy: [EvidentlyClientTypes.RefResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.referencedBy = referencedBy
     }
@@ -3568,8 +3451,7 @@ public struct ListSegmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3584,8 +3466,7 @@ public struct ListSegmentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         segments: [EvidentlyClientTypes.Segment]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.segments = segments
     }
@@ -3602,8 +3483,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3625,8 +3505,7 @@ public struct TestSegmentPatternInput: Swift.Sendable {
     public init(
         pattern: Swift.String? = nil,
         payload: Swift.String? = nil
-    )
-    {
+    ) {
         self.pattern = pattern
         self.payload = payload
     }
@@ -3639,8 +3518,7 @@ public struct TestSegmentPatternOutput: Swift.Sendable {
 
     public init(
         match: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.match = match
     }
 }
@@ -3656,8 +3534,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

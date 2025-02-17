@@ -71,10 +71,33 @@ public struct RemovePermissionOutput: Swift.Sendable {
     public init() { }
 }
 
-/// There is concurrent modification on a rule, target, archive, or replay.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// You do not have the necessary permissons for this action.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// There is concurrent modification on a rule, target, archive, or replay.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -89,16 +112,15 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception occurs due to unexpected causes.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -113,16 +135,15 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified state is not a valid state for an event source.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -137,16 +158,15 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation you are attempting is not available in this region.
-public struct OperationDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -161,16 +181,15 @@ public struct OperationDisabledException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An entity that you specified does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -185,8 +204,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -198,8 +216,7 @@ public struct ActivateEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -310,8 +327,7 @@ extension EventBridgeClientTypes {
             invocationRateLimitPerSecond: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiDestinationArn = apiDestinationArn
             self.apiDestinationState = apiDestinationState
             self.connectionArn = connectionArn
@@ -334,8 +350,7 @@ extension EventBridgeClientTypes {
 
         public init(
             graphQLOperation: Swift.String? = nil
-        )
-        {
+        ) {
             self.graphQLOperation = graphQLOperation
         }
     }
@@ -417,8 +432,7 @@ extension EventBridgeClientTypes {
             sizeBytes: Swift.Int = 0,
             state: EventBridgeClientTypes.ArchiveState? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.archiveName = archiveName
             self.creationTime = creationTime
             self.eventCount = eventCount
@@ -461,9 +475,9 @@ extension EventBridgeClientTypes {
 }
 
 /// An error occurred because a replay can be canceled only when the state is Running or Starting.
-public struct IllegalStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -478,8 +492,7 @@ public struct IllegalStatusException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -491,8 +504,7 @@ public struct CancelReplayInput: Swift.Sendable {
 
     public init(
         replayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayName = replayName
     }
 }
@@ -550,8 +562,7 @@ public struct CancelReplayOutput: Swift.Sendable {
         replayArn: Swift.String? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayArn = replayArn
         self.state = state
         self.stateReason = stateReason
@@ -559,9 +570,9 @@ public struct CancelReplayOutput: Swift.Sendable {
 }
 
 /// The request failed because it attempted to create resource beyond the allowed service quota.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -576,16 +587,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource you are trying to create already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -600,8 +610,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -631,8 +640,7 @@ public struct CreateApiDestinationInput: Swift.Sendable {
         invocationEndpoint: Swift.String? = nil,
         invocationRateLimitPerSecond: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.description = description
         self.httpMethod = httpMethod
@@ -657,8 +665,7 @@ public struct CreateApiDestinationOutput: Swift.Sendable {
         apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
         creationTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.apiDestinationArn = apiDestinationArn
         self.apiDestinationState = apiDestinationState
         self.creationTime = creationTime
@@ -667,9 +674,9 @@ public struct CreateApiDestinationOutput: Swift.Sendable {
 }
 
 /// The event pattern is not valid.
-public struct InvalidEventPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventPatternException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -684,8 +691,7 @@ public struct InvalidEventPatternException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -710,8 +716,7 @@ public struct CreateArchiveInput: Swift.Sendable {
         eventPattern: Swift.String? = nil,
         eventSourceArn: Swift.String? = nil,
         retentionDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
         self.description = description
         self.eventPattern = eventPattern
@@ -735,12 +740,34 @@ public struct CreateArchiveOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.creationTime = creationTime
         self.state = state
         self.stateReason = stateReason
+    }
+}
+
+/// This request cannot be completed due to throttling issues.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -778,7 +805,7 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Contains the API key authorization parameters for the connection.
+    /// The API key authorization parameters for the connection.
     public struct CreateConnectionApiKeyAuthRequestParameters: Swift.Sendable {
         /// The name of the API key to use for authorization.
         /// This member is required.
@@ -790,8 +817,7 @@ extension EventBridgeClientTypes {
         public init(
             apiKeyName: Swift.String? = nil,
             apiKeyValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyName = apiKeyName
             self.apiKeyValue = apiKeyValue
         }
@@ -817,8 +843,7 @@ extension EventBridgeClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -832,9 +857,41 @@ extension EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters: Swi
 
 extension EventBridgeClientTypes {
 
+    /// The Amazon Resource Name (ARN) of the resource configuration for the resource endpoint.
+    public struct ConnectivityResourceConfigurationArn: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource configuration for the resource endpoint.
+        /// This member is required.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
+    /// The parameters for EventBridge to use when invoking the resource endpoint.
+    public struct ConnectivityResourceParameters: Swift.Sendable {
+        /// The parameters for EventBridge to use when invoking the resource endpoint.
+        /// This member is required.
+        public var resourceParameters: EventBridgeClientTypes.ConnectivityResourceConfigurationArn?
+
+        public init(
+            resourceParameters: EventBridgeClientTypes.ConnectivityResourceConfigurationArn? = nil
+        ) {
+            self.resourceParameters = resourceParameters
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
     /// Additional parameter included in the body. You can include up to 100 additional body parameters per request. An event payload cannot exceed 64 KB.
     public struct ConnectionBodyParameter: Swift.Sendable {
-        /// Specified whether the value is secret.
+        /// Specifies whether the value is secret.
         public var isValueSecret: Swift.Bool
         /// The key for the parameter.
         public var key: Swift.String?
@@ -845,8 +902,7 @@ extension EventBridgeClientTypes {
             isValueSecret: Swift.Bool = false,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.isValueSecret = isValueSecret
             self.key = key
             self.value = value
@@ -863,7 +919,7 @@ extension EventBridgeClientTypes {
 
     /// Additional parameter included in the header. You can include up to 100 additional header parameters per request. An event payload cannot exceed 64 KB.
     public struct ConnectionHeaderParameter: Swift.Sendable {
-        /// Specified whether the value is a secret.
+        /// Specifies whether the value is a secret.
         public var isValueSecret: Swift.Bool
         /// The key for the parameter.
         public var key: Swift.String?
@@ -874,8 +930,7 @@ extension EventBridgeClientTypes {
             isValueSecret: Swift.Bool = false,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.isValueSecret = isValueSecret
             self.key = key
             self.value = value
@@ -890,7 +945,7 @@ extension EventBridgeClientTypes.ConnectionHeaderParameter: Swift.CustomDebugStr
 
 extension EventBridgeClientTypes {
 
-    /// Additional query string parameter for the connection. You can include up to 100 additional query string parameters per request. Each additional parameter counts towards the event payload size, which cannot exceed 64 KB.
+    /// Any additional query string parameter for the connection. You can include up to 100 additional query string parameters per request. Each additional parameter counts towards the event payload size, which cannot exceed 64 KB.
     public struct ConnectionQueryStringParameter: Swift.Sendable {
         /// Specifies whether the value is secret.
         public var isValueSecret: Swift.Bool
@@ -903,8 +958,7 @@ extension EventBridgeClientTypes {
             isValueSecret: Swift.Bool = false,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.isValueSecret = isValueSecret
             self.key = key
             self.value = value
@@ -919,21 +973,20 @@ extension EventBridgeClientTypes.ConnectionQueryStringParameter: Swift.CustomDeb
 
 extension EventBridgeClientTypes {
 
-    /// Contains additional parameters for the connection.
+    /// Any additional parameters for the connection.
     public struct ConnectionHttpParameters: Swift.Sendable {
-        /// Contains additional body string parameters for the connection.
+        /// Any additional body string parameters for the connection.
         public var bodyParameters: [EventBridgeClientTypes.ConnectionBodyParameter]?
-        /// Contains additional header parameters for the connection.
+        /// Any additional header parameters for the connection.
         public var headerParameters: [EventBridgeClientTypes.ConnectionHeaderParameter]?
-        /// Contains additional query string parameters for the connection.
+        /// Any additional query string parameters for the connection.
         public var queryStringParameters: [EventBridgeClientTypes.ConnectionQueryStringParameter]?
 
         public init(
             bodyParameters: [EventBridgeClientTypes.ConnectionBodyParameter]? = nil,
             headerParameters: [EventBridgeClientTypes.ConnectionHeaderParameter]? = nil,
             queryStringParameters: [EventBridgeClientTypes.ConnectionQueryStringParameter]? = nil
-        )
-        {
+        ) {
             self.bodyParameters = bodyParameters
             self.headerParameters = headerParameters
             self.queryStringParameters = queryStringParameters
@@ -943,7 +996,7 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Contains the Basic authorization parameters to use for the connection.
+    /// The Basic authorization parameters to use for the connection.
     public struct CreateConnectionOAuthClientRequestParameters: Swift.Sendable {
         /// The client ID to use for OAuth authorization for the connection.
         /// This member is required.
@@ -955,8 +1008,7 @@ extension EventBridgeClientTypes {
         public init(
             clientID: Swift.String? = nil,
             clientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientID = clientID
             self.clientSecret = clientSecret
         }
@@ -1007,13 +1059,13 @@ extension EventBridgeClientTypes {
         /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
         /// This member is required.
         public var authorizationEndpoint: Swift.String?
-        /// A CreateConnectionOAuthClientRequestParameters object that contains the client parameters for OAuth authorization.
+        /// The client parameters for OAuth authorization.
         /// This member is required.
         public var clientParameters: EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters?
         /// The method to use for the authorization request.
         /// This member is required.
         public var httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod?
-        /// A ConnectionHttpParameters object that contains details about the additional parameters to use for the connection.
+        /// Details about the additional parameters to use for the connection.
         public var oAuthHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters?
 
         public init(
@@ -1021,8 +1073,7 @@ extension EventBridgeClientTypes {
             clientParameters: EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters? = nil,
             httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod? = nil,
             oAuthHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil
-        )
-        {
+        ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
             self.httpMethod = httpMethod
@@ -1033,26 +1084,29 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Contains the authorization parameters for the connection.
+    /// The authorization parameters for the connection. You must include only authorization parameters for the AuthorizationType you specify.
     public struct CreateConnectionAuthRequestParameters: Swift.Sendable {
-        /// A CreateConnectionApiKeyAuthRequestParameters object that contains the API key authorization parameters to use for the connection.
+        /// The API key authorization parameters to use for the connection.
         public var apiKeyAuthParameters: EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters?
-        /// A CreateConnectionBasicAuthRequestParameters object that contains the Basic authorization parameters to use for the connection.
+        /// The Basic authorization parameters to use for the connection.
         public var basicAuthParameters: EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters?
-        /// A ConnectionHttpParameters object that contains the API key authorization parameters to use for the connection. Note that if you include additional parameters for the target of a rule via HttpParameters, including query strings, the parameters added for the connection take precedence.
+        /// If you specify a private OAuth endpoint, the parameters for EventBridge to use when authenticating against the endpoint. For more information, see [Authorization methods for connections](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-auth.html) in the Amazon EventBridge User Guide .
+        public var connectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
+        /// The API key authorization parameters to use for the connection. Note that if you include additional parameters for the target of a rule via HttpParameters, including query strings, the parameters added for the connection take precedence.
         public var invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters?
-        /// A CreateConnectionOAuthRequestParameters object that contains the OAuth authorization parameters to use for the connection.
+        /// The OAuth authorization parameters to use for the connection.
         public var oAuthParameters: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters?
 
         public init(
             apiKeyAuthParameters: EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters? = nil,
             basicAuthParameters: EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters? = nil,
+            connectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
             invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil,
             oAuthParameters: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters? = nil
-        )
-        {
+        ) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
+            self.connectivityParameters = connectivityParameters
             self.invocationHttpParameters = invocationHttpParameters
             self.oAuthParameters = oAuthParameters
         }
@@ -1060,7 +1114,7 @@ extension EventBridgeClientTypes {
 }
 
 public struct CreateConnectionInput: Swift.Sendable {
-    /// A CreateConnectionAuthRequestParameters object that contains the authorization parameters to use to authorize with the endpoint.
+    /// The authorization parameters to use to authorize with the endpoint. You must include only authorization parameters for the AuthorizationType you specify.
     /// This member is required.
     public var authParameters: EventBridgeClientTypes.CreateConnectionAuthRequestParameters?
     /// The type of authorization to use for the connection. OAUTH tokens are refreshed when a 401 or 407 response is returned.
@@ -1068,6 +1122,8 @@ public struct CreateConnectionInput: Swift.Sendable {
     public var authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType?
     /// A description for the connection to create.
     public var description: Swift.String?
+    /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see [Connecting to private resources](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html) in the Amazon EventBridge User Guide .
+    public var invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
     /// The name for the connection to create.
     /// This member is required.
     public var name: Swift.String?
@@ -1076,12 +1132,13 @@ public struct CreateConnectionInput: Swift.Sendable {
         authParameters: EventBridgeClientTypes.CreateConnectionAuthRequestParameters? = nil,
         authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
         description: Swift.String? = nil,
+        invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
+        self.invocationConnectivityParameters = invocationConnectivityParameters
         self.name = name
     }
 }
@@ -1089,23 +1146,27 @@ public struct CreateConnectionInput: Swift.Sendable {
 extension EventBridgeClientTypes {
 
     public enum ConnectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
         case authorized
         case authorizing
         case creating
         case deauthorized
         case deauthorizing
         case deleting
+        case failedConnectivity
         case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectionState] {
             return [
+                .active,
                 .authorized,
                 .authorizing,
                 .creating,
                 .deauthorized,
                 .deauthorizing,
                 .deleting,
+                .failedConnectivity,
                 .updating
             ]
         }
@@ -1117,12 +1178,14 @@ extension EventBridgeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .active: return "ACTIVE"
             case .authorized: return "AUTHORIZED"
             case .authorizing: return "AUTHORIZING"
             case .creating: return "CREATING"
             case .deauthorized: return "DEAUTHORIZED"
             case .deauthorizing: return "DEAUTHORIZING"
             case .deleting: return "DELETING"
+            case .failedConnectivity: return "FAILED_CONNECTIVITY"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -1145,8 +1208,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
         creationTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -1164,8 +1226,7 @@ extension EventBridgeClientTypes {
 
         public init(
             eventBusArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventBusArn = eventBusArn
         }
     }
@@ -1209,8 +1270,7 @@ extension EventBridgeClientTypes {
 
         public init(
             state: EventBridgeClientTypes.ReplicationState? = nil
-        )
-        {
+        ) {
             self.state = state
         }
     }
@@ -1226,8 +1286,7 @@ extension EventBridgeClientTypes {
 
         public init(
             healthCheck: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthCheck = healthCheck
         }
     }
@@ -1243,8 +1302,7 @@ extension EventBridgeClientTypes {
 
         public init(
             route: Swift.String? = nil
-        )
-        {
+        ) {
             self.route = route
         }
     }
@@ -1264,8 +1322,7 @@ extension EventBridgeClientTypes {
         public init(
             primary: EventBridgeClientTypes.Primary? = nil,
             secondary: EventBridgeClientTypes.Secondary? = nil
-        )
-        {
+        ) {
             self.primary = primary
             self.secondary = secondary
         }
@@ -1282,8 +1339,7 @@ extension EventBridgeClientTypes {
 
         public init(
             failoverConfig: EventBridgeClientTypes.FailoverConfig? = nil
-        )
-        {
+        ) {
             self.failoverConfig = failoverConfig
         }
     }
@@ -1313,8 +1369,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         replicationConfig: EventBridgeClientTypes.ReplicationConfig? = nil,
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBuses = eventBuses
         self.name = name
@@ -1392,8 +1447,7 @@ public struct CreateEndpointOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
         state: EventBridgeClientTypes.EndpointState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.eventBuses = eventBuses
         self.name = name
@@ -1406,15 +1460,14 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
 extension EventBridgeClientTypes {
 
-    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Using dead-letter queues to process undelivered events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq) in the EventBridge User Guide.
     public struct DeadLetterConfig: Swift.Sendable {
         /// The ARN of the SQS queue specified as the target for the dead-letter queue.
         public var arn: Swift.String?
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -1434,8 +1487,7 @@ extension EventBridgeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1443,7 +1495,7 @@ extension EventBridgeClientTypes {
 }
 
 public struct CreateEventBusInput: Swift.Sendable {
-    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Using dead-letter queues to process undelivered events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq) in the EventBridge User Guide.
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
     public var description: Swift.String?
@@ -1473,8 +1525,7 @@ public struct CreateEventBusInput: Swift.Sendable {
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.eventSourceName = eventSourceName
@@ -1485,7 +1536,7 @@ public struct CreateEventBusInput: Swift.Sendable {
 }
 
 public struct CreateEventBusOutput: Swift.Sendable {
-    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Using dead-letter queues to process undelivered events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq) in the EventBridge User Guide.
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
     public var description: Swift.String?
@@ -1499,8 +1550,7 @@ public struct CreateEventBusOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eventBusArn: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.eventBusArn = eventBusArn
@@ -1519,8 +1569,7 @@ public struct CreatePartnerEventSourceInput: Swift.Sendable {
     public init(
         account: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.name = name
     }
@@ -1532,8 +1581,7 @@ public struct CreatePartnerEventSourceOutput: Swift.Sendable {
 
     public init(
         eventSourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSourceArn = eventSourceArn
     }
 }
@@ -1545,8 +1593,7 @@ public struct DeactivateEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1558,8 +1605,7 @@ public struct DeauthorizeConnectionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1582,8 +1628,7 @@ public struct DeauthorizeConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -1599,8 +1644,7 @@ public struct DeleteApiDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1617,8 +1661,7 @@ public struct DeleteArchiveInput: Swift.Sendable {
 
     public init(
         archiveName: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
     }
 }
@@ -1635,8 +1678,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1659,8 +1701,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -1676,8 +1717,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1694,8 +1734,7 @@ public struct DeleteEventBusInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1711,17 +1750,16 @@ public struct DeletePartnerEventSourceInput: Swift.Sendable {
     public init(
         account: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.account = account
         self.name = name
     }
 }
 
 /// This rule was created by an Amazon Web Services service on behalf of your account. It is managed by that service. If you see this error in response to DeleteRule or RemoveTargets, you can use the Force parameter in those calls to delete the rule or remove targets from the rule. You cannot modify these managed rules by using DisableRule, EnableRule, PutTargets, PutRule, TagResource, or UntagResource.
-public struct ManagedRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ManagedRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1736,8 +1774,7 @@ public struct ManagedRuleException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1755,8 +1792,7 @@ public struct DeleteRuleInput: Swift.Sendable {
         eventBusName: Swift.String? = nil,
         force: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.force = force
         self.name = name
@@ -1770,8 +1806,7 @@ public struct DescribeApiDestinationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1809,8 +1844,7 @@ public struct DescribeApiDestinationOutput: Swift.Sendable {
         invocationRateLimitPerSecond: Swift.Int? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiDestinationArn = apiDestinationArn
         self.apiDestinationState = apiDestinationState
         self.connectionArn = connectionArn
@@ -1831,8 +1865,7 @@ public struct DescribeArchiveInput: Swift.Sendable {
 
     public init(
         archiveName: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
     }
 }
@@ -1873,8 +1906,7 @@ public struct DescribeArchiveOutput: Swift.Sendable {
         sizeBytes: Swift.Int = 0,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.archiveName = archiveName
         self.creationTime = creationTime
@@ -1896,8 +1928,7 @@ public struct DescribeConnectionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1911,8 +1942,7 @@ extension EventBridgeClientTypes {
 
         public init(
             apiKeyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyName = apiKeyName
         }
     }
@@ -1920,15 +1950,14 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Contains the authorization parameters for the connection if Basic is specified as the authorization type.
+    /// The authorization parameters for the connection if Basic is specified as the authorization type.
     public struct ConnectionBasicAuthResponseParameters: Swift.Sendable {
         /// The user name to use for Basic authorization.
         public var username: Swift.String?
 
         public init(
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.username = username
         }
     }
@@ -1936,15 +1965,51 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Contains the client response parameters for the connection when OAuth is specified as the authorization type.
+    /// The parameters for EventBridge to use when invoking the resource endpoint.
+    public struct DescribeConnectionResourceParameters: Swift.Sendable {
+        /// For connections to private APIs, the Amazon Resource Name (ARN) of the resource association EventBridge created between the connection and the private API's resource configuration.
+        /// This member is required.
+        public var resourceAssociationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resource configuration for the private API.
+        /// This member is required.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            resourceAssociationArn: Swift.String? = nil,
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.resourceAssociationArn = resourceAssociationArn
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
+    /// If the connection uses a private OAuth endpoint, the parameters for EventBridge to use when authenticating against the endpoint. For more information, see [Authorization methods for connections](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-auth.html) in the Amazon EventBridge User Guide .
+    public struct DescribeConnectionConnectivityParameters: Swift.Sendable {
+        /// The parameters for EventBridge to use when invoking the resource endpoint.
+        /// This member is required.
+        public var resourceParameters: EventBridgeClientTypes.DescribeConnectionResourceParameters?
+
+        public init(
+            resourceParameters: EventBridgeClientTypes.DescribeConnectionResourceParameters? = nil
+        ) {
+            self.resourceParameters = resourceParameters
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
+    /// The client response parameters for the connection when OAuth is specified as the authorization type.
     public struct ConnectionOAuthClientResponseParameters: Swift.Sendable {
         /// The client ID associated with the response to the connection request.
         public var clientID: Swift.String?
 
         public init(
             clientID: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientID = clientID
         }
     }
@@ -1952,11 +2017,11 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Contains the response parameters when OAuth is specified as the authorization type.
+    /// The response parameters when OAuth is specified as the authorization type.
     public struct ConnectionOAuthResponseParameters: Swift.Sendable {
         /// The URL to the HTTP endpoint that authorized the request.
         public var authorizationEndpoint: Swift.String?
-        /// A ConnectionOAuthClientResponseParameters object that contains details about the client parameters returned when OAuth is specified as the authorization type.
+        /// Details about the client parameters returned when OAuth is specified as the authorization type.
         public var clientParameters: EventBridgeClientTypes.ConnectionOAuthClientResponseParameters?
         /// The method used to connect to the HTTP endpoint.
         public var httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod?
@@ -1968,8 +2033,7 @@ extension EventBridgeClientTypes {
             clientParameters: EventBridgeClientTypes.ConnectionOAuthClientResponseParameters? = nil,
             httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod? = nil,
             oAuthHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil
-        )
-        {
+        ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
             self.httpMethod = httpMethod
@@ -1980,12 +2044,14 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
-    /// Contains the authorization parameters to use for the connection.
+    /// Tthe authorization parameters to use for the connection.
     public struct ConnectionAuthResponseParameters: Swift.Sendable {
         /// The API Key parameters to use for authorization.
         public var apiKeyAuthParameters: EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters?
         /// The authorization parameters for Basic authorization.
         public var basicAuthParameters: EventBridgeClientTypes.ConnectionBasicAuthResponseParameters?
+        /// For private OAuth authentication endpoints. The parameters EventBridge uses to authenticate against the endpoint. For more information, see [Authorization methods for connections](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-auth.html) in the Amazon EventBridge User Guide .
+        public var connectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters?
         /// Additional parameters for the connection that are passed through with every invocation to the HTTP endpoint.
         public var invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters?
         /// The OAuth parameters to use for authorization.
@@ -1994,12 +2060,13 @@ extension EventBridgeClientTypes {
         public init(
             apiKeyAuthParameters: EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters? = nil,
             basicAuthParameters: EventBridgeClientTypes.ConnectionBasicAuthResponseParameters? = nil,
+            connectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters? = nil,
             invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil,
             oAuthParameters: EventBridgeClientTypes.ConnectionOAuthResponseParameters? = nil
-        )
-        {
+        ) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
+            self.connectivityParameters = connectivityParameters
             self.invocationHttpParameters = invocationHttpParameters
             self.oAuthParameters = oAuthParameters
         }
@@ -2019,6 +2086,8 @@ public struct DescribeConnectionOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// The description for the connection retrieved.
     public var description: Swift.String?
+    /// For connections to private resource endpoints. The parameters EventBridge uses to invoke the resource endpoint. For more information, see [Connecting to private resources](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html) in the Amazon EventBridge User Guide .
+    public var invocationConnectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters?
     /// A time stamp for the time that the connection was last authorized.
     public var lastAuthorizedTime: Foundation.Date?
     /// A time stamp for the time that the connection was last modified.
@@ -2037,19 +2106,20 @@ public struct DescribeConnectionOutput: Swift.Sendable {
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
         creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        invocationConnectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
         self.description = description
+        self.invocationConnectivityParameters = invocationConnectivityParameters
         self.lastAuthorizedTime = lastAuthorizedTime
         self.lastModifiedTime = lastModifiedTime
         self.name = name
@@ -2068,8 +2138,7 @@ public struct DescribeEndpointInput: Swift.Sendable {
     public init(
         homeRegion: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegion = homeRegion
         self.name = name
     }
@@ -2117,8 +2186,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
         state: EventBridgeClientTypes.EndpointState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
@@ -2141,8 +2209,7 @@ public struct DescribeEventBusInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2152,7 +2219,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The time the event bus was created.
     public var creationTime: Foundation.Date?
-    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Using dead-letter queues to process undelivered events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq) in the EventBridge User Guide.
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
     public var description: Swift.String?
@@ -2174,8 +2241,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.deadLetterConfig = deadLetterConfig
@@ -2194,8 +2260,7 @@ public struct DescribeEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2253,8 +2318,7 @@ public struct DescribeEventSourceOutput: Swift.Sendable {
         expirationTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: EventBridgeClientTypes.EventSourceState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -2271,8 +2335,7 @@ public struct DescribePartnerEventSourceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2286,8 +2349,7 @@ public struct DescribePartnerEventSourceOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
@@ -2300,8 +2362,7 @@ public struct DescribeReplayInput: Swift.Sendable {
 
     public init(
         replayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayName = replayName
     }
 }
@@ -2319,8 +2380,7 @@ extension EventBridgeClientTypes {
         public init(
             arn: Swift.String? = nil,
             filterArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.filterArns = filterArns
         }
@@ -2366,8 +2426,7 @@ public struct DescribeReplayOutput: Swift.Sendable {
         replayStartTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.destination = destination
         self.eventEndTime = eventEndTime
@@ -2393,8 +2452,7 @@ public struct DescribeRuleInput: Swift.Sendable {
     public init(
         eventBusName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.name = name
     }
@@ -2465,8 +2523,7 @@ public struct DescribeRuleOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         scheduleExpression: Swift.String? = nil,
         state: EventBridgeClientTypes.RuleState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.description = description
@@ -2490,8 +2547,7 @@ public struct DisableRuleInput: Swift.Sendable {
     public init(
         eventBusName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.name = name
     }
@@ -2507,8 +2563,7 @@ public struct EnableRuleInput: Swift.Sendable {
     public init(
         eventBusName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.name = name
     }
@@ -2521,7 +2576,7 @@ public struct ListApiDestinationsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// A name prefix to filter results returned. Only API destinations with a name that starts with the prefix are returned.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
@@ -2529,8 +2584,7 @@ public struct ListApiDestinationsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.limit = limit
         self.namePrefix = namePrefix
@@ -2539,16 +2593,15 @@ public struct ListApiDestinationsInput: Swift.Sendable {
 }
 
 public struct ListApiDestinationsOutput: Swift.Sendable {
-    /// An array of ApiDestination objects that include information about an API destination.
+    /// An array that includes information about each API destination.
     public var apiDestinations: [EventBridgeClientTypes.ApiDestination]?
-    /// A token you can use in a subsequent request to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         apiDestinations: [EventBridgeClientTypes.ApiDestination]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiDestinations = apiDestinations
         self.nextToken = nextToken
     }
@@ -2561,7 +2614,7 @@ public struct ListArchivesInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The state of the archive.
     public var state: EventBridgeClientTypes.ArchiveState?
@@ -2572,8 +2625,7 @@ public struct ListArchivesInput: Swift.Sendable {
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil
-    )
-    {
+    ) {
         self.eventSourceArn = eventSourceArn
         self.limit = limit
         self.namePrefix = namePrefix
@@ -2585,14 +2637,13 @@ public struct ListArchivesInput: Swift.Sendable {
 public struct ListArchivesOutput: Swift.Sendable {
     /// An array of Archive objects that include details about an archive.
     public var archives: [EventBridgeClientTypes.Archive]?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         archives: [EventBridgeClientTypes.Archive]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.archives = archives
         self.nextToken = nextToken
     }
@@ -2605,7 +2656,7 @@ public struct ListConnectionsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// A name prefix to filter results returned. Only connections with a name that starts with the prefix are returned.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
@@ -2613,8 +2664,7 @@ public struct ListConnectionsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionState = connectionState
         self.limit = limit
         self.namePrefix = namePrefix
@@ -2652,8 +2702,7 @@ extension EventBridgeClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationType = authorizationType
             self.connectionArn = connectionArn
             self.connectionState = connectionState
@@ -2669,14 +2718,13 @@ extension EventBridgeClientTypes {
 public struct ListConnectionsOutput: Swift.Sendable {
     /// An array of connections objects that include details about the connections.
     public var connections: [EventBridgeClientTypes.Connection]?
-    /// A token you can use in a subsequent request to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         connections: [EventBridgeClientTypes.Connection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.nextToken = nextToken
     }
@@ -2689,7 +2737,7 @@ public struct ListEndpointsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A value that will return a subset of the endpoints associated with this account. For example, "NamePrefix": "ABC" will return all endpoints with "ABC" in the name.
     public var namePrefix: Swift.String?
-    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
@@ -2697,8 +2745,7 @@ public struct ListEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegion = homeRegion
         self.maxResults = maxResults
         self.namePrefix = namePrefix
@@ -2751,8 +2798,7 @@ extension EventBridgeClientTypes {
             routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
             state: EventBridgeClientTypes.EndpointState? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -2773,14 +2819,13 @@ extension EventBridgeClientTypes {
 public struct ListEndpointsOutput: Swift.Sendable {
     /// The endpoints returned by the call.
     public var endpoints: [EventBridgeClientTypes.Endpoint]?
-    /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         endpoints: [EventBridgeClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -2791,15 +2836,14 @@ public struct ListEventBusesInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// Specifying this limits the results to only those event buses with names that start with the specified prefix.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -2830,8 +2874,7 @@ extension EventBridgeClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             policy: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -2845,14 +2888,13 @@ extension EventBridgeClientTypes {
 public struct ListEventBusesOutput: Swift.Sendable {
     /// This list of event buses.
     public var eventBuses: [EventBridgeClientTypes.EventBus]?
-    /// A token you can use in a subsequent operation to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         eventBuses: [EventBridgeClientTypes.EventBus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBuses = eventBuses
         self.nextToken = nextToken
     }
@@ -2863,15 +2905,14 @@ public struct ListEventSourcesInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -2902,8 +2943,7 @@ extension EventBridgeClientTypes {
             expirationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: EventBridgeClientTypes.EventSourceState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -2917,14 +2957,13 @@ extension EventBridgeClientTypes {
 public struct ListEventSourcesOutput: Swift.Sendable {
     /// The list of event sources.
     public var eventSources: [EventBridgeClientTypes.EventSource]?
-    /// A token you can use in a subsequent operation to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         eventSources: [EventBridgeClientTypes.EventSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSources = eventSources
         self.nextToken = nextToken
     }
@@ -2936,15 +2975,14 @@ public struct ListPartnerEventSourceAccountsInput: Swift.Sendable {
     public var eventSourceName: Swift.String?
     /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
     public var limit: Swift.Int?
-    /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         eventSourceName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSourceName = eventSourceName
         self.limit = limit
         self.nextToken = nextToken
@@ -2969,8 +3007,7 @@ extension EventBridgeClientTypes {
             creationTime: Foundation.Date? = nil,
             expirationTime: Foundation.Date? = nil,
             state: EventBridgeClientTypes.EventSourceState? = nil
-        )
-        {
+        ) {
             self.account = account
             self.creationTime = creationTime
             self.expirationTime = expirationTime
@@ -2980,7 +3017,7 @@ extension EventBridgeClientTypes {
 }
 
 public struct ListPartnerEventSourceAccountsOutput: Swift.Sendable {
-    /// A token you can use in a subsequent operation to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The list of partner event sources returned by the operation.
     public var partnerEventSourceAccounts: [EventBridgeClientTypes.PartnerEventSourceAccount]?
@@ -2988,8 +3025,7 @@ public struct ListPartnerEventSourceAccountsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partnerEventSourceAccounts: [EventBridgeClientTypes.PartnerEventSourceAccount]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partnerEventSourceAccounts = partnerEventSourceAccounts
     }
@@ -3001,15 +3037,14 @@ public struct ListPartnerEventSourcesInput: Swift.Sendable {
     /// If you specify this, the results are limited to only those partner event sources that start with the string you specify.
     /// This member is required.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.namePrefix = namePrefix
         self.nextToken = nextToken
@@ -3028,8 +3063,7 @@ extension EventBridgeClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -3037,7 +3071,7 @@ extension EventBridgeClientTypes {
 }
 
 public struct ListPartnerEventSourcesOutput: Swift.Sendable {
-    /// A token you can use in a subsequent operation to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The list of partner event sources returned by the operation.
     public var partnerEventSources: [EventBridgeClientTypes.PartnerEventSource]?
@@ -3045,8 +3079,7 @@ public struct ListPartnerEventSourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partnerEventSources: [EventBridgeClientTypes.PartnerEventSource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partnerEventSources = partnerEventSources
     }
@@ -3059,7 +3092,7 @@ public struct ListReplaysInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// A name prefix to filter the replays returned. Only replays with name that match the prefix are returned.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The state of the replay.
     public var state: EventBridgeClientTypes.ReplayState?
@@ -3070,8 +3103,7 @@ public struct ListReplaysInput: Swift.Sendable {
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil
-    )
-    {
+    ) {
         self.eventSourceArn = eventSourceArn
         self.limit = limit
         self.namePrefix = namePrefix
@@ -3113,8 +3145,7 @@ extension EventBridgeClientTypes {
             replayStartTime: Foundation.Date? = nil,
             state: EventBridgeClientTypes.ReplayState? = nil,
             stateReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventEndTime = eventEndTime
             self.eventLastReplayedTime = eventLastReplayedTime
             self.eventSourceArn = eventSourceArn
@@ -3129,7 +3160,7 @@ extension EventBridgeClientTypes {
 }
 
 public struct ListReplaysOutput: Swift.Sendable {
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// An array of Replay objects that contain information about the replay.
     public var replays: [EventBridgeClientTypes.Replay]?
@@ -3137,8 +3168,7 @@ public struct ListReplaysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replays: [EventBridgeClientTypes.Replay]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replays = replays
     }
@@ -3149,7 +3179,7 @@ public struct ListRuleNamesByTargetInput: Swift.Sendable {
     public var eventBusName: Swift.String?
     /// The maximum number of results to return.
     public var limit: Swift.Int?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the target resource.
     /// This member is required.
@@ -3160,8 +3190,7 @@ public struct ListRuleNamesByTargetInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.limit = limit
         self.nextToken = nextToken
@@ -3170,7 +3199,7 @@ public struct ListRuleNamesByTargetInput: Swift.Sendable {
 }
 
 public struct ListRuleNamesByTargetOutput: Swift.Sendable {
-    /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The names of the rules that can invoke the given target.
     public var ruleNames: [Swift.String]?
@@ -3178,8 +3207,7 @@ public struct ListRuleNamesByTargetOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleNames = ruleNames
     }
@@ -3192,7 +3220,7 @@ public struct ListRulesInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// The prefix matching the rule name.
     public var namePrefix: Swift.String?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
@@ -3200,8 +3228,7 @@ public struct ListRulesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.limit = limit
         self.namePrefix = namePrefix
@@ -3248,8 +3275,7 @@ extension EventBridgeClientTypes {
             roleArn: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
             state: EventBridgeClientTypes.RuleState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.eventBusName = eventBusName
@@ -3264,7 +3290,7 @@ extension EventBridgeClientTypes {
 }
 
 public struct ListRulesOutput: Swift.Sendable {
-    /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The rules that match the specified criteria.
     public var rules: [EventBridgeClientTypes.Rule]?
@@ -3272,8 +3298,7 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rules: [EventBridgeClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rules = rules
     }
@@ -3286,8 +3311,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -3298,8 +3322,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3309,7 +3332,7 @@ public struct ListTargetsByRuleInput: Swift.Sendable {
     public var eventBusName: Swift.String?
     /// The maximum number of results to return.
     public var limit: Swift.Int?
-    /// The token returned by a previous call to retrieve the next set of results.
+    /// The token returned by a previous call, which you can use to retrieve the next set of results. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The name of the rule.
     /// This member is required.
@@ -3320,8 +3343,7 @@ public struct ListTargetsByRuleInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         rule: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.limit = limit
         self.nextToken = nextToken
@@ -3338,8 +3360,7 @@ extension EventBridgeClientTypes {
 
         public init(
             size: Swift.Int = 0
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -3354,8 +3375,7 @@ extension EventBridgeClientTypes {
 
         public init(
             attempts: Swift.Int = 0
-        )
-        {
+        ) {
             self.attempts = attempts
         }
     }
@@ -3381,8 +3401,7 @@ extension EventBridgeClientTypes {
             jobDefinition: Swift.String? = nil,
             jobName: Swift.String? = nil,
             retryStrategy: EventBridgeClientTypes.BatchRetryStrategy? = nil
-        )
-        {
+        ) {
             self.arrayProperties = arrayProperties
             self.jobDefinition = jobDefinition
             self.jobName = jobName
@@ -3407,8 +3426,7 @@ extension EventBridgeClientTypes {
             base: Swift.Int = 0,
             capacityProvider: Swift.String? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
@@ -3464,8 +3482,7 @@ extension EventBridgeClientTypes {
             assignPublicIp: EventBridgeClientTypes.AssignPublicIp? = nil,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -3482,8 +3499,7 @@ extension EventBridgeClientTypes {
 
         public init(
             awsvpcConfiguration: EventBridgeClientTypes.AwsVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
     }
@@ -3530,8 +3546,7 @@ extension EventBridgeClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: EventBridgeClientTypes.PlacementConstraintType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -3582,8 +3597,7 @@ extension EventBridgeClientTypes {
         public init(
             field: Swift.String? = nil,
             type: EventBridgeClientTypes.PlacementStrategyType? = nil
-        )
-        {
+        ) {
             self.field = field
             self.type = type
         }
@@ -3665,8 +3679,7 @@ extension EventBridgeClientTypes {
             tags: [EventBridgeClientTypes.Tag]? = nil,
             taskCount: Swift.Int? = nil,
             taskDefinitionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.enableECSManagedTags = enableECSManagedTags
             self.enableExecuteCommand = enableExecuteCommand
@@ -3700,8 +3713,7 @@ extension EventBridgeClientTypes {
             headerParameters: [Swift.String: Swift.String]? = nil,
             pathParameterValues: [Swift.String]? = nil,
             queryStringParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.headerParameters = headerParameters
             self.pathParameterValues = pathParameterValues
             self.queryStringParameters = queryStringParameters
@@ -3755,8 +3767,7 @@ extension EventBridgeClientTypes {
         public init(
             inputPathsMap: [Swift.String: Swift.String]? = nil,
             inputTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputPathsMap = inputPathsMap
             self.inputTemplate = inputTemplate
         }
@@ -3773,8 +3784,7 @@ extension EventBridgeClientTypes {
 
         public init(
             partitionKeyPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.partitionKeyPath = partitionKeyPath
         }
     }
@@ -3808,8 +3818,7 @@ extension EventBridgeClientTypes {
             sqls: [Swift.String]? = nil,
             statementName: Swift.String? = nil,
             withEvent: Swift.Bool = false
-        )
-        {
+        ) {
             self.database = database
             self.dbUser = dbUser
             self.secretManagerArn = secretManagerArn
@@ -3838,8 +3847,7 @@ extension EventBridgeClientTypes {
         public init(
             maximumEventAgeInSeconds: Swift.Int? = nil,
             maximumRetryAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
         }
@@ -3860,8 +3868,7 @@ extension EventBridgeClientTypes {
         public init(
             key: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.values = values
         }
@@ -3878,8 +3885,7 @@ extension EventBridgeClientTypes {
 
         public init(
             runCommandTargets: [EventBridgeClientTypes.RunCommandTarget]? = nil
-        )
-        {
+        ) {
             self.runCommandTargets = runCommandTargets
         }
     }
@@ -3899,8 +3905,7 @@ extension EventBridgeClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -3916,8 +3921,7 @@ extension EventBridgeClientTypes {
 
         public init(
             pipelineParameterList: [EventBridgeClientTypes.SageMakerPipelineParameter]? = nil
-        )
-        {
+        ) {
             self.pipelineParameterList = pipelineParameterList
         }
     }
@@ -3932,8 +3936,7 @@ extension EventBridgeClientTypes {
 
         public init(
             messageGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageGroupId = messageGroupId
         }
     }
@@ -3969,7 +3972,7 @@ extension EventBridgeClientTypes {
         public var kinesisParameters: EventBridgeClientTypes.KinesisParameters?
         /// Contains the Amazon Redshift Data API parameters to use when the target is a Amazon Redshift cluster. If you specify a Amazon Redshift Cluster as a Target, you can use this to specify parameters to invoke the Amazon Redshift Data API ExecuteStatement based on EventBridge events.
         public var redshiftDataParameters: EventBridgeClientTypes.RedshiftDataParameters?
-        /// The RetryPolicy object that contains the retry policy configuration to use for the dead-letter queue.
+        /// The retry policy configuration to use for the dead-letter queue.
         public var retryPolicy: EventBridgeClientTypes.RetryPolicy?
         /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
         public var roleArn: Swift.String?
@@ -3998,8 +4001,7 @@ extension EventBridgeClientTypes {
             runCommandParameters: EventBridgeClientTypes.RunCommandParameters? = nil,
             sageMakerPipelineParameters: EventBridgeClientTypes.SageMakerPipelineParameters? = nil,
             sqsParameters: EventBridgeClientTypes.SqsParameters? = nil
-        )
-        {
+        ) {
             self.appSyncParameters = appSyncParameters
             self.arn = arn
             self.batchParameters = batchParameters
@@ -4022,7 +4024,7 @@ extension EventBridgeClientTypes {
 }
 
 public struct ListTargetsByRuleOutput: Swift.Sendable {
-    /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
+    /// A token indicating there are more results available. If there are no more results, no token is included in the response. The value of nextToken is a unique pagination token for each page. To retrieve the next page of results, make the call again using the returned token. Keep all other arguments unchanged. Using an expired pagination token results in an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The targets assigned to the rule.
     public var targets: [EventBridgeClientTypes.Target]?
@@ -4030,8 +4032,7 @@ public struct ListTargetsByRuleOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targets: [EventBridgeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targets = targets
     }
@@ -4064,8 +4065,7 @@ extension EventBridgeClientTypes {
             source: Swift.String? = nil,
             time: Foundation.Date? = nil,
             traceHeader: Swift.String? = nil
-        )
-        {
+        ) {
             self.detail = detail
             self.detailType = detailType
             self.eventBusName = eventBusName
@@ -4087,8 +4087,7 @@ public struct PutEventsInput: Swift.Sendable {
     public init(
         endpointId: Swift.String? = nil,
         entries: [EventBridgeClientTypes.PutEventsRequestEntry]? = nil
-    )
-    {
+    ) {
         self.endpointId = endpointId
         self.entries = entries
     }
@@ -4130,8 +4129,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.eventId = eventId
@@ -4148,8 +4146,7 @@ public struct PutEventsOutput: Swift.Sendable {
     public init(
         entries: [EventBridgeClientTypes.PutEventsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.entries = entries
         self.failedEntryCount = failedEntryCount
     }
@@ -4176,8 +4173,7 @@ extension EventBridgeClientTypes {
             resources: [Swift.String]? = nil,
             source: Swift.String? = nil,
             time: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.detail = detail
             self.detailType = detailType
             self.resources = resources
@@ -4194,8 +4190,7 @@ public struct PutPartnerEventsInput: Swift.Sendable {
 
     public init(
         entries: [EventBridgeClientTypes.PutPartnerEventsRequestEntry]? = nil
-    )
-    {
+    ) {
         self.entries = entries
     }
 }
@@ -4215,8 +4210,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             eventId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.eventId = eventId
@@ -4233,17 +4227,16 @@ public struct PutPartnerEventsOutput: Swift.Sendable {
     public init(
         entries: [EventBridgeClientTypes.PutPartnerEventsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.entries = entries
         self.failedEntryCount = failedEntryCount
     }
 }
 
 /// The event bus policy is too long. For more information, see the limits.
-public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4258,8 +4251,7 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4282,8 +4274,7 @@ extension EventBridgeClientTypes {
             key: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.type = type
             self.value = value
@@ -4312,8 +4303,7 @@ public struct PutPermissionInput: Swift.Sendable {
         policy: Swift.String? = nil,
         principal: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.condition = condition
         self.eventBusName = eventBusName
@@ -4357,8 +4347,7 @@ public struct PutRuleInput: Swift.Sendable {
         scheduleExpression: Swift.String? = nil,
         state: EventBridgeClientTypes.RuleState? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBusName = eventBusName
         self.eventPattern = eventPattern
@@ -4376,8 +4365,7 @@ public struct PutRuleOutput: Swift.Sendable {
 
     public init(
         ruleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleArn = ruleArn
     }
 }
@@ -4396,8 +4384,7 @@ public struct PutTargetsInput: Swift.Sendable {
         eventBusName: Swift.String? = nil,
         rule: Swift.String? = nil,
         targets: [EventBridgeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.rule = rule
         self.targets = targets
@@ -4419,8 +4406,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             targetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.targetId = targetId
@@ -4437,8 +4423,7 @@ public struct PutTargetsOutput: Swift.Sendable {
     public init(
         failedEntries: [EventBridgeClientTypes.PutTargetsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.failedEntries = failedEntries
         self.failedEntryCount = failedEntryCount
     }
@@ -4456,8 +4441,7 @@ public struct RemovePermissionInput: Swift.Sendable {
         eventBusName: Swift.String? = nil,
         removeAllPermissions: Swift.Bool? = false,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.removeAllPermissions = removeAllPermissions
         self.statementId = statementId
@@ -4481,8 +4465,7 @@ public struct RemoveTargetsInput: Swift.Sendable {
         force: Swift.Bool? = false,
         ids: [Swift.String]? = nil,
         rule: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventBusName = eventBusName
         self.force = force
         self.ids = ids
@@ -4505,8 +4488,7 @@ extension EventBridgeClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             targetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.targetId = targetId
@@ -4523,8 +4505,7 @@ public struct RemoveTargetsOutput: Swift.Sendable {
     public init(
         failedEntries: [EventBridgeClientTypes.RemoveTargetsResultEntry]? = nil,
         failedEntryCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.failedEntries = failedEntries
         self.failedEntryCount = failedEntryCount
     }
@@ -4556,8 +4537,7 @@ public struct StartReplayInput: Swift.Sendable {
         eventSourceArn: Swift.String? = nil,
         eventStartTime: Foundation.Date? = nil,
         replayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.destination = destination
         self.eventEndTime = eventEndTime
@@ -4582,8 +4562,7 @@ public struct StartReplayOutput: Swift.Sendable {
         replayStartTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.replayArn = replayArn
         self.replayStartTime = replayStartTime
         self.state = state
@@ -4602,8 +4581,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -4639,8 +4617,7 @@ public struct TestEventPatternInput: Swift.Sendable {
     public init(
         event: Swift.String? = nil,
         eventPattern: Swift.String? = nil
-    )
-    {
+    ) {
         self.event = event
         self.eventPattern = eventPattern
     }
@@ -4652,8 +4629,7 @@ public struct TestEventPatternOutput: Swift.Sendable {
 
     public init(
         result: Swift.Bool = false
-    )
-    {
+    ) {
         self.result = result
     }
 }
@@ -4669,8 +4645,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4703,8 +4678,7 @@ public struct UpdateApiDestinationInput: Swift.Sendable {
         invocationEndpoint: Swift.String? = nil,
         invocationRateLimitPerSecond: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.description = description
         self.httpMethod = httpMethod
@@ -4729,8 +4703,7 @@ public struct UpdateApiDestinationOutput: Swift.Sendable {
         apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
         creationTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.apiDestinationArn = apiDestinationArn
         self.apiDestinationState = apiDestinationState
         self.creationTime = creationTime
@@ -4754,8 +4727,7 @@ public struct UpdateArchiveInput: Swift.Sendable {
         description: Swift.String? = nil,
         eventPattern: Swift.String? = nil,
         retentionDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
         self.description = description
         self.eventPattern = eventPattern
@@ -4778,8 +4750,7 @@ public struct UpdateArchiveOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.creationTime = creationTime
         self.state = state
@@ -4793,14 +4764,13 @@ extension EventBridgeClientTypes {
     public struct UpdateConnectionApiKeyAuthRequestParameters: Swift.Sendable {
         /// The name of the API key to use for authorization.
         public var apiKeyName: Swift.String?
-        /// The value associated with teh API key to use for authorization.
+        /// The value associated with the API key to use for authorization.
         public var apiKeyValue: Swift.String?
 
         public init(
             apiKeyName: Swift.String? = nil,
             apiKeyValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyName = apiKeyName
             self.apiKeyValue = apiKeyValue
         }
@@ -4814,7 +4784,7 @@ extension EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters: Sw
 
 extension EventBridgeClientTypes {
 
-    /// Contains the Basic authorization parameters for the connection.
+    /// The Basic authorization parameters for the connection.
     public struct UpdateConnectionBasicAuthRequestParameters: Swift.Sendable {
         /// The password associated with the user name to use for Basic authorization.
         public var password: Swift.String?
@@ -4824,8 +4794,7 @@ extension EventBridgeClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -4839,7 +4808,7 @@ extension EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters: Swi
 
 extension EventBridgeClientTypes {
 
-    /// Contains the OAuth authorization parameters to use for the connection.
+    /// The OAuth authorization parameters to use for the connection.
     public struct UpdateConnectionOAuthClientRequestParameters: Swift.Sendable {
         /// The client ID to use for OAuth authorization.
         public var clientID: Swift.String?
@@ -4849,8 +4818,7 @@ extension EventBridgeClientTypes {
         public init(
             clientID: Swift.String? = nil,
             clientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientID = clientID
             self.clientSecret = clientSecret
         }
@@ -4864,11 +4832,11 @@ extension EventBridgeClientTypes.UpdateConnectionOAuthClientRequestParameters: S
 
 extension EventBridgeClientTypes {
 
-    /// Contains the OAuth request parameters to use for the connection.
+    /// The OAuth request parameters to use for the connection.
     public struct UpdateConnectionOAuthRequestParameters: Swift.Sendable {
         /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
         public var authorizationEndpoint: Swift.String?
-        /// A UpdateConnectionOAuthClientRequestParameters object that contains the client parameters to use for the connection when OAuth is specified as the authorization type.
+        /// The client parameters to use for the connection when OAuth is specified as the authorization type.
         public var clientParameters: EventBridgeClientTypes.UpdateConnectionOAuthClientRequestParameters?
         /// The method used to connect to the HTTP endpoint.
         public var httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod?
@@ -4880,8 +4848,7 @@ extension EventBridgeClientTypes {
             clientParameters: EventBridgeClientTypes.UpdateConnectionOAuthClientRequestParameters? = nil,
             httpMethod: EventBridgeClientTypes.ConnectionOAuthHttpMethod? = nil,
             oAuthHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil
-        )
-        {
+        ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
             self.httpMethod = httpMethod
@@ -4894,24 +4861,27 @@ extension EventBridgeClientTypes {
 
     /// Contains the additional parameters to use for the connection.
     public struct UpdateConnectionAuthRequestParameters: Swift.Sendable {
-        /// A UpdateConnectionApiKeyAuthRequestParameters object that contains the authorization parameters for API key authorization.
+        /// The authorization parameters for API key authorization.
         public var apiKeyAuthParameters: EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters?
-        /// A UpdateConnectionBasicAuthRequestParameters object that contains the authorization parameters for Basic authorization.
+        /// The authorization parameters for Basic authorization.
         public var basicAuthParameters: EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters?
-        /// A ConnectionHttpParameters object that contains the additional parameters to use for the connection.
+        /// If you specify a private OAuth endpoint, the parameters for EventBridge to use when authenticating against the endpoint. For more information, see [Authorization methods for connections](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-auth.html) in the Amazon EventBridge User Guide .
+        public var connectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
+        /// The additional parameters to use for the connection.
         public var invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters?
-        /// A UpdateConnectionOAuthRequestParameters object that contains the authorization parameters for OAuth authorization.
+        /// The authorization parameters for OAuth authorization.
         public var oAuthParameters: EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters?
 
         public init(
             apiKeyAuthParameters: EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters? = nil,
             basicAuthParameters: EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters? = nil,
+            connectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
             invocationHttpParameters: EventBridgeClientTypes.ConnectionHttpParameters? = nil,
             oAuthParameters: EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters? = nil
-        )
-        {
+        ) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
+            self.connectivityParameters = connectivityParameters
             self.invocationHttpParameters = invocationHttpParameters
             self.oAuthParameters = oAuthParameters
         }
@@ -4925,6 +4895,8 @@ public struct UpdateConnectionInput: Swift.Sendable {
     public var authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType?
     /// A description for the connection.
     public var description: Swift.String?
+    /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see [Connecting to private resources](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html) in the Amazon EventBridge User Guide .
+    public var invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
     /// The name of the connection to update.
     /// This member is required.
     public var name: Swift.String?
@@ -4933,12 +4905,13 @@ public struct UpdateConnectionInput: Swift.Sendable {
         authParameters: EventBridgeClientTypes.UpdateConnectionAuthRequestParameters? = nil,
         authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
         description: Swift.String? = nil,
+        invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
+        self.invocationConnectivityParameters = invocationConnectivityParameters
         self.name = name
     }
 }
@@ -4961,8 +4934,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.connectionState = connectionState
         self.creationTime = creationTime
@@ -4993,8 +4965,7 @@ public struct UpdateEndpointInput: Swift.Sendable {
         replicationConfig: EventBridgeClientTypes.ReplicationConfig? = nil,
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventBuses = eventBuses
         self.name = name
@@ -5034,8 +5005,7 @@ public struct UpdateEndpointOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         routingConfig: EventBridgeClientTypes.RoutingConfig? = nil,
         state: EventBridgeClientTypes.EndpointState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.endpointId = endpointId
         self.endpointUrl = endpointUrl
@@ -5049,7 +5019,7 @@ public struct UpdateEndpointOutput: Swift.Sendable {
 }
 
 public struct UpdateEventBusInput: Swift.Sendable {
-    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Using dead-letter queues to process undelivered events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq) in the EventBridge User Guide.
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
     public var description: Swift.String?
@@ -5072,8 +5042,7 @@ public struct UpdateEventBusInput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -5084,7 +5053,7 @@ public struct UpdateEventBusInput: Swift.Sendable {
 public struct UpdateEventBusOutput: Swift.Sendable {
     /// The event bus Amazon Resource Name (ARN).
     public var arn: Swift.String?
-    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
+    /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Using dead-letter queues to process undelivered events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq) in the EventBridge User Guide.
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
     public var description: Swift.String?
@@ -5099,8 +5068,7 @@ public struct UpdateEventBusOutput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.deadLetterConfig = deadLetterConfig
         self.description = description
@@ -5556,6 +5524,7 @@ extension CreateConnectionInput {
         try writer["AuthParameters"].write(value.authParameters, with: EventBridgeClientTypes.CreateConnectionAuthRequestParameters.write(value:to:))
         try writer["AuthorizationType"].write(value.authorizationType)
         try writer["Description"].write(value.description)
+        try writer["InvocationConnectivityParameters"].write(value.invocationConnectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
         try writer["Name"].write(value.name)
     }
 }
@@ -6047,6 +6016,7 @@ extension UpdateConnectionInput {
         try writer["AuthParameters"].write(value.authParameters, with: EventBridgeClientTypes.UpdateConnectionAuthRequestParameters.write(value:to:))
         try writer["AuthorizationType"].write(value.authorizationType)
         try writer["Description"].write(value.description)
+        try writer["InvocationConnectivityParameters"].write(value.invocationConnectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
         try writer["Name"].write(value.name)
     }
 }
@@ -6323,6 +6293,7 @@ extension DescribeConnectionOutput {
         value.connectionState = try reader["ConnectionState"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
+        value.invocationConnectivityParameters = try reader["InvocationConnectivityParameters"].readIfPresent(with: EventBridgeClientTypes.DescribeConnectionConnectivityParameters.read(from:))
         value.lastAuthorizedTime = try reader["LastAuthorizedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent()
@@ -6911,9 +6882,12 @@ enum CreateConnectionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7710,10 +7684,12 @@ enum UpdateConnectionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7869,6 +7845,32 @@ extension InvalidEventPatternException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ManagedRuleException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ManagedRuleException {
@@ -8002,6 +8004,27 @@ extension EventBridgeClientTypes.DeadLetterConfig {
     }
 }
 
+extension EventBridgeClientTypes.DescribeConnectionConnectivityParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DescribeConnectionConnectivityParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.DescribeConnectionConnectivityParameters()
+        value.resourceParameters = try reader["ResourceParameters"].readIfPresent(with: EventBridgeClientTypes.DescribeConnectionResourceParameters.read(from:))
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.DescribeConnectionResourceParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DescribeConnectionResourceParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.DescribeConnectionResourceParameters()
+        value.resourceConfigurationArn = try reader["ResourceConfigurationArn"].readIfPresent() ?? ""
+        value.resourceAssociationArn = try reader["ResourceAssociationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension EventBridgeClientTypes.ConnectionAuthResponseParameters {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionAuthResponseParameters {
@@ -8011,6 +8034,7 @@ extension EventBridgeClientTypes.ConnectionAuthResponseParameters {
         value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: EventBridgeClientTypes.ConnectionOAuthResponseParameters.read(from:))
         value.apiKeyAuthParameters = try reader["ApiKeyAuthParameters"].readIfPresent(with: EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters.read(from:))
         value.invocationHttpParameters = try reader["InvocationHttpParameters"].readIfPresent(with: EventBridgeClientTypes.ConnectionHttpParameters.read(from:))
+        value.connectivityParameters = try reader["ConnectivityParameters"].readIfPresent(with: EventBridgeClientTypes.DescribeConnectionConnectivityParameters.read(from:))
         return value
     }
 }
@@ -8801,8 +8825,25 @@ extension EventBridgeClientTypes.CreateConnectionAuthRequestParameters {
         guard let value else { return }
         try writer["ApiKeyAuthParameters"].write(value.apiKeyAuthParameters, with: EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters.write(value:to:))
         try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters.write(value:to:))
+        try writer["ConnectivityParameters"].write(value.connectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
         try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
         try writer["OAuthParameters"].write(value.oAuthParameters, with: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters.write(value:to:))
+    }
+}
+
+extension EventBridgeClientTypes.ConnectivityResourceParameters {
+
+    static func write(value: EventBridgeClientTypes.ConnectivityResourceParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceParameters"].write(value.resourceParameters, with: EventBridgeClientTypes.ConnectivityResourceConfigurationArn.write(value:to:))
+    }
+}
+
+extension EventBridgeClientTypes.ConnectivityResourceConfigurationArn {
+
+    static func write(value: EventBridgeClientTypes.ConnectivityResourceConfigurationArn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
     }
 }
 
@@ -8886,6 +8927,7 @@ extension EventBridgeClientTypes.UpdateConnectionAuthRequestParameters {
         guard let value else { return }
         try writer["ApiKeyAuthParameters"].write(value.apiKeyAuthParameters, with: EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters.write(value:to:))
         try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters.write(value:to:))
+        try writer["ConnectivityParameters"].write(value.connectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
         try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
         try writer["OAuthParameters"].write(value.oAuthParameters, with: EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters.write(value:to:))
     }

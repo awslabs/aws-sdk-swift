@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -93,8 +92,7 @@ extension RolesAnywhereClientTypes {
 
         public init(
             specifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.specifier = specifier
         }
     }
@@ -112,8 +110,7 @@ extension RolesAnywhereClientTypes {
         public init(
             certificateField: RolesAnywhereClientTypes.CertificateField? = nil,
             mappingRules: [RolesAnywhereClientTypes.MappingRule]? = nil
-        )
-        {
+        ) {
             self.certificateField = certificateField
             self.mappingRules = mappingRules
         }
@@ -121,9 +118,9 @@ extension RolesAnywhereClientTypes {
 }
 
 /// Validation exception error.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -138,8 +135,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -158,8 +154,7 @@ extension RolesAnywhereClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -203,8 +198,7 @@ public struct CreateProfileInput: Swift.Sendable {
         roleArns: [Swift.String]? = nil,
         sessionPolicy: Swift.String? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.acceptRoleSessionName = acceptRoleSessionName
         self.durationSeconds = durationSeconds
         self.enabled = enabled
@@ -265,8 +259,7 @@ extension RolesAnywhereClientTypes {
             roleArns: [Swift.String]? = nil,
             sessionPolicy: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.acceptRoleSessionName = acceptRoleSessionName
             self.attributeMappings = attributeMappings
             self.createdAt = createdAt
@@ -291,8 +284,7 @@ public struct CreateProfileOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -372,8 +364,7 @@ extension RolesAnywhereClientTypes {
             enabled: Swift.Bool? = nil,
             event: RolesAnywhereClientTypes.NotificationEvent? = nil,
             threshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.enabled = enabled
             self.event = event
@@ -438,8 +429,7 @@ extension RolesAnywhereClientTypes {
         public init(
             sourceData: RolesAnywhereClientTypes.SourceData? = nil,
             sourceType: RolesAnywhereClientTypes.TrustAnchorType? = nil
-        )
-        {
+        ) {
             self.sourceData = sourceData
             self.sourceType = sourceType
         }
@@ -466,8 +456,7 @@ public struct CreateTrustAnchorInput: Swift.Sendable {
         notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]? = nil,
         source: RolesAnywhereClientTypes.Source? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.name = name
         self.notificationSettings = notificationSettings
@@ -499,8 +488,7 @@ extension RolesAnywhereClientTypes {
             enabled: Swift.Bool? = nil,
             event: RolesAnywhereClientTypes.NotificationEvent? = nil,
             threshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.configuredBy = configuredBy
             self.enabled = enabled
@@ -540,8 +528,7 @@ extension RolesAnywhereClientTypes {
             trustAnchorArn: Swift.String? = nil,
             trustAnchorId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.enabled = enabled
             self.name = name
@@ -561,8 +548,7 @@ public struct CreateTrustAnchorOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
@@ -591,8 +577,7 @@ extension RolesAnywhereClientTypes {
             seenAt: Foundation.Date? = nil,
             serialNumber: Swift.String? = nil,
             x509CertificateData: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.failed = failed
             self.issuer = issuer
@@ -604,9 +589,9 @@ extension RolesAnywhereClientTypes {
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -621,8 +606,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -634,8 +618,7 @@ public struct DeleteCrlInput: Swift.Sendable {
 
     public init(
         crlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crlId = crlId
     }
 }
@@ -670,8 +653,7 @@ extension RolesAnywhereClientTypes {
             name: Swift.String? = nil,
             trustAnchorArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.crlArn = crlArn
             self.crlData = crlData
@@ -691,8 +673,7 @@ public struct DeleteCrlOutput: Swift.Sendable {
 
     public init(
         crl: RolesAnywhereClientTypes.CrlDetail? = nil
-    )
-    {
+    ) {
         self.crl = crl
     }
 }
@@ -704,8 +685,7 @@ public struct DisableCrlInput: Swift.Sendable {
 
     public init(
         crlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crlId = crlId
     }
 }
@@ -717,8 +697,7 @@ public struct DisableCrlOutput: Swift.Sendable {
 
     public init(
         crl: RolesAnywhereClientTypes.CrlDetail? = nil
-    )
-    {
+    ) {
         self.crl = crl
     }
 }
@@ -730,8 +709,7 @@ public struct EnableCrlInput: Swift.Sendable {
 
     public init(
         crlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crlId = crlId
     }
 }
@@ -743,8 +721,7 @@ public struct EnableCrlOutput: Swift.Sendable {
 
     public init(
         crl: RolesAnywhereClientTypes.CrlDetail? = nil
-    )
-    {
+    ) {
         self.crl = crl
     }
 }
@@ -756,8 +733,7 @@ public struct GetCrlInput: Swift.Sendable {
 
     public init(
         crlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.crlId = crlId
     }
 }
@@ -769,8 +745,7 @@ public struct GetCrlOutput: Swift.Sendable {
 
     public init(
         crl: RolesAnywhereClientTypes.CrlDetail? = nil
-    )
-    {
+    ) {
         self.crl = crl
     }
 }
@@ -796,8 +771,7 @@ public struct ImportCrlInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil,
         trustAnchorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.crlData = crlData
         self.enabled = enabled
         self.name = name
@@ -813,8 +787,7 @@ public struct ImportCrlOutput: Swift.Sendable {
 
     public init(
         crl: RolesAnywhereClientTypes.CrlDetail? = nil
-    )
-    {
+    ) {
         self.crl = crl
     }
 }
@@ -828,8 +801,7 @@ public struct ListCrlsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -844,8 +816,7 @@ public struct ListCrlsOutput: Swift.Sendable {
     public init(
         crls: [RolesAnywhereClientTypes.CrlDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crls = crls
         self.nextToken = nextToken
     }
@@ -864,8 +835,7 @@ public struct UpdateCrlInput: Swift.Sendable {
         crlData: Foundation.Data? = nil,
         crlId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.crlData = crlData
         self.crlId = crlId
         self.name = name
@@ -879,8 +849,7 @@ public struct UpdateCrlOutput: Swift.Sendable {
 
     public init(
         crl: RolesAnywhereClientTypes.CrlDetail? = nil
-    )
-    {
+    ) {
         self.crl = crl
     }
 }
@@ -899,8 +868,7 @@ public struct DeleteAttributeMappingInput: Swift.Sendable {
         certificateField: RolesAnywhereClientTypes.CertificateField? = nil,
         profileId: Swift.String? = nil,
         specifiers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.certificateField = certificateField
         self.profileId = profileId
         self.specifiers = specifiers
@@ -914,8 +882,7 @@ public struct DeleteAttributeMappingOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -927,8 +894,7 @@ public struct DeleteProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -939,8 +905,7 @@ public struct DeleteProfileOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -952,8 +917,7 @@ public struct DeleteTrustAnchorInput: Swift.Sendable {
 
     public init(
         trustAnchorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustAnchorId = trustAnchorId
     }
 }
@@ -965,8 +929,7 @@ public struct DeleteTrustAnchorOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
@@ -978,8 +941,7 @@ public struct DisableProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -990,8 +952,7 @@ public struct DisableProfileOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -1003,8 +964,7 @@ public struct DisableTrustAnchorInput: Swift.Sendable {
 
     public init(
         trustAnchorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustAnchorId = trustAnchorId
     }
 }
@@ -1016,8 +976,7 @@ public struct DisableTrustAnchorOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
@@ -1029,8 +988,7 @@ public struct EnableProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -1041,8 +999,7 @@ public struct EnableProfileOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -1054,8 +1011,7 @@ public struct EnableTrustAnchorInput: Swift.Sendable {
 
     public init(
         trustAnchorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustAnchorId = trustAnchorId
     }
 }
@@ -1067,8 +1023,7 @@ public struct EnableTrustAnchorOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
@@ -1080,8 +1035,7 @@ public struct GetProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -1092,8 +1046,7 @@ public struct GetProfileOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -1105,8 +1058,7 @@ public struct GetSubjectInput: Swift.Sendable {
 
     public init(
         subjectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.subjectId = subjectId
     }
 }
@@ -1126,8 +1078,7 @@ extension RolesAnywhereClientTypes {
             failed: Swift.Bool? = nil,
             properties: [Swift.String: Swift.String]? = nil,
             seenAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.failed = failed
             self.properties = properties
             self.seenAt = seenAt
@@ -1168,8 +1119,7 @@ extension RolesAnywhereClientTypes {
             subjectId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             x509Subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.credentials = credentials
             self.enabled = enabled
@@ -1189,8 +1139,7 @@ public struct GetSubjectOutput: Swift.Sendable {
 
     public init(
         subject: RolesAnywhereClientTypes.SubjectDetail? = nil
-    )
-    {
+    ) {
         self.subject = subject
     }
 }
@@ -1202,8 +1151,7 @@ public struct GetTrustAnchorInput: Swift.Sendable {
 
     public init(
         trustAnchorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustAnchorId = trustAnchorId
     }
 }
@@ -1215,8 +1163,7 @@ public struct GetTrustAnchorOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
@@ -1230,8 +1177,7 @@ public struct ListProfilesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -1246,8 +1192,7 @@ public struct ListProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profiles: [RolesAnywhereClientTypes.ProfileDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profiles = profiles
     }
@@ -1262,8 +1207,7 @@ public struct ListSubjectsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -1296,8 +1240,7 @@ extension RolesAnywhereClientTypes {
             subjectId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             x509Subject: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.enabled = enabled
             self.lastSeenAt = lastSeenAt
@@ -1318,8 +1261,7 @@ public struct ListSubjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subjects: [RolesAnywhereClientTypes.SubjectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subjects = subjects
     }
@@ -1332,8 +1274,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1344,8 +1285,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [RolesAnywhereClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1359,8 +1299,7 @@ public struct ListTrustAnchorsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -1375,8 +1314,7 @@ public struct ListTrustAnchorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trustAnchors: [RolesAnywhereClientTypes.TrustAnchorDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trustAnchors = trustAnchors
     }
@@ -1395,8 +1333,7 @@ extension RolesAnywhereClientTypes {
         public init(
             channel: RolesAnywhereClientTypes.NotificationChannel? = nil,
             event: RolesAnywhereClientTypes.NotificationEvent? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.event = event
         }
@@ -1418,8 +1355,7 @@ public struct PutAttributeMappingInput: Swift.Sendable {
         certificateField: RolesAnywhereClientTypes.CertificateField? = nil,
         mappingRules: [RolesAnywhereClientTypes.MappingRule]? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateField = certificateField
         self.mappingRules = mappingRules
         self.profileId = profileId
@@ -1433,8 +1369,7 @@ public struct PutAttributeMappingOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -1464,8 +1399,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         profileId: Swift.String? = nil,
         roleArns: [Swift.String]? = nil,
         sessionPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptRoleSessionName = acceptRoleSessionName
         self.durationSeconds = durationSeconds
         self.managedPolicyArns = managedPolicyArns
@@ -1482,8 +1416,7 @@ public struct UpdateProfileOutput: Swift.Sendable {
 
     public init(
         profile: RolesAnywhereClientTypes.ProfileDetail? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -1499,8 +1432,7 @@ public struct PutNotificationSettingsInput: Swift.Sendable {
     public init(
         notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]? = nil,
         trustAnchorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notificationSettings = notificationSettings
         self.trustAnchorId = trustAnchorId
     }
@@ -1513,8 +1445,7 @@ public struct PutNotificationSettingsOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
@@ -1530,8 +1461,7 @@ public struct ResetNotificationSettingsInput: Swift.Sendable {
     public init(
         notificationSettingKeys: [RolesAnywhereClientTypes.NotificationSettingKey]? = nil,
         trustAnchorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.notificationSettingKeys = notificationSettingKeys
         self.trustAnchorId = trustAnchorId
     }
@@ -1544,16 +1474,15 @@ public struct ResetNotificationSettingsOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
 
 /// Too many tags.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1568,8 +1497,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1585,8 +1513,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1610,8 +1537,7 @@ public struct UpdateTrustAnchorInput: Swift.Sendable {
         name: Swift.String? = nil,
         source: RolesAnywhereClientTypes.Source? = nil,
         trustAnchorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.source = source
         self.trustAnchorId = trustAnchorId
@@ -1625,8 +1551,7 @@ public struct UpdateTrustAnchorOutput: Swift.Sendable {
 
     public init(
         trustAnchor: RolesAnywhereClientTypes.TrustAnchorDetail? = nil
-    )
-    {
+    ) {
         self.trustAnchor = trustAnchor
     }
 }
@@ -1642,8 +1567,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

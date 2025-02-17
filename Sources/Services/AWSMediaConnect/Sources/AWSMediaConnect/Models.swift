@@ -124,8 +124,7 @@ extension MediaConnectClientTypes {
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             ttl: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.name = name
             self.networkName = networkName
@@ -145,8 +144,7 @@ extension MediaConnectClientTypes {
 
         public init(
             networkOutput: MediaConnectClientTypes.AddBridgeNetworkOutputRequest? = nil
-        )
-        {
+        ) {
             self.networkOutput = networkOutput
         }
     }
@@ -161,8 +159,7 @@ extension MediaConnectClientTypes {
 
         public init(
             vpcInterfaceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcInterfaceName = vpcInterfaceName
         }
     }
@@ -185,11 +182,25 @@ extension MediaConnectClientTypes {
             flowArn: Swift.String? = nil,
             flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
             self.name = name
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The settings related to the multicast source.
+    public struct MulticastSourceSettings: Swift.Sendable {
+        /// The IP address of the source for source-specific multicast (SSM).
+        public var multicastSourceIp: Swift.String?
+
+        public init(
+            multicastSourceIp: Swift.String? = nil
+        ) {
+            self.multicastSourceIp = multicastSourceIp
         }
     }
 }
@@ -201,6 +212,8 @@ extension MediaConnectClientTypes {
         /// The network source multicast IP.
         /// This member is required.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
         /// This member is required.
         public var name: Swift.String?
@@ -216,13 +229,14 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             name: Swift.String? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
-        )
-        {
+        ) {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -243,8 +257,7 @@ extension MediaConnectClientTypes {
         public init(
             flowSource: MediaConnectClientTypes.AddBridgeFlowSourceRequest? = nil,
             networkSource: MediaConnectClientTypes.AddBridgeNetworkSourceRequest? = nil
-        )
-        {
+        ) {
             self.flowSource = flowSource
             self.networkSource = networkSource
         }
@@ -436,8 +449,7 @@ extension MediaConnectClientTypes {
             range: MediaConnectClientTypes.Range? = nil,
             scanMode: MediaConnectClientTypes.ScanMode? = nil,
             tcs: MediaConnectClientTypes.Tcs? = nil
-        )
-        {
+        ) {
             self.channelOrder = channelOrder
             self.colorimetry = colorimetry
             self.exactFramerate = exactFramerate
@@ -461,8 +473,7 @@ extension MediaConnectClientTypes {
         public init(
             fmtp: MediaConnectClientTypes.FmtpRequest? = nil,
             lang: Swift.String? = nil
-        )
-        {
+        ) {
             self.fmtp = fmtp
             self.lang = lang
         }
@@ -531,8 +542,7 @@ extension MediaConnectClientTypes {
             mediaStreamName: Swift.String? = nil,
             mediaStreamType: MediaConnectClientTypes.MediaStreamType? = nil,
             videoFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
@@ -642,8 +652,7 @@ extension MediaConnectClientTypes {
             roleArn: Swift.String? = nil,
             secretArn: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
             self.deviceId = deviceId
@@ -667,8 +676,7 @@ extension MediaConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -692,8 +700,7 @@ extension MediaConnectClientTypes {
             destinationIp: Swift.String? = nil,
             destinationPort: Swift.Int? = nil,
             interface: MediaConnectClientTypes.InterfaceRequest? = nil
-        )
-        {
+        ) {
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
             self.interface = interface
@@ -779,8 +786,7 @@ extension MediaConnectClientTypes {
         public init(
             compressionFactor: Swift.Double? = nil,
             encoderProfile: MediaConnectClientTypes.EncoderProfile? = nil
-        )
-        {
+        ) {
             self.compressionFactor = compressionFactor
             self.encoderProfile = encoderProfile
         }
@@ -807,8 +813,7 @@ extension MediaConnectClientTypes {
             encodingName: MediaConnectClientTypes.EncodingName? = nil,
             encodingParameters: MediaConnectClientTypes.EncodingParametersRequest? = nil,
             mediaStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationConfigurations = destinationConfigurations
             self.encodingName = encodingName
             self.encodingParameters = encodingParameters
@@ -901,8 +906,7 @@ extension MediaConnectClientTypes {
             smoothingLatency: Swift.Int? = nil,
             streamId: Swift.String? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-        )
-        {
+        ) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -925,6 +929,69 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [State] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configures settings for the SilentAudio metric.
+    public struct SilentAudio: Swift.Sendable {
+        /// Indicates whether the SilentAudio metric is enabled or disabled.
+        public var state: MediaConnectClientTypes.State?
+        /// Specifies the number of consecutive seconds of silence that triggers an event or alert.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.State? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        ) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Specifies the configuration for audio stream metrics monitoring.
+    public struct AudioMonitoringSetting: Swift.Sendable {
+        /// Detects periods of silence.
+        public var silentAudio: MediaConnectClientTypes.SilentAudio?
+
+        public init(
+            silentAudio: MediaConnectClientTypes.SilentAudio? = nil
+        ) {
+            self.silentAudio = silentAudio
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The output of the bridge. A flow output is delivered to the AWS cloud.
     public struct BridgeFlowOutput: Swift.Sendable {
         /// The Amazon Resource Number (ARN) of the cloud flow.
@@ -941,8 +1008,7 @@ extension MediaConnectClientTypes {
             flowArn: Swift.String? = nil,
             flowSourceArn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowArn = flowArn
             self.flowSourceArn = flowSourceArn
             self.name = name
@@ -980,8 +1046,7 @@ extension MediaConnectClientTypes {
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             ttl: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.name = name
             self.networkName = networkName
@@ -1004,8 +1069,7 @@ extension MediaConnectClientTypes {
         public init(
             flowOutput: MediaConnectClientTypes.BridgeFlowOutput? = nil,
             networkOutput: MediaConnectClientTypes.BridgeNetworkOutput? = nil
-        )
-        {
+        ) {
             self.flowOutput = flowOutput
             self.networkOutput = networkOutput
         }
@@ -1032,8 +1096,7 @@ extension MediaConnectClientTypes {
             flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil,
             name: Swift.String? = nil,
             outputArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
             self.name = name
@@ -1049,6 +1112,8 @@ extension MediaConnectClientTypes {
         /// The network source multicast IP.
         /// This member is required.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The name of the network source.
         /// This member is required.
         public var name: Swift.String?
@@ -1064,13 +1129,14 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             name: Swift.String? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
-        )
-        {
+        ) {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.name = name
             self.networkName = networkName
             self.port = port
@@ -1091,8 +1157,7 @@ extension MediaConnectClientTypes {
         public init(
             flowSource: MediaConnectClientTypes.BridgeFlowSource? = nil,
             networkSource: MediaConnectClientTypes.BridgeNetworkSource? = nil
-        )
-        {
+        ) {
             self.flowSource = flowSource
             self.networkSource = networkSource
         }
@@ -1109,8 +1174,7 @@ extension MediaConnectClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1138,8 +1202,7 @@ extension MediaConnectClientTypes {
             destinationPort: Swift.Int? = nil,
             interface: MediaConnectClientTypes.Interface? = nil,
             outboundIp: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
             self.interface = interface
@@ -1207,8 +1270,7 @@ extension MediaConnectClientTypes {
             entitlementStatus: MediaConnectClientTypes.EntitlementStatus? = nil,
             name: Swift.String? = nil,
             subscribers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
@@ -1234,8 +1296,7 @@ extension MediaConnectClientTypes {
         public init(
             cidrBlock: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrBlock = cidrBlock
             self.name = name
         }
@@ -1267,8 +1328,7 @@ extension MediaConnectClientTypes {
             entitlementStatus: MediaConnectClientTypes.EntitlementStatus? = nil,
             name: Swift.String? = nil,
             subscribers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.encryption = encryption
@@ -1297,8 +1357,7 @@ extension MediaConnectClientTypes {
             inputIp: Swift.String? = nil,
             inputPort: Swift.Int? = nil,
             interface: MediaConnectClientTypes.Interface? = nil
-        )
-        {
+        ) {
             self.inputIp = inputIp
             self.inputPort = inputPort
             self.interface = interface
@@ -1320,8 +1379,7 @@ extension MediaConnectClientTypes {
         public init(
             inputPort: Swift.Int? = nil,
             interface: MediaConnectClientTypes.InterfaceRequest? = nil
-        )
-        {
+        ) {
             self.inputPort = inputPort
             self.interface = interface
         }
@@ -1412,8 +1470,7 @@ extension MediaConnectClientTypes {
             bridgeType: Swift.String? = nil,
             name: Swift.String? = nil,
             placementArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bridgeArn = bridgeArn
             self.bridgeState = bridgeState
             self.bridgeType = bridgeType
@@ -1440,8 +1497,7 @@ extension MediaConnectClientTypes {
             dataTransferSubscriberFeePercent: Swift.Int? = nil,
             entitlementArn: Swift.String? = nil,
             entitlementName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.entitlementArn = entitlementArn
             self.entitlementName = entitlementName
@@ -1511,8 +1567,7 @@ extension MediaConnectClientTypes {
             maintenanceDeadline: Swift.String? = nil,
             maintenanceScheduledDate: Swift.String? = nil,
             maintenanceStartHour: Swift.String? = nil
-        )
-        {
+        ) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceDeadline = maintenanceDeadline
             self.maintenanceScheduledDate = maintenanceScheduledDate
@@ -1627,8 +1682,7 @@ extension MediaConnectClientTypes {
             name: Swift.String? = nil,
             sourceType: MediaConnectClientTypes.SourceType? = nil,
             status: MediaConnectClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.flowArn = flowArn
@@ -1698,8 +1752,7 @@ extension MediaConnectClientTypes {
             gatewayArn: Swift.String? = nil,
             gatewayState: MediaConnectClientTypes.GatewayState? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.gatewayArn = gatewayArn
             self.gatewayState = gatewayState
             self.name = name
@@ -1769,8 +1822,7 @@ extension MediaConnectClientTypes {
             gatewayInstanceArn: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceState: MediaConnectClientTypes.InstanceState? = nil
-        )
-        {
+        ) {
             self.gatewayArn = gatewayArn
             self.gatewayInstanceArn = gatewayInstanceArn
             self.instanceId = instanceId
@@ -1806,8 +1858,7 @@ extension MediaConnectClientTypes {
             range: MediaConnectClientTypes.Range? = nil,
             scanMode: MediaConnectClientTypes.ScanMode? = nil,
             tcs: MediaConnectClientTypes.Tcs? = nil
-        )
-        {
+        ) {
             self.channelOrder = channelOrder
             self.colorimetry = colorimetry
             self.exactFramerate = exactFramerate
@@ -1832,8 +1883,7 @@ extension MediaConnectClientTypes {
         public init(
             fmtp: MediaConnectClientTypes.Fmtp? = nil,
             lang: Swift.String? = nil
-        )
-        {
+        ) {
             self.fmtp = fmtp
             self.lang = lang
         }
@@ -1874,8 +1924,7 @@ extension MediaConnectClientTypes {
             mediaStreamName: Swift.String? = nil,
             mediaStreamType: MediaConnectClientTypes.MediaStreamType? = nil,
             videoFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.clockRate = clockRate
             self.description = description
@@ -1902,8 +1951,7 @@ extension MediaConnectClientTypes {
         public init(
             compressionFactor: Swift.Double? = nil,
             encoderProfile: MediaConnectClientTypes.EncoderProfile? = nil
-        )
-        {
+        ) {
             self.compressionFactor = compressionFactor
             self.encoderProfile = encoderProfile
         }
@@ -1930,8 +1978,7 @@ extension MediaConnectClientTypes {
             encodingName: MediaConnectClientTypes.EncodingName? = nil,
             encodingParameters: MediaConnectClientTypes.EncodingParameters? = nil,
             mediaStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationConfigurations = destinationConfigurations
             self.encodingName = encodingName
             self.encodingParameters = encodingParameters
@@ -1957,8 +2004,7 @@ extension MediaConnectClientTypes {
             encodingName: MediaConnectClientTypes.EncodingName? = nil,
             inputConfigurations: [MediaConnectClientTypes.InputConfiguration]? = nil,
             mediaStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.encodingName = encodingName
             self.inputConfigurations = inputConfigurations
             self.mediaStreamName = mediaStreamName
@@ -1983,8 +2029,7 @@ extension MediaConnectClientTypes {
             encodingName: MediaConnectClientTypes.EncodingName? = nil,
             inputConfigurations: [MediaConnectClientTypes.InputConfigurationRequest]? = nil,
             mediaStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.encodingName = encodingName
             self.inputConfigurations = inputConfigurations
             self.mediaStreamName = mediaStreamName
@@ -2008,8 +2053,7 @@ extension MediaConnectClientTypes {
             code: Swift.String? = nil,
             message: Swift.String? = nil,
             resourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.resourceName = resourceName
@@ -2108,8 +2152,7 @@ extension MediaConnectClientTypes {
         public init(
             reservedBitrate: Swift.Int? = nil,
             resourceType: MediaConnectClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.reservedBitrate = reservedBitrate
             self.resourceType = resourceType
         }
@@ -2154,8 +2197,7 @@ extension MediaConnectClientTypes {
             pricePerUnit: Swift.String? = nil,
             priceUnits: MediaConnectClientTypes.PriceUnits? = nil,
             resourceSpecification: MediaConnectClientTypes.ResourceSpecification? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.durationUnits = durationUnits
@@ -2214,8 +2256,7 @@ extension MediaConnectClientTypes {
             sourceListenerAddress: Swift.String? = nil,
             sourceListenerPort: Swift.Int? = nil,
             streamId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
@@ -2289,8 +2330,7 @@ extension MediaConnectClientTypes {
             port: Swift.Int? = nil,
             transport: MediaConnectClientTypes.Transport? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-        )
-        {
+        ) {
             self.bridgeArn = bridgeArn
             self.bridgePorts = bridgePorts
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
@@ -2404,8 +2444,7 @@ extension MediaConnectClientTypes {
             reservationState: MediaConnectClientTypes.ReservationState? = nil,
             resourceSpecification: MediaConnectClientTypes.ResourceSpecification? = nil,
             start: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.durationUnits = durationUnits
@@ -2436,8 +2475,7 @@ extension MediaConnectClientTypes {
         public init(
             bridgeArn: Swift.String? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-        )
-        {
+        ) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
@@ -2507,8 +2545,7 @@ extension MediaConnectClientTypes {
             streamId: Swift.String? = nil,
             vpcInterfaceName: Swift.String? = nil,
             whitelistCidr: Swift.String? = nil
-        )
-        {
+        ) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -2545,8 +2582,7 @@ extension MediaConnectClientTypes {
         public init(
             bridgeArn: Swift.String? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-        )
-        {
+        ) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
@@ -2606,8 +2642,7 @@ extension MediaConnectClientTypes {
             transport: MediaConnectClientTypes.Transport? = nil,
             vpcInterfaceName: Swift.String? = nil,
             whitelistCidr: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
@@ -2641,8 +2676,7 @@ extension MediaConnectClientTypes {
         public init(
             frameHeight: Swift.Int? = nil,
             frameWidth: Swift.Int? = nil
-        )
-        {
+        ) {
             self.frameHeight = frameHeight
             self.frameWidth = frameWidth
         }
@@ -2681,8 +2715,7 @@ extension MediaConnectClientTypes {
             sampleRate: Swift.Int? = nil,
             sampleSize: Swift.Int? = nil,
             streamType: Swift.String? = nil
-        )
-        {
+        ) {
             self.channels = channels
             self.codec = codec
             self.frameRate = frameRate
@@ -2720,13 +2753,69 @@ extension MediaConnectClientTypes {
             programNumber: Swift.Int? = nil,
             programPid: Swift.Int? = nil,
             streams: [MediaConnectClientTypes.TransportStream]? = nil
-        )
-        {
+        ) {
             self.pcrPid = pcrPid
             self.programName = programName
             self.programNumber = programNumber
             self.programPid = programPid
             self.streams = streams
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configures settings for the BlackFrames metric.
+    public struct BlackFrames: Swift.Sendable {
+        /// Indicates whether the BlackFrames metric is enabled or disabled.
+        public var state: MediaConnectClientTypes.State?
+        /// Specifies the number of consecutive seconds of black frames that triggers an event or alert.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.State? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        ) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configures settings for the FrozenFrames metric.
+    public struct FrozenFrames: Swift.Sendable {
+        /// Indicates whether the FrozenFrames metric is enabled or disabled.
+        public var state: MediaConnectClientTypes.State?
+        /// Specifies the number of consecutive seconds of a static image that triggers an event or alert.
+        public var thresholdSeconds: Swift.Int?
+
+        public init(
+            state: MediaConnectClientTypes.State? = nil,
+            thresholdSeconds: Swift.Int? = nil
+        ) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Specifies the configuration for video stream metrics monitoring.
+    public struct VideoMonitoringSetting: Swift.Sendable {
+        /// Detects video frames that are black.
+        public var blackFrames: MediaConnectClientTypes.BlackFrames?
+        /// Detects video frames that have not changed.
+        public var frozenFrames: MediaConnectClientTypes.FrozenFrames?
+
+        public init(
+            blackFrames: MediaConnectClientTypes.BlackFrames? = nil,
+            frozenFrames: MediaConnectClientTypes.FrozenFrames? = nil
+        ) {
+            self.blackFrames = blackFrames
+            self.frozenFrames = frozenFrames
         }
     }
 }
@@ -2790,8 +2879,7 @@ extension MediaConnectClientTypes {
             roleArn: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.networkInterfaceIds = networkInterfaceIds
             self.networkInterfaceType = networkInterfaceType
@@ -2827,8 +2915,7 @@ extension MediaConnectClientTypes {
             roleArn: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.networkInterfaceType = networkInterfaceType
             self.roleArn = roleArn
@@ -2839,9 +2926,9 @@ extension MediaConnectClientTypes {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2858,16 +2945,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2884,16 +2970,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2910,16 +2995,15 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2936,16 +3020,15 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2962,16 +3045,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -2988,16 +3070,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3014,8 +3095,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3032,8 +3112,7 @@ public struct AddBridgeOutputsInput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.outputs = outputs
     }
@@ -3048,8 +3127,7 @@ public struct AddBridgeOutputsOutput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         outputs: [MediaConnectClientTypes.BridgeOutput]? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.outputs = outputs
     }
@@ -3067,8 +3145,7 @@ public struct AddBridgeSourcesInput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         sources: [MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.sources = sources
     }
@@ -3083,8 +3160,7 @@ public struct AddBridgeSourcesOutput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         sources: [MediaConnectClientTypes.BridgeSource]? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.sources = sources
     }
@@ -3099,8 +3175,7 @@ extension MediaConnectClientTypes {
 
         public init(
             maxBitrate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxBitrate = maxBitrate
         }
     }
@@ -3118,8 +3193,7 @@ public struct AddFlowMediaStreamsInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         mediaStreams: [MediaConnectClientTypes.AddMediaStreamRequest]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.mediaStreams = mediaStreams
     }
@@ -3134,17 +3208,16 @@ public struct AddFlowMediaStreamsOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         mediaStreams: [MediaConnectClientTypes.MediaStream]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.mediaStreams = mediaStreams
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3161,8 +3234,7 @@ public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3179,8 +3251,7 @@ public struct AddFlowOutputsInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         outputs: [MediaConnectClientTypes.AddOutputRequest]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.outputs = outputs
     }
@@ -3195,8 +3266,7 @@ public struct AddFlowOutputsOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         outputs: [MediaConnectClientTypes.Output]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.outputs = outputs
     }
@@ -3214,8 +3284,7 @@ public struct AddFlowSourcesInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         sources: [MediaConnectClientTypes.SetSourceRequest]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.sources = sources
     }
@@ -3230,8 +3299,7 @@ public struct AddFlowSourcesOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         sources: [MediaConnectClientTypes.Source]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.sources = sources
     }
@@ -3249,8 +3317,7 @@ public struct AddFlowVpcInterfacesInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.vpcInterfaces = vpcInterfaces
     }
@@ -3265,8 +3332,7 @@ public struct AddFlowVpcInterfacesOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         vpcInterfaces: [MediaConnectClientTypes.VpcInterface]? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.vpcInterfaces = vpcInterfaces
     }
@@ -3285,8 +3351,7 @@ extension MediaConnectClientTypes {
         public init(
             maxBitrate: Swift.Int? = nil,
             maxOutputs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
         }
@@ -3307,8 +3372,7 @@ extension MediaConnectClientTypes {
         public init(
             maintenanceDay: MediaConnectClientTypes.MaintenanceDay? = nil,
             maintenanceStartHour: Swift.String? = nil
-        )
-        {
+        ) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceStartHour = maintenanceStartHour
         }
@@ -3327,8 +3391,7 @@ extension MediaConnectClientTypes {
         public init(
             instanceId: Swift.String? = nil,
             maxBitrate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.maxBitrate = maxBitrate
         }
@@ -3351,8 +3414,7 @@ extension MediaConnectClientTypes {
             instanceId: Swift.String? = nil,
             maxBitrate: Swift.Int? = nil,
             maxOutputs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceId = instanceId
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
@@ -3398,38 +3460,8 @@ extension MediaConnectClientTypes {
 
         public init(
             primarySource: Swift.String? = nil
-        )
-        {
+        ) {
             self.primarySource = primarySource
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [State] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -3451,8 +3483,7 @@ extension MediaConnectClientTypes {
             recoveryWindow: Swift.Int? = nil,
             sourcePriority: MediaConnectClientTypes.SourcePriority? = nil,
             state: MediaConnectClientTypes.State? = nil
-        )
-        {
+        ) {
             self.failoverMode = failoverMode
             self.recoveryWindow = recoveryWindow
             self.sourcePriority = sourcePriority
@@ -3497,8 +3528,7 @@ extension MediaConnectClientTypes {
             placementArn: Swift.String? = nil,
             sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
             sources: [MediaConnectClientTypes.BridgeSource]? = nil
-        )
-        {
+        ) {
             self.bridgeArn = bridgeArn
             self.bridgeMessages = bridgeMessages
             self.bridgeState = bridgeState
@@ -3571,10 +3601,39 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension MediaConnectClientTypes {
 
-    public struct Properties {
+    public enum ContentQualityAnalysisState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentQualityAnalysisState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3591,8 +3650,7 @@ public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3625,8 +3683,7 @@ public struct CreateBridgeInput: Swift.Sendable {
         placementArn: Swift.String? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
         sources: [MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
-    )
-    {
+    ) {
         self.egressGatewayBridge = egressGatewayBridge
         self.ingressGatewayBridge = ingressGatewayBridge
         self.name = name
@@ -3643,16 +3700,15 @@ public struct CreateBridgeOutput: Swift.Sendable {
 
     public init(
         bridge: MediaConnectClientTypes.Bridge? = nil
-    )
-    {
+    ) {
         self.bridge = bridge
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3669,8 +3725,7 @@ public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3708,14 +3763,25 @@ extension MediaConnectClientTypes {
 
     /// The settings for source monitoring.
     public struct MonitoringConfig: Swift.Sendable {
+        /// Contains the settings for audio stream metrics monitoring.
+        public var audioMonitoringSettings: [MediaConnectClientTypes.AudioMonitoringSetting]?
+        /// Indicates whether content quality analysis is enabled or disabled.
+        public var contentQualityAnalysisState: MediaConnectClientTypes.ContentQualityAnalysisState?
         /// The state of thumbnail monitoring.
         public var thumbnailState: MediaConnectClientTypes.ThumbnailState?
+        /// Contains the settings for video stream metrics monitoring.
+        public var videoMonitoringSettings: [MediaConnectClientTypes.VideoMonitoringSetting]?
 
         public init(
-            thumbnailState: MediaConnectClientTypes.ThumbnailState? = nil
-        )
-        {
+            audioMonitoringSettings: [MediaConnectClientTypes.AudioMonitoringSetting]? = nil,
+            contentQualityAnalysisState: MediaConnectClientTypes.ContentQualityAnalysisState? = nil,
+            thumbnailState: MediaConnectClientTypes.ThumbnailState? = nil,
+            videoMonitoringSettings: [MediaConnectClientTypes.VideoMonitoringSetting]? = nil
+        ) {
+            self.audioMonitoringSettings = audioMonitoringSettings
+            self.contentQualityAnalysisState = contentQualityAnalysisState
             self.thumbnailState = thumbnailState
+            self.videoMonitoringSettings = videoMonitoringSettings
         }
     }
 }
@@ -3757,8 +3823,7 @@ public struct CreateFlowInput: Swift.Sendable {
         sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil,
         sources: [MediaConnectClientTypes.SetSourceRequest]? = nil,
         vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]? = nil
-    )
-    {
+    ) {
         self.availabilityZone = availabilityZone
         self.entitlements = entitlements
         self.maintenance = maintenance
@@ -3830,8 +3895,7 @@ extension MediaConnectClientTypes {
             sources: [MediaConnectClientTypes.Source]? = nil,
             status: MediaConnectClientTypes.Status? = nil,
             vpcInterfaces: [MediaConnectClientTypes.VpcInterface]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
@@ -3857,16 +3921,15 @@ public struct CreateFlowOutput: Swift.Sendable {
 
     public init(
         flow: MediaConnectClientTypes.Flow? = nil
-    )
-    {
+    ) {
         self.flow = flow
     }
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -3883,8 +3946,7 @@ public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3905,8 +3967,7 @@ public struct CreateGatewayInput: Swift.Sendable {
         egressCidrBlocks: [Swift.String]? = nil,
         name: Swift.String? = nil,
         networks: [MediaConnectClientTypes.GatewayNetwork]? = nil
-    )
-    {
+    ) {
         self.egressCidrBlocks = egressCidrBlocks
         self.name = name
         self.networks = networks
@@ -3940,8 +4001,7 @@ extension MediaConnectClientTypes {
             gatewayState: MediaConnectClientTypes.GatewayState? = nil,
             name: Swift.String? = nil,
             networks: [MediaConnectClientTypes.GatewayNetwork]? = nil
-        )
-        {
+        ) {
             self.egressCidrBlocks = egressCidrBlocks
             self.gatewayArn = gatewayArn
             self.gatewayMessages = gatewayMessages
@@ -3958,8 +4018,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
 
     public init(
         gateway: MediaConnectClientTypes.Gateway? = nil
-    )
-    {
+    ) {
         self.gateway = gateway
     }
 }
@@ -3971,8 +4030,7 @@ public struct DeleteBridgeInput: Swift.Sendable {
 
     public init(
         bridgeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
     }
 }
@@ -3983,8 +4041,7 @@ public struct DeleteBridgeOutput: Swift.Sendable {
 
     public init(
         bridgeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
     }
 }
@@ -3996,8 +4053,7 @@ public struct DeleteFlowInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
     }
 }
@@ -4011,8 +4067,7 @@ public struct DeleteFlowOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         status: MediaConnectClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.status = status
     }
@@ -4025,8 +4080,7 @@ public struct DeleteGatewayInput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -4037,8 +4091,7 @@ public struct DeleteGatewayOutput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -4053,8 +4106,7 @@ public struct DeregisterGatewayInstanceInput: Swift.Sendable {
     public init(
         force: Swift.Bool? = nil,
         gatewayInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.gatewayInstanceArn = gatewayInstanceArn
     }
@@ -4069,8 +4121,7 @@ public struct DeregisterGatewayInstanceOutput: Swift.Sendable {
     public init(
         gatewayInstanceArn: Swift.String? = nil,
         instanceState: MediaConnectClientTypes.InstanceState? = nil
-    )
-    {
+    ) {
         self.gatewayInstanceArn = gatewayInstanceArn
         self.instanceState = instanceState
     }
@@ -4083,8 +4134,7 @@ public struct DescribeBridgeInput: Swift.Sendable {
 
     public init(
         bridgeArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
     }
 }
@@ -4095,8 +4145,7 @@ public struct DescribeBridgeOutput: Swift.Sendable {
 
     public init(
         bridge: MediaConnectClientTypes.Bridge? = nil
-    )
-    {
+    ) {
         self.bridge = bridge
     }
 }
@@ -4108,8 +4157,7 @@ public struct DescribeFlowInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
     }
 }
@@ -4124,8 +4172,7 @@ extension MediaConnectClientTypes {
 
         public init(
             errors: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.errors = errors
         }
     }
@@ -4140,8 +4187,7 @@ public struct DescribeFlowOutput: Swift.Sendable {
     public init(
         flow: MediaConnectClientTypes.Flow? = nil,
         messages: MediaConnectClientTypes.Messages? = nil
-    )
-    {
+    ) {
         self.flow = flow
         self.messages = messages
     }
@@ -4154,8 +4200,7 @@ public struct DescribeFlowSourceMetadataInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
     }
 }
@@ -4170,8 +4215,7 @@ extension MediaConnectClientTypes {
 
         public init(
             programs: [MediaConnectClientTypes.TransportStreamProgram]? = nil
-        )
-        {
+        ) {
             self.programs = programs
         }
     }
@@ -4192,8 +4236,7 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
         messages: [MediaConnectClientTypes.MessageDetail]? = nil,
         timestamp: Foundation.Date? = nil,
         transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.messages = messages
         self.timestamp = timestamp
@@ -4208,8 +4251,7 @@ public struct DescribeFlowSourceThumbnailInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
     }
 }
@@ -4237,8 +4279,7 @@ extension MediaConnectClientTypes {
             thumbnailMessages: [MediaConnectClientTypes.MessageDetail]? = nil,
             timecode: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.flowArn = flowArn
             self.thumbnail = thumbnail
             self.thumbnailMessages = thumbnailMessages
@@ -4254,8 +4295,7 @@ public struct DescribeFlowSourceThumbnailOutput: Swift.Sendable {
 
     public init(
         thumbnailDetails: MediaConnectClientTypes.ThumbnailDetails? = nil
-    )
-    {
+    ) {
         self.thumbnailDetails = thumbnailDetails
     }
 }
@@ -4267,8 +4307,7 @@ public struct DescribeGatewayInput: Swift.Sendable {
 
     public init(
         gatewayArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayArn = gatewayArn
     }
 }
@@ -4279,8 +4318,7 @@ public struct DescribeGatewayOutput: Swift.Sendable {
 
     public init(
         gateway: MediaConnectClientTypes.Gateway? = nil
-    )
-    {
+    ) {
         self.gateway = gateway
     }
 }
@@ -4292,8 +4330,7 @@ public struct DescribeGatewayInstanceInput: Swift.Sendable {
 
     public init(
         gatewayInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayInstanceArn = gatewayInstanceArn
     }
 }
@@ -4334,8 +4371,7 @@ extension MediaConnectClientTypes {
             instanceMessages: [MediaConnectClientTypes.MessageDetail]? = nil,
             instanceState: MediaConnectClientTypes.InstanceState? = nil,
             runningBridgeCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bridgePlacement = bridgePlacement
             self.connectionStatus = connectionStatus
             self.gatewayArn = gatewayArn
@@ -4354,8 +4390,7 @@ public struct DescribeGatewayInstanceOutput: Swift.Sendable {
 
     public init(
         gatewayInstance: MediaConnectClientTypes.GatewayInstance? = nil
-    )
-    {
+    ) {
         self.gatewayInstance = gatewayInstance
     }
 }
@@ -4367,8 +4402,7 @@ public struct DescribeOfferingInput: Swift.Sendable {
 
     public init(
         offeringArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.offeringArn = offeringArn
     }
 }
@@ -4379,8 +4413,7 @@ public struct DescribeOfferingOutput: Swift.Sendable {
 
     public init(
         offering: MediaConnectClientTypes.Offering? = nil
-    )
-    {
+    ) {
         self.offering = offering
     }
 }
@@ -4392,8 +4425,7 @@ public struct DescribeReservationInput: Swift.Sendable {
 
     public init(
         reservationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.reservationArn = reservationArn
     }
 }
@@ -4404,8 +4436,7 @@ public struct DescribeReservationOutput: Swift.Sendable {
 
     public init(
         reservation: MediaConnectClientTypes.Reservation? = nil
-    )
-    {
+    ) {
         self.reservation = reservation
     }
 }
@@ -4443,9 +4474,9 @@ extension MediaConnectClientTypes {
 }
 
 /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -4462,8 +4493,7 @@ public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4480,8 +4510,7 @@ public struct GrantFlowEntitlementsInput: Swift.Sendable {
     public init(
         entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]? = nil,
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlements = entitlements
         self.flowArn = flowArn
     }
@@ -4496,8 +4525,7 @@ public struct GrantFlowEntitlementsOutput: Swift.Sendable {
     public init(
         entitlements: [MediaConnectClientTypes.Entitlement]? = nil,
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlements = entitlements
         self.flowArn = flowArn
     }
@@ -4515,8 +4543,7 @@ public struct ListBridgesInput: Swift.Sendable {
         filterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterArn = filterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4532,8 +4559,7 @@ public struct ListBridgesOutput: Swift.Sendable {
     public init(
         bridges: [MediaConnectClientTypes.ListedBridge]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridges = bridges
         self.nextToken = nextToken
     }
@@ -4548,8 +4574,7 @@ public struct ListEntitlementsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4564,8 +4589,7 @@ public struct ListEntitlementsOutput: Swift.Sendable {
     public init(
         entitlements: [MediaConnectClientTypes.ListedEntitlement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlements = entitlements
         self.nextToken = nextToken
     }
@@ -4580,8 +4604,7 @@ public struct ListFlowsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4596,8 +4619,7 @@ public struct ListFlowsOutput: Swift.Sendable {
     public init(
         flows: [MediaConnectClientTypes.ListedFlow]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flows = flows
         self.nextToken = nextToken
     }
@@ -4615,8 +4637,7 @@ public struct ListGatewayInstancesInput: Swift.Sendable {
         filterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterArn = filterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4632,8 +4653,7 @@ public struct ListGatewayInstancesOutput: Swift.Sendable {
     public init(
         instances: [MediaConnectClientTypes.ListedGatewayInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
     }
@@ -4648,8 +4668,7 @@ public struct ListGatewaysInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4664,8 +4683,7 @@ public struct ListGatewaysOutput: Swift.Sendable {
     public init(
         gateways: [MediaConnectClientTypes.ListedGateway]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gateways = gateways
         self.nextToken = nextToken
     }
@@ -4680,8 +4698,7 @@ public struct ListOfferingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4696,8 +4713,7 @@ public struct ListOfferingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         offerings: [MediaConnectClientTypes.Offering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.offerings = offerings
     }
@@ -4712,8 +4728,7 @@ public struct ListReservationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4728,8 +4743,7 @@ public struct ListReservationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservations: [MediaConnectClientTypes.Reservation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservations = reservations
     }
@@ -4742,8 +4756,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4754,8 +4767,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4776,8 +4788,7 @@ public struct PurchaseOfferingInput: Swift.Sendable {
         offeringArn: Swift.String? = nil,
         reservationName: Swift.String? = nil,
         start: Swift.String? = nil
-    )
-    {
+    ) {
         self.offeringArn = offeringArn
         self.reservationName = reservationName
         self.start = start
@@ -4790,8 +4801,7 @@ public struct PurchaseOfferingOutput: Swift.Sendable {
 
     public init(
         reservation: MediaConnectClientTypes.Reservation? = nil
-    )
-    {
+    ) {
         self.reservation = reservation
     }
 }
@@ -4807,8 +4817,7 @@ public struct RemoveBridgeOutputInput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         outputName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.outputName = outputName
     }
@@ -4821,8 +4830,7 @@ public struct RemoveBridgeOutputOutput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         outputName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.outputName = outputName
     }
@@ -4839,8 +4847,7 @@ public struct RemoveBridgeSourceInput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         sourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.sourceName = sourceName
     }
@@ -4853,8 +4860,7 @@ public struct RemoveBridgeSourceOutput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         sourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.sourceName = sourceName
     }
@@ -4871,8 +4877,7 @@ public struct RemoveFlowMediaStreamInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         mediaStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.mediaStreamName = mediaStreamName
     }
@@ -4887,8 +4892,7 @@ public struct RemoveFlowMediaStreamOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         mediaStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.mediaStreamName = mediaStreamName
     }
@@ -4905,8 +4909,7 @@ public struct RemoveFlowOutputInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         outputArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.outputArn = outputArn
     }
@@ -4921,8 +4924,7 @@ public struct RemoveFlowOutputOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         outputArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.outputArn = outputArn
     }
@@ -4939,8 +4941,7 @@ public struct RemoveFlowSourceInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.sourceArn = sourceArn
     }
@@ -4955,8 +4956,7 @@ public struct RemoveFlowSourceOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.sourceArn = sourceArn
     }
@@ -4973,8 +4973,7 @@ public struct RemoveFlowVpcInterfaceInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         vpcInterfaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.vpcInterfaceName = vpcInterfaceName
     }
@@ -4992,8 +4991,7 @@ public struct RemoveFlowVpcInterfaceOutput: Swift.Sendable {
         flowArn: Swift.String? = nil,
         nonDeletedNetworkInterfaceIds: [Swift.String]? = nil,
         vpcInterfaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.nonDeletedNetworkInterfaceIds = nonDeletedNetworkInterfaceIds
         self.vpcInterfaceName = vpcInterfaceName
@@ -5011,8 +5009,7 @@ public struct RevokeFlowEntitlementInput: Swift.Sendable {
     public init(
         entitlementArn: Swift.String? = nil,
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlementArn = entitlementArn
         self.flowArn = flowArn
     }
@@ -5027,8 +5024,7 @@ public struct RevokeFlowEntitlementOutput: Swift.Sendable {
     public init(
         entitlementArn: Swift.String? = nil,
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlementArn = entitlementArn
         self.flowArn = flowArn
     }
@@ -5041,8 +5037,7 @@ public struct StartFlowInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
     }
 }
@@ -5056,8 +5051,7 @@ public struct StartFlowOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         status: MediaConnectClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.status = status
     }
@@ -5070,8 +5064,7 @@ public struct StopFlowInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
     }
 }
@@ -5085,8 +5078,7 @@ public struct StopFlowOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         status: MediaConnectClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.status = status
     }
@@ -5104,8 +5096,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5122,8 +5113,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5137,8 +5127,7 @@ extension MediaConnectClientTypes {
 
         public init(
             maxBitrate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxBitrate = maxBitrate
         }
     }
@@ -5155,8 +5144,7 @@ extension MediaConnectClientTypes {
         public init(
             maxBitrate: Swift.Int? = nil,
             maxOutputs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
         }
@@ -5180,8 +5168,7 @@ extension MediaConnectClientTypes {
             recoveryWindow: Swift.Int? = nil,
             sourcePriority: MediaConnectClientTypes.SourcePriority? = nil,
             state: MediaConnectClientTypes.State? = nil
-        )
-        {
+        ) {
             self.failoverMode = failoverMode
             self.recoveryWindow = recoveryWindow
             self.sourcePriority = sourcePriority
@@ -5205,8 +5192,7 @@ public struct UpdateBridgeInput: Swift.Sendable {
         egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest? = nil,
         ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.egressGatewayBridge = egressGatewayBridge
         self.ingressGatewayBridge = ingressGatewayBridge
@@ -5220,8 +5206,7 @@ public struct UpdateBridgeOutput: Swift.Sendable {
 
     public init(
         bridge: MediaConnectClientTypes.Bridge? = nil
-    )
-    {
+    ) {
         self.bridge = bridge
     }
 }
@@ -5247,8 +5232,7 @@ extension MediaConnectClientTypes {
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             ttl: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.networkName = networkName
             self.port = port
@@ -5273,8 +5257,7 @@ public struct UpdateBridgeOutputInput: Swift.Sendable {
         bridgeArn: Swift.String? = nil,
         networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest? = nil,
         outputName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.networkOutput = networkOutput
         self.outputName = outputName
@@ -5290,8 +5273,7 @@ public struct UpdateBridgeOutputOutput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         output: MediaConnectClientTypes.BridgeOutput? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.output = output
     }
@@ -5309,8 +5291,7 @@ extension MediaConnectClientTypes {
         public init(
             flowArn: Swift.String? = nil,
             flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-        )
-        {
+        ) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
         }
@@ -5323,6 +5304,8 @@ extension MediaConnectClientTypes {
     public struct UpdateBridgeNetworkSourceRequest: Swift.Sendable {
         /// The network source multicast IP.
         public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
         /// The network source's gateway network name.
         public var networkName: Swift.String?
         /// The network source port.
@@ -5332,12 +5315,13 @@ extension MediaConnectClientTypes {
 
         public init(
             multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
             networkName: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
-        )
-        {
+        ) {
             self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
             self.networkName = networkName
             self.port = port
             self.`protocol` = `protocol`
@@ -5363,8 +5347,7 @@ public struct UpdateBridgeSourceInput: Swift.Sendable {
         flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest? = nil,
         networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest? = nil,
         sourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.flowSource = flowSource
         self.networkSource = networkSource
@@ -5381,8 +5364,7 @@ public struct UpdateBridgeSourceOutput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         source: MediaConnectClientTypes.BridgeSource? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.source = source
     }
@@ -5399,8 +5381,7 @@ public struct UpdateBridgeStateInput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         desiredState: MediaConnectClientTypes.DesiredState? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.desiredState = desiredState
     }
@@ -5415,8 +5396,7 @@ public struct UpdateBridgeStateOutput: Swift.Sendable {
     public init(
         bridgeArn: Swift.String? = nil,
         desiredState: MediaConnectClientTypes.DesiredState? = nil
-    )
-    {
+    ) {
         self.bridgeArn = bridgeArn
         self.desiredState = desiredState
     }
@@ -5437,8 +5417,7 @@ extension MediaConnectClientTypes {
             maintenanceDay: MediaConnectClientTypes.MaintenanceDay? = nil,
             maintenanceScheduledDate: Swift.String? = nil,
             maintenanceStartHour: Swift.String? = nil
-        )
-        {
+        ) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceScheduledDate = maintenanceScheduledDate
             self.maintenanceStartHour = maintenanceStartHour
@@ -5463,8 +5442,7 @@ public struct UpdateFlowInput: Swift.Sendable {
         maintenance: MediaConnectClientTypes.UpdateMaintenance? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil,
         sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.maintenance = maintenance
         self.sourceFailoverConfig = sourceFailoverConfig
@@ -5478,8 +5456,7 @@ public struct UpdateFlowOutput: Swift.Sendable {
 
     public init(
         flow: MediaConnectClientTypes.Flow? = nil
-    )
-    {
+    ) {
         self.flow = flow
     }
 }
@@ -5517,8 +5494,7 @@ extension MediaConnectClientTypes {
             roleArn: Swift.String? = nil,
             secretArn: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
             self.deviceId = deviceId
@@ -5556,8 +5532,7 @@ public struct UpdateFlowEntitlementInput: Swift.Sendable {
         entitlementStatus: MediaConnectClientTypes.EntitlementStatus? = nil,
         flowArn: Swift.String? = nil,
         subscribers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.encryption = encryption
         self.entitlementArn = entitlementArn
@@ -5576,8 +5551,7 @@ public struct UpdateFlowEntitlementOutput: Swift.Sendable {
     public init(
         entitlement: MediaConnectClientTypes.Entitlement? = nil,
         flowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlement = entitlement
         self.flowArn = flowArn
     }
@@ -5610,8 +5584,7 @@ public struct UpdateFlowMediaStreamInput: Swift.Sendable {
         mediaStreamName: Swift.String? = nil,
         mediaStreamType: MediaConnectClientTypes.MediaStreamType? = nil,
         videoFormat: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.clockRate = clockRate
         self.description = description
@@ -5631,8 +5604,7 @@ public struct UpdateFlowMediaStreamOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         mediaStream: MediaConnectClientTypes.MediaStream? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.mediaStream = mediaStream
     }
@@ -5698,8 +5670,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         smoothingLatency: Swift.Int? = nil,
         streamId: Swift.String? = nil,
         vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-    )
-    {
+    ) {
         self.cidrAllowList = cidrAllowList
         self.description = description
         self.destination = destination
@@ -5730,8 +5701,7 @@ public struct UpdateFlowOutputOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         output: MediaConnectClientTypes.Output? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.output = output
     }
@@ -5749,8 +5719,7 @@ extension MediaConnectClientTypes {
         public init(
             bridgeArn: Swift.String? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-        )
-        {
+        ) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
@@ -5823,8 +5792,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         streamId: Swift.String? = nil,
         vpcInterfaceName: Swift.String? = nil,
         whitelistCidr: Swift.String? = nil
-    )
-    {
+    ) {
         self.decryption = decryption
         self.description = description
         self.entitlementArn = entitlementArn
@@ -5857,8 +5825,7 @@ public struct UpdateFlowSourceOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         source: MediaConnectClientTypes.Source? = nil
-    )
-    {
+    ) {
         self.flowArn = flowArn
         self.source = source
     }
@@ -5875,8 +5842,7 @@ public struct UpdateGatewayInstanceInput: Swift.Sendable {
     public init(
         bridgePlacement: MediaConnectClientTypes.BridgePlacement? = nil,
         gatewayInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgePlacement = bridgePlacement
         self.gatewayInstanceArn = gatewayInstanceArn
     }
@@ -5891,8 +5857,7 @@ public struct UpdateGatewayInstanceOutput: Swift.Sendable {
     public init(
         bridgePlacement: MediaConnectClientTypes.BridgePlacement? = nil,
         gatewayInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.bridgePlacement = bridgePlacement
         self.gatewayInstanceArn = gatewayInstanceArn
     }
@@ -8662,10 +8627,26 @@ extension MediaConnectClientTypes.BridgeNetworkSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.BridgeNetworkSource()
         value.multicastIp = try reader["multicastIp"].readIfPresent() ?? ""
+        value.multicastSourceSettings = try reader["multicastSourceSettings"].readIfPresent(with: MediaConnectClientTypes.MulticastSourceSettings.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkName = try reader["networkName"].readIfPresent() ?? ""
         value.port = try reader["port"].readIfPresent() ?? 0
         value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MulticastSourceSettings {
+
+    static func write(value: MediaConnectClientTypes.MulticastSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["multicastSourceIp"].write(value.multicastSourceIp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MulticastSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MulticastSourceSettings()
+        value.multicastSourceIp = try reader["multicastSourceIp"].readIfPresent()
         return value
     }
 }
@@ -9059,13 +9040,102 @@ extension MediaConnectClientTypes.MonitoringConfig {
 
     static func write(value: MediaConnectClientTypes.MonitoringConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioMonitoringSettings"].writeList(value.audioMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.AudioMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["contentQualityAnalysisState"].write(value.contentQualityAnalysisState)
         try writer["thumbnailState"].write(value.thumbnailState)
+        try writer["videoMonitoringSettings"].writeList(value.videoMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.VideoMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MonitoringConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.MonitoringConfig()
         value.thumbnailState = try reader["thumbnailState"].readIfPresent()
+        value.audioMonitoringSettings = try reader["audioMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.AudioMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contentQualityAnalysisState = try reader["contentQualityAnalysisState"].readIfPresent()
+        value.videoMonitoringSettings = try reader["videoMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VideoMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.VideoMonitoringSetting {
+
+    static func write(value: MediaConnectClientTypes.VideoMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blackFrames"].write(value.blackFrames, with: MediaConnectClientTypes.BlackFrames.write(value:to:))
+        try writer["frozenFrames"].write(value.frozenFrames, with: MediaConnectClientTypes.FrozenFrames.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VideoMonitoringSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VideoMonitoringSetting()
+        value.blackFrames = try reader["blackFrames"].readIfPresent(with: MediaConnectClientTypes.BlackFrames.read(from:))
+        value.frozenFrames = try reader["frozenFrames"].readIfPresent(with: MediaConnectClientTypes.FrozenFrames.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FrozenFrames {
+
+    static func write(value: MediaConnectClientTypes.FrozenFrames?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FrozenFrames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FrozenFrames()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BlackFrames {
+
+    static func write(value: MediaConnectClientTypes.BlackFrames?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BlackFrames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BlackFrames()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.AudioMonitoringSetting {
+
+    static func write(value: MediaConnectClientTypes.AudioMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["silentAudio"].write(value.silentAudio, with: MediaConnectClientTypes.SilentAudio.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AudioMonitoringSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.AudioMonitoringSetting()
+        value.silentAudio = try reader["silentAudio"].readIfPresent(with: MediaConnectClientTypes.SilentAudio.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SilentAudio {
+
+    static func write(value: MediaConnectClientTypes.SilentAudio?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SilentAudio {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SilentAudio()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
         return value
     }
 }
@@ -9376,6 +9446,7 @@ extension MediaConnectClientTypes.AddBridgeNetworkSourceRequest {
     static func write(value: MediaConnectClientTypes.AddBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["multicastIp"].write(value.multicastIp)
+        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
         try writer["name"].write(value.name)
         try writer["networkName"].write(value.networkName)
         try writer["port"].write(value.port)
@@ -9650,6 +9721,7 @@ extension MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest {
     static func write(value: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["multicastIp"].write(value.multicastIp)
+        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
         try writer["networkName"].write(value.networkName)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)

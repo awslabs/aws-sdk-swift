@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// There isn't sufficient access for performing this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -59,9 +58,9 @@ extension AccessDeniedException: Swift.CustomDebugStringConvertible {
 }
 
 /// The request couldn't be made due to a conflicting operation or resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -77,8 +76,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -89,9 +87,9 @@ extension ConflictException: Swift.CustomDebugStringConvertible {
 }
 
 /// The request failed to register with the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -107,8 +105,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -119,9 +116,9 @@ extension InternalServerException: Swift.CustomDebugStringConvertible {
 }
 
 /// The requested resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -137,8 +134,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -149,9 +145,9 @@ extension ResourceNotFoundException: Swift.CustomDebugStringConvertible {
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -167,8 +163,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -179,9 +174,9 @@ extension ThrottlingException: Swift.CustomDebugStringConvertible {
 }
 
 /// The input is invalid or an out-of-range value was supplied for the input parameter.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -197,8 +192,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -215,8 +209,7 @@ public struct AcceptEnvironmentAccountConnectionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -301,8 +294,7 @@ extension ProtonClientTypes {
             requestedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             status: ProtonClientTypes.EnvironmentAccountConnectionStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
@@ -325,8 +317,7 @@ public struct AcceptEnvironmentAccountConnectionOutput: Swift.Sendable {
 
     public init(
         environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
+    ) {
         self.environmentAccountConnection = environmentAccountConnection
     }
 }
@@ -385,8 +376,7 @@ extension ProtonClientTypes {
             branch: Swift.String? = nil,
             name: Swift.String? = nil,
             provider: ProtonClientTypes.RepositoryProvider? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.branch = branch
             self.name = name
@@ -410,8 +400,7 @@ extension ProtonClientTypes {
             pipelineCodebuildRoleArn: Swift.String? = nil,
             pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranch? = nil,
             pipelineServiceRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
             self.pipelineProvisioningRepository = pipelineProvisioningRepository
             self.pipelineServiceRoleArn = pipelineServiceRoleArn
@@ -430,8 +419,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ProtonClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -454,8 +442,7 @@ extension ProtonClientTypes {
             branch: Swift.String? = nil,
             name: Swift.String? = nil,
             provider: ProtonClientTypes.RepositoryProvider? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.name = name
             self.provider = provider
@@ -478,8 +465,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
         pipelineCodebuildRoleArn: Swift.String? = nil,
         pipelineProvisioningRepository: ProtonClientTypes.RepositoryBranchInput? = nil,
         pipelineServiceRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletePipelineProvisioningRepository = deletePipelineProvisioningRepository
         self.pipelineCodebuildRoleArn = pipelineCodebuildRoleArn
         self.pipelineProvisioningRepository = pipelineProvisioningRepository
@@ -494,8 +480,7 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ProtonClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -507,8 +492,7 @@ public struct CancelComponentDeploymentInput: Swift.Sendable {
 
     public init(
         componentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
     }
 }
@@ -620,8 +604,7 @@ extension ProtonClientTypes {
             serviceInstanceName: Swift.String? = nil,
             serviceName: Swift.String? = nil,
             serviceSpec: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -654,8 +637,7 @@ public struct CancelComponentDeploymentOutput: Swift.Sendable {
 
     public init(
         component: ProtonClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.component = component
     }
 }
@@ -667,8 +649,7 @@ public struct CancelEnvironmentDeploymentInput: Swift.Sendable {
 
     public init(
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
     }
 }
@@ -777,8 +758,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.codebuildRoleArn = codebuildRoleArn
             self.componentRoleArn = componentRoleArn
@@ -816,8 +796,7 @@ public struct CancelEnvironmentDeploymentOutput: Swift.Sendable {
 
     public init(
         environment: ProtonClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -833,8 +812,7 @@ public struct CancelServiceInstanceDeploymentInput: Swift.Sendable {
     public init(
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceInstanceName = serviceInstanceName
         self.serviceName = serviceName
     }
@@ -905,8 +883,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -939,8 +916,7 @@ public struct CancelServiceInstanceDeploymentOutput: Swift.Sendable {
 
     public init(
         serviceInstance: ProtonClientTypes.ServiceInstance? = nil
-    )
-    {
+    ) {
         self.serviceInstance = serviceInstance
     }
 }
@@ -952,8 +928,7 @@ public struct CancelServicePipelineDeploymentInput: Swift.Sendable {
 
     public init(
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
     }
 }
@@ -1008,8 +983,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -1038,8 +1012,7 @@ public struct CancelServicePipelineDeploymentOutput: Swift.Sendable {
 
     public init(
         pipeline: ProtonClientTypes.ServicePipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -1057,8 +1030,7 @@ public struct ListComponentOutputsInput: Swift.Sendable {
         componentName: Swift.String? = nil,
         deploymentId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.deploymentId = deploymentId
         self.nextToken = nextToken
@@ -1077,8 +1049,7 @@ extension ProtonClientTypes {
         public init(
             key: Swift.String? = nil,
             valueString: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.valueString = valueString
         }
@@ -1101,8 +1072,7 @@ public struct ListComponentOutputsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outputs: [ProtonClientTypes.Output]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outputs = outputs
     }
@@ -1123,8 +1093,7 @@ public struct ListComponentProvisionedResourcesInput: Swift.Sendable {
     public init(
         componentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.nextToken = nextToken
     }
@@ -1175,8 +1144,7 @@ extension ProtonClientTypes {
             identifier: Swift.String? = nil,
             name: Swift.String? = nil,
             provisioningEngine: ProtonClientTypes.ProvisionedResourceEngine? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.name = name
             self.provisioningEngine = provisioningEngine
@@ -1194,17 +1162,16 @@ public struct ListComponentProvisionedResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         provisionedResources: [ProtonClientTypes.ProvisionedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.provisionedResources = provisionedResources
     }
 }
 
 /// A quota was exceeded. For more information, see [Proton Quotas](https://docs.aws.amazon.com/proton/latest/userguide/ag-limits.html) in the Proton User Guide.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1220,8 +1187,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1245,8 +1211,7 @@ extension ProtonClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1289,8 +1254,7 @@ public struct CreateComponentInput: Swift.Sendable {
         serviceSpec: Swift.String? = nil,
         tags: [ProtonClientTypes.Tag]? = nil,
         templateFile: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.environmentName = environmentName
@@ -1316,8 +1280,7 @@ public struct CreateComponentOutput: Swift.Sendable {
 
     public init(
         component: ProtonClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.component = component
     }
 }
@@ -1329,8 +1292,7 @@ public struct DeleteComponentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1341,8 +1303,7 @@ public struct DeleteComponentOutput: Swift.Sendable {
 
     public init(
         component: ProtonClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.component = component
     }
 }
@@ -1354,8 +1315,7 @@ public struct GetComponentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1366,8 +1326,7 @@ public struct GetComponentOutput: Swift.Sendable {
 
     public init(
         component: ProtonClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.component = component
     }
 }
@@ -1390,8 +1349,7 @@ public struct ListComponentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1451,8 +1409,7 @@ extension ProtonClientTypes {
             name: Swift.String? = nil,
             serviceInstanceName: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -1485,8 +1442,7 @@ public struct ListComponentsOutput: Swift.Sendable {
     public init(
         components: [ProtonClientTypes.ComponentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.components = components
         self.nextToken = nextToken
     }
@@ -1550,8 +1506,7 @@ public struct UpdateComponentInput: Swift.Sendable {
         serviceName: Swift.String? = nil,
         serviceSpec: Swift.String? = nil,
         templateFile: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deploymentType = deploymentType
         self.description = description
@@ -1575,8 +1530,7 @@ public struct UpdateComponentOutput: Swift.Sendable {
 
     public init(
         component: ProtonClientTypes.Component? = nil
-    )
-    {
+    ) {
         self.component = component
     }
 }
@@ -1588,8 +1542,7 @@ public struct DeleteDeploymentInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1612,8 +1565,7 @@ extension ProtonClientTypes {
             serviceName: Swift.String? = nil,
             serviceSpec: Swift.String? = nil,
             templateFile: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
             self.serviceSpec = serviceSpec
@@ -1648,8 +1600,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
             self.templateMinorVersion = templateMinorVersion
@@ -1694,8 +1645,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastSuccessfulComponentDeploymentIds = lastSuccessfulComponentDeploymentIds
             self.lastSuccessfulEnvironmentDeploymentId = lastSuccessfulEnvironmentDeploymentId
             self.lastSuccessfulServicePipelineDeploymentId = lastSuccessfulServicePipelineDeploymentId
@@ -1733,8 +1683,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
             self.templateMinorVersion = templateMinorVersion
@@ -1868,8 +1817,7 @@ extension ProtonClientTypes {
             targetResourceCreatedAt: Foundation.Date? = nil,
             targetResourceType: ProtonClientTypes.DeploymentTargetResourceType? = nil,
             targetState: ProtonClientTypes.DeploymentState? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.completedAt = completedAt
             self.componentName = componentName
@@ -1903,8 +1851,7 @@ public struct DeleteDeploymentOutput: Swift.Sendable {
 
     public init(
         deployment: ProtonClientTypes.Deployment? = nil
-    )
-    {
+    ) {
         self.deployment = deployment
     }
 }
@@ -1928,8 +1875,7 @@ public struct GetDeploymentInput: Swift.Sendable {
         id: Swift.String? = nil,
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.environmentName = environmentName
         self.id = id
@@ -1944,8 +1890,7 @@ public struct GetDeploymentOutput: Swift.Sendable {
 
     public init(
         deployment: ProtonClientTypes.Deployment? = nil
-    )
-    {
+    ) {
         self.deployment = deployment
     }
 }
@@ -1971,8 +1916,7 @@ public struct ListDeploymentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.componentName = componentName
         self.environmentName = environmentName
         self.maxResults = maxResults
@@ -2042,8 +1986,7 @@ extension ProtonClientTypes {
             targetArn: Swift.String? = nil,
             targetResourceCreatedAt: Foundation.Date? = nil,
             targetResourceType: ProtonClientTypes.DeploymentTargetResourceType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.completedAt = completedAt
             self.componentName = componentName
@@ -2073,8 +2016,7 @@ public struct ListDeploymentsOutput: Swift.Sendable {
     public init(
         deployments: [ProtonClientTypes.DeploymentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
         self.nextToken = nextToken
     }
@@ -2106,8 +2048,7 @@ public struct CreateEnvironmentAccountConnectionInput: Swift.Sendable {
         managementAccountId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [ProtonClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
@@ -2125,8 +2066,7 @@ public struct CreateEnvironmentAccountConnectionOutput: Swift.Sendable {
 
     public init(
         environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
+    ) {
         self.environmentAccountConnection = environmentAccountConnection
     }
 }
@@ -2138,8 +2078,7 @@ public struct DeleteEnvironmentAccountConnectionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2150,8 +2089,7 @@ public struct DeleteEnvironmentAccountConnectionOutput: Swift.Sendable {
 
     public init(
         environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
+    ) {
         self.environmentAccountConnection = environmentAccountConnection
     }
 }
@@ -2163,8 +2101,7 @@ public struct GetEnvironmentAccountConnectionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2176,8 +2113,7 @@ public struct GetEnvironmentAccountConnectionOutput: Swift.Sendable {
 
     public init(
         environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
+    ) {
         self.environmentAccountConnection = environmentAccountConnection
     }
 }
@@ -2230,8 +2166,7 @@ public struct ListEnvironmentAccountConnectionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestedBy: ProtonClientTypes.EnvironmentAccountConnectionRequesterAccountType? = nil,
         statuses: [ProtonClientTypes.EnvironmentAccountConnectionStatus]? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2285,8 +2220,7 @@ extension ProtonClientTypes {
             requestedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             status: ProtonClientTypes.EnvironmentAccountConnectionStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.componentRoleArn = componentRoleArn
             self.environmentAccountId = environmentAccountId
@@ -2311,8 +2245,7 @@ public struct ListEnvironmentAccountConnectionsOutput: Swift.Sendable {
     public init(
         environmentAccountConnections: [ProtonClientTypes.EnvironmentAccountConnectionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentAccountConnections = environmentAccountConnections
         self.nextToken = nextToken
     }
@@ -2325,8 +2258,7 @@ public struct RejectEnvironmentAccountConnectionInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2338,8 +2270,7 @@ public struct RejectEnvironmentAccountConnectionOutput: Swift.Sendable {
 
     public init(
         environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
+    ) {
         self.environmentAccountConnection = environmentAccountConnection
     }
 }
@@ -2360,8 +2291,7 @@ public struct UpdateEnvironmentAccountConnectionInput: Swift.Sendable {
         componentRoleArn: Swift.String? = nil,
         id: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
         self.id = id
@@ -2376,8 +2306,7 @@ public struct UpdateEnvironmentAccountConnectionOutput: Swift.Sendable {
 
     public init(
         environmentAccountConnection: ProtonClientTypes.EnvironmentAccountConnection? = nil
-    )
-    {
+    ) {
         self.environmentAccountConnection = environmentAccountConnection
     }
 }
@@ -2395,8 +2324,7 @@ public struct ListEnvironmentOutputsInput: Swift.Sendable {
         deploymentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.environmentName = environmentName
         self.nextToken = nextToken
@@ -2413,8 +2341,7 @@ public struct ListEnvironmentOutputsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outputs: [ProtonClientTypes.Output]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outputs = outputs
     }
@@ -2435,8 +2362,7 @@ public struct ListEnvironmentProvisionedResourcesInput: Swift.Sendable {
     public init(
         environmentName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentName = environmentName
         self.nextToken = nextToken
     }
@@ -2452,8 +2378,7 @@ public struct ListEnvironmentProvisionedResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         provisionedResources: [ProtonClientTypes.ProvisionedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.provisionedResources = provisionedResources
     }
@@ -2502,8 +2427,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         templateMajorVersion: Swift.String? = nil,
         templateMinorVersion: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
         self.description = description
@@ -2531,8 +2455,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: ProtonClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -2544,8 +2467,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2556,8 +2478,7 @@ public struct DeleteEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: ProtonClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -2569,8 +2490,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2582,8 +2502,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: ProtonClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -2602,8 +2521,7 @@ extension ProtonClientTypes {
         public init(
             majorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.majorVersion = majorVersion
             self.templateName = templateName
         }
@@ -2622,8 +2540,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
         environmentTemplates: [ProtonClientTypes.EnvironmentTemplateFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentTemplates = environmentTemplates
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2699,8 +2616,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.componentRoleArn = componentRoleArn
             self.createdAt = createdAt
@@ -2738,8 +2654,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [ProtonClientTypes.EnvironmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -2818,8 +2733,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         spec: Swift.String? = nil,
         templateMajorVersion: Swift.String? = nil,
         templateMinorVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.codebuildRoleArn = codebuildRoleArn
         self.componentRoleArn = componentRoleArn
         self.deploymentType = deploymentType
@@ -2846,8 +2760,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
     public init(
         environment: ProtonClientTypes.Environment? = nil
-    )
-    {
+    ) {
         self.environment = environment
     }
 }
@@ -2874,8 +2787,7 @@ public struct CreateEnvironmentTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         provisioning: ProtonClientTypes.Provisioning? = nil,
         tags: [ProtonClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.encryptionKey = encryptionKey
@@ -2927,8 +2839,7 @@ extension ProtonClientTypes {
             name: Swift.String? = nil,
             provisioning: ProtonClientTypes.Provisioning? = nil,
             recommendedVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -2954,8 +2865,7 @@ public struct CreateEnvironmentTemplateOutput: Swift.Sendable {
 
     public init(
         environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
-    )
-    {
+    ) {
         self.environmentTemplate = environmentTemplate
     }
 }
@@ -2967,8 +2877,7 @@ public struct DeleteEnvironmentTemplateInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2979,8 +2888,7 @@ public struct DeleteEnvironmentTemplateOutput: Swift.Sendable {
 
     public init(
         environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
-    )
-    {
+    ) {
         self.environmentTemplate = environmentTemplate
     }
 }
@@ -2992,8 +2900,7 @@ public struct GetEnvironmentTemplateInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3005,8 +2912,7 @@ public struct GetEnvironmentTemplateOutput: Swift.Sendable {
 
     public init(
         environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
-    )
-    {
+    ) {
         self.environmentTemplate = environmentTemplate
     }
 }
@@ -3020,8 +2926,7 @@ public struct ListEnvironmentTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3061,8 +2966,7 @@ extension ProtonClientTypes {
             name: Swift.String? = nil,
             provisioning: ProtonClientTypes.Provisioning? = nil,
             recommendedVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -3090,8 +2994,7 @@ public struct ListEnvironmentTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templates: [ProtonClientTypes.EnvironmentTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templates = templates
     }
@@ -3110,8 +3013,7 @@ public struct UpdateEnvironmentTemplateInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -3130,8 +3032,7 @@ public struct UpdateEnvironmentTemplateOutput: Swift.Sendable {
 
     public init(
         environmentTemplate: ProtonClientTypes.EnvironmentTemplate? = nil
-    )
-    {
+    ) {
         self.environmentTemplate = environmentTemplate
     }
 }
@@ -3150,8 +3051,7 @@ extension ProtonClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -3191,8 +3091,7 @@ public struct CreateEnvironmentTemplateVersionInput: Swift.Sendable {
         source: ProtonClientTypes.TemplateVersionSourceInput? = nil,
         tags: [ProtonClientTypes.Tag]? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.majorVersion = majorVersion
@@ -3288,8 +3187,7 @@ extension ProtonClientTypes {
             status: ProtonClientTypes.TemplateVersionStatus? = nil,
             statusMessage: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -3317,8 +3215,7 @@ public struct CreateEnvironmentTemplateVersionOutput: Swift.Sendable {
 
     public init(
         environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
-    )
-    {
+    ) {
         self.environmentTemplateVersion = environmentTemplateVersion
     }
 }
@@ -3338,8 +3235,7 @@ public struct DeleteEnvironmentTemplateVersionInput: Swift.Sendable {
         majorVersion: Swift.String? = nil,
         minorVersion: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.majorVersion = majorVersion
         self.minorVersion = minorVersion
         self.templateName = templateName
@@ -3352,8 +3248,7 @@ public struct DeleteEnvironmentTemplateVersionOutput: Swift.Sendable {
 
     public init(
         environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
-    )
-    {
+    ) {
         self.environmentTemplateVersion = environmentTemplateVersion
     }
 }
@@ -3373,8 +3268,7 @@ public struct GetEnvironmentTemplateVersionInput: Swift.Sendable {
         majorVersion: Swift.String? = nil,
         minorVersion: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.majorVersion = majorVersion
         self.minorVersion = minorVersion
         self.templateName = templateName
@@ -3388,8 +3282,7 @@ public struct GetEnvironmentTemplateVersionOutput: Swift.Sendable {
 
     public init(
         environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
-    )
-    {
+    ) {
         self.environmentTemplateVersion = environmentTemplateVersion
     }
 }
@@ -3410,8 +3303,7 @@ public struct ListEnvironmentTemplateVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.majorVersion = majorVersion
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3462,8 +3354,7 @@ extension ProtonClientTypes {
             status: ProtonClientTypes.TemplateVersionStatus? = nil,
             statusMessage: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -3493,8 +3384,7 @@ public struct ListEnvironmentTemplateVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templateVersions: [ProtonClientTypes.EnvironmentTemplateVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templateVersions = templateVersions
     }
@@ -3521,8 +3411,7 @@ public struct UpdateEnvironmentTemplateVersionInput: Swift.Sendable {
         minorVersion: Swift.String? = nil,
         status: ProtonClientTypes.TemplateVersionStatus? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.majorVersion = majorVersion
         self.minorVersion = minorVersion
@@ -3543,8 +3432,7 @@ public struct UpdateEnvironmentTemplateVersionOutput: Swift.Sendable {
 
     public init(
         environmentTemplateVersion: ProtonClientTypes.EnvironmentTemplateVersion? = nil
-    )
-    {
+    ) {
         self.environmentTemplateVersion = environmentTemplateVersion
     }
 }
@@ -3599,8 +3487,7 @@ public struct GetRepositorySyncStatusInput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
         syncType: ProtonClientTypes.SyncType? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.repositoryName = repositoryName
         self.repositoryProvider = repositoryProvider
@@ -3629,8 +3516,7 @@ extension ProtonClientTypes {
             externalId: Swift.String? = nil,
             time: Foundation.Date? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.event = event
             self.externalId = externalId
             self.time = time
@@ -3700,8 +3586,7 @@ extension ProtonClientTypes {
             events: [ProtonClientTypes.RepositorySyncEvent]? = nil,
             startedAt: Foundation.Date? = nil,
             status: ProtonClientTypes.RepositorySyncStatus? = nil
-        )
-        {
+        ) {
             self.events = events
             self.startedAt = startedAt
             self.status = status
@@ -3715,8 +3600,7 @@ public struct GetRepositorySyncStatusOutput: Swift.Sendable {
 
     public init(
         latestSync: ProtonClientTypes.RepositorySyncAttempt? = nil
-    )
-    {
+    ) {
         self.latestSync = latestSync
     }
 }
@@ -3748,8 +3632,7 @@ extension ProtonClientTypes {
             failed: Swift.Int? = nil,
             total: Swift.Int? = nil,
             upToDate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.behindMajor = behindMajor
             self.behindMinor = behindMinor
             self.failed = failed
@@ -3786,8 +3669,7 @@ extension ProtonClientTypes {
             serviceInstances: ProtonClientTypes.ResourceCountsSummary? = nil,
             serviceTemplates: ProtonClientTypes.ResourceCountsSummary? = nil,
             services: ProtonClientTypes.ResourceCountsSummary? = nil
-        )
-        {
+        ) {
             self.components = components
             self.environmentTemplates = environmentTemplates
             self.environments = environments
@@ -3806,8 +3688,7 @@ public struct GetResourcesSummaryOutput: Swift.Sendable {
 
     public init(
         counts: ProtonClientTypes.CountsSummary? = nil
-    )
-    {
+    ) {
         self.counts = counts
     }
 }
@@ -3823,8 +3704,7 @@ public struct GetServiceInstanceSyncStatusInput: Swift.Sendable {
     public init(
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceInstanceName = serviceInstanceName
         self.serviceName = serviceName
     }
@@ -3856,8 +3736,7 @@ extension ProtonClientTypes {
             repositoryName: Swift.String? = nil,
             repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
             sha: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.directory = directory
             self.repositoryName = repositoryName
@@ -3888,8 +3767,7 @@ extension ProtonClientTypes {
             externalId: Swift.String? = nil,
             time: Foundation.Date? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.event = event
             self.externalId = externalId
             self.time = time
@@ -3967,8 +3845,7 @@ extension ProtonClientTypes {
             status: ProtonClientTypes.ResourceSyncStatus? = nil,
             target: Swift.String? = nil,
             targetRevision: ProtonClientTypes.Revision? = nil
-        )
-        {
+        ) {
             self.events = events
             self.initialRevision = initialRevision
             self.startedAt = startedAt
@@ -3991,8 +3868,7 @@ public struct GetServiceInstanceSyncStatusOutput: Swift.Sendable {
         desiredState: ProtonClientTypes.Revision? = nil,
         latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt? = nil,
         latestSync: ProtonClientTypes.ResourceSyncAttempt? = nil
-    )
-    {
+    ) {
         self.desiredState = desiredState
         self.latestSuccessfulSync = latestSuccessfulSync
         self.latestSync = latestSync
@@ -4043,8 +3919,7 @@ public struct GetTemplateSyncStatusInput: Swift.Sendable {
         templateName: Swift.String? = nil,
         templateType: ProtonClientTypes.TemplateType? = nil,
         templateVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.templateType = templateType
         self.templateVersion = templateVersion
@@ -4063,8 +3938,7 @@ public struct GetTemplateSyncStatusOutput: Swift.Sendable {
         desiredState: ProtonClientTypes.Revision? = nil,
         latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt? = nil,
         latestSync: ProtonClientTypes.ResourceSyncAttempt? = nil
-    )
-    {
+    ) {
         self.desiredState = desiredState
         self.latestSuccessfulSync = latestSuccessfulSync
         self.latestSync = latestSync
@@ -4089,8 +3963,7 @@ public struct ListRepositorySyncDefinitionsInput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
         syncType: ProtonClientTypes.SyncType? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositoryName = repositoryName
         self.repositoryProvider = repositoryProvider
@@ -4120,8 +3993,7 @@ extension ProtonClientTypes {
             directory: Swift.String? = nil,
             parent: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.directory = directory
             self.parent = parent
@@ -4140,8 +4012,7 @@ public struct ListRepositorySyncDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         syncDefinitions: [ProtonClientTypes.RepositorySyncDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.syncDefinitions = syncDefinitions
     }
@@ -4160,8 +4031,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -4178,8 +4048,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [ProtonClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -4237,8 +4106,7 @@ public struct NotifyResourceDeploymentStatusChangeInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         status: ProtonClientTypes.ResourceDeploymentStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.outputs = outputs
         self.resourceArn = resourceArn
@@ -4278,8 +4146,7 @@ public struct CreateRepositoryInput: Swift.Sendable {
         name: Swift.String? = nil,
         provider: ProtonClientTypes.RepositoryProvider? = nil,
         tags: [ProtonClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.connectionArn = connectionArn
         self.encryptionKey = encryptionKey
         self.name = name
@@ -4313,8 +4180,7 @@ extension ProtonClientTypes {
             encryptionKey: Swift.String? = nil,
             name: Swift.String? = nil,
             provider: ProtonClientTypes.RepositoryProvider? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectionArn = connectionArn
             self.encryptionKey = encryptionKey
@@ -4331,8 +4197,7 @@ public struct CreateRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: ProtonClientTypes.Repository? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -4348,8 +4213,7 @@ public struct DeleteRepositoryInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         provider: ProtonClientTypes.RepositoryProvider? = nil
-    )
-    {
+    ) {
         self.name = name
         self.provider = provider
     }
@@ -4361,8 +4225,7 @@ public struct DeleteRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: ProtonClientTypes.Repository? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -4378,8 +4241,7 @@ public struct GetRepositoryInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         provider: ProtonClientTypes.RepositoryProvider? = nil
-    )
-    {
+    ) {
         self.name = name
         self.provider = provider
     }
@@ -4392,8 +4254,7 @@ public struct GetRepositoryOutput: Swift.Sendable {
 
     public init(
         repository: ProtonClientTypes.Repository? = nil
-    )
-    {
+    ) {
         self.repository = repository
     }
 }
@@ -4407,8 +4268,7 @@ public struct ListRepositoriesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4436,8 +4296,7 @@ extension ProtonClientTypes {
             connectionArn: Swift.String? = nil,
             name: Swift.String? = nil,
             provider: ProtonClientTypes.RepositoryProvider? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.connectionArn = connectionArn
             self.name = name
@@ -4456,8 +4315,7 @@ public struct ListRepositoriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositories: [ProtonClientTypes.RepositorySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositories = repositories
     }
@@ -4480,8 +4338,7 @@ public struct ListServiceInstanceOutputsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.nextToken = nextToken
         self.serviceInstanceName = serviceInstanceName
@@ -4499,8 +4356,7 @@ public struct ListServiceInstanceOutputsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outputs: [ProtonClientTypes.Output]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outputs = outputs
     }
@@ -4525,8 +4381,7 @@ public struct ListServiceInstanceProvisionedResourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceInstanceName = serviceInstanceName
         self.serviceName = serviceName
@@ -4543,8 +4398,7 @@ public struct ListServiceInstanceProvisionedResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         provisionedResources: [ProtonClientTypes.ProvisionedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.provisionedResources = provisionedResources
     }
@@ -4577,8 +4431,7 @@ public struct CreateServiceInstanceInput: Swift.Sendable {
         tags: [ProtonClientTypes.Tag]? = nil,
         templateMajorVersion: Swift.String? = nil,
         templateMinorVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.serviceName = serviceName
@@ -4601,8 +4454,7 @@ public struct CreateServiceInstanceOutput: Swift.Sendable {
 
     public init(
         serviceInstance: ProtonClientTypes.ServiceInstance? = nil
-    )
-    {
+    ) {
         self.serviceInstance = serviceInstance
     }
 }
@@ -4618,8 +4470,7 @@ public struct GetServiceInstanceInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.serviceName = serviceName
     }
@@ -4632,8 +4483,7 @@ public struct GetServiceInstanceOutput: Swift.Sendable {
 
     public init(
         serviceInstance: ProtonClientTypes.ServiceInstance? = nil
-    )
-    {
+    ) {
         self.serviceInstance = serviceInstance
     }
 }
@@ -4703,8 +4553,7 @@ extension ProtonClientTypes {
         public init(
             key: ProtonClientTypes.ListServiceInstancesFilterBy? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4805,8 +4654,7 @@ public struct ListServiceInstancesInput: Swift.Sendable {
         serviceName: Swift.String? = nil,
         sortBy: ProtonClientTypes.ListServiceInstancesSortBy? = nil,
         sortOrder: ProtonClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4875,8 +4723,7 @@ extension ProtonClientTypes {
             templateMajorVersion: Swift.String? = nil,
             templateMinorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -4910,8 +4757,7 @@ public struct ListServiceInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceInstances: [ProtonClientTypes.ServiceInstanceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceInstances = serviceInstances
     }
@@ -4944,8 +4790,7 @@ public struct UpdateServiceInstanceInput: Swift.Sendable {
         spec: Swift.String? = nil,
         templateMajorVersion: Swift.String? = nil,
         templateMinorVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.deploymentType = deploymentType
         self.name = name
@@ -4968,8 +4813,7 @@ public struct UpdateServiceInstanceOutput: Swift.Sendable {
 
     public init(
         serviceInstance: ProtonClientTypes.ServiceInstance? = nil
-    )
-    {
+    ) {
         self.serviceInstance = serviceInstance
     }
 }
@@ -4987,8 +4831,7 @@ public struct ListServicePipelineOutputsInput: Swift.Sendable {
         deploymentId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.nextToken = nextToken
         self.serviceName = serviceName
@@ -5005,8 +4848,7 @@ public struct ListServicePipelineOutputsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outputs: [ProtonClientTypes.Output]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outputs = outputs
     }
@@ -5027,8 +4869,7 @@ public struct ListServicePipelineProvisionedResourcesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceName = serviceName
     }
@@ -5044,8 +4885,7 @@ public struct ListServicePipelineProvisionedResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         provisionedResources: [ProtonClientTypes.ProvisionedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.provisionedResources = provisionedResources
     }
@@ -5072,8 +4912,7 @@ public struct UpdateServicePipelineInput: Swift.Sendable {
         spec: Swift.String? = nil,
         templateMajorVersion: Swift.String? = nil,
         templateMinorVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentType = deploymentType
         self.serviceName = serviceName
         self.spec = spec
@@ -5094,8 +4933,7 @@ public struct UpdateServicePipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: ProtonClientTypes.ServicePipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -5137,8 +4975,7 @@ public struct CreateServiceInput: Swift.Sendable {
         templateMajorVersion: Swift.String? = nil,
         templateMinorVersion: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branchName = branchName
         self.description = description
         self.name = name
@@ -5274,8 +5111,7 @@ extension ProtonClientTypes {
             status: ProtonClientTypes.ServiceStatus? = nil,
             statusMessage: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.branchName = branchName
             self.createdAt = createdAt
@@ -5305,8 +5141,7 @@ public struct CreateServiceOutput: Swift.Sendable {
 
     public init(
         service: ProtonClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -5318,8 +5153,7 @@ public struct DeleteServiceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5330,8 +5164,7 @@ public struct DeleteServiceOutput: Swift.Sendable {
 
     public init(
         service: ProtonClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -5343,8 +5176,7 @@ public struct GetServiceInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5355,8 +5187,7 @@ public struct GetServiceOutput: Swift.Sendable {
 
     public init(
         service: ProtonClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -5370,8 +5201,7 @@ public struct ListServicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5413,8 +5243,7 @@ extension ProtonClientTypes {
             status: ProtonClientTypes.ServiceStatus? = nil,
             statusMessage: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -5442,8 +5271,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         services: [ProtonClientTypes.ServiceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.services = services
     }
@@ -5462,8 +5290,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         spec: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.spec = spec
@@ -5482,8 +5309,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
 
     public init(
         service: ProtonClientTypes.Service? = nil
-    )
-    {
+    ) {
         self.service = service
     }
 }
@@ -5498,8 +5324,7 @@ public struct GetServiceSyncBlockerSummaryInput: Swift.Sendable {
     public init(
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceInstanceName = serviceInstanceName
         self.serviceName = serviceName
     }
@@ -5519,8 +5344,7 @@ extension ProtonClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5617,8 +5441,7 @@ extension ProtonClientTypes {
             resolvedReason: Swift.String? = nil,
             status: ProtonClientTypes.BlockerStatus? = nil,
             type: ProtonClientTypes.BlockerType? = nil
-        )
-        {
+        ) {
             self.contexts = contexts
             self.createdAt = createdAt
             self.createdReason = createdReason
@@ -5647,8 +5470,7 @@ extension ProtonClientTypes {
             latestBlockers: [ProtonClientTypes.SyncBlocker]? = nil,
             serviceInstanceName: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestBlockers = latestBlockers
             self.serviceInstanceName = serviceInstanceName
             self.serviceName = serviceName
@@ -5662,8 +5484,7 @@ public struct GetServiceSyncBlockerSummaryOutput: Swift.Sendable {
 
     public init(
         serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary? = nil
-    )
-    {
+    ) {
         self.serviceSyncBlockerSummary = serviceSyncBlockerSummary
     }
 }
@@ -5679,8 +5500,7 @@ public struct UpdateServiceSyncBlockerInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         resolvedReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.resolvedReason = resolvedReason
     }
@@ -5700,8 +5520,7 @@ public struct UpdateServiceSyncBlockerOutput: Swift.Sendable {
         serviceInstanceName: Swift.String? = nil,
         serviceName: Swift.String? = nil,
         serviceSyncBlocker: ProtonClientTypes.SyncBlocker? = nil
-    )
-    {
+    ) {
         self.serviceInstanceName = serviceInstanceName
         self.serviceName = serviceName
         self.serviceSyncBlocker = serviceSyncBlocker
@@ -5731,8 +5550,7 @@ public struct CreateServiceSyncConfigInput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.filePath = filePath
         self.repositoryName = repositoryName
@@ -5767,8 +5585,7 @@ extension ProtonClientTypes {
             repositoryName: Swift.String? = nil,
             repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.filePath = filePath
             self.repositoryName = repositoryName
@@ -5784,8 +5601,7 @@ public struct CreateServiceSyncConfigOutput: Swift.Sendable {
 
     public init(
         serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
+    ) {
         self.serviceSyncConfig = serviceSyncConfig
     }
 }
@@ -5797,8 +5613,7 @@ public struct DeleteServiceSyncConfigInput: Swift.Sendable {
 
     public init(
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
     }
 }
@@ -5809,8 +5624,7 @@ public struct DeleteServiceSyncConfigOutput: Swift.Sendable {
 
     public init(
         serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
+    ) {
         self.serviceSyncConfig = serviceSyncConfig
     }
 }
@@ -5822,8 +5636,7 @@ public struct GetServiceSyncConfigInput: Swift.Sendable {
 
     public init(
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
     }
 }
@@ -5834,8 +5647,7 @@ public struct GetServiceSyncConfigOutput: Swift.Sendable {
 
     public init(
         serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
+    ) {
         self.serviceSyncConfig = serviceSyncConfig
     }
 }
@@ -5863,8 +5675,7 @@ public struct UpdateServiceSyncConfigInput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
         serviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.filePath = filePath
         self.repositoryName = repositoryName
@@ -5879,8 +5690,7 @@ public struct UpdateServiceSyncConfigOutput: Swift.Sendable {
 
     public init(
         serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
-    )
-    {
+    ) {
         self.serviceSyncConfig = serviceSyncConfig
     }
 }
@@ -5907,8 +5717,7 @@ public struct CreateServiceTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         pipelineProvisioning: ProtonClientTypes.Provisioning? = nil,
         tags: [ProtonClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.encryptionKey = encryptionKey
@@ -5960,8 +5769,7 @@ extension ProtonClientTypes {
             name: Swift.String? = nil,
             pipelineProvisioning: ProtonClientTypes.Provisioning? = nil,
             recommendedVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -5987,8 +5795,7 @@ public struct CreateServiceTemplateOutput: Swift.Sendable {
 
     public init(
         serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
-    )
-    {
+    ) {
         self.serviceTemplate = serviceTemplate
     }
 }
@@ -6000,8 +5807,7 @@ public struct DeleteServiceTemplateInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -6012,8 +5818,7 @@ public struct DeleteServiceTemplateOutput: Swift.Sendable {
 
     public init(
         serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
-    )
-    {
+    ) {
         self.serviceTemplate = serviceTemplate
     }
 }
@@ -6025,8 +5830,7 @@ public struct GetServiceTemplateInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -6038,8 +5842,7 @@ public struct GetServiceTemplateOutput: Swift.Sendable {
 
     public init(
         serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
-    )
-    {
+    ) {
         self.serviceTemplate = serviceTemplate
     }
 }
@@ -6053,8 +5856,7 @@ public struct ListServiceTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6094,8 +5896,7 @@ extension ProtonClientTypes {
             name: Swift.String? = nil,
             pipelineProvisioning: ProtonClientTypes.Provisioning? = nil,
             recommendedVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -6123,8 +5924,7 @@ public struct ListServiceTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templates: [ProtonClientTypes.ServiceTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templates = templates
     }
@@ -6143,8 +5943,7 @@ public struct UpdateServiceTemplateInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.name = name
@@ -6163,8 +5962,7 @@ public struct UpdateServiceTemplateOutput: Swift.Sendable {
 
     public init(
         serviceTemplate: ProtonClientTypes.ServiceTemplate? = nil
-    )
-    {
+    ) {
         self.serviceTemplate = serviceTemplate
     }
 }
@@ -6183,8 +5981,7 @@ extension ProtonClientTypes {
         public init(
             majorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.majorVersion = majorVersion
             self.templateName = templateName
         }
@@ -6247,8 +6044,7 @@ public struct CreateServiceTemplateVersionInput: Swift.Sendable {
         supportedComponentSources: [ProtonClientTypes.ServiceTemplateSupportedComponentSourceType]? = nil,
         tags: [ProtonClientTypes.Tag]? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
         self.description = description
@@ -6279,8 +6075,7 @@ extension ProtonClientTypes {
         public init(
             majorVersion: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.majorVersion = majorVersion
             self.templateName = templateName
         }
@@ -6340,8 +6135,7 @@ extension ProtonClientTypes {
             statusMessage: Swift.String? = nil,
             supportedComponentSources: [ProtonClientTypes.ServiceTemplateSupportedComponentSourceType]? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
             self.createdAt = createdAt
@@ -6371,8 +6165,7 @@ public struct CreateServiceTemplateVersionOutput: Swift.Sendable {
 
     public init(
         serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
-    )
-    {
+    ) {
         self.serviceTemplateVersion = serviceTemplateVersion
     }
 }
@@ -6392,8 +6185,7 @@ public struct DeleteServiceTemplateVersionInput: Swift.Sendable {
         majorVersion: Swift.String? = nil,
         minorVersion: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.majorVersion = majorVersion
         self.minorVersion = minorVersion
         self.templateName = templateName
@@ -6406,8 +6198,7 @@ public struct DeleteServiceTemplateVersionOutput: Swift.Sendable {
 
     public init(
         serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
-    )
-    {
+    ) {
         self.serviceTemplateVersion = serviceTemplateVersion
     }
 }
@@ -6427,8 +6218,7 @@ public struct GetServiceTemplateVersionInput: Swift.Sendable {
         majorVersion: Swift.String? = nil,
         minorVersion: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.majorVersion = majorVersion
         self.minorVersion = minorVersion
         self.templateName = templateName
@@ -6442,8 +6232,7 @@ public struct GetServiceTemplateVersionOutput: Swift.Sendable {
 
     public init(
         serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
-    )
-    {
+    ) {
         self.serviceTemplateVersion = serviceTemplateVersion
     }
 }
@@ -6464,8 +6253,7 @@ public struct ListServiceTemplateVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.majorVersion = majorVersion
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6516,8 +6304,7 @@ extension ProtonClientTypes {
             status: ProtonClientTypes.TemplateVersionStatus? = nil,
             statusMessage: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -6547,8 +6334,7 @@ public struct ListServiceTemplateVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templateVersions: [ProtonClientTypes.ServiceTemplateVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templateVersions = templateVersions
     }
@@ -6581,8 +6367,7 @@ public struct UpdateServiceTemplateVersionInput: Swift.Sendable {
         status: ProtonClientTypes.TemplateVersionStatus? = nil,
         supportedComponentSources: [ProtonClientTypes.ServiceTemplateSupportedComponentSourceType]? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
         self.description = description
         self.majorVersion = majorVersion
@@ -6605,8 +6390,7 @@ public struct UpdateServiceTemplateVersionOutput: Swift.Sendable {
 
     public init(
         serviceTemplateVersion: ProtonClientTypes.ServiceTemplateVersion? = nil
-    )
-    {
+    ) {
         self.serviceTemplateVersion = serviceTemplateVersion
     }
 }
@@ -6622,8 +6406,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ProtonClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6660,8 +6443,7 @@ public struct CreateTemplateSyncConfigInput: Swift.Sendable {
         subdirectory: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateType: ProtonClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.repositoryName = repositoryName
         self.repositoryProvider = repositoryProvider
@@ -6700,8 +6482,7 @@ extension ProtonClientTypes {
             subdirectory: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateType: ProtonClientTypes.TemplateType? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.repositoryName = repositoryName
             self.repositoryProvider = repositoryProvider
@@ -6718,8 +6499,7 @@ public struct CreateTemplateSyncConfigOutput: Swift.Sendable {
 
     public init(
         templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
+    ) {
         self.templateSyncConfig = templateSyncConfig
     }
 }
@@ -6735,8 +6515,7 @@ public struct DeleteTemplateSyncConfigInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         templateType: ProtonClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.templateType = templateType
     }
@@ -6748,8 +6527,7 @@ public struct DeleteTemplateSyncConfigOutput: Swift.Sendable {
 
     public init(
         templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
+    ) {
         self.templateSyncConfig = templateSyncConfig
     }
 }
@@ -6765,8 +6543,7 @@ public struct GetTemplateSyncConfigInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         templateType: ProtonClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.templateType = templateType
     }
@@ -6778,8 +6555,7 @@ public struct GetTemplateSyncConfigOutput: Swift.Sendable {
 
     public init(
         templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
+    ) {
         self.templateSyncConfig = templateSyncConfig
     }
 }
@@ -6810,8 +6586,7 @@ public struct UpdateTemplateSyncConfigInput: Swift.Sendable {
         subdirectory: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateType: ProtonClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.branch = branch
         self.repositoryName = repositoryName
         self.repositoryProvider = repositoryProvider
@@ -6827,8 +6602,7 @@ public struct UpdateTemplateSyncConfigOutput: Swift.Sendable {
 
     public init(
         templateSyncConfig: ProtonClientTypes.TemplateSyncConfig? = nil
-    )
-    {
+    ) {
         self.templateSyncConfig = templateSyncConfig
     }
 }
@@ -6844,8 +6618,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8160,8 +7933,10 @@ extension ListServiceTemplateVersionsInput {
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -8189,6 +7964,7 @@ extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: ProtonClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -8197,6 +7973,7 @@ extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
         try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You don't have sufficient access permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -44,8 +44,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -69,8 +68,7 @@ extension KeyspacesClientTypes {
             scaleInCooldown: Swift.Int = 0,
             scaleOutCooldown: Swift.Int = 0,
             targetValue: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
             self.scaleOutCooldown = scaleOutCooldown
@@ -88,8 +86,7 @@ extension KeyspacesClientTypes {
 
         public init(
             targetTrackingScalingPolicyConfiguration: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration? = nil
-        )
-        {
+        ) {
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
     }
@@ -138,8 +135,7 @@ extension KeyspacesClientTypes {
             maximumUnits: Swift.Int? = nil,
             minimumUnits: Swift.Int? = nil,
             scalingPolicy: KeyspacesClientTypes.AutoScalingPolicy? = nil
-        )
-        {
+        ) {
             self.autoScalingDisabled = autoScalingDisabled
             self.maximumUnits = maximumUnits
             self.minimumUnits = minimumUnits
@@ -160,8 +156,7 @@ extension KeyspacesClientTypes {
         public init(
             readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings? = nil,
             writeCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings? = nil
-        )
-        {
+        ) {
             self.readCapacityAutoScaling = readCapacityAutoScaling
             self.writeCapacityAutoScaling = writeCapacityAutoScaling
         }
@@ -227,8 +222,7 @@ extension KeyspacesClientTypes {
             readCapacityUnits: Swift.Int? = nil,
             throughputMode: KeyspacesClientTypes.ThroughputMode? = nil,
             writeCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.readCapacityUnits = readCapacityUnits
             self.throughputMode = throughputMode
             self.writeCapacityUnits = writeCapacityUnits
@@ -269,8 +263,7 @@ extension KeyspacesClientTypes {
             readCapacityUnits: Swift.Int? = nil,
             throughputMode: KeyspacesClientTypes.ThroughputMode? = nil,
             writeCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lastUpdateToPayPerRequestTimestamp = lastUpdateToPayPerRequestTimestamp
             self.readCapacityUnits = readCapacityUnits
             self.throughputMode = throughputMode
@@ -315,8 +308,7 @@ extension KeyspacesClientTypes {
 
         public init(
             status: KeyspacesClientTypes.ClientSideTimestampsStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -365,8 +357,7 @@ extension KeyspacesClientTypes {
         public init(
             name: Swift.String? = nil,
             orderBy: KeyspacesClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.name = name
             self.orderBy = orderBy
         }
@@ -387,8 +378,7 @@ extension KeyspacesClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -405,17 +395,16 @@ extension KeyspacesClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
 }
 
 /// Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -431,16 +420,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Amazon Keyspaces was unable to fully process this request because of an internal server error.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -456,16 +444,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -481,16 +468,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation failed due to an invalid or malformed request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -506,8 +492,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -558,8 +543,7 @@ extension KeyspacesClientTypes {
         public init(
             regionList: [Swift.String]? = nil,
             replicationStrategy: KeyspacesClientTypes.Rs? = nil
-        )
-        {
+        ) {
             self.regionList = regionList
             self.replicationStrategy = replicationStrategy
         }
@@ -580,8 +564,7 @@ extension KeyspacesClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -605,8 +588,7 @@ public struct CreateKeyspaceInput: Swift.Sendable {
         keyspaceName: Swift.String? = nil,
         replicationSpecification: KeyspacesClientTypes.ReplicationSpecification? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.replicationSpecification = replicationSpecification
         self.tags = tags
@@ -620,16 +602,15 @@ public struct CreateKeyspaceOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
 
 /// The operation tried to access a keyspace, table, or type that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource couldn’t be found.
@@ -648,8 +629,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
     }
@@ -711,8 +691,7 @@ extension KeyspacesClientTypes {
         public init(
             kmsKeyIdentifier: Swift.String? = nil,
             type: KeyspacesClientTypes.EncryptionType? = nil
-        )
-        {
+        ) {
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.type = type
         }
@@ -762,8 +741,7 @@ extension KeyspacesClientTypes {
 
         public init(
             status: KeyspacesClientTypes.PointInTimeRecoveryStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -791,8 +769,7 @@ extension KeyspacesClientTypes {
             readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings? = nil,
             readCapacityUnits: Swift.Int? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.readCapacityAutoScaling = readCapacityAutoScaling
             self.readCapacityUnits = readCapacityUnits
             self.region = region
@@ -810,8 +787,7 @@ extension KeyspacesClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -827,8 +803,7 @@ extension KeyspacesClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -854,8 +829,7 @@ extension KeyspacesClientTypes {
             clusteringKeys: [KeyspacesClientTypes.ClusteringKey]? = nil,
             partitionKeys: [KeyspacesClientTypes.PartitionKey]? = nil,
             staticColumns: [KeyspacesClientTypes.StaticColumn]? = nil
-        )
-        {
+        ) {
             self.allColumns = allColumns
             self.clusteringKeys = clusteringKeys
             self.partitionKeys = partitionKeys
@@ -900,8 +874,7 @@ extension KeyspacesClientTypes {
 
         public init(
             status: KeyspacesClientTypes.TimeToLiveStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1012,8 +985,7 @@ public struct CreateTableInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil,
         ttl: KeyspacesClientTypes.TimeToLive? = nil
-    )
-    {
+    ) {
         self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecification = capacitySpecification
         self.clientSideTimestamps = clientSideTimestamps
@@ -1037,8 +1009,7 @@ public struct CreateTableOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1057,8 +1028,7 @@ extension KeyspacesClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -1080,8 +1050,7 @@ public struct CreateTypeInput: Swift.Sendable {
         fieldDefinitions: [KeyspacesClientTypes.FieldDefinition]? = nil,
         keyspaceName: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldDefinitions = fieldDefinitions
         self.keyspaceName = keyspaceName
         self.typeName = typeName
@@ -1099,8 +1068,7 @@ public struct CreateTypeOutput: Swift.Sendable {
     public init(
         keyspaceArn: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceArn = keyspaceArn
         self.typeName = typeName
     }
@@ -1113,8 +1081,7 @@ public struct DeleteKeyspaceInput: Swift.Sendable {
 
     public init(
         keyspaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
     }
 }
@@ -1135,8 +1102,7 @@ public struct DeleteTableInput: Swift.Sendable {
     public init(
         keyspaceName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.tableName = tableName
     }
@@ -1158,8 +1124,7 @@ public struct DeleteTypeInput: Swift.Sendable {
     public init(
         keyspaceName: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.typeName = typeName
     }
@@ -1176,8 +1141,7 @@ public struct DeleteTypeOutput: Swift.Sendable {
     public init(
         keyspaceArn: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceArn = keyspaceArn
         self.typeName = typeName
     }
@@ -1190,8 +1154,7 @@ public struct GetKeyspaceInput: Swift.Sendable {
 
     public init(
         keyspaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
     }
 }
@@ -1248,8 +1211,7 @@ extension KeyspacesClientTypes {
             keyspaceStatus: KeyspacesClientTypes.KeyspaceStatus? = nil,
             region: Swift.String? = nil,
             tablesReplicationProgress: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyspaceStatus = keyspaceStatus
             self.region = region
             self.tablesReplicationProgress = tablesReplicationProgress
@@ -1278,8 +1240,7 @@ public struct GetKeyspaceOutput: Swift.Sendable {
         replicationRegions: [Swift.String]? = nil,
         replicationStrategy: KeyspacesClientTypes.Rs? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.replicationGroupStatuses = replicationGroupStatuses
         self.replicationRegions = replicationRegions
@@ -1299,8 +1260,7 @@ public struct GetTableInput: Swift.Sendable {
     public init(
         keyspaceName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.tableName = tableName
     }
@@ -1319,8 +1279,7 @@ extension KeyspacesClientTypes {
         public init(
             earliestRestorableTimestamp: Foundation.Date? = nil,
             status: KeyspacesClientTypes.PointInTimeRecoveryStatus? = nil
-        )
-        {
+        ) {
             self.earliestRestorableTimestamp = earliestRestorableTimestamp
             self.status = status
         }
@@ -1393,8 +1352,7 @@ extension KeyspacesClientTypes {
             capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary? = nil,
             region: Swift.String? = nil,
             status: KeyspacesClientTypes.TableStatus? = nil
-        )
-        {
+        ) {
             self.capacitySpecification = capacitySpecification
             self.region = region
             self.status = status
@@ -1454,8 +1412,7 @@ public struct GetTableOutput: Swift.Sendable {
         status: KeyspacesClientTypes.TableStatus? = nil,
         tableName: Swift.String? = nil,
         ttl: KeyspacesClientTypes.TimeToLive? = nil
-    )
-    {
+    ) {
         self.capacitySpecification = capacitySpecification
         self.clientSideTimestamps = clientSideTimestamps
         self.comment = comment
@@ -1484,8 +1441,7 @@ public struct GetTableAutoScalingSettingsInput: Swift.Sendable {
     public init(
         keyspaceName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.tableName = tableName
     }
@@ -1503,8 +1459,7 @@ extension KeyspacesClientTypes {
         public init(
             autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingSpecification = autoScalingSpecification
             self.region = region
         }
@@ -1532,8 +1487,7 @@ public struct GetTableAutoScalingSettingsOutput: Swift.Sendable {
         replicaSpecifications: [KeyspacesClientTypes.ReplicaAutoScalingSpecification]? = nil,
         resourceArn: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingSpecification = autoScalingSpecification
         self.keyspaceName = keyspaceName
         self.replicaSpecifications = replicaSpecifications
@@ -1553,8 +1507,7 @@ public struct GetTypeInput: Swift.Sendable {
     public init(
         keyspaceName: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.typeName = typeName
     }
@@ -1628,8 +1581,7 @@ public struct GetTypeOutput: Swift.Sendable {
         maxNestingDepth: Swift.Int = 0,
         status: KeyspacesClientTypes.TypeStatus? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directParentTypes = directParentTypes
         self.directReferringTables = directReferringTables
         self.fieldDefinitions = fieldDefinitions
@@ -1651,8 +1603,7 @@ public struct ListKeyspacesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1679,8 +1630,7 @@ extension KeyspacesClientTypes {
             replicationRegions: [Swift.String]? = nil,
             replicationStrategy: KeyspacesClientTypes.Rs? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyspaceName = keyspaceName
             self.replicationRegions = replicationRegions
             self.replicationStrategy = replicationStrategy
@@ -1699,8 +1649,7 @@ public struct ListKeyspacesOutput: Swift.Sendable {
     public init(
         keyspaces: [KeyspacesClientTypes.KeyspaceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaces = keyspaces
         self.nextToken = nextToken
     }
@@ -1719,8 +1668,7 @@ public struct ListTablesInput: Swift.Sendable {
         keyspaceName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1745,8 +1693,7 @@ extension KeyspacesClientTypes {
             keyspaceName: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyspaceName = keyspaceName
             self.resourceArn = resourceArn
             self.tableName = tableName
@@ -1763,8 +1710,7 @@ public struct ListTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tables: [KeyspacesClientTypes.TableSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tables = tables
     }
@@ -1783,8 +1729,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -1800,8 +1745,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -1820,8 +1764,7 @@ public struct ListTypesInput: Swift.Sendable {
         keyspaceName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyspaceName = keyspaceName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1838,8 +1781,7 @@ public struct ListTypesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         types: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.types = types
     }
@@ -1906,8 +1848,7 @@ public struct RestoreTableInput: Swift.Sendable {
         tagsOverride: [KeyspacesClientTypes.Tag]? = nil,
         targetKeyspaceName: Swift.String? = nil,
         targetTableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecificationOverride = capacitySpecificationOverride
         self.encryptionSpecificationOverride = encryptionSpecificationOverride
@@ -1929,8 +1870,7 @@ public struct RestoreTableOutput: Swift.Sendable {
 
     public init(
         restoredTableARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.restoredTableARN = restoredTableARN
     }
 }
@@ -1946,8 +1886,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1969,8 +1908,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1999,8 +1937,7 @@ public struct UpdateKeyspaceInput: Swift.Sendable {
         clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         keyspaceName: Swift.String? = nil,
         replicationSpecification: KeyspacesClientTypes.ReplicationSpecification? = nil
-    )
-    {
+    ) {
         self.clientSideTimestamps = clientSideTimestamps
         self.keyspaceName = keyspaceName
         self.replicationSpecification = replicationSpecification
@@ -2014,8 +1951,7 @@ public struct UpdateKeyspaceOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2095,8 +2031,7 @@ public struct UpdateTableInput: Swift.Sendable {
         replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]? = nil,
         tableName: Swift.String? = nil,
         ttl: KeyspacesClientTypes.TimeToLive? = nil
-    )
-    {
+    ) {
         self.addColumns = addColumns
         self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecification = capacitySpecification
@@ -2118,8 +2053,7 @@ public struct UpdateTableOutput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
