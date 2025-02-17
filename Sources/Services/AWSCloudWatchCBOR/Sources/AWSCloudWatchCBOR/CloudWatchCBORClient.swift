@@ -22,10 +22,10 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
@@ -45,11 +45,11 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.CborValidateResponseHeaderMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
@@ -65,15 +65,9 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-<<<<<<< HEAD:Sources/Services/AWSCloudWatchCBOR/Sources/AWSCloudWatchCBOR/CloudWatchCBORClient.swift
 public class CloudWatchCBORClient: ClientRuntime.Client {
     public static let clientName = "CloudWatchCBORClient"
-    public static let version = "1.2.11"
-=======
-public class SSMContactsClient: ClientRuntime.Client {
-    public static let clientName = "SSMContactsClient"
-    public static let version = "1.2.17"
->>>>>>> main:Sources/Services/AWSSSMContacts/Sources/AWSSSMContacts/SSMContactsClient.swift
+    public static let version = "1.2.18"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchCBORClient.CloudWatchCBORClientConfiguration
     let serviceName = "CloudWatchCBOR"
@@ -413,7 +407,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlarmsOutput>(DeleteAlarmsOutput.httpOutput(from:), DeleteAlarmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlarmsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -422,7 +416,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAlarmsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAlarmsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAlarmsOutput>())
@@ -495,7 +489,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalyDetectorOutput>(DeleteAnomalyDetectorOutput.httpOutput(from:), DeleteAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -504,7 +498,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAnomalyDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAnomalyDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAnomalyDetectorOutput>())
@@ -575,7 +569,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDashboardsOutput>(DeleteDashboardsOutput.httpOutput(from:), DeleteDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDashboardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -584,7 +578,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDashboardsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDashboardsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDashboardsOutput>())
@@ -654,7 +648,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInsightRulesOutput>(DeleteInsightRulesOutput.httpOutput(from:), DeleteInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -663,7 +657,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInsightRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInsightRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInsightRulesOutput>())
@@ -734,7 +728,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMetricStreamOutput>(DeleteMetricStreamOutput.httpOutput(from:), DeleteMetricStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -743,7 +737,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMetricStreamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMetricStreamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMetricStreamOutput>())
@@ -812,7 +806,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmHistoryOutput>(DescribeAlarmHistoryOutput.httpOutput(from:), DescribeAlarmHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmHistoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -821,7 +815,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAlarmHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAlarmHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAlarmHistoryOutput>())
@@ -890,7 +884,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmsOutput>(DescribeAlarmsOutput.httpOutput(from:), DescribeAlarmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -899,7 +893,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAlarmsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAlarmsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAlarmsOutput>())
@@ -963,7 +957,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmsForMetricOutput>(DescribeAlarmsForMetricOutput.httpOutput(from:), DescribeAlarmsForMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmsForMetricOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -972,7 +966,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAlarmsForMetricOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAlarmsForMetricInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAlarmsForMetricOutput>())
@@ -1044,7 +1038,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnomalyDetectorsOutput>(DescribeAnomalyDetectorsOutput.httpOutput(from:), DescribeAnomalyDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnomalyDetectorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1053,7 +1047,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAnomalyDetectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAnomalyDetectorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAnomalyDetectorsOutput>())
@@ -1122,7 +1116,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInsightRulesOutput>(DescribeInsightRulesOutput.httpOutput(from:), DescribeInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1131,7 +1125,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInsightRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInsightRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInsightRulesOutput>())
@@ -1195,7 +1189,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableAlarmActionsOutput>(DisableAlarmActionsOutput.httpOutput(from:), DisableAlarmActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAlarmActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1204,7 +1198,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableAlarmActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DisableAlarmActionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableAlarmActionsOutput>())
@@ -1274,7 +1268,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableInsightRulesOutput>(DisableInsightRulesOutput.httpOutput(from:), DisableInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1283,7 +1277,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableInsightRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DisableInsightRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableInsightRulesOutput>())
@@ -1347,7 +1341,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableAlarmActionsOutput>(EnableAlarmActionsOutput.httpOutput(from:), EnableAlarmActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAlarmActionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1356,7 +1350,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableAlarmActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: EnableAlarmActionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableAlarmActionsOutput>())
@@ -1427,7 +1421,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableInsightRulesOutput>(EnableInsightRulesOutput.httpOutput(from:), EnableInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1436,7 +1430,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableInsightRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: EnableInsightRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableInsightRulesOutput>())
@@ -1507,7 +1501,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDashboardOutput>(GetDashboardOutput.httpOutput(from:), GetDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDashboardInput, GetDashboardOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1516,7 +1510,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDashboardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDashboardInput, GetDashboardOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetDashboardInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDashboardInput, GetDashboardOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetDashboardInput, GetDashboardOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDashboardInput, GetDashboardOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDashboardInput, GetDashboardOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDashboardInput, GetDashboardOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDashboardOutput>())
@@ -1601,7 +1595,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInsightRuleReportOutput>(GetInsightRuleReportOutput.httpOutput(from:), GetInsightRuleReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightRuleReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1610,7 +1604,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInsightRuleReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetInsightRuleReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInsightRuleReportOutput>())
@@ -1690,7 +1684,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricDataOutput>(GetMetricDataOutput.httpOutput(from:), GetMetricDataOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricDataInput, GetMetricDataOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1699,7 +1693,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMetricDataInput, GetMetricDataOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetMetricDataInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricDataInput, GetMetricDataOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricDataInput, GetMetricDataOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricDataInput, GetMetricDataOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricDataInput, GetMetricDataOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricDataInput, GetMetricDataOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMetricDataOutput>())
@@ -1789,7 +1783,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricStatisticsOutput>(GetMetricStatisticsOutput.httpOutput(from:), GetMetricStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricStatisticsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1798,7 +1792,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMetricStatisticsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetMetricStatisticsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMetricStatisticsOutput>())
@@ -1871,7 +1865,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricStreamOutput>(GetMetricStreamOutput.httpOutput(from:), GetMetricStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1880,7 +1874,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMetricStreamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMetricStreamInput, GetMetricStreamOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetMetricStreamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricStreamInput, GetMetricStreamOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricStreamInput, GetMetricStreamOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricStreamInput, GetMetricStreamOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMetricStreamOutput>())
@@ -1948,7 +1942,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricWidgetImageOutput>(GetMetricWidgetImageOutput.httpOutput(from:), GetMetricWidgetImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricWidgetImageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1957,7 +1951,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMetricWidgetImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetMetricWidgetImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMetricWidgetImageOutput>())
@@ -2027,7 +2021,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDashboardsOutput>(ListDashboardsOutput.httpOutput(from:), ListDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardsInput, ListDashboardsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2036,7 +2030,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDashboardsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDashboardsInput, ListDashboardsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListDashboardsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDashboardsInput, ListDashboardsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListDashboardsInput, ListDashboardsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListDashboardsInput, ListDashboardsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDashboardsInput, ListDashboardsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDashboardsInput, ListDashboardsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDashboardsOutput>())
@@ -2107,7 +2101,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedInsightRulesOutput>(ListManagedInsightRulesOutput.httpOutput(from:), ListManagedInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2116,7 +2110,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListManagedInsightRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListManagedInsightRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListManagedInsightRulesOutput>())
@@ -2188,7 +2182,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricStreamsOutput>(ListMetricStreamsOutput.httpOutput(from:), ListMetricStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2197,7 +2191,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMetricStreamsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListMetricStreamsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMetricStreamsOutput>())
@@ -2267,7 +2261,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricsOutput>(ListMetricsOutput.httpOutput(from:), ListMetricsOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricsInput, ListMetricsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2276,7 +2270,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMetricsInput, ListMetricsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListMetricsInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricsInput, ListMetricsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListMetricsInput, ListMetricsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListMetricsInput, ListMetricsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMetricsInput, ListMetricsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricsInput, ListMetricsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMetricsOutput>())
@@ -2347,7 +2341,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2356,7 +2350,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -2429,7 +2423,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAnomalyDetectorOutput>(PutAnomalyDetectorOutput.httpOutput(from:), PutAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAnomalyDetectorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2438,7 +2432,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAnomalyDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutAnomalyDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAnomalyDetectorOutput>())
@@ -2518,7 +2512,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutCompositeAlarmOutput>(PutCompositeAlarmOutput.httpOutput(from:), PutCompositeAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCompositeAlarmOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2527,7 +2521,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutCompositeAlarmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutCompositeAlarmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutCompositeAlarmOutput>())
@@ -2597,7 +2591,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDashboardOutput>(PutDashboardOutput.httpOutput(from:), PutDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDashboardInput, PutDashboardOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDashboardOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2606,7 +2600,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutDashboardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutDashboardInput, PutDashboardOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutDashboardInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutDashboardInput, PutDashboardOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutDashboardInput, PutDashboardOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutDashboardInput, PutDashboardOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDashboardInput, PutDashboardOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDashboardInput, PutDashboardOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDashboardOutput>())
@@ -2677,7 +2671,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInsightRuleOutput>(PutInsightRuleOutput.httpOutput(from:), PutInsightRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInsightRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2686,7 +2680,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutInsightRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutInsightRuleInput, PutInsightRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutInsightRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutInsightRuleInput, PutInsightRuleOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutInsightRuleInput, PutInsightRuleOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInsightRuleInput, PutInsightRuleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutInsightRuleOutput>())
@@ -2756,7 +2750,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutManagedInsightRulesOutput>(PutManagedInsightRulesOutput.httpOutput(from:), PutManagedInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutManagedInsightRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2765,7 +2759,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutManagedInsightRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutManagedInsightRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutManagedInsightRulesOutput>())
@@ -2845,7 +2839,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricAlarmOutput>(PutMetricAlarmOutput.httpOutput(from:), PutMetricAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricAlarmOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2854,7 +2848,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMetricAlarmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutMetricAlarmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMetricAlarmOutput>())
@@ -2930,7 +2924,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricDataOutput>(PutMetricDataOutput.httpOutput(from:), PutMetricDataOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricDataInput, PutMetricDataOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricDataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2939,7 +2933,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutMetricDataInput, PutMetricDataOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutMetricDataInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricDataInput, PutMetricDataOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutMetricDataInput, PutMetricDataOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutMetricDataInput, PutMetricDataOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMetricDataInput, PutMetricDataOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricDataInput, PutMetricDataOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMetricDataOutput>())
@@ -3021,7 +3015,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricStreamOutput>(PutMetricStreamOutput.httpOutput(from:), PutMetricStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3030,7 +3024,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMetricStreamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutMetricStreamInput, PutMetricStreamOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutMetricStreamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutMetricStreamInput, PutMetricStreamOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutMetricStreamInput, PutMetricStreamOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricStreamInput, PutMetricStreamOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMetricStreamOutput>())
@@ -3100,7 +3094,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetAlarmStateOutput>(SetAlarmStateOutput.httpOutput(from:), SetAlarmStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetAlarmStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3109,7 +3103,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetAlarmStateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<SetAlarmStateInput, SetAlarmStateOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: SetAlarmStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<SetAlarmStateInput, SetAlarmStateOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<SetAlarmStateInput, SetAlarmStateOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetAlarmStateInput, SetAlarmStateOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetAlarmStateOutput>())
@@ -3180,7 +3174,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetricStreamsOutput>(StartMetricStreamsOutput.httpOutput(from:), StartMetricStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetricStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3189,7 +3183,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMetricStreamsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartMetricStreamsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMetricStreamsOutput>())
@@ -3260,7 +3254,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMetricStreamsOutput>(StopMetricStreamsOutput.httpOutput(from:), StopMetricStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMetricStreamsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3269,7 +3263,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopMetricStreamsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopMetricStreamsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMetricStreamsOutput>())
@@ -3341,7 +3335,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3350,7 +3344,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -3422,7 +3416,7 @@ extension CloudWatchCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatchCBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3431,7 +3425,7 @@ extension CloudWatchCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())

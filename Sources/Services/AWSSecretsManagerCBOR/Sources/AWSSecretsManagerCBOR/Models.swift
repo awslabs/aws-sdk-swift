@@ -18,13 +18,13 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RpcV2CborError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RpcV2CborError
 
 
 public struct TagResourceOutput: Swift.Sendable {
@@ -80,7 +80,7 @@ extension SecretsManagerCBORClientTypes {
 }
 
 /// Secrets Manager can't decrypt the protected secret text using the provided KMS key.
-public struct DecryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DecryptionFailure: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -103,7 +103,7 @@ public struct DecryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An error occurred on the server side.
-public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServiceError: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -126,7 +126,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The NextToken value is invalid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -149,7 +149,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The parameter name or value is invalid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -178,7 +178,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 /// * You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
 ///
 /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidRequestException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -201,7 +201,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Secrets Manager can't find the resource that you asked for.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -418,7 +418,7 @@ public struct CancelRotateSecretOutput: Swift.Sendable {
 }
 
 /// Secrets Manager can't encrypt the protected secret text using the provided KMS key. Check that the KMS key is available, enabled, and not in an invalid state. For more information, see [Key state: Effect on your KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html).
-public struct EncryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct EncryptionFailure: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -441,7 +441,7 @@ public struct EncryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request failed because it would exceed one of the Secrets Manager quotas.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -464,7 +464,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The resource policy has syntax errors.
-public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -487,7 +487,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The request failed because you did not complete all the prerequisite steps.
-public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct PreconditionNotMetException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -510,7 +510,7 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// A resource with the ID you requested already exists.
-public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceExistsException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1271,7 +1271,7 @@ public struct ListSecretVersionIdsOutput: Swift.Sendable {
 }
 
 /// The BlockPublicPolicy parameter is set to true, and the resource policy did not prevent broad access to the secret.
-public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct PublicPolicyException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -2472,7 +2472,7 @@ enum BatchGetSecretValueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
@@ -2491,7 +2491,7 @@ enum CancelRotateSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2508,7 +2508,7 @@ enum CreateSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
@@ -2531,7 +2531,7 @@ enum DeleteResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2548,7 +2548,7 @@ enum DeleteSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2565,7 +2565,7 @@ enum DescribeSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2581,7 +2581,7 @@ enum GetRandomPasswordOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2597,7 +2597,7 @@ enum GetResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2614,7 +2614,7 @@ enum GetSecretValueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
@@ -2632,7 +2632,7 @@ enum ListSecretsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2649,7 +2649,7 @@ enum ListSecretVersionIdsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2666,7 +2666,7 @@ enum PutResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2685,7 +2685,7 @@ enum PutSecretValueOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
@@ -2706,7 +2706,7 @@ enum RemoveRegionsFromReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2723,7 +2723,7 @@ enum ReplicateSecretToRegionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2740,7 +2740,7 @@ enum RestoreSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2757,7 +2757,7 @@ enum RotateSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2774,7 +2774,7 @@ enum StopReplicationToReplicaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2791,7 +2791,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2808,7 +2808,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2825,7 +2825,7 @@ enum UpdateSecretOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DecryptionFailure": return try DecryptionFailure.makeError(baseError: baseError)
@@ -2848,7 +2848,7 @@ enum UpdateSecretVersionStageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2866,7 +2866,7 @@ enum ValidateResourcePolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -2881,7 +2881,7 @@ enum ValidateResourcePolicyOutputError {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2894,7 +2894,7 @@ extension InvalidNextTokenException {
 
 extension DecryptionFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> DecryptionFailure {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> DecryptionFailure {
         let reader = baseError.errorBodyReader
         var value = DecryptionFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2907,7 +2907,7 @@ extension DecryptionFailure {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2920,7 +2920,7 @@ extension InvalidParameterException {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2933,7 +2933,7 @@ extension InvalidRequestException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2946,7 +2946,7 @@ extension ResourceNotFoundException {
 
 extension InternalServiceError {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InternalServiceError {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
         var value = InternalServiceError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2959,7 +2959,7 @@ extension InternalServiceError {
 
 extension EncryptionFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> EncryptionFailure {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> EncryptionFailure {
         let reader = baseError.errorBodyReader
         var value = EncryptionFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2972,7 +2972,7 @@ extension EncryptionFailure {
 
 extension ResourceExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> ResourceExistsException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ResourceExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2985,7 +2985,7 @@ extension ResourceExistsException {
 
 extension PreconditionNotMetException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> PreconditionNotMetException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> PreconditionNotMetException {
         let reader = baseError.errorBodyReader
         var value = PreconditionNotMetException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -2998,7 +2998,7 @@ extension PreconditionNotMetException {
 
 extension MalformedPolicyDocumentException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> MalformedPolicyDocumentException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3011,7 +3011,7 @@ extension MalformedPolicyDocumentException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3024,7 +3024,7 @@ extension LimitExceededException {
 
 extension PublicPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> PublicPolicyException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> PublicPolicyException {
         let reader = baseError.errorBodyReader
         var value = PublicPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()

@@ -22,10 +22,10 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
@@ -45,11 +45,11 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.CborValidateResponseHeaderMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
@@ -65,15 +65,9 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-<<<<<<< HEAD:Sources/Services/AWSEchoCBOR/Sources/AWSEchoCBOR/EchoCBORClient.swift
 public class EchoCBORClient: ClientRuntime.Client {
     public static let clientName = "EchoCBORClient"
-    public static let version = "1.2.11"
-=======
-public class FreeTierClient: ClientRuntime.Client {
-    public static let clientName = "FreeTierClient"
-    public static let version = "1.2.17"
->>>>>>> main:Sources/Services/AWSFreeTier/Sources/AWSFreeTier/FreeTierClient.swift
+    public static let version = "1.2.18"
     let client: ClientRuntime.SdkHttpClient
     let config: EchoCBORClient.EchoCBORClientConfiguration
     let serviceName = "EchoCBOR"
@@ -407,7 +401,7 @@ extension EchoCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EchoOperationOutput>(EchoOperationOutput.httpOutput(from:), EchoOperationOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EchoOperationInput, EchoOperationOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EchoOperationOutput>())
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams()
@@ -415,7 +409,7 @@ extension EchoCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EchoOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<EchoOperationInput, EchoOperationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: EchoOperationInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EchoOperationInput, EchoOperationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<EchoOperationInput, EchoOperationOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<EchoOperationInput, EchoOperationOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EchoOperationInput, EchoOperationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EchoOperationInput, EchoOperationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EchoOperationOutput>())

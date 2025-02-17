@@ -33,19 +33,6 @@ extension BatchGetSecretValueInput: ClientRuntime.PaginateToken {
             secretIdList: self.secretIdList
         )}
 }
-extension SecretsManagerCBORClient {
-    /// Paginate over `[ListSecretsOutput]` results.
-    ///
-    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
-    /// - Parameters:
-    ///     - input: A `[ListSecretsInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `ListSecretsOutput`
-    public func listSecretsPaginated(input: ListSecretsInput) -> ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecrets(input:))
-    }
-}
 
 extension ListSecretsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListSecretsInput {

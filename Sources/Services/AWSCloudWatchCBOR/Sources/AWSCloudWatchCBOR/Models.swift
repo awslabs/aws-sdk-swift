@@ -18,13 +18,13 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import func SmithyReadWrite.timestampReadingClosure
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RpcV2CborError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RpcV2CborError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -820,7 +820,7 @@ extension CloudWatchCBORClientTypes {
 }
 
 /// More than one process tried to modify a resource at the same time.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -889,7 +889,7 @@ extension CloudWatchCBORClientTypes {
 }
 
 /// Some part of the dashboard data is invalid.
-public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DashboardInvalidInputError: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var dashboardValidationMessages: [CloudWatchCBORClientTypes.DashboardValidationMessage]? = nil
@@ -915,7 +915,7 @@ public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The specified dashboard does not exist.
-public struct DashboardNotFoundError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DashboardNotFoundError: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -981,7 +981,7 @@ extension CloudWatchCBORClientTypes {
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFound: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -1017,7 +1017,7 @@ public struct DeleteAlarmsInput: Swift.Sendable {
 }
 
 /// Request processing has failed due to some unknown error, exception, or failure.
-public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServiceFault: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -1041,7 +1041,7 @@ public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// Parameters were used together that cannot be used together.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -1065,7 +1065,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 }
 
 /// The value of an input parameter is bad or out-of-range.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -1089,7 +1089,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// An input parameter that is required is missing.
-public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct MissingRequiredParameterException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -1113,7 +1113,7 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1265,7 +1265,7 @@ public struct DeleteMetricStreamOutput: Swift.Sendable {
 }
 
 /// The next token specified is invalid.
-public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidNextToken: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -1851,7 +1851,7 @@ public struct EnableAlarmActionsInput: Swift.Sendable {
 }
 
 /// The operation exceeded one or more limits.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -3055,7 +3055,7 @@ public struct PutAnomalyDetectorOutput: Swift.Sendable {
 }
 
 /// The quota for alarms for this customer has already been reached.
-public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LimitExceededFault: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -3641,7 +3641,7 @@ public struct PutMetricStreamOutput: Swift.Sendable {
 }
 
 /// Data was not syntactically valid JSON.
-public struct InvalidFormatFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidFormatFault: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         ///
@@ -4871,7 +4871,7 @@ enum DeleteAlarmsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
@@ -4885,7 +4885,7 @@ enum DeleteAnomalyDetectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -4903,7 +4903,7 @@ enum DeleteDashboardsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try DashboardNotFoundError.makeError(baseError: baseError)
@@ -4919,7 +4919,7 @@ enum DeleteInsightRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -4934,7 +4934,7 @@ enum DeleteMetricStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -4950,7 +4950,7 @@ enum DescribeAlarmHistoryOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -4964,7 +4964,7 @@ enum DescribeAlarmsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -4978,7 +4978,7 @@ enum DescribeAlarmsForMetricOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4991,7 +4991,7 @@ enum DescribeAnomalyDetectorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5008,7 +5008,7 @@ enum DescribeInsightRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5022,7 +5022,7 @@ enum DisableAlarmActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5035,7 +5035,7 @@ enum DisableInsightRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5050,7 +5050,7 @@ enum EnableAlarmActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5063,7 +5063,7 @@ enum EnableInsightRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5079,7 +5079,7 @@ enum GetDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFound": return try DashboardNotFoundError.makeError(baseError: baseError)
@@ -5095,7 +5095,7 @@ enum GetInsightRuleReportOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5111,8 +5111,9 @@ enum GetMetricDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
+        let errorDetails = try await httpResponse.body.readData()
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5125,7 +5126,7 @@ enum GetMetricStatisticsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5142,7 +5143,7 @@ enum GetMetricStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5160,7 +5161,7 @@ enum GetMetricWidgetImageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5173,7 +5174,7 @@ enum ListDashboardsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5188,7 +5189,7 @@ enum ListManagedInsightRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
@@ -5204,7 +5205,7 @@ enum ListMetricsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5219,7 +5220,7 @@ enum ListMetricStreamsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5236,7 +5237,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5252,7 +5253,7 @@ enum PutAnomalyDetectorOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5270,7 +5271,7 @@ enum PutCompositeAlarmOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -5284,7 +5285,7 @@ enum PutDashboardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterInput": return try DashboardInvalidInputError.makeError(baseError: baseError)
@@ -5299,7 +5300,7 @@ enum PutInsightRuleOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5315,7 +5316,7 @@ enum PutManagedInsightRulesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -5330,7 +5331,7 @@ enum PutMetricAlarmOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
@@ -5344,7 +5345,7 @@ enum PutMetricDataOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5361,7 +5362,7 @@ enum PutMetricStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5379,7 +5380,7 @@ enum SetAlarmStateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidFormat": return try InvalidFormatFault.makeError(baseError: baseError)
@@ -5394,7 +5395,7 @@ enum StartMetricStreamsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5410,7 +5411,7 @@ enum StopMetricStreamsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
@@ -5426,7 +5427,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5443,7 +5444,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyCBOR.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RpcV2CborError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5457,7 +5458,7 @@ enum UntagResourceOutputError {
 
 extension ResourceNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> ResourceNotFound {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ResourceNotFound {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5470,7 +5471,7 @@ extension ResourceNotFound {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5485,7 +5486,7 @@ extension ResourceNotFoundException {
 
 extension InvalidParameterCombinationException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InvalidParameterCombinationException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidParameterCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5498,7 +5499,7 @@ extension InvalidParameterCombinationException {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5511,7 +5512,7 @@ extension InvalidParameterValueException {
 
 extension InternalServiceFault {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InternalServiceFault {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InternalServiceFault {
         let reader = baseError.errorBodyReader
         var value = InternalServiceFault()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5524,7 +5525,7 @@ extension InternalServiceFault {
 
 extension MissingRequiredParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> MissingRequiredParameterException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> MissingRequiredParameterException {
         let reader = baseError.errorBodyReader
         var value = MissingRequiredParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5537,7 +5538,7 @@ extension MissingRequiredParameterException {
 
 extension DashboardNotFoundError {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> DashboardNotFoundError {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> DashboardNotFoundError {
         let reader = baseError.errorBodyReader
         var value = DashboardNotFoundError()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5550,7 +5551,7 @@ extension DashboardNotFoundError {
 
 extension InvalidNextToken {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InvalidNextToken {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidNextToken {
         let reader = baseError.errorBodyReader
         var value = InvalidNextToken()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5563,7 +5564,7 @@ extension InvalidNextToken {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5576,7 +5577,7 @@ extension LimitExceededException {
 
 extension LimitExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> LimitExceededFault {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> LimitExceededFault {
         let reader = baseError.errorBodyReader
         var value = LimitExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -5589,7 +5590,7 @@ extension LimitExceededFault {
 
 extension DashboardInvalidInputError {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> DashboardInvalidInputError {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> DashboardInvalidInputError {
         let reader = baseError.errorBodyReader
         var value = DashboardInvalidInputError()
         value.properties.dashboardValidationMessages = try reader["dashboardValidationMessages"].readListIfPresent(memberReadingClosure: CloudWatchCBORClientTypes.DashboardValidationMessage.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5603,7 +5604,7 @@ extension DashboardInvalidInputError {
 
 extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -5616,7 +5617,7 @@ extension ConcurrentModificationException {
 
 extension InvalidFormatFault {
 
-    static func makeError(baseError: AWSClientRuntime.RpcV2CborError) throws -> InvalidFormatFault {
+    static func makeError(baseError: ClientRuntime.RpcV2CborError) throws -> InvalidFormatFault {
         let reader = baseError.errorBodyReader
         var value = InvalidFormatFault()
         value.properties.message = try reader["message"].readIfPresent()

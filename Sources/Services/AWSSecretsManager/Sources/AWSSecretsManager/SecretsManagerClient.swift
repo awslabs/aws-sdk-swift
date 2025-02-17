@@ -67,11 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecretsManagerClient: ClientRuntime.Client {
     public static let clientName = "SecretsManagerClient"
-<<<<<<< HEAD
-    public static let version = "1.2.11"
-=======
-    public static let version = "1.2.17"
->>>>>>> main
+    public static let version = "1.2.18"
     let client: ClientRuntime.SdkHttpClient
     let config: SecretsManagerClient.SecretsManagerClientConfiguration
     let serviceName = "Secrets Manager"
@@ -807,7 +803,7 @@ extension SecretsManagerClient {
     /// - `InternalServiceError` : An error occurred on the server side.
     /// - `InvalidParameterException` : The parameter name or value is invalid.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func describeSecret(input: DescribeSecretInput) async throws -> DescribeSecretOutput {
+    public func describeSecret(input: DescribeSecretInput, testCase: String = "") async throws -> DescribeSecretOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -838,7 +834,7 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSecretInput, DescribeSecretOutput>(DescribeSecretInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecretInput, DescribeSecretOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecretOutput>(DescribeSecretOutput.httpOutput(from:), DescribeSecretOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecretOutput>(DescribeSecretOutput.httpOutput(from:), DescribeSecretOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecretInput, DescribeSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
@@ -849,7 +845,7 @@ extension SecretsManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSecretInput, DescribeSecretOutput>(xAmzTarget: "secretsmanager.DescribeSecret"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecretInput, DescribeSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecretInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecretInput, DescribeSecretOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecretInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecretInput, DescribeSecretOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSecretInput, DescribeSecretOutput>())
@@ -1059,7 +1055,7 @@ extension SecretsManagerClient {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func getSecretValue(input: GetSecretValueInput) async throws -> GetSecretValueOutput {
+    public func getSecretValue(input: GetSecretValueInput, testCase: String = "") async throws -> GetSecretValueOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1090,7 +1086,7 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSecretValueInput, GetSecretValueOutput>(GetSecretValueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecretValueInput, GetSecretValueOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecretValueOutput>(GetSecretValueOutput.httpOutput(from:), GetSecretValueOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecretValueOutput>(GetSecretValueOutput.httpOutput(from:), GetSecretValueOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecretValueInput, GetSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
@@ -1101,7 +1097,7 @@ extension SecretsManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSecretValueInput, GetSecretValueOutput>(xAmzTarget: "secretsmanager.GetSecretValue"))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSecretValueInput, GetSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecretValueInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSecretValueInput, GetSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecretValueInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecretValueInput, GetSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSecretValueInput, GetSecretValueOutput>())
@@ -1221,7 +1217,7 @@ extension SecretsManagerClient {
     /// * You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
-    public func listSecrets(input: ListSecretsInput) async throws -> ListSecretsOutput {
+    public func listSecrets(input: ListSecretsInput, testCase: String = "") async throws -> ListSecretsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1252,7 +1248,7 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSecretsInput, ListSecretsOutput>(ListSecretsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretsInput, ListSecretsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecretsOutput>(ListSecretsOutput.httpOutput(from:), ListSecretsOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecretsOutput>(ListSecretsOutput.httpOutput(from:), ListSecretsOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecretsInput, ListSecretsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
@@ -1263,7 +1259,7 @@ extension SecretsManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecretsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSecretsInput, ListSecretsOutput>(xAmzTarget: "secretsmanager.ListSecrets"))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretsInput, ListSecretsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretsInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretsInput, ListSecretsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretsInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretsInput, ListSecretsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecretsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecretsInput, ListSecretsOutput>())
@@ -1395,7 +1391,7 @@ extension SecretsManagerClient {
     /// - `LimitExceededException` : The request failed because it would exceed one of the Secrets Manager quotas.
     /// - `ResourceExistsException` : A resource with the ID you requested already exists.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func putSecretValue(input: PutSecretValueInput) async throws -> PutSecretValueOutput {
+    public func putSecretValue(input: PutSecretValueInput, testCase: String = "") async throws -> PutSecretValueOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1427,7 +1423,7 @@ extension SecretsManagerClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutSecretValueInput, PutSecretValueOutput>(PutSecretValueInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSecretValueInput, PutSecretValueOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSecretValueOutput>(PutSecretValueOutput.httpOutput(from:), PutSecretValueOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSecretValueOutput>(PutSecretValueOutput.httpOutput(from:), PutSecretValueOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSecretValueInput, PutSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
@@ -1438,7 +1434,7 @@ extension SecretsManagerClient {
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutSecretValueInput, PutSecretValueOutput>(xAmzTarget: "secretsmanager.PutSecretValue"))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutSecretValueInput, PutSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutSecretValueInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutSecretValueInput, PutSecretValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutSecretValueInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSecretValueInput, PutSecretValueOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSecretValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutSecretValueInput, PutSecretValueOutput>())

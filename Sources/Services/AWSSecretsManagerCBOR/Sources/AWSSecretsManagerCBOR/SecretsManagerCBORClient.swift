@@ -22,10 +22,10 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
@@ -45,11 +45,11 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.CborValidateResponseHeaderMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecretsManagerCBORClient: ClientRuntime.Client {
     public static let clientName = "SecretsManagerCBORClient"
-    public static let version = "1.2.11"
+    public static let version = "1.2.18"
     let client: ClientRuntime.SdkHttpClient
     let config: SecretsManagerCBORClient.SecretsManagerCBORClientConfiguration
     let serviceName = "Secrets Manager CBOR"
@@ -419,7 +419,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSecretValueOutput>(BatchGetSecretValueOutput.httpOutput(from:), BatchGetSecretValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSecretValueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -428,7 +428,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetSecretValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSecretValueInput, BatchGetSecretValueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSecretValueOutput>())
@@ -506,7 +506,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelRotateSecretOutput>(CancelRotateSecretOutput.httpOutput(from:), CancelRotateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelRotateSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -515,7 +515,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelRotateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CancelRotateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelRotateSecretInput, CancelRotateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelRotateSecretOutput>())
@@ -600,7 +600,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecretOutput>(CreateSecretOutput.httpOutput(from:), CreateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecretInput, CreateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -609,7 +609,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSecretInput, CreateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSecretInput, CreateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<CreateSecretInput, CreateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateSecretInput, CreateSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecretInput, CreateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecretInput, CreateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSecretOutput>())
@@ -687,7 +687,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -696,7 +696,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
@@ -774,7 +774,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecretOutput>(DeleteSecretOutput.httpOutput(from:), DeleteSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecretInput, DeleteSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -783,7 +783,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSecretInput, DeleteSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSecretInput, DeleteSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DeleteSecretInput, DeleteSecretOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteSecretInput, DeleteSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecretInput, DeleteSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecretInput, DeleteSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSecretOutput>())
@@ -819,7 +819,7 @@ extension SecretsManagerCBORClient {
     /// - `InternalServiceError` : An error occurred on the server side.
     /// - `InvalidParameterException` : The parameter name or value is invalid.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func describeSecret(input: DescribeSecretInput) async throws -> DescribeSecretOutput {
+    public func describeSecret(input: DescribeSecretInput, testCase: String = "") async throws -> DescribeSecretOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -851,19 +851,19 @@ extension SecretsManagerCBORClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecretInput, DescribeSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecretInput, DescribeSecretOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecretOutput>(DescribeSecretOutput.httpOutput(from:), DescribeSecretOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecretOutput>(DescribeSecretOutput.httpOutput(from:), DescribeSecretOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecretInput, DescribeSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecretInput, DescribeSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecretInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecretInput, DescribeSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecretInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSecretInput, DescribeSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<DescribeSecretInput, DescribeSecretOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecretInput, DescribeSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecretInput, DescribeSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecretOutput>())
@@ -940,7 +940,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRandomPasswordOutput>(GetRandomPasswordOutput.httpOutput(from:), GetRandomPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRandomPasswordOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -949,7 +949,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRandomPasswordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetRandomPasswordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRandomPasswordInput, GetRandomPasswordOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRandomPasswordOutput>())
@@ -1027,7 +1027,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1036,7 +1036,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
@@ -1080,7 +1080,7 @@ extension SecretsManagerCBORClient {
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func getSecretValue(input: GetSecretValueInput) async throws -> GetSecretValueOutput {
+    public func getSecretValue(input: GetSecretValueInput, testCase: String = "") async throws -> GetSecretValueOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1112,19 +1112,19 @@ extension SecretsManagerCBORClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecretValueInput, GetSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecretValueInput, GetSecretValueOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecretValueOutput>(GetSecretValueOutput.httpOutput(from:), GetSecretValueOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecretValueOutput>(GetSecretValueOutput.httpOutput(from:), GetSecretValueOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecretValueInput, GetSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecretValueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetSecretValueInput, GetSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecretValueInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSecretValueInput, GetSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetSecretValueInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSecretValueInput, GetSecretValueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<GetSecretValueInput, GetSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSecretValueInput, GetSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecretValueInput, GetSecretValueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSecretValueOutput>())
@@ -1196,7 +1196,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecretVersionIdsOutput>(ListSecretVersionIdsOutput.httpOutput(from:), ListSecretVersionIdsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecretVersionIdsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1205,7 +1205,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecretVersionIdsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretVersionIdsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecretVersionIdsOutput>())
@@ -1248,7 +1248,7 @@ extension SecretsManagerCBORClient {
     /// * You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
     ///
     /// * The secret is managed by another service, and you must use that service to update it. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
-    public func listSecrets(input: ListSecretsInput) async throws -> ListSecretsOutput {
+    public func listSecrets(input: ListSecretsInput, testCase: String = "") async throws -> ListSecretsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1280,19 +1280,19 @@ extension SecretsManagerCBORClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretsInput, ListSecretsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretsInput, ListSecretsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecretsOutput>(ListSecretsOutput.httpOutput(from:), ListSecretsOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecretsOutput>(ListSecretsOutput.httpOutput(from:), ListSecretsOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecretsInput, ListSecretsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecretsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecretsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretsInput, ListSecretsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretsInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSecretsInput, ListSecretsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecretsInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSecretsInput, ListSecretsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ListSecretsInput, ListSecretsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecretsInput, ListSecretsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecretsInput, ListSecretsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecretsOutput>())
@@ -1372,7 +1372,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1381,7 +1381,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
@@ -1428,7 +1428,7 @@ extension SecretsManagerCBORClient {
     /// - `LimitExceededException` : The request failed because it would exceed one of the Secrets Manager quotas.
     /// - `ResourceExistsException` : A resource with the ID you requested already exists.
     /// - `ResourceNotFoundException` : Secrets Manager can't find the resource that you asked for.
-    public func putSecretValue(input: PutSecretValueInput) async throws -> PutSecretValueOutput {
+    public func putSecretValue(input: PutSecretValueInput, testCase: String = "") async throws -> PutSecretValueOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -1461,19 +1461,19 @@ extension SecretsManagerCBORClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSecretValueInput, PutSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSecretValueInput, PutSecretValueOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSecretValueOutput>(PutSecretValueOutput.httpOutput(from:), PutSecretValueOutputError.httpError(from:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSecretValueOutput>(PutSecretValueOutput.httpOutput(from:), PutSecretValueOutputError.httpError(from:), testCase))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSecretValueInput, PutSecretValueOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSecretValueOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutSecretValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<PutSecretValueInput, PutSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutSecretValueInput.write(value:to:)))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutSecretValueInput, PutSecretValueOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutSecretValueInput.write(value:to:), testCase))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutSecretValueInput, PutSecretValueOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<PutSecretValueInput, PutSecretValueOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSecretValueInput, PutSecretValueOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSecretValueInput, PutSecretValueOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSecretValueOutput>())
@@ -1551,7 +1551,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveRegionsFromReplicationOutput>(RemoveRegionsFromReplicationOutput.httpOutput(from:), RemoveRegionsFromReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRegionsFromReplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1560,7 +1560,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveRegionsFromReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveRegionsFromReplicationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRegionsFromReplicationInput, RemoveRegionsFromReplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveRegionsFromReplicationOutput>())
@@ -1638,7 +1638,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplicateSecretToRegionsOutput>(ReplicateSecretToRegionsOutput.httpOutput(from:), ReplicateSecretToRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplicateSecretToRegionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1647,7 +1647,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReplicateSecretToRegionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ReplicateSecretToRegionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplicateSecretToRegionsInput, ReplicateSecretToRegionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReplicateSecretToRegionsOutput>())
@@ -1725,7 +1725,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreSecretOutput>(RestoreSecretOutput.httpOutput(from:), RestoreSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreSecretInput, RestoreSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1734,7 +1734,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<RestoreSecretInput, RestoreSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreSecretInput, RestoreSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<RestoreSecretInput, RestoreSecretOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RestoreSecretInput, RestoreSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreSecretInput, RestoreSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreSecretInput, RestoreSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreSecretOutput>())
@@ -1813,7 +1813,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateSecretOutput>(RotateSecretOutput.httpOutput(from:), RotateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateSecretInput, RotateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1822,7 +1822,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RotateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<RotateSecretInput, RotateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: RotateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RotateSecretInput, RotateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<RotateSecretInput, RotateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RotateSecretInput, RotateSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateSecretInput, RotateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateSecretInput, RotateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RotateSecretOutput>())
@@ -1900,7 +1900,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopReplicationToReplicaOutput>(StopReplicationToReplicaOutput.httpOutput(from:), StopReplicationToReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopReplicationToReplicaOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1909,7 +1909,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopReplicationToReplicaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StopReplicationToReplicaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopReplicationToReplicaInput, StopReplicationToReplicaOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopReplicationToReplicaOutput>())
@@ -1987,7 +1987,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1996,7 +1996,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -2074,7 +2074,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2083,7 +2083,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -2168,7 +2168,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecretOutput>(UpdateSecretOutput.httpOutput(from:), UpdateSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecretInput, UpdateSecretOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2177,7 +2177,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSecretOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretInput, UpdateSecretOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSecretInput, UpdateSecretOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<UpdateSecretInput, UpdateSecretOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateSecretInput, UpdateSecretOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretInput, UpdateSecretOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecretInput, UpdateSecretOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecretOutput>())
@@ -2256,7 +2256,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecretVersionStageOutput>(UpdateSecretVersionStageOutput.httpOutput(from:), UpdateSecretVersionStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecretVersionStageOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2265,7 +2265,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSecretVersionStageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSecretVersionStageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecretVersionStageInput, UpdateSecretVersionStageOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSecretVersionStageOutput>())
@@ -2353,7 +2353,7 @@ extension SecretsManagerCBORClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateResourcePolicyOutput>(ValidateResourcePolicyOutput.httpOutput(from:), ValidateResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Secrets Manager CBOR", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2362,7 +2362,7 @@ extension SecretsManagerCBORClient {
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidateResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.serialize(ClientRuntime.BodyMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
-        builder.interceptors.add(AWSClientRuntime.CborValidateResponseHeaderMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateResourcePolicyInput, ValidateResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateResourcePolicyOutput>())
