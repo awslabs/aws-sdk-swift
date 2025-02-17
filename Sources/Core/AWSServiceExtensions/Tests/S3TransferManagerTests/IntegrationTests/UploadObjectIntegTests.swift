@@ -11,6 +11,7 @@ import AWSServiceExtensions
 import Smithy
 import SmithyStreams
 
+// Set "RUN_LARGE_S3TM_UPLOAD_OBJECT_TESTS" environment variable to "YES" to run > 500MB tests.
 class UploadObjectIntegTests: XCTestCase {
     static var tm: S3TransferManager! // The shared transfer manager for tests.
     static var s3: S3Client! // The shared S3 client for tests.
@@ -210,7 +211,7 @@ class UploadObjectIntegTests: XCTestCase {
         Generates patterned data file for sizes <= 50MB.
         Generates sparse data file for sizes > 50MB.
      */
-    private func createTestFile(size: TestFileSize) -> URL {
+    private func createTestFile(size: UploadObjectTestFileSize) -> URL {
         if size.shouldUsePatternedData {
             return createPatternedDataTestFile(size: size)
         } else {
@@ -222,7 +223,7 @@ class UploadObjectIntegTests: XCTestCase {
     let dataPattern: [UInt8] = [0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22]
 
     // Used to generate pattnered in-memory data.
-    private func createPatternedInMemoryData(size: TestFileSize) -> Data {
+    private func createPatternedInMemoryData(size: UploadObjectTestFileSize) -> Data {
         let patterned8ByteData = Data(dataPattern)
         var remainingSize = size.bytes
         var inMemoryData = Data(capacity: size.bytes)
@@ -236,7 +237,7 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     // Used to generate patterned data file.
-    private func createPatternedDataTestFile(size: TestFileSize) -> URL {
+    private func createPatternedDataTestFile(size: UploadObjectTestFileSize) -> URL {
         let fileName = size.fileName
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
 
@@ -246,7 +247,7 @@ class UploadObjectIntegTests: XCTestCase {
             fatalError()
         }
 
-        let patterned8ByteData = Data(dataPattern)
+        let patternedData = Data(dataPattern)
         let mbSize = 1024 * 1024 // 1MB.
         var remainingSize = size.bytes
 
@@ -255,7 +256,7 @@ class UploadObjectIntegTests: XCTestCase {
             var mb1Chunk = Data()
             // Write 8 patterned bytes to temporary chunk until it's 1 MB in size.
             while mb1Chunk.count < mbSize {
-                mb1Chunk.append(patterned8ByteData)
+                mb1Chunk.append(patternedData)
             }
             // Write 1MB to file & update remaining size.
             fileHandle.write(mb1Chunk)
@@ -269,7 +270,7 @@ class UploadObjectIntegTests: XCTestCase {
     // Used to generate sparse data file.
     // Writing a single 1-byte at the end of desired length makes file have desired size very efficiently.
     // All bytes that come before the 1-byte at the end becomes 0-bytes.
-    private func createSparseTestFile(size: TestFileSize) -> URL {
+    private func createSparseTestFile(size: UploadObjectTestFileSize) -> URL {
         let fileName = size.fileName
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
 
@@ -288,7 +289,7 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     // Validates uploaded object contents using getObject.
-    private func validatePatternResponse(in output: GetObjectOutput, size: TestFileSize) async throws -> Bool {
+    private func validatePatternResponse(in output: GetObjectOutput, size: UploadObjectTestFileSize) async throws -> Bool {
         guard size.shouldUsePatternedData else { return true } // Skip verification for sparse files.
 
         let body = try await output.body?.readData()!
@@ -312,7 +313,7 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     // Validates sparse data file upload by checking its size using headObject.
-    private func validateUploadedObject(size: TestFileSize) async throws -> Bool {
+    private func validateUploadedObject(size: UploadObjectTestFileSize) async throws -> Bool {
         let objectSize = try await s3.headObject(input: HeadObjectInput(
             bucket: bucketName,
             key: size.s3ObjectKey + "-from-file"
@@ -325,7 +326,7 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     // Test runner for in-memory data payload.
-    private func runPatternedInMemoryDataTest(withSize size: TestFileSize) async throws {
+    private func runPatternedInMemoryDataTest(withSize size: UploadObjectTestFileSize) async throws {
         try await runUploadObjectWithInMemoryData(withSize: size)
 
         // GetObject on the object.
@@ -340,7 +341,7 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     // Test runner for file payload with patterned data.
-    private func runPatternedDataFileTest(withSize size: TestFileSize) async throws {
+    private func runPatternedDataFileTest(withSize size: UploadObjectTestFileSize) async throws {
         try await runUploadObjectWithFile(withSize: size)
 
         // GetObject on the object.
@@ -355,7 +356,7 @@ class UploadObjectIntegTests: XCTestCase {
     }
 
     // Test runner for file payload with sparse data.
-    private func runSparseDataFileTest(withSize size: TestFileSize) async throws {
+    private func runSparseDataFileTest(withSize size: UploadObjectTestFileSize) async throws {
         try await runUploadObjectWithFile(withSize: size)
 
         // Verify uploaded object has expected size.
@@ -363,7 +364,7 @@ class UploadObjectIntegTests: XCTestCase {
         XCTAssertTrue(validated)
     }
 
-    private func runUploadObjectWithInMemoryData(withSize size: TestFileSize) async throws {
+    private func runUploadObjectWithInMemoryData(withSize size: UploadObjectTestFileSize) async throws {
         // Create patterned in-memory data to upload.
         let inMemoryData = createPatternedInMemoryData(size: size)
 
@@ -378,7 +379,7 @@ class UploadObjectIntegTests: XCTestCase {
         _ = try await uploadObjectTask.value
     }
 
-    private func runUploadObjectWithFile(withSize size: TestFileSize) async throws {
+    private func runUploadObjectWithFile(withSize size: UploadObjectTestFileSize) async throws {
         // Create file and get its URL.
         let testFileURL = createTestFile(size: size)
 
@@ -406,7 +407,7 @@ class UploadObjectIntegTests: XCTestCase {
     }
 }
 
-private enum TestFileSize {
+private enum UploadObjectTestFileSize {
     case mb4, mb8, mb12, mb16, mb50, mb100, mb500, gb5, gb50, tb1, tb5
 
     var bytes: Int {
