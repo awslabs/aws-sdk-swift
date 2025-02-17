@@ -185,7 +185,8 @@ public extension S3TransferManager {
         let byteStreams = try await concurrentlyFetchRangeGETByteStreams(
             s3: s3,
             input: input,
-            startByte: startByte,
+            // Start byte is adjusted to 2nd sement since we already did first range GET above.
+            startByte: startByte + config.targetPartSizeBytes,
             endByte: endByte,
             objectSize: objectSize
         )
