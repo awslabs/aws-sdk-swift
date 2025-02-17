@@ -498,7 +498,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// An Anycast static IP list.
+    /// An Anycast static IP list. For more information, see [Request Anycast static IPs to use for allowlisting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html) in the Amazon CloudFront Developer Guide.
     public struct AnycastIpList: Swift.Sendable {
         /// The static IP addresses that are allocated to the Anycast static IP list.
         /// This member is required.
@@ -8811,10 +8811,10 @@ extension CloudFrontClientTypes {
         /// The ARN of the CloudFront VPC origin endpoint configuration.
         /// This member is required.
         public var arn: Swift.String?
-        /// The HTTP port for the CloudFront VPC origin endpoint configuration.
+        /// The HTTP port for the CloudFront VPC origin endpoint configuration. The default value is 80.
         /// This member is required.
         public var httpPort: Swift.Int?
-        /// The HTTPS port of the CloudFront VPC origin endpoint configuration.
+        /// The HTTPS port of the CloudFront VPC origin endpoint configuration. The default value is 443.
         /// This member is required.
         public var httpsPort: Swift.Int?
         /// The name of the CloudFront VPC origin endpoint configuration.
@@ -9658,7 +9658,7 @@ public struct DeleteVpcOriginInput: Swift.Sendable {
     /// The VPC origin ID.
     /// This member is required.
     public var id: Swift.String?
-    /// The VPC origin to delete, if a match occurs.
+    /// The version identifier of the VPC origin to delete. This is the ETag value returned in the response to [GetVpcOrigin].
     /// This member is required.
     public var ifMatch: Swift.String?
 

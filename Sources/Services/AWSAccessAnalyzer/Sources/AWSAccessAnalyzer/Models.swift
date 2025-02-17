@@ -2880,6 +2880,164 @@ public struct GetFindingRecommendationOutput: Swift.Sendable {
     }
 }
 
+public struct GetFindingsStatisticsInput: Swift.Sendable {
+    /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) used to generate the statistics.
+    /// This member is required.
+    public var analyzerArn: Swift.String?
+
+    public init(
+        analyzerArn: Swift.String? = nil
+    ) {
+        self.analyzerArn = analyzerArn
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the total number of active cross-account and public findings for a resource type of an external access analyzer.
+    public struct ResourceTypeDetails: Swift.Sendable {
+        /// The total number of active cross-account findings for the resource type.
+        public var totalActiveCrossAccount: Swift.Int?
+        /// The total number of active public findings for the resource type.
+        public var totalActivePublic: Swift.Int?
+
+        public init(
+            totalActiveCrossAccount: Swift.Int? = nil,
+            totalActivePublic: Swift.Int? = nil
+        ) {
+            self.totalActiveCrossAccount = totalActiveCrossAccount
+            self.totalActivePublic = totalActivePublic
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Provides aggregate statistics about the findings for the specified external access analyzer.
+    public struct ExternalAccessFindingsStatistics: Swift.Sendable {
+        /// The total number of active cross-account and public findings for each resource type of the specified external access analyzer.
+        public var resourceTypeStatistics: [Swift.String: AccessAnalyzerClientTypes.ResourceTypeDetails]?
+        /// The number of active findings for the specified external access analyzer.
+        public var totalActiveFindings: Swift.Int?
+        /// The number of archived findings for the specified external access analyzer.
+        public var totalArchivedFindings: Swift.Int?
+        /// The number of resolved findings for the specified external access analyzer.
+        public var totalResolvedFindings: Swift.Int?
+
+        public init(
+            resourceTypeStatistics: [Swift.String: AccessAnalyzerClientTypes.ResourceTypeDetails]? = nil,
+            totalActiveFindings: Swift.Int? = nil,
+            totalArchivedFindings: Swift.Int? = nil,
+            totalResolvedFindings: Swift.Int? = nil
+        ) {
+            self.resourceTypeStatistics = resourceTypeStatistics
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the findings for an Amazon Web Services account in an organization unused access analyzer.
+    public struct FindingAggregationAccountDetails: Swift.Sendable {
+        /// The ID of the Amazon Web Services account for which unused access finding details are provided.
+        public var account: Swift.String?
+        /// Provides the number of active findings for each type of unused access for the specified Amazon Web Services account.
+        public var details: [Swift.String: Swift.Int]?
+        /// The number of active unused access findings for the specified Amazon Web Services account.
+        public var numberOfActiveFindings: Swift.Int?
+
+        public init(
+            account: Swift.String? = nil,
+            details: [Swift.String: Swift.Int]? = nil,
+            numberOfActiveFindings: Swift.Int? = nil
+        ) {
+            self.account = account
+            self.details = details
+            self.numberOfActiveFindings = numberOfActiveFindings
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the total number of findings for a type of unused access.
+    public struct UnusedAccessTypeStatistics: Swift.Sendable {
+        /// The total number of findings for the specified unused access type.
+        public var total: Swift.Int?
+        /// The type of unused access.
+        public var unusedAccessType: Swift.String?
+
+        public init(
+            total: Swift.Int? = nil,
+            unusedAccessType: Swift.String? = nil
+        ) {
+            self.total = total
+            self.unusedAccessType = unusedAccessType
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Provides aggregate statistics about the findings for the specified unused access analyzer.
+    public struct UnusedAccessFindingsStatistics: Swift.Sendable {
+        /// A list of one to ten Amazon Web Services accounts that have the most active findings for the unused access analyzer.
+        public var topAccounts: [AccessAnalyzerClientTypes.FindingAggregationAccountDetails]?
+        /// The total number of active findings for the unused access analyzer.
+        public var totalActiveFindings: Swift.Int?
+        /// The total number of archived findings for the unused access analyzer.
+        public var totalArchivedFindings: Swift.Int?
+        /// The total number of resolved findings for the unused access analyzer.
+        public var totalResolvedFindings: Swift.Int?
+        /// A list of details about the total number of findings for each type of unused access for the analyzer.
+        public var unusedAccessTypeStatistics: [AccessAnalyzerClientTypes.UnusedAccessTypeStatistics]?
+
+        public init(
+            topAccounts: [AccessAnalyzerClientTypes.FindingAggregationAccountDetails]? = nil,
+            totalActiveFindings: Swift.Int? = nil,
+            totalArchivedFindings: Swift.Int? = nil,
+            totalResolvedFindings: Swift.Int? = nil,
+            unusedAccessTypeStatistics: [AccessAnalyzerClientTypes.UnusedAccessTypeStatistics]? = nil
+        ) {
+            self.topAccounts = topAccounts
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+            self.unusedAccessTypeStatistics = unusedAccessTypeStatistics
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about the aggregate statistics for an external or unused access analyzer. Only one parameter can be used in a FindingsStatistics object.
+    public enum FindingsStatistics: Swift.Sendable {
+        /// The aggregate statistics for an external access analyzer.
+        case externalaccessfindingsstatistics(AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics)
+        /// The aggregate statistics for an unused access analyzer.
+        case unusedaccessfindingsstatistics(AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetFindingsStatisticsOutput: Swift.Sendable {
+    /// A group of external access or unused access findings statistics.
+    public var findingsStatistics: [AccessAnalyzerClientTypes.FindingsStatistics]?
+    /// The time at which the retrieval of the findings statistics was last updated. If the findings statistics have not been previously retrieved for the specified analyzer, this field will not be populated.
+    public var lastUpdatedAt: Foundation.Date?
+
+    public init(
+        findingsStatistics: [AccessAnalyzerClientTypes.FindingsStatistics]? = nil,
+        lastUpdatedAt: Foundation.Date? = nil
+    ) {
+        self.findingsStatistics = findingsStatistics
+        self.lastUpdatedAt = lastUpdatedAt
+    }
+}
+
 public struct GetFindingV2Input: Swift.Sendable {
     /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) that generated the finding.
     /// This member is required.
@@ -4956,6 +5114,13 @@ extension GetFindingRecommendationInput {
     }
 }
 
+extension GetFindingsStatisticsInput {
+
+    static func urlPathProvider(_ value: GetFindingsStatisticsInput) -> Swift.String? {
+        return "/analyzer/findings/statistics"
+    }
+}
+
 extension GetFindingV2Input {
 
     static func urlPathProvider(_ value: GetFindingV2Input) -> Swift.String? {
@@ -5339,6 +5504,14 @@ extension CreateArchiveRuleInput {
     }
 }
 
+extension GetFindingsStatisticsInput {
+
+    static func write(value: GetFindingsStatisticsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analyzerArn"].write(value.analyzerArn)
+    }
+}
+
 extension ListAccessPreviewFindingsInput {
 
     static func write(value: ListAccessPreviewFindingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5636,6 +5809,19 @@ extension GetFindingRecommendationOutput {
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetFindingsStatisticsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingsStatisticsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFindingsStatisticsOutput()
+        value.findingsStatistics = try reader["findingsStatistics"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingsStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -6159,6 +6345,24 @@ enum GetFindingOutputError {
 }
 
 enum GetFindingRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFindingsStatisticsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7451,6 +7655,83 @@ extension AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep {
         value.recommendedAction = try reader["recommendedAction"].readIfPresent() ?? .sdkUnknown("")
         value.recommendedPolicy = try reader["recommendedPolicy"].readIfPresent()
         value.existingPolicyId = try reader["existingPolicyId"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.FindingsStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingsStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "externalAccessFindingsStatistics":
+                return .externalaccessfindingsstatistics(try reader["externalAccessFindingsStatistics"].read(with: AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics.read(from:)))
+            case "unusedAccessFindingsStatistics":
+                return .unusedaccessfindingsstatistics(try reader["unusedAccessFindingsStatistics"].read(with: AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.UnusedAccessFindingsStatistics()
+        value.unusedAccessTypeStatistics = try reader["unusedAccessTypeStatistics"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.UnusedAccessTypeStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topAccounts = try reader["topAccounts"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingAggregationAccountDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalActiveFindings = try reader["totalActiveFindings"].readIfPresent()
+        value.totalArchivedFindings = try reader["totalArchivedFindings"].readIfPresent()
+        value.totalResolvedFindings = try reader["totalResolvedFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.FindingAggregationAccountDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingAggregationAccountDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.FindingAggregationAccountDetails()
+        value.account = try reader["account"].readIfPresent()
+        value.numberOfActiveFindings = try reader["numberOfActiveFindings"].readIfPresent()
+        value.details = try reader["details"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.UnusedAccessTypeStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedAccessTypeStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.UnusedAccessTypeStatistics()
+        value.unusedAccessType = try reader["unusedAccessType"].readIfPresent()
+        value.total = try reader["total"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.ExternalAccessFindingsStatistics()
+        value.resourceTypeStatistics = try reader["resourceTypeStatistics"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.ResourceTypeDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.totalActiveFindings = try reader["totalActiveFindings"].readIfPresent()
+        value.totalArchivedFindings = try reader["totalArchivedFindings"].readIfPresent()
+        value.totalResolvedFindings = try reader["totalResolvedFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.ResourceTypeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.ResourceTypeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.ResourceTypeDetails()
+        value.totalActivePublic = try reader["totalActivePublic"].readIfPresent()
+        value.totalActiveCrossAccount = try reader["totalActiveCrossAccount"].readIfPresent()
         return value
     }
 }

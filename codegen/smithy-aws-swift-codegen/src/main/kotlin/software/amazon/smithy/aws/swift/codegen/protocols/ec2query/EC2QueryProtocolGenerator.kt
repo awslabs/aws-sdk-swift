@@ -8,7 +8,9 @@ package software.amazon.smithy.aws.swift.codegen.protocols.ec2query
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
 import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
+import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -48,4 +50,9 @@ class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustom
             ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true),
         )
     }
+
+    override fun httpBodyMembers(
+        ctx: ProtocolGenerator.GenerationContext,
+        shape: Shape,
+    ): List<MemberShape> = shape.members().toList()
 }

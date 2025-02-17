@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WAFV2Client: ClientRuntime.Client {
     public static let clientName = "WAFV2Client"
-    public static let version = "1.2.14"
+    public static let version = "1.2.19"
     let client: ClientRuntime.SdkHttpClient
     let config: WAFV2Client.WAFV2ClientConfiguration
     let serviceName = "WAFV2"
@@ -361,7 +361,7 @@ extension WAFV2Client {
 extension WAFV2Client {
     /// Performs the `AssociateWebACL` operation on the `WAFV2` service.
     ///
-    /// Associates a web ACL with a regional application resource, to protect the resource. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To associate a web ACL, in the CloudFront call UpdateDistribution, set the web ACL ID to the Amazon Resource Name (ARN) of the web ACL. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront Developer Guide. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for AssociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-AssociateWebACL) in the WAF Developer Guide. Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. The following are examples of the temporary inconsistencies that you might notice during change propagation:
+    /// Associates a web ACL with a resource, to protect the resource. Use this for all resource types except for Amazon CloudFront distributions. For Amazon CloudFront, call UpdateDistribution for the distribution and provide the Amazon Resource Name (ARN) of the web ACL in the web ACL ID. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront Developer Guide. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for AssociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-AssociateWebACL) in the WAF Developer Guide. Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. The following are examples of the temporary inconsistencies that you might notice during change propagation:
     ///
     /// * After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.
     ///
@@ -390,7 +390,7 @@ extension WAFV2Client {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func associateWebACL(input: AssociateWebACLInput) async throws -> AssociateWebACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -481,7 +481,7 @@ extension WAFV2Client {
     /// - `WAFLimitsExceededException` : WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
-    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func checkCapacity(input: CheckCapacityInput) async throws -> CheckCapacityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -840,7 +840,7 @@ extension WAFV2Client {
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -906,7 +906,7 @@ extension WAFV2Client {
 
     /// Performs the `CreateWebACL` operation on the `WAFV2` service.
     ///
-    /// Creates a [WebACL] per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
+    /// Creates a [WebACL] per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, and Amazon Web Services Verified Access instance.
     ///
     /// - Parameter CreateWebACLInput : [no documentation found]
     ///
@@ -936,7 +936,7 @@ extension WAFV2Client {
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     /// - `WAFTagOperationException` : An error occurred during the tagging operation. Retry your request.
     /// - `WAFTagOperationInternalErrorException` : WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1622,18 +1622,18 @@ extension WAFV2Client {
     ///
     /// * To retrieve a list of the resources that are associated with a web ACL, use the following calls:
     ///
-    /// * For regional resources, call [ListResourcesForWebACL].
-    ///
     /// * For Amazon CloudFront distributions, use the CloudFront call ListDistributionsByWebACLId. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html) in the Amazon CloudFront API Reference.
+    ///
+    /// * For all other resources, call [ListResourcesForWebACL].
     ///
     ///
     ///
     ///
     /// * To disassociate a resource from a web ACL, use the following calls:
     ///
-    /// * For regional resources, call [DisassociateWebACL].
-    ///
     /// * For Amazon CloudFront distributions, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference.
+    ///
+    /// * For all other resources, call [DisassociateWebACL].
     ///
     /// - Parameter DeleteWebACLInput : [no documentation found]
     ///
@@ -1981,7 +1981,7 @@ extension WAFV2Client {
 
     /// Performs the `DisassociateWebACL` operation on the `WAFV2` service.
     ///
-    /// Disassociates the specified regional application resource from any existing web ACL association. A resource can have at most one web ACL association. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. For Amazon CloudFront, don't use this call. Instead, use your CloudFront distribution configuration. To disassociate a web ACL, provide an empty web ACL ID in the CloudFront call UpdateDistribution. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for DisassociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-DisassociateWebACL) in the WAF Developer Guide.
+    /// Disassociates the specified resource from its web ACL association, if it has one. Use this for all resource types except for Amazon CloudFront distributions. For Amazon CloudFront, call UpdateDistribution for the distribution and provide an empty web ACL ID. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for DisassociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-DisassociateWebACL) in the WAF Developer Guide.
     ///
     /// - Parameter DisassociateWebACLInput : [no documentation found]
     ///
@@ -3120,7 +3120,7 @@ extension WAFV2Client {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func getWebACLForResource(input: GetWebACLForResourceInput) async throws -> GetWebACLForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3868,7 +3868,7 @@ extension WAFV2Client {
 
     /// Performs the `ListResourcesForWebACL` operation on the `WAFV2` service.
     ///
-    /// Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for ListResourcesForWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-ListResourcesForWebACL) in the WAF Developer Guide.
+    /// Retrieves an array of the Amazon Resource Names (ARNs) for the resources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for ListResourcesForWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-ListResourcesForWebACL) in the WAF Developer Guide.
     ///
     /// - Parameter ListResourcesForWebACLInput : [no documentation found]
     ///
@@ -4212,7 +4212,7 @@ extension WAFV2Client {
 
     /// Performs the `PutLoggingConfiguration` operation on the `WAFV2` service.
     ///
-    /// Enables the specified [LoggingConfiguration], to start logging from a web ACL, according to the configuration provided. This operation completely replaces any mutable specifications that you already have for a logging configuration with the ones that you provide to this call. To modify an existing logging configuration, do the following:
+    /// Enables the specified [LoggingConfiguration], to start logging from a web ACL, according to the configuration provided. If you configure data protection for the web ACL, the protection applies to the data that WAF sends to the logs. This operation completely replaces any mutable specifications that you already have for a logging configuration with the ones that you provide to this call. To modify an existing logging configuration, do the following:
     ///
     /// * Retrieve it by calling [GetLoggingConfiguration]
     ///
@@ -5032,7 +5032,7 @@ extension WAFV2Client {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
-    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5107,7 +5107,7 @@ extension WAFV2Client {
     /// * Provide the complete web ACL specification to this call
     ///
     ///
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. The following are examples of the temporary inconsistencies that you might notice during change propagation:
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, and Amazon Web Services Verified Access instance. Temporary inconsistencies during updates When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes. The following are examples of the temporary inconsistencies that you might notice during change propagation:
     ///
     /// * After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.
     ///
@@ -5143,7 +5143,7 @@ extension WAFV2Client {
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFOptimisticLockException` : WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     /// - `WAFSubscriptionNotFoundException` : You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
-    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
+    /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func updateWebACL(input: UpdateWebACLInput) async throws -> UpdateWebACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

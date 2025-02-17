@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutEquipmentClient: ClientRuntime.Client {
     public static let clientName = "LookoutEquipmentClient"
-    public static let version = "1.2.14"
+    public static let version = "1.2.19"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutEquipmentClient.LookoutEquipmentClientConfiguration
     let serviceName = "LookoutEquipment"

@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.114.0"
+let clientRuntimeVersion: Version = "0.115.0"
 let crtVersion: Version = "0.43.0"
 
 let excludeRuntimeUnitTests = false
@@ -439,6 +439,7 @@ extension Target.Dependency {
     static var awsSDKHTTPAuth: Self { "AWSSDKHTTPAuth" }
     static var awsSDKIdentity: Self { "AWSSDKIdentity" }
     static var awsSDKChecksums: Self { "AWSSDKChecksums" }
+    static var awsSDKPartitions: Self { "AWSSDKPartitions" }
 
     // CRT module
     static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -541,6 +542,7 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity,
                 .awsSDKChecksums,
+                .awsSDKPartitions,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
@@ -571,7 +573,11 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
             path: "Sources/Core/AWSSDKChecksums/Sources"
-        )
+        ),
+        .target(
+            name: "AWSSDKPartitions",
+            path: "Sources/Core/AWSSDKPartitions/Sources"
+        ),
     ]
 }
 

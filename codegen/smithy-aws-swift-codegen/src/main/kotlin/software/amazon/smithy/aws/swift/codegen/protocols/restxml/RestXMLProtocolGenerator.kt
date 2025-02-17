@@ -7,8 +7,11 @@ package software.amazon.smithy.aws.swift.codegen.protocols.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
+import software.amazon.smithy.model.shapes.MemberShape
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.isInHttpBody
 
 class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomizations()) {
     override val defaultContentType: String = "application/xml"
@@ -36,4 +39,13 @@ class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomiz
             renderCodableExtension(ctx, shape)
         }
     }
+
+    override fun httpBodyMembers(
+        ctx: ProtocolGenerator.GenerationContext,
+        shape: Shape,
+    ): List<MemberShape> =
+        shape
+            .members()
+            .filter { it.isInHttpBody() }
+            .toList()
 }

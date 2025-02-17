@@ -192,7 +192,7 @@ public struct AddTagsToResourceOutput: Swift.Sendable {
 
 ///
 public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
-    /// The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade
+    /// The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade, os-patch
     /// This member is required.
     public var applyAction: Swift.String?
     /// A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate. Valid values:
@@ -1039,6 +1039,68 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
+    /// Provides information about an IBM DB2 LUW data provider.
+    public struct IbmDb2LuwDataProviderSettings: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the DB2 LUW data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the DB2 LUW data provider.
+        public var port: Swift.Int?
+        /// The name of the DB2 LUW server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the DB2 LUW data provider. The default value is none. Valid Values: none and verify-ca.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Provides information about an IBM DB2 for z/OS data provider.
+    public struct IbmDb2zOsDataProviderSettings: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the DB2 for z/OS data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the DB2 for z/OS data provider.
+        public var port: Swift.Int?
+        /// The name of the DB2 for z/OS server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the DB2 for z/OS data provider. The default value is none. Valid Values: none and verify-ca.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a MariaDB data provider.
     public struct MariaDbDataProviderSettings: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
@@ -1349,6 +1411,10 @@ extension DatabaseMigrationClientTypes {
         case docdbsettings(DatabaseMigrationClientTypes.DocDbDataProviderSettings)
         /// Provides information that defines a MariaDB data provider.
         case mariadbsettings(DatabaseMigrationClientTypes.MariaDbDataProviderSettings)
+        /// Provides information that defines an IBM DB2 LUW data provider.
+        case ibmdb2luwsettings(DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings)
+        /// Provides information that defines an IBM DB2 for z/OS data provider.
+        case ibmdb2zossettings(DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings)
         /// Provides information that defines a MongoDB data provider.
         case mongodbsettings(DatabaseMigrationClientTypes.MongoDbDataProviderSettings)
         case sdkUnknown(Swift.String)
@@ -1360,7 +1426,7 @@ public struct CreateDataProviderInput: Swift.Sendable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     /// This member is required.
     public var engine: Swift.String?
     /// The settings in JSON format for a data provider.
@@ -1396,7 +1462,7 @@ extension DatabaseMigrationClientTypes {
         public var dataProviderName: Swift.String?
         /// A description of the data provider. Descriptions can have up to 31 characters. A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
         public var description: Swift.String?
-        /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public var engine: Swift.String?
         /// The settings in JSON format for a data provider.
         public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
@@ -5028,7 +5094,7 @@ public struct CreateReplicationInstanceInput: Swift.Sendable {
     public var dnsNameServers: Swift.String?
     /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
     public var engineVersion: Swift.String?
-    /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when creating a replication instance.
+    /// Specifies the settings required for kerberos authentication when creating the replication instance.
     public var kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?
     /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
     public var kmsKeyId: Swift.String?
@@ -5244,7 +5310,7 @@ extension DatabaseMigrationClientTypes {
         public var freeUntil: Foundation.Date?
         /// The time the replication instance was created.
         public var instanceCreateTime: Foundation.Date?
-        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when replicating an instance.
+        /// Specifies the settings required for kerberos authentication when replicating an instance.
         public var kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?
         /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
@@ -8648,6 +8714,83 @@ public struct DescribeReplicationsInput: Swift.Sendable {
 
 extension DatabaseMigrationClientTypes {
 
+    /// The results returned in describe-replications to display the results of the premigration assessment from the replication configuration.
+    public struct PremigrationAssessmentStatus: Swift.Sendable {
+        /// The progress values reported by the AssessmentProgress response element.
+        public var assessmentProgress: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress?
+        /// A configurable setting you can set to true (the defualt setting) or false. Use this setting to to stop the replication from starting automatically if the assessment fails. This can help you evaluate the issue that is preventing the replication from running successfully.
+        public var failOnAssessmentFailure: Swift.Bool
+        /// The last message generated by an individual assessment failure.
+        public var lastFailureMessage: Swift.String?
+        /// The Amazon Resource Name (ARN) of this assessment run.
+        public var premigrationAssessmentRunArn: Swift.String?
+        /// The date which the assessment run was created.
+        public var premigrationAssessmentRunCreationDate: Foundation.Date?
+        /// The supported values are SSE_KMS and SSE_S3. If these values are not provided, then the files are not encrypted at rest. For more information, see [Creating Amazon Web Services KMS keys to encrypt Amazon S3 target objects](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys).
+        public var resultEncryptionMode: Swift.String?
+        /// The ARN of a custom KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS.
+        public var resultKmsKeyArn: Swift.String?
+        /// The Amazon S3 bucket that Database Migration Service Serverless created to store the results of this assessment run.
+        public var resultLocationBucket: Swift.String?
+        /// The folder within an Amazon S3 bucket where you want Database Migration Service to store the results of this assessment run.
+        public var resultLocationFolder: Swift.String?
+        /// The object containing the result statistics for a completed assessment run.
+        public var resultStatistic: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic?
+        /// This describes the assessment run status. The status can be one of the following values:
+        ///
+        /// * cancelling: The assessment run was canceled.
+        ///
+        /// * deleting: The assessment run was deleted.
+        ///
+        /// * failed: At least one individual assessment completed with a failed status.
+        ///
+        /// * error-provisioning: An internal error occurred while resources were provisioned (during the provisioning status).
+        ///
+        /// * error-executing An internal error occurred while individual assessments ran (during the running status).
+        ///
+        /// * invalid state: The assessment run is in an unknown state.
+        ///
+        /// * passed: All individual assessments have completed and none have a failed status.
+        ///
+        /// * provisioning: The resources required to run individual assessments are being provisioned.
+        ///
+        /// * running: Individual assessments are being run.
+        ///
+        /// * starting: The assessment run is starting, but resources are not yet being provisioned for individual assessments.
+        ///
+        /// * warning: At least one individual assessment completed with a warning status.
+        public var status: Swift.String?
+
+        public init(
+            assessmentProgress: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress? = nil,
+            failOnAssessmentFailure: Swift.Bool = false,
+            lastFailureMessage: Swift.String? = nil,
+            premigrationAssessmentRunArn: Swift.String? = nil,
+            premigrationAssessmentRunCreationDate: Foundation.Date? = nil,
+            resultEncryptionMode: Swift.String? = nil,
+            resultKmsKeyArn: Swift.String? = nil,
+            resultLocationBucket: Swift.String? = nil,
+            resultLocationFolder: Swift.String? = nil,
+            resultStatistic: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.assessmentProgress = assessmentProgress
+            self.failOnAssessmentFailure = failOnAssessmentFailure
+            self.lastFailureMessage = lastFailureMessage
+            self.premigrationAssessmentRunArn = premigrationAssessmentRunArn
+            self.premigrationAssessmentRunCreationDate = premigrationAssessmentRunCreationDate
+            self.resultEncryptionMode = resultEncryptionMode
+            self.resultKmsKeyArn = resultKmsKeyArn
+            self.resultLocationBucket = resultLocationBucket
+            self.resultLocationFolder = resultLocationFolder
+            self.resultStatistic = resultStatistic
+            self.status = status
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
     /// Information about provisioning resources for an DMS serverless replication.
     public struct ProvisionData: Swift.Sendable {
         /// The timestamp when provisioning became available.
@@ -8748,6 +8891,8 @@ extension DatabaseMigrationClientTypes {
         public var cdcStopPosition: Swift.String?
         /// Error and other information about why a serverless replication failed.
         public var failureMessages: [Swift.String]?
+        /// The status output of premigration assessment in describe-replications.
+        public var premigrationAssessmentStatuses: [DatabaseMigrationClientTypes.PremigrationAssessmentStatus]?
         /// Information about provisioning resources for an DMS serverless replication.
         public var provisionData: DatabaseMigrationClientTypes.ProvisionData?
         /// Indicates the last checkpoint that occurred during a change data capture (CDC) operation. You can provide this value to the CdcStartPosition parameter to start a CDC operation that begins at that checkpoint.
@@ -8812,6 +8957,7 @@ extension DatabaseMigrationClientTypes {
             cdcStartTime: Foundation.Date? = nil,
             cdcStopPosition: Swift.String? = nil,
             failureMessages: [Swift.String]? = nil,
+            premigrationAssessmentStatuses: [DatabaseMigrationClientTypes.PremigrationAssessmentStatus]? = nil,
             provisionData: DatabaseMigrationClientTypes.ProvisionData? = nil,
             recoveryCheckpoint: Swift.String? = nil,
             replicationConfigArn: Swift.String? = nil,
@@ -8832,6 +8978,7 @@ extension DatabaseMigrationClientTypes {
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
             self.failureMessages = failureMessages
+            self.premigrationAssessmentStatuses = premigrationAssessmentStatuses
             self.provisionData = provisionData
             self.recoveryCheckpoint = recoveryCheckpoint
             self.replicationConfigArn = replicationConfigArn
@@ -9669,7 +9816,7 @@ public struct ModifyDataProviderInput: Swift.Sendable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     public var engine: Swift.String?
     /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:
     ///
@@ -10129,7 +10276,7 @@ public struct ModifyReplicationInstanceInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
     public var engineVersion: Swift.String?
-    /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when modifying a replication instance.
+    /// Specifies the settings required for kerberos authentication when modifying a replication instance.
     public var kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?
     /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
     public var multiAZ: Swift.Bool?
@@ -10856,6 +11003,20 @@ public struct StartReplicationInput: Swift.Sendable {
     public var cdcStartTime: Foundation.Date?
     /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
     public var cdcStopPosition: Swift.String?
+    /// User-defined settings for the premigration assessment. The possible values are:
+    ///
+    /// * ResultLocationFinder: The folder within an Amazon Amazon S3 bucket where you want DMS to store the results of this assessment run.
+    ///
+    /// * ResultEncryptionMode: The supported values are SSE_KMS and SSE_S3. If these values are not provided, then the files are not encrypted at rest. For more information, see [Creating Amazon Web Services KMS keys to encrypt Amazon Amazon S3 target objects](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys).
+    ///
+    /// * ResultKmsKeyArn: The ARN of a customer KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS.
+    ///
+    /// * IncludeOnly: A space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration.
+    ///
+    /// * Exclude: A space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration.
+    ///
+    /// * FailOnAssessmentFailure: A configurable setting you can set to true (the default setting) or false. Use this setting to to stop the replication from starting automatically if the assessment fails. This can help you evaluate the issue that is preventing the replication from running successfully.
+    public var premigrationAssessmentSettings: Swift.String?
     /// The Amazon Resource Name of the replication for which to start replication.
     /// This member is required.
     public var replicationConfigArn: Swift.String?
@@ -10867,12 +11028,14 @@ public struct StartReplicationInput: Swift.Sendable {
         cdcStartPosition: Swift.String? = nil,
         cdcStartTime: Foundation.Date? = nil,
         cdcStopPosition: Swift.String? = nil,
+        premigrationAssessmentSettings: Swift.String? = nil,
         replicationConfigArn: Swift.String? = nil,
         startReplicationType: Swift.String? = nil
     ) {
         self.cdcStartPosition = cdcStartPosition
         self.cdcStartTime = cdcStartTime
         self.cdcStopPosition = cdcStopPosition
+        self.premigrationAssessmentSettings = premigrationAssessmentSettings
         self.replicationConfigArn = replicationConfigArn
         self.startReplicationType = startReplicationType
     }
@@ -13161,6 +13324,7 @@ extension StartReplicationInput {
         try writer["CdcStartPosition"].write(value.cdcStartPosition)
         try writer["CdcStartTime"].writeTimestamp(value.cdcStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["CdcStopPosition"].write(value.cdcStopPosition)
+        try writer["PremigrationAssessmentSettings"].write(value.premigrationAssessmentSettings)
         try writer["ReplicationConfigArn"].write(value.replicationConfigArn)
         try writer["StartReplicationType"].write(value.startReplicationType)
     }
@@ -16970,6 +17134,10 @@ extension DatabaseMigrationClientTypes.DataProviderSettings {
         switch value {
             case let .docdbsettings(docdbsettings):
                 try writer["DocDbSettings"].write(docdbsettings, with: DatabaseMigrationClientTypes.DocDbDataProviderSettings.write(value:to:))
+            case let .ibmdb2luwsettings(ibmdb2luwsettings):
+                try writer["IbmDb2LuwSettings"].write(ibmdb2luwsettings, with: DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings.write(value:to:))
+            case let .ibmdb2zossettings(ibmdb2zossettings):
+                try writer["IbmDb2zOsSettings"].write(ibmdb2zossettings, with: DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings.write(value:to:))
             case let .mariadbsettings(mariadbsettings):
                 try writer["MariaDbSettings"].write(mariadbsettings, with: DatabaseMigrationClientTypes.MariaDbDataProviderSettings.write(value:to:))
             case let .microsoftsqlserversettings(microsoftsqlserversettings):
@@ -17007,6 +17175,10 @@ extension DatabaseMigrationClientTypes.DataProviderSettings {
                 return .docdbsettings(try reader["DocDbSettings"].read(with: DatabaseMigrationClientTypes.DocDbDataProviderSettings.read(from:)))
             case "MariaDbSettings":
                 return .mariadbsettings(try reader["MariaDbSettings"].read(with: DatabaseMigrationClientTypes.MariaDbDataProviderSettings.read(from:)))
+            case "IbmDb2LuwSettings":
+                return .ibmdb2luwsettings(try reader["IbmDb2LuwSettings"].read(with: DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings.read(from:)))
+            case "IbmDb2zOsSettings":
+                return .ibmdb2zossettings(try reader["IbmDb2zOsSettings"].read(with: DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings.read(from:)))
             case "MongoDbSettings":
                 return .mongodbsettings(try reader["MongoDbSettings"].read(with: DatabaseMigrationClientTypes.MongoDbDataProviderSettings.read(from:)))
             default:
@@ -17040,6 +17212,52 @@ extension DatabaseMigrationClientTypes.MongoDbDataProviderSettings {
         value.authType = try reader["AuthType"].readIfPresent()
         value.authSource = try reader["AuthSource"].readIfPresent()
         value.authMechanism = try reader["AuthMechanism"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Port"].write(value.port)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Port"].write(value.port)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
         return value
     }
 }
@@ -18893,6 +19111,7 @@ extension DatabaseMigrationClientTypes.Replication {
         value.replicationType = try reader["ReplicationType"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.provisionData = try reader["ProvisionData"].readIfPresent(with: DatabaseMigrationClientTypes.ProvisionData.read(from:))
+        value.premigrationAssessmentStatuses = try reader["PremigrationAssessmentStatuses"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.PremigrationAssessmentStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.stopReason = try reader["StopReason"].readIfPresent()
         value.failureMessages = try reader["FailureMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationStats = try reader["ReplicationStats"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationStats.read(from:))
@@ -18925,6 +19144,26 @@ extension DatabaseMigrationClientTypes.ReplicationStats {
         value.stopDate = try reader["StopDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.fullLoadStartDate = try reader["FullLoadStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.fullLoadFinishDate = try reader["FullLoadFinishDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.PremigrationAssessmentStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.PremigrationAssessmentStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.PremigrationAssessmentStatus()
+        value.premigrationAssessmentRunArn = try reader["PremigrationAssessmentRunArn"].readIfPresent()
+        value.failOnAssessmentFailure = try reader["FailOnAssessmentFailure"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent()
+        value.premigrationAssessmentRunCreationDate = try reader["PremigrationAssessmentRunCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assessmentProgress = try reader["AssessmentProgress"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunProgress.read(from:))
+        value.lastFailureMessage = try reader["LastFailureMessage"].readIfPresent()
+        value.resultLocationBucket = try reader["ResultLocationBucket"].readIfPresent()
+        value.resultLocationFolder = try reader["ResultLocationFolder"].readIfPresent()
+        value.resultEncryptionMode = try reader["ResultEncryptionMode"].readIfPresent()
+        value.resultKmsKeyArn = try reader["ResultKmsKeyArn"].readIfPresent()
+        value.resultStatistic = try reader["ResultStatistic"].readIfPresent(with: DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatistic.read(from:))
         return value
     }
 }

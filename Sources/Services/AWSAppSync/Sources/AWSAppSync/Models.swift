@@ -476,12 +476,14 @@ extension AppSyncClientTypes {
 
     public enum ApiCachingBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullRequestCaching
+        case operationLevelCaching
         case perResolverCaching
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ApiCachingBehavior] {
             return [
                 .fullRequestCaching,
+                .operationLevelCaching,
                 .perResolverCaching
             ]
         }
@@ -494,6 +496,7 @@ extension AppSyncClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fullRequestCaching: return "FULL_REQUEST_CACHING"
+            case .operationLevelCaching: return "OPERATION_LEVEL_CACHING"
             case .perResolverCaching: return "PER_RESOLVER_CACHING"
             case let .sdkUnknown(s): return s
             }
@@ -642,9 +645,11 @@ extension AppSyncClientTypes {
     public struct ApiCache: Swift.Sendable {
         /// Caching behavior.
         ///
-        /// * FULL_REQUEST_CACHING: All requests are fully cached.
+        /// * FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.
         ///
         /// * PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+        ///
+        /// * OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
         public var apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
         /// At-rest encryption flag for cache. You cannot update this setting after creation.
         public var atRestEncryptionEnabled: Swift.Bool
@@ -1506,9 +1511,11 @@ public struct CreateApiOutput: Swift.Sendable {
 public struct CreateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
     ///
-    /// * FULL_REQUEST_CACHING: All requests are fully cached.
+    /// * FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.
     ///
     /// * PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+    ///
+    /// * OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
     /// This member is required.
     public var apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     /// The GraphQL API ID.
@@ -5199,9 +5206,11 @@ public struct UpdateApiOutput: Swift.Sendable {
 public struct UpdateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
     ///
-    /// * FULL_REQUEST_CACHING: All requests are fully cached.
+    /// * FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.
     ///
     /// * PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+    ///
+    /// * OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
     /// This member is required.
     public var apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     /// The GraphQL API ID.

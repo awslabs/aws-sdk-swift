@@ -3275,7 +3275,7 @@ extension CodeBuildClientTypes {
     public struct Webhook: Swift.Sendable {
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
         public var branchFilter: Swift.String?
-        /// Specifies the type of build this webhook will trigger.
+        /// Specifies the type of build this webhook will trigger. RUNNER_BUILDKITE_BUILD is only available for NO_SOURCE source type projects configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see [Tutorial: Configure a CodeBuild-hosted Buildkite runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html) in the CodeBuild user guide.
         public var buildType: CodeBuildClientTypes.WebhookBuildType?
         /// An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type. For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
         public var filterGroups: [[CodeBuildClientTypes.WebhookFilter]]?
@@ -4315,7 +4315,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 public struct CreateWebhookInput: Swift.Sendable {
     /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
     public var branchFilter: Swift.String?
-    /// Specifies the type of build this webhook will trigger.
+    /// Specifies the type of build this webhook will trigger. RUNNER_BUILDKITE_BUILD is only available for NO_SOURCE source type projects configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see [Tutorial: Configure a CodeBuild-hosted Buildkite runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html) in the CodeBuild user guide.
     public var buildType: CodeBuildClientTypes.WebhookBuildType?
     /// An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type. For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
     public var filterGroups: [[CodeBuildClientTypes.WebhookFilter]]?
@@ -4748,6 +4748,8 @@ extension CodeBuildClientTypes {
         public var status: Swift.String?
         /// The path to the raw data file that contains the test result.
         public var testRawDataPath: Swift.String?
+        /// The name of the test suite that the test case is a part of.
+        public var testSuiteName: Swift.String?
 
         public init(
             durationInNanoSeconds: Swift.Int? = nil,
@@ -4757,7 +4759,8 @@ extension CodeBuildClientTypes {
             `prefix`: Swift.String? = nil,
             reportArn: Swift.String? = nil,
             status: Swift.String? = nil,
-            testRawDataPath: Swift.String? = nil
+            testRawDataPath: Swift.String? = nil,
+            testSuiteName: Swift.String? = nil
         ) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.expired = expired
@@ -4767,6 +4770,7 @@ extension CodeBuildClientTypes {
             self.reportArn = reportArn
             self.status = status
             self.testRawDataPath = testRawDataPath
+            self.testSuiteName = testSuiteName
         }
     }
 }
@@ -6668,7 +6672,7 @@ public struct UpdateReportGroupOutput: Swift.Sendable {
 public struct UpdateWebhookInput: Swift.Sendable {
     /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
     public var branchFilter: Swift.String?
-    /// Specifies the type of build this webhook will trigger.
+    /// Specifies the type of build this webhook will trigger. RUNNER_BUILDKITE_BUILD is only available for NO_SOURCE source type projects configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see [Tutorial: Configure a CodeBuild-hosted Buildkite runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html) in the CodeBuild user guide.
     public var buildType: CodeBuildClientTypes.WebhookBuildType?
     /// An array of arrays of WebhookFilter objects used to determine if a webhook event can trigger a build. A filter group must contain at least one EVENTWebhookFilter.
     public var filterGroups: [[CodeBuildClientTypes.WebhookFilter]]?
@@ -10052,6 +10056,7 @@ extension CodeBuildClientTypes.TestCase {
         value.durationInNanoSeconds = try reader["durationInNanoSeconds"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         value.expired = try reader["expired"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.testSuiteName = try reader["testSuiteName"].readIfPresent()
         return value
     }
 }

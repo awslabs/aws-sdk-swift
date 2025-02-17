@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSDataClient: ClientRuntime.Client {
     public static let clientName = "RDSDataClient"
-    public static let version = "1.2.14"
+    public static let version = "1.2.19"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSDataClient.RDSDataClientConfiguration
     let serviceName = "RDS Data"
@@ -372,11 +372,12 @@ extension RDSDataClient {
     /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
     /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
     /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
-    /// - `DatabaseResumingException` : A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
+    /// - `DatabaseResumingException` : A request was cancelled because the Aurora Serverless v2 DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
     /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
+    /// - `InvalidResourceStateException` : The resource is in an invalid state.
     /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
     /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
     ///
@@ -465,11 +466,12 @@ extension RDSDataClient {
     /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
     /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
     /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
-    /// - `DatabaseResumingException` : A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
+    /// - `DatabaseResumingException` : A request was cancelled because the Aurora Serverless v2 DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
     /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
+    /// - `InvalidResourceStateException` : The resource is in an invalid state.
     /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
     /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
     ///
@@ -562,6 +564,7 @@ extension RDSDataClient {
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
+    /// - `InvalidResourceStateException` : The resource is in an invalid state.
     /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
     /// - `NotFoundException` : The resourceArn, secretArn, or transactionId value can't be found.
     /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
@@ -651,11 +654,12 @@ extension RDSDataClient {
     /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
     /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
     /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
-    /// - `DatabaseResumingException` : A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
+    /// - `DatabaseResumingException` : A request was cancelled because the Aurora Serverless v2 DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
     /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
+    /// - `InvalidResourceStateException` : The resource is in an invalid state.
     /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
     /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
     ///
@@ -755,6 +759,7 @@ extension RDSDataClient {
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
+    /// - `InvalidResourceStateException` : The resource is in an invalid state.
     /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
     /// - `NotFoundException` : The resourceArn, secretArn, or transactionId value can't be found.
     /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
