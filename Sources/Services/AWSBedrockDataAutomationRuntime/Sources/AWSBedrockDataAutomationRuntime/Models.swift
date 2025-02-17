@@ -492,8 +492,8 @@ extension InvokeDataAutomationAsyncInput {
 extension GetDataAutomationStatusInput {
 
     static func write(value: GetDataAutomationStatusInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["invocationArn"].write(value.invocationArn)
     }
 }
 

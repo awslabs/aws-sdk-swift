@@ -14813,6 +14813,7 @@ extension CreateContainerServiceDeploymentInput {
         guard let value else { return }
         try writer["containers"].writeMap(value.containers, valueWritingClosure: LightsailClientTypes.Container.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["publicEndpoint"].write(value.publicEndpoint, with: LightsailClientTypes.EndpointRequest.write(value:to:))
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -15088,16 +15089,17 @@ extension DeleteContactMethodInput {
 extension DeleteContainerImageInput {
 
     static func write(value: DeleteContainerImageInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["image"].write(value.image)
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
 extension DeleteContainerServiceInput {
 
     static func write(value: DeleteContainerServiceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -15404,32 +15406,42 @@ extension GetContainerAPIMetadataInput {
 extension GetContainerImagesInput {
 
     static func write(value: GetContainerImagesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
 extension GetContainerLogInput {
 
     static func write(value: GetContainerLogInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["containerName"].write(value.containerName)
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["filterPattern"].write(value.filterPattern)
+        try writer["pageToken"].write(value.pageToken)
+        try writer["serviceName"].write(value.serviceName)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
 extension GetContainerServiceDeploymentsInput {
 
     static func write(value: GetContainerServiceDeploymentsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
 extension GetContainerServiceMetricDataInput {
 
     static func write(value: GetContainerServiceMetricDataInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["metricName"].write(value.metricName)
+        try writer["period"].write(value.period)
+        try writer["serviceName"].write(value.serviceName)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LightsailClientTypes.MetricStatistic>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -15444,8 +15456,8 @@ extension GetContainerServicePowersInput {
 extension GetContainerServicesInput {
 
     static func write(value: GetContainerServicesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -15942,6 +15954,7 @@ extension RegisterContainerImageInput {
         guard let value else { return }
         try writer["digest"].write(value.digest)
         try writer["label"].write(value.label)
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -16118,6 +16131,7 @@ extension UpdateContainerServiceInput {
         try writer["privateRegistryAccess"].write(value.privateRegistryAccess, with: LightsailClientTypes.PrivateRegistryAccessRequest.write(value:to:))
         try writer["publicDomainNames"].writeMap(value.publicDomainNames, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["scale"].write(value.scale)
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 

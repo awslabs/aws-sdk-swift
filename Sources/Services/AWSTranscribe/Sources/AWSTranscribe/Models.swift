@@ -4881,6 +4881,7 @@ extension CreateCallAnalyticsCategoryInput {
 
     static func write(value: CreateCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
         try writer["InputType"].write(value.inputType)
         try writer["Rules"].writeList(value.rules, memberWritingClosure: TranscribeClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4894,6 +4895,7 @@ extension CreateLanguageModelInput {
         try writer["BaseModelName"].write(value.baseModelName)
         try writer["InputDataConfig"].write(value.inputDataConfig, with: TranscribeClientTypes.InputDataConfig.write(value:to:))
         try writer["LanguageCode"].write(value.languageCode)
+        try writer["ModelName"].write(value.modelName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4905,6 +4907,7 @@ extension CreateMedicalVocabularyInput {
         try writer["LanguageCode"].write(value.languageCode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -4917,6 +4920,7 @@ extension CreateVocabularyInput {
         try writer["Phrases"].writeList(value.phrases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -4928,6 +4932,7 @@ extension CreateVocabularyFilterInput {
         try writer["LanguageCode"].write(value.languageCode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFilterFileUri"].write(value.vocabularyFilterFileUri)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
         try writer["Words"].writeList(value.words, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4935,224 +4940,248 @@ extension CreateVocabularyFilterInput {
 extension DeleteCallAnalyticsCategoryInput {
 
     static func write(value: DeleteCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
     }
 }
 
 extension DeleteCallAnalyticsJobInput {
 
     static func write(value: DeleteCallAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
     }
 }
 
 extension DeleteLanguageModelInput {
 
     static func write(value: DeleteLanguageModelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ModelName"].write(value.modelName)
     }
 }
 
 extension DeleteMedicalScribeJobInput {
 
     static func write(value: DeleteMedicalScribeJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
     }
 }
 
 extension DeleteMedicalTranscriptionJobInput {
 
     static func write(value: DeleteMedicalTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
     }
 }
 
 extension DeleteMedicalVocabularyInput {
 
     static func write(value: DeleteMedicalVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension DeleteTranscriptionJobInput {
 
     static func write(value: DeleteTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
     }
 }
 
 extension DeleteVocabularyInput {
 
     static func write(value: DeleteVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension DeleteVocabularyFilterInput {
 
     static func write(value: DeleteVocabularyFilterInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
     }
 }
 
 extension DescribeLanguageModelInput {
 
     static func write(value: DescribeLanguageModelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ModelName"].write(value.modelName)
     }
 }
 
 extension GetCallAnalyticsCategoryInput {
 
     static func write(value: GetCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
     }
 }
 
 extension GetCallAnalyticsJobInput {
 
     static func write(value: GetCallAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
     }
 }
 
 extension GetMedicalScribeJobInput {
 
     static func write(value: GetMedicalScribeJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
     }
 }
 
 extension GetMedicalTranscriptionJobInput {
 
     static func write(value: GetMedicalTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
     }
 }
 
 extension GetMedicalVocabularyInput {
 
     static func write(value: GetMedicalVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension GetTranscriptionJobInput {
 
     static func write(value: GetTranscriptionJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
     }
 }
 
 extension GetVocabularyInput {
 
     static func write(value: GetVocabularyInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
 extension GetVocabularyFilterInput {
 
     static func write(value: GetVocabularyFilterInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
     }
 }
 
 extension ListCallAnalyticsCategoriesInput {
 
     static func write(value: ListCallAnalyticsCategoriesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
 extension ListCallAnalyticsJobsInput {
 
     static func write(value: ListCallAnalyticsJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListLanguageModelsInput {
 
     static func write(value: ListLanguageModelsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StatusEquals"].write(value.statusEquals)
     }
 }
 
 extension ListMedicalScribeJobsInput {
 
     static func write(value: ListMedicalScribeJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListMedicalTranscriptionJobsInput {
 
     static func write(value: ListMedicalTranscriptionJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListMedicalVocabulariesInput {
 
     static func write(value: ListMedicalVocabulariesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StateEquals"].write(value.stateEquals)
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
     }
 }
 
 extension ListTranscriptionJobsInput {
 
     static func write(value: ListTranscriptionJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["JobNameContains"].write(value.jobNameContains)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
     }
 }
 
 extension ListVocabulariesInput {
 
     static func write(value: ListVocabulariesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["StateEquals"].write(value.stateEquals)
     }
 }
 
 extension ListVocabularyFiltersInput {
 
     static func write(value: ListVocabularyFiltersInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -5160,6 +5189,7 @@ extension StartCallAnalyticsJobInput {
 
     static func write(value: StartCallAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CallAnalyticsJobName"].write(value.callAnalyticsJobName)
         try writer["ChannelDefinitions"].writeList(value.channelDefinitions, memberWritingClosure: TranscribeClientTypes.ChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
         try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
@@ -5178,6 +5208,7 @@ extension StartMedicalScribeJobInput {
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
         try writer["KMSEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
+        try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
         try writer["OutputBucketName"].write(value.outputBucketName)
         try writer["OutputEncryptionKMSKeyId"].write(value.outputEncryptionKMSKeyId)
         try writer["Settings"].write(value.settings, with: TranscribeClientTypes.MedicalScribeSettings.write(value:to:))
@@ -5195,6 +5226,7 @@ extension StartMedicalTranscriptionJobInput {
         try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
         try writer["MediaFormat"].write(value.mediaFormat)
         try writer["MediaSampleRateHertz"].write(value.mediaSampleRateHertz)
+        try writer["MedicalTranscriptionJobName"].write(value.medicalTranscriptionJobName)
         try writer["OutputBucketName"].write(value.outputBucketName)
         try writer["OutputEncryptionKMSKeyId"].write(value.outputEncryptionKMSKeyId)
         try writer["OutputKey"].write(value.outputKey)
@@ -5228,6 +5260,7 @@ extension StartTranscriptionJobInput {
         try writer["Subtitles"].write(value.subtitles, with: TranscribeClientTypes.Subtitles.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ToxicityDetection"].writeList(value.toxicityDetection, memberWritingClosure: TranscribeClientTypes.ToxicityDetectionSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TranscriptionJobName"].write(value.transcriptionJobName)
     }
 }
 
@@ -5235,6 +5268,7 @@ extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TranscribeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5243,6 +5277,7 @@ extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5251,6 +5286,7 @@ extension UpdateCallAnalyticsCategoryInput {
 
     static func write(value: UpdateCallAnalyticsCategoryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CategoryName"].write(value.categoryName)
         try writer["InputType"].write(value.inputType)
         try writer["Rules"].writeList(value.rules, memberWritingClosure: TranscribeClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -5262,6 +5298,7 @@ extension UpdateMedicalVocabularyInput {
         guard let value else { return }
         try writer["LanguageCode"].write(value.languageCode)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -5273,6 +5310,7 @@ extension UpdateVocabularyInput {
         try writer["LanguageCode"].write(value.languageCode)
         try writer["Phrases"].writeList(value.phrases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VocabularyFileUri"].write(value.vocabularyFileUri)
+        try writer["VocabularyName"].write(value.vocabularyName)
     }
 }
 
@@ -5282,6 +5320,7 @@ extension UpdateVocabularyFilterInput {
         guard let value else { return }
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
         try writer["VocabularyFilterFileUri"].write(value.vocabularyFilterFileUri)
+        try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
         try writer["Words"].writeList(value.words, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

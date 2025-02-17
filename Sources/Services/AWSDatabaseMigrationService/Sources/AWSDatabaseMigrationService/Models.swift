@@ -6275,6 +6275,8 @@ public struct DescribeApplicableIndividualAssessmentsInput: Swift.Sendable {
     public var maxRecords: Swift.Int?
     /// Name of the migration type that each provided individual assessment must support.
     public var migrationType: DatabaseMigrationClientTypes.MigrationTypeValue?
+    /// Amazon Resource Name (ARN) of a serverless replication on which you want to base the default list of individual assessments.
+    public var replicationConfigArn: Swift.String?
     /// ARN of a replication instance on which you want to base the default list of individual assessments.
     public var replicationInstanceArn: Swift.String?
     /// Amazon Resource Name (ARN) of a migration task on which you want to base the default list of individual assessments.
@@ -6288,6 +6290,7 @@ public struct DescribeApplicableIndividualAssessmentsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         migrationType: DatabaseMigrationClientTypes.MigrationTypeValue? = nil,
+        replicationConfigArn: Swift.String? = nil,
         replicationInstanceArn: Swift.String? = nil,
         replicationTaskArn: Swift.String? = nil,
         sourceEngineName: Swift.String? = nil,
@@ -6296,6 +6299,7 @@ public struct DescribeApplicableIndividualAssessmentsInput: Swift.Sendable {
         self.marker = marker
         self.maxRecords = maxRecords
         self.migrationType = migrationType
+        self.replicationConfigArn = replicationConfigArn
         self.replicationInstanceArn = replicationInstanceArn
         self.replicationTaskArn = replicationTaskArn
         self.sourceEngineName = sourceEngineName
@@ -12523,6 +12527,7 @@ extension DescribeApplicableIndividualAssessmentsInput {
         try writer["Marker"].write(value.marker)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["MigrationType"].write(value.migrationType)
+        try writer["ReplicationConfigArn"].write(value.replicationConfigArn)
         try writer["ReplicationInstanceArn"].write(value.replicationInstanceArn)
         try writer["ReplicationTaskArn"].write(value.replicationTaskArn)
         try writer["SourceEngineName"].write(value.sourceEngineName)

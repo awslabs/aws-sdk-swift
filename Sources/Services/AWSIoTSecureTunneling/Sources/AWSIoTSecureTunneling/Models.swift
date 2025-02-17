@@ -648,32 +648,35 @@ extension UntagResourceInput {
 extension CloseTunnelInput {
 
     static func write(value: CloseTunnelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["delete"].write(value.delete)
+        try writer["tunnelId"].write(value.tunnelId)
     }
 }
 
 extension DescribeTunnelInput {
 
     static func write(value: DescribeTunnelInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["tunnelId"].write(value.tunnelId)
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
 extension ListTunnelsInput {
 
     static func write(value: ListTunnelsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["thingName"].write(value.thingName)
     }
 }
 
@@ -694,6 +697,7 @@ extension RotateTunnelAccessTokenInput {
         guard let value else { return }
         try writer["clientMode"].write(value.clientMode)
         try writer["destinationConfig"].write(value.destinationConfig, with: IoTSecureTunnelingClientTypes.DestinationConfig.write(value:to:))
+        try writer["tunnelId"].write(value.tunnelId)
     }
 }
 

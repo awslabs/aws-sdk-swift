@@ -4252,6 +4252,7 @@ extension BatchCreateBillScenarioCommitmentModificationInput {
     static func write(value: BatchCreateBillScenarioCommitmentModificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["commitmentModifications"].writeList(value.commitmentModifications, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4261,6 +4262,7 @@ extension BatchCreateBillScenarioUsageModificationInput {
     static func write(value: BatchCreateBillScenarioUsageModificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["usageModifications"].writeList(value.usageModifications, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4269,6 +4271,7 @@ extension BatchCreateWorkloadEstimateUsageInput {
 
     static func write(value: BatchCreateWorkloadEstimateUsageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["usage"].writeList(value.usage, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["workloadEstimateId"].write(value.workloadEstimateId)
     }
@@ -4333,6 +4336,7 @@ extension CreateBillEstimateInput {
     static func write(value: CreateBillEstimateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -4342,6 +4346,7 @@ extension CreateBillScenarioInput {
 
     static func write(value: CreateBillScenarioInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -4351,6 +4356,7 @@ extension CreateWorkloadEstimateInput {
 
     static func write(value: CreateWorkloadEstimateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["rateType"].write(value.rateType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

@@ -4216,32 +4216,32 @@ extension CreateTransformerInput {
 extension DeleteCapabilityInput {
 
     static func write(value: DeleteCapabilityInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["capabilityId"].write(value.capabilityId)
     }
 }
 
 extension DeletePartnershipInput {
 
     static func write(value: DeletePartnershipInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["partnershipId"].write(value.partnershipId)
     }
 }
 
 extension DeleteProfileInput {
 
     static func write(value: DeleteProfileInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["profileId"].write(value.profileId)
     }
 }
 
 extension DeleteTransformerInput {
 
     static func write(value: DeleteTransformerInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["transformerId"].write(value.transformerId)
     }
 }
 
@@ -4258,80 +4258,86 @@ extension GenerateMappingInput {
 extension GetCapabilityInput {
 
     static func write(value: GetCapabilityInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["capabilityId"].write(value.capabilityId)
     }
 }
 
 extension GetPartnershipInput {
 
     static func write(value: GetPartnershipInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["partnershipId"].write(value.partnershipId)
     }
 }
 
 extension GetProfileInput {
 
     static func write(value: GetProfileInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["profileId"].write(value.profileId)
     }
 }
 
 extension GetTransformerInput {
 
     static func write(value: GetTransformerInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["transformerId"].write(value.transformerId)
     }
 }
 
 extension GetTransformerJobInput {
 
     static func write(value: GetTransformerJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["transformerId"].write(value.transformerId)
+        try writer["transformerJobId"].write(value.transformerJobId)
     }
 }
 
 extension ListCapabilitiesInput {
 
     static func write(value: ListCapabilitiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListPartnershipsInput {
 
     static func write(value: ListPartnershipsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["profileId"].write(value.profileId)
     }
 }
 
 extension ListProfilesInput {
 
     static func write(value: ListProfilesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
     }
 }
 
 extension ListTransformersInput {
 
     static func write(value: ListTransformersInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4350,6 +4356,7 @@ extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: B2biClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4386,8 +4393,9 @@ extension TestParsingInput {
 extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4395,6 +4403,7 @@ extension UpdateCapabilityInput {
 
     static func write(value: UpdateCapabilityInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capabilityId"].write(value.capabilityId)
         try writer["configuration"].write(value.configuration, with: B2biClientTypes.CapabilityConfiguration.write(value:to:))
         try writer["instructionsDocuments"].writeList(value.instructionsDocuments, memberWritingClosure: B2biClientTypes.S3Location.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -4408,6 +4417,7 @@ extension UpdatePartnershipInput {
         try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["capabilityOptions"].write(value.capabilityOptions, with: B2biClientTypes.CapabilityOptions.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["partnershipId"].write(value.partnershipId)
     }
 }
 
@@ -4419,6 +4429,7 @@ extension UpdateProfileInput {
         try writer["email"].write(value.email)
         try writer["name"].write(value.name)
         try writer["phone"].write(value.phone)
+        try writer["profileId"].write(value.profileId)
     }
 }
 
@@ -4436,6 +4447,7 @@ extension UpdateTransformerInput {
         try writer["sampleDocument"].write(value.sampleDocument)
         try writer["sampleDocuments"].write(value.sampleDocuments, with: B2biClientTypes.SampleDocuments.write(value:to:))
         try writer["status"].write(value.status)
+        try writer["transformerId"].write(value.transformerId)
     }
 }
 
