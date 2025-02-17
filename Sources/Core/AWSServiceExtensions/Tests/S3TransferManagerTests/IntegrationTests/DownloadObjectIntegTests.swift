@@ -254,7 +254,7 @@ class DownloadObjectIntegTests: XCTestCase {
         let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
 
         // Create and upload 5GB file to the persistent test bucket if it's not present.
-        try await createAndUploadLargeObjectIfNeeded(
+        try await createAndUploadLargeObjectIfMissing(
             sourceFileName: "testDownloadObject_5GB_UploadedWithMPU_WithPartNumbers_source_\(uuid)",
             key: key,
             numBytes: fileSize
@@ -288,7 +288,7 @@ class DownloadObjectIntegTests: XCTestCase {
         let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
 
         // Create and upload 5GB file to the persistent test bucket if it's not present.
-        try await createAndUploadLargeObjectIfNeeded(
+        try await createAndUploadLargeObjectIfMissing(
             sourceFileName: "testDownloadObject_15GB_UploadedWithMPU_WithPartNumbers_source_\(uuid)",
             key: key,
             numBytes: fileSize
@@ -395,7 +395,7 @@ class DownloadObjectIntegTests: XCTestCase {
         }
     }
 
-    private func createAndUploadLargeObjectIfNeeded(sourceFileName: String, key: String, numBytes: Int) async throws {
+    private func createAndUploadLargeObjectIfMissing(sourceFileName: String, key: String, numBytes: Int) async throws {
         do {
             _ = try await s3.headObject(input: HeadObjectInput(bucket: bucketName, key: key))
             // No-op; object already exists.
@@ -419,6 +419,7 @@ class DownloadObjectIntegTests: XCTestCase {
         let fileName = sourceFileName
         let patternedData = Data([0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22])
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+        FileManager.default.createFile(atPath: fileURL.path, contents: nil)
         let fileHandle = try FileHandle(forUpdating: fileURL)
 
         let mbSize = 1024 * 1024 // 1MB.
