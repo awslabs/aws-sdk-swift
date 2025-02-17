@@ -8,12 +8,16 @@ package software.amazon.smithy.aws.swift.codegen.protocols.awsjson
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
+import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.isEventStreaming
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
+import software.amazon.smithy.swift.codegen.model.targetOrSelf
 
 @Suppress("ktlint:standard:class-naming")
 class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCustomizations()) {
@@ -52,4 +56,15 @@ class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
             ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true),
         )
     }
+
+    override fun httpBodyMembers(
+        ctx: ProtocolGenerator.GenerationContext,
+        shape: Shape,
+    ): List<MemberShape> =
+        shape
+            .members()
+            // For RPC protocols that support event streaming, we need to send initial request
+            // with streaming member excluded during encoding the input struct.
+            .filter { !it.targetOrSelf(ctx.model).isEventStreaming }
+            .toList()
 }
