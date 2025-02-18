@@ -6,6 +6,7 @@
 //
 
 import AWSS3
+import class Foundation.DispatchSemaphore
 import class Foundation.OutputStream
 import enum Smithy.ByteStream
 import struct Foundation.Data
@@ -24,77 +25,106 @@ public extension S3TransferManager {
             defer { input.outputStream.close() }
 
             let s3 = config.s3Client
+            let semaphore = await self.semaphoreManager.getSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
             let partNumber = input.getObjectInput.partNumber
 
-            // Case 0: Specific part number was given. Do a single part GET.
-            if partNumber != nil {
-                return try await DownloadObjectOutput(
-                    getObjectOutput: performSingleGET(s3, input.getObjectInput, input.outputStream)
+            // Helper function used by single GET cases below.
+            func returnResultOfPerformSingleGet() async throws -> DownloadObjectOutput {
+                // If error is thrown, releasing semaphore instance is handled by the do-catch block below this function.
+                let output = try await DownloadObjectOutput(
+                    getObjectOutput: performSingleGET(s3, input.getObjectInput, input.outputStream, semaphore)
                 )
+                // downloadObject call finished successfully. Release the semaphore instance.
+                await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
+                return output
             }
 
-            let downloadType = config.multipartDownloadType
-            let range = input.getObjectInput.range
+            do {
+                // Case 0: Specific part number was given. Do a single part GET.
+                if partNumber != nil {
+                    return try await returnResultOfPerformSingleGet()
+                }
 
-            // Case 1: Config is part GET with range given. Fallback to single range GET.
-            if range != nil && downloadType == .part {
-                return try await DownloadObjectOutput(
-                    getObjectOutput: performSingleGET(s3, input.getObjectInput, input.outputStream)
-                )
-            }
+                let downloadType = config.multipartDownloadType
+                let range = input.getObjectInput.range
 
-            // Case 2: Config is part GET with no range given. Do a multipart GET with MPU parts.
-            if downloadType == .part && range == nil {
-                return try await performMultipartGET(s3: s3, input: input)
-            }
+                // Case 1: Config is part GET with range given. Fallback to single range GET.
+                if range != nil && downloadType == .part {
+                    return try await returnResultOfPerformSingleGet()
+                }
 
-            // Case 3: Config is range GET with range given.
-            if let range, downloadType == .range {
-                let (start, end) = try parseBytesRange(str: range)
-                if let end { // Case 3A: Provided range is in "bytes=<start>-<end>" format.
+                // Case 2: Config is part GET with no range given. Do a multipart GET with MPU parts.
+                if downloadType == .part && range == nil {
+                    return try await performMultipartGET(
+                        s3: s3,
+                        input: input,
+                        semaphore: semaphore
+                    )
+                }
 
-                    // End is inclusive so must add 1 to get size.
-                    let objectSize = end - start + 1
+                // Case 3: Config is range GET with range given.
+                if let range, downloadType == .range {
+                    let (start, end) = try parseBytesRange(str: range)
+                    if let end { // Case 3A: Provided range is in "bytes=<start>-<end>" format.
 
-                    // GET & return if one range GET is enough to get everything.
-                    if objectSize <= config.targetPartSizeBytes {
-                        return try await DownloadObjectOutput(
-                            getObjectOutput: performSingleGET(s3, input.getObjectInput, input.outputStream)
+                        // End is inclusive so must add 1 to get size.
+                        let objectSize = end - start + 1
+
+                        // If one range GET is enough to get everything, do a single range GET.
+                        if objectSize <= config.targetPartSizeBytes {
+                            return try await returnResultOfPerformSingleGet()
+                        }
+
+                        // Otherwise, get the entire object (start - provided end) concurrently.
+                        return try await performRangeGET(
+                            startByte: start,
+                            endByte: end,
+                            knownObjectSize: objectSize,
+                            s3: s3,
+                            input: input,
+                            semaphore: semaphore
+                        )
+                    } else { // Case 3B: Provided range is in "bytes=<start>-" format.
+                        // Get the entire object (start - end of entire object) concurrently.
+                        return try await performRangeGET(
+                            startByte: start,
+                            s3: s3,
+                            input: input,
+                            semaphore: semaphore
                         )
                     }
-
-                    // Otherwise, get the entire object (start - provided end) concurrently.
-                    return try await performRangeGET(
-                        startByte: start,
-                        endByte: end,
-                        knownObjectSize: objectSize,
-                        s3: s3,
-                        input: input
-                    )
-                } else { // Case 3B: Provided range is in "bytes=<start>-" format.
-                    // Get the entire object (start - end of entire object) concurrently.
-                    return try await performRangeGET(startByte: start, s3: s3, input: input)
                 }
-            }
 
-            // Case 4: Config is range GET with no range given.
-            if downloadType == .range && range == nil {
-                // Get the entire object (0 - end of entire object) concurrently.
-                return try await performRangeGET(startByte: 0, s3: s3, input: input)
-            }
+                // Case 4: Config is range GET with no range given.
+                if downloadType == .range && range == nil {
+                    // Get the entire object (0 - end of entire object) concurrently.
+                    return try await performRangeGET(
+                        startByte: 0,
+                        s3: s3,
+                        input: input,
+                        semaphore: semaphore
+                    )
+                }
 
-            // Cases 0 to 4 above covers all possible cases.
-            // Unreachable statement; added to quiet compiler.
-            throw S3TMDownloadObjectError.invalidDownloadConfiguration
+                // Cases 0 to 4 above covers all possible cases.
+                // Unreachable statement; added to quiet compiler.
+                throw S3TMDownloadObjectError.invalidDownloadConfiguration
+            } catch {
+                // downloadObject call finished with an errir. Release the semaphore instance & bubble up the error.
+                await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
+                throw error
+            }
         }
     }
 
-    // Handles single GET for Case 0 and 1.
     internal func performSingleGET(
         _ s3: S3Client,
         _ getObjectInput: GetObjectInput,
-        _ outputStream: OutputStream
+        _ outputStream: OutputStream,
+        _ semaphore: DispatchSemaphore
     ) async throws -> GetObjectOutput {
+        await wait(semaphore)
+        defer { semaphore.signal() }
         let getObjectOutput = try await s3.getObject(input: getObjectInput)
         // Write returned data to user-provided output stream & return.
         guard let outputData = try await getObjectOutput.body?.readData() else {
@@ -105,26 +135,44 @@ public extension S3TransferManager {
     }
 
     // Handles multipart GET for Case 2.
-    internal func performMultipartGET(s3: S3Client, input: DownloadObjectInput) async throws -> DownloadObjectOutput {
+    internal func performMultipartGET(
+        s3: S3Client,
+        input: DownloadObjectInput,
+        semaphore: DispatchSemaphore
+    ) async throws -> DownloadObjectOutput {
         let firstGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(partNumber: 1)
-        let firstGetObjectOutput = try await performSingleGET(s3, firstGetObjectInput, input.outputStream)
+        let firstGetObjectOutput = try await performSingleGET(s3, firstGetObjectInput, input.outputStream, semaphore)
 
         // Return if there's no more parts.
         guard let partsCount = firstGetObjectOutput.partsCount, partsCount > 1 else {
+            // downloadObject call finished successfully. Release the semaphore instance.
+            await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
             return DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
         }
 
         // Otherwise, fetch and download all remaining parts.
-        let byteStreams = try await concurrentlyFetchPartGETByteStreams(s3: s3, input: input, partsCount: partsCount)
+        let byteStreams = try await concurrentlyFetchPartGETByteStreams(
+            s3: s3,
+            input: input,
+            partsCount: partsCount,
+            semaphore: semaphore
+        )
         try await writeByteStreams(byteStreams, to: input.outputStream)
 
+        // downloadObject call finished successfully. Release the semaphore instance.
+        await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
         // Return the first GetObject call's output wrapped in DownloadObjectOutput.
         // This behavior aligns with S3 multipart download behavior in both Java & CRT.
         return DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
     }
 
     // Gets all parts of a S3 object starting at second part.
-    internal func concurrentlyFetchPartGETByteStreams(s3: S3Client, input: DownloadObjectInput, partsCount: Int) async throws -> [ByteStream] {
+    internal func concurrentlyFetchPartGETByteStreams(
+        s3: S3Client,
+        input: DownloadObjectInput,
+        partsCount: Int,
+        semaphore: DispatchSemaphore
+    ) async throws -> [ByteStream] {
         return try await withThrowingTaskGroup(
             // Each child task returns part number : stream tuple.
             of: (partNumber: Int, byteStream: ByteStream).self,
@@ -134,8 +182,11 @@ public extension S3TransferManager {
             var results: [(partNumber: Int, byteStream: ByteStream)] = []
 
             for partNumber in 2...partsCount {
+                let temp = semaphore.debugDescription
+                await self.wait(semaphore)
                 try Task.checkCancellation()
                 group.addTask {
+                    defer { semaphore.signal() }
                     let partGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(partNumber: partNumber)
                     let partGetObjectOutput = try await s3.getObject(input: partGetObjectInput)
                     return (partNumber, partGetObjectOutput.body!)
@@ -157,11 +208,17 @@ public extension S3TransferManager {
         endByte: Int? = nil, // Known only for "bytes=<start>-<end>".
         knownObjectSize: Int? = nil, // Known only for "bytes=<start>-<end>".
         s3: S3Client,
-        input: DownloadObjectInput
+        input: DownloadObjectInput,
+        semaphore: DispatchSemaphore
     ) async throws -> DownloadObjectOutput {
         // End is inclusive, so must subtract 1 to get target amount.
         let firstRangeGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(range: "bytes=\(startByte)-\(startByte + config.targetPartSizeBytes - 1)")
-        let firstRangeGetObjectOutput = try await performSingleGET(s3, firstRangeGetObjectInput, input.outputStream)
+        let firstRangeGetObjectOutput = try await performSingleGET(
+            s3,
+            firstRangeGetObjectInput,
+            input.outputStream,
+            semaphore
+        )
 
         let objectSize: Int
         if let knownObjectSize {
@@ -178,6 +235,8 @@ public extension S3TransferManager {
 
         // Return if one range GET was enough to get everything.
         if objectSize <= config.targetPartSizeBytes {
+            // downloadObject call finished successfully. Release the semaphore instance.
+            await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
             return DownloadObjectOutput(getObjectOutput: firstRangeGetObjectOutput)
         }
 
@@ -188,10 +247,13 @@ public extension S3TransferManager {
             // Start byte is adjusted to 2nd sement since we already did first range GET above.
             startByte: startByte + config.targetPartSizeBytes,
             endByte: endByte,
-            objectSize: objectSize
+            objectSize: objectSize,
+            semaphore: semaphore
         )
         try await writeByteStreams(byteStreams, to: input.outputStream)
 
+        // downloadObject call finished successfully. Release the semaphore instance.
+        await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
         // Return output of first range GET.
         return DownloadObjectOutput(getObjectOutput: firstRangeGetObjectOutput)
     }
@@ -202,7 +264,8 @@ public extension S3TransferManager {
         input: DownloadObjectInput,
         startByte: Int,
         endByte: Int? = nil, // Known only for "bytes=<start>-<end>".
-        objectSize: Int
+        objectSize: Int,
+        semaphore: DispatchSemaphore
     ) async throws -> [ByteStream] {
         // Must subtract 1 if there was no remainder, since we already sent
         //  a "triage" request that doubled as getting the object size.
@@ -229,6 +292,8 @@ public extension S3TransferManager {
 
                 try Task.checkCancellation()
                 group.addTask {
+                    await self.wait(semaphore)
+                    defer { semaphore.signal() }
                     let rangeGetObjectOutput = try await s3.getObject(input: rangeGetObjectInput)
                     return (numRequest, rangeGetObjectOutput.body!)
                 }

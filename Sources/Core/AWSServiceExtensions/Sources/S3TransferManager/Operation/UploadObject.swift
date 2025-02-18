@@ -322,6 +322,7 @@ public extension S3TransferManager {
         }
     }
 
+    // Helper function to signal semaphore & release it at the same time.
     private func signalAndReleaseSemaphore(_ semaphore: DispatchSemaphore, _ bucketName: String) async {
         semaphore.signal()
         await self.semaphoreManager.releaseSemaphoreInstance(forBucket: bucketName)
