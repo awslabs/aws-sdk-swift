@@ -340,16 +340,6 @@ public extension S3TransferManager {
         try writeData(data, to: outputStream)
     }
 
-    // Synchronously writes byte streams to output stream.
-    internal func writeByteStreams(_ byteStreams: [ByteStream], to outputStream: OutputStream) async throws {
-        for byteStream in byteStreams {
-            guard let data = try await byteStream.readData() else {
-                throw S3TMDownloadObjectError.failedToReadResponseBody
-            }
-            try writeData(data, to: outputStream)
-        }
-    }
-
     // Synchronously writes data to output stream.
     internal func writeData(_ data: Data, to outputStream: OutputStream) throws {
         if outputStream.streamStatus == .notOpen {

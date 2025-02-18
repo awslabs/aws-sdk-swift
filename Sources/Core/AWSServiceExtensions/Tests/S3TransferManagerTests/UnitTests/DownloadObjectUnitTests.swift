@@ -57,15 +57,15 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         XCTAssertEqual(writtenData, expectedData)
     }
 
-    // MARK: - writeByteStreams tests.
+    // MARK: - writeByteStream tests.
 
-    func testWriteByteStreamsToFileOutputStream() async throws {
-        // Create output stream & dummy byte streams to write to output stream.
+    func testWriteByteStreamToFileOutputStream() async throws {
+        // Create output stream & dummy byte stream to write to output stream.
         let (fileOutputStream, tempFileURL) = try getEmptyFileOutputStream()
-        let byteStreams = getDummyByteStreamArray()
+        let byteStream = getDummyByteStream()
 
-        // Write dummy byte streams to output stream.
-        try await DownloadObjectUnitTests.tm.writeByteStreams(byteStreams, to: fileOutputStream)
+        // Write dummy byte stream to output stream.
+        try await DownloadObjectUnitTests.tm.writeByteStream(byteStream, to: fileOutputStream)
 
         // Assert on correct write.
         fileOutputStream.close()
@@ -77,13 +77,13 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         try deleteTempFile(tempFileURL: tempFileURL)
     }
 
-    func testWriteByteStreamsToMemoryOutputStream() async throws {
-        // Create output stream & dummy byte streams to write to output stream.
+    func testWriteByteStreamToMemoryOutputStream() async throws {
+        // Create output stream & dummy byte stream to write to output stream.
         let memoryOutputStream = OutputStream.toMemory()
-        let byteStreams = getDummyByteStreamArray()
+        let byteStream = getDummyByteStream()
 
-        // Write dummy byte streams to output stream.
-        try await DownloadObjectUnitTests.tm.writeByteStreams(byteStreams, to: memoryOutputStream)
+        // Write dummy byte stream to output stream.
+        try await DownloadObjectUnitTests.tm.writeByteStream(byteStream, to: memoryOutputStream)
 
         // Assert on correct write.
         memoryOutputStream.close()
@@ -92,13 +92,13 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         XCTAssertEqual(writtenData, expectedData)
     }
 
-    func testWriteByteStreamsToRawByteBufferStream() async throws {
-        // Create output stream & dummy byte streams to write to output stream.
+    func testWriteByteStreamToRawByteBufferStream() async throws {
+        // Create output stream & dummy byte stream to write to output stream.
         let (rawByteBufferOutputStream, buffer) = try getEmptyRawByteBufferOutputStream(bufferCount: 15)
-        let byteStreams = getDummyByteStreamArray()
+        let byteStream = getDummyByteStream()
 
-        // Write dummy byte streams to output stream.
-        try await DownloadObjectUnitTests.tm.writeByteStreams(byteStreams, to: rawByteBufferOutputStream)
+        // Write dummy byte stream to output stream.
+        try await DownloadObjectUnitTests.tm.writeByteStream(byteStream, to: rawByteBufferOutputStream)
 
         // Assert on correct write.
         rawByteBufferOutputStream.close()
@@ -166,10 +166,7 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         return (rawByteBufferOutputStream, buffer)
     }
 
-    private func getDummyByteStreamArray() -> [ByteStream] {
-        let byteStreamOne = ByteStream.data(Data("01234".utf8))
-        let byteStreamTwo = ByteStream.data(Data("56789".utf8))
-        let byteStreamThree = ByteStream.data(Data("abcde".utf8))
-        return [byteStreamOne, byteStreamTwo, byteStreamThree]
+    private func getDummyByteStream() -> ByteStream {
+        return ByteStream.data(Data("0123456789abcde".utf8))
     }
 }
