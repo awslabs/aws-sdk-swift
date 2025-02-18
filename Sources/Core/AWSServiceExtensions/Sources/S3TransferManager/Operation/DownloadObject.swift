@@ -144,20 +144,19 @@ public extension S3TransferManager {
         let firstGetObjectOutput = try await performSingleGET(s3, firstGetObjectInput, input.outputStream, semaphore)
 
         // Return if there's no more parts.
-        guard let partsCount = firstGetObjectOutput.partsCount, partsCount > 1 else {
+        guard let totalParts = firstGetObjectOutput.partsCount, totalParts > 1 else {
             // downloadObject call finished successfully. Release the semaphore instance.
             await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
             return DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
         }
 
-        // Otherwise, fetch and download all remaining parts.
-        let byteStreams = try await concurrentlyFetchPartGETByteStreams(
+        // Otherwise, fetch all remaining parts and write to the output stream.
+        try await concurrentlyFetchPartGETByteStreamsAndWriteToOutputStream(
             s3: s3,
             input: input,
-            partsCount: partsCount,
+            totalParts: totalParts,
             semaphore: semaphore
         )
-        try await writeByteStreams(byteStreams, to: input.outputStream)
 
         // downloadObject call finished successfully. Release the semaphore instance.
         await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
@@ -166,38 +165,51 @@ public extension S3TransferManager {
         return DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
     }
 
-    // Gets all parts of a S3 object starting at second part.
-    internal func concurrentlyFetchPartGETByteStreams(
+    // Gets all parts of a S3 object starting at second part and writes to the output stream.
+    internal func concurrentlyFetchPartGETByteStreamsAndWriteToOutputStream(
         s3: S3Client,
         input: DownloadObjectInput,
-        partsCount: Int,
+        totalParts: Int,
         semaphore: DispatchSemaphore
-    ) async throws -> [ByteStream] {
-        return try await withThrowingTaskGroup(
-            // Each child task returns part number : stream tuple.
-            of: (partNumber: Int, byteStream: ByteStream).self,
-            // The task group returns streams sorted by the part number.
-            returning: [ByteStream].self
-        ) { group in
-            var results: [(partNumber: Int, byteStream: ByteStream)] = []
+    ) async throws {
+        // Size of batch is same as the semaphore limit.
+        let batchSize = S3TMSemaphoreManager.Device.maxConcurrentTasksPerBucket
+        var currentBatchStart = 2
 
-            for partNumber in 2...partsCount {
-                await self.wait(semaphore)
-                try Task.checkCancellation()
-                group.addTask {
-                    defer { semaphore.signal() }
-                    let partGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(partNumber: partNumber)
-                    let partGetObjectOutput = try await s3.getObject(input: partGetObjectInput)
-                    return (partNumber, partGetObjectOutput.body!)
+        // Loop until all parts are retrieved and processed in batches.
+        while currentBatchStart <= totalParts {
+            // Temporary buffer used to ensure correct ordering of data when writing to output stream.
+            var buffer = [Int: ByteStream]()
+
+            let currentBatchEnd = min(currentBatchStart + batchSize - 1, totalParts)
+            try await withThrowingTaskGroup(
+                // Each child task returns part number : stream tuple.
+                of: (partNumber: Int, byteStream: ByteStream).self
+            ) { group in
+                // Add child task for each part GET in current batch.
+                for partNumber in currentBatchStart...currentBatchEnd {
+                    await self.wait(semaphore)
+                    try Task.checkCancellation()
+                    group.addTask {
+                        defer { semaphore.signal() }
+                        let partGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(partNumber: partNumber)
+                        let partGetObjectOutput = try await s3.getObject(input: partGetObjectInput)
+                        return (partNumber, partGetObjectOutput.body!)
+                    }
+                }
+                // Process results of part GETs in current batch & write to input.outputStream in order.
+                var nextPartToProcess = currentBatchStart
+                for try await (partNumber, body) in group {
+                    buffer[partNumber] = body
+                    while let body = buffer[nextPartToProcess] {
+                        try await writeByteStream(body, to: input.outputStream)
+                        buffer.removeValue(forKey: nextPartToProcess)
+                        nextPartToProcess += 1
+                    }
                 }
             }
-
-            for try await childTaskResult in group {
-                results.append(childTaskResult)
-            }
-
-            results.sort { $0.partNumber < $1.partNumber }
-            return results.map { $0.byteStream }
+            // Update batch start.
+            currentBatchStart = currentBatchEnd + 1
         }
     }
 
@@ -239,17 +251,16 @@ public extension S3TransferManager {
             return DownloadObjectOutput(getObjectOutput: firstRangeGetObjectOutput)
         }
 
-        // Otherwise, fetch and download all remaining segments.
-        let byteStreams = try await concurrentlyFetchRangeGETByteStreams(
+        // Otherwise, fetch all remaining segments and write to the output stream.
+        try await concurrentlyFetchRangeGETByteStreamsAndWriteToOutputStream(
             s3: s3,
             input: input,
-            // Start byte is adjusted to 2nd sement since we already did first range GET above.
+            // Start byte is adjusted to 2nd segment since we already did first range GET above.
             startByte: startByte + config.targetPartSizeBytes,
             endByte: endByte,
             objectSize: objectSize,
             semaphore: semaphore
         )
-        try await writeByteStreams(byteStreams, to: input.outputStream)
 
         // downloadObject call finished successfully. Release the semaphore instance.
         await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
@@ -258,53 +269,75 @@ public extension S3TransferManager {
     }
 
     // Gets all segments of a S3 object starting at second subrange.
-    internal func concurrentlyFetchRangeGETByteStreams(
+    internal func concurrentlyFetchRangeGETByteStreamsAndWriteToOutputStream(
         s3: S3Client,
         input: DownloadObjectInput,
         startByte: Int,
         endByte: Int? = nil, // Known only for "bytes=<start>-<end>".
         objectSize: Int,
         semaphore: DispatchSemaphore
-    ) async throws -> [ByteStream] {
+    ) async throws {
         // Must subtract 1 if there was no remainder, since we already sent
         //  a "triage" request that doubled as getting the object size.
         let numRequests = (objectSize / config.targetPartSizeBytes) - (objectSize % config.targetPartSizeBytes == 0 ? 1 : 0)
 
-        return try await withThrowingTaskGroup(
-            // Each child task returns request number : stream tuple.
-            of: (Int, ByteStream).self,
-            // The task group returns streams sorted by the request number.
-            returning: [ByteStream].self
-        ) { group in
-            var results: [(Int, ByteStream)] = []
+        // Size of batch is same as the semaphore limit.
+        let batchSize = S3TMSemaphoreManager.Device.maxConcurrentTasksPerBucket
+        var currentBatchStart = 0
 
-            for numRequest in 0..<numRequests {
-                let subRangeStart = startByte + (numRequest * config.targetPartSizeBytes)
-                // End byte is inclusive, so must subtract 1 to get target amount.
-                var subRangeEnd = subRangeStart + config.targetPartSizeBytes - 1
-                // If it's the last request, we must use `end` if it's non-nil.
-                // It's gauranteed to equal subRangeEnd, or be smaller than it.
-                if let endByte, numRequest + 1 == numRequests {
-                    subRangeEnd = endByte
-                }
-                let rangeGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(range: "bytes=\(subRangeStart)-\(subRangeEnd)")
+        // Loop until all segments are retrieved and processed in batches.
+        while currentBatchStart < numRequests {
+            // Temporary buffer used to ensure correct ordering of data when writing to output stream.
+            var buffer = [Int: ByteStream]()
 
-                try Task.checkCancellation()
-                group.addTask {
+            let currentBatchEnd = min(currentBatchStart + batchSize - 1, numRequests - 1)
+            try await withThrowingTaskGroup(
+                // Each child task returns request number : stream tuple.
+                of: (Int, ByteStream).self
+            ) { group in
+                // Add child task for each range GET in current batch.
+                for numRequest in currentBatchStart...currentBatchEnd {
+                    let subRangeStart = startByte + (numRequest * config.targetPartSizeBytes)
+                    // End byte is inclusive, so must subtract 1 to get target amount.
+                    var subRangeEnd = subRangeStart + config.targetPartSizeBytes - 1
+                    // If it's the last request, we must use `end` if it's non-nil.
+                    // It's gauranteed to equal subRangeEnd, or be smaller than it.
+                    if let endByte, numRequest + 1 == numRequests {
+                        subRangeEnd = endByte
+                    }
+                    let rangeGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(range: "bytes=\(subRangeStart)-\(subRangeEnd)")
+
                     await self.wait(semaphore)
-                    defer { semaphore.signal() }
-                    let rangeGetObjectOutput = try await s3.getObject(input: rangeGetObjectInput)
-                    return (numRequest, rangeGetObjectOutput.body!)
+                    try Task.checkCancellation()
+                    group.addTask {
+                        defer { semaphore.signal() }
+                        let rangeGetObjectOutput = try await s3.getObject(input: rangeGetObjectInput)
+                        return (numRequest, rangeGetObjectOutput.body!)
+                    }
+                }
+
+                // Process results of range GETs in current batch & write to input.outputStream in order.
+                var nextSegmentToProcess = currentBatchStart
+                for try await (numRequest, body) in group {
+                    buffer[numRequest] = body
+                    while let body = buffer[nextSegmentToProcess] {
+                        try await writeByteStream(body, to: input.outputStream)
+                        buffer.removeValue(forKey: nextSegmentToProcess)
+                        nextSegmentToProcess += 1
+                    }
                 }
             }
-
-            for try await result in group {
-                results.append(result)
-            }
-
-            results.sort { $0.0 < $1.0 }
-            return results.map { $0.1 }
+            // Update batch start.
+            currentBatchStart = currentBatchEnd + 1
         }
+    }
+
+    // Synchronously writes byte stream to output stream.
+    internal func writeByteStream(_ byteStream: ByteStream, to outputStream: OutputStream) async throws {
+        guard let data = try await byteStream.readData() else {
+            throw S3TMDownloadObjectError.failedToReadResponseBody
+        }
+        try writeData(data, to: outputStream)
     }
 
     // Synchronously writes byte streams to output stream.

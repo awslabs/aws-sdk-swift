@@ -247,72 +247,20 @@ class DownloadObjectIntegTests: XCTestCase {
 
     // MARK: - Large download object tests.
 
-    func testDownloadObject_5GB_UploadedWithMPU_WithPartNumbers() async throws {
-        try skip5GBAndUpIfNotConfiguredToRun()
-        let key = "MPU-5GB"
-        let fileSize = 5 * 1024 * 1024 * 1024 // 5GB.
-        let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
-
-        // Create and upload 5GB file to the persistent test bucket if it's not present.
-        try await createAndUploadLargeObjectIfMissing(
-            sourceFileName: "testDownloadObject_5GB_UploadedWithMPU_WithPartNumbers_source_\(uuid)",
-            key: key,
-            numBytes: fileSize
-        )
-
-        // Create S3TM instance to use to download 5GB file.
-        let s3tmConfig = try await S3TransferManagerConfig(s3Client: s3)
-        let s3tm = try await S3TransferManager(config: s3tmConfig)
-
-        // Create DownloadObject input with an empty destination file.
-        let destinationFileName = "testDownloadObject_5GB_UploadedWithMPU_WithPartNumbers_destination_\(uuid)"
-        let destinationFileURL = FileManager.default.temporaryDirectory.appending(path: destinationFileName)
-        let outputStream = OutputStream(url: destinationFileURL, append: true)!
-        let getObjectInput = GetObjectInput(bucket: bucketName, key: key)
-
-        // Call S3TM::DownloadObject & assert on witten file size.
-        _ = try await s3tm.downloadObject(input: DownloadObjectInput(
-            outputStream: outputStream,
-            getObjectInput: getObjectInput
-        )).value
-        let destinationFileHandle = try FileHandle(forReadingFrom: destinationFileURL)
-        let actualFileLength = try destinationFileHandle.length()
-        let expectedFileLength = fileSize
-        XCTAssertEqual(Int(actualFileLength), expectedFileLength)
+    func testDownloadObject_5GB_WithPartNumbers() async throws {
+        try await runLargeDownloadObjectTest(testFileSize: .gb5, downloadType: .part)
     }
 
-    func testDownloadObject_15GB_UploadedWithMPU_WithPartNumbers() async throws {
-        try skip5GBAndUpIfNotConfiguredToRun()
-        let key = "MPU-15GB"
-        let fileSize = 15 * 1024 * 1024 * 1024 // 15GB.
-        let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
+    func testDownloadObject_15GB_WithPartNumbers() async throws {
+        try await runLargeDownloadObjectTest(testFileSize: .gb15, downloadType: .part)
+    }
 
-        // Create and upload 5GB file to the persistent test bucket if it's not present.
-        try await createAndUploadLargeObjectIfMissing(
-            sourceFileName: "testDownloadObject_15GB_UploadedWithMPU_WithPartNumbers_source_\(uuid)",
-            key: key,
-            numBytes: fileSize
-        )
+    func testDownloadObject_5GB_WithRange() async throws {
+        try await runLargeDownloadObjectTest(testFileSize: .gb5, downloadType: .range)
+    }
 
-        // Create S3TM instance to use to download 15GB file.
-        let s3tmConfig = try await S3TransferManagerConfig(s3Client: s3)
-        let s3tm = try await S3TransferManager(config: s3tmConfig)
-
-        // Create DownloadObject input with an empty destination file.
-        let destinationFileName = "testDownloadObject_15GB_UploadedWithMPU_WithPartNumbers_destination_\(uuid)"
-        let destinationFileURL = FileManager.default.temporaryDirectory.appending(path: destinationFileName)
-        let outputStream = OutputStream(url: destinationFileURL, append: true)!
-        let getObjectInput = GetObjectInput(bucket: bucketName, key: key)
-
-        // Call S3TM::DownloadObject & assert on witten file size.
-        _ = try await s3tm.downloadObject(input: DownloadObjectInput(
-            outputStream: outputStream,
-            getObjectInput: getObjectInput
-        )).value
-        let destinationFileHandle = try FileHandle(forReadingFrom: destinationFileURL)
-        let actualFileLength = try destinationFileHandle.length()
-        let expectedFileLength = fileSize
-        XCTAssertEqual(Int(actualFileLength), expectedFileLength)
+    func testDownloadObject_15GB_WithRange() async throws {
+        try await runLargeDownloadObjectTest(testFileSize: .gb15, downloadType: .range)
     }
 
     // MARK: - Helper functions for 100MB tests.
@@ -386,6 +334,39 @@ class DownloadObjectIntegTests: XCTestCase {
 
     // MARK: - Helper functions for > 100MB tests.
 
+    private func runLargeDownloadObjectTest(
+        testFileSize: LargeDownloadObjectTestFileSize,
+        downloadType: MultipartDownloadType
+    ) async throws {
+        try skip5GBAndUpIfNotConfiguredToRun()
+        let key = testFileSize.s3ObjectKey
+        let fileSize = testFileSize.bytes
+        let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
+
+        // Create and upload file to the persistent test bucket if it's not present.
+        try await createAndUploadLargeObjectIfMissing(sourceFileName: "source-\(uuid)", key: key, numBytes: fileSize)
+
+        // Create S3TM instance to use for test.
+        let s3tmConfig = try await S3TransferManagerConfig(s3Client: s3, multipartDownloadType: downloadType)
+        let s3tm = try await S3TransferManager(config: s3tmConfig)
+
+        // Create DownloadObject input with an empty destination file.
+        let destinationFileURL = FileManager.default.temporaryDirectory.appending(path: "destination-\(uuid)")
+        let outputStream = OutputStream(url: destinationFileURL, append: true)!
+        let getObjectInput = GetObjectInput(bucket: bucketName, key: key)
+
+        // Call S3TM::DownloadObject & assert on witten file size.
+        _ = try await s3tm.downloadObject(input: DownloadObjectInput(
+            outputStream: outputStream,
+            getObjectInput: getObjectInput
+        )).value
+        let destinationFileHandle = try FileHandle(forReadingFrom: destinationFileURL)
+        let actualFileLength = try destinationFileHandle.length()
+        let expectedFileLength = fileSize
+        XCTAssertEqual(Int(actualFileLength), expectedFileLength)
+        try FileManager.default.removeItem(at: destinationFileURL)
+    }
+
     private func skip5GBAndUpIfNotConfiguredToRun() throws {
         guard ProcessInfo.processInfo.environment["RUN_LARGE_S3TM_DOWNLOAD_OBJECT_TESTS"] == "YES" else {
             // Creates a "skip" result, not a failure.
@@ -415,7 +396,6 @@ class DownloadObjectIntegTests: XCTestCase {
     }
 
     private func generateLargePatternedDataFile(sourceFileName: String, numBytes: Int) throws -> URL {
-        let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
         let fileName = sourceFileName
         let patternedData = Data([0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22])
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
@@ -439,5 +419,23 @@ class DownloadObjectIntegTests: XCTestCase {
 
         fileHandle.closeFile()
         return fileURL
+    }
+}
+
+private enum LargeDownloadObjectTestFileSize {
+    case gb5, gb15
+
+    var bytes: Int {
+        switch self {
+            case .gb5: return 5 * 1024 * 1024 * 1024
+            case .gb15: return 15 * 1024 * 1024 * 1024
+        }
+    }
+
+    var s3ObjectKey: String {
+        switch self {
+            case .gb5: return "MPU-5GB"
+            case .gb15: return "MPU-15GB"
+        }
     }
 }

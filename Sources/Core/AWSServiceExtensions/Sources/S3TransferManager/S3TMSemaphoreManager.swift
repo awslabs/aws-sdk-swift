@@ -20,7 +20,7 @@ internal actor S3TMSemaphoreManager {
     }
 
     // Optimizations & configurability for elaborate concurrent task limit are additive work.
-    private enum Device {
+    internal enum Device {
         static let maxConcurrentTasksPerBucket: Int = {
             #if os(macOS) || os(Linux)
                 return 6 // Default maximum connections per host for URLSession.
