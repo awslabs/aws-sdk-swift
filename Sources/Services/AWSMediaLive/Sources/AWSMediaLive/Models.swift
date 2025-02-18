@@ -5394,6 +5394,7 @@ extension MediaLiveClientTypes {
         case medialiveMultiplex
         case mediapackageChannel
         case mediapackageOriginEndpoint
+        case mediatailorPlaybackConfiguration
         case s3Bucket
         case sdkUnknown(Swift.String)
 
@@ -5406,6 +5407,7 @@ extension MediaLiveClientTypes {
                 .medialiveMultiplex,
                 .mediapackageChannel,
                 .mediapackageOriginEndpoint,
+                .mediatailorPlaybackConfiguration,
                 .s3Bucket
             ]
         }
@@ -5424,6 +5426,7 @@ extension MediaLiveClientTypes {
             case .medialiveMultiplex: return "MEDIALIVE_MULTIPLEX"
             case .mediapackageChannel: return "MEDIAPACKAGE_CHANNEL"
             case .mediapackageOriginEndpoint: return "MEDIAPACKAGE_ORIGIN_ENDPOINT"
+            case .mediatailorPlaybackConfiguration: return "MEDIATAILOR_PLAYBACK_CONFIGURATION"
             case .s3Bucket: return "S3_BUCKET"
             case let .sdkUnknown(s): return s
             }
@@ -5680,7 +5683,7 @@ extension MediaLiveClientTypes {
         public var id: Swift.String?
         /// The name that you specified for the ChannelPlacementGroup.
         public var name: Swift.String?
-        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
         public var nodes: [Swift.String]?
         /// The current state of the ChannelPlacementGroup.
         public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -19593,7 +19596,7 @@ public struct CreateChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -21157,7 +21160,7 @@ public struct DeleteChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -21842,7 +21845,7 @@ public struct DescribeChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -24295,17 +24298,13 @@ public struct StartMonitorDeploymentInput: Swift.Sendable {
     /// A signal map's identifier. Can be either be its id or current name.
     /// This member is required.
     public var identifier: Swift.String?
-    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
-    public var requestId: Swift.String?
 
     public init(
         dryRun: Swift.Bool? = nil,
-        identifier: Swift.String? = nil,
-        requestId: Swift.String? = nil
+        identifier: Swift.String? = nil
     ) {
         self.dryRun = dryRun
         self.identifier = identifier
-        self.requestId = requestId
     }
 }
 
@@ -24944,7 +24943,7 @@ public struct UpdateChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -27753,7 +27752,6 @@ extension StartMonitorDeploymentInput {
     static func write(value: StartMonitorDeploymentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["dryRun"].write(value.dryRun)
-        try writer["requestId"].write(value.requestId)
     }
 }
 

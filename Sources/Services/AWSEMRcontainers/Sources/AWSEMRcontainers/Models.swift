@@ -30,6 +30,35 @@ import struct Smithy.URIQueryItem
 
 extension EMRcontainersClientTypes {
 
+    public enum AllowAWSToRetainLogs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllowAWSToRetainLogs] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EMRcontainersClientTypes {
+
     public enum CertificateProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pem
         case sdkUnknown(Swift.String)
@@ -512,6 +541,25 @@ extension EMRcontainersClientTypes {
 
 extension EMRcontainersClientTypes {
 
+    /// The entity that provides configuration control over managed logs.
+    public struct ManagedLogs: Swift.Sendable {
+        /// Determines whether Amazon Web Services can retain logs.
+        public var allowAWSToRetainLogs: EMRcontainersClientTypes.AllowAWSToRetainLogs?
+        /// The Amazon resource name (ARN) of the encryption key for logs.
+        public var encryptionKeyArn: Swift.String?
+
+        public init(
+            allowAWSToRetainLogs: EMRcontainersClientTypes.AllowAWSToRetainLogs? = nil,
+            encryptionKeyArn: Swift.String? = nil
+        ) {
+            self.allowAWSToRetainLogs = allowAWSToRetainLogs
+            self.encryptionKeyArn = encryptionKeyArn
+        }
+    }
+}
+
+extension EMRcontainersClientTypes {
+
     public enum PersistentAppUI: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -563,6 +611,8 @@ extension EMRcontainersClientTypes {
         public var cloudWatchMonitoringConfiguration: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration?
         /// Enable or disable container log rotation.
         public var containerLogRotationConfiguration: EMRcontainersClientTypes.ContainerLogRotationConfiguration?
+        /// The entity that controls configuration for managed logs.
+        public var managedLogs: EMRcontainersClientTypes.ManagedLogs?
         /// Monitoring configurations for the persistent application UI.
         public var persistentAppUI: EMRcontainersClientTypes.PersistentAppUI?
         /// Amazon S3 configuration for monitoring log publishing.
@@ -571,11 +621,13 @@ extension EMRcontainersClientTypes {
         public init(
             cloudWatchMonitoringConfiguration: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration? = nil,
             containerLogRotationConfiguration: EMRcontainersClientTypes.ContainerLogRotationConfiguration? = nil,
+            managedLogs: EMRcontainersClientTypes.ManagedLogs? = nil,
             persistentAppUI: EMRcontainersClientTypes.PersistentAppUI? = nil,
             s3MonitoringConfiguration: EMRcontainersClientTypes.S3MonitoringConfiguration? = nil
         ) {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
             self.containerLogRotationConfiguration = containerLogRotationConfiguration
+            self.managedLogs = managedLogs
             self.persistentAppUI = persistentAppUI
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }
@@ -3498,6 +3550,7 @@ extension EMRcontainersClientTypes.MonitoringConfiguration {
         guard let value else { return }
         try writer["cloudWatchMonitoringConfiguration"].write(value.cloudWatchMonitoringConfiguration, with: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration.write(value:to:))
         try writer["containerLogRotationConfiguration"].write(value.containerLogRotationConfiguration, with: EMRcontainersClientTypes.ContainerLogRotationConfiguration.write(value:to:))
+        try writer["managedLogs"].write(value.managedLogs, with: EMRcontainersClientTypes.ManagedLogs.write(value:to:))
         try writer["persistentAppUI"].write(value.persistentAppUI)
         try writer["s3MonitoringConfiguration"].write(value.s3MonitoringConfiguration, with: EMRcontainersClientTypes.S3MonitoringConfiguration.write(value:to:))
     }
@@ -3505,6 +3558,7 @@ extension EMRcontainersClientTypes.MonitoringConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.MonitoringConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.MonitoringConfiguration()
+        value.managedLogs = try reader["managedLogs"].readIfPresent(with: EMRcontainersClientTypes.ManagedLogs.read(from:))
         value.persistentAppUI = try reader["persistentAppUI"].readIfPresent()
         value.cloudWatchMonitoringConfiguration = try reader["cloudWatchMonitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration.read(from:))
         value.s3MonitoringConfiguration = try reader["s3MonitoringConfiguration"].readIfPresent(with: EMRcontainersClientTypes.S3MonitoringConfiguration.read(from:))
@@ -3558,6 +3612,23 @@ extension EMRcontainersClientTypes.CloudWatchMonitoringConfiguration {
         var value = EMRcontainersClientTypes.CloudWatchMonitoringConfiguration()
         value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
         value.logStreamNamePrefix = try reader["logStreamNamePrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRcontainersClientTypes.ManagedLogs {
+
+    static func write(value: EMRcontainersClientTypes.ManagedLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowAWSToRetainLogs"].write(value.allowAWSToRetainLogs)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.ManagedLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRcontainersClientTypes.ManagedLogs()
+        value.allowAWSToRetainLogs = try reader["allowAWSToRetainLogs"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         return value
     }
 }

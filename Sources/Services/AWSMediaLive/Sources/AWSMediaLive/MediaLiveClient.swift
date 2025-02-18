@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaLiveClient: ClientRuntime.Client {
     public static let clientName = "MediaLiveClient"
-    public static let version = "1.2.20"
+    public static let version = "1.2.21"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaLiveClient.MediaLiveClientConfiguration
     let serviceName = "MediaLive"
@@ -7426,7 +7426,6 @@ extension MediaLiveClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(keyPath: \.requestId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(StartMonitorDeploymentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(contentType: "application/json"))
