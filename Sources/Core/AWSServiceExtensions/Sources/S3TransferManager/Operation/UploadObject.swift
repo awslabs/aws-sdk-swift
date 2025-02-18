@@ -6,6 +6,7 @@
 //
 
 import AWSS3
+import class Foundation.DispatchSemaphore
 import enum Smithy.ByteStream
 import func CoreFoundation.autoreleasepool
 import struct Foundation.Data
@@ -30,18 +31,31 @@ public extension S3TransferManager {
             )
 
             let s3 = config.s3Client
+            let semaphore = await semaphoreManager.getSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
 
             // If payload is below threshold, just do a single putObject.
             if payloadSize < config.multipartUploadThresholdBytes {
-                let putObjectOutput = try await s3.putObject(input: input.putObjectInput)
-                logger.debug(
-                    "Successfully uploaded the object with key \"\(input.putObjectInput.key!)\" using a single PutObject."
-                )
-                return UploadObjectOutput(putObjectOutput: putObjectOutput)
+                await wait(semaphore)
+                do {
+                    let putObjectOutput = try await s3.putObject(input: input.putObjectInput)
+                    await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
+                    logger.debug(
+                        "Successfully uploaded the object with key \"\(input.putObjectInput.key!)\" using a single PutObject."
+                    )
+                    return UploadObjectOutput(putObjectOutput: putObjectOutput)
+                } catch {
+                    await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
+                    throw error
+                }
             }
 
             // Otherwise, use MPU.
-            let (uploadID, numParts, partSize) = try await prepareMPU(s3: s3, payloadSize: payloadSize, input: input)
+            let (uploadID, numParts, partSize) = try await prepareMPU(
+                s3: s3,
+                payloadSize: payloadSize,
+                input: input,
+                semaphore: semaphore
+            )
             logger.debug("Successfully created MPU with the upload ID: \"\(uploadID)\".")
 
             // Concurrently upload all the parts.
@@ -53,7 +67,8 @@ public extension S3TransferManager {
                     uploadID: uploadID,
                     numParts: numParts,
                     partSize: partSize,
-                    payloadSize: payloadSize
+                    payloadSize: payloadSize,
+                    semaphore: semaphore
                 )
 
                 let completeMPUOutput = try await completeMPU(
@@ -61,12 +76,29 @@ public extension S3TransferManager {
                     input: input,
                     uploadID: uploadID,
                     completedParts: completedParts,
-                    payloadSize: payloadSize
+                    payloadSize: payloadSize,
+                    semaphore: semaphore
                 )
 
                 return UploadObjectOutput(completeMultipartUploadOutput: completeMPUOutput)
             } catch let originalError {
-                try await abortMPU(s3: s3, input: input, uploadID: uploadID, originalError: originalError)
+                do {
+                    try await abortMPU(
+                        s3: s3,
+                        input: input,
+                        uploadID: uploadID,
+                        originalError: originalError,
+                        semaphore: semaphore
+                    )
+                } catch {
+                    // Failed to abort MPU; it's the end of the uploadObject operation.
+                    // Release semaphore instance & throw error back up.
+                    await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
+                    throw error
+                }
+                // Aborted MPU successfully; it's the end of the uploadObject operation.
+                // Release sempahore instance & throw the originla error back up.
+                await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
                 throw originalError
             }
         }
@@ -90,7 +122,8 @@ public extension S3TransferManager {
     private func prepareMPU(
         s3: S3Client,
         payloadSize: Int,
-        input: UploadObjectInput
+        input: UploadObjectInput,
+        semaphore: DispatchSemaphore
     ) async throws -> (uploadID: String, numParts: Int, partSize: Int) {
         // Determine part size. Division by 10,000 is bc MPU supports 10,000 parts maximum.
         let partSize = max(config.targetPartSizeBytes, payloadSize/10000)
@@ -98,13 +131,27 @@ public extension S3TransferManager {
         let numParts = (payloadSize / partSize) + (payloadSize % partSize == 0 ? 0 : 1)
 
         let createMPUInput = input.getCreateMultipartUploadInput()
-        let createMPUOutput = try await s3.createMultipartUpload(input: createMPUInput)
 
-        // Upload ID for the MPU is used throughout the MPU process.
-        guard let uploadID = createMPUOutput.uploadId else {
+        await wait(semaphore)
+        do {
+            let createMPUOutput = try await s3.createMultipartUpload(input: createMPUInput)
+            semaphore.signal()
+            // Upload ID for the MPU is used throughout the MPU process.
+            guard let uploadID = createMPUOutput.uploadId else {
+                throw S3TMUploadObjectError.failedToCreateMPU
+            }
+            return (uploadID, numParts, partSize)
+        } catch S3TMUploadObjectError.failedToCreateMPU {
+            // Missing Upload ID in successful response = end of uploadObject operation.
+            // Release semaphore instance & bubble up the error.
+            await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
             throw S3TMUploadObjectError.failedToCreateMPU
+        } catch {
+            // Failure to create MPU = end of uploadObject operation.
+            // Signal & release semaphore instance, and bubble up the error.
+            await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
+            throw error
         }
-        return (uploadID, numParts, partSize)
     }
 
     // Returns completed parts used to complete MPU.
@@ -114,7 +161,8 @@ public extension S3TransferManager {
         uploadID: String,
         numParts: Int,
         partSize: Int,
-        payloadSize: Int
+        payloadSize: Int,
+        semaphore: DispatchSemaphore
     ) async throws -> [S3ClientTypes.CompletedPart] {
         return try await withThrowingTaskGroup(
             // Child task returns a completed part that contains S3's checksum & part number.
@@ -122,30 +170,27 @@ public extension S3TransferManager {
             // Task group returns completed parts sorted by part number.
             returning: [S3ClientTypes.CompletedPart].self
         ) { group in
-            // Get semaphore for bucket using SemaphoreManager.
-            let semaphore = await semaphoreManager.getSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
             for partNumber in 1...numParts {
                 // Wait & acquire semaphore before reading part data & adding a new uploadPart task for it.
                 await wait(semaphore)
+                do {
+                    // Using async autorelease to read and return part data ensures temporary things that were created to
+                    //   read the part data gets released as expected.
+                    let partData = try await autoreleasepoolAsync {
+                        let partOffset = (partNumber - 1) * partSize
+                        // Either take full part size or remainder (only for last part).
+                        let resolvedPartSize = min(partSize, payloadSize - partOffset)
+                        return try await self.readPartData(
+                            input: input,
+                            partSize: resolvedPartSize,
+                            partOffset: partOffset
+                        )
+                    }
 
-                // Using async autorelease to read and return part data ensures temporary things that were created to
-                //   read the part data gets released as expected.
-                let partData = try await autoreleasepoolAsync {
-                    let partOffset = (partNumber - 1) * partSize
-                    // Either take full part size or remainder (only for last part).
-                    let resolvedPartSize = min(partSize, payloadSize - partOffset)
-                    return try await self.readPartData(
-                        input: input,
-                        partSize: resolvedPartSize,
-                        partOffset: partOffset
-                    )
-                }
-
-                try Task.checkCancellation()
-                group.addTask {
-                    do {
+                    try Task.checkCancellation()
+                    group.addTask {
                         defer {
-                            // Free semaphore task was using before returning.
+                            // Free semaphore the child task was using, before returning.
                             semaphore.signal()
                         }
 
@@ -167,11 +212,14 @@ public extension S3TransferManager {
                             eTag: uploadPartOutput.eTag,
                             partNumber: partNumber
                         )
-                    } catch {
-                        // Release semaphore usage.
-                        await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
-                        throw error
                     }
+                } catch {
+                    // This is only reached if error is thrown before child task could be added.
+                    // I.e., failed to read part, or task was cancelled.
+                    // Signal and throw error up.
+                    // Releasing semaphore instance is handled by catch block in uploadObject().
+                    semaphore.signal()
+                    throw error
                 }
             }
 
@@ -207,29 +255,48 @@ public extension S3TransferManager {
         input: UploadObjectInput,
         uploadID: String,
         completedParts: [S3ClientTypes.CompletedPart],
-        payloadSize: Int
+        payloadSize: Int,
+        semaphore: DispatchSemaphore
     ) async throws -> CompleteMultipartUploadOutput {
-        try Task.checkCancellation()
         let completeMPUInput = input.getCompleteMultipartUploadInput(
             multipartUpload: S3ClientTypes.CompletedMultipartUpload(parts: completedParts),
             uploadID: uploadID,
             mpuObjectSize: payloadSize
         )
-        let completeMPUOutput = try await s3.completeMultipartUpload(input: completeMPUInput)
-        logger.debug("Successfully completed MPU with uploadID: \"\(uploadID)\".")
-        return completeMPUOutput
+        await wait(semaphore)
+        do {
+            let completeMPUOutput = try await s3.completeMultipartUpload(input: completeMPUInput)
+            // MPU completed successfully; it's the end of the uploadObject operation.
+            // Signal and release semaphore instance.
+            await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
+            logger.debug("Successfully completed MPU with uploadID: \"\(uploadID)\".")
+            return completeMPUOutput
+        } catch {
+            // If failed to complete MPU, signal semaphore used & throw error back up.
+            // Releasing semaphore instance is handled by catch block in uploadObject().
+            semaphore.signal()
+            throw error
+        }
     }
 
     private func abortMPU(
         s3: S3Client,
         input: UploadObjectInput,
         uploadID: String,
-        originalError: Error
+        originalError: Error,
+        semaphore: DispatchSemaphore
     ) async throws {
+        await wait(semaphore)
         do {
             _ = try await s3.abortMultipartUpload(input: input.getAbortMultipartUploadInput(uploadID: uploadID))
+            // MPU aborted successfully; it's the end of the uploadObject operation.
+            // Signal and release semaphore instance.
+            await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
             logger.debug("Successfully aborted MPU with the uploadID: \"\(uploadID)\".")
         } catch let abortError {
+            // If failed to abort MPU, signal semaphore used & throw error back up.
+            // Releasing semaphore instance is handled by catch block in uploadObject().
+            semaphore.signal()
             logger.debug("Failed to abort MPU with the uploadID: \"\(uploadID)\".")
             throw S3TMUploadObjectError.failedToAbortMPU(
                 errorFromMPUOperation: originalError,
@@ -253,6 +320,11 @@ public extension S3TransferManager {
                 }
             }
         }
+    }
+
+    private func signalAndReleaseSemaphore(_ semaphore: DispatchSemaphore, _ bucketName: String) async {
+        semaphore.signal()
+        await self.semaphoreManager.releaseSemaphoreInstance(forBucket: bucketName)
     }
 }
 
