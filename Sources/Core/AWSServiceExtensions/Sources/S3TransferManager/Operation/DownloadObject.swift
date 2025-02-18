@@ -182,7 +182,6 @@ public extension S3TransferManager {
             var results: [(partNumber: Int, byteStream: ByteStream)] = []
 
             for partNumber in 2...partsCount {
-                let temp = semaphore.debugDescription
                 await self.wait(semaphore)
                 try Task.checkCancellation()
                 group.addTask {
