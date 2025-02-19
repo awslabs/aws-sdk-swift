@@ -145,6 +145,11 @@ class DownloadBucketIntegTests: XCTestCase {
         )
     }
 
+    override func tearDown() async throws {
+        // Delete all files in the temporary destination directory of the test case.
+        try FileManager.default.removeItem(at: temporaryDestinationDirectoryURL)
+    }
+
     // MARK: - downloadBucket tests.
 
     /*
@@ -161,37 +166,79 @@ class DownloadBucketIntegTests: XCTestCase {
             |- a.txt
      */
 
-    /* FIXME: - TEMPORARY NOTES
-        Test steps:
-            - Each test case needs its own temporary destination directory.
-            - Each test case uses shared TM instance to download bucket to its temp dest dir.
-            - Then, each test case can pass expected path strings to validation helper function
-                that checks all expected files have been fetched successfully.
-
-        instance tearDown()
-            - Delete all files in the temporary dest dir.
-
-        Tests:
-            - 1 downloads from regular bucket with default setting; dest should match source structure
-            - 1 downloads from custom bucket with the same custom setting; dest should match source structure
-            - 1 downloads from custom bucket with default setting; dest should be flat list of files
-     */
-
     func testDownloadBucket_BucketWithRegularKeys_DefaultSetting() async throws {
-        // WIP
+        _ = try await tm.downloadBucket(input: DownloadBucketInput(
+            bucket: bucketWithRegularKeys,
+            destination: temporaryDestinationDirectoryURL
+        )).value
+        try validateBucketDownload(expectedFileURLs: [
+            temporaryDestinationDirectoryURL.appendingPathComponent("a.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("nested/nested2/nested3_1/b.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("nested/nested2/nested3_2/c.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("nested/nested2/nested3_2/d.txt")
+        ])
     }
 
     func testDownloadBucket_BucketWithCustomKeys_MatchingCustomSetting() async throws {
-        // WIP
+        _ = try await tm.downloadBucket(input: DownloadBucketInput(
+            bucket: bucketWithCustomKeys,
+            destination: temporaryDestinationDirectoryURL,
+            s3Prefix: "pre",
+            s3Delimiter: "-"
+        )).value
+        try validateBucketDownload(expectedFileURLs: [
+            // Original file structure is expected since matching operation settings to custom key values
+            //  allows preprocessing retrieved key values to original structure.
+            temporaryDestinationDirectoryURL.appendingPathComponent("a.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("nested/nested2/nested3_1/b.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("nested/nested2/nested3_2/c.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("nested/nested2/nested3_2/d.txt")
+        ])
     }
 
     func testDownloadBucket_BucketWithCustomKeys_DefaultSetting() async throws {
-        // WIP
+        _ = try await tm.downloadBucket(input: DownloadBucketInput(
+            bucket: bucketWithCustomKeys,
+            destination: temporaryDestinationDirectoryURL
+        )).value
+        try validateBucketDownload(expectedFileURLs: [
+            // Flat list of files is expected since we didn't match operation settings to custom key values.
+            temporaryDestinationDirectoryURL.appendingPathComponent("pre-a.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("pre-nested-nested2-nested3_1-b.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("pre-nested-nested2-nested3_2-c.txt"),
+            temporaryDestinationDirectoryURL.appendingPathComponent("pre-nested-nested2-nested3_2-d.txt")
+        ])
     }
 
     // MARK: - Helper functions.
 
-    private func validateBucketDownload(paths: [String]) {
-        // WIP
+    // Assert on count of & absolute strings of file URLs.
+    private func validateBucketDownload(expectedFileURLs: [URL]) throws {
+        let actualFileURLs = try getNestedFileURLs()
+        XCTAssertEqual(actualFileURLs.count, expectedFileURLs.count)
+        let actualFileURLAbsoluteStrings: Set = Set(actualFileURLs.map { $0.absoluteString })
+        let expectedFileURLAbsoluteStrings: Set = Set(expectedFileURLs.map {
+            // Required to turn var/ symlink to private/var/.
+            let symlinkResolvedURL = $0.resolvingSymlinksInPath()
+            return symlinkResolvedURL.absoluteString
+        })
+        XCTAssertEqual(actualFileURLAbsoluteStrings, expectedFileURLAbsoluteStrings)
+    }
+
+    // Fetch all file URLs nested under temporary destination directory.
+    // Gauranteed to have only regular files and regular directories, so we can just use the built-in enumerator.
+    private func getNestedFileURLs() throws -> [URL] {
+        var nestedFileURLs: [URL] = []
+        let enumerator = FileManager.default.enumerator(
+            at: temporaryDestinationDirectoryURL,
+            includingPropertiesForKeys: [.isRegularFileKey]
+        )
+        for case let fileURL as URL in enumerator! {
+            let resourceValues = try fileURL.resourceValues(forKeys: [.isRegularFileKey])
+            if resourceValues.isRegularFile == true {
+                nestedFileURLs.append(fileURL)
+            }
+        }
+        return nestedFileURLs
     }
 }
