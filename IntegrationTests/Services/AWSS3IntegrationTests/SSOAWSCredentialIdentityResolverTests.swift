@@ -116,7 +116,7 @@ class SSOAWSCredentialIdentityResolverTests : XCTestCase {
         let ssoAWSCredentialIdentityResolver = try SSOAWSCredentialIdentityResolver()
 
         // Setup S3ClientConfiguration to use SSOAWSCredentialIdentityResolver
-        let testConfig = try await S3Client.S3ClientConfiguration()
+        var testConfig = try await S3Client.S3ClientConfiguration()
         testConfig.awsCredentialIdentityResolver = ssoAWSCredentialIdentityResolver
         testConfig.region = region
 

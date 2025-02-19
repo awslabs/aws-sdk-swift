@@ -57,23 +57,21 @@ class AuthSchemePlugin(
             }
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$N) throws {",
+                "public func configureClient(clientConfiguration: inout \$L) throws {",
                 "}",
-                ClientRuntimeTypes.Core.ClientConfiguration,
+                serviceConfig.typeName,
             ) {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
-                    writer.openBlock("if (self.authSchemes != nil) {", "}") {
-                        writer.write("config.authSchemes = self.authSchemes")
-                    }
-                    writer.openBlock("if (self.authSchemeResolver != nil) {", "}") {
-                        writer.write("config.authSchemeResolver = self.authSchemeResolver!")
-                    }
-                    writer.openBlock("if (self.awsCredentialIdentityResolver != nil) {", "}") {
-                        writer.write("config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
-                    }
-                    writer.openBlock("if (self.bearerTokenIdentityResolver != nil) {", "}") {
-                        writer.write("config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
-                    }
+                writer.openBlock("if self.authSchemes != nil {", "}") {
+                    writer.write("clientConfiguration.authSchemes = self.authSchemes")
+                }
+                writer.openBlock("if self.authSchemeResolver != nil {", "}") {
+                    writer.write("clientConfiguration.authSchemeResolver = self.authSchemeResolver!")
+                }
+                writer.openBlock("if self.awsCredentialIdentityResolver != nil {", "}") {
+                    writer.write("clientConfiguration.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
+                }
+                writer.openBlock("if self.bearerTokenIdentityResolver != nil {", "}") {
+                    writer.write("clientConfiguration.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
                 }
             }
         }
