@@ -29,7 +29,7 @@ class UploadObjectIntegTests: XCTestCase {
                 ))
                 tmSetupExpectation.fulfill()
             } catch {
-                XCTFail("Failed to set up S3 Transfer Manager: \(error)")
+                fatalError("Failed to set up S3 Transfer Manager: \(error)")
             }
         }
 
@@ -46,7 +46,7 @@ class UploadObjectIntegTests: XCTestCase {
                 ))
                 bucketSetupExpectation.fulfill()
             } catch {
-                XCTFail("Failed to setup S3 bucket: \(error)")
+                fatalError("Failed to setup S3 bucket: \(error)")
             }
         }
 
@@ -62,7 +62,7 @@ class UploadObjectIntegTests: XCTestCase {
                 _ = try await emptyBucket()
                 _ = try await deleteBucket(bucketName: bucketName)
             } catch {
-                XCTFail("Failed to teardown S3 bucket: \(error)")
+                fatalError("Failed to teardown S3 bucket: \(error)")
             }
         }
 

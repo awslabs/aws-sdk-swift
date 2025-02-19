@@ -65,7 +65,7 @@ class DownloadObjectIntegTests: XCTestCase {
 
                     bucketSetupExpectation.fulfill()
                 } catch {
-                    XCTFail("Failed to setup S3 bucket: \(error)")
+                    fatalError("Failed to setup S3 bucket: \(error)")
                 }
             }
         }
@@ -101,13 +101,6 @@ class DownloadObjectIntegTests: XCTestCase {
         After download is complete, assert that returned data matches expected data.
 
         Note: Objects uploaded with a single PutObject has only 1 part, and using `partNumber` 1 with getObject behaves the same as if retrieving the entire object without specifying the `partNumber` in the input.
-     */
-
-    /*
-     TODO: -
-     Expected changes to DownloadObject:
-         - Add limit on number of child tasks similar to UploadObject using SemaphoreManager, like in UploadObject.
-         - Possible memory leak like with readPartData in UploadObject; monitor debugging navigator.
      */
 
     // MARK: - downloadObject tests for object originally uploaded using MPU.

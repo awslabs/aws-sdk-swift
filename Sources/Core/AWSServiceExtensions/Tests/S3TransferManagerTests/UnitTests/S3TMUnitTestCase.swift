@@ -20,7 +20,7 @@ class S3TMUnitTestCase: XCTestCase {
                 tm = try await S3TransferManager()
                 expectation.fulfill()
             } catch {
-                XCTFail("Failed to set up S3 Transfer Manager: \(error)")
+                fatalError("Failed to set up S3 Transfer Manager: \(error)")
             }
         }
         _ = XCTWaiter().wait(for: [expectation], timeout: 5)

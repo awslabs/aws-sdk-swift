@@ -31,7 +31,7 @@ class UploadDirectoryIntegTests: XCTestCase {
                 ))
                 tmSetupExpectation.fulfill()
             } catch {
-                XCTFail("Failed to set up S3 Transfer Manager: \(error)")
+                fatalError("Failed to set up S3 Transfer Manager: \(error)")
             }
         }
         _ = XCTWaiter().wait(for: [tmSetupExpectation], timeout: 10)
@@ -87,6 +87,25 @@ class UploadDirectoryIntegTests: XCTestCase {
     }
 
     // MARK: - uploadDirectory tests.
+
+    /*
+         The following file structure under Resources/UploadDirectoryTestsResources/ is used by the tests below.
+
+         |- source/
+            |- nested/
+                |- nested2/
+                    |- d.txt
+                |- b.txt
+            |- a.txt
+            |- symlinkToFileF
+            |- symlinkToOutsideSourceDir
+            |- symlinkToSourceDir
+         |- outsideSource/
+            |- c.txt
+            |- e.txt
+            |- symlinkToOutsideSourceDir
+         |- f.txt
+     */
 
     func testUploadDirectory() async throws {
         try await runUploadDirectoryTest(
