@@ -14,6 +14,8 @@ class UploadIntegTestCase: XCTestCase {
     static var s3: S3Client! // The shared S3 client for tests.
     static let region = "us-west-2"
 
+    // This partial UUID must be suffixed to the overridden bucketName in child classes.
+    static let bucketNamePartialUUID = UUID().uuidString.split(separator: "-").first!.lowercased()
     // UploadIntegTestCase property that must be overridden with specific name.
     class var bucketName: String {
         fatalError("Must be implemented by child class")
