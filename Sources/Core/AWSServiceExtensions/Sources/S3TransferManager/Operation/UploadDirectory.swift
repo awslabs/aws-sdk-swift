@@ -213,17 +213,10 @@ public extension S3TransferManager {
             resolvedPrefix = providedPrefix + (providedPrefix.hasSuffix(input.s3Delimiter) ? "" : input.s3Delimiter)
         }
         // Step 3: retrieve the relative path of the file URL.
-        // Get canonical path of file URL & dir URL; remove canonical path of dir URL from file URL to get relative path.
-        let dirCanonicalPath = try dir.resourceValues(forKeys: [.canonicalPathKey]).canonicalPath
-        let fileCanonicalPath = try url.resourceValues(forKeys: [.canonicalPathKey]).canonicalPath
-        guard let dirCanonicalPath else {
-            throw S3TMUploadDirectoryError.FailedToGetCanonicalPathForURL(url: dir)
-        }
-        guard let fileCanonicalPath else {
-            throw S3TMUploadDirectoryError.FailedToGetCanonicalPathForURL(url: url)
-        }
-        var relativePath = fileCanonicalPath.removePrefix(dirCanonicalPath)
-        if relativePath.hasPrefix("/") { relativePath = relativePath.removePrefix("/") }
+        // Get absolute string of file URL & dir URL; remove dir URL prefix from file URL to get relative path.
+        let dirAbsoluteString = dir.absoluteString
+        let fileAbsoluteString = url.absoluteString
+        var relativePath = fileAbsoluteString.removePrefix(dirAbsoluteString)
         // Step 4: if the s3Delimiter isn't the system default file separator, replace default with the s3Delimiter in the relative path from step 3.
         if (input.s3Delimiter != defaultPathSeparator()) {
             relativePath = relativePath.replacingOccurrences(of: defaultPathSeparator(), with: input.s3Delimiter)
@@ -236,7 +229,6 @@ public extension S3TransferManager {
 /// A non-exhausive list of errors that can be thrown by the UploadDirectory operation of S3 Transfer Manager.
 public enum S3TMUploadDirectoryError: Error {
     case InvalidSourceURL(String)
-    case FailedToGetCanonicalPathForURL(url: URL)
     case FailedToUploadAnObject(originalErrorFromUploadObject: Error, failedUploadObjectInput: UploadObjectInput)
     case InvalidFileName(String)
 }
