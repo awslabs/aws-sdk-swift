@@ -1147,6 +1147,16 @@ extension SageMakerClientTypes {
         case mlR7i8xlarge
         case mlR7iLarge
         case mlR7iXlarge
+        case mlR8g12xlarge
+        case mlR8g16xlarge
+        case mlR8g24xlarge
+        case mlR8g2xlarge
+        case mlR8g48xlarge
+        case mlR8g4xlarge
+        case mlR8g8xlarge
+        case mlR8gLarge
+        case mlR8gMedium
+        case mlR8gXlarge
         case mlT22xlarge
         case mlT2Large
         case mlT2Medium
@@ -1365,6 +1375,16 @@ extension SageMakerClientTypes {
                 .mlR7i8xlarge,
                 .mlR7iLarge,
                 .mlR7iXlarge,
+                .mlR8g12xlarge,
+                .mlR8g16xlarge,
+                .mlR8g24xlarge,
+                .mlR8g2xlarge,
+                .mlR8g48xlarge,
+                .mlR8g4xlarge,
+                .mlR8g8xlarge,
+                .mlR8gLarge,
+                .mlR8gMedium,
+                .mlR8gXlarge,
                 .mlT22xlarge,
                 .mlT2Large,
                 .mlT2Medium,
@@ -1589,6 +1609,16 @@ extension SageMakerClientTypes {
             case .mlR7i8xlarge: return "ml.r7i.8xlarge"
             case .mlR7iLarge: return "ml.r7i.large"
             case .mlR7iXlarge: return "ml.r7i.xlarge"
+            case .mlR8g12xlarge: return "ml.r8g.12xlarge"
+            case .mlR8g16xlarge: return "ml.r8g.16xlarge"
+            case .mlR8g24xlarge: return "ml.r8g.24xlarge"
+            case .mlR8g2xlarge: return "ml.r8g.2xlarge"
+            case .mlR8g48xlarge: return "ml.r8g.48xlarge"
+            case .mlR8g4xlarge: return "ml.r8g.4xlarge"
+            case .mlR8g8xlarge: return "ml.r8g.8xlarge"
+            case .mlR8gLarge: return "ml.r8g.large"
+            case .mlR8gMedium: return "ml.r8g.medium"
+            case .mlR8gXlarge: return "ml.r8g.xlarge"
             case .mlT22xlarge: return "ml.t2.2xlarge"
             case .mlT2Large: return "ml.t2.large"
             case .mlT2Medium: return "ml.t2.medium"
@@ -10103,7 +10133,7 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
-        /// The customized VPC configuration at the instance group level that overrides the default VPC configuration of the SageMaker HyperPod cluster.
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The current status of the cluster instance group.
         ///
@@ -10183,7 +10213,20 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
-        /// To configure multi-AZ deployments, customize the VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default VPC configuration. For more information about deploying a cluster in multiple AZs, see [Setting up SageMaker HyperPod clusters across multiple AZs](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-multiple-availability-zones). If you configure your VPC with IPv6 support and specify subnets with IPv6 addressing enabled in your instance group VPC configuration, the nodes automatically use IPv6 addressing for network communication. For information about adding IPv6 support for your VPC, see [IPv6 support for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html). For information about creating a new VPC for use with IPv6, see [Create a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+        /// To configure multi-AZ deployments, customize the Amazon VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default Amazon VPC configuration. For more information about deploying a cluster in multiple AZs, see [Setting up SageMaker HyperPod clusters across multiple AZs](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-multiple-availability-zones). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
+        ///
+        /// * Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.
+        ///
+        /// * In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see [Amazon EKS IPv6 Cluster Deployment](https://docs.aws.amazon.com/eks/latest/userguide/deploy-ipv6-cluster.html#_deploy_an_ipv6_cluster_with_eksctl).
+        ///
+        ///
+        /// Additional resources for IPv6 configuration:
+        ///
+        /// * For information about adding IPv6 support to your VPC, see to [IPv6 Support for VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html).
+        ///
+        /// * For information about creating a new IPv6-compatible VPC, see [Amazon VPC Creation Guide](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+        ///
+        /// * To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
@@ -10314,7 +10357,7 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
-        /// The customized VPC configuration at the instance group level that overrides the default VPC configuration of the SageMaker HyperPod cluster.
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
         public var placement: SageMakerClientTypes.ClusterInstancePlacement?
@@ -10322,7 +10365,7 @@ extension SageMakerClientTypes {
         public var privateDnsHostname: Swift.String?
         /// The private primary IP address of the SageMaker HyperPod cluster node.
         public var privatePrimaryIp: Swift.String?
-        /// The private primary IPv6 address of the SageMaker HyperPod cluster node when configured with an Amazon VPC that supports IPv6 and includes subnets with IPv6 addressing enabled in either the cluster VPC configuration or the instance group VPC configuration.
+        /// The private primary IPv6 address of the SageMaker HyperPod cluster node when configured with an Amazon VPC that supports IPv6 and includes subnets with IPv6 addressing enabled in either the cluster Amazon VPC configuration or the instance group Amazon VPC configuration.
         public var privatePrimaryIpv6: Swift.String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public var threadsPerCore: Swift.Int?
@@ -12723,7 +12766,20 @@ public struct CreateClusterInput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
-    /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see [Give SageMaker access to resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html). If you configure your VPC with IPv6 support and specify subnets with IPv6 addressing enabled in your VPC configuration, the cluster automatically uses IPv6 addressing for network communication. For information about adding IPv6 support for your VPC, see [IPv6 support for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html). For information about creating a new VPC for use with IPv6, see [Create a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+    /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see [Give SageMaker access to resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
+    ///
+    /// * Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.
+    ///
+    /// * In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see [Amazon EKS IPv6 Cluster Deployment](https://docs.aws.amazon.com/eks/latest/userguide/deploy-ipv6-cluster.html#_deploy_an_ipv6_cluster_with_eksctl).
+    ///
+    ///
+    /// Additional resources for IPv6 configuration:
+    ///
+    /// * For information about adding IPv6 support to your VPC, see to [IPv6 Support for VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html).
+    ///
+    /// * For information about creating a new IPv6-compatible VPC, see [Amazon VPC Creation Guide](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+    ///
+    /// * To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
     public init(
@@ -15758,7 +15814,7 @@ extension SageMakerClientTypes {
         ///
         /// * Accelerator: GPU
         ///
-        /// * NVIDIA driver version: 535.54.03
+        /// * NVIDIA driver version: 535
         ///
         /// * CUDA version: 12.2
         ///
@@ -15767,22 +15823,22 @@ extension SageMakerClientTypes {
         ///
         /// * Accelerator: GPU
         ///
-        /// * NVIDIA driver version: 535.54.03
+        /// * NVIDIA driver version: 535
         ///
-        /// * CUDA driver version: 12.2
+        /// * CUDA version: 12.2
         ///
-        /// * CUDA Container Toolkit with disabled CUDA-compat mounting
+        /// * NVIDIA Container Toolkit with disabled CUDA-compat mounting
         ///
         ///
         /// al2-ami-sagemaker-inference-gpu-3-1
         ///
         /// * Accelerator: GPU
         ///
-        /// * NVIDIA driver version: 550.144.01
+        /// * NVIDIA driver version: 550
         ///
         /// * CUDA version: 12.4
         ///
-        /// * Container Toolkit with disabled CUDA-compat mounting
+        /// * NVIDIA Container Toolkit with disabled CUDA-compat mounting
         public var inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public var initialInstanceCount: Swift.Int?
