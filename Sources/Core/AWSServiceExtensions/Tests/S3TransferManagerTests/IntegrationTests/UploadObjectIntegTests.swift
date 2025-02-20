@@ -61,6 +61,7 @@ class UploadObjectIntegTests: XCTestCase {
             do {
                 _ = try await emptyBucket()
                 _ = try await deleteBucket(bucketName: bucketName)
+                bucketTearDownExpectation.fulfill()
             } catch {
                 fatalError("Failed to teardown S3 bucket: \(error)")
             }

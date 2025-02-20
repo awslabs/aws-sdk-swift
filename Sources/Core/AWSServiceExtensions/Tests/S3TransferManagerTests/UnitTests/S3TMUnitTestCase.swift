@@ -14,16 +14,16 @@ class S3TMUnitTestCase: XCTestCase {
 
     // class method setUp() runs only once, rather than for every test.
     override class func setUp() {
-        let expectation = XCTestExpectation(description: "S3 Transfer Manager setup complete")
+        let tmSetupExpectation = XCTestExpectation(description: "S3 Transfer Manager setup complete")
         Task {
             do {
                 tm = try await S3TransferManager()
-                expectation.fulfill()
+                tmSetupExpectation.fulfill()
             } catch {
                 fatalError("Failed to set up S3 Transfer Manager: \(error)")
             }
         }
-        _ = XCTWaiter().wait(for: [expectation], timeout: 5)
+        _ = XCTWaiter().wait(for: [tmSetupExpectation], timeout: 5)
     }
 
     // MARK: - Shared test utility functions.
