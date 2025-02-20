@@ -6,6 +6,7 @@
 //
 
 import AWSS3
+import class Foundation.DispatchQueue
 import class Foundation.DispatchSemaphore
 import struct Foundation.URL
 import struct Smithy.SwiftLogger
@@ -55,9 +56,11 @@ public class S3TransferManager {
 
     // Helper function to make semaphore.wait() async.
     internal func wait(_ semaphore: DispatchSemaphore) async {
-        await withUnsafeContinuation { continuation in
-            semaphore.wait()
-            continuation.resume()
+        await withCheckedContinuation { continuation in
+            DispatchQueue.global().async {  // Run on a separate GCD thread to prevent deadlock.
+                semaphore.wait()
+                continuation.resume()
+            }
         }
     }
 }
