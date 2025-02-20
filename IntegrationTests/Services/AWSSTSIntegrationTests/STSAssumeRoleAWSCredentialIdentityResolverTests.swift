@@ -95,12 +95,12 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
         let traceResults = inMemoryExporter.getFinishedSpanItems()
 
-        // Assert: Check if a span with expected attributes exists
-        let matchingSpan = traceResults.first { span in
-            span.instrumentationScope.name == "STS" && span.name == "STS.GetCallerIdentity"
-        }
-
-        XCTAssertNotNil(matchingSpan, "Expected STS.GetCallerIdentity span not found")
+        XCTAssertTrue(
+            traceResults.contains { span in
+                span.instrumentationScope.name == "STS" && span.name == "STS.GetCallerIdentity"
+            },
+            "Expected STS.GetCallerIdentity span not found"
+        )
     }
 
     // MARK: - Setup & teardown
