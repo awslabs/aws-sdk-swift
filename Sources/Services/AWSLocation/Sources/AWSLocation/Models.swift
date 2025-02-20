@@ -229,6 +229,8 @@ extension LocationClientTypes {
         case missing
         /// The input is invalid but no more specific reason is applicable.
         case other
+        /// No such field is supported.
+        case unknownfield
         /// No such operation is supported.
         case unknownoperation
         case sdkUnknown(Swift.String)
@@ -239,6 +241,7 @@ extension LocationClientTypes {
                 .fieldvalidationfailed,
                 .missing,
                 .other,
+                .unknownfield,
                 .unknownoperation
             ]
         }
@@ -254,6 +257,7 @@ extension LocationClientTypes {
             case .fieldvalidationfailed: return "FieldValidationFailed"
             case .missing: return "Missing"
             case .other: return "Other"
+            case .unknownfield: return "UnknownField"
             case .unknownoperation: return "UnknownOperation"
             case let .sdkUnknown(s): return s
             }

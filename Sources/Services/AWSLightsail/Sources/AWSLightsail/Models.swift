@@ -146,7 +146,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes an access key for an Amazon Lightsail bucket. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html) action to create an access key for a specific bucket. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide. The secretAccessKey value is returned only in response to the CreateBucketAccessKey action. You can get a secret access key only when you first create an access key; you cannot get the secret access key later. If you lose the secret access key, you must create a new access key.
+    /// Describes an access key for an Amazon Lightsail bucket. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html) action to create an access key for a specific bucket. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide. The secretAccessKey value is returned only in response to the CreateBucketAccessKey action. You can get a secret access key only when you first create an access key; you cannot get the secret access key later. If you lose the secret access key, you must create a new access key.
     public struct AccessKey: Swift.Sendable {
         /// The ID of the access key.
         public var accessKeyId: Swift.String?
@@ -230,7 +230,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes the anonymous access permissions for an Amazon Lightsail bucket and its objects. For more information about bucket access permissions, see [Understanding bucket permissions in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-understanding-bucket-permissions) in the Amazon Lightsail Developer Guide.
+    /// Describes the anonymous access permissions for an Amazon Lightsail bucket and its objects. For more information about bucket access permissions, see [Understanding bucket permissions in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-understanding-bucket-permissions) in the Amazon Lightsail Developer Guide.
     public struct AccessRules: Swift.Sendable {
         /// A Boolean value that indicates whether the access control list (ACL) permissions that are applied to individual objects override the getObject option that is currently specified. When this is true, you can use the [PutObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAcl.html) Amazon S3 API action to set individual objects to public (read-only) using the public-read ACL, or to private using the private ACL.
         public var allowPublicOverrides: Swift.Bool?
@@ -323,7 +323,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access (BPA) feature for your Lightsail buckets. The account-level BPA feature of Amazon S3 provides centralized controls to limit public access to all Amazon S3 buckets in an account. BPA can make all Amazon S3 buckets in an Amazon Web Services account private regardless of the individual bucket and object permissions that are configured. Lightsail buckets take into account the Amazon S3 account-level BPA configuration when allowing or denying public access. To do this, Lightsail periodically fetches the account-level BPA configuration from Amazon S3. When the account-level BPA status is InSync, the Amazon S3 account-level BPA configuration is synchronized and it applies to your Lightsail buckets. For more information about Amazon Simple Storage Service account-level BPA and how it affects Lightsail buckets, see [Block public access for buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-block-public-access-for-buckets) in the Amazon Lightsail Developer Guide.
+    /// Describes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access (BPA) feature for your Lightsail buckets. The account-level BPA feature of Amazon S3 provides centralized controls to limit public access to all Amazon S3 buckets in an account. BPA can make all Amazon S3 buckets in an Amazon Web Services account private regardless of the individual bucket and object permissions that are configured. Lightsail buckets take into account the Amazon S3 account-level BPA configuration when allowing or denying public access. To do this, Lightsail periodically fetches the account-level BPA configuration from Amazon S3. When the account-level BPA status is InSync, the Amazon S3 account-level BPA configuration is synchronized and it applies to your Lightsail buckets. For more information about Amazon Simple Storage Service account-level BPA and how it affects Lightsail buckets, see [Block public access for buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-block-public-access-for-buckets) in the Amazon Lightsail Developer Guide.
     public struct AccountLevelBpaSync: Swift.Sendable {
         /// A Boolean value that indicates whether account-level block public access is affecting your Lightsail buckets.
         public var bpaImpactsLightsail: Swift.Bool?
@@ -333,11 +333,11 @@ extension LightsailClientTypes {
         ///
         /// * SYNC_ON_HOLD - The synchronization has not yet happened. This status message occurs immediately after you create your first Lightsail bucket. This status message should change after the first synchronization happens, approximately 1 hour after the first bucket is created.
         ///
-        /// * DEFAULTED_FOR_SLR_MISSING - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. The account-level BPA configuration for your Lightsail buckets is defaulted to active until the synchronization can occur. This means that all your buckets are private and not publicly accessible. For more information about how to create the required service-linked role to allow synchronization, see [Using Service-Linked Roles for Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-using-service-linked-roles) in the Amazon Lightsail Developer Guide.
+        /// * DEFAULTED_FOR_SLR_MISSING - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. The account-level BPA configuration for your Lightsail buckets is defaulted to active until the synchronization can occur. This means that all your buckets are private and not publicly accessible. For more information about how to create the required service-linked role to allow synchronization, see [Using Service-Linked Roles for Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-using-service-linked-roles) in the Amazon Lightsail Developer Guide.
         ///
-        /// * DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see [Using Service-Linked Roles for Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-using-service-linked-roles) in the Amazon Lightsail Developer Guide.
+        /// * DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see [Using Service-Linked Roles for Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-using-service-linked-roles) in the Amazon Lightsail Developer Guide.
         ///
-        /// * Unknown - The reason that synchronization failed is unknown. Contact Amazon Web Services Support for more information.
+        /// * Unknown - The reason that synchronization failed is unknown. Contact Amazon Web ServicesSupport for more information.
         public var message: LightsailClientTypes.BPAStatusMessage?
         /// The status of the account-level BPA synchronization. The following statuses are possible:
         ///
@@ -869,7 +869,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes resource being monitored by an alarm. An alarm is a way to monitor your Amazon Lightsail resource metrics. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+    /// Describes resource being monitored by an alarm. An alarm is a way to monitor your Amazon Lightsail resource metrics. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     public struct MonitoredResourceInfo: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the resource being monitored.
         public var arn: Swift.String?
@@ -1101,7 +1101,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes an alarm. An alarm is a way to monitor your Lightsail resource metrics. For more information, see [Alarms in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+    /// Describes an alarm. An alarm is a way to monitor your Lightsail resource metrics. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     public struct Alarm: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the alarm.
         public var arn: Swift.String?
@@ -2247,7 +2247,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes the access log configuration for a bucket in the Amazon Lightsail object storage service. For more information about bucket access logs, see [Logging bucket requests using access logging in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-bucket-access-logs) in the Amazon Lightsail Developer Guide.
+    /// Describes the access log configuration for a bucket in the Amazon Lightsail object storage service. For more information about bucket access logs, see [Logging bucket requests using access logging in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-bucket-access-logs) in the Amazon Lightsail Developer Guide.
     public struct BucketAccessLogConfig: Swift.Sendable {
         /// The name of the bucket where the access logs are saved. The destination can be a Lightsail bucket in the same account, and in the same Amazon Web Services Region as the source bucket. This parameter is required when enabling the access log for a bucket, and should be omitted when disabling the access log.
         public var destination: Swift.String?
@@ -2294,7 +2294,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+    /// Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
     public struct Tag: Swift.Sendable {
         /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
         public var key: Swift.String?
@@ -2822,7 +2822,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes the creation state of the canonical name (CNAME) records that are automatically added by Amazon Lightsail to the DNS of a domain to validate domain ownership for an SSL/TLS certificate. When you create an SSL/TLS certificate for a Lightsail resource, you must add a set of CNAME records to the DNS of the domains for the certificate to validate that you own the domains. Lightsail can automatically add the CNAME records to the DNS of the domain if the DNS zone for the domain exists within your Lightsail account. If automatic record addition fails, or if you manage the DNS of your domain using a third-party service, then you must manually add the CNAME records to the DNS of your domain. For more information, see [Verify an SSL/TLS certificate in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/verify-tls-ssl-certificate-using-dns-cname-https) in the Amazon Lightsail Developer Guide.
+    /// Describes the creation state of the canonical name (CNAME) records that are automatically added by Amazon Lightsail to the DNS of a domain to validate domain ownership for an SSL/TLS certificate. When you create an SSL/TLS certificate for a Lightsail resource, you must add a set of CNAME records to the DNS of the domains for the certificate to validate that you own the domains. Lightsail can automatically add the CNAME records to the DNS of the domain if the DNS zone for the domain exists within your Lightsail account. If automatic record addition fails, or if you manage the DNS of your domain using a third-party service, then you must manually add the CNAME records to the DNS of your domain. For more information, see [Verify an SSL/TLS certificate in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/verify-tls-ssl-certificate-using-dns-cname-https) in the Amazon Lightsail Developer Guide.
     public struct DnsRecordCreationState: Swift.Sendable {
         /// The status code for the automated DNS record creation. Following are the possible values:
         ///
@@ -3095,7 +3095,7 @@ extension LightsailClientTypes {
         public var subjectAlternativeNames: [Swift.String]?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail certificate. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -3184,7 +3184,7 @@ extension LightsailClientTypes {
         public var certificateName: Swift.String?
         /// The domain name of the certificate.
         public var domainName: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -3510,7 +3510,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes a contact method. A contact method is a way to send you notifications. For more information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+    /// Describes a contact method. A contact method is a way to send you notifications. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     public struct ContactMethod: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the contact method.
         public var arn: Swift.String?
@@ -3847,7 +3847,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes the activation status of the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. When activated, Lightsail creates an Identity and Access Management (IAM) role for the specified Lightsail container service. You can use the ARN of the role to create a trust relationship between your Lightsail container service and an Amazon ECR private repository in your Amazon Web Services account. This allows your container service to pull images from Amazon ECR private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
+    /// Describes the activation status of the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. When activated, Lightsail creates an Identity and Access Management (IAM) role for the specified Lightsail container service. You can use the ARN of the role to create a trust relationship between your Lightsail container service and an Amazon ECR private repository in your Amazon Web Services account. This allows your container service to pull images from Amazon ECR private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
     public struct ContainerServiceECRImagePullerRole: Swift.Sendable {
         /// A Boolean value that indicates whether the role is activated.
         public var isActive: Swift.Bool?
@@ -3866,7 +3866,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes the configuration for an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
+    /// Describes the configuration for an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
     public struct PrivateRegistryAccess: Swift.Sendable {
         /// An object that describes the activation status of the role that you can use to grant a Lightsail container service access to Amazon ECR private repositories. If the role is activated, the Amazon Resource Name (ARN) of the role is also listed.
         public var ecrImagePullerRole: LightsailClientTypes.ContainerServiceECRImagePullerRole?
@@ -4043,7 +4043,7 @@ extension LightsailClientTypes {
         public var principalArn: Swift.String?
         /// The private domain name of the container service. The private domain name is accessible only by other resources within the default virtual private cloud (VPC) of your Lightsail account.
         public var privateDomainName: Swift.String?
-        /// An object that describes the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
+        /// An object that describes the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
         public var privateRegistryAccess: LightsailClientTypes.PrivateRegistryAccess?
         /// The public domain name of the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service. You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service. See CreateContainerService or UpdateContainerService for information about how to specify public domain names for your Lightsail container service.
         public var publicDomainNames: [Swift.String: [Swift.String]]?
@@ -4069,7 +4069,7 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.ContainerServiceState?
         /// An object that describes the current state of the container service. The state detail is populated only when a container service is in a PENDING, DEPLOYING, or UPDATING state.
         public var stateDetail: LightsailClientTypes.ContainerServiceStateDetail?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
         /// The publicly accessible URL of the container service. If no public endpoint is specified in the currentDeployment, this URL returns a 404 response.
         public var url: Swift.String?
@@ -4164,7 +4164,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. When activated, Lightsail creates an Identity and Access Management (IAM) role for the specified Lightsail container service. You can use the ARN of the role to create a trust relationship between your Lightsail container service and an Amazon ECR private repository in your Amazon Web Services account. This allows your container service to pull images from Amazon ECR private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
+    /// Describes a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. When activated, Lightsail creates an Identity and Access Management (IAM) role for the specified Lightsail container service. You can use the ARN of the role to create a trust relationship between your Lightsail container service and an Amazon ECR private repository in your Amazon Web Services account. This allows your container service to pull images from Amazon ECR private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
     public struct ContainerServiceECRImagePullerRoleRequest: Swift.Sendable {
         /// A Boolean value that indicates whether to activate the role.
         public var isActive: Swift.Bool?
@@ -4294,14 +4294,14 @@ public struct CopySnapshotInput: Swift.Sendable {
     ///
     /// * This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+    /// * Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
     public var restoreDate: Swift.String?
     /// The Amazon Web Services Region where the source manual or automatic snapshot is located.
     /// This member is required.
     public var sourceRegion: LightsailClientTypes.RegionName?
     /// The name of the source instance or disk from which the source automatic snapshot was created. Constraint:
     ///
-    /// * Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+    /// * Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
     public var sourceResourceName: Swift.String?
     /// The name of the source manual snapshot to copy. Constraint:
     ///
@@ -4314,7 +4314,7 @@ public struct CopySnapshotInput: Swift.Sendable {
     ///
     /// * This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
+    /// * Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-keeping-automatic-snapshots).
     public var useLatestRestorableAutoSnapshot: Swift.Bool?
 
     public init(
@@ -4479,13 +4479,13 @@ extension LightsailClientTypes {
 }
 
 public struct CreateBucketInput: Swift.Sendable {
-    /// The name for the bucket. For more information about bucket names, see [Bucket naming rules in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/bucket-naming-rules-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
+    /// The name for the bucket. For more information about bucket names, see [Bucket naming rules in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/bucket-naming-rules-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     /// This member is required.
     public var bucketName: Swift.String?
     /// The ID of the bundle to use for the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the [GetBucketBundles](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketBundles.html) action to get a list of bundle IDs that you can specify. Use the [UpdateBucketBundle](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html) action to change the bundle after the bucket is created.
     /// This member is required.
     public var bundleId: Swift.String?
-    /// A Boolean value that indicates whether to enable versioning of objects in the bucket. For more information about versioning, see [Enabling and suspending object versioning in a bucket in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-managing-bucket-object-versioning) in the Amazon Lightsail Developer Guide.
+    /// A Boolean value that indicates whether to enable versioning of objects in the bucket. For more information about versioning, see [Enabling and suspending object versioning in a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-managing-bucket-object-versioning) in the Amazon Lightsail Developer Guide.
     public var enableObjectVersioning: Swift.Bool?
     /// The tag keys and optional values to add to the bucket during creation. Use the [TagResource](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_TagResource.html) action to tag the bucket after it's created.
     public var tags: [LightsailClientTypes.Tag]?
@@ -4708,7 +4708,7 @@ public struct CreateContactMethodInput: Swift.Sendable {
     /// * Asia Pacific (Sydney) (ap-southeast-2)
     ///
     ///
-    /// For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see [Supported Regions and Countries](https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html) in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+    /// For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see [Supported Regions and Countries](https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html) in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     /// This member is required.
     public var `protocol`: LightsailClientTypes.ContactProtocol?
 
@@ -4734,7 +4734,7 @@ public struct CreateContactMethodOutput: Swift.Sendable {
 
 extension LightsailClientTypes {
 
-    /// Describes a request to configure an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
+    /// Describes a request to configure an Amazon Lightsail container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
     public struct PrivateRegistryAccessRequest: Swift.Sendable {
         /// An object to describe a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories.
         public var ecrImagePullerRole: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest?
@@ -4753,7 +4753,7 @@ public struct CreateContainerServiceInput: Swift.Sendable {
     /// The power specification for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
     /// This member is required.
     public var power: LightsailClientTypes.ContainerServicePowerName?
-    /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
+    /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
     public var privateRegistryAccess: LightsailClientTypes.PrivateRegistryAccessRequest?
     /// The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service. You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service. You can specify public domain names using a string to array map as shown in the example later on this page.
     public var publicDomainNames: [Swift.String: [Swift.String]]?
@@ -4771,7 +4771,7 @@ public struct CreateContainerServiceInput: Swift.Sendable {
     /// * A hyphen (-) can separate words but cannot be at the start or end of the name.
     /// This member is required.
     public var serviceName: Swift.String?
-    /// The tag keys and optional values to add to the container service during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+    /// The tag keys and optional values to add to the container service during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
     public var tags: [LightsailClientTypes.Tag]?
 
     public init(
@@ -4911,7 +4911,7 @@ public struct CreateDiskFromSnapshotInput: Swift.Sendable {
     ///
     /// * This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// * Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     public var restoreDate: Swift.String?
     /// The size of the disk in GB (32).
     /// This member is required.
@@ -4920,7 +4920,7 @@ public struct CreateDiskFromSnapshotInput: Swift.Sendable {
     ///
     /// * This parameter cannot be defined together with the disk snapshot name parameter. The source disk name and disk snapshot name parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// * Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     public var sourceDiskName: Swift.String?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
@@ -4928,7 +4928,7 @@ public struct CreateDiskFromSnapshotInput: Swift.Sendable {
     ///
     /// * This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// * Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     public var useLatestRestorableAutoSnapshot: Swift.Bool?
 
     public init(
@@ -5247,7 +5247,7 @@ extension LightsailClientTypes {
         public var status: Swift.String?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail distribution. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
         /// The minimum TLS protocol version that the distribution can use to communicate with viewers.
         public var viewerMinimumTlsProtocolVersion: Swift.String?
@@ -5436,7 +5436,7 @@ public struct CreateGUISessionAccessDetailsInput: Swift.Sendable {
 
 extension LightsailClientTypes {
 
-    /// Describes a web-based, remote graphical user interface (GUI), NICE DCV session. The session is used to access a virtual computer’s operating system or application.
+    /// Describes a web-based, remote graphical user interface (GUI), Amazon DCV session. The session is used to access a virtual computer’s operating system or application.
     public struct Session: Swift.Sendable {
         /// When true, this Boolean value indicates the primary session for the specified resource.
         public var isPrimary: Swift.Bool?
@@ -5522,7 +5522,7 @@ public struct CreateGUISessionAccessDetailsOutput: Swift.Sendable {
     public var percentageComplete: Swift.Int?
     /// The resource name.
     public var resourceName: Swift.String?
-    /// Returns information about the specified NICE DCV GUI session.
+    /// Returns information about the specified Amazon DCV GUI session.
     public var sessions: [LightsailClientTypes.Session]?
     /// The status of the operation.
     public var status: LightsailClientTypes.Status?
@@ -5566,7 +5566,7 @@ public struct CreateInstancesInput: Swift.Sendable {
     public var keyPairName: Swift.String?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
-    /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update. Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+    /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update. Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/compare-options-choose-lightsail-instance-image).
     public var userData: Swift.String?
 
     public init(
@@ -5633,13 +5633,13 @@ public struct CreateInstancesFromSnapshotInput: Swift.Sendable {
     ///
     /// * This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// * Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     public var restoreDate: Swift.String?
     /// The name of the source instance from which the source automatic snapshot was created. Constraints:
     ///
     /// * This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// * Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     public var sourceInstanceName: Swift.String?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
@@ -5647,9 +5647,9 @@ public struct CreateInstancesFromSnapshotInput: Swift.Sendable {
     ///
     /// * This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.
     ///
-    /// * Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+    /// * Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     public var useLatestRestorableAutoSnapshot: Swift.Bool?
-    /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update. Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
+    /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update. Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/compare-options-choose-lightsail-instance-image).
     public var userData: Swift.String?
 
     public init(
@@ -5760,7 +5760,7 @@ extension LightsailClientTypes {
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -5827,7 +5827,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
     public var loadBalancerName: Swift.String?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
-    /// The name of the TLS policy to apply to the load balancer. Use the [GetLoadBalancerTlsPolicies](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html) action to get a list of TLS policy names that you can specify. For more information about load balancer TLS policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
+    /// The name of the TLS policy to apply to the load balancer. Use the [GetLoadBalancerTlsPolicies](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html) action to get a list of TLS policy names that you can specify. For more information about load balancer TLS policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
     public var tlsPolicyName: Swift.String?
 
     public init(
@@ -6877,7 +6877,7 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.DiskState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -7016,7 +7016,7 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.DiskSnapshotState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -7179,7 +7179,7 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
-    /// Describes the state of the name server records update made by Amazon Lightsail to an Amazon Route 53 registered domain. For more information, see [DNS in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/understanding-dns-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
+    /// Describes the state of the name server records update made by Amazon Lightsail to an Amazon Route 53 registered domain. For more information, see [DNS in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/understanding-dns-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     public struct NameServersUpdateState: Swift.Sendable {
         /// The status code for the name servers update. Following are the possible values:
         ///
@@ -7277,7 +7277,7 @@ extension LightsailClientTypes {
     /// * The Route 53 hosted zone for the domain must be empty. It cannot contain DNS records other than start of authority (SOA) and name server records.
     ///
     ///
-    /// If automatic domain delegation fails, or if you manage the DNS of your domain using a service other than Route 53, then you must manually add the Lightsail DNS zone name servers to your domain in order to delegate management of its DNS to Lightsail. For more information, see [Creating a DNS zone to manage your domain’s records in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/lightsail-how-to-create-dns-entry) in the Amazon Lightsail Developer Guide.
+    /// If automatic domain delegation fails, or if you manage the DNS of your domain using a service other than Route 53, then you must manually add the Lightsail DNS zone name servers to your domain in order to delegate management of its DNS to Lightsail. For more information, see [Creating a DNS zone to manage your domain’s records in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-how-to-create-dns-entry) in the Amazon Lightsail Developer Guide.
     public struct RegisteredDomainDelegationInfo: Swift.Sendable {
         /// An object that describes the state of the name server records that are automatically added to the Route 53 domain by Lightsail.
         public var nameServersUpdateState: LightsailClientTypes.NameServersUpdateState?
@@ -7314,7 +7314,7 @@ extension LightsailClientTypes {
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -7854,7 +7854,7 @@ public struct GetBucketsInput: Swift.Sendable {
 }
 
 public struct GetBucketsOutput: Swift.Sendable {
-    /// An object that describes the synchronization status of the Amazon S3 account-level block public access feature for your Lightsail buckets. For more information about this feature and how it affects Lightsail buckets, see [Block public access for buckets in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-block-public-access-for-buckets).
+    /// An object that describes the synchronization status of the Amazon S3 account-level block public access feature for your Lightsail buckets. For more information about this feature and how it affects Lightsail buckets, see [Block public access for buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-block-public-access-for-buckets).
     public var accountLevelBpaSync: LightsailClientTypes.AccountLevelBpaSync?
     /// An array of objects that describe buckets.
     public var buckets: [LightsailClientTypes.Bucket]?
@@ -8807,7 +8807,7 @@ extension LightsailClientTypes {
         public var httpProtocolIpv6: LightsailClientTypes.HttpProtocolIpv6?
         /// The desired HTTP PUT response hop limit for instance metadata requests. A larger number means that the instance metadata requests can travel farther.
         public var httpPutResponseHopLimit: Swift.Int?
-        /// The state of token usage for your instance metadata requests. If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available. Not all instance blueprints in Lightsail support version 2.0 credentials. Use the MetadataNoToken instance metric to track the number of calls to the instance metadata service that are using version 1.0 credentials. For more information, see [Viewing instance metrics in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-health-metrics) in the Amazon Lightsail Developer Guide.
+        /// The state of token usage for your instance metadata requests. If the state is optional, you can choose whether to retrieve instance metadata with a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials by using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with all instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials. The version 1.0 credentials are not available. Not all instance blueprints in Lightsail support version 2.0 credentials. Use the MetadataNoToken instance metric to track the number of calls to the instance metadata service that are using version 1.0 credentials. For more information, see [Viewing instance metrics in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-health-metrics) in the Amazon Lightsail Developer Guide.
         public var httpTokens: LightsailClientTypes.HttpTokens?
         /// The state of the metadata option changes. The following states are possible:
         ///
@@ -9031,7 +9031,7 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.InstanceState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
         /// The user name for connecting to the instance (ec2-user).
         public var username: Swift.String?
@@ -9333,9 +9333,9 @@ public struct GetInstanceMetricDataInput: Swift.Sendable {
     public var instanceName: Swift.String?
     /// The metric for which you want to return information. Valid instance metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.
     ///
-    /// * BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity). Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
+    /// * BurstCapacityPercentage - The percentage of CPU performance available for your instance to burst above its baseline. Your instance continuously accrues and consumes burst capacity. Burst capacity stops accruing when your instance's BurstCapacityPercentage reaches 100%. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-burst-capacity). Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
     ///
-    /// * BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-viewing-instance-burst-capacity). Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Seconds.
+    /// * BurstCapacityTime - The available amount of time for your instance to burst at 100% CPU utilization. Your instance continuously accrues and consumes burst capacity. Burst capacity time stops accruing when your instance's BurstCapacityPercentage metric reaches 100%. Burst capacity time is consumed at the full rate only when your instance operates at 100% CPU utilization. For example, if your instance operates at 50% CPU utilization in the burstable zone for a 5-minute period, then it consumes CPU burst capacity minutes at a 50% rate in that period. Your instance consumed 2 minutes and 30 seconds of CPU burst capacity minutes in the 5-minute period. For more information, see [Viewing instance burst capacity in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-burst-capacity). Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Seconds.
     ///
     /// * CPUUtilization - The percentage of allocated compute units that are currently in use on the instance. This metric identifies the processing power to run the applications on the instance. Tools in your operating system can show a lower percentage than Lightsail when the instance is not allocated a full processor core. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
     ///
@@ -9626,7 +9626,7 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.InstanceSnapshotState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -10103,7 +10103,7 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.LoadBalancerState?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
         /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public var tlsCertificateSummaries: [LightsailClientTypes.LoadBalancerTlsCertificateSummary]?
@@ -10786,7 +10786,7 @@ extension LightsailClientTypes {
         public var subjectAlternativeNames: [Swift.String]?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or SSL/TLS certificate. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -10869,7 +10869,7 @@ public struct GetLoadBalancerTlsPoliciesInput: Swift.Sendable {
 
 extension LightsailClientTypes {
 
-    /// Describes the TLS security policies that are available for Lightsail load balancers. For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
+    /// Describes the TLS security policies that are available for Lightsail load balancers. For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
     public struct LoadBalancerTlsPolicy: Swift.Sendable {
         /// The ciphers used by the TLS security policy. The ciphers are listed in order of preference.
         public var ciphers: [Swift.String]?
@@ -11213,7 +11213,7 @@ extension LightsailClientTypes {
         public var state: Swift.String?
         /// The support code for the database. Include this code in your email to support when you have questions about a database in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -11953,7 +11953,7 @@ extension LightsailClientTypes {
         public var state: Swift.String?
         /// The support code for the database snapshot. Include this code in your email to support when you have questions about a database snapshot in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
 
         public init(
@@ -12423,7 +12423,7 @@ public struct PutAlarmInput: Swift.Sendable {
     /// * Relational databases: CPUUtilization, DatabaseConnections, DiskQueueDepth, FreeStorageSpace, NetworkReceiveThroughput, and NetworkTransmitThroughput.
     ///
     ///
-    /// For more information about these metrics, see [Metrics available in Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-resource-health-metrics#available-metrics).
+    /// For more information about these metrics, see [Metrics available in Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-resource-health-metrics#available-metrics).
     /// This member is required.
     public var metricName: LightsailClientTypes.MetricName?
     /// The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms.
@@ -13178,7 +13178,7 @@ public struct UpdateContainerServiceInput: Swift.Sendable {
     public var isDisabled: Swift.Bool?
     /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option.
     public var power: LightsailClientTypes.ContainerServicePowerName?
-    /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
+    /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see [Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access) in the Amazon Lightsail Developer Guide.
     public var privateRegistryAccess: LightsailClientTypes.PrivateRegistryAccessRequest?
     /// The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service. You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service. You can specify public domain names using a string to array map as shown in the example later on this page.
     public var publicDomainNames: [Swift.String: [Swift.String]]?

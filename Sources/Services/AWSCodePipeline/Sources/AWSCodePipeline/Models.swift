@@ -516,6 +516,27 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
+    /// The environment variables for the action.
+    public struct EnvironmentVariable: Swift.Sendable {
+        /// The environment variable name in the key-value pair.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The environment variable value in the key-value pair.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
     /// Represents information about an artifact to be worked on, such as a test or build artifact.
     public struct InputArtifact: Swift.Sendable {
         /// The name of the artifact to be worked on (for example, "My App"). Artifacts are the files that are worked on by actions in the pipeline. See the action configuration for each action for details about artifact parameters. For example, the S3 source action input artifact is a file name (or file path), and the files are generally provided as a ZIP file. Example artifact name: SampleApp_Windows.zip The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
@@ -561,6 +582,8 @@ extension CodePipelineClientTypes {
         public var commands: [Swift.String]?
         /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see [Action Structure Requirements in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements). For the list of configuration properties for the CloudFormation action type in CodePipeline, see [Configuration Properties Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html) in the CloudFormation User Guide. For template snippets with examples, see [Using Parameter Override Functions with CodePipeline Pipelines](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html) in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows: JSON: "Configuration" : { Key : Value },
         public var configuration: [Swift.String: Swift.String]?
+        /// The environment variables for the action.
+        public var environmentVariables: [CodePipelineClientTypes.EnvironmentVariable]?
         /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
         public var inputArtifacts: [CodePipelineClientTypes.InputArtifact]?
         /// The action declaration's name.
@@ -585,6 +608,7 @@ extension CodePipelineClientTypes {
             actionTypeId: CodePipelineClientTypes.ActionTypeId? = nil,
             commands: [Swift.String]? = nil,
             configuration: [Swift.String: Swift.String]? = nil,
+            environmentVariables: [CodePipelineClientTypes.EnvironmentVariable]? = nil,
             inputArtifacts: [CodePipelineClientTypes.InputArtifact]? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
@@ -598,6 +622,7 @@ extension CodePipelineClientTypes {
             self.actionTypeId = actionTypeId
             self.commands = commands
             self.configuration = configuration
+            self.environmentVariables = environmentVariables
             self.inputArtifacts = inputArtifacts
             self.name = name
             self.namespace = namespace
@@ -1888,14 +1913,14 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version.
+    /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct RuleTypeId: Swift.Sendable {
         /// A category defines what kind of rule can be run in the stage, and constrains the provider type for the rule. The valid category is Rule.
         /// This member is required.
         public var category: CodePipelineClientTypes.RuleCategory?
         /// The creator of the rule being called. The valid value for the Owner field in the rule category is AWS.
         public var owner: CodePipelineClientTypes.RuleOwner?
-        /// The rule provider, such as the DeploymentWindow rule.
+        /// The rule provider, such as the DeploymentWindow rule. For a list of rule provider names, see the rules listed in the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
         /// This member is required.
         public var provider: Swift.String?
         /// A string that describes the rule version.
@@ -1917,7 +1942,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct RuleDeclaration: Swift.Sendable {
         /// The shell commands to run with your commands rule in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild. Using compute time for this action will incur separate charges in CodeBuild.
         public var commands: [Swift.String]?
@@ -1962,7 +1987,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The condition for the stage. A condition is made up of the rules and the result for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+    /// The condition for the stage. A condition is made up of the rules and the result for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).. For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct Condition: Swift.Sendable {
         /// The action to be done when the condition is met. For example, rolling back an execution for a failure condition.
         public var result: CodePipelineClientTypes.Result?
@@ -1981,7 +2006,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The conditions for making checks for entry to a stage.
+    /// The conditions for making checks for entry to a stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).
     public struct BeforeEntryConditions: Swift.Sendable {
         /// The conditions that are configured as entry conditions.
         /// This member is required.
@@ -2445,9 +2470,9 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The configuration that specifies the result, such as rollback, to occur upon stage failure.
+    /// The configuration that specifies the result, such as rollback, to occur upon stage failure. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).
     public struct FailureConditions: Swift.Sendable {
-        /// The conditions that are configured as failure conditions.
+        /// The conditions that are configured as failure conditions. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).
         public var conditions: [CodePipelineClientTypes.Condition]?
         /// The specified result for when the failure conditions are met, such as rolling back the stage.
         public var result: CodePipelineClientTypes.Result?
@@ -2468,7 +2493,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The conditions for making checks that, if met, succeed a stage.
+    /// The conditions for making checks that, if met, succeed a stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).
     public struct SuccessConditions: Swift.Sendable {
         /// The conditions that are success conditions.
         /// This member is required.
@@ -2591,11 +2616,17 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The event criteria for the pull request trigger configuration, such as the lists of branches or file paths to include and exclude.
+    /// The event criteria for the pull request trigger configuration, such as the lists of branches or file paths to include and exclude. The following are valid values for the events for this filter:
+    ///
+    /// * CLOSED
+    ///
+    /// * OPEN
+    ///
+    /// * UPDATED
     public struct GitPullRequestFilter: Swift.Sendable {
         /// The field that specifies to filter on branches for the pull request trigger configuration.
         public var branches: CodePipelineClientTypes.GitBranchFilterCriteria?
-        /// The field that specifies which pull request events to filter on (opened, updated, closed) for the trigger configuration.
+        /// The field that specifies which pull request events to filter on (OPEN, UPDATED, CLOSED) for the trigger configuration.
         public var events: [CodePipelineClientTypes.GitPullRequestEventType]?
         /// The field that specifies to filter on file paths for the pull request trigger configuration.
         public var filePaths: CodePipelineClientTypes.GitFilePathFilterCriteria?
@@ -4670,7 +4701,7 @@ extension CodePipelineClientTypes {
         public var resolvedConfiguration: [Swift.String: Swift.String]?
         /// The ARN of the IAM service role that performs the declared rule. This is assumed through the roleArn for the pipeline.
         public var roleArn: Swift.String?
-        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version.
+        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
         public var ruleTypeId: CodePipelineClientTypes.RuleTypeId?
 
         public init(
@@ -5571,7 +5602,7 @@ public struct PutApprovalResultInput: Swift.Sendable {
     /// The name of the stage that contains the action.
     /// This member is required.
     public var stageName: Swift.String?
-    /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the [GetPipelineState] action. It is used to validate that the approval request corresponding to this token is still valid. For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject approval request as detailed above is not available. Instead, use the externalExecutionId from the GetPipelineState action as the token in the approval request.
+    /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the [GetPipelineState] action. It is used to validate that the approval request corresponding to this token is still valid. For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject an approval request as detailed above is not available. Instead, use the externalExecutionId in the response output from the [ListActionExecutions] action as the token in the approval request.
     /// This member is required.
     public var token: Swift.String?
 
@@ -9300,6 +9331,7 @@ extension CodePipelineClientTypes.ActionDeclaration {
         try writer["actionTypeId"].write(value.actionTypeId, with: CodePipelineClientTypes.ActionTypeId.write(value:to:))
         try writer["commands"].writeList(value.commands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: CodePipelineClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputArtifacts"].writeList(value.inputArtifacts, memberWritingClosure: CodePipelineClientTypes.InputArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["namespace"].write(value.namespace)
@@ -9326,6 +9358,24 @@ extension CodePipelineClientTypes.ActionDeclaration {
         value.region = try reader["region"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
         value.timeoutInMinutes = try reader["timeoutInMinutes"].readIfPresent()
+        value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodePipelineClientTypes.EnvironmentVariable {
+
+    static func write(value: CodePipelineClientTypes.EnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.EnvironmentVariable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodePipelineClientTypes.EnvironmentVariable()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

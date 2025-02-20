@@ -244,6 +244,21 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+extension SESv2ClientTypes {
+
+    /// Used to associate a configuration set with a MailManager archive.
+    public struct ArchivingOptions: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the MailManager archive where the Amazon SES API v2 will archive sent emails.
+        public var archiveArn: Swift.String?
+
+        public init(
+            archiveArn: Swift.String? = nil
+        ) {
+            self.archiveArn = archiveArn
+        }
+    }
+}
+
 /// The input you provided is invalid.
 public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1775,6 +1790,8 @@ extension SESv2ClientTypes {
 
 /// A request to create a configuration set.
 public struct CreateConfigurationSetInput: Swift.Sendable {
+    /// An object that defines the MailManager archiving options for emails that you send using the configuration set.
+    public var archivingOptions: SESv2ClientTypes.ArchivingOptions?
     /// The name of the configuration set. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1794,6 +1811,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
     public var vdmOptions: SESv2ClientTypes.VdmOptions?
 
     public init(
+        archivingOptions: SESv2ClientTypes.ArchivingOptions? = nil,
         configurationSetName: Swift.String? = nil,
         deliveryOptions: SESv2ClientTypes.DeliveryOptions? = nil,
         reputationOptions: SESv2ClientTypes.ReputationOptions? = nil,
@@ -1803,6 +1821,7 @@ public struct CreateConfigurationSetInput: Swift.Sendable {
         trackingOptions: SESv2ClientTypes.TrackingOptions? = nil,
         vdmOptions: SESv2ClientTypes.VdmOptions? = nil
     ) {
+        self.archivingOptions = archivingOptions
         self.configurationSetName = configurationSetName
         self.deliveryOptions = deliveryOptions
         self.reputationOptions = reputationOptions
@@ -4691,6 +4710,8 @@ public struct GetConfigurationSetInput: Swift.Sendable {
 
 /// Information about a configuration set.
 public struct GetConfigurationSetOutput: Swift.Sendable {
+    /// An object that defines the MailManager archive where sent emails are archived that you send using the configuration set.
+    public var archivingOptions: SESv2ClientTypes.ArchivingOptions?
     /// The name of the configuration set.
     public var configurationSetName: Swift.String?
     /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
@@ -4709,6 +4730,7 @@ public struct GetConfigurationSetOutput: Swift.Sendable {
     public var vdmOptions: SESv2ClientTypes.VdmOptions?
 
     public init(
+        archivingOptions: SESv2ClientTypes.ArchivingOptions? = nil,
         configurationSetName: Swift.String? = nil,
         deliveryOptions: SESv2ClientTypes.DeliveryOptions? = nil,
         reputationOptions: SESv2ClientTypes.ReputationOptions? = nil,
@@ -4718,6 +4740,7 @@ public struct GetConfigurationSetOutput: Swift.Sendable {
         trackingOptions: SESv2ClientTypes.TrackingOptions? = nil,
         vdmOptions: SESv2ClientTypes.VdmOptions? = nil
     ) {
+        self.archivingOptions = archivingOptions
         self.configurationSetName = configurationSetName
         self.deliveryOptions = deliveryOptions
         self.reputationOptions = reputationOptions
@@ -5394,7 +5417,7 @@ extension SESv2ClientTypes {
         ///
         /// * REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED – The verification failed because the specified primary identity is a replica of another identity, and multi-level replication is not supported; the primary identity must be a non-replica identity.
         ///
-        /// * REPLICATION_PRIMARY_INVALID_REGION – The verification failed due to an invalid primary region specified. Ensure you provide a valid AWS region where Amazon SES is available and different from the replica region.
+        /// * REPLICATION_PRIMARY_INVALID_REGION – The verification failed due to an invalid primary region specified. Ensure you provide a valid Amazon Web Services region where Amazon SES is available and different from the replica region.
         public var errorType: SESv2ClientTypes.VerificationError?
         /// The last time a verification attempt was made for this identity.
         public var lastCheckedTimestamp: Foundation.Date?
@@ -6529,7 +6552,7 @@ extension SESv2ClientTypes {
 
     /// The ListRecommendations filter type. This can be one of the following:
     ///
-    /// * TYPE – The recommendation type, with values like DKIM, SPF, DMARC or BIMI.
+    /// * TYPE – The recommendation type, with values like DKIM, SPF, DMARC, BIMI, or COMPLAINT.
     ///
     /// * IMPACT – The recommendation impact, with values like HIGH or LOW.
     ///
@@ -6701,7 +6724,7 @@ extension SESv2ClientTypes {
         public var resourceArn: Swift.String?
         /// The recommendation status, with values like OPEN or FIXED.
         public var status: SESv2ClientTypes.RecommendationStatus?
-        /// The recommendation type, with values like DKIM, SPF, DMARC or BIMI.
+        /// The recommendation type, with values like DKIM, SPF, DMARC, BIMI, or COMPLAINT.
         public var type: SESv2ClientTypes.RecommendationType?
 
         public init(
@@ -6952,6 +6975,29 @@ public struct PutAccountVdmAttributesInput: Swift.Sendable {
 }
 
 public struct PutAccountVdmAttributesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// A request to associate a configuration set with a MailManager archive.
+public struct PutConfigurationSetArchivingOptionsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the MailManager archive that the Amazon SES API v2 sends email to.
+    public var archiveArn: Swift.String?
+    /// The name of the configuration set to associate with a MailManager archive.
+    /// This member is required.
+    public var configurationSetName: Swift.String?
+
+    public init(
+        archiveArn: Swift.String? = nil,
+        configurationSetName: Swift.String? = nil
+    ) {
+        self.archiveArn = archiveArn
+        self.configurationSetName = configurationSetName
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct PutConfigurationSetArchivingOptionsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8657,6 +8703,16 @@ extension PutAccountVdmAttributesInput {
     }
 }
 
+extension PutConfigurationSetArchivingOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetArchivingOptionsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
+            return nil
+        }
+        return "/v2/email/configuration-sets/\(configurationSetName.urlPercentEncoding())/archiving-options"
+    }
+}
+
 extension PutConfigurationSetDeliveryOptionsInput {
 
     static func urlPathProvider(_ value: PutConfigurationSetDeliveryOptionsInput) -> Swift.String? {
@@ -8959,6 +9015,7 @@ extension CreateConfigurationSetInput {
 
     static func write(value: CreateConfigurationSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ArchivingOptions"].write(value.archivingOptions, with: SESv2ClientTypes.ArchivingOptions.write(value:to:))
         try writer["ConfigurationSetName"].write(value.configurationSetName)
         try writer["DeliveryOptions"].write(value.deliveryOptions, with: SESv2ClientTypes.DeliveryOptions.write(value:to:))
         try writer["ReputationOptions"].write(value.reputationOptions, with: SESv2ClientTypes.ReputationOptions.write(value:to:))
@@ -9174,6 +9231,14 @@ extension PutAccountVdmAttributesInput {
     static func write(value: PutAccountVdmAttributesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["VdmAttributes"].write(value.vdmAttributes, with: SESv2ClientTypes.VdmAttributes.write(value:to:))
+    }
+}
+
+extension PutConfigurationSetArchivingOptionsInput {
+
+    static func write(value: PutConfigurationSetArchivingOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ArchiveArn"].write(value.archiveArn)
     }
 }
 
@@ -9689,6 +9754,7 @@ extension GetConfigurationSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetConfigurationSetOutput()
+        value.archivingOptions = try reader["ArchivingOptions"].readIfPresent(with: SESv2ClientTypes.ArchivingOptions.read(from:))
         value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.deliveryOptions = try reader["DeliveryOptions"].readIfPresent(with: SESv2ClientTypes.DeliveryOptions.read(from:))
         value.reputationOptions = try reader["ReputationOptions"].readIfPresent(with: SESv2ClientTypes.ReputationOptions.read(from:))
@@ -10217,6 +10283,13 @@ extension PutAccountVdmAttributesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountVdmAttributesOutput {
         return PutAccountVdmAttributesOutput()
+    }
+}
+
+extension PutConfigurationSetArchivingOptionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutConfigurationSetArchivingOptionsOutput {
+        return PutConfigurationSetArchivingOptionsOutput()
     }
 }
 
@@ -11547,6 +11620,22 @@ enum PutAccountVdmAttributesOutputError {
     }
 }
 
+enum PutConfigurationSetArchivingOptionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutConfigurationSetDeliveryOptionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12476,6 +12565,21 @@ extension SESv2ClientTypes.DashboardOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESv2ClientTypes.DashboardOptions()
         value.engagementMetrics = try reader["EngagementMetrics"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ArchivingOptions {
+
+    static func write(value: SESv2ClientTypes.ArchivingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ArchiveArn"].write(value.archiveArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ArchivingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ArchivingOptions()
+        value.archiveArn = try reader["ArchiveArn"].readIfPresent()
         return value
     }
 }
