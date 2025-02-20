@@ -11,7 +11,12 @@ import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
 import ClientRuntime
-import InMemory
+#if canImport(InMemoryExporter)
+import InMemoryExporter
+#endif
+#if canImport(_Concurrency)
+import OpenTelemetryConcurrency
+#endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
@@ -75,6 +80,11 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
+
+        #if os(Linux)
+        // On Apple platforms, the default is the activity based context manager. We want to opt-in to the structured concurrency based context manager instead.
+        OpenTelemetry.registerDefaultConcurrencyContextManager()
+        #endif
 
         let config = try await STSClient.STSClientConfiguration(
             region: "us-west-2",
