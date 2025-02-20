@@ -31,19 +31,20 @@ public class S3TransferManager {
     let logger: SwiftLogger
     internal let semaphoreManager = S3TMSemaphoreManager()
 
-    /// Creates the S3 Transfer Manager.
+    /// Creates the S3 Transfer Manager using a default transfer manager config with a default S3 client.
+    public init() async throws {
+        self.config = try await S3TransferManagerConfig()
+        logger = SwiftLogger(label: "S3TransferManager")
+    }
+
+    /// Creates the S3 Transfer Manager with the provided config.
     ///
     /// - Parameters:
-    ///   - config: An instance of `S3TransferManagerConfig`. If no value is provided, a default config with a default S3 client config is used.
+    ///   - config: An instance of `S3TransferManagerConfig`.
     public init(
-        config: S3TransferManagerConfig? = nil
-    ) async throws {
-        if let config {
-            self.config = config
-        } else {
-            self.config = try await S3TransferManagerConfig()
-        }
-        // The logger instance used by the S3TM.
+        config: S3TransferManagerConfig
+    ) {
+        self.config = config
         logger = SwiftLogger(label: "S3TransferManager")
     }
 

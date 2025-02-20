@@ -49,7 +49,7 @@ class DownloadBucketIntegTests: XCTestCase {
         Task {
             s3 = try S3Client(region: region)
             let tmConfig = try await S3TransferManagerConfig(s3Client: s3)
-            tm = try await S3TransferManager(config: tmConfig)
+            tm = S3TransferManager(config: tmConfig)
 
             // Setup bucket with regular keys.
             do {

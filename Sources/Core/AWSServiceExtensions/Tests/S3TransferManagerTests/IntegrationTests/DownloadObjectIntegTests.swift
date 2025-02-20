@@ -300,7 +300,7 @@ class DownloadObjectIntegTests: XCTestCase {
         withOutputStream outputStream: OutputStream
     ) async throws {
         let s3tmConfig = try await S3TransferManagerConfig(s3Client: s3, multipartDownloadType: downloadType)
-        let s3tm = try await S3TransferManager(config: s3tmConfig)
+        let s3tm = S3TransferManager(config: s3tmConfig)
         let getObjectInput = GetObjectInput(
             bucket: bucketName,
             key: key,
@@ -341,7 +341,7 @@ class DownloadObjectIntegTests: XCTestCase {
 
         // Create S3TM instance to use for test.
         let s3tmConfig = try await S3TransferManagerConfig(s3Client: s3, multipartDownloadType: downloadType)
-        let s3tm = try await S3TransferManager(config: s3tmConfig)
+        let s3tm = S3TransferManager(config: s3tmConfig)
 
         // Create DownloadObject input with an empty destination file.
         let destinationFileURL = FileManager.default.temporaryDirectory.appending(path: "destination-\(uuid)")
@@ -377,7 +377,7 @@ class DownloadObjectIntegTests: XCTestCase {
             // Object doesn't exist; generate file with specified size & upload it to bucket using S3TM.
             let fileURL = try generateLargePatternedDataFile(sourceFileName: sourceFileName, numBytes: numBytes)
             let s3tmConfig = try await S3TransferManagerConfig(s3Client: s3)
-            let s3tm = try await S3TransferManager(config: s3tmConfig)
+            let s3tm = S3TransferManager(config: s3tmConfig)
             _ = try await s3tm.uploadObject(input: UploadObjectInput(putObjectInput: PutObjectInput(
                 body: .stream(FileStream(fileHandle: FileHandle(forUpdating: fileURL))),
                 bucket: bucketName,
