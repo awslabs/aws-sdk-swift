@@ -11,6 +11,7 @@ import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
 import ClientRuntime
+import InMemory
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
@@ -69,6 +70,27 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertNotEqual(account, "")
         XCTAssertNotEqual(userId, "")
         XCTAssertNotEqual(arn, "")
+    }
+
+    // OpenTelemetry Tracing works as expected
+    func testGetCallerIdentityWithOTelTracing() async throws {
+        let inMemoryExporter = InMemoryExporter()
+
+        let config = try await STSClient.STSClientConfiguration(
+            region: "us-west-2",
+            telemetryProvider: OpenTelemetrySwift.provider(spanExporter: inMemoryExporter)
+        )
+        let client = STSClient(config: config)
+        _ = try await client.getCallerIdentity(input: GetCallerIdentityInput())
+
+        let traceResults = inMemoryExporter.getFinishedSpanItems()
+
+        // Assert: Check if a span with expected attributes exists
+        let matchingSpan = traceResults.first { span in
+            span.instrumentationScope.name == "STS" && span.name == "STS.GetCallerIdentity"
+        }
+
+        XCTAssertNotNil(matchingSpan, "Expected STS.GetCallerIdentity span not found")
     }
 
     // MARK: - Setup & teardown
