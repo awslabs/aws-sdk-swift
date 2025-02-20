@@ -20,6 +20,20 @@ class DownloadBucketIntegTests: XCTestCase {
         "Resources/DownloadBucketIntegTestsResources/source"
     )
 
+    /*
+         The following file structure under Resources/DownloadBucketIntegTestsResources/ is used by the setup below.
+
+         |- source/
+            |- nested/
+                |- nested2/
+                    |- nested3_1/
+                        |- b.txt
+                    |- nested3_2/
+                        |- c.txt
+                        |- d.txt
+            |- a.txt
+     */
+
     // This setUp runs just once for the test class, before tests start execution.
     // Creates a bucket with regular keys (default delimiter "/" and no prefix) and
     //  a bucket with custom keys (delimiter "-" and prefix "pre").
@@ -152,20 +166,6 @@ class DownloadBucketIntegTests: XCTestCase {
 
     // MARK: - downloadBucket tests.
 
-    /*
-         The following file structure under Resources/DownloadBucketIntegTestsResources/ is used by the tests below.
-
-         |- source/
-            |- nested/
-                |- nested2/
-                    |- nested3_1/
-                        |- b.txt
-                    |- nested3_2/
-                        |- c.txt
-                        |- d.txt
-            |- a.txt
-     */
-
     func testDownloadBucket_BucketWithRegularKeys_DefaultSetting() async throws {
         _ = try await tm.downloadBucket(input: DownloadBucketInput(
             bucket: bucketWithRegularKeys,
@@ -216,11 +216,12 @@ class DownloadBucketIntegTests: XCTestCase {
     private func validateBucketDownload(expectedFileURLs: [URL]) throws {
         let actualFileURLs = try getNestedFileURLs()
         XCTAssertEqual(actualFileURLs.count, expectedFileURLs.count)
-        let actualFileURLAbsoluteStrings: Set = Set(actualFileURLs.map { $0.absoluteString })
+        let actualFileURLAbsoluteStrings: Set = Set(actualFileURLs.map {
+            // standardizedFileURL method required to turn private/var/ into var/ equivalent.
+            $0.standardizedFileURL.absoluteString
+        })
         let expectedFileURLAbsoluteStrings: Set = Set(expectedFileURLs.map {
-            // Required to turn var/ symlink to private/var/.
-            let symlinkResolvedURL = $0.resolvingSymlinksInPath()
-            return symlinkResolvedURL.absoluteString
+            $0.absoluteString
         })
         XCTAssertEqual(actualFileURLAbsoluteStrings, expectedFileURLAbsoluteStrings)
     }
