@@ -9,10 +9,9 @@ import AWSS3
 import enum Smithy.ByteStream
 import struct Foundation.Date
 
-/// The synthetic output type for the DownloadObject operation of S3 Transfer Manager.
+/// The synthetic output type for the `downloadObject` operation of `S3TransferManager`.
 ///
-/// This type contains all output members from GetObjectOutput except `body`.
-/// Retrieved object is written to the `OutputStream` provided by the user in the `DownloadObjectInput` used to call the operation.
+/// Contains all output members from `GetObjectOutput` except `body`. The downloaded object is streamed directly to the `OutputStream` instance specified in the `DownloadObjectInput` instance used to call `downloadObject`.
 public struct DownloadObjectOutput: TransferOutput {
     /// Indicates that a range of bytes was specified in the request.
     public let acceptRanges: Swift.String?
@@ -92,7 +91,6 @@ public struct DownloadObjectOutput: TransferOutput {
     public let websiteRedirectLocation: Swift.String?
 
     init(getObjectOutput: GetObjectOutput) {
-        // GetObjectOutput members.
         self.acceptRanges = getObjectOutput.acceptRanges
         self.bucketKeyEnabled = getObjectOutput.bucketKeyEnabled
         self.cacheControl = getObjectOutput.cacheControl

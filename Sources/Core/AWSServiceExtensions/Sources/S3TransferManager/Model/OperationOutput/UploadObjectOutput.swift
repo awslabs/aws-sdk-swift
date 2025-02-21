@@ -7,9 +7,9 @@
 
 import AWSS3
 
-/// The synthetic output type for the UploadObject operation of S3 Transfer Manager.
+/// The synthetic output type for the `uploadObject` operation of `S3TransferManager`.
 ///
-/// This type contains the member intersection of `PutObjectOutput` and `CompleteMultipartUploadOutput`.
+/// This type contains the intersection of output members in `PutObjectOutput` and `CompleteMultipartUploadOutput`.
 public struct UploadObjectOutput: TransferOutput {
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public let bucketKeyEnabled: Swift.Bool?
@@ -36,10 +36,9 @@ public struct UploadObjectOutput: TransferOutput {
     /// Version ID of the newly created object, in case the bucket has versioning turned on. This functionality is not supported for directory buckets.
     public let versionId: Swift.String?
 
-    /// Creates `UploadObjectOutput` using `PutObjectOutput`.
-    ///
-    /// - Parameters:
-    ///   - putObjectOutput: An instance of `PutObjectOutput`.
+    // MARK: - Internal initializers for converting output types.
+
+    // PutObjectOutput => UploadObjectOutput.
     init(putObjectOutput out: PutObjectOutput) {
         self.bucketKeyEnabled = out.bucketKeyEnabled
         self.checksumCRC32 = out.checksumCRC32
@@ -55,10 +54,7 @@ public struct UploadObjectOutput: TransferOutput {
         self.versionId = out.versionId
     }
 
-    /// Creates `UploadObjectOutput` using `CompleteMultipartUploadOutput`.
-    ///
-    /// - Parameters:
-    ///   - completeMultipartUploadOutput: An instance of `CompleteMultipartUploadOutput`.
+    // CompleteMultipartUploadOutput => UploadObjectOutput.
     init(completeMultipartUploadOutput out: CompleteMultipartUploadOutput) {
         self.bucketKeyEnabled = out.bucketKeyEnabled
         self.checksumCRC32 = out.checksumCRC32
