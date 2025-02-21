@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticInferenceClient: ClientRuntime.Client {
     public static let clientName = "ElasticInferenceClient"
-    public static let version = "1.2.22"
+    public static let version = "1.2.23"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticInferenceClient.ElasticInferenceClientConfiguration
     let serviceName = "Elastic Inference"

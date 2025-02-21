@@ -3271,6 +3271,41 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes {
 
+    public enum WebhookStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
     /// Information about a webhook that connects repository events to a build project in CodeBuild.
     public struct Webhook: Swift.Sendable {
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
@@ -3289,6 +3324,18 @@ extension CodeBuildClientTypes {
         public var scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration?
         /// The secret token of the associated repository. A Bitbucket webhook does not support secret.
         public var secret: Swift.String?
+        /// The status of the webhook. Valid values include:
+        ///
+        /// * CREATING: The webhook is being created.
+        ///
+        /// * CREATE_FAILED: The webhook has failed to create.
+        ///
+        /// * ACTIVE: The webhook has succeeded and is active.
+        ///
+        /// * DELETING: The webhook is being deleted.
+        public var status: CodeBuildClientTypes.WebhookStatus?
+        /// A message associated with the status of a webhook.
+        public var statusMessage: Swift.String?
         /// The URL to the webhook.
         public var url: Swift.String?
 
@@ -3301,6 +3348,8 @@ extension CodeBuildClientTypes {
             payloadUrl: Swift.String? = nil,
             scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil,
             secret: Swift.String? = nil,
+            status: CodeBuildClientTypes.WebhookStatus? = nil,
+            statusMessage: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
             self.branchFilter = branchFilter
@@ -3311,6 +3360,8 @@ extension CodeBuildClientTypes {
             self.payloadUrl = payloadUrl
             self.scopeConfiguration = scopeConfiguration
             self.secret = secret
+            self.status = status
+            self.statusMessage = statusMessage
             self.url = url
         }
     }
@@ -9842,6 +9893,8 @@ extension CodeBuildClientTypes.Webhook {
         value.manualCreation = try reader["manualCreation"].readIfPresent()
         value.lastModifiedSecret = try reader["lastModifiedSecret"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.scopeConfiguration = try reader["scopeConfiguration"].readIfPresent(with: CodeBuildClientTypes.ScopeConfiguration.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
 }

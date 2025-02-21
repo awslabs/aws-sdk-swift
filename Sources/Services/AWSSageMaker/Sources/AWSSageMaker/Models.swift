@@ -49551,16 +49551,20 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// Specify the instance groups to update.
     /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
+    /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
+    public var instanceGroupsToDelete: [Swift.String]?
     /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
 
     public init(
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
+        instanceGroupsToDelete: [Swift.String]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil
     ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
+        self.instanceGroupsToDelete = instanceGroupsToDelete
         self.nodeRecovery = nodeRecovery
     }
 }
@@ -57369,6 +57373,7 @@ extension UpdateClusterInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
     }
 }

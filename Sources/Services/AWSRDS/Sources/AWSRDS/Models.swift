@@ -3903,7 +3903,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters only
+    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseName: Swift.String?
@@ -5637,7 +5637,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide.
     public var customIamInstanceProfile: Swift.String?
-    /// The mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// The mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     public var dbClusterIdentifier: Swift.String?
@@ -7003,7 +7003,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
     public var customIamInstanceProfile: Swift.String?
-    /// The mode of Database Insights to enable for the read replica. Currently, this setting is not supported.
+    /// The mode of Database Insights to enable for the read replica. This setting isn't supported.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     public var dbInstanceClass: Swift.String?
@@ -16675,7 +16675,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -17189,7 +17189,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
@@ -20077,7 +20077,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// This member is required.
