@@ -14,7 +14,7 @@ import ClientRuntime
 #if canImport(InMemoryExporter)
 import InMemoryExporter
 #endif
-#if canImport(_Concurrency)
+#if os(Linux)
 import OpenTelemetryConcurrency
 #endif
 
