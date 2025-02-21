@@ -32,7 +32,7 @@ public struct UploadDirectoryInput: TransferInput {
     ///   - s3Prefix: The S3 key prefix prepended to object keys during uploads. E.g., if this value is set to `"pre-"`, `source` is set to `/dir1`, and the file being uploaded is `/dir1/dir2/file.txt`, then the uploaded S3 object would have the key `pre-dir2/file.txt`. Default value is `nil`.
     ///   - s3Delimiter: The path separator to use in the object key. E.g., if `source` is `/dir1`, `s3Delimiter` is `"-"`, and the file being uploaded is `/dir1/dir2/dir3/dir4/file.txt`, then the uploaded S3 object will have the key `dir2-dir3-dir4-file.txt`. Default value is `"/"`, which is the system default path separator for all Apple platforms and Linux distros.
     ///   - putObjectRequestCallback: A closure that allows customizing the individual `PutObjectInput` passed to each part `putObject` calls used behind the scenes. Default behavior is a no-op closure that returns provided `PutObjectInput` without modification.
-    ///   - failurePolicy: A closure that handles failed operations. Default behavior is `DefaultFailurePolicy.rethrowExceptionToTerminateRequest`, which bubbles up the error to the caller and terminates the operation.
+    ///   - failurePolicy: A closure that handles failed `uploadObject` operations. Default behavior is `DefaultFailurePolicy.rethrowExceptionToTerminateRequest`, which bubbles up the error to the caller and terminates the entire `uploadDirectory` operation.
     ///   - transferListeners: An array of `TransferListener`. The transfer progress of the operation will be published to each transfer listener provided here via hooks. Default value is an empty array.
     public init(
         bucket: String,

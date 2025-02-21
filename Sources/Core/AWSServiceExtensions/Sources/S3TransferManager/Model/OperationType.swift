@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// The operation type value, used to easily identify which operation a type-erased `TransferInput` or `TransferOutput` instance belong to.
+/// The operation type enum used to easily identify which transfer maanger operation a type-erased `TransferInput` or `TransferOutput` instance belongs to.
 /// Used by `TransferListener`.
 public enum OperationType {
     case uploadObject

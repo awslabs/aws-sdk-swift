@@ -5,5 +5,5 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// Parent protocol of all synthetic output types for S3 Transfer Manager.
+/// Parent protocol of all synthetic output types used with `S3TransferManager`.
 public protocol TransferOutput {}
