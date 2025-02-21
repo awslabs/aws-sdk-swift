@@ -14,11 +14,11 @@ public extension S3TransferManager {
     /// Downloads S3 bucket to a local directory.
     ///
     /// Returns a `Task` immediately after function call; download is handled in the background using asynchronous child tasks.
-    /// If the `Task` returned by the function is cancelled, all child tasks are cancelled automatically.
+    /// If the `Task` returned by the function gets cancelled, all child tasks also get cancelled automatically.
     ///
     /// - Parameters:
-    ///   - input: An instance of `DownloadBucketInput`, a synthetic input type specific to this operation of the S3 Transfer Manager.
-    /// - Returns: An asynchronous `Task<DownloadBucketOutput, Error>` that can be waited on or cancelled as needed.
+    ///   - input: An instance of `DownloadBucketInput`, the synthetic input type specific to this operation of `S3TransferManager`.
+    /// - Returns: An asynchronous `Task<DownloadBucketOutput, Error>` that can be optionally waited on or cancelled as needed.
     func downloadBucket(input: DownloadBucketInput) throws -> Task<DownloadBucketOutput, Error> {
         return Task {
             let s3 = config.s3Client
@@ -32,17 +32,19 @@ public extension S3TransferManager {
                 s3Delimiter: input.s3Delimiter,
                 filter: input.filter
             )
+            // Subset of `objectKeyToResolvedFileURLMap` above.
+            // If resolved fileURL escapes the destination directory, it gets skipped.
             let objectKeyToCreatedFileURLMap: [String: URL] = try createDestinationFiles(
                 keyToResolvedURLMapping: objectKeyToResolvedFileURLMap
             )
 
             let (successfulDownloadCount, failedDownloadCount) = try await withThrowingTaskGroup(
-                // Each child task returns the result of a single download object call.
+                // Each child task returns the result of a single `downloadObject` call.
                 of: Result<Void, Error>.self,
-                // Task group returns success / failure counts of the download object calls.
+                // Task group returns success & failure counts of all the `downloadObject` calls.
                 returning: (successfulDownloadCount: Int, failedDownloadCount: Int).self
             ) { group in
-                // Add download object child tasks.
+                // Add `downloadObject` child tasks.
                 for pair in objectKeyToCreatedFileURLMap {
                     group.addTask {
                         do {
@@ -56,8 +58,9 @@ public extension S3TransferManager {
                     }
                 }
 
-                // Collect results of download object child tasks.
+                // Collect results of `downloadObject` child tasks.
                 var successfulDownloadCount = 0, failedDownloadCount = 0
+
                 while let downloadObjectResult = try await group.next() {
                     switch downloadObjectResult {
                     case .success:
@@ -65,16 +68,16 @@ public extension S3TransferManager {
                     case .failure(let error):
                         failedDownloadCount += 1
                         do {
-                            // Call failure policy to handle DownloadObject failure.
+                            // Call failure policy closure to handle `downloadObject` failure.
                             try await input.failurePolicy(error, input)
-                        } catch { // input.failurePolicy threw an error; bubble up error.
-                            // Error being thrown automatically cancels all tasks within throwing task group.
+                        } catch { // input.failurePolicy threw an error; bubble up the error.
+                            // Error being thrown here automatically cancels all tasks within the throwing task group.
                             throw error
                         }
                     }
                 }
 
-                // Return counts.
+                // Return the counts.
                 return (successfulDownloadCount, failedDownloadCount)
             }
 
@@ -87,6 +90,7 @@ public extension S3TransferManager {
 
     internal func validateOrCreateDestinationDirectory(input: DownloadBucketInput) throws {
         if FileManager.default.fileExists(atPath: input.destination.path) {
+            // Throw if destination exists but isn't a directory.
             guard try input.destination.resourceValues(forKeys: [.isDirectoryKey]).isDirectory ?? false else {
                 throw S3TMDownloadBucketError.ProvidedDestinationIsNotADirectory
             }
@@ -129,7 +133,7 @@ public extension S3TransferManager {
             let originalKey = object.key!
 
             // Use user-provided filter to skip objects.
-            // If key ends with delimiter it's a 0-byte file used by S3 to simulate directory structure; skip that too.
+            // If key ends with delimiter, it's a 0-byte file used by S3 to simulate directory structure; skip that too.
             if filter(object) || originalKey.hasSuffix(s3Delimiter) {
                return nil
             }
@@ -138,9 +142,10 @@ public extension S3TransferManager {
 
             // Replace instances of s3Delimiter in keyWithoutPrefix with Mac/Linux system default
             //      path separtor "/" if s3Delimiter isn't "/".
+            // This effectively "translates" object key value to a file path.
             let relativeFilePath = s3Delimiter == defaultPathSeparator() ? keyWithoutPrefix : keyWithoutPrefix.replacingOccurrences(of: s3Delimiter, with: defaultPathSeparator())
 
-            // If relativeFilePath escapes destination directory, skip the object.
+            // If relativeFilePath escapes destination directory, skip it.
             if (filePathEscapesDestination(filePath: relativeFilePath)) {
                 return nil
             }
@@ -150,12 +155,11 @@ public extension S3TransferManager {
         })
     }
 
-    // Returns mapping of original object keys to created file URLs.
     internal func createDestinationFiles(keyToResolvedURLMapping: [String: URL]) throws -> [String: URL] {
         var objectKeyToCreatedURLMapping: [String: URL] = [:]
         for pair in keyToResolvedURLMapping {
             let destinationPath = pair.value.standardizedFileURL.path
-            // Check if a file already exists at destinationURL
+            // Check if a file already exists at destinationURL.
             if FileManager.default.fileExists(atPath: destinationPath) {
                 // Skip this object if there's duplicate.
                 logger.debug("Skipping object with key \(pair.key) that resolves to location previously processed.")
@@ -164,7 +168,7 @@ public extension S3TransferManager {
                 try createFile(at: URL(fileURLWithPath: destinationPath))
             }
 
-            // Save the resolved file URL mapping.
+            // Save the created file URL mapping.
             objectKeyToCreatedURLMapping[pair.key] = pair.value
         }
         return objectKeyToCreatedURLMapping
@@ -181,16 +185,18 @@ public extension S3TransferManager {
             outputStream: outputStream,
             getObjectInput: GetObjectInput(
                 bucket: input.bucket,
-                // User must've set s3Client.config.responseChecksumValidation to false as well
+                // User must've set `s3Client.config.responseChecksumValidation` to `.whenRequired` as well
                 //  to disable response checksum validation.
                 checksumMode: config.checksumValidationEnabled ? .enabled : .sdkUnknown("DISABLED"),
                 key: pair.key
             )
         )
         do {
+            // Create S3TM `downloadObject` task and await its completion before returning.
             let downloadObjectTask = try downloadObject(input: downloadObjectInput)
             _ = try await downloadObjectTask.value
         } catch {
+            // Upon failure, wrap the original error and the input in the synthetic error and throw.
             throw S3TMDownloadBucketError.FailedToDownloadAnObject(
                 originalErrorFromDownloadObject: error,
                 failedDownloadObjectInput: downloadObjectInput
@@ -208,6 +214,7 @@ public extension S3TransferManager {
                 nestedLevel += 1
             }
             // If at any point we go outside of destination directory (negative level), return true.
+            // It _could_ come back into destination directory, but we just return as soon as it escapes for simplicity.
             if nestedLevel < 0 {
                 return true
             }
@@ -221,8 +228,8 @@ public extension S3TransferManager {
         // Get the directory path by deleting the last path component (the file name)
         let directoryURL = url.deletingLastPathComponent()
 
-        // Create the directories if necessary.
         do {
+            // No-op if directory already exists.
             try fileManager.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
         } catch {
             throw S3TMDownloadBucketError.FailedToCreateNestedDestinationDirectory(at: directoryURL)
@@ -233,12 +240,15 @@ public extension S3TransferManager {
     }
 }
 
-/// A non-exhausive list of errors that can be thrown by the DownloadBucket operation of S3 Transfer Manager.
+/// A non-exhausive list of errors that can be thrown by the `downloadBucket` operation of `S3TransferManager`.
 public enum S3TMDownloadBucketError: Error {
     case ProvidedDestinationIsNotADirectory
     case FailedToCreateDestinationDirectory
     case FailedToRetrieveObjectsUsingListObjectsV2
     case FailedToCreateOutputStreamForFileURL(url: URL)
-    case FailedToDownloadAnObject(originalErrorFromDownloadObject: Error, failedDownloadObjectInput: DownloadObjectInput)
+    case FailedToDownloadAnObject(
+        originalErrorFromDownloadObject: Error,
+        failedDownloadObjectInput: DownloadObjectInput
+    )
     case FailedToCreateNestedDestinationDirectory(at: URL)
 }
