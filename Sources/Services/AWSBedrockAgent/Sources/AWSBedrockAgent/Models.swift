@@ -3401,28 +3401,32 @@ extension BedrockAgentClientTypes {
         public var inclusionFilters: [Swift.String]?
         /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary domain. For example, only web pages that contain the seed URL "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other domains. You can choose to include sub domains in addition to the host or primary domain. For example, web pages that contain "aws.amazon.com" can also include sub domain "docs.aws.amazon.com".
         public var scope: BedrockAgentClientTypes.WebScopeType?
-        /// A string used for identifying the crawler or a bot when it accesses a web server. By default, this is set to bedrockbot_UUID for your crawler. You can optionally append a custom string to bedrockbot_UUID to allowlist a specific user agent permitted to access your source URLs.
+        /// Returns the user agent suffix for your web crawler.
         public var userAgent: Swift.String?
+        /// A string used for identifying the crawler or bot when it accesses a web server. The user agent header value consists of the bedrockbot, UUID, and a user agent suffix for your crawler (if one is provided). By default, it is set to bedrockbot_UUID. You can optionally append a custom suffix to bedrockbot_UUID to allowlist a specific user agent permitted to access your source URLs.
+        public var userAgentHeader: Swift.String?
 
         public init(
             crawlerLimits: BedrockAgentClientTypes.WebCrawlerLimits? = nil,
             exclusionFilters: [Swift.String]? = nil,
             inclusionFilters: [Swift.String]? = nil,
             scope: BedrockAgentClientTypes.WebScopeType? = nil,
-            userAgent: Swift.String? = nil
+            userAgent: Swift.String? = nil,
+            userAgentHeader: Swift.String? = nil
         ) {
             self.crawlerLimits = crawlerLimits
             self.exclusionFilters = exclusionFilters
             self.inclusionFilters = inclusionFilters
             self.scope = scope
             self.userAgent = userAgent
+            self.userAgentHeader = userAgentHeader
         }
     }
 }
 
 extension BedrockAgentClientTypes.WebCrawlerConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WebCrawlerConfiguration(crawlerLimits: \(Swift.String(describing: crawlerLimits)), scope: \(Swift.String(describing: scope)), exclusionFilters: \"CONTENT_REDACTED\", inclusionFilters: \"CONTENT_REDACTED\", userAgent: \"CONTENT_REDACTED\")"}
+        "WebCrawlerConfiguration(crawlerLimits: \(Swift.String(describing: crawlerLimits)), scope: \(Swift.String(describing: scope)), exclusionFilters: \"CONTENT_REDACTED\", inclusionFilters: \"CONTENT_REDACTED\", userAgent: \"CONTENT_REDACTED\", userAgentHeader: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -3888,9 +3892,9 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Settings for a foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) used to parse documents for a data source.
+    /// Settings for a foundation model used to parse documents for a data source.
     public struct BedrockFoundationModelConfiguration: Swift.Sendable {
-        /// The ARN of the foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to use for parsing.
+        /// The ARN of the foundation model to use for parsing.
         /// This member is required.
         public var modelArn: Swift.String?
         /// Specifies whether to enable parsing of multimodal data, including both text and/or images.
@@ -9219,7 +9223,7 @@ extension BedrockAgentClientTypes {
 
     /// Contains details about the model used to create vector embeddings for the knowledge base.
     public struct VectorKnowledgeBaseConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the model or inference profile used to create vector embeddings for the knowledge base.
+        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         /// This member is required.
         public var embeddingModelArn: Swift.String?
         /// The embeddings model configuration details for the vector model used in Knowledge Base.
@@ -15756,6 +15760,7 @@ extension BedrockAgentClientTypes.WebCrawlerConfiguration {
         try writer["inclusionFilters"].writeList(value.inclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scope"].write(value.scope)
         try writer["userAgent"].write(value.userAgent)
+        try writer["userAgentHeader"].write(value.userAgentHeader)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.WebCrawlerConfiguration {
@@ -15766,6 +15771,7 @@ extension BedrockAgentClientTypes.WebCrawlerConfiguration {
         value.exclusionFilters = try reader["exclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scope = try reader["scope"].readIfPresent()
         value.userAgent = try reader["userAgent"].readIfPresent()
+        value.userAgentHeader = try reader["userAgentHeader"].readIfPresent()
         return value
     }
 }
