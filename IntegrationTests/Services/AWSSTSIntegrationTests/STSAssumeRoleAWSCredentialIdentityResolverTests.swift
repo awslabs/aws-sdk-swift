@@ -14,9 +14,9 @@ import ClientRuntime
 #if canImport(InMemoryExporter)
 import InMemoryExporter
 #endif
-#if os(Linux)
-import OpenTelemetryConcurrency
-#endif
+//#if os(Linux)
+//import OpenTelemetryConcurrency
+//#endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
