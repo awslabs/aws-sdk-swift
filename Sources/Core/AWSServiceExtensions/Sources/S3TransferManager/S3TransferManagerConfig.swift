@@ -7,7 +7,7 @@
 
 import AWSS3
 
-/// The config object for the S3 Transfer Manager.
+/// The config object for `S3TransferManager`.
 public class S3TransferManagerConfig {
     let s3Client: S3Client
     let targetPartSizeBytes: Int
@@ -16,15 +16,15 @@ public class S3TransferManagerConfig {
     let checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm
     let multipartDownloadType: MultipartDownloadType
 
-    /// Creates the config object for the S3 Transfer Manager.
+    /// Initializes `S3TransferManagerConfig` with provided parameters.
     ///
     /// - Parameters:
-    ///    - s3Client: The S3 client instance to use for the transfer manager. If not provided, a default client is created for use.
+    ///    - s3Client: The S3 client instance to use for the transfer manager. If not provided, a default client is created.
     ///    - targetPartSizeBytes: The part size used by multipart operations. The last part can be shorter. Default value is 8MB.
-    ///    - multipartUploadThresholdBytes:The threshold at which multipart operations get used instead of single putObject for uploadObject operation. Default value is 16MB.
-    ///    - checksumValidationEnabled: Specifies whether checksum should be validated for the DownloadBucket operation. Checksum of each downloaded object is validated only if part GET was used for downloads. Your checksum behavior configuration on the S3 client influences this behavior as well. To turn off response checksum validation, you must set both `checksumValidationEnabled`(this config)  and `responseChecksumValidation` (config on S3 client) to `false`. Default value is `true`.
-    ///    - checksumAlgorithm: Specifies the checksum algorithm to use for the UploadDirectory operation. Default algorithm is CRC32.
-    ///    - multipartDownloadType: Specifies the behavior of multipart download operations. Default value is `.part`, which configures individual getObject calls to use part numbers for multipart download. The other option is `.range`, which uses the byte range of the S3 object for multipart download. If what you want to download was uploaded without using multipart upload (therefore there's no part number available), then you must use `.range`.
+    ///    - multipartUploadThresholdBytes: The threshold at which multipart operations get used instead of a single `putObject` for the `uploadObject` operation. Default value is 16MB.
+    ///    - checksumValidationEnabled: Specifies whether or not the checksum should be validated for the `downloadBucket` operation. Checksum of each downloaded object is validated only if the object was originally uploaded with MPU with partial checksums AND part GET was used with `downloadObject`. Your checksum behavior configuration on the `s3Client` influences the checksum validation behavior as well. Default value is `true`.
+    ///    - checksumAlgorithm: Specifies the checksum algorithm to use for the `uploadDirectory` operation. Default algorithm is CRC32.
+    ///    - multipartDownloadType: Specifies the behavior of multipart download operations. Default value is `.part`, which configures individual `getObject` calls to use part numbers for multipart downloads. The other option is `.range`, which uses the byte range of the S3 object for multipart downloads. If what you want to download was uploaded without using multipart upload (therefore there's no part number available), then you should use `.range`.
     public init(
         s3Client: S3Client? = nil,
         targetPartSizeBytes: Int = 8_000_000,
@@ -47,8 +47,8 @@ public class S3TransferManagerConfig {
     }
 }
 
-/// The multipart download type enum. This is a config option in `S3TransferManagerConfig`.
+/// The enum namespace for the two multipart download types `.range` and `.part`. This is a config option in `S3TransferManagerConfig`.
 public enum MultipartDownloadType {
-    case range // Range HTTP header w/ getObject
-    case part // partNumber HTTP query parameter w/ getObject
+    case range // Range HTTP header w/ getObject calls.
+    case part // partNumber HTTP query parameter w/ getObject calls.
 }

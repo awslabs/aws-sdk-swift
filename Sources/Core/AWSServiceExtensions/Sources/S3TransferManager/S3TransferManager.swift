@@ -8,37 +8,33 @@
 import AWSS3
 import class Foundation.DispatchQueue
 import class Foundation.DispatchSemaphore
-import struct Foundation.URL
 import struct Smithy.SwiftLogger
 
-/// The Transfer Manager for S3. S3TM for short.
-/// The S3TM is an out-of-the-box solution for performant uploads & downloads for both single and multiple files (local directory / S3 bucket).
+/// The Transfer Manager for AWS S3, S3TM for short.
+/// The S3TM is an out-of-the-box solution for performant and reliable uploads & downloads to and from AWS S3 buckets.
 ///
 /// The S3 Transfer Manager (S3TM) for Swift supports the following features:
 ///  - Upload a single object to S3
 ///  - Download a single object from S3
 ///  - Upload a local directory to S3
 ///  - Download everything in a S3 bucket into a local directory
-///  - Track transfer progress for all the operations above
+///  - Track transfer progress for all of the above
 ///
-/// For object(s) bigger than the threshold size specified in the config:
-///  - For uploads, S3TM uses S3's multipart upload & Swift concurrency.
-///  - For downloads, S3TM uses range GET or part GET as specified in config & Swift concurrency.
-/// For directory uploads, you can configure whether to upload everything in the directory recursively or not.
+/// All operations return immediately with a `Task` that can be optionally waited on for the operation output.
 ///
-/// All operations return immediately with a `Task` that can be optionally waited on for the operation result.
+/// For information on what options there are for each operation, go to the input type documentation (e.g., `UploadObjectInput`).
 public class S3TransferManager {
-    let config: S3TransferManagerConfig
-    let logger: SwiftLogger
+    internal let config: S3TransferManagerConfig
+    internal let logger: SwiftLogger
     internal let semaphoreManager = S3TMSemaphoreManager()
 
-    /// Creates the S3 Transfer Manager using a default transfer manager config with a default S3 client.
+    /// Initializes `S3TransferManager` with default configurations.
     public init() async throws {
         self.config = try await S3TransferManagerConfig()
         logger = SwiftLogger(label: "S3TransferManager")
     }
 
-    /// Creates the S3 Transfer Manager with the provided config.
+    /// Initializes `S3TransferManager` with the provided config.
     ///
     /// - Parameters:
     ///   - config: An instance of `S3TransferManagerConfig`.
@@ -54,7 +50,7 @@ public class S3TransferManager {
         return "/" // Default path separator for all apple platforms & Linux distros.
     }
 
-    // Helper function to make semaphore.wait() async.
+    // Helper function that makes semaphore.wait() async.
     internal func wait(_ semaphore: DispatchSemaphore) async {
         await withCheckedContinuation { continuation in
             DispatchQueue.global().async {  // Run on a separate GCD thread to prevent deadlock.
