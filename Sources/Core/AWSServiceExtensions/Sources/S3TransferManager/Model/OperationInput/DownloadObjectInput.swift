@@ -8,7 +8,7 @@
 import AWSS3
 import class Foundation.OutputStream
 
-/// The synthetic input type for the DownloadObject operation of S3 Transfer Manager.
+/// The synthetic input type for the `downloadObject` operation of `S3TransferManager`.
 public struct DownloadObjectInput: TransferInput {
     public let operationType: OperationType = .downloadObject
 
@@ -16,12 +16,12 @@ public struct DownloadObjectInput: TransferInput {
     public let getObjectInput: GetObjectInput
     public let transferListeners: [TransferListener]
 
-    /// Creates `DownloadObjectInput` using `GetObjectInput`.
+    /// Initializes `DownloadObjectInput` with provided parameters.
     ///
     /// - Parameters:
-    ///   - outputStream: Where the S3 transfer manager should write the retrieved S3 object to.
-    ///   - getObjectInput: An instance of `GetObjectInput` struct.
-    ///   - transferListeners: An array of `TransferListener`. The transfer progress of DownloadObject operation will be published to each transfer listener provided here via hooks. Default value is an empty array.
+    ///   - outputStream: The destination of the downloaded S3 object.
+    ///   - getObjectInput: An instance of the `GetObjectInput` struct.
+    ///   - transferListeners: An array of `TransferListener`. The transfer progress of the operation will be published to each transfer listener provided here via hooks. Default value is an empty array.
     public init(
         outputStream: OutputStream,
         getObjectInput: GetObjectInput,
@@ -32,7 +32,8 @@ public struct DownloadObjectInput: TransferInput {
         self.transferListeners = transferListeners
     }
 
-    // Helper function to get copy of `self.getObjectInput` but using provided partNumber of range.
+    // MARK: - Internal helper functions for converting / transforming input(s).
+
     func copyGetObjectInputWithPartNumberOrRange(
         partNumber: Int? = nil,
         range: String? = nil

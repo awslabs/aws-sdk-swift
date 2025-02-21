@@ -8,7 +8,7 @@
 import AWSS3
 import struct Foundation.URL
 
-/// The synthetic input type for the UploadDirectory operation of S3 Transfer Manager.
+/// The synthetic input type for the `uploadDirectory` operation of `S3TransferManager`.
 public struct UploadDirectoryInput: TransferInput {
     public let operationType: OperationType = .uploadDirectory
 
@@ -22,18 +22,18 @@ public struct UploadDirectoryInput: TransferInput {
     public let failurePolicy: FailurePolicy
     public let transferListeners: [TransferListener]
 
-    /// Creates `UploadDirectoryInput` using provided parameters.
+    /// Initializes `UploadDirectoryInput` with provided parameters.
     ///
     /// - Parameters:
-    ///   - bucket: The name of the S3 bucket to upload local directory to.
+    ///   - bucket: The name of the S3 bucket to upload the local directory to.
     ///   - source: The URL for the local directory to upload.
-    ///   - followSymbolicLinks: The flag for whether to follow symlinks or not during recursive upload. Default is value is `false`.
-    ///   - recursive: The flag for whether to recursively upload the local directory, including contents of all subdirectories. Default value is `false`.
-    ///   - s3Prefix: All files uploaded will have this prefix prepended to their object key values. Default value is `nil`.
-    ///   - s3Delimiter: All files uploaded will use this as their path separator in the object key instead of the system default. E.g., if `source` is `/dir1`, `s3Delimiter` is `"-"`, and the file being uploaded is at `/dir1/dir2/dir3/dir4/file.txt`, the uploaded S3 object will have the key `dir2-dir3-dir4-file.txt`. Default value is `"/"`, which is the system default path separator for all Apple platforms and Linux distros.
-    ///   - putObjectRequestCallback: A closure that allows input customization for the individual `PutObjectInput` used behind the scenes. Default behavior is a no-op closure that returns provided input without modification.
-    ///   - failurePolicy: A closure that handles failed operations. Default behavior is simple bubble-up of the error, which causes the operation and all child tasks to get cancelled.
-    ///   - transferListeners: An array of `TransferListener`. The transfer progress of the UploadDirectory operation will be published to each transfer listener provided here via hooks. Default value is an empty array.
+    ///   - followSymbolicLinks: The flag for whether to follow symlinks or not. Default value is `false`.
+    ///   - recursive: The flag for whether to recursively upload `source` including contents of all subdirectories. Default value is `false`.
+    ///   - s3Prefix: The S3 key prefix prepended to object keys during uploads. E.g., if this value is set to `"pre-"`, `source` is set to `/dir1`, and the file being uploaded is `/dir1/dir2/file.txt`, then the uploaded S3 object would have the key `pre-dir2/file.txt`. Default value is `nil`.
+    ///   - s3Delimiter: The path separator to use in the object key. E.g., if `source` is `/dir1`, `s3Delimiter` is `"-"`, and the file being uploaded is `/dir1/dir2/dir3/dir4/file.txt`, then the uploaded S3 object will have the key `dir2-dir3-dir4-file.txt`. Default value is `"/"`, which is the system default path separator for all Apple platforms and Linux distros.
+    ///   - putObjectRequestCallback: A closure that allows customizing the individual `PutObjectInput` passed to each part `putObject` calls used behind the scenes. Default behavior is a no-op closure that returns provided `PutObjectInput` without modification.
+    ///   - failurePolicy: A closure that handles failed operations. Default behavior is `DefaultFailurePolicy.rethrowExceptionToTerminateRequest`, which bubbles up the error to the caller and terminates the operation.
+    ///   - transferListeners: An array of `TransferListener`. The transfer progress of the operation will be published to each transfer listener provided here via hooks. Default value is an empty array.
     public init(
         bucket: String,
         source: URL,
@@ -54,17 +54,13 @@ public struct UploadDirectoryInput: TransferInput {
         self.putObjectRequestCallback = putObjectRequestCallback
         self.failurePolicy = failurePolicy
         self.transferListeners = transferListeners
+        try validateSourceURL(source, followSymbolicLinks: followSymbolicLinks)
     }
 
     private func validateSourceURL(_ source: URL, followSymbolicLinks: Bool) throws {
-        let urlProperties = try source.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])
+        let urlProperties = try source.resourceValues(forKeys: [.isDirectoryKey])
         guard urlProperties.isDirectory ?? false else {
-            throw S3TMUploadDirectoryError.InvalidSourceURL("Provided source URL is not a directory URL.")
-        }
-        if (urlProperties.isSymbolicLink ?? false) && !followSymbolicLinks {
-            throw S3TMUploadDirectoryError.InvalidSourceURL(
-                "Provided source URL is symlink for a direcotry, but `input.followSymbolicLinks` is false."
-            )
+            throw S3TMUploadDirectoryError.InvalidSourceURL("Invalid source: provided source URL is not a directory URL.")
         }
     }
 }
