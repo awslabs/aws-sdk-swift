@@ -23,6 +23,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
 
         XCTAssertEqual(credentials.accessKey, "access_key_default_cred")
         XCTAssertEqual(credentials.secret, "secret_default_cred")
+        XCTAssertEqual(credentials.accountID, "account_id_default_config")
     }
 
     func testGetCredentialsWithDefaultProfileContainingProcess() async throws {
@@ -34,6 +35,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
 
         XCTAssertEqual(credentials.accessKey, "AccessKey123")
         XCTAssertEqual(credentials.secret, "SecretAccessKey123")
+        XCTAssertEqual(credentials.accountID, "012345678901")
     }
 
     func testGetCredentialsWithNamedProfileFromConfigFile() async throws {
@@ -46,6 +48,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         
         XCTAssertEqual(credentials.accessKey, "access_key_profile_config")
         XCTAssertEqual(credentials.secret, "secret_profile_config")
+        XCTAssertEqual(credentials.accountID, "account_id_profile_config")
     }
     
     func testGetCredentialsWithNamedProfileFromCredentialsFile() async throws {
@@ -58,5 +61,6 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         
         XCTAssertEqual(credentials.accessKey, "access_key_profile_cred")
         XCTAssertEqual(credentials.secret, "secret_profile_cred")
+        XCTAssertNil(credentials.accountID)
     }
 }
