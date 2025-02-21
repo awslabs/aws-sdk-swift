@@ -54,10 +54,10 @@ public struct UploadDirectoryInput: TransferInput {
         self.putObjectRequestCallback = putObjectRequestCallback
         self.failurePolicy = failurePolicy
         self.transferListeners = transferListeners
-        try validateSourceURL(source, followSymbolicLinks: followSymbolicLinks)
+        try validateSourceURL(source)
     }
 
-    private func validateSourceURL(_ source: URL, followSymbolicLinks: Bool) throws {
+    private func validateSourceURL(_ source: URL) throws {
         let urlProperties = try source.resourceValues(forKeys: [.isDirectoryKey])
         guard urlProperties.isDirectory ?? false else {
             throw S3TMUploadDirectoryError.InvalidSourceURL("Invalid source: provided source URL is not a directory URL.")
