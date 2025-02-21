@@ -11,6 +11,7 @@ import struct AWSSDKIdentity.EnvironmentAWSCredentialIdentityResolver
 import enum Smithy.ClientError
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
+
     func testInvalidSessionName() async throws {
         XCTAssertThrowsError(try STSAssumeRoleAWSCredentialIdentityResolver(
                 awsCredentialIdentityResolver: try EnvironmentAWSCredentialIdentityResolver(),
