@@ -77,14 +77,17 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertNotEqual(arn, "")
     }
 
+    // Right now opentelemetry-swift doesnt support linux or visionos
+    #if !(os(Linux) || os(visionOS))
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
 
-        #if os(Linux)
+        // Uncomment below when linux becomes supported
+        //#if os(Linux)
         // On Apple platforms, the default is the activity based context manager. We want to opt-in to the structured concurrency based context manager instead.
-        OpenTelemetry.registerDefaultConcurrencyContextManager()
-        #endif
+        // OpenTelemetry.registerDefaultConcurrencyContextManager()
+        //#endif
 
         let config = try await STSClient.STSClientConfiguration(
             region: "us-west-2",
@@ -102,6 +105,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
             "Expected STS.GetCallerIdentity span not found"
         )
     }
+    #endif
 
     // MARK: - Setup & teardown
 
