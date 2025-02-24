@@ -41,8 +41,8 @@ class DownloadBucketUnitTests: S3TMUnitTestCase {
 
     // MARK: - getFileURLsResolvedFromObjectKeys tests.
 
-    func testResolveFileURLsFromObjectKeysWithCustomFilter() {
-        let objects = s3ObjectsForFileURLsResolvedFromObjectKeysTests()
+    func testGetFileURLsResolvedFromObjectKeysWithCustomFilter() {
+        let objects = s3ObjectsForGetFileURLsResolvedFromObjectKeysTests()
         let destination = URL(string: "dest/")!
         let objectKeyToResolvedURL = DownloadBucketUnitTests.tm.getFileURLsResolvedFromObjectKeys(
             objects: objects,
@@ -58,9 +58,9 @@ class DownloadBucketUnitTests: S3TMUnitTestCase {
         XCTAssertEqual(objectKeyToResolvedURL, expectedMap)
     }
 
-    func testResolveFileURLsFromObjectKeysWithS3Prefix() {
+    func testGetFileURLsResolvedFromObjectKeysWithS3Prefix() {
         let prefix = "pre/"
-        let objects = s3ObjectsForFileURLsResolvedFromObjectKeysTests(
+        let objects = s3ObjectsForGetFileURLsResolvedFromObjectKeysTests(
             prefix: prefix
         )
         let destination = URL(string: "dest/")!
@@ -80,8 +80,8 @@ class DownloadBucketUnitTests: S3TMUnitTestCase {
         XCTAssertEqual(objectKeyToResolvedURL, expectedMap)
     }
 
-    func testResolveFileURLsFromObjectKeysWithCustomS3Delimiter() {
-        let objects = s3ObjectsForFileURLsResolvedFromObjectKeysTests(
+    func testGetFileURLsResolvedFromObjectKeysWithCustomS3Delimiter() {
+        let objects = s3ObjectsForGetFileURLsResolvedFromObjectKeysTests(
             delimiter: "-"
         )
         let destination = URL(string: "dest/")!
@@ -102,7 +102,7 @@ class DownloadBucketUnitTests: S3TMUnitTestCase {
     }
 
     /*
-         Helper function for gteFileURLsResolvedFromObjectKeys tests.
+         Helper function for getFileURLsResolvedFromObjectKeys tests.
 
          List of used keys:
          - simulatedDirectory/
@@ -112,7 +112,7 @@ class DownloadBucketUnitTests: S3TMUnitTestCase {
          - dir1/dir2/c.txt
          - dir3/d.txt
      */
-    private func s3ObjectsForFileURLsResolvedFromObjectKeysTests(
+    private func s3ObjectsForGetFileURLsResolvedFromObjectKeysTests(
         delimiter d: String = "/",
         prefix: String = ""
     ) -> [S3ClientTypes.Object] {
