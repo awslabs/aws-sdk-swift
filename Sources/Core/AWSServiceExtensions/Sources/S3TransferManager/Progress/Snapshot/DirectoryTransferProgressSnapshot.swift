@@ -7,10 +7,6 @@
 
 /// The transfer progress snapshot for directory operations; `uploadDirectory` and `downloadBucket`.
 public struct DirectoryTransferProgressSnapshot: TransferProgressSnapshot {
-    /// Total number of bytes transferred so far.
-    public let transferredBytes: Int
-    /// Total size of the transfer. Known beforehand for upload; unknown for download until completion.
-    public let totalBytes: Int?
     /// Total number of files successfully transferred so far.
     public let transferredFiles: Int
     // `uploadDirectory` and `downloadBucket` use batch-processing; so it can't know the total number of files

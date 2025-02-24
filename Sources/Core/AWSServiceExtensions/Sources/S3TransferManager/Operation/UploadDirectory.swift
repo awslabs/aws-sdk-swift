@@ -35,17 +35,23 @@ public extension S3TransferManager {
                 returning: (successfulUploadCount: Int, failedUploadCount: Int).self
             ) { group in
                 // Add `uploadObject` child tasks.
+                var uploadObjectOperationNum = 1
                 for url in nestedFileURLs {
                     group.addTask {
                         do {
                             try Task.checkCancellation()
-                            _ = try await self.uploadObjectFromURL(url: url, input: input)
+                            _ = try await self.uploadObjectFromURL(
+                                url: url,
+                                input: input,
+                                operationNumber: uploadObjectOperationNum
+                            )
                             return .success(())
                         } catch {
                             // Errors are caught and wrapped in .failure to allow individual error handling.
                             return .failure(error)
                         }
                     }
+                    uploadObjectOperationNum += 1
                 }
 
                 // Collect results of `uploadObject` child tasks.
@@ -168,7 +174,11 @@ public extension S3TransferManager {
         } : directlyNestedURLs // Return without changing base URL if original URL wasn't a symlink.
     }
 
-    private func uploadObjectFromURL(url: URL, input: UploadDirectoryInput) async throws {
+    private func uploadObjectFromURL(
+        url: URL,
+        input: UploadDirectoryInput,
+        operationNumber: Int
+    ) async throws {
         let resolvedObjectKey = try getResolvedObjectKey(
             of: url,
             inDir: input.source,
@@ -184,6 +194,7 @@ public extension S3TransferManager {
         }
 
         let uploadObjectInput = UploadObjectInput(
+            operationID: input.operationID + "-\(operationNumber)",
             // This is the callback that allows custom modifications of
             //  the individual `PutObjectInput` structs for the SDK user.
             putObjectInput: input.putObjectRequestCallback(PutObjectInput(
@@ -191,7 +202,8 @@ public extension S3TransferManager {
                 bucket: input.bucket,
                 checksumAlgorithm: config.checksumAlgorithm,
                 key: resolvedObjectKey
-            ))
+            )),
+            transferListeners: input.transferListeners
         )
 
         do {

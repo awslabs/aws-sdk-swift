@@ -45,17 +45,23 @@ public extension S3TransferManager {
                 returning: (successfulDownloadCount: Int, failedDownloadCount: Int).self
             ) { group in
                 // Add `downloadObject` child tasks.
+                var downloadObjectOperationNum = 1
                 for pair in objectKeyToCreatedFileURLMap {
                     group.addTask {
                         do {
                             try Task.checkCancellation()
-                            _ = try await self.downloadSingleObject(objectKeyToURL: pair, input: input)
+                            _ = try await self.downloadSingleObject(
+                                objectKeyToURL: pair,
+                                input: input,
+                                operationNumber: downloadObjectOperationNum
+                            )
                             return .success(())
                         } catch {
                             // Errors are caught and wrapped in .failure to allow individual error handling.
                             return .failure(error)
                         }
                     }
+                    downloadObjectOperationNum += 1
                 }
 
                 // Collect results of `downloadObject` child tasks.
@@ -176,12 +182,14 @@ public extension S3TransferManager {
 
     private func downloadSingleObject(
         objectKeyToURL pair: (key: String, value: URL),
-        input: DownloadBucketInput
+        input: DownloadBucketInput,
+        operationNumber: Int
     ) async throws {
         guard let outputStream = OutputStream(url: pair.value, append: true) else {
             throw S3TMDownloadBucketError.FailedToCreateOutputStreamForFileURL(url: pair.value)
         }
         let downloadObjectInput = DownloadObjectInput(
+            operationID: input.operationID + "-\(operationNumber)",
             outputStream: outputStream,
             getObjectInput: GetObjectInput(
                 bucket: input.bucket,
@@ -189,7 +197,8 @@ public extension S3TransferManager {
                 //  to disable response checksum validation.
                 checksumMode: config.checksumValidationEnabled ? .enabled : .sdkUnknown("DISABLED"),
                 key: pair.key
-            )
+            ),
+            transferListeners: input.transferListeners
         )
         do {
             // Create S3TM `downloadObject` task and await its completion before returning.

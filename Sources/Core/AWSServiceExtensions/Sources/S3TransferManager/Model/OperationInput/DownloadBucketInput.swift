@@ -7,9 +7,12 @@
 
 import AWSS3
 import struct Foundation.URL
+import struct Foundation.UUID
 
 /// The synthetic input type for the `downloadBucket` operation of `S3TransferManager`.
 public struct DownloadBucketInput: TransferInput {
+    public let operationID: String = UUID().uuidString
+
     public let bucket: String
     public let destination: URL
     public let s3Prefix: String?

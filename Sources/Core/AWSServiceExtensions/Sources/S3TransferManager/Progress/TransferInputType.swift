@@ -24,4 +24,18 @@ public enum TransferInputType {
     case downloadObject(DownloadObjectInput)
     case uploadDirectory(UploadDirectoryInput)
     case downloadBucket(DownloadBucketInput)
+
+    public init(from input: any TransferInput) {
+        if let uploadInput = input as? UploadObjectInput {
+            self = .uploadObject(uploadInput)
+        } else if let downloadInput = input as? DownloadObjectInput {
+            self = .downloadObject(downloadInput)
+        } else if let uploadDirInput = input as? UploadDirectoryInput {
+            self = .uploadDirectory(uploadDirInput)
+        } else if let downloadBucketInput = input as? DownloadBucketInput {
+            self = .downloadBucket(downloadBucketInput)
+        } else {
+            fatalError("Unexpected TransferInput type: \(type(of: input))")
+        }
+    }
 }

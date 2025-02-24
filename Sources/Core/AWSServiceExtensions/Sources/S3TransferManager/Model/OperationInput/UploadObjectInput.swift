@@ -7,9 +7,12 @@
 
 import AWSS3
 import enum Smithy.ByteStream
+import struct Foundation.UUID
 
 /// The synthetic input type for the `uploadObject` operation of `S3TransferManager`.
 public struct UploadObjectInput: TransferInput {
+    public let operationID: String
+
     public let putObjectInput: PutObjectInput
     public let transferListeners: [TransferListener]
 
@@ -22,6 +25,19 @@ public struct UploadObjectInput: TransferInput {
         putObjectInput: PutObjectInput,
         transferListeners: [TransferListener] = []
     ) {
+        self.operationID = UUID().uuidString
+        self.putObjectInput = putObjectInput
+        self.transferListeners = transferListeners
+    }
+
+    // Internal initializer used by the `uploadDirectory` operation to provide specific operation IDs for
+    //  "child" requests. Allows grouping requests together by the operation IDs.
+    internal init(
+        operationID: String,
+        putObjectInput: PutObjectInput,
+        transferListeners: [TransferListener] = []
+    ) {
+        self.operationID = operationID
         self.putObjectInput = putObjectInput
         self.transferListeners = transferListeners
     }

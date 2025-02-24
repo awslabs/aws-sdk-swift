@@ -7,9 +7,12 @@
 
 import AWSS3
 import struct Foundation.URL
+import struct Foundation.UUID
 
 /// The synthetic input type for the `uploadDirectory` operation of `S3TransferManager`.
 public struct UploadDirectoryInput: TransferInput {
+    public let operationID: String = UUID().uuidString
+
     public let bucket: String
     public let source: URL
     public let followSymbolicLinks: Bool

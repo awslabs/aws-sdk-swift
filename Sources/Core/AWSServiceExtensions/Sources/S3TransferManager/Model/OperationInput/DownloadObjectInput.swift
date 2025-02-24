@@ -7,9 +7,12 @@
 
 import AWSS3
 import class Foundation.OutputStream
+import struct Foundation.UUID
 
 /// The synthetic input type for the `downloadObject` operation of `S3TransferManager`.
 public struct DownloadObjectInput: TransferInput {
+    public let operationID: String
+
     public let outputStream: OutputStream
     public let getObjectInput: GetObjectInput
     public let transferListeners: [TransferListener]
@@ -25,6 +28,21 @@ public struct DownloadObjectInput: TransferInput {
         getObjectInput: GetObjectInput,
         transferListeners: [TransferListener] = []
     ) {
+        self.operationID = UUID().uuidString
+        self.outputStream = outputStream
+        self.getObjectInput = getObjectInput
+        self.transferListeners = transferListeners
+    }
+
+    // Internal initializer used by the `downloadBucket` operation to provide specific operation IDs for
+    //  "child" requests. Allows grouping requests together by the operation IDs.
+    internal init(
+        operationID: String,
+        outputStream: OutputStream,
+        getObjectInput: GetObjectInput,
+        transferListeners: [TransferListener] = []
+    ) {
+        self.operationID = operationID
         self.outputStream = outputStream
         self.getObjectInput = getObjectInput
         self.transferListeners = transferListeners
