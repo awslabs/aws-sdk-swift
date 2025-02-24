@@ -5,5 +5,5 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// Parent protocol of all synthetic input types used with `S3TransferManager`.
+/// The parent protocol of all synthetic input types used with `S3TransferManager`.
 public protocol TransferInput {}
