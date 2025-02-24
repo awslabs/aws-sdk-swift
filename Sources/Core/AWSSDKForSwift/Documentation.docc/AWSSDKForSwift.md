@@ -355,8 +355,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticBeanstalk](../../../../../swift/api/awselasticbeanstalk/latest)
 
-[AWSElasticInference](../../../../../swift/api/awselasticinference/latest)
-
 [AWSElasticLoadBalancing](../../../../../swift/api/awselasticloadbalancing/latest)
 
 [AWSElasticLoadBalancingv2](../../../../../swift/api/awselasticloadbalancingv2/latest)

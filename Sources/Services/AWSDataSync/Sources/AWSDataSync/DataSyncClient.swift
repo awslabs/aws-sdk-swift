@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataSyncClient: ClientRuntime.Client {
     public static let clientName = "DataSyncClient"
-    public static let version = "1.2.24"
+    public static let version = "1.2.25"
     let client: ClientRuntime.SdkHttpClient
     let config: DataSyncClient.DataSyncClientConfiguration
     let serviceName = "DataSync"

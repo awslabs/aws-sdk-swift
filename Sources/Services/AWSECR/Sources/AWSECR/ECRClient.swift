@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECRClient: ClientRuntime.Client {
     public static let clientName = "ECRClient"
-    public static let version = "1.2.24"
+    public static let version = "1.2.25"
     let client: ClientRuntime.SdkHttpClient
     let config: ECRClient.ECRClientConfiguration
     let serviceName = "ECR"
