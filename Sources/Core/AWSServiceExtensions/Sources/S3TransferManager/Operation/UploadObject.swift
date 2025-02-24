@@ -7,6 +7,7 @@
 
 import AWSS3
 import class Foundation.DispatchSemaphore
+import class Foundation.NSLock
 import enum Smithy.ByteStream
 import func CoreFoundation.autoreleasepool
 import struct Foundation.Data
@@ -171,6 +172,7 @@ public extension S3TransferManager {
             // Task group returns completed parts sorted by the part number.
             returning: [S3ClientTypes.CompletedPart].self
         ) { group in
+            let byteStreamPartReader = ByteStreamPartReader(stream: input.putObjectInput.body!)
             for partNumber in 1...numParts {
                 // Wait & acquire semaphore before reading part data & adding a new uploadPart task for it.
                 await wait(semaphore)
@@ -184,7 +186,8 @@ public extension S3TransferManager {
                         return try await self.readPartData(
                             input: input,
                             partSize: resolvedPartSize,
-                            partOffset: partOffset
+                            partOffset: partOffset,
+                            byteStreamPartReader: byteStreamPartReader
                         )
                     }
 
@@ -236,13 +239,14 @@ public extension S3TransferManager {
     internal func readPartData(
         input: UploadObjectInput,
         partSize: Int,
-        partOffset: Int? = nil // Only used for reading from Data; streams should already point to next start.
+        partOffset: Int,
+        byteStreamPartReader: ByteStreamPartReader? = nil // Only used for stream payloads.
     ) async throws -> Data {
         var partData: Data?
         if case .data(let data) = input.putObjectInput.body {
-            partData = data?[partOffset!..<(partOffset! + partSize)]
-        } else if case .stream(let stream) = input.putObjectInput.body {
-            partData = try stream.read(upToCount: Int(partSize))
+            partData = data?[partOffset..<(partOffset + partSize)]
+        } else if case .stream = input.putObjectInput.body {
+            partData = try await byteStreamPartReader!.readPart(partOffset: partOffset, partSize: partSize)
         }
 
         guard let resolvedPartData = partData else {
@@ -336,4 +340,23 @@ public enum S3TMUploadObjectError: Error {
     case failedToCreateMPU
     case failedToReadPart
     case failedToAbortMPU(errorFromMPUOperation: Error, errorFromFailedAbortMPUOperation: Error)
+    case unseekableStreamPayload
+}
+
+// An actor used to read a ByteStream in parts while ensuring concurrency-safety.
+internal actor ByteStreamPartReader {
+    private let stream: ByteStream
+
+    init(stream: ByteStream) {
+        self.stream = stream
+    }
+
+    func readPart(partOffset: Int, partSize: Int) throws -> Data {
+        if case .stream(let stream) = stream, stream.isSeekable {
+            try stream.seek(toOffset: partOffset)
+            return try stream.read(upToCount: partSize)!
+        } else {
+            throw S3TMUploadObjectError.unseekableStreamPayload
+        }
+    }
 }

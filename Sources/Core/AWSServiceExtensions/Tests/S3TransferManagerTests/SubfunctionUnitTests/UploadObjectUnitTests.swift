@@ -63,8 +63,13 @@ class UploadObjectUnitTests: S3TMUnitTestCase {
         let input = UploadObjectInput(putObjectInput: PutObjectInput(
             body: body
         ))
-        let readPartData = try await UploadObjectUnitTests.tm.readPartData(input: input, partSize: 4)
-        let expectedPartData = Data("0123".utf8)
+        let readPartData = try await UploadObjectUnitTests.tm.readPartData(
+            input: input,
+            partSize: 4,
+            partOffset: 6,
+            byteStreamPartReader: ByteStreamPartReader(stream: body)
+        )
+        let expectedPartData = Data("6789".utf8)
         XCTAssertEqual(readPartData, expectedPartData)
     }
 }
