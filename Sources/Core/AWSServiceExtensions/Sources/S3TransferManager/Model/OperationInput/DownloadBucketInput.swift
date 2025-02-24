@@ -10,8 +10,6 @@ import struct Foundation.URL
 
 /// The synthetic input type for the `downloadBucket` operation of `S3TransferManager`.
 public struct DownloadBucketInput: TransferInput {
-    public let operationType: OperationType = .downloadBucket
-
     public let bucket: String
     public let destination: URL
     public let s3Prefix: String?

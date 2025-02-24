@@ -11,13 +11,9 @@ public struct LoggingTransferListener: TransferListener {
     private let logger = SwiftLogger(label: "LoggingTransferListener")
 
     public func onTransferInitiated(input: any TransferInput, snapshot: any TransferProgressSnapshot) {
-        logger.debug("\(input.operationType.rawValue) transfer initiated.")
     }
 
     public func onBytesTransferred(input: any TransferInput, snapshot: any TransferProgressSnapshot) {
-        logger.debug(
-            "\(input.operationType.rawValue) transfer processed more bytes; current total: \(snapshot.transferredBytes)"
-        )
     }
 
     public func onTransferComplete(
@@ -25,11 +21,8 @@ public struct LoggingTransferListener: TransferListener {
         output: any TransferOutput,
         snapshot: any TransferProgressSnapshot
     ) {
-        let op = input.operationType.rawValue
-        logger.debug("\(op) transfer finished successfully. Total bytes transferred: \(snapshot.totalBytes!)")
     }
 
     public func onTransferFailed(input: any TransferInput, snapshot: any TransferProgressSnapshot) {
-        logger.debug("\(input.operationType.rawValue) transfer failed.")
     }
 }

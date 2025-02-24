@@ -10,8 +10,6 @@ import struct Foundation.URL
 
 /// The synthetic input type for the `uploadDirectory` operation of `S3TransferManager`.
 public struct UploadDirectoryInput: TransferInput {
-    public let operationType: OperationType = .uploadDirectory
-
     public let bucket: String
     public let source: URL
     public let followSymbolicLinks: Bool

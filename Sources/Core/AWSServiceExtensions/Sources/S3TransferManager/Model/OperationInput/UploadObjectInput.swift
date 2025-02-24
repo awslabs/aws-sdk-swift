@@ -10,8 +10,6 @@ import enum Smithy.ByteStream
 
 /// The synthetic input type for the `uploadObject` operation of `S3TransferManager`.
 public struct UploadObjectInput: TransferInput {
-    public let operationType: OperationType = .uploadObject
-
     public let putObjectInput: PutObjectInput
     public let transferListeners: [TransferListener]
 

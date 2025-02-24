@@ -6,6 +6,4 @@
 //
 
 /// Parent protocol of all synthetic input types used with `S3TransferManager`.
-public protocol TransferInput {
-    var operationType: OperationType { get }
-}
+public protocol TransferInput {}

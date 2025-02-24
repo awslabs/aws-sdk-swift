@@ -10,8 +10,6 @@ import class Foundation.OutputStream
 
 /// The synthetic input type for the `downloadObject` operation of `S3TransferManager`.
 public struct DownloadObjectInput: TransferInput {
-    public let operationType: OperationType = .downloadObject
-
     public let outputStream: OutputStream
     public let getObjectInput: GetObjectInput
     public let transferListeners: [TransferListener]
