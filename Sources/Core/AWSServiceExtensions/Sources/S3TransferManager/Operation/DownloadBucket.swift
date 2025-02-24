@@ -104,7 +104,7 @@ public extension S3TransferManager {
         }
     }
 
-    internal func fetchS3ObjectsUsingListObjectsV2Paginated(
+    private func fetchS3ObjectsUsingListObjectsV2Paginated(
         s3: S3Client,
         input: DownloadBucketInput
     ) async throws -> [S3ClientTypes.Object] {
@@ -174,7 +174,7 @@ public extension S3TransferManager {
         return objectKeyToCreatedURLMapping
     }
 
-    internal func downloadSingleObject(
+    private func downloadSingleObject(
         objectKeyToURL pair: (key: String, value: URL),
         input: DownloadBucketInput
     ) async throws {
@@ -240,7 +240,7 @@ public extension S3TransferManager {
     }
 }
 
-/// A non-exhausive list of errors that can be thrown by the `downloadBucket` operation of `S3TransferManager`.
+/// A non-exhaustive list of errors that can be thrown by the `downloadBucket` operation of `S3TransferManager`.
 public enum S3TMDownloadBucketError: Error {
     case ProvidedDestinationIsNotADirectory
     case FailedToCreateDestinationDirectory

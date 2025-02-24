@@ -13,14 +13,14 @@ import enum Smithy.ByteStream
 import struct Foundation.URL
 
 public extension S3TransferManager {
-    /// Uploads a local directory to S3.
+    /// Uploads local directory to a S3 bucket.
     ///
     /// Returns a `Task` immediately after function call; upload is handled in the background using asynchronous child tasks.
-    /// If the `Task` returned by the function is cancelled, all child tasks are cancelled automatically.
+    /// If the `Task` returned by the function gets cancelled, all child tasks also get cancelled automatically.
     ///
     /// - Parameters:
-    ///   - input: An instance of `UploadDirectoryInput`, a synthetic input type specific to this operation of the S3 Transfer Manager.
-    /// - Returns: An asynchronous `Task<UploadDirectoryOutput, Error>` that can be waited on or cancelled as needed.
+    ///   - input: An instance of `UploadDirectoryInput`, the synthetic input type specific to this operation of `S3TransferManager`.
+    /// - Returns: An asynchronous `Task<UploadDirectoryOutput, Error>` that can be optionally waited on or cancelled as needed.
     func uploadDirectory(input: UploadDirectoryInput) throws -> Task<UploadDirectoryOutput, Error> {
         return Task {
             let nestedFileURLs = try getNestedFileURLs(
@@ -29,12 +29,12 @@ public extension S3TransferManager {
                 followSymbolicLinks: input.followSymbolicLinks
             )
             let (successfulUploadCount, failedUploadCount) = try await withThrowingTaskGroup(
-                // Each child task returns the result of a single upload object call.
+                // Each child task returns the result of a single `uploadObject` call.
                 of: Result<Void, Error>.self,
-                // Task group returns success / failure counts of the upload object calls.
+                // Task group returns success & failure counts of all the `uploadObject` calls.
                 returning: (successfulUploadCount: Int, failedUploadCount: Int).self
             ) { group in
-                // Add upload object child tasks.
+                // Add `uploadObject` child tasks.
                 for url in nestedFileURLs {
                     group.addTask {
                         do {
@@ -48,7 +48,7 @@ public extension S3TransferManager {
                     }
                 }
 
-                // Collect results of upload object child tasks.
+                // Collect results of `uploadObject` child tasks.
                 var successfulUploadCount = 0, failedUploadCount = 0
                 while let uploadObjectResult = try await group.next() {
                     switch uploadObjectResult {
@@ -57,16 +57,16 @@ public extension S3TransferManager {
                     case .failure(let error):
                         failedUploadCount += 1
                         do {
-                            // Call failure policy to handle DownloadObject failure.
+                            // Call failure policy closure to handle `uploadObject` failure.
                             try await input.failurePolicy(error, input)
-                        } catch { // input.failurePolicy threw an error; bubble up error.
-                            // Error being thrown automatically cancels all tasks within throwing task group.
+                        } catch { // input.failurePolicy threw an error; bubble up the error.
+                            // Error being thrown here automatically cancels all tasks within the throwing task group.
                             throw error
                         }
                     }
                 }
 
-                // Return counts.
+                // Return the counts.
                 return (successfulUploadCount, failedUploadCount)
             }
 
@@ -84,6 +84,8 @@ public extension S3TransferManager {
     ) throws -> [URL] {
         var nestedFileURLs: [URL] = []
         var visitedURLs = Set<String>()
+
+        // Mark source directory as visited.
         visitedURLs.insert(source.resolvingSymlinksInPath().absoluteString)
 
         // Start BFS with files directly nested below source directory.
@@ -118,12 +120,13 @@ public extension S3TransferManager {
             let resolvedURLProperties = try resolvedURL.resourceValues(
                 forKeys: [.isDirectoryKey, .isRegularFileKey]
             )
-            // If current URL is / points to a directory URL & TM is configured to be recursive:
+            // If it's a directory URL & TM is configured to be recursive:
             if resolvedURLProperties.isDirectory ?? false && recursive {
-                // Process the directly nested URLs and add them to BFS queue.
+                // Add subdirectory's directly nested file URLs to the BFS queue.
                 let directlyNestedURLs = try getDirectlyNestedURLs(in: originalURL, isSymlink: originalURLIsSymlink)
                 bfsQueue.append(contentsOf: directlyNestedURLs)
             } else if resolvedURLProperties.isRegularFile ?? false {
+                // If it's a regular file, save it to the return value array.
                 nestedFileURLs.append(originalURL)
             }
         }
@@ -132,38 +135,40 @@ public extension S3TransferManager {
     }
 
     /*
-        Q: Why are we using resolvedDirURL to retrieve files nested by it, and prefixing returned URLs with originalDirURL?
+        Note on logic:
 
-        A: Because we want to keep symlink names in the paths of nested URLs.
+        If originalDirURL is a symlink, we resolve it to get the resolvedDirURL because FileManager's contentsOfDirectory() doesn't work with symlink URL that points to a directory.
 
-        If originalDirURL is a _symlink_ to a directory, we need to resolve it to resolvedDirURL because FileManager's contentsOfDirectory() doesn't work with symlink URL that points to a dir.
-        The URLs fetched using resolvedDirURL therefore have resolvedDirURL as their base URL. Say the filesystem is structured like below:
+        Then we retrieve relative path URLs of the directly nested files using resolvedDirURL, and _swap out_ the base URLs (stuff before relative path URL) with the originalDirURL.
 
+        This is done because we want to keep symlink names in the paths of nested URLs. For example, say we have the file structure below:
                 |- dir
                     |- symlinkToDir2
                 |- dir2
                     |- file.txt
 
-        If dir/ is the directory being uploaded and TM is configured to follow symlinks and subdirectories, we need file.txt to have the path "dir/symlinkToDir2/file.txt" (notice the name of symlink in path leading to file.txt), rather than "dir2/file.txt". We use that path to resolve the object key to upload the file with.
+        If dir/ is the source directory being uploaded and TM is configured to follow symlinks and subdirectories, we want file.txt to have the path "dir/symlinkToDir2/file.txt" (notice the name of symlink in path leading to file.txt), rather than "dir2/file.txt". We then use the path "dir/symlinkToDir2/file.txt" to resolve the object key to upload the file with.
      */
     internal func getDirectlyNestedURLs(
         in originalDirURL: URL,
         isSymlink: Bool
     ) throws -> [URL] {
+        // Resolve original directory URL if it's a symlink.
         let resolvedDirURL = isSymlink ? originalDirURL.resolvingSymlinksInPath() : originalDirURL
-        // Gets file URLs (files, symlinks, directories, etc.) exactly one level below provided directory URL.
+        // Get file URLs (files, symlinks, directories, etc.) exactly one level below the provided directory URL.
         let directlyNestedURLs = try FileManager.default.contentsOfDirectory(
             at: resolvedDirURL,
             includingPropertiesForKeys: [.isDirectoryKey, .isRegularFileKey, .isSymbolicLinkKey],
+            // If source directory URL is symlink, get relative path URLs.
             options: isSymlink ? [.producesRelativePathURLs] : []
         )
         return isSymlink ? directlyNestedURLs.map {
-            // Use original directory URL as base URL (prefix) to the relative path of newly fetched nested URL.
+            // Swap out the base URL in relative path URLs; swap out resolvedDirURL with the originalDirURL.
             URL(string: originalDirURL.absoluteString.appendingPathComponent($0.relativePath))!
         } : directlyNestedURLs // Return without changing base URL if original URL wasn't a symlink.
     }
 
-    internal func uploadObjectFromURL(url: URL, input: UploadDirectoryInput) async throws {
+    private func uploadObjectFromURL(url: URL, input: UploadDirectoryInput) async throws {
         let resolvedObjectKey = try getResolvedObjectKey(
             of: url,
             inDir: input.source,
@@ -179,6 +184,8 @@ public extension S3TransferManager {
         }
 
         let uploadObjectInput = UploadObjectInput(
+            // This is the callback that allows custom modifications of
+            //  the individual `PutObjectInput` structs for the SDK user.
             putObjectInput: input.putObjectRequestCallback(PutObjectInput(
                 body: .stream(FileStream(fileHandle: fileHandle)),
                 bucket: input.bucket,
@@ -188,9 +195,11 @@ public extension S3TransferManager {
         )
 
         do {
+            // Create S3TM `uploadObject` task and await its completion before returning.
             let uploadObjectTask = try uploadObject(input: uploadObjectInput)
             _ = try await uploadObjectTask.value
         } catch {
+            // Upon failure, wrap the original error and the input in the synthetic error and throw.
             throw S3TMUploadDirectoryError.FailedToUploadAnObject(
                 originalErrorFromUploadObject: error,
                 failedUploadObjectInput: uploadObjectInput
@@ -213,22 +222,25 @@ public extension S3TransferManager {
             resolvedPrefix = providedPrefix + (providedPrefix.hasSuffix(input.s3Delimiter) ? "" : input.s3Delimiter)
         }
         // Step 3: retrieve the relative path of the file URL.
-        // Get absolute string of file URL & dir URL; remove dir URL prefix from file URL to get relative path.
+        // Get absolute string of file URL & dir URL; remove dir URL prefix from file URL to get the relative path.
         let dirAbsoluteString = dir.absoluteString
         let fileAbsoluteString = url.absoluteString
         var relativePath = fileAbsoluteString.removePrefix(dirAbsoluteString)
-        // Step 4: if the s3Delimiter isn't the system default file separator, replace default with the s3Delimiter in the relative path from step 3.
+        // Step 4: if user configured a custom s3Delimiter, replace all instances of system default path separator "/" in the relative path from step 3 with the custom s3Delimiter.
         if (input.s3Delimiter != defaultPathSeparator()) {
             relativePath = relativePath.replacingOccurrences(of: defaultPathSeparator(), with: input.s3Delimiter)
         }
-        // Step 5: prefix s3Prefix to the string from Step 3.
+        // Step 5: prefix the string from Step 4 with the resolved prefix.
         return resolvedPrefix + relativePath
     }
 }
 
-/// A non-exhausive list of errors that can be thrown by the UploadDirectory operation of S3 Transfer Manager.
+/// A non-exhaustive list of errors that can be thrown by the `uploadDirectory` operation of `S3TransferManager`.
 public enum S3TMUploadDirectoryError: Error {
     case InvalidSourceURL(String)
-    case FailedToUploadAnObject(originalErrorFromUploadObject: Error, failedUploadObjectInput: UploadObjectInput)
+    case FailedToUploadAnObject(
+        originalErrorFromUploadObject: Error,
+        failedUploadObjectInput: UploadObjectInput
+    )
     case InvalidFileName(String)
 }

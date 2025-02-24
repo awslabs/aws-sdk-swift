@@ -121,7 +121,7 @@ public extension S3TransferManager {
         }
     }
 
-    internal func performSingleGET(
+    private func performSingleGET(
         _ s3: S3Client,
         _ getObjectInput: GetObjectInput,
         _ outputStream: OutputStream,
@@ -154,7 +154,7 @@ public extension S3TransferManager {
     }
 
     // Handles multipart GET for Case 2.
-    internal func performMultipartGET(
+    private func performMultipartGET(
         s3: S3Client,
         input: DownloadObjectInput,
         semaphore: DispatchSemaphore
@@ -186,7 +186,7 @@ public extension S3TransferManager {
     }
 
     // Gets all parts of a S3 object starting at second part and writes them to the output stream.
-    internal func concurrentlyFetchPartGETByteStreamsAndWriteToOutputStream(
+    private func concurrentlyFetchPartGETByteStreamsAndWriteToOutputStream(
         s3: S3Client,
         input: DownloadObjectInput,
         totalParts: Int,
@@ -236,7 +236,7 @@ public extension S3TransferManager {
     }
 
     // Handles range GET for Case 3A, 3B, and 4.
-    internal func performRangeGET(
+    private func performRangeGET(
         startByte: Int,
         endByte: Int? = nil, // Known only for "bytes=<start>-<end>".
         knownObjectSize: Int? = nil, // Known only for "bytes=<start>-<end>".
@@ -292,7 +292,7 @@ public extension S3TransferManager {
     }
 
     // Gets all segments of a S3 object starting at second subrange and writes them to the output stream.
-    internal func concurrentlyFetchRangeGETByteStreamsAndWriteToOutputStream(
+    private func concurrentlyFetchRangeGETByteStreamsAndWriteToOutputStream(
         s3: S3Client,
         input: DownloadObjectInput,
         startByte: Int,
@@ -415,7 +415,7 @@ public extension S3TransferManager {
     }
 }
 
-/// A non-exhausive list of errors that can be thrown by the `downloadObject` operation of `S3TransferManager`.
+/// A non-exhaustive list of errors that can be thrown by the `downloadObject` operation of `S3TransferManager`.
 public enum S3TMDownloadObjectError: Error {
     case failedToReadResponseBody
     case failedToDetermineObjectSize
