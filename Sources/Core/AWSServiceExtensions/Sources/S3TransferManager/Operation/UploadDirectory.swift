@@ -23,6 +23,11 @@ public extension S3TransferManager {
     /// - Returns: An asynchronous `Task<UploadDirectoryOutput, Error>` that can be optionally waited on or cancelled as needed.
     func uploadDirectory(input: UploadDirectoryInput) throws -> Task<UploadDirectoryOutput, Error> {
         return Task {
+            onTransferInitiated(
+                input.transferListeners,
+                input,
+                DirectoryTransferProgressSnapshot(transferredFiles: 0, totalFiles: 0)
+            )
             let nestedFileURLs = try getNestedFileURLs(
                 in: input.source,
                 recursive: input.recursive,
@@ -67,6 +72,14 @@ public extension S3TransferManager {
                             try await input.failurePolicy(error, input)
                         } catch { // input.failurePolicy threw an error; bubble up the error.
                             // Error being thrown here automatically cancels all tasks within the throwing task group.
+                            onTransferFailed(
+                                input.transferListeners,
+                                input,
+                                DirectoryTransferProgressSnapshot(
+                                    transferredFiles: successfulUploadCount,
+                                    totalFiles: successfulUploadCount + failedUploadCount
+                                )
+                            )
                             throw error
                         }
                     }
@@ -76,10 +89,20 @@ public extension S3TransferManager {
                 return (successfulUploadCount, failedUploadCount)
             }
 
-            return UploadDirectoryOutput(
+            let uploadDirectoryOutput = UploadDirectoryOutput(
                 objectsUploaded: successfulUploadCount,
                 objectsFailed: failedUploadCount
             )
+            onTransferComplete(
+                input.transferListeners,
+                input,
+                uploadDirectoryOutput,
+                DirectoryTransferProgressSnapshot(
+                    transferredFiles: successfulUploadCount,
+                    totalFiles: successfulUploadCount + failedUploadCount
+                )
+            )
+            return uploadDirectoryOutput
         }
     }
 
