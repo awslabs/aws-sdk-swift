@@ -26,8 +26,10 @@ public extension S3TransferManager {
     func uploadObject(input: UploadObjectInput) throws -> Task<UploadObjectOutput, Error> {
         return Task {
             let payloadSize = try await resolvePayloadSize(of: input.putObjectInput.body)
-            logger.debug(
-                "Resolved payload size of \(payloadSize) for the object with key: \"\(input.putObjectInput.key!)\"."
+            onTransferInitiated(
+                input.transferListeners,
+                input,
+                SingleObjectTransferProgressSnapshot(transferredBytes: 0, totalBytes: payloadSize)
             )
 
             let s3 = config.s3Client
@@ -39,12 +41,26 @@ public extension S3TransferManager {
                 do {
                     let putObjectOutput = try await s3.putObject(input: input.putObjectInput)
                     await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
-                    logger.debug(
-                        "Successfully uploaded the object with key \"\(input.putObjectInput.key!)\" using a single PutObject."
+                    let uploadObjectOutput = UploadObjectOutput(putObjectOutput: putObjectOutput)
+                    onBytesTransferred(
+                        input.transferListeners,
+                        input,
+                        SingleObjectTransferProgressSnapshot(transferredBytes: payloadSize, totalBytes: payloadSize)
                     )
-                    return UploadObjectOutput(putObjectOutput: putObjectOutput)
+                    onTransferComplete(
+                        input.transferListeners,
+                        input,
+                        uploadObjectOutput,
+                        SingleObjectTransferProgressSnapshot(transferredBytes: payloadSize, totalBytes: payloadSize)
+                    )
+                    return uploadObjectOutput
                 } catch {
                     await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
+                    onTransferFailed(
+                        input.transferListeners,
+                        input,
+                        SingleObjectTransferProgressSnapshot(transferredBytes: 0, totalBytes: payloadSize)
+                    )
                     throw error
                 }
             }
@@ -58,6 +74,9 @@ public extension S3TransferManager {
             )
             logger.debug("Successfully created MPU with the upload ID: \"\(uploadID)\".")
 
+            // The actor used to keep track of the number of uploaded bytes.
+            let progressTracker = UploadProgressTracker()
+
             // Concurrently upload all the parts.
             // If an error is thrown at any point within the do-block, MPU is aborted in catch.
             do {
@@ -68,7 +87,8 @@ public extension S3TransferManager {
                     numParts: numParts,
                     partSize: partSize,
                     payloadSize: payloadSize,
-                    semaphore: semaphore
+                    semaphore: semaphore,
+                    progressTracker: progressTracker
                 )
 
                 let completeMPUOutput = try await completeMPU(
@@ -80,8 +100,26 @@ public extension S3TransferManager {
                     semaphore: semaphore
                 )
 
-                return UploadObjectOutput(completeMultipartUploadOutput: completeMPUOutput)
+                let uploadObjectOutput = UploadObjectOutput(completeMultipartUploadOutput: completeMPUOutput)
+                onTransferComplete(
+                    input.transferListeners,
+                    input,
+                    uploadObjectOutput,
+                    SingleObjectTransferProgressSnapshot(
+                        transferredBytes: await progressTracker.transferredBytes,
+                        totalBytes: payloadSize
+                    )
+                )
+                return uploadObjectOutput
             } catch let originalError {
+                onTransferFailed(
+                    input.transferListeners,
+                    input,
+                    SingleObjectTransferProgressSnapshot(
+                        transferredBytes: await progressTracker.transferredBytes,
+                        totalBytes: payloadSize
+                    )
+                )
                 do {
                     try await abortMPU(
                         s3: s3,
@@ -147,11 +185,21 @@ public extension S3TransferManager {
             // Missing Upload ID in successful response = end of `uploadObject` operation.
             // Release semaphore instance & bubble up the error.
             await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
+            onTransferFailed(
+                input.transferListeners,
+                input,
+                SingleObjectTransferProgressSnapshot(transferredBytes: 0, totalBytes: payloadSize)
+            )
             throw S3TMUploadObjectError.failedToCreateMPU
         } catch {
             // Failure to create MPU = end of `uploadObject` operation.
             // Signal & release semaphore instance, and bubble up the error.
             await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
+            onTransferFailed(
+                input.transferListeners,
+                input,
+                SingleObjectTransferProgressSnapshot(transferredBytes: 0, totalBytes: payloadSize)
+            )
             throw error
         }
     }
@@ -164,7 +212,8 @@ public extension S3TransferManager {
         numParts: Int,
         partSize: Int,
         payloadSize: Int,
-        semaphore: DispatchSemaphore
+        semaphore: DispatchSemaphore,
+        progressTracker: UploadProgressTracker
     ) async throws -> [S3ClientTypes.CompletedPart] {
         return try await withThrowingTaskGroup(
             // Child task returns a completed part that contains S3's checksum & part number.
@@ -206,6 +255,15 @@ public extension S3TransferManager {
 
                         try Task.checkCancellation()
                         let uploadPartOutput = try await s3.uploadPart(input: uploadPartInput)
+                        let transferredBytes = await progressTracker.addUploadedBytes(partData.count)
+                        self.onBytesTransferred(
+                            input.transferListeners,
+                            input,
+                            SingleObjectTransferProgressSnapshot(
+                                transferredBytes: transferredBytes,
+                                totalBytes: payloadSize
+                            )
+                        )
                         // Release semaphore usage & return output.
                         await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.putObjectInput.bucket!)
                         return S3ClientTypes.CompletedPart(
@@ -274,7 +332,6 @@ public extension S3TransferManager {
             // MPU completed successfully; it's the end of the `uploadObject` operation.
             // Signal and release semaphore instance.
             await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
-            logger.debug("Successfully completed MPU with uploadID: \"\(uploadID)\".")
             return completeMPUOutput
         } catch {
             // If failed to complete MPU, signal semaphore used & throw error back up.
@@ -297,12 +354,10 @@ public extension S3TransferManager {
             // MPU aborted successfully; it's the end of the `uploadObject` operation.
             // Signal and release semaphore instance.
             await signalAndReleaseSemaphore(semaphore, input.putObjectInput.bucket!)
-            logger.debug("Successfully aborted MPU with the uploadID: \"\(uploadID)\".")
         } catch let abortError {
             // If failed to abort MPU, signal semaphore used & throw error back up.
             // Releasing semaphore instance is handled by catch block in `uploadObject` function.
             semaphore.signal()
-            logger.debug("Failed to abort MPU with the uploadID: \"\(uploadID)\".")
             throw S3TMUploadObjectError.failedToAbortMPU(
                 errorFromMPUOperation: originalError,
                 errorFromFailedAbortMPUOperation: abortError
@@ -358,5 +413,16 @@ internal actor ByteStreamPartReader {
         } else {
             throw S3TMUploadObjectError.unseekableStreamPayload
         }
+    }
+}
+
+// An actor used to keep track of number of uploaded bytes in a concurrency-safe manner.
+private actor UploadProgressTracker {
+    private(set) var transferredBytes = 0
+
+    // Adds newly uploaded bytes & returns the new value.
+    func addUploadedBytes(_ bytes: Int) -> Int {
+        transferredBytes += bytes
+        return transferredBytes
     }
 }

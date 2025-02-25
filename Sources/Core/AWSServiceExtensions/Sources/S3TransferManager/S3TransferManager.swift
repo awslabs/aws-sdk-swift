@@ -45,7 +45,7 @@ public class S3TransferManager {
         logger = SwiftLogger(label: "S3TransferManager")
     }
 
-    // Helper function used by UploadDirectory & DownloadBucket.
+    // Helper function used by `uploadDirectory` & `downloadBucket`.
     internal func defaultPathSeparator() -> String {
         return "/" // Default path separator for all apple platforms & Linux distros.
     }
@@ -57,6 +57,49 @@ public class S3TransferManager {
                 semaphore.wait()
                 continuation.resume()
             }
+        }
+    }
+
+    // MARK: - 4 helper functions that call `TransferListener' hooks on an array of listeners.
+
+    internal func onTransferInitiated(
+        _ listeners: [TransferListener],
+        _ input: TransferInput,
+        _ snapshot: TransferProgressSnapshot
+    ) {
+        for listener in listeners {
+            listener.onTransferInitiated(input: input, snapshot: snapshot)
+        }
+    }
+
+    internal func onBytesTransferred(
+        _ listeners: [TransferListener],
+        _ input: TransferInput,
+        _ snapshot: TransferProgressSnapshot
+    ) {
+        for listener in listeners {
+            listener.onBytesTransferred(input: input, snapshot: snapshot)
+        }
+    }
+
+    internal func onTransferComplete(
+        _ listeners: [TransferListener],
+        _ input: TransferInput,
+        _ output: TransferOutput,
+        _ snapshot: TransferProgressSnapshot
+    ) {
+        for listener in listeners {
+            listener.onTransferComplete(input: input, output: output, snapshot: snapshot)
+        }
+    }
+
+    internal func onTransferFailed(
+        _ listeners: [TransferListener],
+        _ input: TransferInput,
+        _ snapshot: TransferProgressSnapshot
+    ) {
+        for listener in listeners {
+            listener.onTransferFailed(input: input, snapshot: snapshot)
         }
     }
 }
