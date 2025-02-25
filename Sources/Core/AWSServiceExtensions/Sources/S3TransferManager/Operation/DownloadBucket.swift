@@ -21,6 +21,11 @@ public extension S3TransferManager {
     /// - Returns: An asynchronous `Task<DownloadBucketOutput, Error>` that can be optionally waited on or cancelled as needed.
     func downloadBucket(input: DownloadBucketInput) throws -> Task<DownloadBucketOutput, Error> {
         return Task {
+            onTransferInitiated(
+                input.transferListeners,
+                input,
+                DirectoryTransferProgressSnapshot(transferredFiles: 0, totalFiles: 0)
+            )
             let s3 = config.s3Client
             try validateOrCreateDestinationDirectory(input: input)
 
@@ -78,6 +83,14 @@ public extension S3TransferManager {
                             try await input.failurePolicy(error, input)
                         } catch { // input.failurePolicy threw an error; bubble up the error.
                             // Error being thrown here automatically cancels all tasks within the throwing task group.
+                            onTransferFailed(
+                                input.transferListeners,
+                                input,
+                                DirectoryTransferProgressSnapshot(
+                                    transferredFiles: successfulDownloadCount,
+                                    totalFiles: successfulDownloadCount + failedDownloadCount
+                                )
+                            )
                             throw error
                         }
                     }
@@ -87,10 +100,20 @@ public extension S3TransferManager {
                 return (successfulDownloadCount, failedDownloadCount)
             }
 
-            return DownloadBucketOutput(
+            let downloadBucketOutput = DownloadBucketOutput(
                 objectsDownloaded: successfulDownloadCount,
                 objectsFailed: failedDownloadCount
             )
+            onTransferComplete(
+                input.transferListeners,
+                input,
+                downloadBucketOutput,
+                DirectoryTransferProgressSnapshot(
+                    transferredFiles: successfulDownloadCount,
+                    totalFiles: successfulDownloadCount + failedDownloadCount
+                )
+            )
+            return downloadBucketOutput
         }
     }
 
