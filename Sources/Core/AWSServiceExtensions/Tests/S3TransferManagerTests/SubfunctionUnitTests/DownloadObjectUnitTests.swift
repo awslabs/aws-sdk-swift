@@ -5,11 +5,15 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSS3
 import XCTest
 import Smithy
 @testable import AWSServiceExtensions
 
 class DownloadObjectUnitTests: S3TMUnitTestCase {
+    let dummyInput = DownloadObjectInput(outputStream: OutputStream(), getObjectInput: GetObjectInput())
+    let dummyProgressTracker = DownloadProgressTracker()
+
     // MARK: - writeData tests.
 
     func testWriteDataToFileOutputStream() async throws {
@@ -17,7 +21,12 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         let (fileOutputStream, tempFileURL) = try getEmptyFileOutputStream()
 
         // Write dummy data to file output stream.
-        try DownloadObjectUnitTests.tm.writeData(Data("abcdefg".utf8), to: fileOutputStream)
+        try await DownloadObjectUnitTests.tm.writeData(
+            Data("abcdefg".utf8),
+            to: fileOutputStream,
+            dummyInput,
+            dummyProgressTracker
+        )
 
         // Assert on correct write.
         fileOutputStream.close()
@@ -34,7 +43,12 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         let memoryOutputStream = OutputStream.toMemory()
 
         // Write dummy data to memory output stream.
-        try DownloadObjectUnitTests.tm.writeData(Data("abcdefg".utf8), to: memoryOutputStream)
+        try await DownloadObjectUnitTests.tm.writeData(
+            Data("abcdefg".utf8),
+            to: memoryOutputStream,
+            dummyInput,
+            dummyProgressTracker
+        )
 
         // Assert on correct write.
         memoryOutputStream.close()
@@ -48,7 +62,12 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         let (rawByteBufferOutputStream, buffer) = try getEmptyRawByteBufferOutputStream(bufferCount: 7)
 
         // Write dummy data to raw byte buffer output stream.
-        try DownloadObjectUnitTests.tm.writeData(Data("abcdefg".utf8), to: rawByteBufferOutputStream)
+        try await DownloadObjectUnitTests.tm.writeData(
+            Data("abcdefg".utf8),
+            to: rawByteBufferOutputStream,
+            dummyInput,
+            dummyProgressTracker
+        )
 
         // Assert on correct write.
         rawByteBufferOutputStream.close()
@@ -65,7 +84,12 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         let byteStream = getDummyByteStream()
 
         // Write dummy byte stream to output stream.
-        try await DownloadObjectUnitTests.tm.writeByteStream(byteStream, to: fileOutputStream)
+        try await DownloadObjectUnitTests.tm.writeByteStream(
+            byteStream,
+            to: fileOutputStream,
+            dummyInput,
+            dummyProgressTracker
+        )
 
         // Assert on correct write.
         fileOutputStream.close()
@@ -83,7 +107,12 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         let byteStream = getDummyByteStream()
 
         // Write dummy byte stream to output stream.
-        try await DownloadObjectUnitTests.tm.writeByteStream(byteStream, to: memoryOutputStream)
+        try await DownloadObjectUnitTests.tm.writeByteStream(
+            byteStream,
+            to: memoryOutputStream,
+            dummyInput,
+            dummyProgressTracker
+        )
 
         // Assert on correct write.
         memoryOutputStream.close()
@@ -98,7 +127,12 @@ class DownloadObjectUnitTests: S3TMUnitTestCase {
         let byteStream = getDummyByteStream()
 
         // Write dummy byte stream to output stream.
-        try await DownloadObjectUnitTests.tm.writeByteStream(byteStream, to: rawByteBufferOutputStream)
+        try await DownloadObjectUnitTests.tm.writeByteStream(
+            byteStream,
+            to: rawByteBufferOutputStream,
+            dummyInput,
+            dummyProgressTracker
+        )
 
         // Assert on correct write.
         rawByteBufferOutputStream.close()

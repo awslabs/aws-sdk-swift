@@ -22,6 +22,11 @@ public extension S3TransferManager {
     /// - Returns: An asynchronous `Task<DownloadObjectOutput, Error>` that can be optionally waited on or cancelled as needed.
     func downloadObject(input: DownloadObjectInput) throws -> Task<DownloadObjectOutput, Error> {
         return Task {
+            onTransferInitiated(
+                input.transferListeners,
+                input,
+                SingleObjectTransferProgressSnapshot(transferredBytes: 0)
+            )
             defer { input.outputStream.close() }
 
             let s3 = config.s3Client
@@ -30,16 +35,33 @@ public extension S3TransferManager {
             )
             let partNumber = input.getObjectInput.partNumber
 
+            // The actor used to keep track of the number of downloaded bytes.
+            let progressTracker = DownloadProgressTracker()
+
             // Helper function used by single GET cases below.
             func returnResultOfPerformSingleGet() async throws -> DownloadObjectOutput {
                 // If error is thrown, releasing the semaphore instance is handled by the do-catch block that
                 //  contains cases 0 to 4.
-                let singleGetOutput = try await performSingleGET(s3, input.getObjectInput, input.outputStream, semaphore)
+                let singleGetOutput = try await performSingleGET(
+                    s3,
+                    input.getObjectInput,
+                    input,
+                    semaphore,
+                    progressTracker
+                )
+
+                let transferredBytes = await progressTracker.transferredBytes
 
                 let downloadObjectOutput = DownloadObjectOutput(getObjectOutput: singleGetOutput)
 
                 // `downloadObject` call finished successfully. Release the semaphore instance & return output.
                 await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
+                onTransferComplete(
+                    input.transferListeners,
+                    input,
+                    downloadObjectOutput,
+                    SingleObjectTransferProgressSnapshot(transferredBytes: transferredBytes)
+                )
                 return downloadObjectOutput
             }
 
@@ -62,7 +84,8 @@ public extension S3TransferManager {
                     return try await performMultipartGET(
                         s3: s3,
                         input: input,
-                        semaphore: semaphore
+                        semaphore: semaphore,
+                        progressTracker: progressTracker
                     )
                 }
 
@@ -86,7 +109,8 @@ public extension S3TransferManager {
                             knownObjectSize: objectSize,
                             s3: s3,
                             input: input,
-                            semaphore: semaphore
+                            semaphore: semaphore,
+                            progressTracker: progressTracker
                         )
                     } else { // Case 3B: Provided range is in "bytes=<start>-" format.
                         // Get the entire object (start - end_of_entire_object) concurrently with range GET.
@@ -94,7 +118,8 @@ public extension S3TransferManager {
                             startByte: start,
                             s3: s3,
                             input: input,
-                            semaphore: semaphore
+                            semaphore: semaphore,
+                            progressTracker: progressTracker
                         )
                     }
                 }
@@ -106,7 +131,8 @@ public extension S3TransferManager {
                         startByte: 0,
                         s3: s3,
                         input: input,
-                        semaphore: semaphore
+                        semaphore: semaphore,
+                        progressTracker: progressTracker
                     )
                 }
 
@@ -114,6 +140,11 @@ public extension S3TransferManager {
                 // Unreachable statement; added to quiet compiler.
                 throw S3TMDownloadObjectError.invalidDownloadConfiguration
             } catch {
+                onTransferFailed(
+                    input.transferListeners,
+                    input,
+                    SingleObjectTransferProgressSnapshot(transferredBytes: await progressTracker.transferredBytes)
+                )
                 // `downloadObject` call finished with an error. Release the semaphore instance & bubble up the error.
                 await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
                 throw error
@@ -124,8 +155,9 @@ public extension S3TransferManager {
     private func performSingleGET(
         _ s3: S3Client,
         _ getObjectInput: GetObjectInput,
-        _ outputStream: OutputStream,
-        _ semaphore: DispatchSemaphore
+        _ downloadObjectInput: DownloadObjectInput,
+        _ semaphore: DispatchSemaphore,
+        _ progressTracker: DownloadProgressTracker
     ) async throws -> GetObjectOutput {
         await wait(semaphore)
         defer { semaphore.signal() }
@@ -134,12 +166,22 @@ public extension S3TransferManager {
         guard let outputData = try await getObjectOutput.body?.readData() else {
             throw S3TMDownloadObjectError.failedToReadResponseBody
         }
-        try writeData(outputData, to: outputStream)
+        try await writeData(
+            outputData,
+            to: downloadObjectInput.outputStream,
+            downloadObjectInput,
+            progressTracker
+        )
         return getObjectOutput
     }
 
     // Synchronously writes data to output stream.
-    internal func writeData(_ data: Data, to outputStream: OutputStream) throws {
+    internal func writeData(
+        _ data: Data,
+        to outputStream: OutputStream,
+        _ input: DownloadObjectInput,
+        _ progressTracker: DownloadProgressTracker
+    ) async throws {
         if outputStream.streamStatus == .notOpen {
             outputStream.open()
         }
@@ -151,16 +193,29 @@ public extension S3TransferManager {
         if bytesWritten < 0 {
             throw S3TMDownloadObjectError.failedToWriteToOutputStream
         }
+        let transferredBytes = await progressTracker.addDownloadedBytes(bytesWritten)
+        onBytesTransferred(
+            input.transferListeners,
+            input,
+            SingleObjectTransferProgressSnapshot(transferredBytes: transferredBytes)
+        )
     }
 
     // Handles multipart GET for Case 2.
     private func performMultipartGET(
         s3: S3Client,
         input: DownloadObjectInput,
-        semaphore: DispatchSemaphore
+        semaphore: DispatchSemaphore,
+        progressTracker: DownloadProgressTracker
     ) async throws -> DownloadObjectOutput {
         let firstGetObjectInput = input.copyGetObjectInputWithPartNumberOrRange(partNumber: 1)
-        let firstGetObjectOutput = try await performSingleGET(s3, firstGetObjectInput, input.outputStream, semaphore)
+        let firstGetObjectOutput = try await performSingleGET(
+            s3,
+            firstGetObjectInput,
+            input,
+            semaphore,
+            progressTracker
+        )
 
         // Return if there's no more parts.
         guard let totalParts = firstGetObjectOutput.partsCount, totalParts > 1 else {
@@ -174,7 +229,8 @@ public extension S3TransferManager {
             s3: s3,
             input: input,
             totalParts: totalParts,
-            semaphore: semaphore
+            semaphore: semaphore,
+            progressTracker: progressTracker
         )
 
         // `downloadObject` call finished successfully. Release the semaphore instance.
@@ -182,7 +238,14 @@ public extension S3TransferManager {
 
         // Return the first `getObject` call's output wrapped in `DownloadObjectOutput`.
         // This behavior aligns with S3 multipart download behavior in Java.
-        return DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
+        let downloadObjectOutput = DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
+        onTransferComplete(
+            input.transferListeners,
+            input,
+            downloadObjectOutput,
+            SingleObjectTransferProgressSnapshot(transferredBytes: await progressTracker.transferredBytes)
+        )
+        return downloadObjectOutput
     }
 
     // Gets all parts of a S3 object starting at second part and writes them to the output stream.
@@ -190,7 +253,8 @@ public extension S3TransferManager {
         s3: S3Client,
         input: DownloadObjectInput,
         totalParts: Int,
-        semaphore: DispatchSemaphore
+        semaphore: DispatchSemaphore,
+        progressTracker: DownloadProgressTracker
     ) async throws {
         // Size of batch is same as the semaphore limit.
         let batchSize = S3TMSemaphoreManager.Device.maxConcurrentTasksPerBucket
@@ -223,7 +287,12 @@ public extension S3TransferManager {
                 for try await (partNumber, body) in group {
                     buffer[partNumber] = body
                     while let body = buffer[nextPartToProcess] {
-                        try await writeByteStream(body, to: input.outputStream)
+                        try await writeByteStream(
+                            body,
+                            to: input.outputStream,
+                            input,
+                            progressTracker
+                        )
                         // Discard stream after it's written to output stream.
                         buffer.removeValue(forKey: nextPartToProcess)
                         nextPartToProcess += 1
@@ -242,7 +311,8 @@ public extension S3TransferManager {
         knownObjectSize: Int? = nil, // Known only for "bytes=<start>-<end>".
         s3: S3Client,
         input: DownloadObjectInput,
-        semaphore: DispatchSemaphore
+        semaphore: DispatchSemaphore,
+        progressTracker: DownloadProgressTracker
     ) async throws -> DownloadObjectOutput {
         // End is inclusive, so must subtract 1 to get target amount.
         // E.g., if start is 2nd byte, to get 8 bytes, range becomes "bytes=2-9"; 2 + 8 - 1 = 9.
@@ -250,8 +320,9 @@ public extension S3TransferManager {
         let firstRangeGetObjectOutput = try await performSingleGET(
             s3,
             firstRangeGetObjectInput,
-            input.outputStream,
-            semaphore
+            input,
+            semaphore,
+            progressTracker
         )
 
         let objectSize: Int
@@ -282,13 +353,21 @@ public extension S3TransferManager {
             startByte: startByte + config.targetPartSizeBytes,
             endByte: endByte,
             objectSize: objectSize,
-            semaphore: semaphore
+            semaphore: semaphore,
+            progressTracker: progressTracker
         )
 
         // downloadObject call finished successfully. Release the semaphore instance.
         await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
         // Return output of first range GET.
-        return DownloadObjectOutput(getObjectOutput: firstRangeGetObjectOutput)
+        let downloadObjectOutput = DownloadObjectOutput(getObjectOutput: firstRangeGetObjectOutput)
+        onTransferComplete(
+            input.transferListeners,
+            input,
+            downloadObjectOutput,
+            SingleObjectTransferProgressSnapshot(transferredBytes: await progressTracker.transferredBytes)
+        )
+        return downloadObjectOutput
     }
 
     // Gets all segments of a S3 object starting at second subrange and writes them to the output stream.
@@ -298,7 +377,8 @@ public extension S3TransferManager {
         startByte: Int,
         endByte: Int? = nil, // Known only for "bytes=<start>-<end>".
         objectSize: Int,
-        semaphore: DispatchSemaphore
+        semaphore: DispatchSemaphore,
+        progressTracker: DownloadProgressTracker
     ) async throws {
         // Must subtract 1 if there was no remainder, since we already sent
         //  a "triage" request that doubled as getting the object size.
@@ -350,7 +430,12 @@ public extension S3TransferManager {
                 for try await (numRequest, body) in group {
                     buffer[numRequest] = body
                     while let body = buffer[nextSegmentToProcess] {
-                        try await writeByteStream(body, to: input.outputStream)
+                        try await writeByteStream(
+                            body,
+                            to: input.outputStream,
+                            input,
+                            progressTracker
+                        )
                         // Discard stream after it's written to output stream.
                         buffer.removeValue(forKey: nextSegmentToProcess)
                         nextSegmentToProcess += 1
@@ -363,11 +448,21 @@ public extension S3TransferManager {
     }
 
     // Synchronously writes byte stream to output stream.
-    internal func writeByteStream(_ byteStream: ByteStream, to outputStream: OutputStream) async throws {
+    internal func writeByteStream(
+        _ byteStream: ByteStream,
+        to outputStream: OutputStream,
+        _ input: DownloadObjectInput,
+        _ progressTracker: DownloadProgressTracker
+    ) async throws {
         guard let data = try await byteStream.readData() else {
             throw S3TMDownloadObjectError.failedToReadResponseBody
         }
-        try writeData(data, to: outputStream)
+        try await writeData(
+            data,
+            to: outputStream,
+            input,
+            progressTracker
+        )
     }
 
     // Parses and returns start and end values from the Range HTTP header string.
@@ -422,4 +517,15 @@ public enum S3TMDownloadObjectError: Error {
     case invalidDownloadConfiguration
     case failedToWriteToOutputStream
     case invalidRangeFormat(String)
+}
+
+// An actor used to keep track of number of downloaded bytes in a concurrency-safe manner.
+internal actor DownloadProgressTracker {
+    private(set) var transferredBytes = 0
+
+    // Adds newly uploaded bytes & returns the new value.
+    func addDownloadedBytes(_ bytes: Int) -> Int {
+        transferredBytes += bytes
+        return transferredBytes
+    }
 }
